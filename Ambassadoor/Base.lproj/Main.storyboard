@@ -1545,11 +1545,23 @@
         <!--Social TierVC-->
         <scene sceneID="EOc-NE-xUe">
             <objects>
-                <viewController storyboardIdentifier="socialTier" id="x4w-nB-IkD" customClass="socialTierVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="socialTier" useStoryboardIdentifierAsRestorationIdentifier="YES" id="x4w-nB-IkD" customClass="socialTierVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eTC-xx-26d">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tier 20" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9e5-ry-aR9">
+                                <rect key="frame" x="160" y="36" width="55" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="9e5-ry-aR9" firstAttribute="top" secondItem="5JC-xT-Oyw" secondAttribute="top" constant="16" id="jCR-vc-EWU"/>
+                            <constraint firstItem="9e5-ry-aR9" firstAttribute="centerX" secondItem="eTC-xx-26d" secondAttribute="centerX" id="oWk-jI-26C"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="5JC-xT-Oyw"/>
                     </view>
                 </viewController>
@@ -1560,11 +1572,23 @@
         <!--Social CategoryVC-->
         <scene sceneID="u86-Ti-LZZ">
             <objects>
-                <viewController storyboardIdentifier="socialCategory" id="auP-Wy-iLL" customClass="socialCategoryVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="socialCategory" useStoryboardIdentifierAsRestorationIdentifier="YES" id="auP-Wy-iLL" customClass="socialCategoryVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hig-99-vEV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category: Winter Sports" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YOz-ou-izY">
+                                <rect key="frame" x="95" y="36" width="185" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="YOz-ou-izY" firstAttribute="centerX" secondItem="Hig-99-vEV" secondAttribute="centerX" id="BTq-bu-tqg"/>
+                            <constraint firstItem="YOz-ou-izY" firstAttribute="top" secondItem="aBQ-Pv-qVC" secondAttribute="top" constant="16" id="KqZ-vu-8KT"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="aBQ-Pv-qVC"/>
                     </view>
                 </viewController>
@@ -1575,11 +1599,23 @@
         <!--Social TrendingVC-->
         <scene sceneID="5nR-uQ-beU">
             <objects>
-                <viewController storyboardIdentifier="socialTrending" id="clf-do-EFE" customClass="socialTrendingVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="socialTrending" useStoryboardIdentifierAsRestorationIdentifier="YES" id="clf-do-EFE" customClass="socialTrendingVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="120-62-iPE">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trending" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8lL-to-Zbr">
+                                <rect key="frame" x="153.5" y="36" width="68" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="8lL-to-Zbr" firstAttribute="top" secondItem="a2n-xT-YAn" secondAttribute="top" constant="16" id="5vr-8C-kj7"/>
+                            <constraint firstItem="8lL-to-Zbr" firstAttribute="centerX" secondItem="120-62-iPE" secondAttribute="centerX" id="AUI-kb-fSe"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="a2n-xT-YAn"/>
                     </view>
                 </viewController>
@@ -1610,6 +1646,6 @@
         <image name="singlepost_icon" width="600" height="600"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="KaI-gc-Gcv"/>
+        <segue reference="YEL-B7-MCy"/>
     </inferredMetricsTieBreakers>
 </document>
