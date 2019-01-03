@@ -9,38 +9,38 @@
 
 import UIKit
 
-class socialPageVC: UIPageViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
+class socialPageVC: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
 
 	//Turn page -1
 	func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-		guard let i : Int = OrderedVC.lastIndex(of: viewController) else { return nil }
+		guard let i : Int = socialOrderedVC.lastIndex(of: viewController) else { return nil }
 		if i - 1 < 0 {
 			return nil
 		}
-		return OrderedVC[i - 1]
+		return socialOrderedVC[i - 1]
 	}
 	
 	//Turn page +1
 	func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-		guard let i : Int = OrderedVC.lastIndex(of: viewController) else { return nil }
-		if i + 1 >= OrderedVC.count {
+		guard let i : Int = socialOrderedVC.lastIndex(of: viewController) else { return nil }
+		if i + 1 >= socialOrderedVC.count {
 			return nil
 		}
-		return OrderedVC[i + 1]
+		return socialOrderedVC[i + 1]
 	}
 	
 	
 	
-	//returns a list of all VCs in Home Tab.
-	lazy var OrderedVC: [UIViewController] = {
+	//returns a list of all VCs in social Tab.
+	lazy var socialOrderedVC: [UIViewController] = {
 		return [newVC(VC: "socialTier"), newVC(VC: "socialCategory"), newVC(VC: "socialTrending")]
 	}()
 	
 	//Goes directly to the page specified.
 	func goToPage(index: Int, sender: UIViewController) {
-		guard let i : Int = OrderedVC.lastIndex(of: sender) else { return }
-		if index < OrderedVC.count {
-			self.setViewControllers([OrderedVC[index]], direction: index > i ? .forward : .reverse, animated: true, completion: nil)
+		guard let i : Int = socialOrderedVC.lastIndex(of: sender) else { return }
+		if index < socialOrderedVC.count {
+			self.setViewControllers([socialOrderedVC[index]], direction: index > i ? .forward : .reverse, animated: true, completion: nil)
 		}
 	}
 	
@@ -67,7 +67,7 @@ class socialPageVC: UIPageViewController, UIPageViewControllerDelegate, UIPageVi
 		
 		
 		//set default VC to Offers Page.
-		let firstViewController : UIViewController = OrderedVC[1]
+		let firstViewController : UIViewController = socialOrderedVC[1]
 		
 		//display that in pages.
 		setViewControllers([firstViewController],
