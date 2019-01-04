@@ -75,9 +75,9 @@ class socialPageVC: UIPageViewController, UIPageViewControllerDataSource, UIPage
 						   animated: true,
 						   completion: nil)
 		
-		let bgView = UIView(frame: UIScreen.main.bounds)
-		bgView.backgroundColor = UIColor.white
-		view.insertSubview(bgView, at: 0)
+//		let bgView = UIView(frame: UIScreen.main.bounds)
+//		bgView.backgroundColor = UIColor.white
+//		view.insertSubview(bgView, at: 0)
 	}
 	
 }
