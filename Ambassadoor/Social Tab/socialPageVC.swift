@@ -31,7 +31,8 @@ class socialPageVC: UIPageViewController, UIPageViewControllerDataSource, UIPage
 	
 	
 	
-	//returns a list of all VCs in social Tab.
+	//returns a list of all VCs in social Tab to be acesssed.
+	//Update: No pun intended with "Social Order"
 	lazy var socialOrderedVC: [UIViewController] = {
 		return [newVC(VC: "socialTier"), newVC(VC: "socialCategory"), newVC(VC: "socialTrending")]
 	}()
@@ -46,9 +47,15 @@ class socialPageVC: UIPageViewController, UIPageViewControllerDataSource, UIPage
 	
 	//Allows for returning of VC when string is inputted.
 	func newVC(VC: String) -> UIViewController {
-		let NewVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: VC)
+		
+		let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+		let NewVC = mainStoryboard.instantiateViewController(withIdentifier: VC)
+		
+		debugPrint(NewVC)
+		
+		//Make sure each VC has access to the PageViewController
+		
 		if let vc = NewVC as? socialTierVC	{
-			//Make sure each VC has access to the PageViewController
 			vc.Pager = self
 		}
 		if let vc = NewVC as? socialCategoryVC {
@@ -75,9 +82,9 @@ class socialPageVC: UIPageViewController, UIPageViewControllerDataSource, UIPage
 						   animated: true,
 						   completion: nil)
 		
-//		let bgView = UIView(frame: UIScreen.main.bounds)
-//		bgView.backgroundColor = UIColor.white
-//		view.insertSubview(bgView, at: 0)
+		let bgView = UIView(frame: UIScreen.main.bounds)
+		bgView.backgroundColor = UIColor.white
+		view.insertSubview(bgView, at: 0)
 	}
 	
 }

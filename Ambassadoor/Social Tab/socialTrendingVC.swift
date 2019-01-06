@@ -9,12 +9,11 @@
 
 import UIKit
 
-class socialTrendingVC: UIPageViewController {
+class socialTrendingVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+		
     }
 	
 	var Pager: socialPageVC!
