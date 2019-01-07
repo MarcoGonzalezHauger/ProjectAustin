@@ -1557,17 +1557,67 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xbc-CQ-eXa">
+                                <rect key="frame" x="16" y="73" width="343" height="594"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="86" id="9lU-D3-4Zx">
+                                        <rect key="frame" x="0.0" y="28" width="343" height="86"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9lU-D3-4Zx" id="X4U-E9-rtU">
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="85.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZYa-NG-cec">
+                                                    <rect key="frame" x="15" y="13" width="60" height="60"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="60" id="MUh-1K-v3A"/>
+                                                        <constraint firstAttribute="height" constant="60" id="ka8-0D-dMy"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@marcogonzalezhauger" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r5f-z9-RGr">
+                                                    <rect key="frame" x="83" y="18" width="186" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2,120,320,320 followers • Winter Sports" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="dzp-Uk-7Mq">
+                                                    <rect key="frame" x="83" y="45" width="252" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="dzp-Uk-7Mq" secondAttribute="bottom" constant="19.5" id="CoH-uL-2DO"/>
+                                                <constraint firstItem="r5f-z9-RGr" firstAttribute="leading" secondItem="ZYa-NG-cec" secondAttribute="trailing" constant="8" id="GD2-fX-mGi"/>
+                                                <constraint firstItem="dzp-Uk-7Mq" firstAttribute="leading" secondItem="ZYa-NG-cec" secondAttribute="trailing" constant="8" id="HXO-jH-VqY"/>
+                                                <constraint firstItem="ZYa-NG-cec" firstAttribute="centerY" secondItem="X4U-E9-rtU" secondAttribute="centerY" id="JfO-9r-tPD"/>
+                                                <constraint firstAttribute="trailing" secondItem="dzp-Uk-7Mq" secondAttribute="trailing" constant="8" id="Jkg-8w-aW0"/>
+                                                <constraint firstItem="r5f-z9-RGr" firstAttribute="top" secondItem="X4U-E9-rtU" secondAttribute="topMargin" constant="7" id="Ujx-Hi-td5"/>
+                                                <constraint firstItem="ZYa-NG-cec" firstAttribute="leading" secondItem="X4U-E9-rtU" secondAttribute="leadingMargin" id="ZU9-qn-0IO"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="xbc-CQ-eXa" firstAttribute="leading" secondItem="5JC-xT-Oyw" secondAttribute="leading" constant="16" id="FTa-mu-H52"/>
+                            <constraint firstItem="5JC-xT-Oyw" firstAttribute="trailing" secondItem="xbc-CQ-eXa" secondAttribute="trailing" constant="16" id="FTs-JR-UnS"/>
+                            <constraint firstItem="xbc-CQ-eXa" firstAttribute="top" secondItem="9e5-ry-aR9" secondAttribute="bottom" constant="16" id="dHc-KJ-OK8"/>
                             <constraint firstItem="9e5-ry-aR9" firstAttribute="top" secondItem="5JC-xT-Oyw" secondAttribute="top" constant="16" id="jCR-vc-EWU"/>
                             <constraint firstItem="9e5-ry-aR9" firstAttribute="centerX" secondItem="eTC-xx-26d" secondAttribute="centerX" id="oWk-jI-26C"/>
+                            <constraint firstItem="5JC-xT-Oyw" firstAttribute="bottom" secondItem="xbc-CQ-eXa" secondAttribute="bottom" id="tyR-gn-ZQb"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="5JC-xT-Oyw"/>
                     </view>
+                    <connections>
+                        <outlet property="rankedShelf" destination="xbc-CQ-eXa" id="Ht7-US-pMf"/>
+                    </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="-948" y="1901"/>
+            <point key="canvasLocation" x="-948" y="1900.2998500749627"/>
         </scene>
         <!--Social CategoryVC-->
         <scene sceneID="u86-Ti-LZZ">

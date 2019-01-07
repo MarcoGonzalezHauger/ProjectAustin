@@ -9,11 +9,15 @@
 
 import Foundation
 
+//Allows any ViewController to add itself to the global as a delegate,
+//and get updated whenever there is a change to any of the global variables.
+//This is used in the offers and social pages.
 @objc protocol GlobalListener {
 	@objc optional func AvaliableOffersChanged() -> ()
 	@objc optional func RejectedOffersChanged() -> ()
 	@objc optional func AcceptedOffersChanged() -> ()
 	@objc optional func CompletedOffersChanged() -> ()
+	@objc optional func SocialDataChanged() -> ()
 }
 
 class CentralVariables {
@@ -56,6 +60,17 @@ class CentralVariables {
 		didSet {
 			EachListener(){
 				if let targetfunction = $0.CompletedOffersChanged {
+					targetfunction()
+				}
+			}
+		}
+	}
+	
+	//The offers the user has completed.
+	var SocialData: [User] = [] {
+		didSet {
+			EachListener(){
+				if let targetfunction = $0.SocialDataChanged {
 					targetfunction()
 				}
 			}

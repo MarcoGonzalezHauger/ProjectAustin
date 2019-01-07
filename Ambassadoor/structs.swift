@@ -64,6 +64,7 @@ struct Offer {
 struct User {
 	let name: String
 	let username: String
+	let followercount: Double
 	let profilePicture: UIImage?
 	let AccountType: SubCategories
 }
