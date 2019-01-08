@@ -1545,7 +1545,6 @@
         <!--Social TierVC-->
         <scene sceneID="EOc-NE-xUe">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kwi-EJ-UpR" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="socialTier" useStoryboardIdentifierAsRestorationIdentifier="YES" id="x4w-nB-IkD" customClass="socialTierVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eTC-xx-26d">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -1561,7 +1560,7 @@
                                 <rect key="frame" x="16" y="73" width="343" height="594"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="86" id="9lU-D3-4Zx">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="socialProfileCell" rowHeight="86" id="9lU-D3-4Zx" customClass="SocialUserCell" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="343" height="86"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9lU-D3-4Zx" id="X4U-E9-rtU">
@@ -1597,6 +1596,11 @@
                                                 <constraint firstItem="ZYa-NG-cec" firstAttribute="leading" secondItem="X4U-E9-rtU" secondAttribute="leadingMargin" id="ZU9-qn-0IO"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="details" destination="dzp-Uk-7Mq" id="ECH-8J-DnZ"/>
+                                            <outlet property="profilepicture" destination="ZYa-NG-cec" id="Z8G-cK-ErE"/>
+                                            <outlet property="username" destination="r5f-z9-RGr" id="gyU-13-Cpr"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -1616,6 +1620,7 @@
                         <outlet property="rankedShelf" destination="xbc-CQ-eXa" id="Ht7-US-pMf"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kwi-EJ-UpR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-948" y="1900.2998500749627"/>
         </scene>
@@ -1676,10 +1681,10 @@
         <!--Social-->
         <scene sceneID="R9j-X4-G6i">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="s62-db-gXU" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="YGd-Vo-AVQ" customClass="socialPageVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Social" image="homa" selectedImage="_highlighted_homa" id="dLg-Gj-Flg"/>
                 </pageViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="s62-db-gXU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-276" y="1198"/>
         </scene>

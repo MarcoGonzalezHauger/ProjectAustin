@@ -8,4 +8,4 @@
 
 import Foundation
 
-var Yourself : User = User.init(name: "Marco Gonzalez Hauger", username: "@marcogonzalezhauger", followercount: 362, profilePicture: nil, AccountType: .WinterSports)
+var Yourself : User = User.init(name: nil, username: "@marcogonzalezhauger", followercount: 362, profilePicture: nil, AccountType: .WinterSports)

@@ -9,14 +9,26 @@
 
 import UIKit
 
+class SocialUserCell: UITableViewCell {
+	@IBOutlet weak var username: UILabel!
+	@IBOutlet weak var details: UILabel!
+	@IBOutlet weak var profilepicture: UIImageView!
+}
+
 class socialTierVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return global.SocialData.filter{$0.AccountType = localUser}
+		//filters all users in list and makes sure only to display the users in the same account type.
+		let filtered = global.SocialData.filter{$0.AccountType == Yourself.AccountType}
+		return filtered.count
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		
+		let cell = rankedShelf.dequeueReusableCell(withIdentifier: "socialProfileCell") as! SocialUserCell
+		let thisUser : User = global.SocialData.filter{$0.AccountType == Yourself.AccountType}[indexPath.row]
+		cell.username.text = thisUser.username
+		cell.details.text = NumberToStringWithCommas(number: thisUser.followercount) + " • " + String(thisUser.AccountType.hashValue)
+		return cell
 	}
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

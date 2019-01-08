@@ -62,7 +62,7 @@ struct Offer {
 
 //Strcuture for users
 struct User {
-	let name: String
+	let name: String?
 	let username: String
 	let followercount: Double
 	let profilePicture: UIImage?

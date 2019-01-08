@@ -80,6 +80,12 @@ func DateToCountdown(date: Date) -> String? {
 	}
 }
 
+func NumberToStringWithCommas(number: Double) -> String {
+	let numformat = NumberFormatter()
+	numformat.numberStyle = NumberFormatter.Style.decimal
+	return numformat.string(from: NSNumber(value:number)) ?? String(number)
+}
+
 func PostTypeToIcon(posttype: TypeofPost) -> UIImage {
 	switch posttype {
 	case .SinglePost:
