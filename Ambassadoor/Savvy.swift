@@ -135,6 +135,9 @@ func SubCategoryToString(subcategory: SubCategories) -> String {
 }
 
 func GetTierFromFollowerCount(FollowerCount: Double) -> Int? {
+	
+	//Tier is grouping people of similar follower count to encourage competition between users.
+	
 	switch FollowerCount {
 	case 100...199: return 1
 	case 200...349: return 2
@@ -166,7 +169,6 @@ func GetTierFromFollowerCount(FollowerCount: Double) -> Int? {
 	case 3000000...3999999: return 28
 	case 4000000...4999999: return 29
 	case 5000000...: return 30
-		
 	default: return nil
 	}
 }
