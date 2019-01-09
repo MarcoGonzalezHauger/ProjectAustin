@@ -1557,48 +1557,64 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xbc-CQ-eXa">
-                                <rect key="frame" x="16" y="73" width="343" height="594"/>
+                                <rect key="frame" x="0.0" y="73" width="375" height="594"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="socialProfileCell" rowHeight="86" id="9lU-D3-4Zx" customClass="SocialUserCell" customModule="Ambassadoor" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="343" height="86"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="socialProfileCell" rowHeight="100" id="9lU-D3-4Zx" customClass="SocialUserCell" customModule="Ambassadoor" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9lU-D3-4Zx" id="X4U-E9-rtU">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="85.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZYa-NG-cec">
-                                                    <rect key="frame" x="15" y="13" width="60" height="60"/>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n2F-h7-4oV" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                                    <rect key="frame" x="3" y="3" width="369" height="93.5"/>
+                                                    <subviews>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="kr0-gJ-XQW">
+                                                            <rect key="frame" x="86" y="23.5" width="275" height="46.5"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@marcogonzalezhauger" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="r5f-z9-RGr">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="211" height="24"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2,120,320,320 followers • Winter Sports" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="dzp-Uk-7Mq">
+                                                                    <rect key="frame" x="0.0" y="26" width="275" height="20.5"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </stackView>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZYa-NG-cec">
+                                                            <rect key="frame" x="18" y="17" width="60" height="60"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="60" id="MUh-1K-v3A"/>
+                                                                <constraint firstAttribute="height" constant="60" id="ka8-0D-dMy"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="60" id="MUh-1K-v3A"/>
-                                                        <constraint firstAttribute="height" constant="60" id="ka8-0D-dMy"/>
+                                                        <constraint firstItem="kr0-gJ-XQW" firstAttribute="leading" secondItem="ZYa-NG-cec" secondAttribute="trailing" constant="8" id="C9y-dz-bnE"/>
+                                                        <constraint firstItem="ZYa-NG-cec" firstAttribute="leading" secondItem="n2F-h7-4oV" secondAttribute="leadingMargin" constant="10" id="Eh0-XP-wVU"/>
+                                                        <constraint firstItem="kr0-gJ-XQW" firstAttribute="centerY" secondItem="n2F-h7-4oV" secondAttribute="centerY" id="GAO-bz-aqG"/>
+                                                        <constraint firstAttribute="trailing" secondItem="kr0-gJ-XQW" secondAttribute="trailing" constant="8" id="HRi-52-0DJ"/>
+                                                        <constraint firstItem="ZYa-NG-cec" firstAttribute="centerY" secondItem="n2F-h7-4oV" secondAttribute="centerY" id="PmI-xA-Kch"/>
                                                     </constraints>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@marcogonzalezhauger" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r5f-z9-RGr">
-                                                    <rect key="frame" x="83" y="18" width="186" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2,120,320,320 followers • Winter Sports" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="dzp-Uk-7Mq">
-                                                    <rect key="frame" x="83" y="45" width="252" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="dzp-Uk-7Mq" secondAttribute="bottom" constant="19.5" id="CoH-uL-2DO"/>
-                                                <constraint firstItem="r5f-z9-RGr" firstAttribute="leading" secondItem="ZYa-NG-cec" secondAttribute="trailing" constant="8" id="GD2-fX-mGi"/>
-                                                <constraint firstItem="dzp-Uk-7Mq" firstAttribute="leading" secondItem="ZYa-NG-cec" secondAttribute="trailing" constant="8" id="HXO-jH-VqY"/>
-                                                <constraint firstItem="ZYa-NG-cec" firstAttribute="centerY" secondItem="X4U-E9-rtU" secondAttribute="centerY" id="JfO-9r-tPD"/>
-                                                <constraint firstAttribute="trailing" secondItem="dzp-Uk-7Mq" secondAttribute="trailing" constant="8" id="Jkg-8w-aW0"/>
-                                                <constraint firstItem="r5f-z9-RGr" firstAttribute="top" secondItem="X4U-E9-rtU" secondAttribute="topMargin" constant="7" id="Ujx-Hi-td5"/>
-                                                <constraint firstItem="ZYa-NG-cec" firstAttribute="leading" secondItem="X4U-E9-rtU" secondAttribute="leadingMargin" id="ZU9-qn-0IO"/>
+                                                <constraint firstItem="n2F-h7-4oV" firstAttribute="leading" secondItem="X4U-E9-rtU" secondAttribute="leading" constant="3" id="AVB-UW-CQM"/>
+                                                <constraint firstAttribute="trailing" secondItem="n2F-h7-4oV" secondAttribute="trailing" constant="3" id="HoN-BN-07z"/>
+                                                <constraint firstAttribute="bottom" secondItem="n2F-h7-4oV" secondAttribute="bottom" constant="3" id="eEt-yz-ZeR"/>
+                                                <constraint firstItem="n2F-h7-4oV" firstAttribute="top" secondItem="X4U-E9-rtU" secondAttribute="top" constant="3" id="rwa-OM-WGp"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="details" destination="dzp-Uk-7Mq" id="ECH-8J-DnZ"/>
                                             <outlet property="profilepicture" destination="ZYa-NG-cec" id="Z8G-cK-ErE"/>
+                                            <outlet property="shadow" destination="n2F-h7-4oV" id="LEa-wA-5u1"/>
                                             <outlet property="username" destination="r5f-z9-RGr" id="gyU-13-Cpr"/>
                                         </connections>
                                     </tableViewCell>
@@ -1607,8 +1623,8 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="xbc-CQ-eXa" firstAttribute="leading" secondItem="5JC-xT-Oyw" secondAttribute="leading" constant="16" id="FTa-mu-H52"/>
-                            <constraint firstItem="5JC-xT-Oyw" firstAttribute="trailing" secondItem="xbc-CQ-eXa" secondAttribute="trailing" constant="16" id="FTs-JR-UnS"/>
+                            <constraint firstItem="xbc-CQ-eXa" firstAttribute="leading" secondItem="5JC-xT-Oyw" secondAttribute="leading" id="FTa-mu-H52"/>
+                            <constraint firstItem="5JC-xT-Oyw" firstAttribute="trailing" secondItem="xbc-CQ-eXa" secondAttribute="trailing" id="FTs-JR-UnS"/>
                             <constraint firstItem="xbc-CQ-eXa" firstAttribute="top" secondItem="9e5-ry-aR9" secondAttribute="bottom" constant="16" id="dHc-KJ-OK8"/>
                             <constraint firstItem="9e5-ry-aR9" firstAttribute="top" secondItem="5JC-xT-Oyw" secondAttribute="top" constant="16" id="jCR-vc-EWU"/>
                             <constraint firstItem="9e5-ry-aR9" firstAttribute="centerX" secondItem="eTC-xx-26d" secondAttribute="centerX" id="oWk-jI-26C"/>
@@ -1618,6 +1634,7 @@
                     </view>
                     <connections>
                         <outlet property="rankedShelf" destination="xbc-CQ-eXa" id="Ht7-US-pMf"/>
+                        <outlet property="tierLabel" destination="9e5-ry-aR9" id="684-A5-4oZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kwi-EJ-UpR" userLabel="First Responder" sceneMemberID="firstResponder"/>

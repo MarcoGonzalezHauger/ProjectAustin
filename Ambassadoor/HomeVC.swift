@@ -205,7 +205,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		global.AcceptedOffers = fakeoffers.filter({$0.isAccepted == true})
 		
 		for x : SubCategories in [.Hiker, .WinterSports, .Baseball, .Basketball, .Golf, .Tennis, .Soccer, .Football, .Boxing, .MMA, .Swimming, .TableTennis, .Gymnastics, .Dancer, .Rugby, .Bowling, .Frisbee, .Cricket, .SpeedBiking, .MountainBiking, .WaterSkiing, .Running, .PowerLifting, .BodyBuilding, .Wrestling, .StrongMan, .NASCAR, .RalleyRacing, .Parkour, .Model, .Makeup, .Actor, .RunwayModel, .Designer, .Brand, .Stylist, .HairStylist, .FasionArtist, .Painter, .Sketcher, .Musician, .Band, .SingerSongWriter] {
-			global.SocialData.append(User.init(name: nil, username: "@defaultuser\(Int.random(in: 99...100000))", followercount: Double(Int.random(in: 50...2000)), profilePicture: nil, AccountType: x))
+			global.SocialData.append(User.init(name: nil, username: "@defaultuser\(Int.random(in: 50...200)^2)", followerCount: Double(Int.random(in: 50...2000)), profilePicture: nil, AccountType: x))
 		}
     }
 }

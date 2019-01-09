@@ -173,6 +173,24 @@ func GetTierFromFollowerCount(FollowerCount: Double) -> Int? {
 	}
 }
 
+func makeImageCircular(image: UIImage) -> UIImage {
+	let ImageLayer = CALayer()
+	
+	let imageView = UIImageView.init(image: image)
+	
+	ImageLayer.frame = imageView.bounds
+	ImageLayer.contents = imageView.image?.cgImage;
+	ImageLayer.masksToBounds = true;
+	ImageLayer.cornerRadius = imageView.frame.size.width/2
+	
+	UIGraphicsBeginImageContext(imageView.bounds.size)
+	ImageLayer.render(in: UIGraphicsGetCurrentContext()!)
+	let NewImage = UIGraphicsGetImageFromCurrentImageContext()
+	UIGraphicsEndImageContext()
+	
+	return NewImage!;
+}
+
 func PostTypeToIcon(posttype: TypeofPost) -> UIImage {
 	switch posttype {
 	case .SinglePost:

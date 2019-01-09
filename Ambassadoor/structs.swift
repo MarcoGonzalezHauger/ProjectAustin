@@ -25,10 +25,11 @@ class ShadowView: UIView {
 	var cornerRadius = 10 {	didSet { DrawShadows() } }
 	var ShadowOpacity: Float = 0.2 { didSet { DrawShadows() } }
 	var ShadowRadius = 1.75 { didSet { DrawShadows() } }
+	var ShadowColor = UIColor.black { didSet { DrawShadows() } }
 	func DrawShadows() {
 		//draw shadow & rounded corners for offer cell
 		self.layer.cornerRadius = CGFloat(cornerRadius)
-		self.layer.shadowColor = UIColor.black.cgColor
+		self.layer.shadowColor = ShadowColor.cgColor
 		self.layer.shadowOpacity = ShadowOpacity
 		self.layer.shadowOffset = CGSize.zero
 		self.layer.shadowRadius = CGFloat(ShadowRadius)
@@ -64,7 +65,7 @@ struct Offer {
 struct User {
 	let name: String?
 	let username: String
-	let followercount: Double
+	let followerCount: Double
 	let profilePicture: UIImage?
 	let AccountType: SubCategories
 }
