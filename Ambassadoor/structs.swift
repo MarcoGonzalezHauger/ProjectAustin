@@ -26,6 +26,7 @@ class ShadowView: UIView {
 	var ShadowOpacity: Float = 0.2 { didSet { DrawShadows() } }
 	var ShadowRadius = 1.75 { didSet { DrawShadows() } }
 	var ShadowColor = UIColor.black { didSet { DrawShadows() } }
+	
 	func DrawShadows() {
 		//draw shadow & rounded corners for offer cell
 		self.layer.cornerRadius = CGFloat(cornerRadius)

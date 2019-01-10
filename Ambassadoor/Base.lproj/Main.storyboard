@@ -1556,22 +1556,25 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xbc-CQ-eXa">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xbc-CQ-eXa">
                                 <rect key="frame" x="0.0" y="73" width="375" height="594"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="sectionIndexColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="sectionIndexBackgroundColor" red="1" green="0.47450980392156861" blue="0.031372549019607843" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="sectionIndexTrackingBackgroundColor" red="1" green="0.47450980390000003" blue="0.031372549020000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="socialProfileCell" rowHeight="100" id="9lU-D3-4Zx" customClass="SocialUserCell" customModule="Ambassadoor" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="socialProfileCell" rowHeight="100" id="9lU-D3-4Zx" customClass="SocialUserCell" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9lU-D3-4Zx" id="X4U-E9-rtU">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n2F-h7-4oV" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                                    <rect key="frame" x="3" y="3" width="369" height="93.5"/>
+                                                    <rect key="frame" x="6" y="6" width="363" height="88"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="kr0-gJ-XQW">
-                                                            <rect key="frame" x="86" y="23.5" width="275" height="46.5"/>
+                                                            <rect key="frame" x="86" y="21" width="269" height="46.5"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@marcogonzalezhauger" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="r5f-z9-RGr">
                                                                     <rect key="frame" x="0.0" y="0.0" width="211" height="24"/>
@@ -1580,14 +1583,14 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2,120,320,320 followers • Winter Sports" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="dzp-Uk-7Mq">
-                                                                    <rect key="frame" x="0.0" y="26" width="275" height="20.5"/>
+                                                                    <rect key="frame" x="0.0" y="26" width="269" height="20.5"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
                                                         </stackView>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZYa-NG-cec">
-                                                            <rect key="frame" x="18" y="17" width="60" height="60"/>
+                                                            <rect key="frame" x="18" y="14" width="60" height="60"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="60" id="MUh-1K-v3A"/>
                                                                 <constraint firstAttribute="height" constant="60" id="ka8-0D-dMy"/>
@@ -1605,10 +1608,10 @@
                                                 </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="n2F-h7-4oV" firstAttribute="leading" secondItem="X4U-E9-rtU" secondAttribute="leading" constant="3" id="AVB-UW-CQM"/>
-                                                <constraint firstAttribute="trailing" secondItem="n2F-h7-4oV" secondAttribute="trailing" constant="3" id="HoN-BN-07z"/>
-                                                <constraint firstAttribute="bottom" secondItem="n2F-h7-4oV" secondAttribute="bottom" constant="3" id="eEt-yz-ZeR"/>
-                                                <constraint firstItem="n2F-h7-4oV" firstAttribute="top" secondItem="X4U-E9-rtU" secondAttribute="top" constant="3" id="rwa-OM-WGp"/>
+                                                <constraint firstItem="n2F-h7-4oV" firstAttribute="leading" secondItem="X4U-E9-rtU" secondAttribute="leading" constant="6" id="AVB-UW-CQM"/>
+                                                <constraint firstAttribute="trailing" secondItem="n2F-h7-4oV" secondAttribute="trailing" constant="6" id="HoN-BN-07z"/>
+                                                <constraint firstAttribute="bottom" secondItem="n2F-h7-4oV" secondAttribute="bottom" constant="6" id="eEt-yz-ZeR"/>
+                                                <constraint firstItem="n2F-h7-4oV" firstAttribute="top" secondItem="X4U-E9-rtU" secondAttribute="top" constant="6" id="rwa-OM-WGp"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -1718,6 +1721,6 @@
         <image name="singlepost_icon" width="600" height="600"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="a1a-Gx-isU"/>
+        <segue reference="KaI-gc-Gcv"/>
     </inferredMetricsTieBreakers>
 </document>

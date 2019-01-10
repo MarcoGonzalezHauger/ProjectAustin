@@ -19,7 +19,10 @@ class SocialUserCell: UITableViewCell {
 		username.text = thisUser.username
 		details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + SubCategoryToString(subcategory: thisUser.AccountType)
 		let userImage: UIImage = thisUser.profilePicture ?? UIImage.init(named: "defaultuser")!
-		shadow.ShadowColor = thisUser.username == Yourself.username ? UIColor.green : UIColor.black
+		shadow.ShadowColor = thisUser.username == Yourself.username ? UIColor.init(red: 110/255, green: 200/255, blue: 65/255, alpha: 1) : UIColor.black
+		shadow.ShadowOpacity = thisUser.username == Yourself.username ? 0.5 : 0.2
+		shadow.ShadowRadius = thisUser.username == Yourself.username ? 4 : 1.75
+		shadow.backgroundColor = thisUser.username == Yourself.username ? UIColor.init(red: 245/255, green: 1, blue: 245/255, alpha: 1) : UIColor.white
 		profilepicture.image = makeImageCircular(image: userImage)
 	}
 }
@@ -32,6 +35,13 @@ class socialTierVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 		//filters all users in list and makes sure only to display the users in the same account type.
 		let filtered = global.SocialData.filter{GetTierFromFollowerCount(FollowerCount: $0.followerCount) ==  GetTierFromFollowerCount(FollowerCount: Yourself.followerCount)}
 		return filtered.count + 1 //adds one bc of yourself
+	}
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		rankedShelf.deselectRow(at: indexPath, animated: false)
+		let cell = rankedShelf.cellForRow(at: indexPath) as! SocialUserCell
+		cell.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0)
+		cell.shadow.isHidden = false
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
