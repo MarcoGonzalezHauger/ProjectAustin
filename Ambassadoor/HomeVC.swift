@@ -204,8 +204,10 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		global.AvaliableOffers = fakeoffers.filter({$0.isAccepted == false})
 		global.AcceptedOffers = fakeoffers.filter({$0.isAccepted == true})
 		
-		for x : SubCategories in [.Hiker, .WinterSports, .Baseball, .Basketball, .Golf, .Tennis, .Soccer, .Football, .Boxing, .MMA, .Swimming, .TableTennis, .Gymnastics, .Dancer, .Rugby, .Bowling, .Frisbee, .Cricket, .SpeedBiking, .MountainBiking, .WaterSkiing, .Running, .PowerLifting, .BodyBuilding, .Wrestling, .StrongMan, .NASCAR, .RalleyRacing, .Parkour, .Model, .Makeup, .Actor, .RunwayModel, .Designer, .Brand, .Stylist, .HairStylist, .FasionArtist, .Painter, .Sketcher, .Musician, .Band, .SingerSongWriter] {
-			global.SocialData.append(User.init(name: nil, username: "@defaultuser\(Int.random(in: 50...200)^2)", followerCount: Double(Int.random(in: 50...2000)), profilePicture: nil, AccountType: x))
+		for y : Int in (1...75) {
+			for x : SubCategories in [.Hiker, .WinterSports, .Baseball, .Basketball, .Golf, .Tennis, .Soccer, .Football, .Boxing, .MMA, .Swimming, .TableTennis, .Gymnastics, .Dancer, .Rugby, .Bowling, .Frisbee, .Cricket, .SpeedBiking, .MountainBiking, .WaterSkiing, .Running, .PowerLifting, .BodyBuilding, .Wrestling, .StrongMan, .NASCAR, .RalleyRacing, .Parkour, .Model, .Makeup, .Actor, .RunwayModel, .Designer, .Brand, .Stylist, .HairStylist, .FasionArtist, .Painter, .Sketcher, .Musician, .Band, .SingerSongWriter, .WinterSports] {
+				global.SocialData.append(User.init(name: nil, username: "@defaultuser\(Int.random(in: 50...300))", followerCount: Double(Int.random(in: 10...10000) << 2), profilePicture: nil, AccountType: x))
+			}
 		}
     }
 }

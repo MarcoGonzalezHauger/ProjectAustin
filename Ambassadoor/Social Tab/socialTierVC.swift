@@ -15,9 +15,10 @@ class SocialUserCell: UITableViewCell {
 	@IBOutlet weak var profilepicture: UIImageView!
 	@IBOutlet weak var shadow: ShadowView!
 	
-	func SetUser(user thisUser: User) {
+	func SetUser(user thisUser: User, ShowCategory: Bool) {
 		username.text = thisUser.username
-		details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + SubCategoryToString(subcategory: thisUser.AccountType)
+		let secondtext : String = ShowCategory ? SubCategoryToString(subcategory: thisUser.AccountType) : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
+		details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
 		let userImage: UIImage = thisUser.profilePicture ?? UIImage.init(named: "defaultuser")!
 		shadow.ShadowColor = thisUser.username == Yourself.username ? UIColor.init(red: 110/255, green: 200/255, blue: 65/255, alpha: 1) : UIColor.black
 		shadow.ShadowOpacity = thisUser.username == Yourself.username ? 0.5 : 0.2
@@ -53,7 +54,7 @@ class socialTierVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 		allpossibleusers.append(Yourself)
 		allpossibleusers.sort{ return $0.followerCount > $1.followerCount }
 		let thisUser : User = allpossibleusers[indexPath.row]
-		cell.SetUser(user: thisUser)
+		cell.SetUser(user: thisUser, ShowCategory: true)
 		return cell
 	}
 	
