@@ -96,7 +96,7 @@ class MoneyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Glo
 		if indexPath.row == 0 {
 			return shelf.bounds.height * 0.4
 		} else {
-			return shelf.bounds.height / 6
+			return 100
 		}
 	}
 	

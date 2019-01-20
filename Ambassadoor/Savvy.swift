@@ -71,7 +71,7 @@ func DateToCountdown(date: Date) -> String? {
 	case i < 86400:
 		return "in \(Int(floor(i/3600))) hour\(pluralHours ? "s" : ""), \(Int(floor(Double((Int(i) % 3600) / 60)))) minute\(pluralMinutes ? "s" : "")"
 	case i < 604800:
-		return "in \(Int(floor(i/86400))) day\(pluralDays ? "s" : ""), \(Int(floor(Double((Int(i) % 86400) / 3600)))) hour\(pluralHours ? "s" : ""),"
+		return "in \(Int(floor(i/86400))) day\(pluralDays ? "s" : ""), \(Int(floor(Double((Int(i) % 86400) / 3600)))) hour\(pluralHours ? "s" : "")"
 	default:
 		let formatter = DateFormatter()
 		formatter.locale = Locale(identifier: "en_US")

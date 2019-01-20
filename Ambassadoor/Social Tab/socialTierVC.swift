@@ -20,10 +20,10 @@ class SocialUserCell: UITableViewCell {
 		let secondtext : String = ShowCategory ? SubCategoryToString(subcategory: thisUser.AccountType) : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
 		details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
 		let userImage: UIImage = thisUser.profilePicture ?? UIImage.init(named: "defaultuser")!
-		shadow.ShadowColor = thisUser.username == Yourself.username ? UIColor.init(red: 110/255, green: 200/255, blue: 65/255, alpha: 1) : UIColor.black
-		shadow.ShadowOpacity = thisUser.username == Yourself.username ? 0.5 : 0.2
+		shadow.ShadowColor = thisUser.username == Yourself.username ? UIColor.init(red: 1, green: 121/255, blue: 8/255, alpha: 1) : UIColor.black
+		shadow.ShadowOpacity = thisUser.username == Yourself.username ? 0.75 : 0.2
 		shadow.ShadowRadius = thisUser.username == Yourself.username ? 4 : 1.75
-		shadow.backgroundColor = thisUser.username == Yourself.username ? UIColor.init(red: 245/255, green: 1, blue: 245/255, alpha: 1) : UIColor.white
+		shadow.backgroundColor = thisUser.username == Yourself.username ? UIColor.init(red: 1, green: 251/255, blue: 243/255, alpha: 1) : UIColor.white
 		profilepicture.image = makeImageCircular(image: userImage)
 	}
 }
@@ -39,10 +39,7 @@ class socialTierVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		rankedShelf.deselectRow(at: indexPath, animated: false)
-		let cell = rankedShelf.cellForRow(at: indexPath) as! SocialUserCell
-		cell.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0)
-		cell.shadow.isHidden = false
+		rankedShelf.deselectRow(at: indexPath, animated: true)
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

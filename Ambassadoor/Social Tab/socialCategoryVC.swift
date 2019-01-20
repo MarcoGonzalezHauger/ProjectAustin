@@ -20,10 +20,7 @@ class socialCategoryVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		rankedShelf.deselectRow(at: indexPath, animated: false)
-		let cell = rankedShelf.cellForRow(at: indexPath) as! SocialUserCell
-		cell.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0)
-		cell.shadow.isHidden = false
+		rankedShelf.deselectRow(at: indexPath, animated: true)
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
