@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Firebase
 
 //Gets all offers relavent to the user.
 func GetOffers() -> [Offer] {
@@ -30,6 +31,17 @@ func GetRelevantPeople() -> [User] {
 
 //Creates an account with nothing more than the username of the account. Returns Bool to see if it worked.
 func CreateAccount(instagramUsername username: String) -> Bool {
-	
+    // Pointer reference in Firebase to Users
+    let accountsReference = Database.database().reference().child("users")
+    let userReference = accountsReference.childByAutoId()
+    // Test data for now, all of the other data will be fetched from the Instagram API besides username which will come directly from the user
+    let values = [
+        "name": "Test",
+        "username": username,
+        "followerCount": 99,
+        "profilePicture": "",
+        "AccountType": SubCategories.Actor
+        ] as [String : Any]
+    userReference.updateChildValues(values)
 	return true
 }
