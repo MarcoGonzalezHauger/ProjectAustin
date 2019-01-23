@@ -27,3 +27,8 @@ func GetRelevantPeople() -> [User] {
 	}
 	return userslist
 }
+
+//Creates an account with nothing more than the username of the account. Returns Bool to see if it worked.
+func CreateAccount(instagramUsername username: String) -> Bool {
+	
+}
