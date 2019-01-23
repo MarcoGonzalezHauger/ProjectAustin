@@ -15,6 +15,7 @@ protocol OfferResponse {
 	func OfferAccepted(offer: Offer) -> ()
 }
 
+
 //Shadow Class reused all throughout this app.
 class ShadowView: UIView {
 	override func awakeFromNib() {
@@ -60,6 +61,9 @@ struct Offer {
 		}
 	}
 	var isAccepted: Bool
+	var isExpired: Bool {
+		return self.expiredate.timeIntervalSinceNow >= 0
+	}
 }
 
 //Strcuture for users
