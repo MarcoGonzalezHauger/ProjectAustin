@@ -62,7 +62,10 @@ struct Offer {
 	}
 	var isAccepted: Bool
 	var isExpired: Bool {
-		return self.expiredate.timeIntervalSinceNow >= 0
+		return self.expiredate.timeIntervalSinceNow.sign == .minus
+	}
+	var debugInfo: String {
+		return "Offer by \(company.name) for $\(String(money)) that is \(isExpired ? "" : "not ") expired."
 	}
 }
 
