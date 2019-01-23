@@ -55,18 +55,10 @@ class RejectedOffersVC: UIViewController, UITableViewDataSource, UITableViewDele
 	}
 	
 	func OfferExpired(sender: Any) {
-		shelf.beginUpdates()
-		debugPrint((sender as? OfferCell)?.ThisOffer.debugInfo ?? "no data found" + "REJECTED")
+		shelf.reloadData()
 	}
 	
-	@IBOutlet weak var shelf: UITableView!
-	
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = shelf.dequeueReusableCell(withIdentifier: "HomeOfferCell")  as! OfferCell
-		cell.delegate = self
-		
-		//Sorts cells
-		
+	func GetSortedRejectedOffers() -> [Offer] {
 		var sortedlist = global.RejectedOffers
 		
 		//This sort function makes sure of the following: The expired Offers go to the bottom, and then rest are sorted by time remaining decending.
@@ -76,6 +68,18 @@ class RejectedOffersVC: UIViewController, UITableViewDataSource, UITableViewDele
 			}
 			return !Offer1.isExpired
 		}
+		return sortedlist
+	}
+	
+	@IBOutlet weak var shelf: UITableView!
+	
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell = shelf.dequeueReusableCell(withIdentifier: "HomeOfferCell")  as! OfferCell
+		cell.delegate = self
+		
+		//Sorts cells
+		let sortedlist = GetSortedRejectedOffers()
+		
 		
 		cell.ThisOffer = sortedlist[indexPath.row]
 		return cell
