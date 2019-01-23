@@ -117,7 +117,7 @@ enum TypeofPost {
 
 //COMPLETE FOR LATER
 //account type enumeration
-enum SubCategories {
+public enum SubCategories {
 	case Hiker, WinterSports, Baseball, Basketball, Golf, Tennis, Soccer, Football, Boxing, MMA, Swimming, TableTennis, Gymnastics, Dancer, Rugby, Bowling, Frisbee, Cricket, SpeedBiking, MountainBiking, WaterSkiing, Running, PowerLifting, BodyBuilding, Wrestling, StrongMan, NASCAR, RalleyRacing, Parkour, Model, Makeup, Actor, RunwayModel, Designer, Brand, Stylist, HairStylist, FasionArtist, Painter, Sketcher, Musician, Band, SingerSongWriter
 }
 
