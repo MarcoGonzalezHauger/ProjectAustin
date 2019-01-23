@@ -8,6 +8,7 @@
 
 import Foundation
 
+//Gets all offers relavent to the user.
 func GetOffers() -> [Offer] {
 	var fakeoffers : [Offer] = []
 	for x : Double in [50, 1245, 28421, 812472, 12581238, 40, 240, 7029] {
@@ -16,7 +17,8 @@ func GetOffers() -> [Offer] {
 	return fakeoffers
 }
 
-func GetPeople() -> [User] {
+//Gets all relavent people, people who you are friends and a few random people to compete with.
+func GetRelevantPeople() -> [User] {
 	var userslist : [User] = []
 	for _ : Int in (1...75) {
 		for x : SubCategories in [.Hiker, .WinterSports, .Baseball, .Basketball, .Golf, .Tennis, .Soccer, .Football, .Boxing, .MMA, .Swimming, .TableTennis, .Gymnastics, .Dancer, .Rugby, .Bowling, .Frisbee, .Cricket, .SpeedBiking, .MountainBiking, .WaterSkiing, .Running, .PowerLifting, .BodyBuilding, .Wrestling, .StrongMan, .NASCAR, .RalleyRacing, .Parkour, .Model, .Makeup, .Actor, .RunwayModel, .Designer, .Brand, .Stylist, .HairStylist, .FasionArtist, .Painter, .Sketcher, .Musician, .Band, .SingerSongWriter, .WinterSports] {
