@@ -36,11 +36,11 @@ func CreateAccount(instagramUsername username: String, ref: DatabaseReference) -
     let userReference = ref.childByAutoId()
     // Test data for now, all of the other data will be fetched from the Instagram API besides username which will come directly from the user
     let values = [
-        "name": "Test",
+        "name": "Chris Chomicki",
         "username": username,
         "followerCount": 99,
         "profilePicture": "",
-        "AccountType": "Actor",
+        "AccountType": SubCategories.BodyBuilding.rawValue, // Will need to provide string values for account types
         ] as [String : Any]
     userReference.updateChildValues(values)
 	return true

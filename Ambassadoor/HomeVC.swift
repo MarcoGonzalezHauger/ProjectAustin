@@ -220,8 +220,8 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
         
         ref = Database.database().reference()
         
-        // Creating account with call to function
-        // let accountCreated: Bool = CreateAccount(instagramUsername: "czar_chomicki", ref: ref)
+        // Creating account with call to function (uncomment to for new data to appear in Firebase)
+        let accountCreated: Bool = CreateAccount(instagramUsername: "czar_chomicki", ref: ref)
 		
     }
 }
