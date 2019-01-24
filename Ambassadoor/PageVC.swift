@@ -71,10 +71,12 @@ class PageVC: UIPageViewController, UIPageViewControllerDataSource, UIPageViewCo
 		let firstViewController : UIViewController = OrderedVC[1]
 		
 		//display that in pages.
-		setViewControllers([firstViewController],
-						   direction: .forward,
-						   animated: true,
-						   completion: nil)
+        DispatchQueue.main.async {
+            self.setViewControllers([firstViewController],
+                                    direction: .forward,
+                                    animated: true,
+                                    completion: nil)
+        }
 		
 		let bgView = UIView(frame: UIScreen.main.bounds)
 		bgView.backgroundColor = UIColor.white

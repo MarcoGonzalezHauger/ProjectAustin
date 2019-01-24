@@ -8,6 +8,7 @@
 //
 
 import UIKit
+import Firebase
 
 //Protocol for interactions with indivisual Offer Cells
 @objc protocol OfferCellDelegate {
@@ -198,6 +199,8 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		cell.ThisOffer = global.AvaliableOffers[indexPath.row]
 		return cell
 	}
+    
+    var ref: DatabaseReference!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -212,8 +215,13 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		global.AvaliableOffers = fakeoffers.filter({$0.isAccepted == false})
 		global.AcceptedOffers = fakeoffers.filter({$0.isAccepted == true})
 		
-		let fakeusers: [User] = GetPeople()
+		let fakeusers: [User] = GetRelevantPeople()
 		global.SocialData = fakeusers
+        
+        ref = Database.database().reference()
+        
+        // Creating account with call to function
+        // let accountCreated: Bool = CreateAccount(instagramUsername: "czar_chomicki", ref: ref)
 		
     }
 }
