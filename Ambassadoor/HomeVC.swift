@@ -82,10 +82,18 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		return 110
 	}
 	
+	func GetSortedAvaliableOffers() -> [Offer] {
+		var sortedavaliableoffers: [Offer] = global.AvaliableOffers
+		sortedavaliableoffers.sort{ (Offer1, Offer2) -> Bool in
+			return (Offer1.money / Double(Offer1.posts.count)) > (Offer2.money / Double(Offer2.posts.count))
+		}
+		return sortedavaliableoffers
+	}
+	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = shelf.dequeueReusableCell(withIdentifier: "HomeOfferCell")  as! OfferCell
 		cell.delegate = self
-		cell.ThisOffer = global.AvaliableOffers[indexPath.row]
+		cell.ThisOffer = GetSortedAvaliableOffers()[indexPath.row]
 		return cell
 	}
 
