@@ -104,7 +104,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		
 		//Debugging Fake Offers
 		
-		let fakeoffers: [Offer] = GetOffers()
+		let fakeoffers: [Offer] = GetFakeOffers()
 		global.AvaliableOffers = fakeoffers.filter({$0.isAccepted == false})
 		global.AcceptedOffers = fakeoffers.filter({$0.isAccepted == true})
 		
@@ -114,7 +114,9 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
         ref = Database.database().reference()
         
         // Creating account with call to function (uncomment to for new data to appear in Firebase)
-        let accountCreated: Bool = CreateAccount(instagramUsername: "czar_chomicki", ref: ref)
-		
+        //let accountCreated: Bool = CreateAccount(instagramUsername: "czar_chomicki", ref: ref)
+        
+        // Gets offers by on userId, will need to test data in firebase to test this, but pointer connection works
+        //let offers = GetOffers(userId: "test", ref: ref)
     }
 }
