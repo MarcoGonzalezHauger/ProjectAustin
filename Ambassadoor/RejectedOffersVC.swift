@@ -54,6 +54,11 @@ class RejectedOffersVC: UIViewController, UITableViewDataSource, UITableViewDele
 		return 110
 	}
 	
+	func OfferExpired(sender: Any) {
+		shelf.beginUpdates()
+		debugPrint((sender as? OfferCell)?.ThisOffer.debugInfo ?? "no data found" + "REJECTED")
+	}
+	
 	@IBOutlet weak var shelf: UITableView!
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -78,9 +83,15 @@ class RejectedOffersVC: UIViewController, UITableViewDataSource, UITableViewDele
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		//delegates & Data sources
+		
 		shelf.delegate = self
 		shelf.dataSource = self
 		global.delegates.append(self)
+		
+		//make back button a little bit smaller but retaining its large "hitbox"
+		
 		backBtn.imageEdgeInsets = UIEdgeInsets(top: 6, left: 6, bottom: 6, right: 6)
 	}
 
