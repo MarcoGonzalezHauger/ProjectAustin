@@ -41,7 +41,7 @@ class ShadowView: UIView {
 }
 
 //Structure for an offer that comes into username's inbox
-struct Offer {
+class Offer : NSObject {
 	let money: Double
 	let company: Company
 	let posts: [Post]
@@ -67,6 +67,16 @@ struct Offer {
 	var debugInfo: String {
 		return "Offer by \(company.name) for $\(String(money)) that is \(isExpired ? "" : "not ") expired."
 	}
+    init(dictionary: [String: AnyObject]) {
+        self.money = dictionary["money"] as! Double
+        self.company = dictionary["company"] as! Company
+        self.posts = dictionary["posts"] as! [Post]
+        self.offerdate = dictionary["offerdate"] as! Date
+        self.offer_ID = dictionary["offer_ID"] as! String
+        self.expiredate = dictionary["expiredate"] as! Date
+        self.allPostsConfrimedSince = dictionary["allPostsConfirmedSince"] as? Date
+        self.isAccepted = dictionary["isAccepted"] as! Bool
+    }
 }
 
 //Strcuture for users
@@ -117,8 +127,9 @@ enum TypeofPost {
 
 //COMPLETE FOR LATER
 //account type enumeration
-public enum SubCategories {
-	case Hiker, WinterSports, Baseball, Basketball, Golf, Tennis, Soccer, Football, Boxing, MMA, Swimming, TableTennis, Gymnastics, Dancer, Rugby, Bowling, Frisbee, Cricket, SpeedBiking, MountainBiking, WaterSkiing, Running, PowerLifting, BodyBuilding, Wrestling, StrongMan, NASCAR, RalleyRacing, Parkour, Model, Makeup, Actor, RunwayModel, Designer, Brand, Stylist, HairStylist, FasionArtist, Painter, Sketcher, Musician, Band, SingerSongWriter
+// Need to provide string values for these for when posting to Firebase like I did for "Hiker" - Chris
+public enum SubCategories : String {
+	case Hiker = "Hiker", WinterSports = "WinterSports", Baseball = "Baseball", Basketball, Golf, Tennis, Soccer, Football, Boxing, MMA, Swimming, TableTennis, Gymnastics, Dancer, Rugby, Bowling, Frisbee, Cricket, SpeedBiking, MountainBiking, WaterSkiing, Running, PowerLifting, BodyBuilding = "BodyBuilding", Wrestling, StrongMan, NASCAR, RalleyRacing, Parkour, Model, Makeup, Actor, RunwayModel, Designer, Brand, Stylist, HairStylist, FasionArtist, Painter, Sketcher, Musician, Band, SingerSongWriter
 }
 
 //Categories that house subCategories.
