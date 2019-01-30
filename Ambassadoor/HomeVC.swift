@@ -105,7 +105,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
     var ref: DatabaseReference!
 	
 	override func viewDidAppear(_ animated: Bool) {
-		//performSegue(withIdentifier: "showSignUpVC", sender: self)
+		performSegue(withIdentifier: "showSignUpVC", sender: self)
 	}
 	
     override func viewDidLoad() {

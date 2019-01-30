@@ -920,8 +920,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hey" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BKc-dL-RPK">
-                                <rect key="frame" x="187.66666666666666" y="55.000000000000007" width="38.666666666666657" height="26.333333333333336"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BKc-dL-RPK">
+                                <rect key="frame" x="162.66666666666666" y="55.000000000000007" width="89" height="26.333333333333336"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -966,6 +966,15 @@
                                     <constraint firstAttribute="height" constant="111" id="4ea-tB-Ahj"/>
                                 </constraints>
                             </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="These actions require Instagram authentication" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mMo-TQ-JmZ">
+                                <rect key="frame" x="20" y="656" width="374" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="GQ3-2T-Cax"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -975,7 +984,10 @@
                             <constraint firstItem="0Oy-Gg-mvp" firstAttribute="centerX" secondItem="Fdc-Os-vXz" secondAttribute="centerX" id="NzQ-IQ-Zdd"/>
                             <constraint firstItem="vGT-mT-smR" firstAttribute="bottom" secondItem="VKS-JT-DrA" secondAttribute="bottom" constant="100" id="UzY-yf-uee"/>
                             <constraint firstItem="vGT-mT-smR" firstAttribute="trailing" secondItem="0Oy-Gg-mvp" secondAttribute="trailing" constant="20" id="cAh-GQ-7Ko"/>
+                            <constraint firstAttribute="trailing" secondItem="mMo-TQ-JmZ" secondAttribute="trailing" constant="20" id="p2U-xp-Bm7"/>
+                            <constraint firstItem="mMo-TQ-JmZ" firstAttribute="leading" secondItem="vGT-mT-smR" secondAttribute="leading" constant="20" id="rX6-RV-ZHd"/>
                             <constraint firstItem="BKc-dL-RPK" firstAttribute="centerX" secondItem="Fdc-Os-vXz" secondAttribute="centerX" id="t2c-fD-0mm"/>
+                            <constraint firstItem="mMo-TQ-JmZ" firstAttribute="top" secondItem="VKS-JT-DrA" secondAttribute="bottom" constant="20" id="uEj-gl-lY1"/>
                             <constraint firstItem="0Oy-Gg-mvp" firstAttribute="top" secondItem="BKc-dL-RPK" secondAttribute="bottom" constant="71" id="yw2-sf-WZb"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="vGT-mT-smR"/>

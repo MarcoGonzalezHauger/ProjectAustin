@@ -62,7 +62,7 @@ class Offer : NSObject {
 	}
 	var isAccepted: Bool
 	var isExpired: Bool {
-		return self.expiredate.timeIntervalSinceNow.sign == .minus
+		return self.expiredate.timeIntervalSinceNow <= 0
 	}
 	var debugInfo: String {
 		return "Offer by \(company.name) for $\(String(money)) that is \(isExpired ? "" : "not ") expired."
