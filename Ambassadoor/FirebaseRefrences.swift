@@ -56,7 +56,7 @@ func CreateAccount(instagramUsername username: String, ref: DatabaseReference) -
         "username": username,
         "followerCount": 99,
         "profilePicture": "",
-        "AccountType": SubCategories.BodyBuilding.rawValue, // Will need to provide string values for account types
+        "AccountType": SubCategoryToString(subcategory: SubCategories.BodyBuilding),
         ] as [String : Any]
     userReference.updateChildValues(values)
 	return true

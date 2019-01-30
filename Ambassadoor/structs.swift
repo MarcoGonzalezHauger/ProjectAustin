@@ -127,9 +127,8 @@ enum TypeofPost {
 
 //COMPLETE FOR LATER
 //account type enumeration
-// Need to provide string values for these for when posting to Firebase like I did for "Hiker" - Chris
 public enum SubCategories : String {
-	case Hiker = "Hiker", WinterSports = "WinterSports", Baseball = "Baseball", Basketball, Golf, Tennis, Soccer, Football, Boxing, MMA, Swimming, TableTennis, Gymnastics, Dancer, Rugby, Bowling, Frisbee, Cricket, SpeedBiking, MountainBiking, WaterSkiing, Running, PowerLifting, BodyBuilding = "BodyBuilding", Wrestling, StrongMan, NASCAR, RalleyRacing, Parkour, Model, Makeup, Actor, RunwayModel, Designer, Brand, Stylist, HairStylist, FasionArtist, Painter, Sketcher, Musician, Band, SingerSongWriter
+	case Hiker, WinterSports, Baseball, Basketball, Golf, Tennis, Soccer, Football, Boxing, MMA, Swimming, TableTennis, Gymnastics, Dancer, Rugby, Bowling, Frisbee, Cricket, SpeedBiking, MountainBiking, WaterSkiing, Running, PowerLifting, BodyBuilding, Wrestling, StrongMan, NASCAR, RalleyRacing, Parkour, Model, Makeup, Actor, RunwayModel, Designer, Brand, Stylist, HairStylist, FasionArtist, Painter, Sketcher, Musician, Band, SingerSongWriter
 }
 
 //Categories that house subCategories.

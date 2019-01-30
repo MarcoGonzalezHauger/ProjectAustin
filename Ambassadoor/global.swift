@@ -18,6 +18,7 @@ import Foundation
 	@objc optional func AcceptedOffersChanged() -> ()
 	@objc optional func CompletedOffersChanged() -> ()
 	@objc optional func SocialDataChanged() -> ()
+    @objc optional func OffersForUserChanged() -> ()
 }
 
 class CentralVariables {
@@ -36,6 +37,9 @@ class CentralVariables {
 	
 	//The offers the user has completed.
 	var SocialData: [User] = [] { didSet { EachListener(){ if let targetfunction = $0.SocialDataChanged{ targetfunction()}}}}
+    
+    //Offers tied to a User
+    var OffersForUser: [Offer] = [] { didSet { EachListener(){ if let targetfunction = $0.OffersForUserChanged{ targetfunction()}}}}
 	
 	//Every VC that is connected to this global variable.
 	func EachListener(updatefor: (_ Listener: GlobalListener) -> ()) {
