@@ -37,7 +37,7 @@ func GetFakeOffers() -> [Offer] {
 //Gets all relavent people, people who you are friends and a few random people to compete with.
 func GetRelevantPeople() -> [User] {
 	var userslist : [User] = []
-	for _ : Int in (1...75) {
+	for _ : Int in (1...Int.random(in: 1...50)) {
 		for x : SubCategories in [.Hiker, .WinterSports, .Baseball, .Basketball, .Golf, .Tennis, .Soccer, .Football, .Boxing, .MMA, .Swimming, .TableTennis, .Gymnastics, .Dancer, .Rugby, .Bowling, .Frisbee, .Cricket, .SpeedBiking, .MountainBiking, .WaterSkiing, .Running, .PowerLifting, .BodyBuilding, .Wrestling, .StrongMan, .NASCAR, .RalleyRacing, .Parkour, .Model, .Makeup, .Actor, .RunwayModel, .Designer, .Brand, .Stylist, .HairStylist, .FasionArtist, .Painter, .Sketcher, .Musician, .Band, .SingerSongWriter, .WinterSports] {
 			userslist.append(User.init(name: nil, username: "@defaultuser\(Int.random(in: 50...300))", followerCount: Double(Int.random(in: 10...10000) << 2), profilePicture: nil, AccountType: x))
 		}

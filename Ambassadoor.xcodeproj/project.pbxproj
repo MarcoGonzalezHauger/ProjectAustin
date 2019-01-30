@@ -23,6 +23,7 @@
 		E82347FB21A1D6C0000A1A62 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E82347F921A1D6C0000A1A62 /* LaunchScreen.storyboard */; };
 		E838F3CB21F687BB0021D0AD /* FirebaseRefrences.swift in Sources */ = {isa = PBXBuildFile; fileRef = E838F3CA21F687BB0021D0AD /* FirebaseRefrences.swift */; };
 		E84D685321A9F08C00681D21 /* PostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84D685221A9F08C00681D21 /* PostVC.swift */; };
+		E866724821FF2C8B00241FB3 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E866724721FF2C8B00241FB3 /* SignUpVC.swift */; };
 		E86A1E4B21A784C500DCB0D0 /* structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86A1E4A21A784C500DCB0D0 /* structs.swift */; };
 		E86A1E4D21A797F000DCB0D0 /* Savvy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86A1E4C21A797F000DCB0D0 /* Savvy.swift */; };
 		E86A1E4F21A86CE900DCB0D0 /* RejectedOffersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86A1E4E21A86CE900DCB0D0 /* RejectedOffersVC.swift */; };
@@ -60,6 +61,7 @@
 		E82347FC21A1D6C0000A1A62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E838F3CA21F687BB0021D0AD /* FirebaseRefrences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseRefrences.swift; sourceTree = "<group>"; };
 		E84D685221A9F08C00681D21 /* PostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVC.swift; sourceTree = "<group>"; };
+		E866724721FF2C8B00241FB3 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		E86A1E4A21A784C500DCB0D0 /* structs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = structs.swift; sourceTree = "<group>"; };
 		E86A1E4C21A797F000DCB0D0 /* Savvy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Savvy.swift; sourceTree = "<group>"; };
 		E86A1E4E21A86CE900DCB0D0 /* RejectedOffersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RejectedOffersVC.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 		E82347EC21A1D6BF000A1A62 /* Ambassadoor */ = {
 			isa = PBXGroup;
 			children = (
+				E866724621FF2C6B00241FB3 /* Signup */,
 				E86B092421DBEF600009C45D /* Social Tab */,
 				E8109EEA21AEE802008882B1 /* Money Tab */,
 				E81CADE221AD90C300F2DCC4 /* Model */,
@@ -187,6 +190,14 @@
 				E82347F421A1D6BF000A1A62 /* Ambassadoor.xcdatamodeld */,
 			);
 			path = Ambassadoor;
+			sourceTree = "<group>";
+		};
+		E866724621FF2C6B00241FB3 /* Signup */ = {
+			isa = PBXGroup;
+			children = (
+				E866724721FF2C8B00241FB3 /* SignUpVC.swift */,
+			);
+			path = Signup;
 			sourceTree = "<group>";
 		};
 		E86B092421DBEF600009C45D /* Social Tab */ = {
@@ -329,6 +340,7 @@
 				E86A1E4B21A784C500DCB0D0 /* structs.swift in Sources */,
 				E838F3CB21F687BB0021D0AD /* FirebaseRefrences.swift in Sources */,
 				E86A1E5121A87C1200DCB0D0 /* global.swift in Sources */,
+				E866724821FF2C8B00241FB3 /* SignUpVC.swift in Sources */,
 				E80FD4FD21A4B8AB003AF50B /* HomeVC.swift in Sources */,
 				E86A1E4D21A797F000DCB0D0 /* Savvy.swift in Sources */,
 				E84D685321A9F08C00681D21 /* PostVC.swift in Sources */,
@@ -493,7 +505,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F4W3LUKZFA;
 				INFOPLIST_FILE = Ambassadoor/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tesseractfreelance.Ambassadoor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -509,7 +524,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F4W3LUKZFA;
 				INFOPLIST_FILE = Ambassadoor/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tesseractfreelance.Ambassadoor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;

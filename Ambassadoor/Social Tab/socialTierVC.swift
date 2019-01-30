@@ -9,22 +9,57 @@
 
 import UIKit
 
+let defaultImage : UIImage = makeImageCircular(image: UIImage.init(named: "defaultuser")!)
+
 class SocialUserCell: UITableViewCell {
 	@IBOutlet weak var username: UILabel!
 	@IBOutlet weak var details: UILabel!
 	@IBOutlet weak var profilepicture: UIImageView!
 	@IBOutlet weak var shadow: ShadowView!
 	
-	func SetUser(user thisUser: User, ShowCategory: Bool) {
-		username.text = thisUser.username
-		let secondtext : String = ShowCategory ? SubCategoryToString(subcategory: thisUser.AccountType) : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
-		details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
-		let userImage: UIImage = thisUser.profilePicture ?? UIImage.init(named: "defaultuser")!
-		shadow.ShadowColor = thisUser.username == Yourself.username ? UIColor.init(red: 1, green: 121/255, blue: 8/255, alpha: 1) : UIColor.black
-		shadow.ShadowOpacity = thisUser.username == Yourself.username ? 0.75 : 0.2
-		shadow.ShadowRadius = thisUser.username == Yourself.username ? 4 : 1.75
-		shadow.backgroundColor = thisUser.username == Yourself.username ? UIColor.init(red: 1, green: 251/255, blue: 243/255, alpha: 1) : UIColor.white
-		profilepicture.image = makeImageCircular(image: userImage)
+	var ShowCategory: Bool = false
+	var ThisUser: User? {
+		didSet {
+			if let thisUser = ThisUser {
+				username.text = thisUser.username
+				let secondtext : String = ShowCategory ? SubCategoryToString(subcategory: thisUser.AccountType) : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
+				details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
+			
+				//Change the image or color sceheme, or just leave it be.
+				
+				if let oldUser = oldValue {
+					if (oldUser.profilePicture == nil && thisUser.profilePicture == nil) == false {
+						let userImage: UIImage = thisUser.profilePicture != nil ? makeImageCircular(image: thisUser.profilePicture!) : defaultImage
+						profilepicture.image = userImage
+					}
+					if oldUser.username == Yourself.username {
+						SetColors(isYourself: false)
+					} else if thisUser.username == Yourself.username {
+						SetColors(isYourself: true)
+					}
+				} else {
+					let userImage: UIImage = thisUser.profilePicture != nil ? makeImageCircular(image: thisUser.profilePicture!) : defaultImage
+					profilepicture.image = userImage
+					
+					SetColors(isYourself: thisUser.username == Yourself.username)
+				}
+				
+			}
+		}
+	}
+	
+	func SetColors(isYourself: Bool) {
+		if isYourself {
+			shadow.ShadowColor = UIColor.init(red: 1, green: 121/255, blue: 8/255, alpha: 1)
+			shadow.ShadowOpacity = 0.75
+			shadow.ShadowRadius = 4
+			shadow.backgroundColor = UIColor.init(red: 1, green: 251/255, blue: 243/255, alpha: 1)
+		} else {
+			shadow.ShadowColor = UIColor.black
+			shadow.ShadowOpacity = 0.2
+			shadow.ShadowRadius =  1.75
+			shadow.backgroundColor = UIColor.white
+		}
 	}
 }
 
@@ -51,7 +86,8 @@ class socialTierVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 		allpossibleusers.append(Yourself)
 		allpossibleusers.sort{ return $0.followerCount > $1.followerCount }
 		let thisUser : User = allpossibleusers[indexPath.row]
-		cell.SetUser(user: thisUser, ShowCategory: true)
+		cell.ShowCategory = true
+		cell.ThisUser = thisUser
 		return cell
 	}
 	

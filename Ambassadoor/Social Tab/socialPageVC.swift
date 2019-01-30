@@ -51,8 +51,6 @@ class socialPageVC: UIPageViewController, UIPageViewControllerDataSource, UIPage
 		let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
 		let NewVC = mainStoryboard.instantiateViewController(withIdentifier: VC)
 		
-		debugPrint(NewVC)
-		
 		//Make sure each VC has access to the PageViewController
 		
 		if let vc = NewVC as? socialTierVC	{

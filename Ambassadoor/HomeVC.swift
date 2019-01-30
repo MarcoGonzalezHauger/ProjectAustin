@@ -59,13 +59,15 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 	
 	//makes sure the offer is showing in the segue.
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		guard let newviewoffer = viewoffer else { return }
-		let destination = segue.destination
 		if segue.identifier == "viewOfferSegue" {
+			guard let newviewoffer = viewoffer else { return }
+			let destination = segue.destination
 			if let destination = (destination as! UINavigationController).topViewController as? OfferVC {
 				destination.delegate = self
 				destination.ThisOffer = newviewoffer
 			}
+		} else {
+			debugPrint("Segue to sign up is being prepared.")
 		}
 	}
 	
@@ -91,6 +93,8 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		return sortedavaliableoffers
 	}
 	
+	
+	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = shelf.dequeueReusableCell(withIdentifier: "HomeOfferCell")  as! OfferCell
 		cell.delegate = self
@@ -99,9 +103,15 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 	}
     
     var ref: DatabaseReference!
-
+	
+	override func viewDidAppear(_ animated: Bool) {
+		performSegue(withIdentifier: "showSignUpVC", sender: self)
+	}
+	
     override func viewDidLoad() {
         super.viewDidLoad()
+		
+		debugPrint("Home VC started to load.")
 		
 		//First code to be executed when opening App
 		
@@ -126,5 +136,9 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
         
         // Gets offers by on userId, will need to test data in firebase to test this, but pointer connection works
         //let offers = GetOffers(userId: "test", ref: ref)
+		
+		
+		debugPrint("Home VC has been loaded.")
+		
     }
 }

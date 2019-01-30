@@ -32,7 +32,8 @@ class socialTrendingVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 		//allpossibleusers.append(Yourself)
 		allpossibleusers.sort{return $0.followerCount > $1.followerCount }
 		let thisUser : User = allpossibleusers[indexPath.row]
-		cell.SetUser(user: thisUser, ShowCategory: false)
+		cell.ShowCategory = false
+		cell.ThisUser = thisUser
 		return cell
 	}
 	
