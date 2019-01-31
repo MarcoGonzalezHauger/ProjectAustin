@@ -121,6 +121,15 @@ struct Company {
 	let description: String
 }
 
+struct PersonalInfo {
+	let areacode: Int?
+	let gender: Gender?
+}
+
+enum Gender {
+	case male, female, other
+}
+
 enum TypeofPost {
 	case SinglePost, MultiPost, Story
 }
