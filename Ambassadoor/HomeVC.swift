@@ -105,7 +105,10 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
     var ref: DatabaseReference!
 	
 	override func viewDidAppear(_ animated: Bool) {
-		performSegue(withIdentifier: "showSignUpVC", sender: self)
+		if Yourself == nil {
+			performSegue(withIdentifier: "showSignUpVC", sender: self)
+		}
+		Yourself = User.init(name: nil, username: "@marcogonzalezhauger", followerCount: 36122, profilePicture: nil, AccountType: .WinterSports)
 	}
 	
     override func viewDidLoad() {

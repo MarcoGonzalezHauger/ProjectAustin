@@ -9,7 +9,7 @@
 
 import Foundation
 
-var Yourself : User = User.init(name: nil, username: "@marcogonzalezhauger", followerCount: 36122, profilePicture: nil, AccountType: .WinterSports)
+var Yourself : User?
 
 func getUser(Username: String) -> User? {
 	

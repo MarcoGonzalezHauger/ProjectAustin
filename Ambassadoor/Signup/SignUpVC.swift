@@ -7,9 +7,18 @@
 //  Exclusive property of Tesseract Freelnace, LLC.
 //
 
+protocol ConfirmationReturned {
+	func dismissed() -> ()
+}
+
 import UIKit
 
-class SignUpVC: UIViewController, UITextFieldDelegate {
+class SignUpVC: UIViewController, UITextFieldDelegate, ConfirmationReturned {
+	
+	func dismissed() {
+		self.dismiss(animated: true, completion: nil)
+		debugPrint("SignUpVC has been dismissed.")
+	}
 
 	@IBOutlet weak var heyLabel: UILabel!
 	@IBOutlet weak var usernameField: UITextField!
@@ -24,13 +33,33 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
 	@IBAction func signUp(_ sender: Any) {
 		debugPrint("going to sign up")
 		//Brings you to a sign up VC
+		SignedUp()
 	}
 	
 	@IBAction func LogIn(_ sender: Any) {
 		debugPrint("going to log in")
 		//Log in will take you to a login VC.
+		SignedIn()
 	}
 	
+	
+	func SignedUp() {
+		performSegue(withIdentifier: "SignUpSegue", sender: self)
+	}
+	
+	func SignedIn() {
+		performSegue(withIdentifier: "SignInSegue", sender: self)
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if let dest = segue.destination as? SignUpConfirmationVC {
+			dest.delegate = self
+		}
+		if let dest = segue.destination as? SignInConfirmationVC {
+			dest.delegate = self
+		}
+		debugPrint((segue.identifier ?? "a segue") + " has been prepared for.")
+	}
 	@IBAction func DoneTypingUsername(_ sender: Any) {
 		self.view.endEditing(true)
 	}

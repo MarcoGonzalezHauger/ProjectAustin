@@ -121,6 +121,7 @@ struct Company {
 	let description: String
 }
 
+//Carries personal info only avalible to view and edit by the user.
 struct PersonalInfo {
 	let areacode: Int?
 	let gender: Gender?

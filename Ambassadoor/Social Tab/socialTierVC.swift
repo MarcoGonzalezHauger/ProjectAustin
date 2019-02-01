@@ -32,16 +32,16 @@ class SocialUserCell: UITableViewCell {
 						let userImage: UIImage = thisUser.profilePicture != nil ? makeImageCircular(image: thisUser.profilePicture!) : defaultImage
 						profilepicture.image = userImage
 					}
-					if oldUser.username == Yourself.username {
+					if oldUser.username == Yourself!.username {
 						SetColors(isYourself: false)
-					} else if thisUser.username == Yourself.username {
+					} else if thisUser.username == Yourself!.username {
 						SetColors(isYourself: true)
 					}
 				} else {
 					let userImage: UIImage = thisUser.profilePicture != nil ? makeImageCircular(image: thisUser.profilePicture!) : defaultImage
 					profilepicture.image = userImage
 					
-					SetColors(isYourself: thisUser.username == Yourself.username)
+					SetColors(isYourself: thisUser.username == Yourself!.username)
 				}
 				
 			}
@@ -69,7 +69,7 @@ class socialTierVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		//filters all users in list and makes sure only to display the users in the same account type.
-		let filtered = global.SocialData.filter{GetTierFromFollowerCount(FollowerCount: $0.followerCount) ==  GetTierFromFollowerCount(FollowerCount: Yourself.followerCount)}
+		let filtered = global.SocialData.filter{GetTierFromFollowerCount(FollowerCount: $0.followerCount) ==  GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount)}
 		return filtered.count + 1 //adds one bc of yourself
 	}
 	
@@ -82,8 +82,8 @@ class socialTierVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 		//Displays user's information in a cell.
 		
 		let cell = rankedShelf.dequeueReusableCell(withIdentifier: "socialProfileCell") as! SocialUserCell
-		var allpossibleusers: [User] = global.SocialData.filter{GetTierFromFollowerCount(FollowerCount:  $0.followerCount) ==  GetTierFromFollowerCount(FollowerCount: Yourself.followerCount)}
-		allpossibleusers.append(Yourself)
+		var allpossibleusers: [User] = global.SocialData.filter{GetTierFromFollowerCount(FollowerCount:  $0.followerCount) ==  GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount)}
+		allpossibleusers.append(Yourself!)
 		allpossibleusers.sort{ return $0.followerCount > $1.followerCount }
 		let thisUser : User = allpossibleusers[indexPath.row]
 		cell.ShowCategory = true
@@ -97,7 +97,7 @@ class socialTierVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 
     override func viewDidLoad() {
         super.viewDidLoad()
-		tierLabel.text = "Tier " + String(GetTierFromFollowerCount(FollowerCount: Yourself.followerCount) ?? 0)
+		tierLabel.text = "Tier " + String(GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount) ?? 0)
 		rankedShelf.dataSource = self
 		rankedShelf.delegate = self
 		global.delegates.append(self)

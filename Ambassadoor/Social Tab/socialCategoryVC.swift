@@ -15,7 +15,7 @@ class socialCategoryVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		//filters all users in list and makes sure only to display the users in the same account type.
-		let filtered = global.SocialData.filter{$0.AccountType == Yourself.AccountType}
+		let filtered = global.SocialData.filter{$0.AccountType == Yourself!.AccountType}
 		return filtered.count + 1 //adds one bc of yourself
 	}
 	
@@ -28,8 +28,8 @@ class socialCategoryVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 		//Displays user's information in a cell.
 		
 		let cell = rankedShelf.dequeueReusableCell(withIdentifier: "socialProfileCell") as! SocialUserCell
-		var allpossibleusers: [User] = global.SocialData.filter{$0.AccountType == Yourself.AccountType}
-		allpossibleusers.append(Yourself)
+		var allpossibleusers: [User] = global.SocialData.filter{$0.AccountType == Yourself!.AccountType}
+		allpossibleusers.append(Yourself!)
 		allpossibleusers.sort{return $0.followerCount > $1.followerCount }
 		let thisUser : User = allpossibleusers[indexPath.row]
 		cell.ShowCategory = false
@@ -43,7 +43,7 @@ class socialCategoryVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		categoryHeader.text = "Category: " + SubCategoryToString(subcategory: Yourself.AccountType)
+		categoryHeader.text = "Category: " + SubCategoryToString(subcategory: Yourself!.AccountType)
 		rankedShelf.dataSource = self
 		rankedShelf.delegate = self
 		global.delegates.append(self)
