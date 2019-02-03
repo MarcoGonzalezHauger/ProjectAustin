@@ -950,6 +950,7 @@
                                         <state key="normal" title="Sign up"/>
                                         <connections>
                                             <action selector="signUp:" destination="1hT-mK-oBX" eventType="touchUpInside" id="WUQ-UR-8Ht"/>
+                                            <segue destination="S6m-KM-m81" kind="show" identifier="InstagramSegue" id="gYd-pN-xJo"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TtT-rQ-TYh">
@@ -997,7 +998,6 @@
                         <outlet property="loginButton" destination="TtT-rQ-TYh" id="4Bc-2h-ByO"/>
                         <outlet property="signupButton" destination="fRM-Vn-XEW" id="YDo-Fe-MR4"/>
                         <outlet property="usernameField" destination="0Oy-Gg-mvp" id="PNJ-cK-vxO"/>
-                        <segue destination="Q5r-5b-jS1" kind="show" identifier="SignUpSegue" animates="NO" id="nMr-Yz-GYg"/>
                         <segue destination="bfb-qM-6oF" kind="show" identifier="SignInSegue" animates="NO" id="bEu-r9-EjX"/>
                     </connections>
                 </viewController>
@@ -1993,6 +1993,40 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s62-db-gXU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-276" y="1198"/>
+        </scene>
+        <!--InstagramVC-->
+        <scene sceneID="Gs2-d8-ass">
+            <objects>
+                <viewController id="S6m-KM-m81" customClass="InstagramVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="B95-9f-ieI">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OYm-by-xSA">
+                                <rect key="frame" x="0.0" y="20" width="414" height="716"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="OYm-by-xSA" firstAttribute="trailing" secondItem="Pvb-1k-yoy" secondAttribute="trailing" id="BQZ-xA-Spu"/>
+                            <constraint firstItem="OYm-by-xSA" firstAttribute="leading" secondItem="Pvb-1k-yoy" secondAttribute="leading" id="IaP-K2-P9G"/>
+                            <constraint firstItem="OYm-by-xSA" firstAttribute="bottom" secondItem="Pvb-1k-yoy" secondAttribute="bottom" id="oKr-3D-6EM"/>
+                            <constraint firstItem="OYm-by-xSA" firstAttribute="top" secondItem="Pvb-1k-yoy" secondAttribute="top" id="pbF-z1-Je5"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Pvb-1k-yoy"/>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="OYm-by-xSA" id="K0k-R1-j0G"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xpq-jK-hcc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3301.449275362319" y="1875.0000000000002"/>
         </scene>
         <!--Sign In ConfirmationVC-->
         <scene sceneID="a3P-WV-vC4">

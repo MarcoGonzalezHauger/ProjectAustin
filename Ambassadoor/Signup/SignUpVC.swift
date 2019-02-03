@@ -33,7 +33,7 @@ class SignUpVC: UIViewController, UITextFieldDelegate, ConfirmationReturned {
 	@IBAction func signUp(_ sender: Any) {
 		debugPrint("going to sign up")
 		//Brings you to a sign up VC
-		SignedUp()
+		//SigningUp()
 	}
 	
 	@IBAction func LogIn(_ sender: Any) {
@@ -43,8 +43,8 @@ class SignUpVC: UIViewController, UITextFieldDelegate, ConfirmationReturned {
 	}
 	
 	
-	func SignedUp() {
-		performSegue(withIdentifier: "SignUpSegue", sender: self)
+	func SigningUp() {
+        performSegue(withIdentifier: "InstagramSegue", sender: self)
 	}
 	
 	func SignedIn() {
@@ -58,6 +58,9 @@ class SignUpVC: UIViewController, UITextFieldDelegate, ConfirmationReturned {
 		if let dest = segue.destination as? SignInConfirmationVC {
 			dest.delegate = self
 		}
+        if let dest = segue.destination as? InstagramVC {
+            dest.delegate = self
+        }
 		debugPrint((segue.identifier ?? "a segue") + " has been prepared for.")
 	}
 	@IBAction func DoneTypingUsername(_ sender: Any) {
