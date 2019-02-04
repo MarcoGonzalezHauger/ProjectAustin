@@ -77,7 +77,6 @@ class SignUpVC: UIViewController, UITextFieldDelegate, ConfirmationReturned {
 		if usernameField.text?.hasPrefix("@") == false {
 			usernameField.text = "@" + (usernameField.text ?? "").replacingOccurrences(of: "@", with: "", options: .literal, range: nil)
 		}
-		
 		usernameField.text = (usernameField.text ?? "").replacingOccurrences(of: " ", with: "", options: .literal, range: nil)
 	}
 	
