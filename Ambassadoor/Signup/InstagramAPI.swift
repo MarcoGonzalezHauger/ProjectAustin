@@ -4,7 +4,7 @@
 //
 //  Created by Chris Chomicki on 2/2/19.
 //  Copyright © 2019 Tesseract Freelance, LLC. All rights reserved.
-//  Exclusive property of Tesseract Freelnace, LLC.
+//  Exclusive property of Tesseract Freelance, LLC.
 //
 
 import Foundation

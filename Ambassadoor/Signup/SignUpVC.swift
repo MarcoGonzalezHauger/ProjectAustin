@@ -4,7 +4,7 @@
 //
 //  Created by Marco Gonzalez Hauger on 1/28/19.
 //  Copyright © 2019 Tesseract Freelance, LLC. All rights reserved.
-//  Exclusive property of Tesseract Freelnace, LLC.
+//  Exclusive property of Tesseract Freelance, LLC.
 //
 
 protocol ConfirmationReturned {
@@ -21,9 +21,7 @@ class SignUpVC: UIViewController, UITextFieldDelegate, ConfirmationReturned {
 	}
 
 	@IBOutlet weak var heyLabel: UILabel!
-	@IBOutlet weak var usernameField: UITextField!
 	@IBOutlet weak var signupButton: UIButton!
-	@IBOutlet weak var loginButton: UIButton!
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,51 +31,18 @@ class SignUpVC: UIViewController, UITextFieldDelegate, ConfirmationReturned {
 	@IBAction func signUp(_ sender: Any) {
 		debugPrint("going to sign up")
 		//Brings you to a sign up VC
-		//SigningUp()
+		SigningUp()
 	}
-	
-	@IBAction func LogIn(_ sender: Any) {
-		debugPrint("going to log in")
-		//Log in will take you to a login VC.
-		SignedIn()
-	}
-	
 	
 	func SigningUp() {
         performSegue(withIdentifier: "InstagramSegue", sender: self)
 	}
 	
-	func SignedIn() {
-		performSegue(withIdentifier: "SignInSegue", sender: self)
-	}
-	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if let dest = segue.destination as? SignUpConfirmationVC {
-			dest.delegate = self
-		}
-		if let dest = segue.destination as? SignInConfirmationVC {
-			dest.delegate = self
-		}
         if let dest = segue.destination as? InstagramVC {
             dest.delegate = self
         }
 		debugPrint((segue.identifier ?? "a segue") + " has been prepared for.")
-	}
-	@IBAction func DoneTypingUsername(_ sender: Any) {
-		self.view.endEditing(true)
-	}
-	
-	@IBAction func EditingDidBegin(_ sender: Any) {
-		if usernameField.text?.hasPrefix("@") == false {
-			usernameField.text = "@"
-		}
-	}
-	
-	@IBAction func usernameChanged(_ sender: Any) {
-		if usernameField.text?.hasPrefix("@") == false {
-			usernameField.text = "@" + (usernameField.text ?? "").replacingOccurrences(of: "@", with: "", options: .literal, range: nil)
-		}
-		usernameField.text = (usernameField.text ?? "").replacingOccurrences(of: " ", with: "", options: .literal, range: nil)
 	}
 	
 }

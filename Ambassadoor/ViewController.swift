@@ -4,7 +4,7 @@
 //
 //  Created by Marco Gonzalez Hauger on 11/18/18.
 //  Copyright © 2018 Tesseract Freelance, LLC. All rights reserved.
-//  Exclusive property of Tesseract Freelnace, LLC.
+//  Exclusive property of Tesseract Freelance, LLC.
 //
 
 import UIKit

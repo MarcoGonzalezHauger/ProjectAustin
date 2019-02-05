@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="RAy-Ie-ixS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="RAy-Ie-ixS">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.43"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -922,127 +922,55 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BKc-dL-RPK">
                                 <rect key="frame" x="162.66666666666666" y="55.000000000000007" width="89" height="26.333333333333336"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="26.329999999999998" id="sSQ-zx-GIt"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Instagram Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0Oy-Gg-mvp">
-                                <rect key="frame" x="20" y="152.33333333333334" width="374" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="username"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TtT-rQ-TYh">
+                                <rect key="frame" x="82" y="591" width="250" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="0wW-jN-0Z5"/>
+                                    <constraint firstAttribute="width" constant="250" id="f9r-XY-4pJ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <state key="normal" title="Login with Instagram"/>
                                 <connections>
-                                    <action selector="DoneTypingUsername:" destination="1hT-mK-oBX" eventType="primaryActionTriggered" id="aeD-1O-vWR"/>
-                                    <action selector="EditingDidBegin:" destination="1hT-mK-oBX" eventType="editingDidBegin" id="bwS-k7-SQU"/>
-                                    <action selector="usernameChanged:" destination="1hT-mK-oBX" eventType="editingChanged" id="4E0-YJ-upL"/>
+                                    <action selector="LogIn:" destination="1hT-mK-oBX" eventType="touchUpInside" id="hXP-ko-T40"/>
+                                    <action selector="signUp:" destination="1hT-mK-oBX" eventType="touchUpInside" id="K9n-5V-IhR"/>
                                 </connections>
-                            </textField>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="31" translatesAutoresizingMaskIntoConstraints="NO" id="VKS-JT-DrA">
-                                <rect key="frame" x="157" y="525" width="100" height="111"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fRM-Vn-XEW">
-                                        <rect key="frame" x="0.0" y="0.0" width="100" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="mSb-gJ-F5S"/>
-                                            <constraint firstAttribute="width" constant="100" id="vaH-ZD-L9R"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="23"/>
-                                        <state key="normal" title="Sign up"/>
-                                        <connections>
-                                            <action selector="signUp:" destination="1hT-mK-oBX" eventType="touchUpInside" id="WUQ-UR-8Ht"/>
-                                            <segue destination="S6m-KM-m81" kind="show" identifier="InstagramSegue" id="gYd-pN-xJo"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TtT-rQ-TYh">
-                                        <rect key="frame" x="0.0" y="71" width="100" height="40"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                                        <state key="normal" title="Log in"/>
-                                        <connections>
-                                            <action selector="LogIn:" destination="1hT-mK-oBX" eventType="touchUpInside" id="hXP-ko-T40"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="4Up-vc-4kL"/>
-                                    <constraint firstAttribute="height" constant="111" id="4ea-tB-Ahj"/>
-                                </constraints>
-                            </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="These actions require Instagram authentication" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mMo-TQ-JmZ">
-                                <rect key="frame" x="20" y="656" width="374" height="60"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="GQ3-2T-Cax"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ambassadoor requires Instagram authenitcation in order to accept offers" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mMo-TQ-JmZ">
+                                <rect key="frame" x="20" y="111.33333333333334" width="374" height="449.66666666666663"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="0Oy-Gg-mvp" firstAttribute="leading" secondItem="vGT-mT-smR" secondAttribute="leading" constant="20" id="CDv-pb-hcJ"/>
+                            <constraint firstItem="TtT-rQ-TYh" firstAttribute="centerX" secondItem="Fdc-Os-vXz" secondAttribute="centerX" id="9VX-aA-Mqy"/>
                             <constraint firstItem="BKc-dL-RPK" firstAttribute="top" secondItem="vGT-mT-smR" secondAttribute="top" constant="35" id="I61-iY-xOi"/>
-                            <constraint firstItem="VKS-JT-DrA" firstAttribute="centerX" secondItem="Fdc-Os-vXz" secondAttribute="centerX" id="IJ6-CY-Zow"/>
-                            <constraint firstItem="0Oy-Gg-mvp" firstAttribute="centerX" secondItem="Fdc-Os-vXz" secondAttribute="centerX" id="NzQ-IQ-Zdd"/>
-                            <constraint firstItem="vGT-mT-smR" firstAttribute="bottom" secondItem="VKS-JT-DrA" secondAttribute="bottom" constant="100" id="UzY-yf-uee"/>
-                            <constraint firstItem="vGT-mT-smR" firstAttribute="trailing" secondItem="0Oy-Gg-mvp" secondAttribute="trailing" constant="20" id="cAh-GQ-7Ko"/>
-                            <constraint firstAttribute="trailing" secondItem="mMo-TQ-JmZ" secondAttribute="trailing" constant="20" id="p2U-xp-Bm7"/>
-                            <constraint firstItem="mMo-TQ-JmZ" firstAttribute="leading" secondItem="vGT-mT-smR" secondAttribute="leading" constant="20" id="rX6-RV-ZHd"/>
+                            <constraint firstItem="vGT-mT-smR" firstAttribute="trailing" secondItem="mMo-TQ-JmZ" secondAttribute="trailing" constant="20" id="Q74-6B-3eu"/>
+                            <constraint firstItem="TtT-rQ-TYh" firstAttribute="top" secondItem="mMo-TQ-JmZ" secondAttribute="bottom" constant="30" id="Sur-jV-RG5"/>
+                            <constraint firstItem="mMo-TQ-JmZ" firstAttribute="top" secondItem="BKc-dL-RPK" secondAttribute="bottom" constant="30" id="UxR-JD-Sye"/>
+                            <constraint firstItem="mMo-TQ-JmZ" firstAttribute="leading" secondItem="vGT-mT-smR" secondAttribute="leading" constant="20" id="h2q-aD-XqX"/>
                             <constraint firstItem="BKc-dL-RPK" firstAttribute="centerX" secondItem="Fdc-Os-vXz" secondAttribute="centerX" id="t2c-fD-0mm"/>
-                            <constraint firstItem="mMo-TQ-JmZ" firstAttribute="top" secondItem="VKS-JT-DrA" secondAttribute="bottom" constant="20" id="uEj-gl-lY1"/>
-                            <constraint firstItem="0Oy-Gg-mvp" firstAttribute="top" secondItem="BKc-dL-RPK" secondAttribute="bottom" constant="71" id="yw2-sf-WZb"/>
+                            <constraint firstItem="vGT-mT-smR" firstAttribute="bottom" secondItem="TtT-rQ-TYh" secondAttribute="bottom" constant="85" id="wSf-N3-waZ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="vGT-mT-smR"/>
                     </view>
                     <connections>
                         <outlet property="heyLabel" destination="BKc-dL-RPK" id="3ll-Dr-uVv"/>
-                        <outlet property="loginButton" destination="TtT-rQ-TYh" id="4Bc-2h-ByO"/>
-                        <outlet property="signupButton" destination="fRM-Vn-XEW" id="YDo-Fe-MR4"/>
-                        <outlet property="usernameField" destination="0Oy-Gg-mvp" id="PNJ-cK-vxO"/>
-                        <segue destination="bfb-qM-6oF" kind="show" identifier="SignInSegue" animates="NO" id="bEu-r9-EjX"/>
+                        <outlet property="signupButton" destination="TtT-rQ-TYh" id="wqm-Rc-zFe"/>
+                        <segue destination="S6m-KM-m81" kind="show" identifier="InstagramSegue" id="GeC-DJ-58S"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z20-Re-uMc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3328.985507246377" y="1154.3478260869565"/>
-        </scene>
-        <!--Sign Up ConfirmationVC-->
-        <scene sceneID="0fe-tc-VX9">
-            <objects>
-                <viewController id="Q5r-5b-jS1" customClass="SignUpConfirmationVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="3jP-tj-mhg">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mOn-bO-cxg">
-                                <rect key="frame" x="20" y="80.000000000000014" width="374" height="137.33333333333337"/>
-                                <string key="text">Your Ambassadoor account has has been created. To increase the frequency and yield of Offers, enter information in the account page when avaliable.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3dO-DW-9yw">
-                                <rect key="frame" x="92" y="608" width="230" height="38"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <state key="normal" title="Proceed to Ambassadoor"/>
-                                <connections>
-                                    <action selector="proceed:" destination="Q5r-5b-jS1" eventType="touchUpInside" id="VGY-TJ-e5N"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="3dO-DW-9yw" firstAttribute="centerX" secondItem="3jP-tj-mhg" secondAttribute="centerX" id="EeE-CH-aNx"/>
-                            <constraint firstItem="0n6-fN-5ux" firstAttribute="bottom" secondItem="3dO-DW-9yw" secondAttribute="bottom" constant="90" id="J6O-hu-bOd"/>
-                            <constraint firstItem="mOn-bO-cxg" firstAttribute="top" secondItem="0n6-fN-5ux" secondAttribute="top" constant="60" id="baO-WI-uQd"/>
-                            <constraint firstItem="0n6-fN-5ux" firstAttribute="trailing" secondItem="mOn-bO-cxg" secondAttribute="trailing" constant="20" id="fzC-z8-o70"/>
-                            <constraint firstItem="mOn-bO-cxg" firstAttribute="leading" secondItem="0n6-fN-5ux" secondAttribute="leading" constant="20" id="kuh-iT-pSU"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="0n6-fN-5ux"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dqK-CZ-pFQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4010" y="1154"/>
+            <point key="canvasLocation" x="3328.985507246377" y="1153.5326086956522"/>
         </scene>
         <!--Settings-->
         <scene sceneID="qJF-5L-vBM">
@@ -2005,7 +1933,7 @@
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OYm-by-xSA">
                                 <rect key="frame" x="0.0" y="20" width="414" height="716"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <wkWebViewConfiguration key="configuration">
+                                <wkWebViewConfiguration key="configuration" allowsAirPlayForMediaPlayback="NO" allowsPictureInPictureMediaPlayback="NO">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
@@ -2013,10 +1941,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="OYm-by-xSA" firstAttribute="trailing" secondItem="Pvb-1k-yoy" secondAttribute="trailing" id="BQZ-xA-Spu"/>
-                            <constraint firstItem="OYm-by-xSA" firstAttribute="leading" secondItem="Pvb-1k-yoy" secondAttribute="leading" id="IaP-K2-P9G"/>
-                            <constraint firstItem="OYm-by-xSA" firstAttribute="bottom" secondItem="Pvb-1k-yoy" secondAttribute="bottom" id="oKr-3D-6EM"/>
-                            <constraint firstItem="OYm-by-xSA" firstAttribute="top" secondItem="Pvb-1k-yoy" secondAttribute="top" id="pbF-z1-Je5"/>
+                            <constraint firstItem="OYm-by-xSA" firstAttribute="top" secondItem="Pvb-1k-yoy" secondAttribute="top" id="Jcl-Fx-hwl"/>
+                            <constraint firstAttribute="trailing" secondItem="OYm-by-xSA" secondAttribute="trailing" id="Lgv-pc-drB"/>
+                            <constraint firstItem="OYm-by-xSA" firstAttribute="leading" secondItem="Pvb-1k-yoy" secondAttribute="leading" id="srR-yC-eBW"/>
+                            <constraint firstItem="OYm-by-xSA" firstAttribute="bottom" secondItem="Pvb-1k-yoy" secondAttribute="bottom" id="t55-jf-Qqh"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Pvb-1k-yoy"/>
                     </view>
@@ -2026,48 +1954,42 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xpq-jK-hcc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3293" y="1930"/>
+            <point key="canvasLocation" x="2664" y="1802"/>
         </scene>
-        <!--Sign In ConfirmationVC-->
-        <scene sceneID="a3P-WV-vC4">
+        <!--View Controller-->
+        <scene sceneID="7BK-l4-gbh">
             <objects>
-                <viewController id="bfb-qM-6oF" customClass="SignInConfirmationVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="rAA-k9-5RB">
+                <viewController id="mlQ-sA-hT0" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gk2-Je-Mfv">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8BJ-zQ-Aon">
-                                <rect key="frame" x="20" y="80" width="374" height="110"/>
-                                <string key="text">Your Ambassadoor account has been found.
-
-Welcome Back</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You account has been verified" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vha-H5-DcK">
+                                <rect key="frame" x="64.666666666666686" y="65" width="285" height="27"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4H8-me-3UN">
-                                <rect key="frame" x="92" y="608" width="230" height="38"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <state key="normal" title="Proceed to Ambassadoor"/>
-                                <connections>
-                                    <action selector="proceed:" destination="bfb-qM-6oF" eventType="touchUpInside" id="M2I-yP-wzt"/>
-                                </connections>
-                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@marcogonzalezhauger" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lhj-ku-3c9">
+                                <rect key="frame" x="70.666666666666686" y="127" width="273" height="29"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="4H8-me-3UN" firstAttribute="centerX" secondItem="rAA-k9-5RB" secondAttribute="centerX" id="23H-zM-v5v"/>
-                            <constraint firstItem="8BJ-zQ-Aon" firstAttribute="leading" secondItem="pT6-xq-40E" secondAttribute="leading" constant="20" id="Azk-Q0-WyM"/>
-                            <constraint firstItem="pT6-xq-40E" firstAttribute="trailing" secondItem="8BJ-zQ-Aon" secondAttribute="trailing" constant="20" id="Jxs-bq-jtr"/>
-                            <constraint firstItem="8BJ-zQ-Aon" firstAttribute="top" secondItem="pT6-xq-40E" secondAttribute="top" constant="60" id="LoU-RD-Qcm"/>
-                            <constraint firstItem="pT6-xq-40E" firstAttribute="bottom" secondItem="4H8-me-3UN" secondAttribute="bottom" constant="90" id="rKO-rI-VyY"/>
+                            <constraint firstItem="vha-H5-DcK" firstAttribute="top" secondItem="pyj-1T-E78" secondAttribute="top" constant="45" id="A4E-1u-88u"/>
+                            <constraint firstItem="Lhj-ku-3c9" firstAttribute="top" secondItem="vha-H5-DcK" secondAttribute="bottom" constant="35" id="QwD-Lu-ePz"/>
+                            <constraint firstItem="vha-H5-DcK" firstAttribute="centerX" secondItem="gk2-Je-Mfv" secondAttribute="centerX" id="VGU-s2-07J"/>
+                            <constraint firstItem="Lhj-ku-3c9" firstAttribute="centerX" secondItem="gk2-Je-Mfv" secondAttribute="centerX" id="prt-mn-0AX"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="pT6-xq-40E"/>
+                        <viewLayoutGuide key="safeArea" id="pyj-1T-E78"/>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lGa-6E-qho" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="D5m-KO-JxF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4009" y="1802"/>
+            <point key="canvasLocation" x="3329" y="1900"/>
         </scene>
     </scenes>
     <resources>
