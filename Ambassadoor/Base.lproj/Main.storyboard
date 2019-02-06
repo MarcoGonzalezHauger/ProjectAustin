@@ -938,8 +938,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <state key="normal" title="Login with Instagram"/>
                                 <connections>
-                                    <action selector="LogIn:" destination="1hT-mK-oBX" eventType="touchUpInside" id="hXP-ko-T40"/>
-                                    <action selector="signUp:" destination="1hT-mK-oBX" eventType="touchUpInside" id="K9n-5V-IhR"/>
+                                    <action selector="signUp:" destination="1hT-mK-oBX" eventType="touchUpInside" id="JdE-FA-XjF"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mMo-TQ-JmZ">
@@ -1936,7 +1935,7 @@ You will enter your Instagram login and then we can download informataion like y
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OYm-by-xSA">
                                 <rect key="frame" x="0.0" y="20" width="414" height="716"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <wkWebViewConfiguration key="configuration" allowsAirPlayForMediaPlayback="NO" allowsPictureInPictureMediaPlayback="NO">
+                                <wkWebViewConfiguration key="configuration" allowsAirPlayForMediaPlayback="NO" allowsPictureInPictureMediaPlayback="NO" applicationNameForUserAgent="Ambassadoor">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
@@ -2008,21 +2007,11 @@ You will enter your Instagram login and then we can download informataion like y
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="60"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                         <state key="normal" title="Proceed to Ambassadoor"/>
-                                        <connections>
-                                            <action selector="LogIn:" destination="1hT-mK-oBX" eventType="touchUpInside" id="xUP-Zp-vQ1"/>
-                                            <action selector="proceed:" destination="mlQ-sA-hT0" eventType="touchUpInside" id="JDO-Lw-9xN"/>
-                                            <action selector="signUp:" destination="1hT-mK-oBX" eventType="touchUpInside" id="K93-P9-8B1"/>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CCm-YE-VPE">
                                         <rect key="frame" x="0.0" y="60" width="300" height="60"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                         <state key="normal" title="That's not me."/>
-                                        <connections>
-                                            <action selector="LogIn:" destination="1hT-mK-oBX" eventType="touchUpInside" id="VOF-Wk-Abh"/>
-                                            <action selector="notme:" destination="mlQ-sA-hT0" eventType="touchUpInside" id="kgt-da-fTV"/>
-                                            <action selector="signUp:" destination="1hT-mK-oBX" eventType="touchUpInside" id="KOJ-wm-w0y"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>

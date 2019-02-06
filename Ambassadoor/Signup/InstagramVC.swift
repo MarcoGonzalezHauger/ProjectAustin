@@ -17,27 +17,19 @@ class InstagramVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+		debugPrint("before LoadLogin()")
         loadLogin()
+		debugPrint("after LoadLogin()")
     }
     
     // Loads the Instagram login page
     func loadLogin() {
-        var authURL = String(format: "%@?client_id=%@&redirect_uri=%@&response_type=token&scope=%@&DEBUG=True", arguments: [API.INSTAGRAM_AUTHURL,API.INSTAGRAM_CLIENT_ID,API.INSTAGRAM_REDIRECT_URI, API.INSTAGRAM_SCOPE])
+		let authURL = String(format: "%@?client_id=%@&redirect_uri=%@&response_type=token&scope=%@&DEBUG=True", arguments: [API.INSTAGRAM_AUTHURL,API.INSTAGRAM_CLIENT_ID,API.INSTAGRAM_REDIRECT_URI, API.INSTAGRAM_SCOPE])
         let urlRequest = URLRequest.init(url: URL.init(string: authURL)!)
         // Puts login page into WebView on VC
         webView.load(urlRequest)
-        print(webView.url)
+		debugPrint("WEB VIEW URL: \(String(describing: webView.url))")
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 }
 
 extension InstagramVC: WKNavigationDelegate {
@@ -52,18 +44,23 @@ extension InstagramVC: WKNavigationDelegate {
         if requestURLString.hasPrefix(API.INSTAGRAM_REDIRECT_URI) {
             let range: Range<String.Index> = requestURLString.range(of: "#access_token=")!
             handleAuth(authToken: String(requestURLString[range.upperBound...]))
-            return false;
+            return false
         }
         return true
     }
     
     // Handle Instagram auth token from callback url and handle it with our logic
     func handleAuth(authToken: String) {
-        print("Instagram authentication token ==", authToken)
+        debugPrint("Instagram authentication token = ", authToken)
     }
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: ((WKNavigationActionPolicy) -> Void)) {
         decisionHandler(.allow)
-        checkRequestForCallbackURL(request: navigationAction.request)
+        let sucessful = checkRequestForCallbackURL(request: navigationAction.request)
+		if sucessful {
+			debugPrint("Request for CallBackURL sucessful.")
+		} else {
+			debugPrint("Request for CallBackURL failed.")
+		}
     }
 }

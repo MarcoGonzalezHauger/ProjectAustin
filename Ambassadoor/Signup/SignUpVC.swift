@@ -35,7 +35,9 @@ class SignUpVC: UIViewController, UITextFieldDelegate, ConfirmationReturned {
 	}
 	
 	func SigningUp() {
+		debugPrint("going to preform segue.")
         performSegue(withIdentifier: "InstagramSegue", sender: self)
+		debugPrint("preformed Segue.")
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
