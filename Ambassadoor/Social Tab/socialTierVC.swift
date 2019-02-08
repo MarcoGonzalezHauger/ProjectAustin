@@ -26,10 +26,10 @@ class SocialUserCell: UITableViewCell {
 				details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
 			
 				//Change the image or color sceheme, or just leave it be.
-				
+				/*
 				if let oldUser = oldValue {
-					if (oldUser.profilePicture == nil && thisUser.profilePicture == nil) == false {
-						let userImage: UIImage = thisUser.profilePicture != nil ? makeImageCircular(image: thisUser.profilePicture!) : defaultImage
+					if (oldUser.profilePicture == "" && thisUser.profilePicture == "") == false {
+						let userImage: String = thisUser.profilePicture != "" ? makeImageCircular(image: thisUser.profilePicture) : defaultImage
 						profilepicture.image = userImage
 					}
 					if oldUser.username == Yourself!.username {
@@ -38,12 +38,12 @@ class SocialUserCell: UITableViewCell {
 						SetColors(isYourself: true)
 					}
 				} else {
-					let userImage: UIImage = thisUser.profilePicture != nil ? makeImageCircular(image: thisUser.profilePicture!) : defaultImage
+					let userImage: UIImage = thisUser.profilePicture != "" ? makeImageCircular(image: thisUser.profilePicture) : defaultImage
 					profilepicture.image = userImage
 					
 					SetColors(isYourself: thisUser.username == Yourself!.username)
 				}
-				
+				*/
 			}
 		}
 	}
