@@ -56,7 +56,12 @@ extension InstagramVC: WKNavigationDelegate {
         API.INSTAGRAM_ACCESS_TOKEN = authToken
         API.getProfileInfo{
             debugPrint("Profile info retrieved")
+            self.dismiss(animated: true, completion: self.worked)
         }
+    }
+    
+    func worked(){
+        debugPrint("it worked")
     }
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: ((WKNavigationActionPolicy) -> Void)) {
