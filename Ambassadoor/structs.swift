@@ -82,9 +82,9 @@ class Offer : NSObject {
 //Strcuture for users
 struct User {
 	let name: String?
-	let username: String
+	let username: String?
 	let followerCount: Double
-	let profilePicture: UIImage?
+	let profilePicture: String?
 	let AccountType: SubCategories
 }
 
@@ -138,7 +138,7 @@ enum TypeofPost {
 //COMPLETE FOR LATER
 //account type enumeration
 public enum SubCategories : String {
-	case Hiker, WinterSports, Baseball, Basketball, Golf, Tennis, Soccer, Football, Boxing, MMA, Swimming, TableTennis, Gymnastics, Dancer, Rugby, Bowling, Frisbee, Cricket, SpeedBiking, MountainBiking, WaterSkiing, Running, PowerLifting, BodyBuilding, Wrestling, StrongMan, NASCAR, RalleyRacing, Parkour, Model, Makeup, Actor, RunwayModel, Designer, Brand, Stylist, HairStylist, FasionArtist, Painter, Sketcher, Musician, Band, SingerSongWriter
+	case Hiker, WinterSports, Baseball, Basketball, Golf, Tennis, Soccer, Football, Boxing, MMA, Swimming, TableTennis, Gymnastics, Dancer, Rugby, Bowling, Frisbee, Cricket, SpeedBiking, MountainBiking, WaterSkiing, Running, PowerLifting, BodyBuilding, Wrestling, StrongMan, NASCAR, RalleyRacing, Parkour, Model, Makeup, Actor, RunwayModel, Designer, Brand, Stylist, HairStylist, FasionArtist, Painter, Sketcher, Musician, Band, SingerSongWriter, Other
 }
 
 //Categories that house subCategories.

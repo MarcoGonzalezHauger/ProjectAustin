@@ -108,7 +108,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		if Yourself == nil {
 			performSegue(withIdentifier: "showSignUpVC", sender: self)
 		}
-		Yourself = User.init(name: nil, username: "@marcogonzalezhauger", followerCount: 36122, profilePicture: nil, AccountType: .WinterSports)
+		Yourself = User.init(name: nil, username: "@marcogonzalezhauger", followerCount: 36122, profilePicture: "", AccountType: .WinterSports)
 	}
 	
     override func viewDidLoad() {

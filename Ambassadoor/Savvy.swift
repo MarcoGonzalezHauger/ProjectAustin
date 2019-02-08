@@ -131,6 +131,7 @@ func SubCategoryToString(subcategory: SubCategories) -> String {
 	case .Musician: return "Musician"
 	case .Band: return "Band"
 	case .SingerSongWriter: return "Singer/Songwriter"
+    case .Other: return "Other"
 	}
 }
 

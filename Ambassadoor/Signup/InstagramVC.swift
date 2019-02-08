@@ -29,6 +29,7 @@ class InstagramVC: UIViewController {
         // Puts login page into WebView on VC
         webView.load(urlRequest)
 		debugPrint("WEB VIEW URL: \(String(describing: webView.url))")
+
     }
 }
 
@@ -48,10 +49,14 @@ extension InstagramVC: WKNavigationDelegate {
         }
         return true
     }
-    
+
     // Handle Instagram auth token from callback url and handle it with our logic
     func handleAuth(authToken: String) {
         debugPrint("Instagram authentication token = ", authToken)
+        API.INSTAGRAM_ACCESS_TOKEN = authToken
+        API.getProfileInfo{
+            debugPrint("Profile info retrieved")
+        }
     }
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: ((WKNavigationActionPolicy) -> Void)) {
