@@ -16,6 +16,8 @@ struct API {
     static let INSTAGRAM_REDIRECT_URI = "https://ambassadoor.co"
     static var INSTAGRAM_ACCESS_TOKEN = ""
     static let INSTAGRAM_SCOPE = "follower_list+public_content" /* add whatever scope you need https://www.instagram.com/developer/authorization/ */
+    static let threeMonths: Double = 7889229
+    static var averageLikes = 0
     
     static var instagramProfileData: [String: AnyObject] = [:]
     
@@ -72,7 +74,48 @@ struct API {
                     print("JSON Downloading Error!")
                 }
             }
-            }.resume()
+        }.resume()
         return profilePictureURL
+    }
+    
+    // Computes the average amount of likes on the 5 latest posts or the average of the posts in the last 3 months if more
+    static func getAverageLikesOfUser(instagramId: String, completed: @escaping () -> ()) {
+        let url = URL(string: "https://api.instagram.com/v1/users/" + String(instagramId) + "/media/recent?access_token=" + INSTAGRAM_ACCESS_TOKEN)
+        let currentTime = NSDate().timeIntervalSince1970
+        var count = 0
+        var average = 0
+        URLSession.shared.dataTask(with: url!){ (data, response, err) in
+            if err == nil {
+                // check if JSON data is downloaded yet
+                guard let jsondata = data else { return }
+                do {
+                    do {
+                        // Deserilize object from JSON
+                        if let postData: NSDictionary = try JSONSerialization.jsonObject(with: jsondata, options: []) as? NSDictionary {
+                            if let data = postData["data"] as? [NSDictionary] {
+                                // Go through posts and check to see if they're less than 3 months old
+                                for post in data {
+                                    if let createdTime = post["created_time"] as? String {
+                                        let createdTimeDouble = Double(createdTime)!
+                                        if (createdTimeDouble > (currentTime - threeMonths) || count <= 5 ) {
+                                            let likes = post["likes"] as AnyObject
+                                            let likesCount = likes["count"] as! Int
+                                            average += likesCount
+                                            count += 1
+                                        }
+                                    }
+                                }
+                                self.averageLikes = average / count
+                            }
+                        }
+                        DispatchQueue.main.async {
+                            completed()
+                        }
+                    }
+                } catch {
+                    print("JSON Downloading Error!")
+                }
+            }
+        }.resume()
     }
 }

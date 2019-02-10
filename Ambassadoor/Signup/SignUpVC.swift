@@ -25,7 +25,6 @@ class SignUpVC: UIViewController, UITextFieldDelegate, ConfirmationReturned {
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
-
     }
 	
 	@IBAction func signUp(_ sender: Any) {
