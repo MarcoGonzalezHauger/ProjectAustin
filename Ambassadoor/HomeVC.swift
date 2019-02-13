@@ -106,9 +106,9 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 	
 	override func viewDidAppear(_ animated: Bool) {
 		if Yourself == nil {
+			debugPrint("Yourself is nil so showing signup VC.")
 			performSegue(withIdentifier: "showSignUpVC", sender: self)
 		}
-		Yourself = User.init(name: nil, username: "@marcogonzalezhauger", followerCount: 36122, profilePicture: "", AccountType: .WinterSports)
 	}
 	
     override func viewDidLoad() {

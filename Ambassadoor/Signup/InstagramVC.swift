@@ -10,11 +10,33 @@
 import UIKit
 import WebKit
 
-class InstagramVC: UIViewController {
-
+class InstagramVC: UIViewController, ConfirmationReturned {
+	
+	func dismissed(success: Bool!) {
+		if success {
+			self.dismiss(animated: false) {
+				self.delegate?.dismissed(success: true)
+			}
+		} else {
+			
+			// THIS IS WHERE I NEED THE CODE TO DISABLE AUTOCOMPLETE ON THE WEBVIEW <-------------------------
+			
+			
+			loadLogin()
+		}
+	}
+	
     var delegate: ConfirmationReturned?
     @IBOutlet weak var webView: WKWebView!
-    
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if let destination = segue.destination as? VerifedVC {
+			if segue.identifier == "VerifySegue" {
+				destination.delegate = self	
+			}
+		}
+	}
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 		debugPrint("before LoadLogin()")
@@ -54,14 +76,20 @@ extension InstagramVC: WKNavigationDelegate {
     func handleAuth(authToken: String) {
         debugPrint("Instagram authentication token = ", authToken)
         API.INSTAGRAM_ACCESS_TOKEN = authToken
-        API.getProfileInfo{
-            debugPrint("Profile info retrieved")
-            self.dismiss(animated: true, completion: self.worked)
-        }
+		API.getProfileInfo { (user: User?) in
+			DispatchQueue.main.async {
+				if user != nil {
+					Yourself = user
+					self.performSegue(withIdentifier: "VerifySegue", sender: self)
+				} else {
+					debugPrint("Youself user was NIL.")
+				}
+			}
+		}
     }
     
     func worked(){
-        debugPrint("it worked")
+        debugPrint("Segue complete.")
     }
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: ((WKNavigationActionPolicy) -> Void)) {

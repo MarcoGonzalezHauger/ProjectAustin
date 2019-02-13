@@ -13,15 +13,21 @@ let imageCache = NSCache<NSString, AnyObject>()
 
 public extension UIImageView {
 	
-    func downloadedFrom(url: URL, contentMode mode: UIView.ContentMode = .scaleAspectFit) {
+	func downloadedFrom(url: URL, contentMode mode: UIView.ContentMode = .scaleAspectFit, makeImageCircular isCircle: Bool = true) {
         contentMode = mode
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard
                 let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
                 let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
-                let data = data, error == nil,
-                let image = UIImage(data: data)
-                else { return }
+                let data = data
+				else { return }
+                var image = UIImage(data: data)
+				if image == nil {
+					return
+				}
+				if isCircle {
+					image = makeImageCircular(image: image!)
+				}
             DispatchQueue.main.async() {
                 self.image = image
             }

@@ -19,7 +19,8 @@ struct API {
     
     static var instagramProfileData: [String: AnyObject] = [:]
     
-    static func getProfileInfo(completed: @escaping () -> () ) {
+	static func getProfileInfo(completed: ((_ user: User?) -> () )?) {
+		
         let url = URL(string: "https://api.instagram.com/v1/users/self/?access_token=" + INSTAGRAM_ACCESS_TOKEN)
         URLSession.shared.dataTask(with: url!){ (data, response, err) in
             if err == nil {
@@ -37,12 +38,12 @@ struct API {
                                 profilePicture: instagramProfileData["profile_picture"] as? String,
                                 AccountType: SubCategories.Other // Will need to get from user on account creation
                             )
-                            debugPrint(user)
+                            completed?(user)
                         }
                     }
                     // Wait for data to be retrieved before moving on
                     DispatchQueue.main.async {
-                        completed()
+						completed?(nil)
                     }
                 } catch {
                     print("JSON Downloading Error!")

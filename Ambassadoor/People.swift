@@ -13,21 +13,21 @@ var Yourself : User?
 
 func getUser(Username: String) -> User? {
 	
-	//from a username (starting with @, this should retrieve data from Firebase.)
+	//from a username (WITHOUT @), this should retrieve data from Firebase.
 	
 	return nil
 }
 
 func getGroup(WithCategory: SubCategories) -> [User]? {
 	
-	//from a username (starting with @, this should retrieve data from Firebase.)
+	//Returns 100 people who share the same category as the user.
 	
 	return nil
 }
 
 func getGroup(Tier: Int) -> [User]? {
 	
-	//from a username (starting with @, this should retrieve data from Firebase.)
+	//Returns 100 people who share the same tier as the user.
 	
 	return nil
 }

@@ -10,21 +10,25 @@ import UIKit
 
 class VerifedVC: UIViewController {
 
-	var username: String!
-	
+	var delegate: ConfirmationReturned?
+	@IBOutlet weak var receedButton: UIButton!
 	@IBOutlet weak var usernameLabel: UILabel!
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
-		
+		usernameLabel.text = "@" + Yourself!.username!
     }
 	
 	@IBAction func proceed(_ sender: Any) {
-		
+		self.dismiss(animated: false) {
+			self.delegate?.dismissed(success: true)
+		}
 	}
 	
 	@IBAction func notme(_ sender: Any) {
-		
+		self.dismiss(animated: false) {
+			self.delegate?.dismissed(success: false)
+		}
 	}
 	
 }

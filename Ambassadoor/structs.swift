@@ -17,16 +17,17 @@ protocol OfferResponse {
 
 
 //Shadow Class reused all throughout this app.
+@IBDesignable
 class ShadowView: UIView {
 	override func awakeFromNib() {
 		super.awakeFromNib()
 		DrawShadows()
 	}
 	override var bounds: CGRect { didSet { DrawShadows() } }
-	var cornerRadius = 10 {	didSet { DrawShadows() } }
-	var ShadowOpacity: Float = 0.2 { didSet { DrawShadows() } }
-	var ShadowRadius = 1.75 { didSet { DrawShadows() } }
-	var ShadowColor = UIColor.black { didSet { DrawShadows() } }
+	@IBInspectable var cornerRadius: Float = 10 {	didSet { DrawShadows() } }
+	@IBInspectable var ShadowOpacity: Float = 0.2 { didSet { DrawShadows() } }
+	@IBInspectable var ShadowRadius: Float = 1.75 { didSet { DrawShadows() } }
+	@IBInspectable var ShadowColor: UIColor = UIColor.black { didSet { DrawShadows() } }
 	
 	func DrawShadows() {
 		//draw shadow & rounded corners for offer cell
