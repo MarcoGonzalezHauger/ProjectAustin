@@ -11,8 +11,8 @@ import Foundation
 import Firebase
 
 //Gets all offers relavent to the user via Firebase
-func GetOffers(userId: String, ref: DatabaseReference) -> [Offer] {
-    let ref = ref.child("offers")
+func GetOffers(userId: String) -> [Offer] {
+    let ref = Database.database().reference().child("offers")
     let offersRef = ref.child(userId)
     var offers: [Offer] = []
     offersRef.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -25,6 +25,36 @@ func GetOffers(userId: String, ref: DatabaseReference) -> [Offer] {
         }
     }, withCancel: nil)
     return offers
+}
+
+//Creates the offer and returns the newly created offer as an Offer instance
+func CreateOffer() -> Offer {
+    let ref = Database.database().reference().child("offers")
+    let offerRef = ref.childByAutoId()
+    /*
+    let values = [
+        "money": 0
+        "company": Company,
+        "posts": [Post],
+        "offerdate": Date,
+        "offer_ID": String,
+        "expiredate": Date,
+        "allPostsConfrimedSince": Date?,
+        "allConfirmed": Bool,
+        "areConfirmed": Bool,
+        "isAccepted": Bool,
+        "isExpired": Bool,
+        ] as [String : Any]
+ */
+    let values: [String: AnyObject] = [:]
+    offerRef.updateChildValues(values)
+    var offerInstance = Offer(dictionary: [:])
+    offerRef.observeSingleEvent(of: .value, with: { (snapshot) in
+        if let dictionary = snapshot.value as? [String: AnyObject] {
+            offerInstance = Offer(dictionary: dictionary)
+        }
+    }, withCancel: nil)
+    return offerInstance
 }
 
 func GetFakeOffers() -> [Offer] {
@@ -40,16 +70,16 @@ func GetRelevantPeople() -> [User] {
 	var userslist : [User] = []
 	for _ : Int in (1...Int.random(in: 1...50)) {
 		for x : SubCategories in [.Hiker, .WinterSports, .Baseball, .Basketball, .Golf, .Tennis, .Soccer, .Football, .Boxing, .MMA, .Swimming, .TableTennis, .Gymnastics, .Dancer, .Rugby, .Bowling, .Frisbee, .Cricket, .SpeedBiking, .MountainBiking, .WaterSkiing, .Running, .PowerLifting, .BodyBuilding, .Wrestling, .StrongMan, .NASCAR, .RalleyRacing, .Parkour, .Model, .Makeup, .Actor, .RunwayModel, .Designer, .Brand, .Stylist, .HairStylist, .FasionArtist, .Painter, .Sketcher, .Musician, .Band, .SingerSongWriter, .WinterSports] {
-			userslist.append(User.init(name: nil, username: "@defaultuser\(Int.random(in: 50...300))", followerCount: Double(Int.random(in: 10...10000) << 2), profilePicture: "", AccountType: x))
+            userslist.append(User.init(dictionary: ["name": "Test" as AnyObject, "username": "@defaultuser\(Int.random(in: 50...300))" as AnyObject, "followerCount": Double(Int.random(in: 10...10000) << 2) as AnyObject, "profilePicture": "" as AnyObject, "AccountType": x as AnyObject]))
 		}
 	}
 	return userslist
 }
 
-//Creates an account with nothing more than the username of the account. Returns Bool to see if it worked.
-func CreateAccount(instagramUsername username: String, ref: DatabaseReference) -> Bool {
+//Creates an account with nothing more than the username of the account. Returns instance of account returned from firebase
+func CreateAccount(instagramUsername username: String) -> User {
     // Pointer reference in Firebase to Users
-    let ref = ref.child("users")
+    let ref = Database.database().reference().child("users")
     let userReference = ref.childByAutoId()
     // Test data for now, all of the other data will be fetched from the Instagram API besides username which will come directly from the user
     let values = [
@@ -60,5 +90,11 @@ func CreateAccount(instagramUsername username: String, ref: DatabaseReference) -
         "AccountType": SubCategoryToString(subcategory: SubCategories.BodyBuilding),  //from USER
         ] as [String : Any]
     userReference.updateChildValues(values)
-	return true
+    var userInstance: User = User(dictionary: [:])
+    userReference.observeSingleEvent(of: .value, with: { (snapshot) in
+        if let dictionary = snapshot.value as? [String: AnyObject] {
+            userInstance = User(dictionary: dictionary)
+        }
+    }, withCancel: nil)
+	return userInstance
 }
