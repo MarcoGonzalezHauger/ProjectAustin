@@ -81,12 +81,20 @@ class Offer : NSObject {
 }
 
 //Strcuture for users
-struct User {
+class User: NSObject {
 	let name: String?
 	let username: String?
 	let followerCount: Double
 	let profilePicture: String?
 	let AccountType: SubCategories
+    
+    init(dictionary: [String: AnyObject]) {
+        self.name = dictionary["name"] as? String
+        self.username = dictionary["username"] as? String
+        self.followerCount = dictionary["followerCount"] as! Double
+        self.profilePicture = dictionary["profilePicture"] as? String
+        self.AccountType = dictionary["AccountType"] as! SubCategories
+    }
 }
 
 //Structure for post
@@ -126,6 +134,8 @@ struct Company {
 struct PersonalInfo {
 	let areacode: Int?
 	let gender: Gender?
+    let averageLikes: Int?
+    let accountBalance: Int?
 }
 
 enum Gender {
