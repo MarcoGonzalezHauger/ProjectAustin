@@ -88,7 +88,7 @@ class User: NSObject {
 	let profilePicture: String?
 	let AccountType: SubCategories
     
-    init(dictionary: [String: AnyObject]) {
+    init(dictionary: [String: Any]) {
         self.name = dictionary["name"] as? String
         self.username = dictionary["username"] as? String
         self.followerCount = dictionary["followerCount"] as! Double
