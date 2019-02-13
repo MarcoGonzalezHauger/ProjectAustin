@@ -15,13 +15,14 @@ struct API {
     static let INSTAGRAM_CLIENTSERCRET = "b81172265e6b417782fcf075e2daf2ff"
     static let INSTAGRAM_REDIRECT_URI = "https://ambassadoor.co"
     static var INSTAGRAM_ACCESS_TOKEN = ""
-    static let INSTAGRAM_SCOPE = "follower_list+public_content" /* add whatever scope you need https://www.instagram.com/developer/authorization/ */
     static let threeMonths: Double = 7889229
     static var averageLikes = 0
+    static let INSTAGRAM_SCOPE = "public_content" /* add whatever scope you need https://www.instagram.com/developer/ */
     
     static var instagramProfileData: [String: AnyObject] = [:]
     
-    static func getProfileInfo(completed: @escaping () -> () ) {
+	static func getProfileInfo(completed: ((_ user: User?) -> () )?) {
+		
         let url = URL(string: "https://api.instagram.com/v1/users/self/?access_token=" + INSTAGRAM_ACCESS_TOKEN)
         URLSession.shared.dataTask(with: url!){ (data, response, err) in
             if err == nil {
@@ -32,19 +33,20 @@ struct API {
                         // Deserilize object from JSON
                         if let profileData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String : AnyObject] {
                             self.instagramProfileData = profileData["data"] as! [String : AnyObject]
-                            let user = User(
-                                name: instagramProfileData["full_name"] as? String,
-                                username: instagramProfileData["username"] as? String,
-                                followerCount: instagramProfileData["counts"]?["followed_by"] as? Double ?? 0,
-                                profilePicture: instagramProfileData["profile_picture"] as? String,
-                                AccountType: SubCategories.Other // Will need to get from user on account creation
-                            )
-                            debugPrint(user)
+                            let userDictionary: [String: Any] = [
+                                "name": instagramProfileData["full_name"] as! String,
+                                "username": instagramProfileData["username"] as! String,
+                                "followerCount": instagramProfileData["counts"]?["followed_by"] as! Double,
+                                "profilePicture": instagramProfileData["profile_picture"] as! String,
+                                "AccountType": SubCategories.Other // Will need to get from user on account creation
+                            ]
+                            let user = User(dictionary: userDictionary)
+                            completed?(user)
                         }
                     }
                     // Wait for data to be retrieved before moving on
                     DispatchQueue.main.async {
-                        completed()
+						completed?(nil)
                     }
                 } catch {
                     print("JSON Downloading Error!")

@@ -24,26 +24,12 @@ class SocialUserCell: UITableViewCell {
 				username.text = thisUser.username
 				let secondtext : String = ShowCategory ? SubCategoryToString(subcategory: thisUser.AccountType) : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
 				details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
-			
-				//Change the image or color sceheme, or just leave it be.
-				/*
-				if let oldUser = oldValue {
-					if (oldUser.profilePicture == "" && thisUser.profilePicture == "") == false {
-						let userImage: String = thisUser.profilePicture != "" ? makeImageCircular(image: thisUser.profilePicture) : defaultImage
-						profilepicture.image = userImage
+					if thisUser.username! == Yourself!.username! {
+						self.profilepicture.downloadedFrom(url: URL.init(string: Yourself!.profilePicture!)!)
+					} else {
+						self.profilepicture.image = defaultImage
 					}
-					if oldUser.username == Yourself!.username {
-						SetColors(isYourself: false)
-					} else if thisUser.username == Yourself!.username {
-						SetColors(isYourself: true)
-					}
-				} else {
-					let userImage: UIImage = thisUser.profilePicture != "" ? makeImageCircular(image: thisUser.profilePicture) : defaultImage
-					profilepicture.image = userImage
-					
-					SetColors(isYourself: thisUser.username == Yourself!.username)
-				}
-				*/
+					self.SetColors(isYourself: thisUser.username == Yourself!.username!)
 			}
 		}
 	}

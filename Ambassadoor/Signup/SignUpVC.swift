@@ -8,20 +8,19 @@
 //
 
 protocol ConfirmationReturned {
-	func dismissed() -> ()
+	func dismissed(success: Bool!) -> ()
 }
 
 import UIKit
 
 class SignUpVC: UIViewController, UITextFieldDelegate, ConfirmationReturned {
 	
-	func dismissed() {
+	func dismissed(success: Bool!) {
 		self.dismiss(animated: true, completion: nil)
 		debugPrint("SignUpVC has been dismissed.")
 	}
-
+	
 	@IBOutlet weak var heyLabel: UILabel!
-	@IBOutlet weak var signupButton: UIButton!
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
