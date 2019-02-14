@@ -13,7 +13,7 @@ struct API {
     static let INSTAGRAM_AUTHURL = "https://api.instagram.com/oauth/authorize/"
     static let INSTAGRAM_CLIENT_ID = "fa083c34de6847ff95db596d75ef1c31"
     static let INSTAGRAM_CLIENTSERCRET = "b81172265e6b417782fcf075e2daf2ff"
-    static let INSTAGRAM_REDIRECT_URI = "https://ambassadoor.co"
+    static let INSTAGRAM_REDIRECT_URI = "https://ambassadoor.co/welcome"
     static var INSTAGRAM_ACCESS_TOKEN = ""
     static let threeMonths: Double = 7889229
     static var averageLikes = 0
