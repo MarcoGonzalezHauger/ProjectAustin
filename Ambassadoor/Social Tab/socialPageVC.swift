@@ -29,8 +29,6 @@ class socialPageVC: UIPageViewController, UIPageViewControllerDataSource, UIPage
 		return socialOrderedVC[i + 1]
 	}
 	
-	
-	
 	//returns a list of all VCs in social Tab to be acesssed.
 	//Update: No pun intended with "Social Order"
 	lazy var socialOrderedVC: [UIViewController] = {

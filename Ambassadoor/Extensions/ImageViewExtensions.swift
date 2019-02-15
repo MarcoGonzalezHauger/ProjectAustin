@@ -7,12 +7,24 @@
 //  Exclusive property of Tesseract Freelance, LLC.
 //
 
-import UIKit
 import Foundation
+import UIKit
 
 let imageCache = NSCache<NSString, AnyObject>()
+let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
 
 public extension UIImageView {
+    
+    func showActivityIndicator() {
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.isUserInteractionEnabled = false
+        activityIndicator.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2);
+        
+        OperationQueue.main.addOperation({ () -> Void in
+            self.addSubview(activityIndicator)
+            activityIndicator.startAnimating()
+        })
+    }
 	
 	func downloadedFrom(url: URL, contentMode mode: UIView.ContentMode = .scaleAspectFit, makeImageCircular isCircle: Bool = true) {
         contentMode = mode
@@ -31,6 +43,7 @@ public extension UIImageView {
 				}
             DispatchQueue.main.async() {
                 self.image = image
+                activityIndicator.stopAnimating()
             }
             }.resume()
     }

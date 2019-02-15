@@ -24,11 +24,12 @@ class SocialUserCell: UITableViewCell {
 				username.text = "@\(thisUser.username ?? "???")"
 				let secondtext : String = ShowCategory ? SubCategoryToString(subcategory: thisUser.AccountType) : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
 				details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
+                    self.profilepicture.showActivityIndicator()
 					if thisUser.username! == Yourself!.username! {
-						self.profilepicture.downloadedFrom(url: URL.init(string: Yourself!.profilePicture!)!)
-					} else {
-						self.profilepicture.image = defaultImage
-					}
+                        self.profilepicture.downloadedFrom(url: URL.init(string: Yourself!.profilePicture!)!)
+                    } else {
+                        self.profilepicture.image = defaultImage
+                    }
 					self.SetColors(isYourself: thisUser.username == Yourself!.username!)
 			}
 		}
