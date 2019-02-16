@@ -129,7 +129,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		global.AvaliableOffers = fakeoffers.filter({$0.isAccepted == false})
 		global.AcceptedOffers = fakeoffers.filter({$0.isAccepted == true})
 		
-		let fakeusers: [User] = GetRelevantPeople()
+		let fakeusers: [User] = GetRandomTestUsers()
 		global.SocialData = fakeusers
         
         // Creating account with call to function (uncomment to for new data to appear in Firebase)
