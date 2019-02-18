@@ -101,7 +101,7 @@ class User: NSObject {
 struct Post {
 	let image: UIImage?
 	let instructions: String
-	let caption: String?
+	let captionMustInclude: String?
 	let products: [Product]?
 	let post_ID: String
 	let PostType: TypeofPost

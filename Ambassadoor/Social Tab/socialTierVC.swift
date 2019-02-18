@@ -21,7 +21,7 @@ class SocialUserCell: UITableViewCell {
 	var ThisUser: User? {
 		didSet {
 			if let thisUser = ThisUser {
-				username.text = thisUser.username
+				username.text = "@\(thisUser.username ?? "???")"
 				let secondtext : String = ShowCategory ? SubCategoryToString(subcategory: thisUser.AccountType) : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
 				details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
                     self.profilepicture.showActivityIndicator()

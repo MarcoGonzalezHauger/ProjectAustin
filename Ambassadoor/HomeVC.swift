@@ -93,7 +93,13 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		return sortedavaliableoffers
 	}
 	
+	@IBAction func goToInProgressOffers(_ sender: Any) {
+		Pager.goToPage(index: 2, sender: self)
+	}
 	
+	@IBAction func goToRejectedoffers(_ sender: Any) {
+		Pager.goToPage(index: 0, sender: self)
+	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = shelf.dequeueReusableCell(withIdentifier: "HomeOfferCell")  as! OfferCell
@@ -129,7 +135,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		global.AvaliableOffers = fakeoffers.filter({$0.isAccepted == false})
 		global.AcceptedOffers = fakeoffers.filter({$0.isAccepted == true})
 		
-		let fakeusers: [User] = GetRelevantPeople()
+		let fakeusers: [User] = GetRandomTestUsers()
 		global.SocialData = fakeusers
         
         // Creating account with call to function (uncomment to for new data to appear in Firebase)
