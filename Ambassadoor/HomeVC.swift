@@ -93,7 +93,13 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		return sortedavaliableoffers
 	}
 	
+	@IBAction func goToInProgressOffers(_ sender: Any) {
+		Pager.goToPage(index: 2, sender: self)
+	}
 	
+	@IBAction func goToRejectedoffers(_ sender: Any) {
+		Pager.goToPage(index: 0, sender: self)
+	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = shelf.dequeueReusableCell(withIdentifier: "HomeOfferCell")  as! OfferCell

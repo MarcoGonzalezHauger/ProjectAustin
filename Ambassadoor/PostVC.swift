@@ -66,11 +66,7 @@ class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 		postLabel.text = PostTypeToText(posttype: ThisPost.PostType)
 		rulesText.text = ThisPost.instructions
 		
-		if let caption = ThisPost.caption {
-			captionText.text = caption
-		} else {
-			captionText.text = "Anything"
-		}
+		captionText.text = ThisPost.captionMustInclude
 	}
 	
 	@IBAction func Dismiss(_ sender: Any) {

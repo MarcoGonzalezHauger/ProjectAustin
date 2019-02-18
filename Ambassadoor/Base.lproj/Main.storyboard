@@ -364,14 +364,40 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yc1-iq-4gr">
+                                <rect key="frame" x="370" y="32" width="28" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="PRe-M4-CCc"/>
+                                    <constraint firstAttribute="width" constant="28" id="lNu-Uz-D8f"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="inPorgress"/>
+                                <connections>
+                                    <action selector="goToInProgressOffers:" destination="nOw-4v-J8m" eventType="touchUpInside" id="up8-Ka-gMs"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vTa-sb-Ekf">
+                                <rect key="frame" x="12" y="30" width="36" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="GaV-yy-2uG"/>
+                                    <constraint firstAttribute="width" constant="36" id="NWX-qT-AwC"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="rejectedOffers"/>
+                                <connections>
+                                    <action selector="goToRejectedoffers:" destination="nOw-4v-J8m" eventType="touchUpInside" id="EAx-eZ-ZDe"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="mdM-gk-H28" firstAttribute="top" secondItem="IA6-Ia-Hws" secondAttribute="bottom" constant="10" id="Dfs-PT-0wv"/>
+                            <constraint firstItem="Yc1-iq-4gr" firstAttribute="top" secondItem="ANi-Bg-7Li" secondAttribute="top" constant="12" id="JYa-T5-5YD"/>
                             <constraint firstItem="ANi-Bg-7Li" firstAttribute="bottom" secondItem="mdM-gk-H28" secondAttribute="bottom" id="Ooz-k8-QQq"/>
                             <constraint firstItem="ANi-Bg-7Li" firstAttribute="trailing" secondItem="mdM-gk-H28" secondAttribute="trailing" id="Vjg-Kp-gMt"/>
                             <constraint firstItem="IA6-Ia-Hws" firstAttribute="centerX" secondItem="WDw-Pz-32w" secondAttribute="centerX" id="Y45-Fh-PAh"/>
+                            <constraint firstItem="vTa-sb-Ekf" firstAttribute="leading" secondItem="ANi-Bg-7Li" secondAttribute="leading" constant="12" id="Zdc-kC-2ek"/>
+                            <constraint firstItem="ANi-Bg-7Li" firstAttribute="trailing" secondItem="Yc1-iq-4gr" secondAttribute="trailing" constant="16" id="fSk-6n-J6N"/>
+                            <constraint firstItem="vTa-sb-Ekf" firstAttribute="top" secondItem="ANi-Bg-7Li" secondAttribute="top" constant="10" id="fZp-mH-6pk"/>
                             <constraint firstItem="mdM-gk-H28" firstAttribute="leading" secondItem="ANi-Bg-7Li" secondAttribute="leading" id="iyo-Dw-qgN"/>
                             <constraint firstItem="IA6-Ia-Hws" firstAttribute="top" secondItem="ANi-Bg-7Li" secondAttribute="top" constant="16" id="qhC-fU-n8c"/>
                         </constraints>
@@ -1350,10 +1376,10 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CAPTION" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5jW-bp-6hV">
-                                <rect key="frame" x="16" y="271" width="57" height="16"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CAPTION MUST INCLUDE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5jW-bp-6hV">
+                                <rect key="frame" x="16" y="271" width="157.33333333333334" height="16"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="57" id="3T5-xD-LG9"/>
+                                    <constraint firstAttribute="width" constant="157.33000000000001" id="XRr-9n-dLn"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2146,11 +2172,13 @@
         <image name="dolla" width="25" height="25"/>
         <image name="forward" width="200" height="200"/>
         <image name="homa" width="25" height="25"/>
+        <image name="inPorgress" width="600" height="600"/>
+        <image name="rejectedOffers" width="600" height="600"/>
         <image name="setta" width="25" height="25"/>
         <image name="singlepost_icon" width="600" height="600"/>
         <image name="verified" width="600" height="600"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="a1a-Gx-isU"/>
+        <segue reference="YEL-B7-MCy"/>
     </inferredMetricsTieBreakers>
 </document>
