@@ -87,6 +87,7 @@ class User: NSObject {
 	let followerCount: Double
 	let profilePicture: String?
 	let AccountType: SubCategories
+	let averageLikes: Double?
     
     init(dictionary: [String: Any]) {
         self.name = dictionary["name"] as? String
@@ -94,6 +95,7 @@ class User: NSObject {
         self.followerCount = dictionary["followerCount"] as! Double
         self.profilePicture = dictionary["profilePicture"] as? String
         self.AccountType = dictionary["AccountType"] as! SubCategories
+		self.averageLikes = dictionary["averageLikes"] as? Double
     }
 }
 
@@ -134,7 +136,6 @@ struct Company {
 struct PersonalInfo {
 	let areacode: Int?
 	let gender: Gender?
-    let averageLikes: Int?
     let accountBalance: Int?
 }
 
