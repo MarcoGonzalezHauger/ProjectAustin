@@ -80,12 +80,12 @@ struct API {
     }
     
     // Computes the average amount of likes on the 5 latest posts or the average of the posts in the last 3 months if more
-	static func getAverageLikesOfUser(instagramId: String, completed: @escaping (_ averageLikes: Double) -> ()) {
+	static func getAverageLikesOfUser(instagramId: String, completed: @escaping (_ averageLikes: Double?) -> ()) {
         let url = URL(string: "https://api.instagram.com/v1/users/" + String(instagramId) + "/media/recent?access_token=" + INSTAGRAM_ACCESS_TOKEN)
         let currentTime = NSDate().timeIntervalSince1970
         var count = 0
         var average = 0
-		var averageLikes: Double = 0
+		var averageLikes: Double?
         URLSession.shared.dataTask(with: url!){ (data, response, err) in
             if err == nil {
                 // check if JSON data is downloaded yet
@@ -107,7 +107,7 @@ struct API {
                                         }
                                     }
                                 }
-								averageLikes = Double(average / count)
+								averageLikes = count >= 5 ? round(Double(average / count)) : nil
                             }
                         }
                         DispatchQueue.main.async {
