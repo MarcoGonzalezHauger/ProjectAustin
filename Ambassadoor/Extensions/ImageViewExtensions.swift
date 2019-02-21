@@ -19,11 +19,22 @@ public extension UIImageView {
         activityIndicator.hidesWhenStopped = true
         activityIndicator.isUserInteractionEnabled = false
         activityIndicator.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2);
+        self.addBorder()
         
         OperationQueue.main.addOperation({ () -> Void in
             self.addSubview(activityIndicator)
             activityIndicator.startAnimating()
         })
+    }
+    
+    func addBorder() {
+        self.layer.borderColor = UIColor.gray.cgColor
+        self.layer.borderWidth = 1
+        self.layer.cornerRadius = 30
+    }
+    
+    func removeBorder() {
+        self.layer.borderColor = UIColor.white.cgColor
     }
 	
 	func downloadedFrom(url: URL, contentMode mode: UIView.ContentMode = .scaleAspectFit, makeImageCircular isCircle: Bool = true) {
@@ -44,6 +55,7 @@ public extension UIImageView {
             DispatchQueue.main.async() {
                 self.image = image
                 activityIndicator.stopAnimating()
+                self.removeBorder()
             }
             }.resume()
     }
@@ -70,8 +82,8 @@ public extension UIImageView {
             DispatchQueue.main.async {
                 if let newImage = UIImage(data: data!) {
                     imageCache.setObject(newImage, forKey: urlLink as NSString)
-                    
                     self.image = newImage
+                    self.removeBorder()
                 }
             }
         }).resume()
