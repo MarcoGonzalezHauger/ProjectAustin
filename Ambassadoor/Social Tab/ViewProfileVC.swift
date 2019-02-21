@@ -35,9 +35,12 @@ struct Stat {
 
 class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 	
+	@IBOutlet var swdView: UIView!
+	
 	var ThisUser: User! {
 		didSet {
-			stats = [Stat.init(name: "Follower Count", value: ThisUser.followerCount - Yourself!.followerCount), Stat.init(name: "Follower Count", value: (ThisUser.averageLikes ?? 0) - (Yourself?.averageLikes ?? 0))]
+			stats = [Stat.init(name: "Follower Count", value: ThisUser.followerCount - Yourself!.followerCount), Stat.init(name: "Average Likes", value: (ThisUser.averageLikes ?? 0) - (Yourself?.averageLikes ?? 0))]
+			shelf.reloadData()
 		}
 	}
 	var stats: [Stat]!
@@ -47,8 +50,9 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = shelf.dequeueReusableCell(withIdentifier: "StatisticCell")!
-		return cell
+		let cell = shelf.dequeueReusableCell(withIdentifier: "StatisticCell") as! StatisticCell
+		cell.SetData(Statistic: stats[indexPath.row])
+		return cell;
 	}
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -61,7 +65,7 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         super.viewDidLoad()
 		shelf.dataSource = self
 		shelf.delegate = self
-        // Do any additional setup after loading the view.
+		swdView.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "Instagrad")!)
     }
 
 }

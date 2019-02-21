@@ -70,7 +70,7 @@ func GetRandomTestUsers() -> [User] {
 	var userslist : [User] = []
 	for _ : Int in (1...Int.random(in: 1...50)) {
 		for x : SubCategories in [.Hiker, .WinterSports, .Baseball, .Basketball, .Golf, .Tennis, .Soccer, .Football, .Boxing, .MMA, .Swimming, .TableTennis, .Gymnastics, .Dancer, .Rugby, .Bowling, .Frisbee, .Cricket, .SpeedBiking, .MountainBiking, .WaterSkiing, .Running, .PowerLifting, .BodyBuilding, .Wrestling, .StrongMan, .NASCAR, .RalleyRacing, .Parkour, .Model, .Makeup, .Actor, .RunwayModel, .Designer, .Brand, .Stylist, .HairStylist, .FasionArtist, .Painter, .Sketcher, .Musician, .Band, .SingerSongWriter, .WinterSports] {
-            userslist.append(User.init(dictionary: ["name": "Test" as AnyObject, "username": "defaultuser\(Int.random(in: 50...300))" as AnyObject, "followerCount": Double(Int.random(in: 10...10000) << 2) as AnyObject, "profilePicture": "" as AnyObject, "AccountType": x as AnyObject]))
+			userslist.append(User.init(dictionary: ["name": "Random User." as AnyObject, "username": "defaultuser\(Int.random(in: 50...300))" as AnyObject, "followerCount": Double(Int.random(in: 10...1000) << 2) as AnyObject, "profilePicture": "" as AnyObject, "AccountType": x as AnyObject, "averageLikes": Double(Int.random(in: 1...1000) << 2) as AnyObject]))
 		}
 	}
 	return userslist

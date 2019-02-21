@@ -1743,6 +1743,7 @@
                     <connections>
                         <outlet property="rankedShelf" destination="xbc-CQ-eXa" id="Ht7-US-pMf"/>
                         <outlet property="tierLabel" destination="9e5-ry-aR9" id="684-A5-4oZ"/>
+                        <segue destination="NzR-wv-UTB" kind="show" identifier="ViewFromTier" id="JN2-NJ-HuX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kwi-EJ-UpR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1846,6 +1847,7 @@
                     <connections>
                         <outlet property="categoryHeader" destination="YOz-ou-izY" id="JfU-OH-82s"/>
                         <outlet property="rankedShelf" destination="IjQ-hg-pjK" id="XVW-pY-rMO"/>
+                        <segue destination="NzR-wv-UTB" kind="show" identifier="ViewFromCategory" id="FCi-kR-CMp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KKP-LM-X0f" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1949,6 +1951,7 @@
                     <connections>
                         <outlet property="categoryHeader" destination="8lL-to-Zbr" id="Cyu-8I-9oG"/>
                         <outlet property="rankedShelf" destination="xcm-hs-4a1" id="uKF-q6-RB2"/>
+                        <segue destination="NzR-wv-UTB" kind="show" identifier="ViewFromTrending" id="xgx-KK-Vhv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DNF-XI-LCN" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2073,14 +2076,12 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cp4-Ha-AFF">
                                         <rect key="frame" x="5" y="4.6666666666666288" width="372" height="51"/>
                                         <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="33"/>
-                                        <state key="normal" title="ACCEPT">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="VIEW ON INSTAGRAM">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
-                                        <connections>
-                                            <action selector="OfferAccepted:" destination="2Is-s7-RBx" eventType="touchUpInside" id="8ZG-gi-tgH"/>
-                                        </connections>
                                     </button>
                                 </subviews>
+                                <color key="backgroundColor" red="0.82707695940000003" green="1" blue="0.82376010659999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="SHr-id-nyv"/>
                                     <constraint firstItem="Cp4-Ha-AFF" firstAttribute="centerY" secondItem="IXN-ET-cF2" secondAttribute="centerY" id="aHO-Wu-ifd"/>
@@ -2114,6 +2115,7 @@
                     </view>
                     <connections>
                         <outlet property="shelf" destination="oef-av-Smy" id="Joz-1t-ZO3"/>
+                        <outlet property="swdView" destination="Y21-8T-Wlw" id="kLi-4r-mYM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zr6-yn-lnj" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2309,6 +2311,7 @@
         <image name="verified" width="600" height="600"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="xgx-KK-Vhv"/>
         <segue reference="YEL-B7-MCy"/>
     </inferredMetricsTieBreakers>
 </document>
