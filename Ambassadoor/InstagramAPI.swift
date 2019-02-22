@@ -38,7 +38,7 @@ struct API {
                                 "profilePicture": instagramProfileData["profile_picture"] as! String,
                                 "AccountType": SubCategories.Other // Will need to get from user on account creation
                             ]
-							getAverageLikesOfUser(instagramId: instagramProfileData["username"] as! String, completed: { (averageLikes: Double?) in
+							getAverageLikesOfUser(instagramId: instagramProfileData["id"] as! String, completed: { (averageLikes: Double?) in
 								DispatchQueue.main.async {
 									userDictionary["averageLikes"] = averageLikes
 									let user = User(dictionary: userDictionary)
@@ -97,10 +97,10 @@ struct API {
                 do {
                     do {
                         // Deserilize object from JSON
-                        if let postData: NSDictionary = try JSONSerialization.jsonObject(with: jsondata, options: []) as? NSDictionary {
-                            if let data = postData["data"] as? [NSDictionary] {
+                        if let postData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String: AnyObject] {
+                            if let data = postData["data"] {
                                 // Go through posts and check to see if they're less than 3 months old
-                                for post in data {
+                                for post in data as! [AnyObject] {
                                     if let createdTime = post["created_time"] as? String {
                                         let createdTimeDouble = Double(createdTime)!
                                         if (createdTimeDouble > (currentTime - threeMonths) || count <= 5 ) {
