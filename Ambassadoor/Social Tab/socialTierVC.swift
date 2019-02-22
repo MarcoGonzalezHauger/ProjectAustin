@@ -56,12 +56,32 @@ class socialTierVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		//filters all users in list and makes sure only to display the users in the same account type.
-		let filtered = global.SocialData.filter{GetTierFromFollowerCount(FollowerCount: $0.followerCount) ==  GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount)}
-		return filtered.count + 1 //adds one bc of yourself
+		return GetSameTierUsers().count
 	}
 	
+	var selectedUser: User?
+	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		selectedUser = GetSameTierUsers()[indexPath.row]
+		performSegue(withIdentifier: "ViewFromTier", sender: self)
 		rankedShelf.deselectRow(at: indexPath, animated: true)
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.identifier == "ViewFromTier" {
+			if let destination = segue.destination as? ViewProfileVC {
+				if let selected = selectedUser {
+					destination.ThisUser = selected
+				}
+			}
+		}
+	}
+	
+	func GetSameTierUsers() -> [User] {
+		var allpossibleusers = global.SocialData.filter{GetTierFromFollowerCount(FollowerCount: $0.followerCount) ==  GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount)}
+		allpossibleusers.append(Yourself!)
+		allpossibleusers.sort{return $0.followerCount > $1.followerCount}
+		return allpossibleusers
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -69,10 +89,7 @@ class socialTierVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 		//Displays user's information in a cell.
 		
 		let cell = rankedShelf.dequeueReusableCell(withIdentifier: "socialProfileCell") as! SocialUserCell
-		var allpossibleusers: [User] = global.SocialData.filter{GetTierFromFollowerCount(FollowerCount:  $0.followerCount) ==  GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount)}
-		allpossibleusers.append(Yourself!)
-		allpossibleusers.sort{ return $0.followerCount > $1.followerCount }
-		let thisUser : User = allpossibleusers[indexPath.row]
+		let thisUser : User = GetSameTierUsers()[indexPath.row]
 		cell.ShowCategory = true
 		cell.ThisUser = thisUser
 		return cell

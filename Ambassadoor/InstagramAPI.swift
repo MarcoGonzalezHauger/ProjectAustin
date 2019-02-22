@@ -16,13 +16,11 @@ struct API {
     static let INSTAGRAM_REDIRECT_URI = "https://ambassadoor.co/welcome"
     static var INSTAGRAM_ACCESS_TOKEN = ""
     static let threeMonths: Double = 7889229
-    static var averageLikes = 0
     static let INSTAGRAM_SCOPE = "public_content" /* add whatever scope you need https://www.instagram.com/developer/ */
     
     static var instagramProfileData: [String: AnyObject] = [:]
     
 	static func getProfileInfo(completed: ((_ user: User?) -> () )?) {
-		
         let url = URL(string: "https://api.instagram.com/v1/users/self/?access_token=" + INSTAGRAM_ACCESS_TOKEN)
         URLSession.shared.dataTask(with: url!){ (data, response, err) in
             if err == nil {
@@ -33,15 +31,20 @@ struct API {
                         // Deserilize object from JSON
                         if let profileData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String : AnyObject] {
                             self.instagramProfileData = profileData["data"] as! [String : AnyObject]
-                            let userDictionary: [String: Any] = [
+							var userDictionary: [String: Any] = [
                                 "name": instagramProfileData["full_name"] as! String,
                                 "username": instagramProfileData["username"] as! String,
                                 "followerCount": instagramProfileData["counts"]?["followed_by"] as! Double,
                                 "profilePicture": instagramProfileData["profile_picture"] as! String,
                                 "AccountType": SubCategories.Other // Will need to get from user on account creation
                             ]
-                            let user = User(dictionary: userDictionary)
-                            completed?(user)
+							getAverageLikesOfUser(instagramId: instagramProfileData["username"] as! String, completed: { (averageLikes: Double?) in
+								DispatchQueue.main.async {
+									userDictionary["averageLikes"] = averageLikes
+									let user = User(dictionary: userDictionary)
+									completed?(user)
+								}
+							})
                         }
                     }
                     // Wait for data to be retrieved before moving on
@@ -81,11 +84,12 @@ struct API {
     }
     
     // Computes the average amount of likes on the 5 latest posts or the average of the posts in the last 3 months if more
-    static func getAverageLikesOfUser(instagramId: String, completed: @escaping () -> ()) {
+	static func getAverageLikesOfUser(instagramId: String, completed: @escaping (_ averageLikes: Double?) -> ()) {
         let url = URL(string: "https://api.instagram.com/v1/users/" + String(instagramId) + "/media/recent?access_token=" + INSTAGRAM_ACCESS_TOKEN)
         let currentTime = NSDate().timeIntervalSince1970
         var count = 0
         var average = 0
+		var averageLikes: Double?
         URLSession.shared.dataTask(with: url!){ (data, response, err) in
             if err == nil {
                 // check if JSON data is downloaded yet
@@ -107,15 +111,15 @@ struct API {
                                         }
                                     }
                                 }
-                                self.averageLikes = average / count
+								averageLikes = count >= 5 ? round(Double(average / count)) : nil
                             }
                         }
                         DispatchQueue.main.async {
-                            completed()
+                            completed(averageLikes)
                         }
                     }
                 } catch {
-                    print("JSON Downloading Error!")
+                    print("JSON Downloading Error! in Average Likes Of User Function.")
                 }
             }
         }.resume()
