@@ -67,9 +67,9 @@ extension InstagramVC: WKNavigationDelegate {
         if requestURLString.hasPrefix(API.INSTAGRAM_REDIRECT_URI) {
             let range: Range<String.Index> = requestURLString.range(of: "#access_token=")!
             handleAuth(authToken: String(requestURLString[range.upperBound...]))
-            return false
+            return true
         }
-        return true
+        return false
     }
 
     // Handle Instagram auth token from callback url and handle it with our logic

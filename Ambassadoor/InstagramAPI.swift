@@ -21,7 +21,6 @@ struct API {
     static var instagramProfileData: [String: AnyObject] = [:]
     
 	static func getProfileInfo(completed: ((_ user: User?) -> () )?) {
-		
         let url = URL(string: "https://api.instagram.com/v1/users/self/?access_token=" + INSTAGRAM_ACCESS_TOKEN)
         URLSession.shared.dataTask(with: url!){ (data, response, err) in
             if err == nil {
@@ -32,15 +31,20 @@ struct API {
                         // Deserilize object from JSON
                         if let profileData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String : AnyObject] {
                             self.instagramProfileData = profileData["data"] as! [String : AnyObject]
-                            let userDictionary: [String: Any] = [
+							var userDictionary: [String: Any] = [
                                 "name": instagramProfileData["full_name"] as! String,
                                 "username": instagramProfileData["username"] as! String,
                                 "followerCount": instagramProfileData["counts"]?["followed_by"] as! Double,
                                 "profilePicture": instagramProfileData["profile_picture"] as! String,
                                 "AccountType": SubCategories.Other // Will need to get from user on account creation
                             ]
-                            let user = User(dictionary: userDictionary)
-                            completed?(user)
+							getAverageLikesOfUser(instagramId: instagramProfileData["username"] as! String, completed: { (averageLikes: Double?) in
+								DispatchQueue.main.async {
+									userDictionary["averageLikes"] = averageLikes
+									let user = User(dictionary: userDictionary)
+									completed?(user)
+								}
+							})
                         }
                     }
                     // Wait for data to be retrieved before moving on

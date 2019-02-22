@@ -15,12 +15,35 @@ class socialTrendingVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		//filters all users in list and makes sure only to display the users in the same account type.
-		let filtered = global.SocialData.filter{$0.followerCount >= 100000}
-		return filtered.count // DOesn't add one because you  might not qualify for Trending.
+		return GetTrendingUsers().count // Doesn't add one because you  might not qualify for Trending; Trending shall be the only page in Trending that might not include yourself.
 	}
 	
+	var selectedUser: User?
+	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		selectedUser = GetTrendingUsers()[indexPath.row]
+		performSegue(withIdentifier: "ViewFromTrending", sender: self)
 		rankedShelf.deselectRow(at: indexPath, animated: true)
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.identifier == "ViewFromTrending" {
+			if let destination = segue.destination as? ViewProfileVC {
+				if let selected = selectedUser {
+					destination.ThisUser = selected
+				}
+			}
+		}
+	}
+	
+	func GetTrendingUsers() -> [User] {
+		let minusers: Double = 100000
+		var allpossibleusers = global.SocialData.filter{$0.followerCount >= minusers}
+		if Yourself!.followerCount >= minusers {
+			allpossibleusers.append(Yourself!)
+		}
+		allpossibleusers.sort{return $0.followerCount > $1.followerCount}
+		return allpossibleusers
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -28,10 +51,7 @@ class socialTrendingVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 		//Displays user's information in a cell.
 		
 		let cell = rankedShelf.dequeueReusableCell(withIdentifier: "socialProfileCell") as! SocialUserCell
-		var allpossibleusers: [User] = global.SocialData.filter{$0.followerCount >= 100000}
-		//allpossibleusers.append(Yourself)
-		allpossibleusers.sort{return $0.followerCount > $1.followerCount }
-		let thisUser : User = allpossibleusers[indexPath.row]
+		let thisUser : User = GetTrendingUsers()[indexPath.row]
 		cell.ShowCategory = false
 		cell.ThisUser = thisUser
 		return cell

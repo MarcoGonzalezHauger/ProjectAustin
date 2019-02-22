@@ -39,7 +39,10 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	
 	var ThisUser: User! {
 		didSet {
-			stats = [Stat.init(name: "Follower Count", value: ThisUser.followerCount - Yourself!.followerCount), Stat.init(name: "Average Likes", value: (ThisUser.averageLikes ?? 0) - (Yourself?.averageLikes ?? 0))]
+			stats = [Stat.init(name: "Follower Count", value: ThisUser.followerCount - Yourself!.followerCount)]
+			if ThisUser.averageLikes != nil && Yourself?.averageLikes != nil {
+				stats.append(Stat.init(name: "Average Likes", value: ThisUser.averageLikes! - Yourself!.averageLikes!))
+			}
 			shelf.reloadData()
 		}
 	}
