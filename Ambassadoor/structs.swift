@@ -83,20 +83,30 @@ class Offer : NSObject {
 //Strcuture for users
 class User: NSObject {
 	let name: String?
-	let username: String?
+	let username: String
 	let followerCount: Double
-	let profilePicture: String?
+	let profilePicURL: String?
 	let AccountType: SubCategories
 	let averageLikes: Double?
-    
+	let id: String
+	
     init(dictionary: [String: Any]) {
         self.name = dictionary["name"] as? String
-        self.username = dictionary["username"] as? String
+        self.username = dictionary["username"] as! String
         self.followerCount = dictionary["followerCount"] as! Double
-        self.profilePicture = dictionary["profilePicture"] as? String
+		if (dictionary["profilePicture"] as? String ?? "") == "" {
+			self.profilePicURL = nil
+		} else {
+			self.profilePicURL = dictionary["profilePicture"] as? String
+		}
         self.AccountType = dictionary["AccountType"] as! SubCategories
 		self.averageLikes = dictionary["averageLikes"] as? Double
+		self.id = dictionary["id"] as! String
     }
+	
+	override var description: String {
+		return "NAME: \(name ?? "NIL")\nUSERNAME: \(username)\nFOLLOWER COUNT: \(followerCount)\nPROFILE PIC: \(profilePicURL ?? "NIL")\nACCOUNT TYPE: \(SubCategoryToString(subcategory: AccountType))\nAVERAGE LIKES: \(averageLikes ?? -404)"
+	}
 }
 
 //Structure for post

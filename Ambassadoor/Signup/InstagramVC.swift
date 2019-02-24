@@ -21,7 +21,6 @@ class InstagramVC: UIViewController, ConfirmationReturned {
 			
 			// THIS IS WHERE I NEED THE CODE TO DISABLE AUTOCOMPLETE ON THE WEBVIEW <-------------------------
 			
-			
 			loadLogin()
 		}
 	}

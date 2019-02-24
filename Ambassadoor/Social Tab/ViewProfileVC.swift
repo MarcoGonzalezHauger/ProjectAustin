@@ -39,36 +39,94 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	
 	var ThisUser: User! {
 		didSet {
-			stats = [Stat.init(name: "Follower Count", value: ThisUser.followerCount - Yourself!.followerCount)]
-			if ThisUser.averageLikes != nil && Yourself?.averageLikes != nil {
-				stats.append(Stat.init(name: "Average Likes", value: ThisUser.averageLikes! - Yourself!.averageLikes!))
+			if self.isViewLoaded {
+				ShowUser()
 			}
-			shelf.reloadData()
 		}
 	}
-	var stats: [Stat]!
+	
+	func ShowUser() {
+		debugPrint("(new) ViewProfile activated, YOURSELF=")
+		debugPrint(Yourself!)
+		debugPrint("THISUSER=")
+		debugPrint(ThisUser)
+		stats = [Stat.init(name: "Follower Count", value: ThisUser.followerCount - Yourself!.followerCount)]
+		if ThisUser.averageLikes != nil && Yourself!.averageLikes != nil {
+			stats.append(Stat.init(name: "Average Likes", value: ThisUser.averageLikes! - Yourself!.averageLikes!))
+		}
+		if let shelf = shelf {
+			shelf.reloadData()
+		}
+		catLabel.text = SubCategoryToString(subcategory: ThisUser.AccountType)
+		sinceLabel.text = "Ambassdaoor since 1998"
+		followerLabel.text = NumberToStringWithCommas(number: ThisUser.followerCount) + " followers"
+		let tier: Int? = GetTierFromFollowerCount(FollowerCount: ThisUser.followerCount)
+		tierLabel.text = tier == nil ? "No Tier" : "Tier \(tier!)"
+		nameLabel.text = ThisUser.name ?? ThisUser.username
+		usernameLabel.text = "@\(ThisUser.username)"
+		if let picurl = ThisUser.profilePicURL {
+			profilePic.downloadedFrom(url: URL.init(string: picurl)!, makeImageCircular: true)
+		} else {
+			debugPrint(defaultImage)
+			debugPrint(profilePic)
+			profilePic.image = defaultImage
+		}
+	}
+	
+	@IBOutlet weak var profilePic: UIImageView!
+	
+	var stats: [Stat] = []
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return stats.count
 	}
 	
+	@IBAction func dismiss(_ sender: Any) {
+		dismiss(animated: true, completion: nil)
+	}
+	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = shelf.dequeueReusableCell(withIdentifier: "StatisticCell") as! StatisticCell
 		cell.SetData(Statistic: stats[indexPath.row])
-		return cell;
+		return cell
 	}
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		return 45
 	}
 	
+	@IBAction func viewOnInstagram(_ sender: Any) {
+		
+		//checks if the instagram app is avaliable, if it is it will open the app, if it isn't it will open the ambassador's account in safari.
+		
+		let user = ThisUser.username
+		let instaURL = URL(string: "instagram://user?username=\(user)")!
+		debugPrint(instaURL)
+		let sharedApps = UIApplication.shared
+		
+		if sharedApps.canOpenURL(instaURL) {
+			sharedApps.open(instaURL)
+		} else {
+			sharedApps.open(URL(string: "https://instagram.com/\(user)")!)
+		}
+	}
+	
 	@IBOutlet weak var shelf: UITableView!
+	@IBOutlet weak var catLabel: UILabel!
+	@IBOutlet weak var sinceLabel: UILabel!
+	@IBOutlet weak var nameLabel: UILabel!
+	@IBOutlet weak var usernameLabel: UILabel!
+	@IBOutlet weak var followerLabel: UILabel!
+	@IBOutlet weak var tierLabel: UILabel!
 	
     override func viewDidLoad() {
         super.viewDidLoad()
 		shelf.dataSource = self
 		shelf.delegate = self
+		shelf.reloadData()
+		shelf.layer.cornerRadius = 10
 		swdView.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "Instagrad")!)
+		ShowUser()
     }
 
 }

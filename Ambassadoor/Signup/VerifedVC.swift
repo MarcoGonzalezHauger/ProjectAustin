@@ -16,8 +16,9 @@ class VerifedVC: UIViewController {
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
-		usernameLabel.text = "@" + Yourself!.username!
-    }
+		usernameLabel.text = "@" + Yourself!.username
+		
+	}
 	
 	@IBAction func proceed(_ sender: Any) {
 		self.dismiss(animated: false) {

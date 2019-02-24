@@ -36,7 +36,8 @@ struct API {
                                 "username": instagramProfileData["username"] as! String,
                                 "followerCount": instagramProfileData["counts"]?["followed_by"] as! Double,
                                 "profilePicture": instagramProfileData["profile_picture"] as! String,
-                                "AccountType": SubCategories.Other // Will need to get from user on account creation
+								"AccountType": SubCategories.Other, // Will need to get from user on account creation
+								"id": instagramProfileData["id"] as! String
                             ]
 							getAverageLikesOfUser(instagramId: instagramProfileData["id"] as! String, completed: { (averageLikes: Double?) in
 								DispatchQueue.main.async {

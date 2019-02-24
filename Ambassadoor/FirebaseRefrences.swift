@@ -59,10 +59,9 @@ func CreateOffer() -> Offer {
 
 func GetFakeOffers() -> [Offer] {
     var fakeoffers : [Offer] = []
-    /*
-    for x : Double in [1...5] {
+  	for x : Double in [Double(Int.random(in: 3...120) << 3), Double(Int.random(in: 3...120) << 3), Double(Int.random(in: 3...120) << 3), Double(Int.random(in: 3...120) << 3), Double(Int.random(in: 3...120) << 3), Double(Int.random(in: 3...120) << 3), Double(Int.random(in: 3...120) << 3), Double(Int.random(in: 3...120) << 3), Double(Int.random(in: 3...120) << 3), Double(Int.random(in: 3...120) << 3), Double(Int.random(in: 3...120) << 3), Double(Int.random(in: 3...120) << 3), Double(Int.random(in: 3...120) << 3), Double(Int.random(in: 3...120) << 3), Double(Int.random(in: 3...120) << 3), Double(Int.random(in: 3...120) << 3), Double(Int.random(in: 3...120) << 3), Double(Int.random(in: 3...120) << 3), Double(Int.random(in: 3...120) << 3), Double(Int.random(in: 3...120) << 3), Double(Int.random(in: 3...120) << 3), Double(Int.random(in: 3...120) << 3)] {
         fakeoffers.append(Offer.init(dictionary: ["money": 23 as AnyObject, "company": Company.init(name: "Pharoah Attire", logo: nil, mission: "Inspire confidence.", website: "https://pharaohattirestore.com", account_ID: "", instagram_name: "pharaoh_attire", description: "Based out a New York, a company that creates shirts and apparel that inspires confidence.") as AnyObject, "posts": [Post.init(image: nil, instructions: "Post an image using a pharoah attire shirt", captionMustInclude: nil, products: [Product.init(image: nil, name: "Pharoah Attire Black T-Shirt", price: 20, buy_url: "https://pharaohattirestore.com/products/pharaoh-attire-t-shirt", color: "Black or Red", product_ID: ""), Product.init(image: nil, name: "Pharoah Attire Black T-Shirt", price: 20, buy_url: "https://pharaohattirestore.com/products/pharaoh-attire-t-shirt", color: "Black or Red", product_ID: ""), Product.init(image: nil, name: "Pharoah Attire Black T-Shirt", price: 20, buy_url: "https://pharaohattirestore.com/products/pharaoh-attire-t-shirt", color: "Black or Red", product_ID: "")], post_ID: "", PostType: .SinglePost, confirmedSince: nil, isConfirmed: Bool.random()), Post.init(image: nil, instructions: "Post an image to your story with a pharoah attire shirt and mention there is a sale.", captionMustInclude: nil, products: [Product.init(image: nil, name: "Pharoah Attire Black T-Shirt", price: 20, buy_url: "https://pharaohattirestore.com/products/pharaoh-attire-t-shirt", color: "Black or Red", product_ID: "")], post_ID: "", PostType: .Story, confirmedSince: nil, isConfirmed: Bool.random())] as AnyObject, "offerdate": Date().addingTimeInterval(x * -1) as AnyObject, "offer_ID": "" as AnyObject, "expiredate": Date(timeIntervalSinceNow: x / 4) as AnyObject, "allPostsConfirmedSince": "" as AnyObject, "isAccepted": Bool.random() as AnyObject]))
-    }*/
+    }
     return fakeoffers
 }
 
@@ -71,10 +70,18 @@ func GetRandomTestUsers() -> [User] {
 	var userslist : [User] = []
 	for _ : Int in (1...Int.random(in: 1...50)) {
 		for x : SubCategories in [.Hiker, .WinterSports, .Baseball, .Basketball, .Golf, .Tennis, .Soccer, .Football, .Boxing, .MMA, .Swimming, .TableTennis, .Gymnastics, .Dancer, .Rugby, .Bowling, .Frisbee, .Cricket, .SpeedBiking, .MountainBiking, .WaterSkiing, .Running, .PowerLifting, .BodyBuilding, .Wrestling, .StrongMan, .NASCAR, .RalleyRacing, .Parkour, .Model, .Makeup, .Actor, .RunwayModel, .Designer, .Brand, .Stylist, .HairStylist, .FasionArtist, .Painter, .Sketcher, .Musician, .Band, .SingerSongWriter, .WinterSports] {
-			userslist.append(User.init(dictionary: ["name": "Random User." as AnyObject, "username": "defaultuser\(Int.random(in: 50...300))" as AnyObject, "followerCount": Double(Int.random(in: 10...1000) << 2) as AnyObject, "profilePicture": "" as AnyObject, "AccountType": x as AnyObject, "averageLikes": Double(Int.random(in: 1...1000) << 2) as AnyObject]))
+			userslist.append(User.init(dictionary: ["name": GetRandomName() as AnyObject, "username": getRandomUsername() as AnyObject, "followerCount": Double(Int.random(in: 10...1000) << 2) as AnyObject, "profilePicture": "" as  AnyObject, "AccountType": x as AnyObject, "averageLikes": Double(Int.random(in: 1...1000) << 2) as AnyObject, "id": "" as AnyObject]))
 		}
 	}
 	return userslist
+}
+
+func GetRandomName() ->  String {
+	return "Fake Bruno (username test)"
+}
+
+func getRandomUsername() -> String {
+	return "brunogonzalezhauger"
 }
 
 //Creates an account with nothing more than the username of the account. Returns instance of account returned from firebase
