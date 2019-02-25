@@ -24,7 +24,6 @@ class SocialUserCell: UITableViewCell {
 				username.text = thisUser.name ?? "@\(thisUser.username)"
 				let secondtext : String = ShowCategory ? SubCategoryToString(subcategory: thisUser.AccountType) : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
 				details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
-                    self.profilepicture.showActivityIndicator()
 					if let picurl = thisUser.profilePicURL {
                         self.profilepicture.downloadedFrom(url: URL.init(string: picurl)!)
                     } else {

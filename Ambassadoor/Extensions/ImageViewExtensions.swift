@@ -39,6 +39,7 @@ public extension UIImageView {
 	
 	func downloadedFrom(url: URL, contentMode mode: UIView.ContentMode = .scaleAspectFit, makeImageCircular isCircle: Bool = true) {
         contentMode = mode
+        self.showActivityIndicator()
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard
                 let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
