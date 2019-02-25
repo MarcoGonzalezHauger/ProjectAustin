@@ -39,6 +39,7 @@ public extension UIImageView {
 	
 	func downloadedFrom(url: URL, contentMode mode: UIView.ContentMode = .scaleAspectFit, makeImageCircular isCircle: Bool = true) {
         contentMode = mode
+        self.showActivityIndicator()
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard
                 let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
@@ -60,7 +61,8 @@ public extension UIImageView {
             }.resume()
     }
     
-    func downloadImageUsingCacheWithLink(_ urlLink: String){
+    func downloadImageUsingCacheWithLink(_ urlLink: String, isCircle: Bool = true){
+        self.showActivityIndicator()
         self.image = nil
         
         if urlLink.isEmpty {
@@ -68,7 +70,11 @@ public extension UIImageView {
         }
         // check cache first
         if let cachedImage = imageCache.object(forKey: urlLink as NSString) as? UIImage {
-            self.image = cachedImage
+            if isCircle {
+                self.image = makeImageCircular(image: cachedImage)
+            } else {
+                self.image = cachedImage
+            }
             return
         }
         
@@ -82,8 +88,13 @@ public extension UIImageView {
             DispatchQueue.main.async {
                 if let newImage = UIImage(data: data!) {
                     imageCache.setObject(newImage, forKey: urlLink as NSString)
-                    self.image = newImage
+                    if isCircle {
+                        self.image = makeImageCircular(image: newImage)
+                    } else {
+                        self.image = newImage
+                    }
                     self.removeBorder()
+                    activityIndicator.stopAnimating()
                 }
             }
         }).resume()
