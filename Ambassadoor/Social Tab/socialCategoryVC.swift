@@ -9,7 +9,7 @@
 
 import UIKit
 
-class socialCategoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource, GlobalListener {
+class socialCategoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource, GlobalListener, UIGestureRecognizerDelegate {
 
 	@IBOutlet weak var categoryHeader: UILabel!
 	
@@ -59,6 +59,8 @@ class socialCategoryVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		navigationController?.setNavigationBarHidden(true, animated: true)
+		navigationController?.interactivePopGestureRecognizer?.delegate = self
 		categoryHeader.text = "Category: " + SubCategoryToString(subcategory: Yourself!.AccountType)
 		rankedShelf.dataSource = self
 		rankedShelf.delegate = self

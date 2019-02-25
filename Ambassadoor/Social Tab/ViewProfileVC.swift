@@ -82,8 +82,9 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	}
 	
 	@IBAction func dismiss(_ sender: Any) {
-		dismiss(animated: true, completion: nil)
-	}
+		debugPrint("Attempted to dismiss ViewProfileVC")
+		self.navigationController?.popViewController(animated: true)
+		self.dismiss(animated: true, completion: nil)	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = shelf.dequeueReusableCell(withIdentifier: "StatisticCell") as! StatisticCell

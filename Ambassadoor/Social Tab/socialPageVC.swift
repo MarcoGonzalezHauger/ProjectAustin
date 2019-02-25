@@ -45,7 +45,7 @@ class socialPageVC: UIPageViewController, UIPageViewControllerDataSource, UIPage
 	
 	//Allows for returning of VC when string is inputted.
 	func newVC(VC: String) -> UIViewController {
-		
+		 
 		let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
 		let NewVC = mainStoryboard.instantiateViewController(withIdentifier: VC)
 		
@@ -57,7 +57,7 @@ class socialPageVC: UIPageViewController, UIPageViewControllerDataSource, UIPage
 		if let vc = NewVC as? socialCategoryVC {
 			vc.Pager = self
 		}
-		if let vc = NewVC as? socialTrendingVC {
+		if let vc = NewVC as? socialSearchVC {
 			vc.Pager = self
 		}
 		return NewVC
