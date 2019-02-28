@@ -76,6 +76,10 @@ class socialTierVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 		}
 	}
 	
+	@IBAction func saerch(_ sender: Any) {
+		Pager.GoToSearch(sender: self)
+	}
+	
 	func GetSameTierUsers() -> [User] {
 		var allpossibleusers = global.SocialData.filter{GetTierFromFollowerCount(FollowerCount: $0.followerCount) ==  GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount)}
 		allpossibleusers.append(Yourself!)

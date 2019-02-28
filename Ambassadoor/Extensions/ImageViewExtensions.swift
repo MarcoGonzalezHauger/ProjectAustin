@@ -28,13 +28,13 @@ public extension UIImageView {
     }
     
     func addBorder() {
-        self.layer.borderColor = UIColor.gray.cgColor
-        self.layer.borderWidth = 1
-        self.layer.cornerRadius = 30
+//        self.layer.borderColor = UIColor.gray.cgColor
+//        self.layer.borderWidth = 1
+		self.layer.cornerRadius = self.bounds.height / 2
     }
     
     func removeBorder() {
-        self.layer.borderColor = UIColor.white.cgColor
+//        self.layer.borderColor = UIColor.white.cgColor
     }
 	
 	func downloadedFrom(url: URL, contentMode mode: UIView.ContentMode = .scaleAspectFit, makeImageCircular isCircle: Bool = true) {

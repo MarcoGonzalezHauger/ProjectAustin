@@ -15,10 +15,10 @@ class StatisticCell: UITableViewCell {
 	
 	func SetData(Statistic: Stat) {
 		Name.text = Statistic.name
-		var num: String = NumberToStringWithCommas(number: Statistic.value)
-		if Statistic.value == 0 {
+		var num: String = NumberToStringWithCommas(number: Statistic.delta)
+		if Statistic.delta == 0 {
 			Value.textColor = UIColor(red: 185/255, green: 185/255, blue: 185/255, alpha: 1)
-		} else if Statistic.value > 0 {
+		} else if Statistic.delta > 0 {
 			Value.textColor = UIColor(red: 42/255, green: 160/255, blue: 88/255, alpha: 1)
 			num = "+\(num)"
 		} else {
@@ -30,7 +30,11 @@ class StatisticCell: UITableViewCell {
 
 struct Stat {
 	let name: String
-	let value: Double
+	var delta: Double {
+		return Double(value1 - value2)
+	}
+	let value1: Double
+	let value2: Double
 }
 
 class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -50,9 +54,9 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		debugPrint(Yourself!)
 		debugPrint("THISUSER=")
 		debugPrint(ThisUser)
-		stats = [Stat.init(name: "Follower Count", value: ThisUser.followerCount - Yourself!.followerCount)]
+		stats = [Stat.init(name: "Follower Count", value1: ThisUser.followerCount, value2: Yourself!.followerCount)]
 		if ThisUser.averageLikes != nil && Yourself!.averageLikes != nil {
-			stats.append(Stat.init(name: "Average Likes", value: ThisUser.averageLikes! - Yourself!.averageLikes!))
+			stats.append(Stat.init(name: "Average Likes", value1: ThisUser.averageLikes!, value2: Yourself!.averageLikes!))
 		}
 		if let shelf = shelf {
 			shelf.reloadData()
@@ -79,6 +83,22 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return stats.count
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if let statistic = statToPass {
+			if let destination = segue.destination as? StatVC {
+				destination.ThisStat = statistic
+			}
+		}
+	}
+	
+	var statToPass: Stat?
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		statToPass = stats[indexPath.row]
+		performSegue(withIdentifier: "ToStatisticView", sender: self)
+		shelf.deselectRow(at: indexPath, animated: true)
 	}
 	
 	@IBAction func dismiss(_ sender: Any) {

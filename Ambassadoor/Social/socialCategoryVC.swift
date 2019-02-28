@@ -43,6 +43,10 @@ class socialCategoryVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 		return allpossibleusers
 	}
 	
+	@IBAction func search(_ sender: Any) {
+		Pager.GoToSearch(sender: self)
+	}
+	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
 		//Displays user's information in a cell.

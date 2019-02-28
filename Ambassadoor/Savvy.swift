@@ -177,14 +177,12 @@ func GetTierFromFollowerCount(FollowerCount: Double) -> Int? {
 func makeImageCircular(image: UIImage) -> UIImage {
 	let ImageLayer = CALayer()
 	
-	let imageView = UIImageView.init(image: image)
+	ImageLayer.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: image.size)
+	ImageLayer.contents = image.cgImage
+	ImageLayer.masksToBounds = true
+	ImageLayer.cornerRadius = image.size.width/2
 	
-	ImageLayer.frame = imageView.bounds
-	ImageLayer.contents = imageView.image?.cgImage;
-	ImageLayer.masksToBounds = true;
-	ImageLayer.cornerRadius = imageView.frame.size.width/2
-	
-	UIGraphicsBeginImageContext(imageView.bounds.size)
+	UIGraphicsBeginImageContext(image.size)
 	ImageLayer.render(in: UIGraphicsGetCurrentContext()!)
 	let NewImage = UIGraphicsGetImageFromCurrentImageContext()
 	UIGraphicsEndImageContext()

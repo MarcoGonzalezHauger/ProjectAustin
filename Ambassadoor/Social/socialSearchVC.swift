@@ -30,6 +30,10 @@ class socialSearchVC: UIViewController, UITableViewDelegate, UITableViewDataSour
 		}
 	}
 	
+	func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+		searchbar.resignFirstResponder()
+	}
+	
 	var query: String?
 	
 	func DoneSearch(Results: [User]) -> () {
@@ -50,6 +54,19 @@ class socialSearchVC: UIViewController, UITableViewDelegate, UITableViewDataSour
 					destination.ThisUser = selected
 				}
 			}
+		}
+	}
+	
+	var autoSearch: Bool = false
+	
+	@IBAction func back(_ sender: Any) {
+		Pager.goToPage(index: 1, sender: self)
+	}
+	
+	override func viewDidAppear(_ animated: Bool) {
+		if autoSearch == true {
+			searchbar.becomeFirstResponder() // selects search bar in order to start typing.
+			autoSearch = false
 		}
 	}
 	

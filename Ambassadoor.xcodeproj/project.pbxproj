@@ -18,6 +18,7 @@
 		E80FD4FF21A4F1E4003AF50B /* PageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80FD4FE21A4F1E4003AF50B /* PageVC.swift */; };
 		E8109EEC21AEE818008882B1 /* MoneyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8109EEB21AEE818008882B1 /* MoneyVC.swift */; };
 		E8109EEE21AF6BA8008882B1 /* WithdrawVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8109EED21AF6BA8008882B1 /* WithdrawVC.swift */; };
+		E8164F6222249ACC0084CCF9 /* StatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8164F6122249ACC0084CCF9 /* StatVC.swift */; };
 		E82347EE21A1D6BF000A1A62 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82347ED21A1D6BF000A1A62 /* AppDelegate.swift */; };
 		E82347F021A1D6BF000A1A62 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82347EF21A1D6BF000A1A62 /* ViewController.swift */; };
 		E82347F321A1D6BF000A1A62 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E82347F121A1D6BF000A1A62 /* Main.storyboard */; };
@@ -60,6 +61,7 @@
 		E80FD4FE21A4F1E4003AF50B /* PageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageVC.swift; sourceTree = "<group>"; };
 		E8109EEB21AEE818008882B1 /* MoneyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyVC.swift; sourceTree = "<group>"; };
 		E8109EED21AF6BA8008882B1 /* WithdrawVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawVC.swift; sourceTree = "<group>"; };
+		E8164F6122249ACC0084CCF9 /* StatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatVC.swift; sourceTree = "<group>"; };
 		E82347EA21A1D6BF000A1A62 /* Ambassadoor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ambassadoor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E82347ED21A1D6BF000A1A62 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E82347EF21A1D6BF000A1A62 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -127,16 +129,16 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		E8109EEA21AEE802008882B1 /* Money Tab */ = {
+		E8109EEA21AEE802008882B1 /* Money */ = {
 			isa = PBXGroup;
 			children = (
 				E8109EEB21AEE818008882B1 /* MoneyVC.swift */,
 				E8109EED21AF6BA8008882B1 /* WithdrawVC.swift */,
 			);
-			name = "Money Tab";
+			name = Money;
 			sourceTree = "<group>";
 		};
-		E81CADDE21AD8C7600F2DCC4 /* Home Tab */ = {
+		E81CADDE21AD8C7600F2DCC4 /* Home */ = {
 			isa = PBXGroup;
 			children = (
 				E80FD4FC21A4B8AB003AF50B /* HomeVC.swift */,
@@ -145,7 +147,7 @@
 				E80AB86B21B1F9E000D9B546 /* inProgressVC.swift */,
 				E8963EA021F7F16B0047CF99 /* OfferCell.swift */,
 			);
-			name = "Home Tab";
+			name = Home;
 			sourceTree = "<group>";
 		};
 		E81CADE121AD90A000F2DCC4 /* View Offer */ = {
@@ -198,11 +200,11 @@
 				E8C02752220F329A00B79D54 /* Resouces */,
 				C0963EAF220B838F000380C7 /* Extensions */,
 				E866724621FF2C6B00241FB3 /* Signup */,
-				E86B092421DBEF600009C45D /* Social Tab */,
-				E8109EEA21AEE802008882B1 /* Money Tab */,
+				E86B092421DBEF600009C45D /* Social */,
+				E8109EEA21AEE802008882B1 /* Money */,
 				E81CADE221AD90C300F2DCC4 /* Model */,
 				E81CADE121AD90A000F2DCC4 /* View Offer */,
-				E81CADDE21AD8C7600F2DCC4 /* Home Tab */,
+				E81CADDE21AD8C7600F2DCC4 /* Home */,
 				E8F9D0AF21AB86B100DD1616 /* GoogleService-Info.plist */,
 				E82347ED21A1D6BF000A1A62 /* AppDelegate.swift */,
 				E82347EF21A1D6BF000A1A62 /* ViewController.swift */,
@@ -225,7 +227,7 @@
 			path = Signup;
 			sourceTree = "<group>";
 		};
-		E86B092421DBEF600009C45D /* Social Tab */ = {
+		E86B092421DBEF600009C45D /* Social */ = {
 			isa = PBXGroup;
 			children = (
 				E86B092721DBF8050009C45D /* socialTierVC.swift */,
@@ -233,8 +235,9 @@
 				E86B092B21DBF82F0009C45D /* socialSearchVC.swift */,
 				E86B092521DBF0F30009C45D /* socialPageVC.swift */,
 				E8C369562216270E00AE12D7 /* ViewProfileVC.swift */,
+				E8164F6122249ACC0084CCF9 /* StatVC.swift */,
 			);
-			path = "Social Tab";
+			path = Social;
 			sourceTree = "<group>";
 		};
 		E8C02752220F329A00B79D54 /* Resouces */ = {
@@ -393,6 +396,7 @@
 				E86B092C21DBF82F0009C45D /* socialSearchVC.swift in Sources */,
 				E8109EEC21AEE818008882B1 /* MoneyVC.swift in Sources */,
 				E86B092621DBF0F30009C45D /* socialPageVC.swift in Sources */,
+				E8164F6222249ACC0084CCF9 /* StatVC.swift in Sources */,
 				E82347F621A1D6BF000A1A62 /* Ambassadoor.xcdatamodeld in Sources */,
 				E8CBD7BE21E29400003B5B02 /* People.swift in Sources */,
 				E8963EA121F7F16B0047CF99 /* OfferCell.swift in Sources */,
@@ -554,7 +558,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.tesseractfreelance.Ambassadoor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -573,7 +577,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.tesseractfreelance.Ambassadoor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
