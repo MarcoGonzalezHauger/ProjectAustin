@@ -11,9 +11,21 @@ import Foundation
 import UIKit
 
 let imageCache = NSCache<NSString, AnyObject>()
-let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
 
 public extension UIImageView {
+    
+    struct Holder {
+        static var activityIndicatorProperty: UIActivityIndicatorView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
+    }
+    
+    var activityIndicator: UIActivityIndicatorView {
+        get {
+            return UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
+        }
+        set(newValue) {
+            Holder.activityIndicatorProperty = newValue
+        }
+    }
     
     func showActivityIndicator() {
         activityIndicator.hidesWhenStopped = true
@@ -22,8 +34,8 @@ public extension UIImageView {
         self.addBorder()
         
         OperationQueue.main.addOperation({ () -> Void in
-            self.addSubview(activityIndicator)
-            activityIndicator.startAnimating()
+            self.addSubview(self.activityIndicator)
+            self.activityIndicator.startAnimating()
         })
     }
     
@@ -55,7 +67,7 @@ public extension UIImageView {
 				}
             DispatchQueue.main.async() {
                 self.image = image
-                activityIndicator.stopAnimating()
+                self.activityIndicator.stopAnimating()
                 self.removeBorder()
             }
             }.resume()
@@ -94,7 +106,7 @@ public extension UIImageView {
                         self.image = newImage
                     }
                     self.removeBorder()
-                    activityIndicator.stopAnimating()
+                    self.activityIndicator.stopAnimating()
                 }
             }
         }).resume()
