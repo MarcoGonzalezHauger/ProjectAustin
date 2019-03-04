@@ -86,7 +86,7 @@ class User: NSObject {
 	let username: String
 	let followerCount: Double
 	let profilePicURL: String?
-	let AccountType: SubCategories
+	let AccountType: Category
 	let averageLikes: Double?
 	let id: String
 	
@@ -99,13 +99,13 @@ class User: NSObject {
 		} else {
 			self.profilePicURL = dictionary["profilePicture"] as? String
 		}
-        self.AccountType = dictionary["AccountType"] as! SubCategories
+        self.AccountType = dictionary["AccountType"] as! Category
 		self.averageLikes = dictionary["averageLikes"] as? Double
 		self.id = dictionary["id"] as! String
     }
 	
 	override var description: String {
-		return "NAME: \(name ?? "NIL")\nUSERNAME: \(username)\nFOLLOWER COUNT: \(followerCount)\nPROFILE PIC: \(profilePicURL ?? "NIL")\nACCOUNT TYPE: \(SubCategoryToString(subcategory: AccountType))\nAVERAGE LIKES: \(averageLikes ?? -404)"
+		return "NAME: \(name ?? "NIL")\nUSERNAME: \(username)\nFOLLOWER COUNT: \(followerCount)\nPROFILE PIC: \(profilePicURL ?? "NIL")\nACCOUNT TYPE: \(AccountType)\nAVERAGE LIKES: \(averageLikes ?? -404)"
 	}
 }
 
@@ -159,13 +159,22 @@ enum TypeofPost {
 
 //COMPLETE FOR LATER
 //account type enumeration
-public enum SubCategories : String {
-	case Hiker, WinterSports, Baseball, Basketball, Golf, Tennis, Soccer, Football, Boxing, MMA, Swimming, TableTennis, Gymnastics, Dancer, Rugby, Bowling, Frisbee, Cricket, SpeedBiking, MountainBiking, WaterSkiing, Running, PowerLifting, BodyBuilding, Wrestling, StrongMan, NASCAR, RalleyRacing, Parkour, Model, Makeup, Actor, RunwayModel, Designer, Brand, Stylist, HairStylist, FasionArtist, Painter, Sketcher, Musician, Band, SingerSongWriter, Other
+public enum Category: String, CaseIterable {
+	case Hiker, WinterSports = "Winter Sports", Baseball, Basketball, Golf, Tennis, Soccer, Football, Boxing, MMA, Swimming, TableTennis = "Table Tennis", Gymnastics, Dancer, Rugby, Bowling, Frisbee, Cricket, SpeedBiking = "Speed Biking", MountainBiking = "Mountain Biking", WaterSkiing = "Water Skiing", Running, PowerLifting = "Power Lifting", BodyBuilding = "BodyBuilding", Wrestling, StrongMan = "Strong Man", NASCAR, RalleyRacing = "RalleyRacing", Parkour, Model, Makeup, Actor, RunwayModel = "Runway Model", Designer, Brand, Stylist, HairStylist = "Hair Stylist", FasionArtist = "Fasion Artist", Painter, Sketcher, Musician, Band, SingerSongWriter = "Singer-Songwriter", Other
 }
 
-//Categories that house subCategories.
-struct Categories {
-	let Athletic: [SubCategories] = [.Hiker, .WinterSports, .Baseball, .Basketball, .Golf, .Tennis, .Soccer, .Football, .Boxing, .MMA, .Swimming, .TableTennis, .Gymnastics, .Dancer, .Rugby, .Bowling, .Frisbee, .Cricket, .SpeedBiking, .MountainBiking, .WaterSkiing, .Running, .PowerLifting, .BodyBuilding, .Wrestling, .StrongMan, .NASCAR, .RalleyRacing, .Parkour]
-	let Fasion: [SubCategories] = [.Model, .Makeup, .Actor, .RunwayModel, .Designer, .Brand, .Stylist, .HairStylist, .FasionArtist, .Painter, .Sketcher, .Musician, .Band, .SingerSongWriter, .Dancer]
-	let Photographer: [SubCategories] = []
+enum categoryClass: String, CaseIterable {
+	case Athletic = "Athletic"
+	case Fasion = "Fasion"
+	case Photography = "Photography"
+	
 }
+
+let allCategoryClasses: [categoryClass] = [.Athletic, .Fasion, .Photography]
+
+let ClassToCategories: [categoryClass: [Category]] = [.Athletic: Athletic, .Fasion: Fasion, .Photography: Photography]
+
+//Categories that house subCategories.
+let Athletic: [Category] = [.Hiker, .WinterSports, .Baseball, .Basketball, .Golf, .Tennis, .Soccer, .Football, .Boxing, .MMA, .Swimming, .TableTennis, .Gymnastics, .Dancer, .Rugby, .Bowling, .Frisbee, .Cricket, .SpeedBiking, .MountainBiking, .WaterSkiing, .Running, .PowerLifting, .BodyBuilding, .Wrestling, .StrongMan, .NASCAR, .RalleyRacing, .Parkour]
+let Fasion: [Category] = [.Model, .Makeup, .Actor, .RunwayModel, .Designer, .Brand, .Stylist, .HairStylist, .FasionArtist, .Painter, .Sketcher, .Musician, .Band, .SingerSongWriter, .Dancer]
+let Photography: [Category] = []

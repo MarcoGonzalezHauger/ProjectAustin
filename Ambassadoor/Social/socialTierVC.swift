@@ -22,7 +22,7 @@ class SocialUserCell: UITableViewCell {
 		didSet {
 			if let thisUser = ThisUser {
 				username.text = thisUser.name ?? "@\(thisUser.username)"
-				let secondtext : String = ShowCategory ? SubCategoryToString(subcategory: thisUser.AccountType) : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
+				let secondtext : String = ShowCategory ? thisUser.AccountType.rawValue : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
 				details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
 					if let picurl = thisUser.profilePicURL {
                         self.profilepicture.downloadImageUsingCacheWithLink(picurl)

@@ -65,7 +65,7 @@ class socialCategoryVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 		super.viewDidLoad()
 		navigationController?.setNavigationBarHidden(true, animated: true)
 		navigationController?.interactivePopGestureRecognizer?.delegate = self
-		categoryHeader.text = "Category: " + SubCategoryToString(subcategory: Yourself!.AccountType)
+		categoryHeader.text = "Category: " + Yourself!.AccountType.rawValue
 		rankedShelf.dataSource = self
 		rankedShelf.delegate = self
 		global.delegates.append(self)
