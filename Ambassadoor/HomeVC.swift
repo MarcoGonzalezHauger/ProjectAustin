@@ -111,10 +111,25 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
     var ref: DatabaseReference!
 	
 	override func viewDidAppear(_ animated: Bool) {
-		if Yourself == nil {
-			debugPrint("Yourself is nil so showing signup VC.")
-			performSegue(withIdentifier: "showSignUpVC", sender: self)
+		
+		//TEMPORARY MEASURE TO ALLOW FOR FASTER DEBUGGING.
+		
+		API.INSTAGRAM_ACCESS_TOKEN = "1605029612.fa083c3.815705ce93ab4ce89f21ee2aabdd7071"
+		API.getProfileInfo { (user: User?) in
+			DispatchQueue.main.async {
+				if user != nil {
+					Yourself = user
+				} else {
+					debugPrint("Youself user was NIL.")
+				}
+			}
 		}
+		
+//		if Yourself == nil {
+//			debugPrint("Yourself is nil so showing signup VC.")
+//			performSegue(withIdentifier: "showSignUpVC", sender: self)
+//		}
+//		debugPrint(Yourself)
 	}
 	
     override func viewDidLoad() {

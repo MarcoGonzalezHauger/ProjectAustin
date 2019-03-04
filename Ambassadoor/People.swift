@@ -9,7 +9,7 @@
 
 import Foundation
 
-var Yourself : User?
+var Yourself : User!
 
 func getUser(Username: String) -> User? {
 	
@@ -18,7 +18,7 @@ func getUser(Username: String) -> User? {
 	return nil
 }
 
-func getGroup(WithCategory: SubCategories) -> [User]? {
+func getGroup(WithCategory: Category) -> [User]? {
 	
 	//Returns 100 people who share the same category as the user.
 	
