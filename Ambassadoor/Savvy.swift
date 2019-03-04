@@ -211,3 +211,32 @@ func PostTypeToText(posttype: TypeofPost) -> String {
 		return "Story Post"
 	}
 }
+
+func GetTownName(zipCode: String, completed: @escaping (_ cityState: String?) -> () ) -> String {
+    let url = URL(string: "https://form-api.com/api/geo/country/zip?key=nyprsz9yiBMbAubGgkcab&country=US&zipcode=" + zipCode)
+    var cityState: String = ""
+    URLSession.shared.dataTask(with: url!){ (data, response, err) in
+        if err == nil {
+            // check if JSON data is downloaded yet
+            guard let jsondata = data else { return }
+            do {
+                do {
+                    // Deserilize object from JSON
+                    if let zipCodeData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String : AnyObject] {
+                        if let result = zipCodeData["result"] {
+                            let city = result["city"] as! String
+                            let state = result["state"] as! String
+                            cityState = city + ", " + state
+                        }
+                    }
+                    DispatchQueue.main.async {
+                        completed(cityState)
+                    }
+                }
+            } catch {
+                print("JSON Downloading Error!")
+            }
+        }
+    }.resume()
+    return cityState
+}

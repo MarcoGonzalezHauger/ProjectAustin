@@ -118,6 +118,11 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 	}
 	
     override func viewDidLoad() {
+        /*
+        GetTownName(zipCode: "11942", completed: { (cityState: String?)  in
+            print(cityState)
+        })
+        */
         super.viewDidLoad()
 		
 		debugPrint("Home VC started to load.")
