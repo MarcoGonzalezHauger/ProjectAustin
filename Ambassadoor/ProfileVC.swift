@@ -8,10 +8,21 @@
 
 import UIKit
 
-class ProfileVC: UIViewController {
+class ProfileVC: UIViewController, EnterZipCode {
 	
+	func ZipCodeEntered(zipCode: String?) {
+		zipppi.setTitle(zipCode, for: .normal)
+	}
+	
+	
+	@IBOutlet weak var zipppi: UIButton!
 	@IBOutlet weak var ThisButton: UIButton!
 	
+	@IBAction func Blablabla(_ sender: Any) {
+		performSegue(withIdentifier: "toZip", sender: self)
+	}
+	
+	var curcat: Category?
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,9 +35,13 @@ class ProfileVC: UIViewController {
 	
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let destination = segue.destination as? CategoryPicker {
-			destination.SetupPicker(originalCategory: nil) { (cat) in
-				self.ThisButton.setTitle(cat?.rawValue, for: .normal)
+			destination.SetupPicker(originalCategory: curcat) { (cat) in
+				self.ThisButton.setTitle(cat.rawValue, for: .normal)
+				self.curcat = cat
 			}
+		}
+		if let destination = segue.destination as? ZipCodeVC {
+			destination.delegate = self
 		}
     }
 

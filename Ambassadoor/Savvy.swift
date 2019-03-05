@@ -212,8 +212,9 @@ func PostTypeToText(posttype: TypeofPost) -> String {
 	}
 }
 
-func GetTownName(zipCode: String, completed: @escaping (_ cityState: String?) -> () ) -> String {
-    let url = URL(string: "https://form-api.com/api/geo/country/zip?key=nyprsz9yiBMbAubGgkcab&country=US&zipcode=" + zipCode)
+func GetTownName(zipCode: String, completed: @escaping (_ cityState: String?) -> () ) {
+	let APIKey: String = "nyprsz9yiBMbAubGgkcab"
+    let url = URL(string: "https://form-api.com/api/geo/country/zip?key=\(APIKey)&country=US&zipcode=" + zipCode)
     var cityState: String = ""
     URLSession.shared.dataTask(with: url!){ (data, response, err) in
         if err == nil {
@@ -238,5 +239,4 @@ func GetTownName(zipCode: String, completed: @escaping (_ cityState: String?) ->
             }
         }
     }.resume()
-    return cityState
 }

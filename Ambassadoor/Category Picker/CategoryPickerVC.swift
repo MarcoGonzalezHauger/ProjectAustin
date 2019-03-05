@@ -27,6 +27,8 @@ class CategoryPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 		if cats[indexPath.row] == selectedCategory {
 			toSelect = indexPath
 			cell.accessoryType = .checkmark
+		} else {
+			cell.accessoryType = .none
 		}
 		return cell
 	}

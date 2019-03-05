@@ -14,6 +14,8 @@ class ProductPreview: UICollectionViewCell {
 	@IBOutlet weak var ProductLabel: UILabel!
 }
 
+//Cheers, to innovation!
+
 class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -22,7 +24,7 @@ class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		return CGSize(width: (collectionView.bounds.width / 2) - 5, height: (collectionView.bounds.width / 2) - 5)
+		return CGSize(width: (MasterView.bounds.width / 2) - 1.25, height: (MasterView.bounds.width / 2) - 1.25	)
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -31,6 +33,8 @@ class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 		cell.ProductLabel.text = ThisPost.products![indexPath.item].name
 		return cell
 	}
+	
+	@IBOutlet var MasterView: UIView!
 	
 	var producttosend: Product!
 	
@@ -52,14 +56,20 @@ class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 	@IBOutlet weak var rulesText: UITextView!
 	@IBOutlet weak var captionText: UITextView!
 	@IBOutlet weak var grid: UICollectionView!
+	@IBOutlet weak var captionHeader: UILabel!
 	
 
 	override func viewDidLoad() {
         super.viewDidLoad()
 		grid.dataSource = self
 		grid.delegate = self
+		gridHeight.constant = grid.collectionViewLayout.collectionViewContentSize.height
+		ViewInsideStackHeight.constant = 333 + grid.collectionViewLayout.collectionViewContentSize.height
 		UpdatePostInformation()
+		grid.reloadData()
     }
+	@IBOutlet weak var ViewInsideStackHeight: NSLayoutConstraint!
+	@IBOutlet weak var gridHeight: NSLayoutConstraint!
 	
 	func UpdatePostInformation() {
 		postimage.image = PostTypeToIcon(posttype: ThisPost.PostType)

@@ -15,7 +15,7 @@ protocol SubCategoryResultDelegate {
 }
 
 protocol CategoryPickerDelegate {
-	func CategoryPicked(newCategory: Category?)
+	func CategoryPicked(newCategory: Category)
 }
 
 class ClassCell: UITableViewCell {
@@ -28,7 +28,7 @@ class ClassPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	@IBOutlet weak var doneButton: UIBarButtonItem!
 	
 	func DoneClicked() {
-		delegate?.CategoryPicked(newCategory: returnValue)
+		delegate?.CategoryPicked(newCategory: returnValue!)
 		dismiss(animated: true, completion: nil)
 	}
 	
@@ -69,11 +69,13 @@ class ClassPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 			if returnValue != nil || originalValue != nil {
 				let ref: Category = returnValue ?? originalValue!
 				if cat.contains(ref) {
+					cell.detailLabel.textColor = AmbassadoorColor
 					cell.detailLabel.text = "Selected: \(ref.rawValue)"
 					isSelected = true
 				}
 			}
 			if isSelected == false {
+				cell.detailLabel.textColor = UIColor.black
 				if cat.count < 3 {
 					cell.detailLabel.text = ""
 				} else {

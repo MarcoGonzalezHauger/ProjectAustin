@@ -11,9 +11,9 @@ import UIKit
 
 class CategoryPicker: UINavigationController, CategoryPickerDelegate {
 	
-	var complete: ((_ newCategory: Category?) -> ())?
+	var complete: ((_ newCategory: Category) -> ())?
 	
-	func CategoryPicked(newCategory: Category?) {
+	func CategoryPicked(newCategory: Category) {
 		if let completedFunction = complete {
 			completedFunction(newCategory)
 		}
@@ -25,7 +25,7 @@ class CategoryPicker: UINavigationController, CategoryPickerDelegate {
 
     }
 	
-	func SetupPicker(originalCategory: Category?, completed: ((_ newCategory: Category?) -> ())?) {
+	func SetupPicker(originalCategory: Category?, completed: ((_ newCategory: Category) -> ())?) {
 		complete = completed
 		if let ClassPicker = self.topViewController as? ClassPickerVC {
 			ClassPicker.delegate = self
