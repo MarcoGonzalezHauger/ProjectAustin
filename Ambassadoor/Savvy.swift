@@ -80,6 +80,27 @@ func DateToCountdown(date: Date) -> String? {
 	}
 }
 
+func DateToLetterCountdown(date: Date) -> String? {
+	let i : Double = date.timeIntervalSinceNow
+	switch true {
+	case Int(i) <= 0:
+		return nil
+	case i < 60 :
+		return "\(Int(i))s"
+	case i < 3600:
+		return "\(Int(floor(i/60)))m \(Int(i) % 60)s"
+	case i < 86400:
+		return "\(Int(floor(i/3600)))h \(Int(floor(Double((Int(i) % 3600) / 60))))m \(Int(i) % 60)s"
+	case i < 604800:
+		return "in \(Int(floor(i/86400)))d, \(Int(floor(Double((Int(i) % 86400) / 3600))))h \(Int(floor(Double((Int(i) % 3600) / 60))))m \(Int(i) % 60)s"
+	default:
+		let formatter = DateFormatter()
+		formatter.locale = Locale(identifier: "en_US")
+		formatter.dateFormat = "MM/dd/YYYY"
+		return formatter.string(from: date)
+	}
+}
+
 func NumberToStringWithCommas(number: Double) -> String {
 	let numformat = NumberFormatter()
 	numformat.numberStyle = NumberFormatter.Style.decimal
@@ -213,10 +234,16 @@ func PostTypeToText(posttype: TypeofPost) -> String {
 }
 
 func GetTownName(zipCode: String, completed: @escaping (_ cityState: String?) -> () ) {
+	debugPrint("Getting town name from zipCode=\(zipCode)")
+	
+	//FORM API Key, subject to change.
 	let APIKey: String = "nyprsz9yiBMbAubGgkcab"
-    let url = URL(string: "https://form-api.com/api/geo/country/zip?key=\(APIKey)&country=US&zipcode=" + zipCode)
+	
+	
+	guard let url = URL(string: "https://form-api.com/api/geo/country/zip?key=\(APIKey)&country=US&zipcode=" + zipCode) else { completed(nil)
+	return }
     var cityState: String = ""
-    URLSession.shared.dataTask(with: url!){ (data, response, err) in
+    URLSession.shared.dataTask(with: url){ (data, response, err) in
         if err == nil {
             // check if JSON data is downloaded yet
             guard let jsondata = data else { return }

@@ -33,7 +33,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bTy-7B-c5e">
-                                <rect key="frame" x="184" y="298" width="121" height="30"/>
+                                <rect key="frame" x="152" y="263" width="121" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="ZIP!"/>
                                 <connections>
@@ -285,7 +285,6 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="mdM-gk-H28">
                                 <rect key="frame" x="0.0" y="72.666666666666686" width="414" height="663.33333333333326"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="separatorColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="HomeOfferCell" rowHeight="110" id="KeU-5e-K6Z" customClass="OfferCell" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="110"/>
@@ -309,7 +308,9 @@
                                                                 <constraint firstAttribute="width" constant="51" id="1fH-LA-Vjr"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                            <state key="normal" title="Reject"/>
+                                                            <state key="normal" title="Reject">
+                                                                <color key="titleColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
+                                                            </state>
                                                             <connections>
                                                                 <action selector="reject:" destination="KeU-5e-K6Z" eventType="touchUpInside" id="kC7-ks-Wcd"/>
                                                             </connections>
@@ -368,6 +369,7 @@
                                                     </constraints>
                                                 </view>
                                             </subviews>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="gDQ-cE-cSd" secondAttribute="bottom" constant="5" id="8Yk-Iq-2cS"/>
                                                 <constraint firstItem="gDQ-cE-cSd" firstAttribute="leading" secondItem="dqF-Ga-CjM" secondAttribute="leading" constant="15" id="Ivf-I3-06t"/>
@@ -487,7 +489,9 @@
                                                                 <constraint firstAttribute="width" constant="51" id="kuM-b3-glX"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                            <state key="normal" title="Reject"/>
+                                                            <state key="normal" title="Reject">
+                                                                <color key="titleColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
+                                                            </state>
                                                             <connections>
                                                                 <action selector="reject:" destination="Rcc-pf-dsj" eventType="touchUpInside" id="C2v-0h-CJP"/>
                                                             </connections>
@@ -1187,15 +1191,36 @@
                                     <action selector="dismissVC:" destination="2Is-s7-RBx" eventType="touchUpInside" id="dad-Wf-KXo"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vng-oy-bOv">
+                                <rect key="frame" x="69" y="589.66666666666663" width="276" height="43"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Experation Date" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="IFx-nT-nzR">
+                                        <rect key="frame" x="5" y="0.0" width="266" height="43"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="IFx-nT-nzR" secondAttribute="bottom" id="NFc-Xg-bQA"/>
+                                    <constraint firstItem="IFx-nT-nzR" firstAttribute="leading" secondItem="vng-oy-bOv" secondAttribute="leading" constant="5" id="QDT-H7-DaQ"/>
+                                    <constraint firstAttribute="height" constant="43" id="RTi-gs-Tfy"/>
+                                    <constraint firstItem="IFx-nT-nzR" firstAttribute="top" secondItem="vng-oy-bOv" secondAttribute="top" id="rQq-k2-gGS"/>
+                                    <constraint firstAttribute="trailing" secondItem="IFx-nT-nzR" secondAttribute="trailing" constant="5" id="uwt-lJ-jRi"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="hBp-Jk-ZS1" firstAttribute="top" secondItem="6at-NR-eBl" secondAttribute="bottom" constant="10" id="5jx-J0-W7l"/>
                             <constraint firstItem="6at-NR-eBl" firstAttribute="top" secondItem="5El-ll-d6d" secondAttribute="top" constant="20" id="9m9-RD-gYo"/>
+                            <constraint firstItem="vng-oy-bOv" firstAttribute="width" secondItem="wAi-Lj-cE7" secondAttribute="width" multiplier="2:3" id="A6A-eH-OMh"/>
                             <constraint firstItem="XWQ-HY-aoQ" firstAttribute="centerX" secondItem="hBp-Jk-ZS1" secondAttribute="centerX" id="DbX-K6-Bko"/>
                             <constraint firstItem="Swl-Bx-pun" firstAttribute="leading" secondItem="5El-ll-d6d" secondAttribute="leading" constant="16" id="EOy-uG-Y7E"/>
                             <constraint firstItem="6at-NR-eBl" firstAttribute="centerX" secondItem="wAi-Lj-cE7" secondAttribute="centerX" id="FkX-5P-gHR"/>
+                            <constraint firstItem="VDg-9i-V1U" firstAttribute="top" secondItem="vng-oy-bOv" secondAttribute="bottom" constant="32" id="IkR-Cv-xbY"/>
                             <constraint firstItem="5El-ll-d6d" firstAttribute="bottom" secondItem="Swl-Bx-pun" secondAttribute="bottom" constant="16" id="Mr3-Fb-2Hw"/>
                             <constraint firstItem="5El-ll-d6d" firstAttribute="trailing" secondItem="Swl-Bx-pun" secondAttribute="trailing" constant="16" id="NwZ-Gi-JSv"/>
                             <constraint firstItem="TCX-GZ-xja" firstAttribute="centerX" secondItem="XWQ-HY-aoQ" secondAttribute="centerX" id="OVo-mH-brV"/>
@@ -1205,6 +1230,7 @@
                             <constraint firstItem="jIs-dD-ZRj" firstAttribute="leading" secondItem="5El-ll-d6d" secondAttribute="leading" constant="16" id="U3o-OD-G2g"/>
                             <constraint firstItem="SFm-ud-VBN" firstAttribute="top" secondItem="XWQ-HY-aoQ" secondAttribute="bottom" constant="45" id="j7F-Nm-bDP"/>
                             <constraint firstItem="hBp-Jk-ZS1" firstAttribute="centerX" secondItem="6at-NR-eBl" secondAttribute="centerX" id="jhk-X1-mtu"/>
+                            <constraint firstItem="vng-oy-bOv" firstAttribute="centerX" secondItem="wAi-Lj-cE7" secondAttribute="centerX" id="liB-0e-sTa"/>
                             <constraint firstItem="XWQ-HY-aoQ" firstAttribute="top" secondItem="hBp-Jk-ZS1" secondAttribute="bottom" constant="8" id="tD0-go-HqU"/>
                             <constraint firstItem="TCX-GZ-xja" firstAttribute="top" secondItem="XWQ-HY-aoQ" secondAttribute="bottom" constant="1" id="y09-ZC-yWZ"/>
                         </constraints>
@@ -1216,6 +1242,8 @@
                         <outlet property="acceptButton" destination="VDg-9i-V1U" id="SJ6-cD-Lbi"/>
                         <outlet property="acceptButtonView" destination="Swl-Bx-pun" id="e4G-En-Dw5"/>
                         <outlet property="companyname" destination="XWQ-HY-aoQ" id="Jik-MR-9Jc"/>
+                        <outlet property="expirationLabel" destination="IFx-nT-nzR" id="TiZ-8I-Z11"/>
+                        <outlet property="expirationView" destination="vng-oy-bOv" id="FII-aD-aaH"/>
                         <outlet property="logo" destination="hBp-Jk-ZS1" id="B1s-FE-va1"/>
                         <outlet property="shelf" destination="VVf-ER-hzx" id="yBU-ji-VnC"/>
                         <outlet property="shelfheight" destination="us0-nJ-K7f" id="l8V-3f-cCs"/>

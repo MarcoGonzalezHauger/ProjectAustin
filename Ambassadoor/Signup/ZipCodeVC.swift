@@ -38,6 +38,9 @@ class ZipCodeVC: UIViewController {
 	}
 	
 	@IBAction func textChanged(_ sender: Any) {
+		if let text = zipField.text {
+			zipField.text = text.replacingOccurrences(of: " ", with: "")
+		}
 		enterbutton.isEnabled = zipField.text?.count ?? 0 >= 5
 		//if zip length = 4 then get all possible results = 10001, 10002, 10003, etc. and put them in RAM.
 		if zipField.text?.count == 4 {

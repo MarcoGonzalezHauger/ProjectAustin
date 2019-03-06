@@ -12,6 +12,7 @@ import UIKit
 @IBDesignable
 class BoldButton: UIControl {
 	
+	//This button is the big button seen when siginging up in "Proceed to Ambassadoor." It has an orange stripe.
 	
 	var TheButton: UIButton = UIButton(type: .system)
 	

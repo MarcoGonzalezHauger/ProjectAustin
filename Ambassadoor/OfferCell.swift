@@ -29,6 +29,7 @@ class OfferCell: UITableViewCell, SyncTimerDelegate {
 	
 	//Handles all offer experation display information.
 	func Tick() {
+		
 		if let o : Offer = ThisOffer {
 			
 			//Ago label.
@@ -46,13 +47,15 @@ class OfferCell: UITableViewCell, SyncTimerDelegate {
 				//If it will expire in the next hour, turn "ago" label red.
 				if o.expiredate.timeIntervalSinceNow < 3600 {
 					agolabel.textColor = UIColor.red
+				} else {
+					agolabel.textColor = UIColor.lightGray
 				}
 			} else {
 				//Offers that have already been rejected will not show the view button, instead a countdown to when they're expired. Which is usually in 1 hour since rejection.
 				//if experation date is more than "now" (which will return NIL), say "expired" in red.
 				if self.isCellExpired != o.isExpired {
-					if o.isExpired == true { OfferExpired() }
 					self.isCellExpired = o.isExpired
+					if o.isExpired == true { OfferExpired() }
 				}
 				if let expiresin = expiresInLabel {
 					if isCellExpired == true {
@@ -138,6 +141,7 @@ class OfferCell: UITableViewCell, SyncTimerDelegate {
 			moneylabel.text = NumberToPrice(Value: ThisOffer.money)
 			companylabel.text = ThisOffer.company.name
 			postsLabel.text = ThisOffer.posts.count == 1 ? "For 1 post" : "For \(ThisOffer.posts.count) posts"
+			self.isCellExpired = ThisOffer.isExpired
 			Tick()
 		}
 	}

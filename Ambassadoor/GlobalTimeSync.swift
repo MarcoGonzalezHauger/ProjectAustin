@@ -9,6 +9,8 @@
 
 import Foundation
 
+//the purpose of this class is the ensure that all checks for data and regular updates to the program work in unison.
+
 protocol SyncTimerDelegate {
 	func Tick() -> ()
 }

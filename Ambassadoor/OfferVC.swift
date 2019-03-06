@@ -19,7 +19,46 @@ class PreviewPostCell: UITableViewCell {
 	
 }
 
-class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SyncTimerDelegate {
+	
+	func Tick() {
+		if ThisOffer.isAccepted == false {
+			expirationView.isHidden = false
+			CheckExperation()
+		} else {
+			expirationView.isHidden = true
+		}
+	}
+	
+	func CheckExperation() {
+		if ThisOffer.isExpired {
+			expirationLabel.text = "Expired"
+			dismiss(animated: true, completion: nil)
+		} else {
+			var desiredText: String = ""
+			let i : Double = ThisOffer.expiredate.timeIntervalSinceNow
+			if i >= 604800 {
+				desiredText = "Expires on "
+			} else {
+				desiredText = "Expires in "
+			}
+			let answer: String? = DateToLetterCountdown(date: ThisOffer.expiredate)
+			if let answer = answer {
+				desiredText += answer
+			} else {
+				desiredText = "Expired"
+			}
+			expirationLabel.text = desiredText
+			
+			if i <= 3600 {
+				expirationView.layer.borderColor = UIColor.init(red: 255/255, green: 59/255, blue: 48/255, alpha: 1).cgColor
+				expirationLabel.textColor = UIColor.init(red: 255/255, green: 59/255, blue: 48/255, alpha: 1)
+			} else {
+				expirationView.layer.borderColor = UIColor.black.cgColor
+				expirationLabel.textColor = UIColor.black
+			}
+		}
+	}
 	
 	//Big green accept button at the bottom of the screen.
 	@IBOutlet weak var acceptButton: UIButton!
@@ -52,6 +91,7 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 		return 45
 	}
 	
+	
 	//Post that the View Post VC will give you. Used in prepare for segue.
 	var posttosend : Post!
 	
@@ -76,8 +116,10 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 		tableView.selectRow(at: nil, animated: true, scrollPosition: .none)
 	}
 	
-	//This VC makes a nice panel that pops up to give you details about an offer BEFORE you accept it. Silly Goose.
+	//This VC makes a nice panel that pops up to give you details about an offer BEFORE you accept it.
 	
+	@IBOutlet weak var expirationView: UIView!
+	@IBOutlet weak var expirationLabel: UILabel!
 	@IBOutlet weak var logo: UIImageView!
 	@IBOutlet weak var companyname: UILabel!
 	@IBOutlet weak var shelf: UITableView!
@@ -92,6 +134,10 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 		if isCloseButton {
 			acceptButtonView.isHidden = true
 		}
+		//59 48
+		expirationView.layer.cornerRadius = 5
+		expirationView.layer.borderWidth = 1
+		globalTimer.delegates.append(self)
 	}
 	
 	@IBOutlet weak var smallDone: UIButton!

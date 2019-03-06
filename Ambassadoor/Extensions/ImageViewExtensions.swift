@@ -12,6 +12,8 @@ import UIKit
 
 let imageCache = NSCache<NSString, AnyObject>()
 
+//This extension allows UIImageViews to download images from the web and hvae them saved in cache.
+
 public extension UIImageView {
     
     struct Holder {
@@ -38,7 +40,9 @@ public extension UIImageView {
             self.activityIndicator.startAnimating()
         })
     }
-    
+	
+	//we decided against havaing borders.
+	
     func addBorder() {
 //        self.layer.borderColor = UIColor.gray.cgColor
 //        self.layer.borderWidth = 1
