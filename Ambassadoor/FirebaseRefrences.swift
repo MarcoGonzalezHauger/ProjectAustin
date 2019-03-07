@@ -87,24 +87,41 @@ func getRandomUsername() -> String {
 }
 
 //Creates an account with nothing more than the username of the account. Returns instance of account returned from firebase
-func CreateAccount(instagramUsername username: String) -> User {
+func CreateAccount(instagramUser: User) -> User {
     // Pointer reference in Firebase to Users
     let ref = Database.database().reference().child("users")
-    let userReference = ref.childByAutoId()
-    // Test data for now, all of the other data will be fetched from the Instagram API besides username which will come directly from the user
-    let values = [
-        "name": "Chris Chomicki", //test
-        "username": username,     //from USER
-        "followerCount": 99,      //test
-        "profilePicture": "",     //test
-        "AccountType": Category.BodyBuilding.rawValue  //from USER
-        ] as [String : Any]
-    userReference.updateChildValues(values)
-    var userInstance: User = User(dictionary: [:])
-    userReference.observeSingleEvent(of: .value, with: { (snapshot) in
+    // Boolean flag to keep track if user is already in database
+    var alreadyRegistered: Bool = false
+    ref.observeSingleEvent(of: .value, with: { (snapshot) in
+        print(snapshot.childrenCount)
+        for case let user as DataSnapshot in snapshot.children {
+            if (user.childSnapshot(forPath: "username").value as! String == instagramUser.username) {
+                alreadyRegistered = true
+            }
+        }
+    })
+    if alreadyRegistered {
+        return instagramUser
+    } else {
+        let userReference = ref.childByAutoId()
+        let userData = API.serializeUser(user: instagramUser, id: userReference.key!)
+        userReference.updateChildValues(userData)
+        return instagramUser
+    }
+}
+
+// Query all users in Firebase and to do filtering based on algorithm
+func GetAllUsers() -> [User] {
+    let usersRef = Database.database().reference().child("users")
+    var users: [User] = []
+    usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
         if let dictionary = snapshot.value as? [String: AnyObject] {
-            userInstance = User(dictionary: dictionary)
+            for (_, user) in dictionary{
+                let userDictionary = user as? NSDictionary
+                let userInstance = User(dictionary: userDictionary! as! [String : AnyObject])
+                users.append(userInstance)
+            }
         }
     }, withCancel: nil)
-	return userInstance
+    return users
 }

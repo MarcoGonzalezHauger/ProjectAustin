@@ -78,6 +78,7 @@ extension InstagramVC: WKNavigationDelegate {
 		API.getProfileInfo { (user: User?) in
 			DispatchQueue.main.async {
 				if user != nil {
+                    CreateAccount(instagramUser: user!)
 					Yourself = user
 					self.performSegue(withIdentifier: "VerifySegue", sender: self)
 				} else {
