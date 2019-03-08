@@ -88,7 +88,6 @@ class User: NSObject {
 	let profilePicURL: String?
 	let AccountType: Category
 	let averageLikes: Double?
-	let id: String
 	
     init(dictionary: [String: Any]) {
         self.name = dictionary["name"] as? String
@@ -99,9 +98,8 @@ class User: NSObject {
 		} else {
 			self.profilePicURL = dictionary["profilePicture"] as? String
 		}
-        self.AccountType = dictionary["AccountType"] as! Category
+        self.AccountType = Category.init(rawValue: dictionary["AccountType"] as! String)!
 		self.averageLikes = dictionary["averageLikes"] as? Double
-		self.id = dictionary["id"] as! String
     }
 	
 	override var description: String {

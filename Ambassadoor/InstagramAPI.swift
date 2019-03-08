@@ -59,6 +59,19 @@ struct API {
         }.resume()
     }
     
+    static func serializeUser(user: User, id: String) -> [String: Any] {
+        let userData: [String: Any] = [
+            "id": id,
+            "name": user.name!,
+            "username": user.username,
+            "followerCount": user.followerCount,
+            "profilePicURL": user.profilePicURL!,
+            "AccountType": user.AccountType.rawValue,
+            "averageLikes": user.averageLikes!
+        ]
+        return userData
+    }
+    
     static func getProfilePictureURL(userId: String) -> String {
         let url = URL(string: "https://api.instagram.com/v1/users/" + userId + "/?access_token=" + INSTAGRAM_ACCESS_TOKEN)
         var profilePictureURL = ""

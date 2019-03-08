@@ -113,7 +113,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 	override func viewDidAppear(_ animated: Bool) {
 		
 		//TEMPORARY MEASURE TO ALLOW FOR FASTER DEBUGGING.
-		
+	/*
 		API.INSTAGRAM_ACCESS_TOKEN = "1605029612.fa083c3.815705ce93ab4ce89f21ee2aabdd7071"
 		API.getProfileInfo { (user: User?) in
 			DispatchQueue.main.async {
@@ -124,12 +124,12 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 				}
 			}
 		}
-		
-//		if Yourself == nil {
-//			debugPrint("Yourself is nil so showing signup VC.")
-//			performSegue(withIdentifier: "showSignUpVC", sender: self)
-//		}
-//		debugPrint(Yourself)
+		*/
+		if Yourself == nil {
+			debugPrint("Yourself is nil so showing signup VC.")
+			performSegue(withIdentifier: "showSignUpVC", sender: self)
+		}
+		debugPrint(Yourself)
 	}
 	
     override func viewDidLoad() {
@@ -155,11 +155,10 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		global.AvaliableOffers = fakeoffers.filter({$0.isAccepted == false})
 		global.AcceptedOffers = fakeoffers.filter({$0.isAccepted == true})
 		
-		let fakeusers: [User] = GetRandomTestUsers()
-		global.SocialData = fakeusers
-        
+		//let fakeusers: [User] = GetRandomTestUsers()
+		global.SocialData = GetAllUsers()
         // Creating account with call to function (uncomment to for new data to appear in Firebase)
-        //let accountCreated: Bool = CreateAccount(instagramUsername: "czar_chomicki")
+        //let accountCreated: Bool = CreateAccount(instagramUser: "czar_chomicki")
         
         // Gets offers by on userId, will need to test data in firebase to test this, but pointer connection works
         //let offers = GetOffers(userId: "test")
