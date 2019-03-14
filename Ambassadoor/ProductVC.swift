@@ -23,7 +23,13 @@ class ProductVC: UIViewController {
 	
 	func UpdatePostInformation() {
 		productLabel.text = thisProduct.name
-		productImage.image = thisProduct.image ?? UIImage(named: "shopping cart")
+		if let logoUrl = thisProduct.image {
+			productImage.downloadAndSetImage(logoUrl, isCircle: false)
+		} else {
+			productImage.image = UIImage(named: "shopping cart")
+			
+		}
+		
 		companyLabel.text = "by " + companyname
 	}
 	

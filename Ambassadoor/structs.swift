@@ -98,7 +98,8 @@ class User: NSObject {
 		} else {
 			self.profilePicURL = dictionary["profilePicture"] as? String
 		}
-        self.AccountType = Category.init(rawValue: dictionary["AccountType"] as! String)!
+		debugPrint("Category: \(String(describing: dictionary["AccountType"]))")
+		self.AccountType = Category.init(rawValue: dictionary["AccountType"] as! String)!
 		self.averageLikes = dictionary["averageLikes"] as? Double
     }
 	
@@ -109,7 +110,7 @@ class User: NSObject {
 
 //Structure for post
 struct Post {
-	let image: UIImage?
+	let image: String?
 	let instructions: String
 	let captionMustInclude: String?
 	let products: [Product]?
@@ -121,7 +122,7 @@ struct Post {
 
 //struct for product
 struct Product {
-	let image: UIImage?
+	let image: String?
 	let name: String
 	let price: Double
 	let buy_url: String
@@ -132,7 +133,7 @@ struct Product {
 //struct for company
 struct Company {
 	let name: String
-	let logo: UIImage?
+	let logo: String?
 	let mission: String
 	let website: String
 	let account_ID: String
@@ -155,29 +156,3 @@ enum TypeofPost {
 	case SinglePost, MultiPost, Story
 }
 
-//COMPLETE FOR LATER
-//account type enumeration
-public enum Category: String, CaseIterable {
-	case Hiker, WinterSports = "Winter Sports", Baseball, Basketball, Golf, Tennis, Soccer, Football, Boxing, MMA, Swimming, TableTennis = "Table Tennis", Gymnastics, Dancer, Rugby, Bowling, Frisbee, Cricket, SpeedBiking = "Speed Biking", MountainBiking = "Mountain Biking", WaterSkiing = "Water Skiing", Running, PowerLifting = "Power Lifting", BodyBuilding = "BodyBuilding", Wrestling, StrongMan = "Strong Man", NASCAR, RalleyRacing = "RalleyRacing", Parkour, Model, Makeup, Actor, RunwayModel = "Runway Model", Designer, Brand, Stylist, HairStylist = "Hair Stylist", FasionArtist = "Fasion Artist", Painter, Sketcher, Musician, Band, SingerSongWriter = "Singer-Songwriter", SportsPhotography = "Sports Photography", RealEstatePhotography = "Real Estate Photography", CarPhotography = "Car Photography", AutomotivePhotography = "Automotive Photography", FashionPhotography = "Fashion Photography", NaturePhotography = "Nature Photography", UrbanPhotography = "Urban Photography", WildlifePhotography = "Wildlife Photography", LifestylePhotography = "Liftstyle Photography", GeneralPhotography = "General Photography", Driver, CarEnthusiast = "Car Enthusiast", Mechanic, Customizations, Modifications, Autobody, Tuning, CarBrand = "Car Brand", Other
-}
-
-enum categoryClass: String, CaseIterable {
-	case Athletic = "Athletic"
-	case Fashion = "Fashion"
-	case Photography = "Photography"
-	case Music = "Music"
-	case Automotive = "Automotive"
-}
-
-let AmbassadoorColor = UIColor(red: 255/255, green: 121/255, blue: 8/255, alpha: 1)
-
-let allCategoryClasses: [categoryClass] = [.Athletic, .Fashion, .Photography, .Music, .Automotive]
-
-let ClassToCategories: [categoryClass: [Category]] = [.Athletic: Athletic, .Fashion: Fashion, .Photography: Photography, .Music: Music, .Automotive: Automotive]
-
-//Categories that house subCategories.
-let Athletic: [Category] = [.Hiker, .WinterSports, .Baseball, .Basketball, .Golf, .Tennis, .Soccer, .Football, .Boxing, .MMA, .Swimming, .TableTennis, .Gymnastics, .Dancer, .Rugby, .Bowling, .Frisbee, .Cricket, .SpeedBiking, .MountainBiking, .WaterSkiing, .Running, .PowerLifting, .BodyBuilding, .Wrestling, .StrongMan, .NASCAR, .RalleyRacing, .Parkour, .Dancer]
-let Fashion: [Category] = [.Model, .Makeup, .Actor, .RunwayModel, .Designer, .Brand, .Stylist, .HairStylist, .FasionArtist, .Painter, .Sketcher]
-let Music: [Category] = [.Musician, .Band, .SingerSongWriter]
-let Photography: [Category] = [.SportsPhotography, .RealEstatePhotography, .CarPhotography, .AutomotivePhotography, .FashionPhotography, .NaturePhotography, .UrbanPhotography, .WildlifePhotography, .LifestylePhotography, .GeneralPhotography]
-let Automotive: [Category] = [.Driver, .CarEnthusiast, .Mechanic, .Customizations, .Modifications, .Autobody, .Tuning, .CarBrand]

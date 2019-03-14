@@ -28,10 +28,16 @@ class inProgressVC: UIViewController, UITableViewDataSource, UITableViewDelegate
 	func OfferRejected(sender: Any) {
 	}
 	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		debugPrint("cell selected at \(indexPath.row) (within InProgress Tab)")
+		ViewOfferFromCell(sender: shelf.cellForRow(at: indexPath) as! OfferCell)
+		shelf.deselectRow(at: indexPath, animated: false)
+	}
+	
 	//Offer to be viewed when segue to OfferVC is called.
 	var viewoffer: Offer?
 	
-	func ViewOffer(sender: Any) {
+	func ViewOfferFromCell(sender: Any) {
 		if let sender = sender as? OfferCell {
 			viewoffer = sender.ThisOffer
 		}

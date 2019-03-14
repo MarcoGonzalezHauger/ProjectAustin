@@ -18,7 +18,11 @@ class CompanyVC: UIViewController {
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
-		companyLogo.image = thisCompany.logo ?? UIImage(named: "defaultcompany")
+		if let logoUrl = thisCompany.logo {
+			companyLogo.downloadAndSetImage(logoUrl, isCircle: false)
+		} else {
+			companyLogo.image = UIImage(named: "defaultcompany")
+		}
 		companyNameLabel.text = thisCompany.name
 		CompanyMission.text = thisCompany.mission
 		CompanyDescription.text = thisCompany.description

@@ -22,41 +22,45 @@ class PreviewPostCell: UITableViewCell {
 class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SyncTimerDelegate {
 	
 	func Tick() {
-		if ThisOffer.isAccepted == false {
-			expirationView.isHidden = false
-			CheckExperation()
-		} else {
-			expirationView.isHidden = true
-		}
+		CheckExperation()
 	}
 	
 	func CheckExperation() {
-		if ThisOffer.isExpired {
-			expirationLabel.text = "Expired"
-			dismiss(animated: true, completion: nil)
+		if ThisOffer.isAccepted == false {
+			expirationView.isHidden = false
+			if ThisOffer.isExpired {
+				expirationLabel.text = "Expired"
+				if !acceptButtonView.isHidden {
+					acceptButtonView.isHidden = true
+				}
+				//dismiss(animated: true, completion: nil)
+			} else {
+				var desiredText: String = ""
+				let i : Double = ThisOffer.expiredate.timeIntervalSinceNow
+				if i >= 604800 {
+					desiredText = "Expires on "
+				} else {
+					desiredText = "Expires in "
+				}
+				let answer: String? = DateToLetterCountdown(date: ThisOffer.expiredate)
+				if let answer = answer {
+					desiredText += answer
+				} else {
+					desiredText = "Expired"
+					acceptButtonView.isHidden = true
+				}
+				expirationLabel.text = desiredText
+				
+				if i <= 3600 {
+					expirationView.layer.borderColor = UIColor.init(red: 255/255, green: 59/255, blue: 48/255, alpha: 1).cgColor
+					expirationLabel.textColor = UIColor.init(red: 255/255, green: 59/255, blue: 48/255, alpha: 1)
+				} else {
+					expirationView.layer.borderColor = UIColor.black.cgColor
+					expirationLabel.textColor = UIColor.black
+				}
+			}
 		} else {
-			var desiredText: String = ""
-			let i : Double = ThisOffer.expiredate.timeIntervalSinceNow
-			if i >= 604800 {
-				desiredText = "Expires on "
-			} else {
-				desiredText = "Expires in "
-			}
-			let answer: String? = DateToLetterCountdown(date: ThisOffer.expiredate)
-			if let answer = answer {
-				desiredText += answer
-			} else {
-				desiredText = "Expired"
-			}
-			expirationLabel.text = desiredText
-			
-			if i <= 3600 {
-				expirationView.layer.borderColor = UIColor.init(red: 255/255, green: 59/255, blue: 48/255, alpha: 1).cgColor
-				expirationLabel.textColor = UIColor.init(red: 255/255, green: 59/255, blue: 48/255, alpha: 1)
-			} else {
-				expirationView.layer.borderColor = UIColor.black.cgColor
-				expirationLabel.textColor = UIColor.black
-			}
+			expirationView.isHidden = true
 		}
 	}
 	
@@ -118,10 +122,11 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 	
 	//This VC makes a nice panel that pops up to give you details about an offer BEFORE you accept it.
 	
+	@IBOutlet weak var MoneyLabel: UILabel!
 	@IBOutlet weak var expirationView: UIView!
 	@IBOutlet weak var expirationLabel: UILabel!
 	@IBOutlet weak var logo: UIImageView!
-	@IBOutlet weak var companyname: UILabel!
+	//@IBOutlet weak var companyname: UILabel!
 	@IBOutlet weak var shelf: UITableView!
 	@IBOutlet weak var ShelfView: ShadowView!
 	
@@ -138,6 +143,7 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 		expirationView.layer.cornerRadius = 5
 		expirationView.layer.borderWidth = 1
 		globalTimer.delegates.append(self)
+		CheckExperation()
 	}
 	
 	@IBOutlet weak var smallDone: UIButton!
@@ -148,8 +154,15 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 		
 		//Make sure that if there is no company logo a default image is displayed. A building with a dish on it.
 		
-		logo.image = ThisOffer.company.logo ?? UIImage(named: "defaultcompany")
-		companyname.text = ThisOffer.company.name
+		if let picUrl  = ThisOffer.company.logo {
+			logo.downloadAndSetImage(picUrl, isCircle: false)
+		} else {
+			logo.image = UIImage(named: "defaultcompany")
+		}
+		
+		//companyname.text = ThisOffer.company.name
+		
+		MoneyLabel.text = NumberToPrice(Value: ThisOffer.money)
 		
 		//Make sure list of posts in offer is reflected.
 		shelf.reloadData()

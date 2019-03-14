@@ -9,7 +9,11 @@
 
 import UIKit
 
-class RejectedOffersVC: UIViewController, UITableViewDataSource, UITableViewDelegate, OfferCellDelegate, GlobalListener {
+class RejectedOffersVC: UIViewController, UITableViewDataSource, UITableViewDelegate, OfferCellDelegate, GlobalListener, OfferResponse {
+	
+	func OfferAccepted(offer: Offer) {
+		//Do nothing because rejected offers cannot be accepted.
+	}
 	
 	var isQue: Bool = false
 	
@@ -33,8 +37,34 @@ class RejectedOffersVC: UIViewController, UITableViewDataSource, UITableViewDele
 	}
 	
 	var Pager: PageVC!
+	var viewoffer: Offer?
 	
-	func ViewOffer(sender: Any) {
+	func ViewOffer(OfferToView theoffer: Offer) {
+		debugPrint("Viewing Offer: \(theoffer.money) from \(theoffer.company)")
+		viewoffer = theoffer
+		performSegue(withIdentifier: "viewOfferSegue", sender: self)
+	}
+	
+	//makes sure the offer is showing in the segue.
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.identifier == "viewOfferSegue" {
+			guard let newviewoffer = viewoffer else { return }
+			let destination = segue.destination
+			if let destination = (destination as! UINavigationController).topViewController as? OfferVC {
+				destination.delegate = self
+				destination.ThisOffer = newviewoffer
+			}
+		} else {
+			debugPrint("Segue to sign up is being prepared.")
+		}
+	}
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		
+		shelf.deselectRow(at: indexPath, animated: true)
+	}
+	
+	func ViewOfferFromCell(sender: Any) {
 		//Actually the put back function in this case.
 		if let ip : IndexPath = shelf.indexPath(for: sender as! UITableViewCell) {
 			global.AvaliableOffers.append(global.RejectedOffers[ip.row])

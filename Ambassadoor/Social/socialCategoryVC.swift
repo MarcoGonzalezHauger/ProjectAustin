@@ -21,8 +21,12 @@ class socialCategoryVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 	var selectedUser: User?
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		selectedUser = GetSameCategoryUsers()[indexPath.row]
-		performSegue(withIdentifier: "ViewFromCategory", sender: self)
+		if GetSameCategoryUsers()[indexPath.row].username == Yourself.username {
+			self.tabBarController?.selectedIndex = 1
+		} else {
+			selectedUser = GetSameCategoryUsers()[indexPath.row]
+			performSegue(withIdentifier: "ViewFromCategory", sender: self)
+		}
 		rankedShelf.deselectRow(at: indexPath, animated: true)
 	}
 	

@@ -78,6 +78,7 @@ extension InstagramVC: WKNavigationDelegate {
 		API.getProfileInfo { (user: User?) in
 			DispatchQueue.main.async {
 				if user != nil {
+					debugPrint("user NOT nil, creating user.")
                     CreateAccount(instagramUser: user!)
 					Yourself = user
 					self.performSegue(withIdentifier: "VerifySegue", sender: self)
@@ -96,9 +97,9 @@ extension InstagramVC: WKNavigationDelegate {
         decisionHandler(.allow)
         let sucessful = checkRequestForCallbackURL(request: navigationAction.request)
 		if sucessful {
-			debugPrint("Request for CallBackURL sucessful.")
+			//debugPrint("Request for CallBackURL sucessful.")
 		} else {
-			debugPrint("Request for CallBackURL failed.")
+			//debugPrint("Request for CallBackURL failed.")
 		}
     }
 }

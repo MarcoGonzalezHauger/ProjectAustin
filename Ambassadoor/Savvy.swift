@@ -92,7 +92,7 @@ func DateToLetterCountdown(date: Date) -> String? {
 	case i < 86400:
 		return "\(Int(floor(i/3600)))h \(Int(floor(Double((Int(i) % 3600) / 60))))m \(Int(i) % 60)s"
 	case i < 604800:
-		return "in \(Int(floor(i/86400)))d, \(Int(floor(Double((Int(i) % 86400) / 3600))))h \(Int(floor(Double((Int(i) % 3600) / 60))))m \(Int(i) % 60)s"
+		return "\(Int(floor(i/86400)))d \(Int(floor(Double((Int(i) % 86400) / 3600))))h \(Int(floor(Double((Int(i) % 3600) / 60))))m \(Int(i) % 60)s"
 	default:
 		let formatter = DateFormatter()
 		formatter.locale = Locale(identifier: "en_US")
@@ -222,6 +222,30 @@ func PostTypeToIcon(posttype: TypeofPost) -> UIImage {
 	}
 }
 
+func OfferFromID(id: String) -> Offer? {
+	debugPrint("attempting to find offer with ID \(id)")
+	return global.AvaliableOffers.filter { (ThisOffer) -> Bool in
+		return ThisOffer.offer_ID == id
+	}[0]
+}
+
+func CompressNumber(number: Double) -> String {
+	switch number {
+	case 0...9999:
+		return NumberToStringWithCommas(number: number)
+	case 10000...99999:
+		return "\(floor(number/100) / 10)K"
+	case 100000...999999:
+		return "\(floor(number/1000))K"
+	case 1000000...9999999:
+		return "\(floor(number/100000) / 10)M"
+	case 10000000...999999999:
+		return "\(floor(number/1000000))M"
+	default:
+		return String(number)
+	}
+}
+
 func PostTypeToText(posttype: TypeofPost) -> String {
 	switch posttype {
 	case .SinglePost:
@@ -254,7 +278,8 @@ func GetTownName(zipCode: String, completed: @escaping (_ cityState: String?) ->
                         if let result = zipCodeData["result"] {
                             let city = result["city"] as! String
                             let state = result["state"] as! String
-                            cityState = city + ", " + state
+							let stateDict = ["Alabama": "AL","Alaska": "AK","Arizona": "AZ","Arkansas": "AR","California": "CA","Colorado": "CO","Connecticut": "CT","Delaware": "DE","Florida": "FL","Georgia": "GA","Hawaii": "HI","Idaho": "ID","Illinois": "IL","Indiana": "IN","Iowa": "IA","Kansas": "KS","Kentucky": "KY","Louisiana": "LA","Maine": "ME","Maryland": "MD","Massachusetts": "MA","Michigan": "MI","Minnesota": "MN","Mississippi": "MS","Missouri": "MO","Montana": "MT","Nebraska": "NE","Nevada": "NV","New Hampshire": "NH","New Jersey": "NJ","New Mexico": "NM","New York": "NY","North Carolina": "NC","North Dakota": "ND","Ohio": "OH","Oklahoma": "OK","Oregon": "OR","Pennsylvania": "PA","Rhode Island": "RI","South Carolina": "SC","South Dakota": "SD","Tennessee": "TN","Texas": "TX","Utah": "UT","Vermont": "VT","Virginia": "VA","Washington": "WA","West Virginia": "WV","Wisconsin": "WI","Wyoming": "WY"] 
+                            cityState = city + ", " + (stateDict[state] ?? state)
                         }
                     }
                     DispatchQueue.main.async {

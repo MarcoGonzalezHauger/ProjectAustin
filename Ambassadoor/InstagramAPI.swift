@@ -23,6 +23,9 @@ struct API {
 	static func getProfileInfo(completed: ((_ user: User?) -> () )?) {
         let url = URL(string: "https://api.instagram.com/v1/users/self/?access_token=" + INSTAGRAM_ACCESS_TOKEN)
         URLSession.shared.dataTask(with: url!){ (data, response, err) in
+			
+			debugPrint("Downloading username data from instagram API")
+			
             if err == nil {
                 // check if JSON data is downloaded yet
                 guard let jsondata = data else { return }
@@ -36,11 +39,13 @@ struct API {
                                 "username": instagramProfileData["username"] as! String,
                                 "followerCount": instagramProfileData["counts"]?["followed_by"] as! Double,
                                 "profilePicture": instagramProfileData["profile_picture"] as! String,
-								"AccountType": Category.Other, // Will need to get from user on account creation
-								"id": instagramProfileData["id"] as! String
+								
+								"AccountType": "Other" // Will need to get from user on account creation
                             ]
+							debugPrint("Done Creating Userinfo dictinary")
 							getAverageLikesOfUser(instagramId: instagramProfileData["id"] as! String, completed: { (averageLikes: Double?) in
 								DispatchQueue.main.async {
+									debugPrint("Got Average Likes of User.")
 									userDictionary["averageLikes"] = averageLikes
 									let user = User(dictionary: userDictionary)
 									completed?(user)
@@ -50,7 +55,8 @@ struct API {
                     }
                     // Wait for data to be retrieved before moving on
                     DispatchQueue.main.async {
-						completed?(nil)
+						debugPrint("Deserialization Failed.")
+						//completed?(nil)
                     }
                 } catch {
                     print("JSON Downloading Error!")
@@ -67,7 +73,7 @@ struct API {
             "followerCount": user.followerCount,
             "profilePicURL": user.profilePicURL!,
             "AccountType": user.AccountType.rawValue,
-            "averageLikes": user.averageLikes!
+            "averageLikes": user.averageLikes ?? ""
         ]
         return userData
     }

@@ -29,7 +29,11 @@ class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = grid.dequeueReusableCell(withReuseIdentifier: "ProductCell", for: indexPath) as! ProductPreview
-		cell.ProductImage.image = ThisPost.products![indexPath.item].image ?? UIImage(named: "shopping cart")
+		if let logoUrl = ThisPost.products![indexPath.item].image {
+			cell.ProductImage.downloadAndSetImage(logoUrl, isCircle: false)
+		} else {
+			cell.ProductImage.image = UIImage(named: "shopping cart")
+		}
 		cell.ProductLabel.text = ThisPost.products![indexPath.item].name
 		return cell
 	}

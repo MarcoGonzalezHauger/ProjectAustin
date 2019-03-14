@@ -77,43 +77,46 @@ public extension UIImageView {
             }.resume()
     }
     
-    func downloadImageUsingCacheWithLink(_ urlLink: String, isCircle: Bool = true){
+    func downloadAndSetImage(_ urlLink: String, isCircle: Bool = true){
         self.showActivityIndicator()
         self.image = nil
-        
-        if urlLink.isEmpty {
-            return
-        }
-        // check cache first
-        if let cachedImage = imageCache.object(forKey: urlLink as NSString) as? UIImage {
-            if isCircle {
-                self.image = makeImageCircular(image: cachedImage)
-            } else {
-                self.image = cachedImage
-            }
-            return
-        }
-        
-        // otherwise, download
-        let url = URL(string: urlLink)
-        URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
-            if let err = error {
-                print(err)
-                return
-            }
-            DispatchQueue.main.async {
-                if let newImage = UIImage(data: data!) {
-                    imageCache.setObject(newImage, forKey: urlLink as NSString)
-                    if isCircle {
-                        self.image = makeImageCircular(image: newImage)
-                    } else {
-                        self.image = newImage
-                    }
-                    self.removeBorder()
-                    self.activityIndicator.stopAnimating()
-                }
-            }
-        }).resume()
-        
+		downloadImage(urlLink) { (returnImage) in
+			guard let returnImage = returnImage else { return }
+			if isCircle {
+				self.image = makeImageCircular(image: returnImage)
+			} else {
+				self.image = returnImage
+			}
+		}
     }
+}
+
+func downloadImage(_ urlLink: String, completed: @escaping (_ image: UIImage?) -> ()){
+	if urlLink.isEmpty {
+		completed(nil)
+		return
+	}
+	// check cache first
+	if let cachedImage = imageCache.object(forKey: urlLink as NSString) as? UIImage {
+		completed(cachedImage)
+		return
+	}
+	
+	// otherwise, download
+	let url = URL(string: urlLink)
+	URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
+		if let err = error {
+			print(err)
+			completed(nil)
+			return
+		}
+		DispatchQueue.main.async {
+			if let newImage = UIImage(data: data!) {
+				imageCache.setObject(newImage, forKey: urlLink as NSString)
+				completed(newImage)
+				return
+			}
+		}
+	}).resume()
+	
 }

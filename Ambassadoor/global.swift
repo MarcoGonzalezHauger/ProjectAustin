@@ -8,6 +8,8 @@
 //
 
 import Foundation
+import UserNotifications
+import UIKit
 
 //Allows any ViewController to add itself to the global as a delegate,
 //and get updated whenever there is a change to any of the global variables.
@@ -24,13 +26,18 @@ import Foundation
 class CentralVariables {
 	
 	//The offers that are currently in the users inbox.
-	var AvaliableOffers: [Offer] = [] { didSet { EachListener(){ if let targetfunction = $0.AvaliableOffersChanged { targetfunction()}}}}
+	var AvaliableOffers: [Offer] = [] { didSet {
+		UIApplication.shared.applicationIconBadgeNumber = AvaliableOffers.count
+		AvaliableOffers = AvaliableOffers.sorted{ (Offer1, Offer2) -> Bool in
+			return (Offer1.money / Double(Offer1.posts.count)) > (Offer2.money / Double(Offer2.posts.count))	}
+		EachListener(){ if let targetfunction = $0.AvaliableOffersChanged { targetfunction()}}}}
 	
 	//The offers that the user has rejected.
 	var RejectedOffers: [Offer] = [] { didSet { EachListener(){ if let targetfunction = $0.RejectedOffersChanged { targetfunction()}}}}
 	
 	//The offers that the user has accepted.
-	var AcceptedOffers: [Offer] = [] { didSet { EachListener(){ if let targetfunction = $0.AcceptedOffersChanged { targetfunction()}}}}
+	var AcceptedOffers: [Offer] = [] { didSet {	EachListener() { if let targetfunction = $0.AcceptedOffersChanged { targetfunction()}}}
+	}
 	
 	//The offers the user has completed.
 	var CompletedOffers: [Offer] = [] {	didSet { EachListener(){ if let targetfunction = $0.CompletedOffersChanged { targetfunction()}}}}

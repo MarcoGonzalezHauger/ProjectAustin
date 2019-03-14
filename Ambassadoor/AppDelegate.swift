@@ -10,10 +10,66 @@
 import UIKit
 import CoreData
 import Firebase
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
+	func AskForNotificationPermission() {
+		UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert]) { (worked, error) in
+		}
+	}
+	
+	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+		let identifier = response.notification.request.identifier
+		debugPrint("actionID: \(identifier)")
+		if identifier.hasPrefix("new") {
+			let offer_ID: String = String(identifier.dropFirst(3))
+			delegate?.SendOffer(OfferID: offer_ID)
+		} else if identifier.hasPrefix("expire") {
+			let offer_ID: String = String(identifier.dropFirst(6))
+			delegate?.SendOffer(OfferID: offer_ID)
+		}
+		completionHandler()
+	}
+	
+	var delegate: PresentOfferDelegate?
+	
+	func CreateExpireNotification(expiringOffer: Offer) {
+		let content = UNMutableNotificationContent()
+		content.title = "Offer Will Expire in 1h"
+		content.body = "An offer by \(expiringOffer.company.name) for \(NumberToPrice(Value: expiringOffer.money)) is about to expire."
+		downloadImage(expiringOffer.company.logo ?? "") { (logo) in
+			if let logo = logo {
+				if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
+					content.attachments = [attachment]
+				}
+			}
+			
+			
+			let request = UNNotificationRequest.init(identifier: "expire\(expiringOffer.offer_ID)", content: content, trigger: UNTimeIntervalNotificationTrigger.init(timeInterval: 5, repeats: false))
+			UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+		}
+	}
+	
+	func CreateNewOfferNotification(newOffer: Offer) {
+		let content = UNMutableNotificationContent()
+		content.title = "New Offer"
+		content.body = "\(newOffer.company.name) will pay you \(NumberToPrice(Value: newOffer.money)) for \(newOffer.posts.count) posts."
+		downloadImage(newOffer.company.logo ?? "") { (logo) in
+			if let logo = logo {
+				if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
+					content.attachments = [attachment]
+				}
+			}
+			
+			//Time inverval is for debug only.
+			
+			let request = UNNotificationRequest.init(identifier: "new\(newOffer.offer_ID)", content: content, trigger: UNTimeIntervalNotificationTrigger.init(timeInterval: 5, repeats: false))
+			UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+		}
+	}
+	
 	var window: UIWindow?
     
     override init() {
@@ -22,7 +78,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-		// Override point for customization after application launch.
+		
+		AskForNotificationPermission()
+		
+		// Define the custom actions.
+		
+		UNUserNotificationCenter.current().delegate = self
+		
 		return true
 	}
 

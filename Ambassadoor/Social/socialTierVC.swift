@@ -25,11 +25,11 @@ class SocialUserCell: UITableViewCell {
 				let secondtext : String = ShowCategory ? thisUser.AccountType.rawValue : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
 				details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
 					if let picurl = thisUser.profilePicURL {
-                        self.profilepicture.downloadImageUsingCacheWithLink(picurl)
+                        self.profilepicture.downloadAndSetImage(picurl)
                     } else {
                         self.profilepicture.image = defaultImage
                     }
-					self.SetColors(isYourself: thisUser.username == Yourself!.username)
+					self.SetColors(isYourself: thisUser.username == Yourself.username)
 			}
 		}
 	}
@@ -61,8 +61,12 @@ class socialTierVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 	var selectedUser: User?
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		selectedUser = GetSameTierUsers()[indexPath.row]
-		performSegue(withIdentifier: "ViewFromTier", sender: self)
+		if GetSameTierUsers()[indexPath.row].username == Yourself.username {
+			self.tabBarController?.selectedIndex = 1
+		} else {
+			selectedUser = GetSameTierUsers()[indexPath.row]
+			performSegue(withIdentifier: "ViewFromTier", sender: self)
+		}
 		rankedShelf.deselectRow(at: indexPath, animated: true)
 	}
 	

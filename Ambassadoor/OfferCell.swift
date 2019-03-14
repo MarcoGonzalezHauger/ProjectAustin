@@ -12,7 +12,7 @@ import UIKit
 //Protocol for interactions with indivisual Offer Cells
 @objc protocol OfferCellDelegate {
 	@objc optional func OfferRejected(sender: Any) -> ()
-	func ViewOffer(sender: Any) -> ()
+	func ViewOfferFromCell(sender: Any) -> ()
 	func isQueued(isQue: Bool) -> ()
 	@objc optional func OfferExpired(sender: Any) -> ()
 }
@@ -59,13 +59,13 @@ class OfferCell: UITableViewCell, SyncTimerDelegate {
 				}
 				if let expiresin = expiresInLabel {
 					if isCellExpired == true {
-						viewbutton.isHidden = true
+						viewbutton?.isHidden = true
 						agolabel.isHidden = true
 						expiresin.text = "Expired"
 						expiresin.textColor = UIColor.red
 					} else {
 						if let leftstring : String = DateToCountdown(date: o.expiredate)  {
-							viewbutton.isHidden = false
+							viewbutton?.isHidden = false
 							agolabel.isHidden = false
 							expiresin.text = "Expires " + leftstring
 							expiresin.textColor = UIColor.black
@@ -89,7 +89,7 @@ class OfferCell: UITableViewCell, SyncTimerDelegate {
 	@IBAction func view(_ sender: Any) {
 		if let dlg = delegate {
 			dlg.isQueued(isQue: true)
-			dlg.ViewOffer(sender: self)
+			dlg.ViewOfferFromCell(sender: self)
 			dlg.isQueued(isQue: false)
 		}
 	}
@@ -119,13 +119,13 @@ class OfferCell: UITableViewCell, SyncTimerDelegate {
 			guard let o = ThisOffer else { return }
 			if let expiresin = expiresInLabel {
 				if isCellExpired == true {
-					viewbutton.isHidden = true
+					viewbutton?.isHidden = true
 					agolabel.isHidden = true
 					expiresin.text = "Expired"
 					expiresin.textColor = UIColor.red
 				} else {
 					if let leftstring : String = DateToCountdown(date: o.expiredate)  {
-						viewbutton.isHidden = false
+						viewbutton?.isHidden = false
 						agolabel.isHidden = false
 						expiresin.text = "Expires " + leftstring
 						expiresin.textColor = UIColor.black
@@ -140,7 +140,14 @@ class OfferCell: UITableViewCell, SyncTimerDelegate {
 		didSet {
 			moneylabel.text = NumberToPrice(Value: ThisOffer.money)
 			companylabel.text = ThisOffer.company.name
-			postsLabel.text = ThisOffer.posts.count == 1 ? "For 1 post" : "For \(ThisOffer.posts.count) posts"
+			
+			if ThisOffer.isAccepted {
+				
+			} else {
+				postsLabel.text = ThisOffer.posts.count == 1 ? "For 1 post" : "For \(ThisOffer.posts.count) posts"
+			}
+			
+			
 			self.isCellExpired = ThisOffer.isExpired
 			Tick()
 		}
