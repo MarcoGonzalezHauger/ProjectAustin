@@ -41,7 +41,7 @@ class socialCategoryVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 	}
 	
 	func GetSameCategoryUsers() -> [User] {
-		var allpossibleusers = global.SocialData.filter{$0.AccountType == Yourself!.AccountType}
+		var allpossibleusers = global.SocialData.filter{$0.primaryCategory == Yourself!.primaryCategory}
 		allpossibleusers.append(Yourself!)
 		allpossibleusers.sort{return $0.followerCount > $1.followerCount }
 		return allpossibleusers
@@ -69,7 +69,7 @@ class socialCategoryVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 		super.viewDidLoad()
 		navigationController?.setNavigationBarHidden(true, animated: true)
 		navigationController?.interactivePopGestureRecognizer?.delegate = self
-		categoryHeader.text = "Category: " + Yourself!.AccountType.rawValue
+		categoryHeader.text = "Category: " + Yourself!.primaryCategory.rawValue
 		rankedShelf.dataSource = self
 		rankedShelf.delegate = self
 		global.delegates.append(self)

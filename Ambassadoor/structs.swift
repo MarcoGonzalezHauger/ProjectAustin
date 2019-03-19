@@ -86,8 +86,10 @@ class User: NSObject {
 	let username: String
 	let followerCount: Double
 	let profilePicURL: String?
-	let AccountType: Category
+	var primaryCategory: Category
+	var SecondaryCategory: Category?
 	let averageLikes: Double?
+	var zipCode: Int?
 	
     init(dictionary: [String: Any]) {
         self.name = dictionary["name"] as? String
@@ -98,13 +100,19 @@ class User: NSObject {
 		} else {
 			self.profilePicURL = dictionary["profilePicture"] as? String
 		}
-		debugPrint("Category: \(String(describing: dictionary["AccountType"]))")
-		self.AccountType = Category.init(rawValue: dictionary["AccountType"] as! String)!
+		debugPrint("Category: \(String(describing: dictionary["primaryCategory"]))")
+		self.primaryCategory = Category.init(rawValue: dictionary["primaryCategory"] as? String ?? "Other")!
+		if ((dictionary["secondaryCategory"] ?? "") as! String) == ""{
+			self.SecondaryCategory = nil
+		} else {
+			self.SecondaryCategory = ((dictionary["secondaryCategory"] as? String ?? "") == "" ? nil : Category.init(rawValue: dictionary["secondaryCategory"] as! String))!
+		}
 		self.averageLikes = dictionary["averageLikes"] as? Double
+		self.zipCode = dictionary["zipCode"] as? Int
     }
 	
 	override var description: String {
-		return "NAME: \(name ?? "NIL")\nUSERNAME: \(username)\nFOLLOWER COUNT: \(followerCount)\nPROFILE PIC: \(profilePicURL ?? "NIL")\nACCOUNT TYPE: \(AccountType)\nAVERAGE LIKES: \(averageLikes ?? -404)"
+		return "NAME: \(name ?? "NIL")\nUSERNAME: \(username)\nFOLLOWER COUNT: \(followerCount)\nPROFILE PIC: \(profilePicURL ?? "NIL")\nACCOUNT TYPE: \(primaryCategory)\nAVERAGE LIKES: \(averageLikes ?? -404)"
 	}
 }
 
@@ -143,7 +151,6 @@ struct Company {
 
 //Carries personal info only avalible to view and edit by the user.
 struct PersonalInfo {
-	let areacode: Int?
 	let gender: Gender?
     let accountBalance: Int?
 }

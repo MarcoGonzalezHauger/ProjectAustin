@@ -12,13 +12,14 @@ protocol EnterZipCode {
 	func ZipCodeEntered(zipCode: String?)
 }
 
+var zipCodeDic: [String: String] = [:]
+
 class ZipCodeVC: UIViewController {
 	
 	@IBOutlet weak var nameLabel: UILabel!
 	@IBOutlet weak var zipField: UITextField!
 	
 	var delegate: EnterZipCode?
-	var zipCodeDic: [String: String] = [:]
 	var currentquery: String?
 	
 	override func viewDidLoad() {
@@ -29,7 +30,7 @@ class ZipCodeVC: UIViewController {
 		if zipCodeDic[code] == nil {
 			zipCodeDic[code] = ""
 			GetTownName(zipCode: code) { (name) in
-				self.zipCodeDic[code] = name
+				zipCodeDic[code] = name
 				if self.currentquery == code {
 					self.nameLabel.text = name
 				}

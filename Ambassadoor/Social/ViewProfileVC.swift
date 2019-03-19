@@ -61,7 +61,7 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		if let shelf = shelf {
 			shelf.reloadData()
 		}
-		catLabel.text = ThisUser.AccountType.rawValue
+		catLabel.text = ThisUser.primaryCategory.rawValue
 		sinceLabel.text = "Ambassdaoor since 1998"
 		followerLabel.text = NumberToStringWithCommas(number: ThisUser.followerCount) + " followers"
 		let tier: Int? = GetTierFromFollowerCount(FollowerCount: ThisUser.followerCount)

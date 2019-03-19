@@ -152,6 +152,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		
 		appdel = UIApplication.shared.delegate as? AppDelegate
 		appdel.delegate = self
+		appdel.pageDelegate = self.tabBarController
 		debugPrint("Home VC started to load.")
 		
 		//First code to be executed when opening App

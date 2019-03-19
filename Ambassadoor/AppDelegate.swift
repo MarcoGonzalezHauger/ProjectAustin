@@ -20,20 +20,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		}
 	}
 	
+	func sendOffer(id: String) {
+		pageDelegate?.selectedIndex = 2
+		delegate?.SendOffer(OfferID: id)
+	}
+	
 	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
 		let identifier = response.notification.request.identifier
 		debugPrint("actionID: \(identifier)")
 		if identifier.hasPrefix("new") {
 			let offer_ID: String = String(identifier.dropFirst(3))
-			delegate?.SendOffer(OfferID: offer_ID)
+			sendOffer(id: offer_ID)
 		} else if identifier.hasPrefix("expire") {
 			let offer_ID: String = String(identifier.dropFirst(6))
-			delegate?.SendOffer(OfferID: offer_ID)
+			sendOffer(id: offer_ID)
 		}
 		completionHandler()
 	}
 	
 	var delegate: PresentOfferDelegate?
+	var pageDelegate: UITabBarController?
 	
 	func CreateExpireNotification(expiringOffer: Offer) {
 		let content = UNMutableNotificationContent()
@@ -45,8 +51,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 					content.attachments = [attachment]
 				}
 			}
-			
-			
 			let request = UNNotificationRequest.init(identifier: "expire\(expiringOffer.offer_ID)", content: content, trigger: UNTimeIntervalNotificationTrigger.init(timeInterval: 5, repeats: false))
 			UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
 		}

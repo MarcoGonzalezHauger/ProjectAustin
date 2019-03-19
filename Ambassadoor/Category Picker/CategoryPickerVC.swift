@@ -46,7 +46,7 @@ class CategoryPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 	}
 	
 	@IBAction func doneClicked(_ sender: Any) {
-		dismiss(animated: false, completion: nil)
+		dismiss(animated: true, completion: nil)
 		self.delegate?.DoneClicked()
 	}
 	

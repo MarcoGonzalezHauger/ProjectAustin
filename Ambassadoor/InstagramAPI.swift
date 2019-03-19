@@ -40,7 +40,11 @@ struct API {
                                 "followerCount": instagramProfileData["counts"]?["followed_by"] as! Double,
                                 "profilePicture": instagramProfileData["profile_picture"] as! String,
 								
-								"AccountType": "Other" // Will need to get from user on account creation
+								"primaryCategory": "Other", // need to get from user on account creation
+								
+								"zipCode": 10505,
+								
+								"secondaryCategory": ""
                             ]
 							debugPrint("Done Creating Userinfo dictinary")
 							getAverageLikesOfUser(instagramId: instagramProfileData["id"] as! String, completed: { (averageLikes: Double?) in
@@ -72,8 +76,10 @@ struct API {
             "username": user.username,
             "followerCount": user.followerCount,
             "profilePicURL": user.profilePicURL!,
-            "AccountType": user.AccountType.rawValue,
-            "averageLikes": user.averageLikes ?? ""
+            "primaryCategory": user.primaryCategory.rawValue,
+			"secondaryCategory": user.SecondaryCategory == nil ? "" : user.SecondaryCategory!.rawValue,
+            "averageLikes": user.averageLikes ?? "",
+			"zipCode": user.zipCode as Any
         ]
         return userData
     }
