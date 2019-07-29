@@ -139,7 +139,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 				}
 			}
 		}
-		
+//
 //		if Yourself == nil {
 //			debugPrint("Yourself is nil so showing signup VC.")
 //			performSegue(withIdentifier: "showSignUpVC", sender: self)
@@ -168,8 +168,12 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		global.AvaliableOffers = fakeoffers.filter({$0.isAccepted == false})
 		global.AcceptedOffers = fakeoffers.filter({$0.isAccepted == true})
 		
-		//let fakeusers: [User] = GetRandomTestUsers()
-		global.SocialData = GetAllUsers()
+//		let fakeusers: [User] = GetRandomTestUsers()
+//        global.SocialData = GetAllUsers
+        //naveen added
+        _ = GetAllUsers(completion: { (users) in
+            global.SocialData = users
+        })
         // Creating account with call to function (uncomment to for new data to appear in Firebase)
         //let accountCreated: Bool = CreateAccount(instagramUser: "czar_chomicki")
         
@@ -177,7 +181,61 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
         //let offers = GetOffers(userId: "test")
 		
 		
-		debugPrint("Home VC has been loaded.")
-		
+        //naveen added
+//        for offer in global.AcceptedOffers {
+//            appdel.CreateOfferAcceptNotification(expiringOffer: offer)
+//        }
+        
+//        for offer in global.AvaliableOffers {
+//            appdel.CreateExpireNotification(expiringOffer: offer)
+//        }
+        
+
+        UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
+            
+            for notification in notifications {
+                print(notification.identifier)
+                let acceptresults = global.AcceptedOffers.filter({ $0.offer_ID == notification.identifier })
+                let availableresults = global.AvaliableOffers.filter({ $0.offer_ID == notification.identifier })
+
+                if  acceptresults.count > 0{
+                    print("1 exists in the AcceptedOffersarray")
+                    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notification.identifier])
+                }
+                
+                if  availableresults.count > 0{
+                    print("1 exists in the AvaliableOffersarray")
+                    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notification.identifier])
+                }
+
+//                //accepted offer
+//                for offer in global.AcceptedOffers {
+//                    if notification.identifier == offer.offer_ID{
+//                        print("AcceptedOffersduplicate")
+//                    }else{
+//                        self.appdel.CreateOfferAcceptNotification(expiringOffer: offer)
+//
+//                    }
+//                }
+//
+//                //available offer
+//                for offer in global.AvaliableOffers {
+//                    if notification.identifier == offer.offer_ID{
+//                        print("AvaliableOffersduplicate")
+//                    }else{
+//                        self.appdel.CreateExpireNotification(expiringOffer: offer)
+//                    }
+//                }
+            }
+                for offer in global.AcceptedOffers {
+                    self.appdel.CreateOfferAcceptNotification(accepteddOffer: offer)
+                }
+        
+                for offer in global.AvaliableOffers {
+                    self.appdel.CreateExpireNotification(expiringOffer: offer)
+                }
+            
+        }
+        debugPrint("Home VC has been loaded.")
     }
 }

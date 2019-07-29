@@ -33,28 +33,36 @@ struct API {
                     do {
                         // Deserilize object from JSON
                         if let profileData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String : AnyObject] {
-                            self.instagramProfileData = profileData["data"] as! [String : AnyObject]
-							var userDictionary: [String: Any] = [
-                                "name": instagramProfileData["full_name"] as! String,
-                                "username": instagramProfileData["username"] as! String,
-                                "followerCount": instagramProfileData["counts"]?["followed_by"] as! Double,
-                                "profilePicture": instagramProfileData["profile_picture"] as! String,
-								
-								"primaryCategory": "Other", // need to get from user on account creation
-								
-								"zipCode": 10505,
-								
-								"secondaryCategory": ""
-                            ]
-							debugPrint("Done Creating Userinfo dictinary")
-							getAverageLikesOfUser(instagramId: instagramProfileData["id"] as! String, completed: { (averageLikes: Double?) in
-								DispatchQueue.main.async {
-									debugPrint("Got Average Likes of User.")
-									userDictionary["averageLikes"] = averageLikes
-									let user = User(dictionary: userDictionary)
-									completed?(user)
-								}
-							})
+                            let meta = profileData["meta"] as! [String : AnyObject]
+                            //naveen added code validation
+                            let code = meta["code"] as! Int
+                            if  code == 200{
+                                self.instagramProfileData = profileData["data"] as! [String : AnyObject]
+                                var userDictionary: [String: Any] = [
+                                    "name": instagramProfileData["full_name"] as! String,
+                                    "username": instagramProfileData["username"] as! String,
+                                    "followerCount": instagramProfileData["counts"]?["followed_by"] as! Double,
+                                    "profilePicture": instagramProfileData["profile_picture"] as! String,
+                                    
+                                    "primaryCategory": "Other", // need to get from user on account creation
+                                    
+                                    "zipCode": 10505,
+                                    
+                                    "secondaryCategory": ""
+                                ]
+                                debugPrint("Done Creating Userinfo dictinary")
+                                getAverageLikesOfUser(instagramId: instagramProfileData["id"] as! String, completed: { (averageLikes: Double?) in
+                                    DispatchQueue.main.async {
+                                        debugPrint("Got Average Likes of User.")
+                                        userDictionary["averageLikes"] = averageLikes
+                                        let user = User(dictionary: userDictionary)
+                                        completed?(user)
+                                    }
+                                })
+                            }else{
+                                
+                            }
+
                         }
                     }
                     // Wait for data to be retrieved before moving on

@@ -8,7 +8,7 @@
 //
 
 import UIKit
-
+import UserNotifications
 //Preview post when on offerVC.
 
 class PreviewPostCell: UITableViewCell {
@@ -144,6 +144,16 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 		expirationView.layer.borderWidth = 1
 		globalTimer.delegates.append(self)
 		CheckExperation()
+        
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert]) {
+            (granted, error) in
+            if granted {
+                print("yes")
+            } else {
+                print("No")
+            }
+        }
 	}
 	
 	@IBOutlet weak var smallDone: UIButton!

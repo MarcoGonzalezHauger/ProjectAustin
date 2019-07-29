@@ -224,9 +224,16 @@ func PostTypeToIcon(posttype: TypeofPost) -> UIImage {
 
 func OfferFromID(id: String) -> Offer? {
 	debugPrint("attempting to find offer with ID \(id)")
-	return global.AvaliableOffers.filter { (ThisOffer) -> Bool in
-		return ThisOffer.offer_ID == id
-	}[0]
+    
+//    return global.AvaliableOffers.filter { (ThisOffer) -> Bool in
+//        return ThisOffer.offer_ID == id
+//    }[0]
+    
+    //naveen added
+    let val =  global.AvaliableOffers.filter { (ThisOffer) -> Bool in
+        return ThisOffer.offer_ID == id
+    }
+    return val.count > 0 ? val[0] : global.AvaliableOffers[0];
 }
 
 func CompressNumber(number: Double) -> String {

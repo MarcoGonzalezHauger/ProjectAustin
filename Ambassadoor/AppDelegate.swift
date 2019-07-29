@@ -35,27 +35,94 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 			let offer_ID: String = String(identifier.dropFirst(6))
 			sendOffer(id: offer_ID)
 		}
+        //naveeen added
+        else if identifier.hasPrefix("accept"){
+            let offer_ID: String = String(identifier.dropFirst(6))
+            sendOffer(id: offer_ID)
+        }
 		completionHandler()
 	}
+    
+    //naveen added func
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
+    {
+        let id = notification.request.identifier
+        print("Received notification with ID = \(id)")
+        
+        completionHandler([.sound, .alert])
+    }
+
 	
 	var delegate: PresentOfferDelegate?
 	var pageDelegate: UITabBarController?
 	
 	func CreateExpireNotification(expiringOffer: Offer) {
-		let content = UNMutableNotificationContent()
-		content.title = "Offer Will Expire in 1h"
-		content.body = "An offer by \(expiringOffer.company.name) for \(NumberToPrice(Value: expiringOffer.money)) is about to expire."
-		downloadImage(expiringOffer.company.logo ?? "") { (logo) in
-			if let logo = logo {
-				if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
-					content.attachments = [attachment]
-				}
-			}
-			let request = UNNotificationRequest.init(identifier: "expire\(expiringOffer.offer_ID)", content: content, trigger: UNTimeIntervalNotificationTrigger.init(timeInterval: 5, repeats: false))
-			UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+//		let content = UNMutableNotificationContent()
+//		content.title = "Offer Will Expire in 1h"
+//		content.body = "An offer by \(expiringOffer.company.name) for \(NumberToPrice(Value: expiringOffer.money)) is about to expire."
+//		downloadImage(expiringOffer.company.logo ?? "") { (logo) in
+//			if let logo = logo {
+//				if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
+//					content.attachments = [attachment]
+//				}
+//			}
+//
+//			let request = UNNotificationRequest.init(identifier: "expire\(expiringOffer.offer_ID)", content: content, trigger: UNTimeIntervalNotificationTrigger.init(timeInterval: 10, repeats: false))
+//			UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+//        }
+        
+        //naveen added
+        let dateComponents = DateComponents(year: Calendar.current.component(.year, from: expiringOffer.expiredate), month: Calendar.current.component(.month, from: expiringOffer.expiredate), day: Calendar.current.component(.day, from: expiringOffer.expiredate))
+        let yourFireDate = Calendar.current.date(from: dateComponents)
+        let content = UNMutableNotificationContent()
+        content.title = NSString.localizedUserNotificationString(forKey:
+            "Offer Will Expire in 1h", arguments: nil)
+        content.body = NSString.localizedUserNotificationString(forKey: "An offer by \(expiringOffer.company.name) for \(NumberToPrice(Value: expiringOffer.money)) is about to expire.", arguments: nil)
+        content.categoryIdentifier = "\(expiringOffer.offer_ID)"
+        content.sound = UNNotificationSound.default
+        content.badge = 1
+        
+        downloadImage(expiringOffer.company.logo ?? "") { (logo) in
+            if let logo = logo {
+                if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
+                    content.attachments = [attachment]
+                }
+            }
+            
+            let dateComponents2 = Calendar.current.dateComponents(Set(arrayLiteral: Calendar.Component.year, Calendar.Component.month, Calendar.Component.day), from: yourFireDate!)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents2, repeats: false)
+            let request = UNNotificationRequest(identifier: "\(expiringOffer.offer_ID)", content: content, trigger: trigger)
+            UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
+                if error != nil {
+                    //handle error
+                } else {
+                    //notification set up successfully
+                }
+                
+            })
+        }
+
+        
 		}
-	}
+    
 	
+    //naveen added func
+    func CreateOfferAcceptNotification(accepteddOffer: Offer) {
+        let content = UNMutableNotificationContent()
+        content.title = "Offer Accepted"
+        content.body = "An offer by \(expiringOffer.company.name) for \(NumberToPrice(Value: expiringOffer.money)) is Accepted."
+        downloadImage(expiringOffer.company.logo ?? "") { (logo) in
+            if let logo = logo {
+                if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
+                    content.attachments = [attachment]
+                }
+            }
+            let request = UNNotificationRequest.init(identifier: "\(expiringOffer.offer_ID)", content: content, trigger: UNTimeIntervalNotificationTrigger.init(timeInterval: 15, repeats: false))
+            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        }
+        
+    }
+    
 	func CreateNewOfferNotification(newOffer: Offer) {
 		let content = UNMutableNotificationContent()
 		content.title = "New Offer"

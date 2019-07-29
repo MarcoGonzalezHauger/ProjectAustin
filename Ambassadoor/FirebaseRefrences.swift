@@ -61,10 +61,15 @@ func GetFakeOffers() -> [Offer] {
     var fakeoffers : [Offer] = []
 	let fakeproduct = Product.init(image: "https://haveaseat.com.au/wp-content/uploads/2016/10/nardi_3052.jpg", name: "This Cool Chair", price: 20, buy_url: "https://haveaseat.com.au/bora-armchair/", color: "Any", product_ID: "")
 	let fakecompany = Company.init(name: "The Chair Company", logo: "https://freefuninaustin.com/wp-content/uploads/sites/52/2018/03/theabyss-300x300.png", mission: "You might want to sit down for this", website: "https://www.athome.com/", account_ID: "", instagram_name: "", description: "The Chair Company of the Future")
-	for _ : Int in 0...30 {
-		let x = pow(Double(Int.random(in: 3...120)), 4)
-		fakeoffers.append(Offer.init(dictionary: ["money": Double.random(in: 10...40) as AnyObject, "company": fakecompany as AnyObject, "posts": [Post.init(image: nil, instructions: "Post an image using a pharoah attire shirt", captionMustInclude: nil, products: [fakeproduct, fakeproduct, fakeproduct], post_ID: "", PostType: .SinglePost, confirmedSince: nil, isConfirmed: Bool.random()), Post.init(image: nil, instructions: "Post an image to your story with a pharoah attire shirt and mention there is a sale.", captionMustInclude: nil, products: [fakeproduct], post_ID: "", PostType: .Story, confirmedSince: nil, isConfirmed: Bool.random())] as AnyObject, "offerdate": Date().addingTimeInterval(x * -1) as AnyObject, "offer_ID": "fakeOffer\(Int.random(in: 1...9999999))" as AnyObject, "expiredate": Date(timeIntervalSinceNow: x / 4) as AnyObject, "allPostsConfirmedSince": "" as AnyObject, "isAccepted": Bool.random() as AnyObject]))
-	}
+    
+//	for _ : Int in 0...30 {
+//		let x = pow(Double(Int.random(in: 3...120)), 4)
+//		fakeoffers.append(Offer.init(dictionary: ["money": Double.random(in: 10...40) as AnyObject, "company": fakecompany as AnyObject, "posts": [Post.init(image: nil, instructions: "Post an image using a pharoah attire shirt", captionMustInclude: nil, products: [fakeproduct, fakeproduct, fakeproduct], post_ID: "", PostType: .SinglePost, confirmedSince: nil, isConfirmed: Bool.random()), Post.init(image: nil, instructions: "Post an image to your story with a pharoah attire shirt and mention there is a sale.", captionMustInclude: nil, products: [fakeproduct], post_ID: "", PostType: .Story, confirmedSince: nil, isConfirmed: Bool.random())] as AnyObject, "offerdate": Date().addingTimeInterval(x * -1) as AnyObject, "offer_ID": "fakeOffer\(Int.random(in: 1...9999999))" as AnyObject, "expiredate": Date(timeIntervalSinceNow: x / 4) as AnyObject, "allPostsConfirmedSince": "" as AnyObject, "isAccepted": Bool.random() as AnyObject]))
+//	}
+    
+    fakeoffers.append(Offer.init(dictionary: ["money": Double.random(in: 10...40) as AnyObject, "company": fakecompany as AnyObject, "posts": [Post.init(image: nil, instructions: "Post an image using a pharoah attire shirt", captionMustInclude: nil, products: [fakeproduct, fakeproduct, fakeproduct], post_ID: "", PostType: .SinglePost, confirmedSince: nil, isConfirmed: Bool.random()), Post.init(image: nil, instructions: "Post an image to your story with a pharoah attire shirt and mention there is a sale.", captionMustInclude: nil, products: [fakeproduct], post_ID: "", PostType: .Story, confirmedSince: nil, isConfirmed: Bool.random())] as AnyObject, "offerdate": Date.yesterday - 6 as AnyObject, "offer_ID": "fakeOffer1)" as AnyObject, "expiredate": Date.tomorrow as AnyObject, "allPostsConfirmedSince": "" as AnyObject,"isAccepted": true as AnyObject]))
+    fakeoffers.append(Offer.init(dictionary: ["money": Double.random(in: 10...40) as AnyObject, "company": fakecompany as AnyObject, "posts": [Post.init(image: nil, instructions: "Post an image using a pharoah attire shirt", captionMustInclude: nil, products: [fakeproduct, fakeproduct, fakeproduct], post_ID: "", PostType: .SinglePost, confirmedSince: nil, isConfirmed: Bool.random()), Post.init(image: nil, instructions: "Post an image to your story with a pharoah attire shirt and mention there is a sale.", captionMustInclude: nil, products: [fakeproduct], post_ID: "", PostType: .Story, confirmedSince: nil, isConfirmed: Bool.random())] as AnyObject, "offerdate": Date.yesterday - 5 as AnyObject, "offer_ID": "fakeOffer2)" as AnyObject, "expiredate": Date.tomorrow as AnyObject, "allPostsConfirmedSince": "" as AnyObject,"isAccepted": false as AnyObject]))
+    
     return fakeoffers
 }
 
@@ -113,7 +118,24 @@ func CreateAccount(instagramUser: User) -> User {
 }
 
 // Query all users in Firebase and to do filtering based on algorithm
-func GetAllUsers() -> [User] {
+//func GetAllUsers() -> [User] {
+//    let usersRef = Database.database().reference().child("users")
+//    var users: [User] = []
+//    usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
+//        if let dictionary = snapshot.value as? [String: AnyObject] {
+//            for (_, user) in dictionary{
+//                let userDictionary = user as? NSDictionary
+//                let userInstance = User(dictionary: userDictionary! as! [String : AnyObject])
+//                users.append(userInstance)
+//                global.SocialData.append(userInstance)
+//            }
+//        }
+//    }, withCancel: nil)
+//    return users
+//}
+
+//naveen added func
+func GetAllUsers(completion:@escaping (_ result: [User])->())  {
     let usersRef = Database.database().reference().child("users")
     var users: [User] = []
     usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -123,7 +145,7 @@ func GetAllUsers() -> [User] {
                 let userInstance = User(dictionary: userDictionary! as! [String : AnyObject])
                 users.append(userInstance)
             }
+            completion(users)
         }
     }, withCancel: nil)
-    return users
 }
