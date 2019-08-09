@@ -71,10 +71,10 @@ class Offer : NSObject {
     init(dictionary: [String: AnyObject]) {
         self.money = dictionary["money"] as! Double
         self.company = dictionary["company"] as! Company
-        self.posts = dictionary["posts"] as! [Post]
-        self.offerdate = dictionary["offerdate"] as! Date
+        self.posts = dictionary["post"] as! [Post]
+        self.offerdate = dictionary["offerdate"] as? Date ?? Date.yesterday
         self.offer_ID = dictionary["offer_ID"] as! String
-        self.expiredate = dictionary["expiredate"] as! Date
+        self.expiredate = dictionary["expiredate"] as? Date ?? Date.tomorrow
         self.allPostsConfrimedSince = dictionary["allPostsConfirmedSince"] as? Date
         self.isAccepted = dictionary["isAccepted"] as! Bool
     }
@@ -90,6 +90,9 @@ class User: NSObject {
 	var SecondaryCategory: Category?
 	let averageLikes: Double?
 	var zipCode: Int?
+    //naveen added
+    let id: String
+    var gender: Gender?
 	
     init(dictionary: [String: Any]) {
         self.name = dictionary["name"] as? String
@@ -101,7 +104,14 @@ class User: NSObject {
 			self.profilePicURL = dictionary["profilePicture"] as? String
 		}
 		debugPrint("Category: \(String(describing: dictionary["primaryCategory"]))")
-		self.primaryCategory = Category.init(rawValue: dictionary["primaryCategory"] as? String ?? "Other")!
+//		self.primaryCategory = Category.init(rawValue: dictionary["primaryCategory"] as? String ?? "Other")!
+        //naveen added
+        if ((dictionary["primaryCategory"] ?? "") as! String) == ""{
+            self.primaryCategory = Category.init(rawValue: "Other")!
+        } else {
+            self.primaryCategory = ((dictionary["primaryCategory"] as? String ?? "") == "" ? nil : Category.init(rawValue: dictionary["primaryCategory"] as! String))!
+        }
+        
 		if ((dictionary["secondaryCategory"] ?? "") as! String) == ""{
 			self.SecondaryCategory = nil
 		} else {
@@ -109,6 +119,9 @@ class User: NSObject {
 		}
 		self.averageLikes = dictionary["averageLikes"] as? Double
 		self.zipCode = dictionary["zipCode"] as? Int
+        //naveen added
+        self.id = dictionary["id"] as! String
+        self.gender = dictionary["gender"] as? Gender
     }
 	
 	override var description: String {

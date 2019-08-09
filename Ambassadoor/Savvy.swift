@@ -264,6 +264,20 @@ func PostTypeToText(posttype: TypeofPost) -> String {
 	}
 }
 
+//naveen added
+func TextToGender(gender: String) -> Gender {
+    switch gender {
+    case "male":
+        return .male
+    case "female":
+        return .female
+    case "other":
+        return .other
+    default:
+        return .other
+    }
+}
+
 func GetTownName(zipCode: String, completed: @escaping (_ cityState: String?) -> () ) {
 	debugPrint("Getting town name from zipCode=\(zipCode)")
 	

@@ -11,9 +11,28 @@ import Foundation
 
 struct API {
     static let INSTAGRAM_AUTHURL = "https://api.instagram.com/oauth/authorize/"
-    static let INSTAGRAM_CLIENT_ID = "fa083c34de6847ff95db596d75ef1c31"
-    static let INSTAGRAM_CLIENTSERCRET = "b81172265e6b417782fcf075e2daf2ff"
-    static let INSTAGRAM_REDIRECT_URI = "https://ambassadoor.co/welcome"
+//    static let INSTAGRAM_CLIENT_ID = "fa083c34de6847ff95db596d75ef1c31"
+//    static let INSTAGRAM_CLIENTSERCRET = "b81172265e6b417782fcf075e2daf2ff"
+//    static let INSTAGRAM_REDIRECT_URI = "https://ambass adoor.co/welcome"
+
+    //naveen added
+    //vinoth login
+    //"http://company.lovelike.com.br/#access_token=3631201853.f0ee6b4.5b45fb42387243afb5d3fe3aeb2ebaaa"
+//    static let INSTAGRAM_CLIENT_ID = "f0ee6b475a934dff90ea207c63cad55a"
+//    static let INSTAGRAM_CLIENTSERCRET = "379e283505544e0fa4b522ab04603122"
+//    static let INSTAGRAM_REDIRECT_URI = "http://company.lovelike.com.br/"
+    //naveen login
+    //"https://ambassdoor.com/welcome#access_token=3225555942.3a8760e.7a76cfffabb44e21bcc0db92dc10f7f8"
+//    static let INSTAGRAM_CLIENT_ID = "3a8760e3174c4d24b462a3cb531f5917"
+//    static let INSTAGRAM_CLIENTSERCRET = "bbbf3c8c82ea425a94d5df8a11fd8e97"
+//    static let INSTAGRAM_REDIRECT_URI = "https://ambassadoor.com/welcome"
+    
+    //new
+    //"https://ambassdoor.com/welcome#access_token=3225555942.3a8760e.7a76cfffabb44e21bcc0db92dc10f7f8"
+    static let INSTAGRAM_CLIENT_ID = "a92e22c060e04281917b29a4120aadf3"
+    static let INSTAGRAM_CLIENTSERCRET = "42fc056dd5aa43bf9aacc9fc923df75c"
+    static let INSTAGRAM_REDIRECT_URI = "https://ambassadoor.com/welcome"
+    
     static var INSTAGRAM_ACCESS_TOKEN = ""
     static let threeMonths: Double = 7889229
     static let INSTAGRAM_SCOPE = "public_content" /* add whatever scope you need https://www.instagram.com/developer/ */
@@ -44,11 +63,15 @@ struct API {
                                     "followerCount": instagramProfileData["counts"]?["followed_by"] as! Double,
                                     "profilePicture": instagramProfileData["profile_picture"] as! String,
                                     
-                                    "primaryCategory": "Other", // need to get from user on account creation
+                                    "primaryCategory": "", // need to get from user on account creation
                                     
                                     "zipCode": 10505,
                                     
-                                    "secondaryCategory": ""
+                                    "secondaryCategory": "",
+                                    
+                                    //naveen added
+                                    "id": instagramProfileData["id"] as! String,
+                                    "gender": ""
                                 ]
                                 debugPrint("Done Creating Userinfo dictinary")
                                 getAverageLikesOfUser(instagramId: instagramProfileData["id"] as! String, completed: { (averageLikes: Double?) in
@@ -87,7 +110,8 @@ struct API {
             "primaryCategory": user.primaryCategory.rawValue,
 			"secondaryCategory": user.SecondaryCategory == nil ? "" : user.SecondaryCategory!.rawValue,
             "averageLikes": user.averageLikes ?? "",
-			"zipCode": user.zipCode as Any
+			"zipCode": user.zipCode as Any,
+            "gender": user.gender 
         ]
         return userData
     }
@@ -157,5 +181,19 @@ struct API {
                 }
             }
         }.resume()
+    }
+    
+    //naveen added func
+    static func instaLogout(){
+        let cookieJar : HTTPCookieStorage = HTTPCookieStorage.shared
+        for cookie in cookieJar.cookies! as [HTTPCookie]{
+            print("cookie.domain = %@", cookie.domain)
+            
+            if cookie.domain == "www.instagram.com" ||
+                cookie.domain == "api.instagram.com" || cookie.domain == ".instagram.com"{
+                
+                cookieJar.deleteCookie(cookie)
+            }
+        }
     }
 }

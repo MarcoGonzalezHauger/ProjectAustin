@@ -129,26 +129,32 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 	override func viewDidAppear(_ animated: Bool) {
 		
 		//TEMPORARY MEASURE TO ALLOW FOR FASTER DEBUGGING.
-		API.INSTAGRAM_ACCESS_TOKEN = "1605029612.fa083c3.815705ce93ab4ce89f21ee2aabdd7071"
-		API.getProfileInfo { (user: User?) in
-			DispatchQueue.main.async {
-				if user != nil {
-					Yourself = user
-				} else {
-					debugPrint("Youself user was NIL.")
-				}
-			}
-		}
+//		API.INSTAGRAM_ACCESS_TOKEN = "1605029612.fa083c3.815705ce93ab4ce89f21ee2aabdd7071"
+//        //naveen login
+////        API.INSTAGRAM_ACCESS_TOKEN = "3225555942.3a8760e.7a76cfffabb44e21bcc0db92dc10f7f8"
 //
-//		if Yourself == nil {
-//			debugPrint("Yourself is nil so showing signup VC.")
-//			performSegue(withIdentifier: "showSignUpVC", sender: self)
+//		API.getProfileInfo { (user: User?) in
+//			DispatchQueue.main.async {
+//				if user != nil {
+//					Yourself = user
+//				} else {
+//					debugPrint("Youself user was NIL.")
+//				}
+//			}
 //		}
-//		debugPrint(Yourself)
+//
+        debugPrint(API.INSTAGRAM_ACCESS_TOKEN)
+		if Yourself == nil {
+			debugPrint("Yourself is nil so showing signup VC.")
+			performSegue(withIdentifier: "showSignUpVC", sender: self)
+		}
+		debugPrint(Yourself)
 	}
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        API.instaLogout()
 		
 		appdel = UIApplication.shared.delegate as? AppDelegate
 		appdel.delegate = self
@@ -163,10 +169,19 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		global.delegates.append(self)
 		
 		//Debugging Fake Offers
-		
 		let fakeoffers: [Offer] = GetFakeOffers()
-		global.AvaliableOffers = fakeoffers.filter({$0.isAccepted == false})
-		global.AcceptedOffers = fakeoffers.filter({$0.isAccepted == true})
+        global.AvaliableOffers = fakeoffers.filter({$0.isAccepted == false})
+        global.AcceptedOffers = fakeoffers.filter({$0.isAccepted == true})
+        
+        //naveen added
+//        var fakeoffers: [Offer] = []
+//        getOfferList { (Offers) in
+//            print(Offers.count)
+//            fakeoffers = Offers
+//            global.AvaliableOffers = fakeoffers.filter({$0.isAccepted == false})
+//            global.AcceptedOffers = fakeoffers.filter({$0.isAccepted == true})
+//        }
+
 		
 //		let fakeusers: [User] = GetRandomTestUsers()
 //        global.SocialData = GetAllUsers

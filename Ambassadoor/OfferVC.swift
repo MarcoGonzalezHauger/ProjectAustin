@@ -145,7 +145,6 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 		globalTimer.delegates.append(self)
 		CheckExperation()
         
-        
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert]) {
             (granted, error) in
             if granted {

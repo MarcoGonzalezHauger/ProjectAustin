@@ -20,7 +20,6 @@ class InstagramVC: UIViewController, ConfirmationReturned {
 		} else {
 			
 			// THIS IS WHERE I NEED THE CODE TO DISABLE AUTOCOMPLETE ON THE WEBVIEW <-------------------------
-			
 			loadLogin()
 		}
 	}
@@ -31,7 +30,8 @@ class InstagramVC: UIViewController, ConfirmationReturned {
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let destination = segue.destination as? VerifedVC {
 			if segue.identifier == "VerifySegue" {
-				destination.delegate = self	
+				destination.delegate = self
+                destination.user = sender as? User
 			}
 		}
 	}
@@ -45,7 +45,10 @@ class InstagramVC: UIViewController, ConfirmationReturned {
     
     // Loads the Instagram login page
     func loadLogin() {
-		let authURL = String(format: "%@?client_id=%@&redirect_uri=%@&response_type=token&scope=%@&DEBUG=True", arguments: [API.INSTAGRAM_AUTHURL,API.INSTAGRAM_CLIENT_ID,API.INSTAGRAM_REDIRECT_URI, API.INSTAGRAM_SCOPE])
+//		let authURL = String(format: "%@?client_id=%@&redirect_uri=%@&response_type=token&scope=%@&DEBUG=True", arguments: [API.INSTAGRAM_AUTHURL,API.INSTAGRAM_CLIENT_ID,API.INSTAGRAM_REDIRECT_URI, API.INSTAGRAM_SCOPE])
+        let authURL = String(format: "%@?client_id=%@&redirect_uri=%@&response_type=token", arguments: [API.INSTAGRAM_AUTHURL,API.INSTAGRAM_CLIENT_ID,API.INSTAGRAM_REDIRECT_URI])
+
+
         let urlRequest = URLRequest.init(url: URL.init(string: authURL)!)
         // Puts login page into WebView on VC
         webView.load(urlRequest)
@@ -63,6 +66,7 @@ extension InstagramVC: WKNavigationDelegate {
     // Check callback url for instagram access token
     func checkRequestForCallbackURL(request: URLRequest) -> Bool {
         let requestURLString = (request.url?.absoluteString)! as String
+        print("requestURLString" + requestURLString)
         if requestURLString.hasPrefix(API.INSTAGRAM_REDIRECT_URI) {
             let range: Range<String.Index> = requestURLString.range(of: "#access_token=")!
             handleAuth(authToken: String(requestURLString[range.upperBound...]))
@@ -72,21 +76,46 @@ extension InstagramVC: WKNavigationDelegate {
     }
 
     // Handle Instagram auth token from callback url and handle it with our logic
+    //naveen commended
+//    func handleAuth(authToken: String) {
+//        debugPrint("Instagram authentication token = ", authToken)
+//        API.INSTAGRAM_ACCESS_TOKEN = authToken
+//		API.getProfileInfo { (user: User?) in
+//			DispatchQueue.main.async {
+//				if user != nil {
+//					debugPrint("user NOT nil, creating user.")
+//                    CreateAccount(instagramUser: user!)
+//					Yourself = user
+//					self.performSegue(withIdentifier: "VerifySegue", sender: self)
+//				} else {
+//					debugPrint("Youself user was NIL.")
+//				}
+//			}
+//		}
+//    }
+    
+    //naveen added
     func handleAuth(authToken: String) {
         debugPrint("Instagram authentication token = ", authToken)
         API.INSTAGRAM_ACCESS_TOKEN = authToken
-		API.getProfileInfo { (user: User?) in
-			DispatchQueue.main.async {
-				if user != nil {
-					debugPrint("user NOT nil, creating user.")
-                    CreateAccount(instagramUser: user!)
-					Yourself = user
-					self.performSegue(withIdentifier: "VerifySegue", sender: self)
-				} else {
-					debugPrint("Youself user was NIL.")
-				}
-			}
-		}
+        API.getProfileInfo { (user: User?) in
+            DispatchQueue.main.async {
+                if user != nil {
+                    debugPrint("user NOT nil, creating user.")
+                    CreateAccount(instagramUser: user!) { (userVal, alreadyRegistered) in
+                        Yourself = userVal
+                        if alreadyRegistered {
+                            self.dismissed(success: alreadyRegistered)
+                        }else{
+                            self.performSegue(withIdentifier: "VerifySegue", sender: userVal)
+                        }
+                    }
+
+                } else {
+                    debugPrint("Youself user was NIL.")
+                }
+            }
+        }
     }
     
     func worked(){
@@ -98,8 +127,11 @@ extension InstagramVC: WKNavigationDelegate {
         let sucessful = checkRequestForCallbackURL(request: navigationAction.request)
 		if sucessful {
 			//debugPrint("Request for CallBackURL sucessful.")
+            
 		} else {
 			//debugPrint("Request for CallBackURL failed.")
+            
 		}
     }
+
 }

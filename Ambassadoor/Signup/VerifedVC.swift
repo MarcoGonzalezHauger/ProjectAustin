@@ -9,9 +9,10 @@
 
 import UIKit
 
-class VerifedVC: UIViewController {
+class VerifedVC: UIViewController, ConfirmationReturned {
 
 	var delegate: ConfirmationReturned?
+    var user: User?
 	@IBOutlet weak var receedButton: UIButton!
 	@IBOutlet weak var usernameLabel: UILabel!
 	
@@ -21,9 +22,12 @@ class VerifedVC: UIViewController {
 	}
 	
 	@IBAction func proceed(_ sender: Any) {
-		self.dismiss(animated: false) {
-			self.delegate?.dismissed(success: true)
-		}
+//		self.dismiss(animated: false) {
+//			self.delegate?.dismissed(success: true)
+//		}
+        //naveen added
+        self.performSegue(withIdentifier: "verifyToOtherVCSegue", sender: user)
+        
 	}
 	
 	@IBAction func notme(_ sender: Any) {
@@ -32,4 +36,18 @@ class VerifedVC: UIViewController {
 		}
 	}
 	
+    //naveen added
+    func dismissed(success: Bool!) {
+        self.dismiss(animated: false) {
+            self.delegate?.dismissed(success: true)
+        }
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? OtherInfoVC {
+            if segue.identifier == "verifyToOtherVCSegue" {
+                destination.delegate = self
+                destination.userfinal = sender as? User
+            }
+        }
+    }
 }

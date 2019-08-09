@@ -67,10 +67,70 @@ func GetFakeOffers() -> [Offer] {
 //		fakeoffers.append(Offer.init(dictionary: ["money": Double.random(in: 10...40) as AnyObject, "company": fakecompany as AnyObject, "posts": [Post.init(image: nil, instructions: "Post an image using a pharoah attire shirt", captionMustInclude: nil, products: [fakeproduct, fakeproduct, fakeproduct], post_ID: "", PostType: .SinglePost, confirmedSince: nil, isConfirmed: Bool.random()), Post.init(image: nil, instructions: "Post an image to your story with a pharoah attire shirt and mention there is a sale.", captionMustInclude: nil, products: [fakeproduct], post_ID: "", PostType: .Story, confirmedSince: nil, isConfirmed: Bool.random())] as AnyObject, "offerdate": Date().addingTimeInterval(x * -1) as AnyObject, "offer_ID": "fakeOffer\(Int.random(in: 1...9999999))" as AnyObject, "expiredate": Date(timeIntervalSinceNow: x / 4) as AnyObject, "allPostsConfirmedSince": "" as AnyObject, "isAccepted": Bool.random() as AnyObject]))
 //	}
     
-    fakeoffers.append(Offer.init(dictionary: ["money": Double.random(in: 10...40) as AnyObject, "company": fakecompany as AnyObject, "posts": [Post.init(image: nil, instructions: "Post an image using a pharoah attire shirt", captionMustInclude: nil, products: [fakeproduct, fakeproduct, fakeproduct], post_ID: "", PostType: .SinglePost, confirmedSince: nil, isConfirmed: Bool.random()), Post.init(image: nil, instructions: "Post an image to your story with a pharoah attire shirt and mention there is a sale.", captionMustInclude: nil, products: [fakeproduct], post_ID: "", PostType: .Story, confirmedSince: nil, isConfirmed: Bool.random())] as AnyObject, "offerdate": Date.yesterday - 6 as AnyObject, "offer_ID": "fakeOffer1)" as AnyObject, "expiredate": Date.tomorrow as AnyObject, "allPostsConfirmedSince": "" as AnyObject,"isAccepted": true as AnyObject]))
-    fakeoffers.append(Offer.init(dictionary: ["money": Double.random(in: 10...40) as AnyObject, "company": fakecompany as AnyObject, "posts": [Post.init(image: nil, instructions: "Post an image using a pharoah attire shirt", captionMustInclude: nil, products: [fakeproduct, fakeproduct, fakeproduct], post_ID: "", PostType: .SinglePost, confirmedSince: nil, isConfirmed: Bool.random()), Post.init(image: nil, instructions: "Post an image to your story with a pharoah attire shirt and mention there is a sale.", captionMustInclude: nil, products: [fakeproduct], post_ID: "", PostType: .Story, confirmedSince: nil, isConfirmed: Bool.random())] as AnyObject, "offerdate": Date.yesterday - 5 as AnyObject, "offer_ID": "fakeOffer2)" as AnyObject, "expiredate": Date.tomorrow as AnyObject, "allPostsConfirmedSince": "" as AnyObject,"isAccepted": false as AnyObject]))
+    fakeoffers.append(Offer.init(dictionary: ["money": Double.random(in: 10...40) as AnyObject, "company": fakecompany as AnyObject, "post": [Post.init(image: nil, instructions: "Post an image using a pharoah attire shirt", captionMustInclude: nil, products: [fakeproduct, fakeproduct, fakeproduct], post_ID: "", PostType: .SinglePost, confirmedSince: nil, isConfirmed: Bool.random()), Post.init(image: nil, instructions: "Post an image to your story with a pharoah attire shirt and mention there is a sale.", captionMustInclude: nil, products: [fakeproduct], post_ID: "", PostType: .Story, confirmedSince: nil, isConfirmed: Bool.random())] as AnyObject, "offerdate": Date.yesterday - 6 as AnyObject, "offer_ID": "AcceptOffer1" as AnyObject, "expiredate": Date.tomorrow as AnyObject, "allPostsConfirmedSince": "" as AnyObject,"isAccepted": true as AnyObject]))
+    fakeoffers.append(Offer.init(dictionary: ["money": Double.random(in: 10...40) as AnyObject, "company": fakecompany as AnyObject, "post": [Post.init(image: nil, instructions: "Post an image using a pharoah attire shirt", captionMustInclude: nil, products: [fakeproduct, fakeproduct, fakeproduct], post_ID: "", PostType: .SinglePost, confirmedSince: nil, isConfirmed: Bool.random()), Post.init(image: nil, instructions: "Post an image to your story with a pharoah attire shirt and mention there is a sale.", captionMustInclude: nil, products: [fakeproduct], post_ID: "", PostType: .Story, confirmedSince: nil, isConfirmed: Bool.random())] as AnyObject, "offerdate": Date.yesterday - 5 as AnyObject, "offer_ID": "AvailableOffer2" as AnyObject, "expiredate": Date.tomorrow as AnyObject, "allPostsConfirmedSince": "" as AnyObject,"isAccepted": false as AnyObject]))
     
     return fakeoffers
+}
+
+//naveen added func
+func getOfferList(completion:@escaping (_ result: [Offer])->()) {
+    var offers : [Offer] = []
+    let ref = Database.database().reference().child("offers")
+    ref.observeSingleEvent(of: .value, with: {(snapshot) in
+    print(snapshot.childrenCount)
+        if let dictionary = snapshot.value as? [String: AnyObject] {
+            for (_, offer) in dictionary{
+                var offerDictionary = offer as? [String: AnyObject]
+                print("company=\(offerDictionary!["company"] as! String)")
+                //company detail fetch data
+                let compref = Database.database().reference().child("companies").child(offerDictionary!["company"] as! String)
+                compref.observeSingleEvent(of: .value, with: { (dataSnapshot) in
+                    if let compDic = dataSnapshot.value as? [String: AnyObject] {
+                        for (_,company) in compDic {
+                            let fakecompany = Company.init(name: company["name"] as! String, logo:
+                                company["logo"] as? String, mission: company["mission"] as! String, website: company["website"] as! String, account_ID: company["account_ID"] as! String, instagram_name: "test", description: company["description"] as! String)
+                            
+                            offerDictionary!["company"] = fakecompany as AnyObject
+                        }
+                        
+                        //post detail fetch data
+                        if let posts = offerDictionary!["post"] as? NSMutableArray{
+                            var postfinal : [Post] = []
+
+                            for postv in posts {
+                                var post = postv as! [String:AnyObject]
+                                var productfinal : [Product] = []
+
+                                if let products = post["product"] as? [String: AnyObject]{
+                                    for (_,product) in products {
+                                        productfinal.append(Product.init(image: (product["image"] as! String), name: product["name"] as! String, price: product["price"] as! Double, buy_url: product["buy_url"] as! String, color: product["color"] as! String, product_ID: product["product_ID"] as! String))
+                                    }
+                                    post["product"] = productfinal as AnyObject
+                                }
+                                
+                                postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: post["image"] as? String, products: post["product"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: .MultiPost, confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool))
+                                
+                            }
+                            offerDictionary!["post"] = postfinal as AnyObject
+                            let userInstance = Offer(dictionary: offerDictionary!)
+                            offers.append(userInstance)
+                            completion(offers)
+
+                        }else{
+                            
+                        }
+                        
+                    }else{
+                        
+                    }
+
+                }, withCancel: nil)
+                
+            }
+        }
+    }, withCancel: nil)
+    
 }
 
 //Gets all relavent people, people who you are friends and a few random people to compete with.
@@ -93,8 +153,34 @@ func getRandomUsername() -> String {
 	return "brunogonzalezhauger"
 }
 
+
 //Creates an account with nothing more than the username of the account. Returns instance of account returned from firebase
-func CreateAccount(instagramUser: User) -> User {
+//naveen commented
+//func CreateAccount(instagramUser: User) -> User {
+//    // Pointer reference in Firebase to Users
+//    let ref = Database.database().reference().child("users")
+//    // Boolean flag to keep track if user is already in database
+//    var alreadyRegistered: Bool = false
+//    ref.observeSingleEvent(of: .value, with: { (snapshot) in
+//        print(snapshot.childrenCount)
+//        for case let user as DataSnapshot in snapshot.children {
+//            if (user.childSnapshot(forPath: "username").value as! String == instagramUser.username) {
+//                alreadyRegistered = true
+//            }
+//        }
+//    })
+//    if alreadyRegistered {
+//        return instagramUser
+//    } else {
+//        let userReference = ref.childByAutoId()
+//        let userData = API.serializeUser(user: instagramUser, id: userReference.key!)
+//        userReference.updateChildValues(userData)
+//        return instagramUser
+//    }
+//}
+
+//naveen added func
+func CreateAccount(instagramUser: User, completion:@escaping (_ Results: User , _ bool:Bool) -> ()) {
     // Pointer reference in Firebase to Users
     let ref = Database.database().reference().child("users")
     // Boolean flag to keep track if user is already in database
@@ -106,15 +192,23 @@ func CreateAccount(instagramUser: User) -> User {
                 alreadyRegistered = true
             }
         }
+        
+        if alreadyRegistered {
+            let userReference = ref.child(instagramUser.id)
+            let userData = API.serializeUser(user: instagramUser, id: instagramUser.id)
+            userReference.updateChildValues(userData)
+            completion(instagramUser,true)
+//            return instagramUser
+        } else {
+//            let userReference = ref.child(instagramUser.id)
+//            let userData = API.serializeUser(user: instagramUser, id: instagramUser.id)
+//            userReference.updateChildValues(userData)
+            completion(instagramUser,false)
+//            return instagramUser
+
+        }
     })
-    if alreadyRegistered {
-        return instagramUser
-    } else {
-        let userReference = ref.childByAutoId()
-        let userData = API.serializeUser(user: instagramUser, id: userReference.key!)
-        userReference.updateChildValues(userData)
-        return instagramUser
-    }
+
 }
 
 // Query all users in Firebase and to do filtering based on algorithm

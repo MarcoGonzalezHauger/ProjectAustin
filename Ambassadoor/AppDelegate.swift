@@ -31,15 +31,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		if identifier.hasPrefix("new") {
 			let offer_ID: String = String(identifier.dropFirst(3))
 			sendOffer(id: offer_ID)
-		} else if identifier.hasPrefix("expire") {
-			let offer_ID: String = String(identifier.dropFirst(6))
-			sendOffer(id: offer_ID)
+		} else if identifier.hasPrefix("Accept") {
+//			let offer_ID: String = String(identifier.dropFirst(6))
+			sendOffer(id: identifier)
 		}
         //naveeen added
-        else if identifier.hasPrefix("accept"){
-            let offer_ID: String = String(identifier.dropFirst(6))
-            sendOffer(id: offer_ID)
+        else if identifier.hasPrefix("Available"){
+//            let offer_ID: String = String(identifier.dropFirst(6))
+            sendOffer(id: identifier)
         }
+        
 		completionHandler()
 	}
     
@@ -110,14 +111,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func CreateOfferAcceptNotification(accepteddOffer: Offer) {
         let content = UNMutableNotificationContent()
         content.title = "Offer Accepted"
-        content.body = "An offer by \(expiringOffer.company.name) for \(NumberToPrice(Value: expiringOffer.money)) is Accepted."
-        downloadImage(expiringOffer.company.logo ?? "") { (logo) in
+        content.body = "An offer by \(accepteddOffer.company.name) for \(NumberToPrice(Value: accepteddOffer.money)) is Accepted."
+        downloadImage(accepteddOffer.company.logo ?? "") { (logo) in
             if let logo = logo {
                 if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
                     content.attachments = [attachment]
                 }
             }
-            let request = UNNotificationRequest.init(identifier: "\(expiringOffer.offer_ID)", content: content, trigger: UNTimeIntervalNotificationTrigger.init(timeInterval: 15, repeats: false))
+            let request = UNNotificationRequest.init(identifier: "\(accepteddOffer.offer_ID)", content: content, trigger: UNTimeIntervalNotificationTrigger.init(timeInterval: 15, repeats: false))
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
         }
         

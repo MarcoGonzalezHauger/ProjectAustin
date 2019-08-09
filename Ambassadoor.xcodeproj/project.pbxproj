@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		45493CA670B234DB5D4610BF /* Pods_Ambassadoor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 236138913E9C5102B8E1275E /* Pods_Ambassadoor.framework */; };
+		B7422E6722FC03510076F076 /* OtherInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7422E6622FC03510076F076 /* OtherInfoVC.swift */; };
+		B7446CC422FD81BC0061983F /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7446CC322FD81BB0061983F /* UIViewControllerExtensions.swift */; };
 		B7BCE52922E9BB1800666689 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BCE52822E9BB1800666689 /* DateExtension.swift */; };
 		C0963EB1220B864B000380C7 /* ImageViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0963EB0220B864B000380C7 /* ImageViewExtensions.swift */; };
 		C0D73643220676CF00A84EB7 /* InstagramAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D73642220676CF00A84EB7 /* InstagramAPI.swift */; };
@@ -59,6 +61,8 @@
 		0A97662B45396EF7FCF0C532 /* Pods-Ambassadoor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ambassadoor.release.xcconfig"; path = "Pods/Target Support Files/Pods-Ambassadoor/Pods-Ambassadoor.release.xcconfig"; sourceTree = "<group>"; };
 		236138913E9C5102B8E1275E /* Pods_Ambassadoor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ambassadoor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C063C7693442ACADF942259 /* Pods-Ambassadoor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ambassadoor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ambassadoor/Pods-Ambassadoor.debug.xcconfig"; sourceTree = "<group>"; };
+		B7422E6622FC03510076F076 /* OtherInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherInfoVC.swift; sourceTree = "<group>"; };
+		B7446CC322FD81BB0061983F /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		B7BCE52822E9BB1800666689 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		C0963EB0220B864B000380C7 /* ImageViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewExtensions.swift; sourceTree = "<group>"; };
 		C0D73642220676CF00A84EB7 /* InstagramAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramAPI.swift; sourceTree = "<group>"; };
@@ -80,7 +84,7 @@
 		E82347F721A1D6C0000A1A62 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E82347FA21A1D6C0000A1A62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E82347FC21A1D6C0000A1A62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E838F3CA21F687BB0021D0AD /* FirebaseRefrences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseRefrences.swift; sourceTree = "<group>"; };
+		E838F3CA21F687BB0021D0AD /* FirebaseRefrences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseRefrences.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		E84038CB223541DB00959CD9 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		E84D685221A9F08C00681D21 /* PostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVC.swift; sourceTree = "<group>"; };
 		E866724721FF2C8B00241FB3 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
@@ -142,6 +146,7 @@
 			children = (
 				C0963EB0220B864B000380C7 /* ImageViewExtensions.swift */,
 				B7BCE52822E9BB1800666689 /* DateExtension.swift */,
+				B7446CC322FD81BB0061983F /* UIViewControllerExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -252,6 +257,7 @@
 				E866724721FF2C8B00241FB3 /* SignUpVC.swift */,
 				C0D7364422067AE500A84EB7 /* InstagramVC.swift */,
 				E8E888D82209B78400ECF398 /* VerifedVC.swift */,
+				B7422E6622FC03510076F076 /* OtherInfoVC.swift */,
 			);
 			path = Signup;
 			sourceTree = "<group>";
@@ -422,6 +428,7 @@
 				E86B092821DBF8050009C45D /* socialTierVC.swift in Sources */,
 				E8EF2C7A222DDD6300B2EDC6 /* ZipCodeVC.swift in Sources */,
 				E8F9D0AC21AA362500DD1616 /* ProductVC.swift in Sources */,
+				B7422E6722FC03510076F076 /* OtherInfoVC.swift in Sources */,
 				E82347F021A1D6BF000A1A62 /* ViewController.swift in Sources */,
 				E80AB86A21B18A6400D9B546 /* GlobalTimeSync.swift in Sources */,
 				E80FD4FF21A4F1E4003AF50B /* PageVC.swift in Sources */,
@@ -441,6 +448,7 @@
 				E86A1E4D21A797F000DCB0D0 /* Savvy.swift in Sources */,
 				E84038CC223541DB00959CD9 /* Notifications.swift in Sources */,
 				E84D685321A9F08C00681D21 /* PostVC.swift in Sources */,
+				B7446CC422FD81BC0061983F /* UIViewControllerExtensions.swift in Sources */,
 				E80AB86821B0DA0D00D9B546 /* ViewOfferNC.swift in Sources */,
 				E8C369572216270E00AE12D7 /* ViewProfileVC.swift in Sources */,
 				E86A1E4F21A86CE900DCB0D0 /* RejectedOffersVC.swift in Sources */,
