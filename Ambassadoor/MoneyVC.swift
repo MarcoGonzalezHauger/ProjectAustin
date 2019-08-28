@@ -11,6 +11,8 @@ import UIKit
 
 protocol IncomingMoneyDelegate {
 	func viewOffer(IncomingMoneyOffer: Offer) -> ()
+    //naveen added
+    func goBankList()
 }
 
 class IncomingMoneyCell: UITableViewCell, SyncTimerDelegate {
@@ -32,7 +34,10 @@ class IncomingMoneyCell: UITableViewCell, SyncTimerDelegate {
 	@IBOutlet weak var moneyLabel: UILabel!
 	@IBOutlet weak var companyName: UILabel!
 	@IBOutlet weak var TimeLeft: UILabel!
-	
+    
+    //naveen added
+    var selectedIndex:Int!
+    
 	var ThisOffer: Offer! {
 		didSet {
 			moneyLabel.text = NumberToPrice(Value: ThisOffer.money)
@@ -46,6 +51,7 @@ class IncomingMoneyCell: UITableViewCell, SyncTimerDelegate {
 	@IBAction func GoToOfferPage(_ sender: Any) {
 		delegate?.viewOffer(IncomingMoneyOffer: ThisOffer)
 	}
+
 	
 	override func awakeFromNib() {
 		shadowview.cornerRadius = 15
@@ -58,12 +64,19 @@ class IncomingMoneyCell: UITableViewCell, SyncTimerDelegate {
 class YourMoneyCell: UITableViewCell {
 	
 	@IBOutlet weak var shadowview: ShadowView!
-	
+    @IBOutlet weak var yourMoneyLabel: UILabel!
+
 	override func awakeFromNib() {
 		shadowview.cornerRadius = 15
 		shadowview.ShadowOpacity = 0.2
 		shadowview.ShadowRadius = 3
 	}
+    var delegate: IncomingMoneyDelegate?
+
+    
+    @IBAction func GoToBankList(_ sender: Any) {
+        delegate?.goBankList()
+    }
 }
 
 class MoneyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, GlobalListener, IncomingMoneyDelegate {
@@ -74,7 +87,11 @@ class MoneyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Glo
 	func viewOffer(IncomingMoneyOffer: Offer) {
 		SegueViewOffer = IncomingMoneyOffer
 		self.performSegue(withIdentifier: "showOfferFromMoney", sender: self)
+        
 	}
+    func goBankList() {
+        self.performSegue(withIdentifier: "SegueBankList", sender: self)
+    }
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		let newviewoffer = SegueViewOffer
@@ -83,8 +100,9 @@ class MoneyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Glo
 			if let destination = (destination as! UINavigationController).topViewController as? OfferVC {
 				destination.isCloseButton = true
 				destination.ThisOffer = newviewoffer
+//                destination.selectedIndex = selectedIndex
 			}
-		}
+        }
 	}
 	
 	func AcceptedOffersChanged() {
@@ -107,8 +125,10 @@ class MoneyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Glo
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.row == 0 {
-			let cell = shelf.dequeueReusableCell(withIdentifier: "yourMoney")
-			return cell!
+			let cell = shelf.dequeueReusableCell(withIdentifier: "yourMoney") as! YourMoneyCell
+            cell.yourMoneyLabel.text = "$" + String(Yourself.yourMoney)
+            cell.delegate = self
+            return cell
 		} else {
 			let cell = shelf.dequeueReusableCell(withIdentifier: "incomingMoney") as! IncomingMoneyCell
 			cell.ThisOffer = global.AcceptedOffers[indexPath.row - 1]

@@ -18,6 +18,7 @@ protocol CategoryPickerDelegate {
 	func CategoryPicked(newCategory: Category)
 }
 
+
 class ClassCell: UITableViewCell {
 	@IBOutlet weak var titleLabel: UILabel!
 	@IBOutlet weak var detailLabel: UILabel!
@@ -47,6 +48,7 @@ class ClassPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		}
 	}
 	var delegate: CategoryPickerDelegate?
+
 	
 	func CategoryChanged(newCategory: Category) {
 		if originalValue == newCategory {

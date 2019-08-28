@@ -10,7 +10,11 @@
 		45493CA670B234DB5D4610BF /* Pods_Ambassadoor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 236138913E9C5102B8E1275E /* Pods_Ambassadoor.framework */; };
 		B7422E6722FC03510076F076 /* OtherInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7422E6622FC03510076F076 /* OtherInfoVC.swift */; };
 		B7446CC422FD81BC0061983F /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7446CC322FD81BB0061983F /* UIViewControllerExtensions.swift */; };
+		B78D114B2306AF510073F64B /* CustomObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B78D11492306AF500073F64B /* CustomObject.m */; };
 		B7BCE52922E9BB1800666689 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BCE52822E9BB1800666689 /* DateExtension.swift */; };
+		B7E86AF0230EA46E00F60E8F /* BankListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E86AEF230EA46E00F60E8F /* BankListVC.swift */; };
+		B7E86AF4230ECC5E00F60E8F /* PlaidHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E86AF3230ECC5E00F60E8F /* PlaidHelper.swift */; };
+		B7E86AF6230ECE1B00F60E8F /* PlaidLinkEnabledVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E86AF5230ECE1B00F60E8F /* PlaidLinkEnabledVC.swift */; };
 		C0963EB1220B864B000380C7 /* ImageViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0963EB0220B864B000380C7 /* ImageViewExtensions.swift */; };
 		C0D73643220676CF00A84EB7 /* InstagramAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D73642220676CF00A84EB7 /* InstagramAPI.swift */; };
 		C0D7364522067AE500A84EB7 /* InstagramVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D7364422067AE500A84EB7 /* InstagramVC.swift */; };
@@ -63,7 +67,13 @@
 		3C063C7693442ACADF942259 /* Pods-Ambassadoor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ambassadoor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ambassadoor/Pods-Ambassadoor.debug.xcconfig"; sourceTree = "<group>"; };
 		B7422E6622FC03510076F076 /* OtherInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherInfoVC.swift; sourceTree = "<group>"; };
 		B7446CC322FD81BB0061983F /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
+		B78D11492306AF500073F64B /* CustomObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomObject.m; sourceTree = "<group>"; };
+		B78D114A2306AF510073F64B /* CustomObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomObject.h; sourceTree = "<group>"; };
 		B7BCE52822E9BB1800666689 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		B7C4BF0E2302FFE00024C3C3 /* Ambassadoor-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ambassadoor-Bridging-Header.h"; sourceTree = "<group>"; };
+		B7E86AEF230EA46E00F60E8F /* BankListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankListVC.swift; sourceTree = "<group>"; };
+		B7E86AF3230ECC5E00F60E8F /* PlaidHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaidHelper.swift; sourceTree = "<group>"; };
+		B7E86AF5230ECE1B00F60E8F /* PlaidLinkEnabledVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaidLinkEnabledVC.swift; sourceTree = "<group>"; };
 		C0963EB0220B864B000380C7 /* ImageViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewExtensions.swift; sourceTree = "<group>"; };
 		C0D73642220676CF00A84EB7 /* InstagramAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramAPI.swift; sourceTree = "<group>"; };
 		C0D7364422067AE500A84EB7 /* InstagramVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramVC.swift; sourceTree = "<group>"; };
@@ -141,6 +151,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		B7E86AF2230ECC3800F60E8F /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				B7E86AF3230ECC5E00F60E8F /* PlaidHelper.swift */,
+				B7E86AF5230ECE1B00F60E8F /* PlaidLinkEnabledVC.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
 		C0963EAF220B838F000380C7 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -156,6 +175,7 @@
 			children = (
 				E8109EEB21AEE818008882B1 /* MoneyVC.swift */,
 				E8109EED21AF6BA8008882B1 /* WithdrawVC.swift */,
+				B7E86AEF230EA46E00F60E8F /* BankListVC.swift */,
 			);
 			name = Money;
 			sourceTree = "<group>";
@@ -175,6 +195,9 @@
 		E81CADE121AD90A000F2DCC4 /* View Offer */ = {
 			isa = PBXGroup;
 			children = (
+				B7C4BF0E2302FFE00024C3C3 /* Ambassadoor-Bridging-Header.h */,
+				B78D114A2306AF510073F64B /* CustomObject.h */,
+				B78D11492306AF500073F64B /* CustomObject.m */,
 				E86A1E5221A893D100DCB0D0 /* OfferVC.swift */,
 				E8F9D0AD21AA3FDC00DD1616 /* CompanyVC.swift */,
 				E84D685221A9F08C00681D21 /* PostVC.swift */,
@@ -229,6 +252,7 @@
 		E82347EC21A1D6BF000A1A62 /* Ambassadoor */ = {
 			isa = PBXGroup;
 			children = (
+				B7E86AF2230ECC3800F60E8F /* Helpers */,
 				E81CADDE21AD8C7600F2DCC4 /* Home */,
 				E81DE11F222AF38800880D41 /* Profile */,
 				E8A84AAD222AB3D400D9E2C9 /* Category Picker */,
@@ -306,6 +330,7 @@
 				E82347E721A1D6BF000A1A62 /* Frameworks */,
 				E82347E821A1D6BF000A1A62 /* Resources */,
 				233188C24CB68CA73AD25D62 /* [CP] Embed Pods Frameworks */,
+				B7E86AF1230EBA1300F60E8F /* Prepare for Distribution */,
 			);
 			buildRules = (
 			);
@@ -328,6 +353,7 @@
 				TargetAttributes = {
 					E82347E921A1D6BF000A1A62 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1100;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -378,9 +404,10 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Ambassadoor/Pods-Ambassadoor-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Ambassadoor/Pods-Ambassadoor-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${PODS_ROOT}/Plaid/LinkKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftKeychainWrapper/SwiftKeychainWrapper.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -389,14 +416,33 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LinkKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftKeychainWrapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Ambassadoor/Pods-Ambassadoor-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ambassadoor/Pods-Ambassadoor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		B7E86AF1230EBA1300F60E8F /* Prepare for Distribution */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Prepare for Distribution";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\nLINK_ROOT=${PODS_ROOT:+$PODS_ROOT/Plaid/ios}\ncp \"${LINK_ROOT:-$PROJECT_DIR}\"/LinkKit.framework/prepare_for_distribution.sh \"${CODESIGNING_FOLDER_PATH}\"/Frameworks/LinkKit.framework/prepare_for_distribution.sh\n\"${CODESIGNING_FOLDER_PATH}\"/Frameworks/LinkKit.framework/prepare_for_distribution.sh\n";
 		};
 		E522670BDF9303C8248A1198 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -423,6 +469,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7E86AF0230EA46E00F60E8F /* BankListVC.swift in Sources */,
 				E8109EEE21AF6BA8008882B1 /* WithdrawVC.swift in Sources */,
 				E8E888D92209B78400ECF398 /* VerifedVC.swift in Sources */,
 				E86B092821DBF8050009C45D /* socialTierVC.swift in Sources */,
@@ -450,6 +497,7 @@
 				E84D685321A9F08C00681D21 /* PostVC.swift in Sources */,
 				B7446CC422FD81BC0061983F /* UIViewControllerExtensions.swift in Sources */,
 				E80AB86821B0DA0D00D9B546 /* ViewOfferNC.swift in Sources */,
+				B7E86AF4230ECC5E00F60E8F /* PlaidHelper.swift in Sources */,
 				E8C369572216270E00AE12D7 /* ViewProfileVC.swift in Sources */,
 				E86A1E4F21A86CE900DCB0D0 /* RejectedOffersVC.swift in Sources */,
 				E82347EE21A1D6BF000A1A62 /* AppDelegate.swift in Sources */,
@@ -458,6 +506,7 @@
 				E8A84AAF222AB3FC00D9E2C9 /* ClassPickerVC.swift in Sources */,
 				E86B092A21DBF81C0009C45D /* socialCategoryVC.swift in Sources */,
 				E86B092C21DBF82F0009C45D /* socialSearchVC.swift in Sources */,
+				B7E86AF6230ECE1B00F60E8F /* PlaidLinkEnabledVC.swift in Sources */,
 				E8109EEC21AEE818008882B1 /* MoneyVC.swift in Sources */,
 				E86B092621DBF0F30009C45D /* socialPageVC.swift in Sources */,
 				E8164F6222249ACC0084CCF9 /* StatVC.swift in Sources */,
@@ -466,6 +515,7 @@
 				E8963EA121F7F16B0047CF99 /* OfferCell.swift in Sources */,
 				E80AB86C21B1F9E000D9B546 /* inProgressVC.swift in Sources */,
 				E86A1E5321A893D100DCB0D0 /* OfferVC.swift in Sources */,
+				B78D114B2306AF510073F64B /* CustomObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -612,6 +662,7 @@
 			baseConfigurationReference = 3C063C7693442ACADF942259 /* Pods-Ambassadoor.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconwGradient;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = JMBR2RF2B8;
 				INFOPLIST_FILE = Ambassadoor/Info.plist;
@@ -623,6 +674,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.commonApp.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = commonAppDev;
+				SWIFT_OBJC_BRIDGING_HEADER = "Ambassadoor/Ambassadoor-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -633,6 +686,7 @@
 			baseConfigurationReference = 0A97662B45396EF7FCF0C532 /* Pods-Ambassadoor.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconwGradient;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = JMBR2RF2B8;
 				INFOPLIST_FILE = Ambassadoor/Info.plist;
@@ -644,6 +698,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.commonApp.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = commonAppDev;
+				SWIFT_OBJC_BRIDGING_HEADER = "Ambassadoor/Ambassadoor-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

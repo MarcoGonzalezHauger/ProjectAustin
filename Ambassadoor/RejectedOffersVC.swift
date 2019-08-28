@@ -8,6 +8,7 @@
 //
 
 import UIKit
+import Firebase
 
 class RejectedOffersVC: UIViewController, UITableViewDataSource, UITableViewDelegate, OfferCellDelegate, GlobalListener, OfferResponse {
 	
@@ -67,6 +68,12 @@ class RejectedOffersVC: UIViewController, UITableViewDataSource, UITableViewDele
 	func ViewOfferFromCell(sender: Any) {
 		//Actually the put back function in this case.
 		if let ip : IndexPath = shelf.indexPath(for: sender as! UITableViewCell) {
+            //naveen added
+            let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(global.RejectedOffers[ip.row].offer_ID)
+            prntRef.updateChildValues(["status":"available"])
+            global.RejectedOffers[ip.row].status = "available"
+            // *********
+            
 			global.AvaliableOffers.append(global.RejectedOffers[ip.row])
 			global.RejectedOffers.remove(at: ip.row)
 			shelf.deleteRows(at: [ip], with: .right)

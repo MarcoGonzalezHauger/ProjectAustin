@@ -30,6 +30,7 @@ class inProgressVC: UIViewController, UITableViewDataSource, UITableViewDelegate
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		debugPrint("cell selected at \(indexPath.row) (within InProgress Tab)")
+        selectedIndex = indexPath.row
 		ViewOfferFromCell(sender: shelf.cellForRow(at: indexPath) as! OfferCell)
 		shelf.deselectRow(at: indexPath, animated: false)
 	}
@@ -51,6 +52,7 @@ class inProgressVC: UIViewController, UITableViewDataSource, UITableViewDelegate
 			if let destination = (destination as! UINavigationController).topViewController as? OfferVC {
 				destination.isCloseButton = true
 				destination.ThisOffer = newviewoffer
+                destination.selectedIndex = selectedIndex
 			}
 		}
 	}
@@ -75,6 +77,8 @@ class inProgressVC: UIViewController, UITableViewDataSource, UITableViewDelegate
 	}
 	
 	@IBOutlet weak var backBtn: UIButton!
+    //naveen added
+    var selectedIndex:Int!
 	
     override func viewDidLoad() {
         super.viewDidLoad()

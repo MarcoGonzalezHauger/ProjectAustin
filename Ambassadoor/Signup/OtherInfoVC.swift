@@ -8,28 +8,60 @@
 
 import UIKit
 import Firebase
+ 
 
-class OtherInfoVC: UIViewController, UITextFieldDelegate {
+ class OtherInfoVC: UIViewController, UITextFieldDelegate {
+    
     var delegate: ConfirmationReturned?
     var userfinal: User?
     var selectedID: String!
     var curcat: Category?
 
-
-
+    @IBOutlet weak var category_Lbl: UILabel!
+    @IBOutlet weak var baseScrollView: UIScrollView!
     @IBOutlet weak var secondaryCat_Txt: UITextField!
     @IBOutlet weak var primeCat_Txt: UITextField!
     @IBOutlet weak var zipcode_Txt: UITextField!
     @IBOutlet weak var gender_Txt: UITextField!
     
+    @IBOutlet weak var secCatTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var secCatHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var secCatTxtTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var secCatTxtHeightConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         self.setDoneOnKeyboard()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
+        //minimum category of 6.
+        if GetTierFromFollowerCount(FollowerCount: userfinal!.followerCount) ?? 0 > 6 {
+           category_Lbl.text = "First Category"
+        }else{
+            secCatTopConstraint.constant = 0
+            secCatHeightConstraint.constant = 0
+            secCatTxtTopConstraint.constant = 0
+            secCatTxtHeightConstraint.constant = 0
+        }
     }
     
+    @objc func keyboardWillShow(notification:NSNotification){
+        let userInfo = notification.userInfo!
+        var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
+        
+        var contentInset:UIEdgeInsets = self.baseScrollView.contentInset
+        contentInset.bottom = keyboardFrame.size.height
+        baseScrollView.contentInset = contentInset
+    }
+    
+    @objc func keyboardWillHide(notification:NSNotification){
+        
+        let contentInset:UIEdgeInsets = UIEdgeInsets.zero
+        baseScrollView.contentInset = contentInset
+    }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField == primeCat_Txt {
@@ -48,7 +80,6 @@ class OtherInfoVC: UIViewController, UITextFieldDelegate {
             
             // create an action
             let MaleAction: UIAlertAction = UIAlertAction(title: "Male", style: .default) { action -> Void in
-                
                 print("Male Action pressed")
                 self.gender_Txt.text = "Male"
             }
@@ -57,11 +88,9 @@ class OtherInfoVC: UIViewController, UITextFieldDelegate {
                 
                 print("Female Action pressed")
                 self.gender_Txt.text = "Female"
-
             }
             
             let OtherAction: UIAlertAction = UIAlertAction(title: "Other", style: .default) { action -> Void in
-                
                 print("Other Action pressed")
                 self.gender_Txt.text = "Other"
 
@@ -73,7 +102,6 @@ class OtherInfoVC: UIViewController, UITextFieldDelegate {
             actionSheetController.addAction(MaleAction)
             actionSheetController.addAction(FemaleAction)
             actionSheetController.addAction(OtherAction)
-            
             actionSheetController.addAction(cancelAction)
             
             
@@ -94,26 +122,49 @@ class OtherInfoVC: UIViewController, UITextFieldDelegate {
         
         
         if primeCat_Txt.text!.isEmpty {
-            self.showStandardAlertDialog(title: "Alert!", msg: "Please select PrimaryCategory")
-        }else if secondaryCat_Txt.text!.isEmpty{
-            self.showStandardAlertDialog(title: "Alert!", msg: "Please select SecondaryCategory")
+            self.showStandardAlertDialog(title: "Alert!", msg: "Please select \(category_Lbl.text!)")
+        }else if secondaryCat_Txt.text!.isEmpty && GetTierFromFollowerCount(FollowerCount: userfinal!.followerCount) ?? 0 > 6{
+            self.showStandardAlertDialog(title: "Alert!", msg: "Please select Second Category")
         }else if gender_Txt.text!.isEmpty{
             self.showStandardAlertDialog(title: "Alert!", msg: "Please select Gender")
-        }else if gender_Txt.text!.isEmpty{
+        }else if zipcode_Txt.text!.isEmpty{
             self.showStandardAlertDialog(title: "Alert!", msg: "Please enter the zipcode")
         }else{
             userfinal?.primaryCategory = Category(rawValue: primeCat_Txt.text!)!
-            userfinal?.SecondaryCategory = Category(rawValue: secondaryCat_Txt.text!)!
-            userfinal?.zipCode = Int(zipcode_Txt.text!)
+            userfinal?.SecondaryCategory =
+                secondaryCat_Txt.text! == "" ? nil : Category(rawValue: secondaryCat_Txt.text!)!
+            userfinal?.zipCode = zipcode_Txt.text!
             userfinal?.gender = TextToGender(gender: gender_Txt.text!)
 
             let ref = Database.database().reference().child("users")
             let userReference = ref.child(userfinal!.id)
             let userData = API.serializeUser(user: userfinal!, id: userfinal!.id)
             userReference.updateChildValues(userData)
-            self.dismiss(animated: false) {
-                self.delegate?.dismissed(success: false)
+            Yourself = userfinal
+            UserDefaults.standard.set(API.INSTAGRAM_ACCESS_TOKEN, forKey: "token")
+            UserDefaults.standard.set(Yourself.id, forKey: "userid")
+
+            // ****
+            //naveen added
+            var youroffers: [Offer] = []
+            getOfferList { (Offers) in
+                print(Offers.count)
+                youroffers = Offers
+                //                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
+                //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
+                global.AvaliableOffers = youroffers.filter({$0.status == "available"})
+                global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
+                global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
+                                
+                    self.dismiss(animated: false) {
+                        self.delegate?.dismissed(success: false)
+                    }
+
             }
+            // *********
+//            self.dismiss(animated: false) {
+//                self.delegate?.dismissed(success: false)
+//            }
         }
         
 
@@ -142,11 +193,15 @@ class OtherInfoVC: UIViewController, UITextFieldDelegate {
         if let destination = segue.destination as? CategoryPicker {
             destination.SetupPicker(originalCategory: curcat) { (cat) in
                 if self.selectedID == "main_cat" {
-                    Yourself.primaryCategory = cat
+                    self.userfinal!.primaryCategory = cat
+                    self.primeCat_Txt.text = cat.rawValue
                 } else if self.selectedID == "second_cat" {
-                    Yourself.SecondaryCategory = cat
+                    self.userfinal!.SecondaryCategory = cat
+                    self.secondaryCat_Txt.text = cat.rawValue
+
                 }
             }
+            
         }
         
     }

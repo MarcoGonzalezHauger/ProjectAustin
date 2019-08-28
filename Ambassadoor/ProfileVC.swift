@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class SettingCell: UITableViewCell {
 	@IBOutlet weak var categoryHeader: UILabel!
@@ -42,18 +43,19 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 			let cat: Category? = settings.Information as? Category
 			cell.categoryLabel.text = cat == nil ? "Choose" : cat!.rawValue
 		case "zip":
-			let zip = settings.Information as! Int
-			if zip == 0 {
+			let zip = settings.Information as! String
+			if zip == "0" {
 				cell.categoryLabel.text = "None, you won't recieve Geo Offers."
 			} else {
 				if (zipCodeDic[String(zip)] ?? "") != "" {
-					cell.categoryLabel.text = zipCodeDic[String(zip)]!
+					cell.categoryLabel.text = zipCodeDic[zip]!
 				} else {
 					cell.categoryLabel.text = "Zip Code: \(zip)"
-					GetTownName(zipCode: String(zip)) { (townName) in
-						cell.categoryLabel.text = townName
-						zipCodeDic[String(zip)] = townName
-					}
+                    //naveen commented
+//					GetTownName(zipCode: String(zip)) { (townName) in
+//						cell.categoryLabel.text = townName
+//						zipCodeDic[String(zip)] = townName
+//					}
 				}
 			}
 		default:
@@ -86,7 +88,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	
 	func ZipCodeEntered(zipCode: String?) {
 		if let zipCode = zipCode {
-			Yourself.zipCode = Int(zipCode)
+			Yourself.zipCode = zipCode
 		}
 		self.dataUpdated()
 	}
@@ -109,7 +111,8 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	
 	func dataUpdated() {
 		userSettings = reloadUserSettings()
-		self.shelf.reloadData()
+        //naveen commented
+//		self.shelf.reloadData()
 	}
 	
     override func viewDidLoad() {
@@ -142,12 +145,25 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	
 	func reloadUserSettings() -> [ProfileSetting] {
 		var avaliableSettings: [ProfileSetting] = []
+        print(Yourself.primaryCategory as AnyObject)
+        print(Yourself.SecondaryCategory as AnyObject)
+        print(Yourself.zipCode as AnyObject)
+
 		avaliableSettings.append(ProfileSetting.init(Header: "MAIN CATEGORY", Information: Yourself.primaryCategory as AnyObject, identifier: "main_cat"))
 		//minimum category of 6.
 		if GetTierFromFollowerCount(FollowerCount: Yourself.followerCount) ?? 0 > 6 {
 			avaliableSettings.append(ProfileSetting.init(Header: "SECONDARY CATEGORY", Information: Yourself.SecondaryCategory as AnyObject, identifier: "second_cat"))
 		}
-		avaliableSettings.append(ProfileSetting.init(Header: "TOWN (ALLOWS GEO OFFERS)", Information: (Yourself.zipCode ?? 0) as AnyObject, identifier: "zip"))
+		avaliableSettings.append(ProfileSetting.init(Header: "TOWN (ALLOWS GEO OFFERS)", Information: (Yourself.zipCode ?? "0") as AnyObject, identifier: "zip"))
+        
+        
+        let ref = Database.database().reference().child("users")
+        let userReference = ref.child(Yourself.id)
+        let userData = API.serializeUser(user: Yourself, id: Yourself.id)
+        userReference.updateChildValues(userData)
+        
+        self.shelf.reloadData()
+        
 		return avaliableSettings
 	}
 

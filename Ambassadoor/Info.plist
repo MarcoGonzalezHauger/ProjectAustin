@@ -23,9 +23,23 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>instagram</string>
+        <string>org-appextension-feature-password-management</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+    <key>PLKPlaidLinkConfiguration</key>
+    <dict>
+        <key>clientName</key>
+        <string>$(PRODUCT_NAME)</string>
+        <key>env</key>
+        <string>$(LINK_ENV)</string>
+        <key>key</key>
+        <string>$(LINK_KEY)</string>
+        <key>product</key>
+        <string>auth</string>
+        <key>selectAccount</key>
+        <false/>
+    </dict>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

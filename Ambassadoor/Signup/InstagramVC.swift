@@ -76,7 +76,7 @@ extension InstagramVC: WKNavigationDelegate {
     }
 
     // Handle Instagram auth token from callback url and handle it with our logic
-    //naveen commended
+    //naveen commented
 //    func handleAuth(authToken: String) {
 //        debugPrint("Instagram authentication token = ", authToken)
 //        API.INSTAGRAM_ACCESS_TOKEN = authToken
@@ -105,6 +105,9 @@ extension InstagramVC: WKNavigationDelegate {
                     CreateAccount(instagramUser: user!) { (userVal, alreadyRegistered) in
                         Yourself = userVal
                         if alreadyRegistered {
+                            UserDefaults.standard.set(API.INSTAGRAM_ACCESS_TOKEN, forKey: "token")
+                            UserDefaults.standard.set(Yourself.id, forKey: "userid")
+
                             self.dismissed(success: alreadyRegistered)
                         }else{
                             self.performSegue(withIdentifier: "VerifySegue", sender: userVal)

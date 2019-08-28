@@ -9,18 +9,16 @@
 
 import UIKit
 
+
 class CategoryPicker: UINavigationController, CategoryPickerDelegate {
+    
 	
 	var complete: ((_ newCategory: Category) -> ())?
-    
-    //naveen added
-    var otherInfoSelected = false
-    
 	
 	func CategoryPicked(newCategory: Category) {
 		if let completedFunction = complete {
 			completedFunction(newCategory)
-		}
+		} 
 	}
 	
 

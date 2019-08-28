@@ -86,7 +86,8 @@ class socialTierVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 	
 	func GetSameTierUsers() -> [User] {
 		var allpossibleusers = global.SocialData.filter{GetTierFromFollowerCount(FollowerCount: $0.followerCount) ==  GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount)}
-		allpossibleusers.append(Yourself!)
+        //naveen commented
+//		allpossibleusers.append(Yourself!)
 		allpossibleusers.sort{return $0.followerCount > $1.followerCount}
 		return allpossibleusers
 	}

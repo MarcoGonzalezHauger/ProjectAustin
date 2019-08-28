@@ -9,6 +9,7 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 func NumberToPrice(Value: Double, enforceCents isBig: Bool = false) -> String {
 	if floor(Value) == Value && isBig == false {
@@ -222,18 +223,78 @@ func PostTypeToIcon(posttype: TypeofPost) -> UIImage {
 	}
 }
 
-func OfferFromID(id: String) -> Offer? {
+func OfferFromID(id: String, completion:@escaping(_ offer:Offer?)->()) {
 	debugPrint("attempting to find offer with ID \(id)")
     
-//    return global.AvaliableOffers.filter { (ThisOffer) -> Bool in
+////    return global.AvaliableOffers.filter { (ThisOffer) -> Bool in
+////        return ThisOffer.offer_ID == id
+////    }[0]
+//
+//    //naveen added
+//    let val =  global.AvaliableOffers.filter { (ThisOffer) -> Bool in
 //        return ThisOffer.offer_ID == id
-//    }[0]
+//    }
+//    return val.count > 0 ? val[0] : global.AvaliableOffers[0];
     
+    print(UserDefaults.standard.object(forKey: "userid") as! String)
+    print(UserDefaults.standard.object(forKey: "token") as! String)
     //naveen added
-    let val =  global.AvaliableOffers.filter { (ThisOffer) -> Bool in
-        return ThisOffer.offer_ID == id
+    if UserDefaults.standard.object(forKey: "userid") != nil &&  UserDefaults.standard.object(forKey: "token") != nil {
+        
+        let userid = UserDefaults.standard.object(forKey: "userid") as! String
+        let ref = Database.database().reference().child("SentOutOffersToUsers").child(userid).child(id)
+        ref.observeSingleEvent(of: .value, with: {(snapshot) in
+            print(snapshot.childrenCount)
+            if let offer = snapshot.value as? [String: AnyObject] {
+                    var offerDictionary = offer as? [String: AnyObject]
+                    //company detail fetch data
+                    let compref = Database.database().reference().child("companies").child(offerDictionary!["ownerUserID"] as! String).child(offerDictionary!["company"] as! String)
+                    compref.observeSingleEvent(of: .value, with: { (dataSnapshot) in
+                        if let company = dataSnapshot.value as? [String: AnyObject] {
+                            let companyDetail = Company.init(name: company["name"] as! String, logo:
+                                company["logo"] as? String, mission: company["mission"] as! String, website: company["website"] as! String, account_ID: company["account_ID"] as! String, instagram_name: company["name"] as! String, description: company["description"] as! String)
+                            
+                            offerDictionary!["company"] = companyDetail as AnyObject
+                            
+                            //post detail fetch data
+                            if let posts = offerDictionary!["posts"] as? NSMutableArray{
+                                var postfinal : [Post] = []
+                                
+                                for postv in posts {
+                                    var post = postv as! [String:AnyObject]
+                                    var productfinal : [Product] = []
+                                    
+                                    if let products = post["products"] as? NSMutableArray{
+                                        for productDic in products {
+                                            let product = productDic as! [String:AnyObject]
+                                            productfinal.append(Product.init(image: (product["image"] as! String), name: product["name"] as! String, price: product["price"] as! Double, buy_url: product["buy_url"] as! String, color: product["color"] as! String, product_ID: product["product_ID"] as! String))
+                                        }
+                                        post["products"] = productfinal as AnyObject
+                                    }
+                                    
+                                    postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: post["captionMustInclude"] as? String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool))
+                                }
+                                offerDictionary!["posts"] = postfinal as AnyObject
+                                let userInstanceOffer = Offer(dictionary: offerDictionary!)
+                                DispatchQueue.main.async {
+                                completion(userInstanceOffer)
+                                }
+                                
+                            }else{
+                                
+                            }
+                            
+                        }else{
+                            
+                        }
+                        
+                    }, withCancel: nil)
+                    
+            }
+        }, withCancel: nil)
+        
+    }else{
     }
-    return val.count > 0 ? val[0] : global.AvaliableOffers[0];
 }
 
 func CompressNumber(number: Double) -> String {
@@ -263,18 +324,31 @@ func PostTypeToText(posttype: TypeofPost) -> String {
 		return "Story Post"
 	}
 }
+//naveen added
+func TextToPostType(posttype: String) -> TypeofPost {
+    switch posttype {
+    case "Single Post":
+        return .SinglePost
+    case "Multi Post":
+        return .MultiPost
+    case "Story Post":
+        return .Story
+    default:
+       return .SinglePost
+    }
+}
 
 //naveen added
 func TextToGender(gender: String) -> Gender {
     switch gender {
-    case "male":
-        return .male
-    case "female":
-        return .female
-    case "other":
-        return .other
+    case "Male":
+        return .Male
+    case "Female":
+        return .Female
+    case "Other":
+        return .Other
     default:
-        return .other
+        return .Other
     }
 }
 
@@ -312,4 +386,40 @@ func GetTownName(zipCode: String, completed: @escaping (_ cityState: String?) ->
             }
         }
     }.resume()
+}
+
+//String To Date conversion
+func getDateFromString(date:String) -> Date {
+    let dateFormatterGet = DateFormatter()
+    dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    
+    let dateFormatterPrint = DateFormatter()
+    dateFormatterPrint.dateFormat = "MMM dd,yyyy"
+    
+    if let date = dateFormatterGet.date(from: date) {
+        print(dateFormatterPrint.string(from: date))
+        return date
+    } else {
+        print("There was an error decoding the string")
+        return Date()
+
+    }
+    
+}
+    
+    func getStringFromTodayDate() -> String {
+        let formatter = DateFormatter()
+        // initially set the format based on your datepicker date / server String
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        let myString = formatter.string(from: Date())
+
+        return myString
+//        if let date = dateFormatterPrint.string(from: date) {
+//            print()
+//        } else {
+//            print("There was an error decoding the string")
+//            return ""
+//
+//        }
 }

@@ -41,8 +41,10 @@ class socialCategoryVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 	}
 	
 	func GetSameCategoryUsers() -> [User] {
-		var allpossibleusers = global.SocialData.filter{$0.primaryCategory == Yourself!.primaryCategory}
-		allpossibleusers.append(Yourself!)
+        var allpossibleusers = global.SocialData
+        //naveen commented
+//		allpossibleusers.append(Yourself!)
+//        var allpossibleusers = global.SocialData.filter{$0.primaryCategory == Yourself!.primaryCategory}
 		allpossibleusers.sort{return $0.followerCount > $1.followerCount }
 		return allpossibleusers
 	}
@@ -74,6 +76,13 @@ class socialCategoryVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 		rankedShelf.delegate = self
 		global.delegates.append(self)
 	}
+    
+    override func viewWillAppear(_ animated: Bool) {
+        _ = GetAllUsers(completion: { (users) in
+            global.SocialData = users
+            self.rankedShelf.reloadData()
+        })
+    }
 	
 	@IBOutlet weak var rankedShelf: UITableView!
 	

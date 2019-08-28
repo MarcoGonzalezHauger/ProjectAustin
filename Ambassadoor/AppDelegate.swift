@@ -31,16 +31,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		if identifier.hasPrefix("new") {
 			let offer_ID: String = String(identifier.dropFirst(3))
 			sendOffer(id: offer_ID)
-		} else if identifier.hasPrefix("Accept") {
-//			let offer_ID: String = String(identifier.dropFirst(6))
-			sendOffer(id: identifier)
+		} else if identifier.hasPrefix("accept") {
+			let offer_ID: String = String(identifier.dropFirst(6))
+			sendOffer(id: offer_ID)
 		}
         //naveeen added
-        else if identifier.hasPrefix("Available"){
-//            let offer_ID: String = String(identifier.dropFirst(6))
+        else if identifier.hasPrefix("expire"){
+            let offer_ID: String = String(identifier.dropFirst(6))
+            sendOffer(id: offer_ID)
+        }else{
             sendOffer(id: identifier)
         }
         
+
 		completionHandler()
 	}
     
@@ -92,7 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             
             let dateComponents2 = Calendar.current.dateComponents(Set(arrayLiteral: Calendar.Component.year, Calendar.Component.month, Calendar.Component.day), from: yourFireDate!)
             let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents2, repeats: false)
-            let request = UNNotificationRequest(identifier: "\(expiringOffer.offer_ID)", content: content, trigger: trigger)
+            let request = UNNotificationRequest(identifier: "expire\(expiringOffer.offer_ID)", content: content, trigger: trigger)
             UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
                 if error != nil {
                     //handle error
@@ -111,6 +114,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func CreateOfferAcceptNotification(accepteddOffer: Offer) {
         let content = UNMutableNotificationContent()
         content.title = "Offer Accepted"
+        content.badge = 1
         content.body = "An offer by \(accepteddOffer.company.name) for \(NumberToPrice(Value: accepteddOffer.money)) is Accepted."
         downloadImage(accepteddOffer.company.logo ?? "") { (logo) in
             if let logo = logo {
@@ -118,7 +122,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     content.attachments = [attachment]
                 }
             }
-            let request = UNNotificationRequest.init(identifier: "\(accepteddOffer.offer_ID)", content: content, trigger: UNTimeIntervalNotificationTrigger.init(timeInterval: 15, repeats: false))
+            let request = UNNotificationRequest.init(identifier: "accept\(accepteddOffer.offer_ID)", content: content, trigger: UNTimeIntervalNotificationTrigger.init(timeInterval: 15, repeats: false))
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
         }
         
@@ -127,6 +131,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	func CreateNewOfferNotification(newOffer: Offer) {
 		let content = UNMutableNotificationContent()
 		content.title = "New Offer"
+        content.badge = 1
 		content.body = "\(newOffer.company.name) will pay you \(NumberToPrice(Value: newOffer.money)) for \(newOffer.posts.count) posts."
 		downloadImage(newOffer.company.logo ?? "") { (logo) in
 			if let logo = logo {
@@ -137,7 +142,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 			
 			//Time inverval is for debug only.
 			
-			let request = UNNotificationRequest.init(identifier: "new\(newOffer.offer_ID)", content: content, trigger: UNTimeIntervalNotificationTrigger.init(timeInterval: 5, repeats: false))
+			let request = UNNotificationRequest.init(identifier: "new\(newOffer.offer_ID)", content: content, trigger: UNTimeIntervalNotificationTrigger.init(timeInterval: 15, repeats: false))
 			UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
 		}
 	}
@@ -146,7 +151,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     override init() {
         FirebaseApp.configure()
-        Database.database().isPersistenceEnabled = true
+        Database.database().isPersistenceEnabled = false
     }
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -154,7 +159,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		AskForNotificationPermission()
 		
 		// Define the custom actions.
-		
+		UIApplication.shared.applicationIconBadgeNumber = 0
 		UNUserNotificationCenter.current().delegate = self
 		
 		return true

@@ -8,6 +8,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ProductPreview: UICollectionViewCell {
 	@IBOutlet weak var ProductImage: UIImageView!
@@ -39,7 +40,8 @@ class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 	}
 	
 	@IBOutlet var MasterView: UIView!
-	
+    @IBOutlet var swdView: UIView!
+
 	var producttosend: Product!
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -61,12 +63,101 @@ class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 	@IBOutlet weak var captionText: UITextView!
 	@IBOutlet weak var grid: UICollectionView!
 	@IBOutlet weak var captionHeader: UILabel!
+    
+    //naveen added
+    @IBOutlet weak var post_Btn: UIButton!
+    @IBAction func post_Action(_ sender: Any) {
+//       PostToInstagram()
+        
+        let user = Yourself.username
+        let instaURL = URL(string: "instagram://user?username=\(user)")!
+        debugPrint(instaURL)
+        let sharedApps = UIApplication.shared
+        
+        if sharedApps.canOpenURL(instaURL) {
+            sharedApps.open(instaURL)
+        } else {
+            sharedApps.open(URL(string: "https://instagram.com/\(user)")!)
+        }
+    }
+
+    func PostToInstagram() {
+        if let theProfileImageUrl = ThisPost.products![0].image {
+            do {
+                let url = NSURL(string: theProfileImageUrl)
+                let imageData = try Data(contentsOf: url! as URL)
+                let image = UIImage(data: imageData)
+                print(ThisPost.captionMustInclude!)
+                if ThisPost.PostType == .Story {
+//                    // *******
+//                    let instanceOfCustomObject: CustomObject = CustomObject()
+//                    instanceOfCustomObject.backgroundImage(imageData, attributionURL: ThisPost.captionMustInclude!)
+                }else{
+                    InstagramManager.sharedManager.postImageToInstagramWithCaption(imageInstagram: image!, instagramCaption: ThisPost.captionMustInclude!, view: self.view, completion: {(bool) in
+                        if bool{
+                            print("bbbb=",self.ThisPost.post_ID)
+                            let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(self.offer_ID).child("posts")
+                            prntRef.observeSingleEvent(of: .value) { (dataSnapshot) in
+                                if let posts = dataSnapshot.value as? NSMutableArray{
+                                    var final: [[String : Any]] = []
+                                    for value in posts{
+                                        var obj = value as! [String : Any]
+                                        if obj["post_ID"] as! String == self.ThisPost.post_ID {
+                                            obj["isConfirmed"] = true as Bool
+                                            obj["confirmedSince"] = getStringFromTodayDate()
+
+                                            final.append(obj)
+                                        }else{
+                                            final.append(obj)
+                                        }
+                                    }
+                                    
+                                    let update  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(self.offer_ID)
+                                    update.updateChildValues(["posts": final])
+                                
+                                    //naveen added
+                                    OfferFromID(id: self.offer_ID, completion: {(offer)in
+                                        global.AcceptedOffers[self.selectedIndex] = offer!
+                                        
+                                        self.navigationController!.popToRootViewController(animated: true)
+                                        //                                                break
+                                        
+//                                        for controller in self.navigationController!.viewControllers as Array {
+//                                            if controller.isKind(of: OfferVC.self) {
+//                                                self.navigationController!.popToViewController(controller, animated: true)
+//                                                break
+//                                            }
+//
+//                                        }
+
+                                    })
+                                    
+                                }
+                            }
+                            
+                        }else{
+                            let alert = UIAlertController(title: "Error", message: "Please install the Instagram application", preferredStyle: .alert)
+                            self.present(alert, animated: true, completion: nil)
+
+                        }
+                    })
+                }
+                
+
+                
+            } catch {
+                print("Unable to load data: \(error)")
+            }
+        }
+    }
 	
 
 	override func viewDidLoad() {
         super.viewDidLoad()
 		grid.dataSource = self
 		grid.delegate = self
+        swdView.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "Instagrad")!)
+
 		gridHeight.constant = grid.collectionViewLayout.collectionViewContentSize.height
 		ViewInsideStackHeight.constant = 333 + grid.collectionViewLayout.collectionViewContentSize.height
 		UpdatePostInformation()
@@ -76,7 +167,15 @@ class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 	@IBOutlet weak var gridHeight: NSLayoutConstraint!
 	
 	func UpdatePostInformation() {
-		postimage.image = PostTypeToIcon(posttype: ThisPost.PostType)
+        
+        //naveen added
+        if !ThisPost.isConfirmed {
+            post_Btn.isHidden = !isPostEnable
+        }else{
+            post_Btn.isHidden = true
+        }
+
+        postimage.image = PostTypeToIcon(posttype: ThisPost.PostType)
 		postLabel.text = PostTypeToText(posttype: ThisPost.PostType)
 		rulesText.text = ThisPost.instructions
 		
@@ -89,5 +188,9 @@ class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 	
 	var ThisPost: Post!
 	var companystring: String!
+    //naveen added
+    var isPostEnable = false
+    var offer_ID: String!
+    var selectedIndex:Int!
 
 }

@@ -74,49 +74,52 @@ func GetFakeOffers() -> [Offer] {
 }
 
 //naveen added func
+
 func getOfferList(completion:@escaping (_ result: [Offer])->()) {
     var offers : [Offer] = []
-    let ref = Database.database().reference().child("offers")
+    let ref = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id)
     ref.observeSingleEvent(of: .value, with: {(snapshot) in
-    print(snapshot.childrenCount)
+        print(snapshot.childrenCount)
         if let dictionary = snapshot.value as? [String: AnyObject] {
             for (_, offer) in dictionary{
                 var offerDictionary = offer as? [String: AnyObject]
                 print("company=\(offerDictionary!["company"] as! String)")
                 //company detail fetch data
-                let compref = Database.database().reference().child("companies").child(offerDictionary!["company"] as! String)
+                let compref = Database.database().reference().child("companies").child(offerDictionary!["ownerUserID"] as! String).child(offerDictionary!["company"] as! String)
                 compref.observeSingleEvent(of: .value, with: { (dataSnapshot) in
-                    if let compDic = dataSnapshot.value as? [String: AnyObject] {
-                        for (_,company) in compDic {
-                            let fakecompany = Company.init(name: company["name"] as! String, logo:
-                                company["logo"] as? String, mission: company["mission"] as! String, website: company["website"] as! String, account_ID: company["account_ID"] as! String, instagram_name: "test", description: company["description"] as! String)
-                            
-                            offerDictionary!["company"] = fakecompany as AnyObject
-                        }
+                    if let company = dataSnapshot.value as? [String: AnyObject] {
+                        let companyDetail = Company.init(name: company["name"] as! String, logo:
+                            company["logo"] as? String, mission: company["mission"] as! String, website: company["website"] as! String, account_ID: company["account_ID"] as! String, instagram_name: company["name"] as! String, description: company["description"] as! String)
+                        
+                        offerDictionary!["company"] = companyDetail as AnyObject
                         
                         //post detail fetch data
-                        if let posts = offerDictionary!["post"] as? NSMutableArray{
+                        if let posts = offerDictionary!["posts"] as? NSMutableArray{
                             var postfinal : [Post] = []
-
+                            
                             for postv in posts {
                                 var post = postv as! [String:AnyObject]
                                 var productfinal : [Product] = []
-
-                                if let products = post["product"] as? [String: AnyObject]{
-                                    for (_,product) in products {
+                                
+                                if let products = post["products"] as? NSMutableArray{
+                                    for productDic in products {
+                                        let product = productDic as! [String:AnyObject]
                                         productfinal.append(Product.init(image: (product["image"] as! String), name: product["name"] as! String, price: product["price"] as! Double, buy_url: product["buy_url"] as! String, color: product["color"] as! String, product_ID: product["product_ID"] as! String))
                                     }
-                                    post["product"] = productfinal as AnyObject
+                                    post["products"] = productfinal as AnyObject
                                 }
                                 
-                                postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: post["image"] as? String, products: post["product"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: .MultiPost, confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool))
+                                postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: post["captionMustInclude"] as? String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool))
                                 
                             }
-                            offerDictionary!["post"] = postfinal as AnyObject
+                            offerDictionary!["posts"] = postfinal as AnyObject
                             let userInstance = Offer(dictionary: offerDictionary!)
                             offers.append(userInstance)
-                            completion(offers)
+                            DispatchQueue.main.async {
 
+                            completion(offers)
+                            }
+                            
                         }else{
                             
                         }
@@ -124,7 +127,7 @@ func getOfferList(completion:@escaping (_ result: [Offer])->()) {
                     }else{
                         
                     }
-
+                    
                 }, withCancel: nil)
                 
             }
@@ -190,6 +193,19 @@ func CreateAccount(instagramUser: User, completion:@escaping (_ Results: User , 
         for case let user as DataSnapshot in snapshot.children {
             if (user.childSnapshot(forPath: "username").value as! String == instagramUser.username) {
                 alreadyRegistered = true
+                if let dictionary = user.value as? [String: AnyObject] {
+                    instagramUser.primaryCategory = Category(rawValue: dictionary["primaryCategory"] as! String)!
+                    if dictionary["secondaryCategory"] as? String == "" || dictionary["secondaryCategory"] as? String == nil {
+                        instagramUser.SecondaryCategory = nil
+                    }else{
+                        instagramUser.SecondaryCategory = Category(rawValue: (dictionary["secondaryCategory"] as? String)!)!
+                    }
+                    instagramUser.gender = TextToGender(gender: dictionary["gender"] as! String)
+                    instagramUser.zipCode = dictionary["zipCode"] as? String
+                    instagramUser.isBankAdded = dictionary["isBankAdded"] as! Bool
+                    instagramUser.yourMoney = dictionary["yourMoney"] as! Int
+                }
+
             }
         }
         

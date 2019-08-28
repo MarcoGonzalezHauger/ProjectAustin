@@ -142,7 +142,9 @@ class OfferCell: UITableViewCell, SyncTimerDelegate {
 			companylabel.text = ThisOffer.company.name
 			
 			if ThisOffer.isAccepted {
-				
+				//naeen added
+                postsLabel.text = ThisOffer.posts.count == 1 ? "For 1 post" : "For \(ThisOffer.posts.count) posts"
+
 			} else {
 				postsLabel.text = ThisOffer.posts.count == 1 ? "For 1 post" : "For \(ThisOffer.posts.count) posts"
 			}

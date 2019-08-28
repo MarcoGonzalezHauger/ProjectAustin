@@ -9,6 +9,7 @@
 
 import UIKit
 import UserNotifications
+import Firebase
 //Preview post when on offerVC.
 
 class PreviewPostCell: UITableViewCell {
@@ -34,6 +35,7 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 					acceptButtonView.isHidden = true
 				}
 				//dismiss(animated: true, completion: nil)
+                
 			} else {
 				var desiredText: String = ""
 				let i : Double = ThisOffer.expiredate.timeIntervalSinceNow
@@ -105,6 +107,10 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 			if let destination = segue.destination as? ViewPostVC {
 				destination.ThisPost = posttosend
 				destination.companystring = ThisOffer.company.name
+                //naveen added
+                destination.isPostEnable = ThisOffer.isAccepted
+                destination.offer_ID = ThisOffer.offer_ID
+                destination.selectedIndex = selectedIndex
 			}
 		case "toCompany":
 			if let destination = segue.destination as? CompanyVC {
@@ -136,8 +142,13 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 		shelf.delegate = self
 		UpdateOfferInformation()
 		//If offer is already accepted, the accepted button will disappear.
+        acceptButtonView.isHidden = false
+
 		if isCloseButton {
 			acceptButtonView.isHidden = true
+            //naveen addded
+//            acceptButtonView.isHidden = false
+//            acceptButton.setTitle("Post", for: .normal)
 		}
 		//59 48
 		expirationView.layer.cornerRadius = 5
@@ -198,10 +209,39 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 	}
 	
 	var ThisOffer: Offer!
+    //naveen added
+    var selectedIndex:Int!
+
 
 	@IBAction func OfferAccepted(_ sender: Any) {
-		dismiss(animated: true) { self.delegate?.OfferAccepted(offer: self.ThisOffer) }
+        //naveen added
+//        if  acceptButton.titleLabel?.text == "Post"{
+////            PostToInst()
+//        }else{
+            let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(ThisOffer.offer_ID)
+            prntRef.updateChildValues(["isAccepted":true])
+            prntRef.updateChildValues(["status":"accepted"])
+
+            dismiss(animated: true) { self.delegate?.OfferAccepted(offer: self.ThisOffer) }
+//        }
+//		dismiss(animated: true) { self.delegate?.OfferAccepted(offer: self.ThisOffer) }
 	}
 	
-	
+//    func PostToInst() {
+//        if let theProfileImageUrl = ThisOffer.posts[0].products![0].image {
+//            do {
+//                let url = NSURL(string: theProfileImageUrl)
+//                let imageData = try Data(contentsOf: url! as URL)
+//
+//                let image = UIImage(data: imageData)
+//                print(ThisOffer.posts[0].captionMustInclude!)
+//                let offer = ThisOffer
+//                InstagramManager.sharedManager.postImageToInstagramWithCaption(imageInstagram: image!, instagramCaption: ThisOffer.posts[0].captionMustInclude!, view: self.view)
+//
+//            } catch {
+//                print("Unable to load data: \(error)")
+//            }
+//        }
+//    }
+
 }
