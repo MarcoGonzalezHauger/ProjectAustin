@@ -104,7 +104,7 @@ struct API {
             "profilePicURL": user.profilePicURL!,
             "primaryCategory": user.primaryCategory.rawValue,
 			"secondaryCategory": user.SecondaryCategory == nil ? "" : user.SecondaryCategory!.rawValue,
-            "averageLikes": user.averageLikes ?? "",
+            "averageLikes": user.averageLikes ?? 0,
 			"zipCode": user.zipCode as Any,
             "gender": user.gender == nil ? "" : user.gender!.rawValue,
             "isBankAdded": user.isBankAdded,

@@ -32,6 +32,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 	func OfferAccepted(offer: Offer) {
 		isQue = true
 		if let ip : IndexPath = currentviewoffer {
+            self.appdel.CreateOfferAcceptNotification(accepteddOffer: global.AvaliableOffers[ip.row])
 			global.AvaliableOffers[ip.row].isAccepted = true
             global.AvaliableOffers[ip.row].status = "accepted"
 			global.AcceptedOffers.append(global.AvaliableOffers[ip.row])
@@ -54,7 +55,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 //                }
 //
 //            }
-            self.appdel.CreateOfferAcceptNotification(accepteddOffer: global.AvaliableOffers[ip.row])
 
 		}
 		isQue = false

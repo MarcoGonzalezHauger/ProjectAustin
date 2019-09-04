@@ -128,7 +128,7 @@ class User: NSObject {
         //naveen added
         self.id = dictionary["id"] as! String
         self.gender = dictionary["gender"] as? Gender
-        self.isBankAdded = dictionary["isBankAdded"] as! Bool
+        self.isBankAdded = dictionary["isBankAdded"] as! Bool 
         self.yourMoney = dictionary["yourMoney"] as! Int
     }
 	

@@ -40,7 +40,6 @@ class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 	}
 	
 	@IBOutlet var MasterView: UIView!
-    @IBOutlet var swdView: UIView!
 
 	var producttosend: Product!
 	
@@ -64,22 +63,6 @@ class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 	@IBOutlet weak var grid: UICollectionView!
 	@IBOutlet weak var captionHeader: UILabel!
     
-    //naveen added
-    @IBOutlet weak var post_Btn: UIButton!
-    @IBAction func post_Action(_ sender: Any) {
-//       PostToInstagram()
-        
-        let user = Yourself.username
-        let instaURL = URL(string: "instagram://user?username=\(user)")!
-        debugPrint(instaURL)
-        let sharedApps = UIApplication.shared
-        
-        if sharedApps.canOpenURL(instaURL) {
-            sharedApps.open(instaURL)
-        } else {
-            sharedApps.open(URL(string: "https://instagram.com/\(user)")!)
-        }
-    }
 
     func PostToInstagram() {
         if let theProfileImageUrl = ThisPost.products![0].image {
@@ -156,7 +139,6 @@ class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         super.viewDidLoad()
 		grid.dataSource = self
 		grid.delegate = self
-        swdView.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "Instagrad")!)
 
 		gridHeight.constant = grid.collectionViewLayout.collectionViewContentSize.height
 		ViewInsideStackHeight.constant = 333 + grid.collectionViewLayout.collectionViewContentSize.height
@@ -167,13 +149,6 @@ class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 	@IBOutlet weak var gridHeight: NSLayoutConstraint!
 	
 	func UpdatePostInformation() {
-        
-        //naveen added
-        if !ThisPost.isConfirmed {
-            post_Btn.isHidden = !isPostEnable
-        }else{
-            post_Btn.isHidden = true
-        }
 
         postimage.image = PostTypeToIcon(posttype: ThisPost.PostType)
 		postLabel.text = PostTypeToText(posttype: ThisPost.PostType)

@@ -83,7 +83,7 @@ func getOfferList(completion:@escaping (_ result: [Offer])->()) {
         if let dictionary = snapshot.value as? [String: AnyObject] {
             for (_, offer) in dictionary{
                 var offerDictionary = offer as? [String: AnyObject]
-                print("company=\(offerDictionary!["company"] as! String)")
+//                print("company=\(offerDictionary!["company"] as! String)")
                 //company detail fetch data
                 let compref = Database.database().reference().child("companies").child(offerDictionary!["ownerUserID"] as! String).child(offerDictionary!["company"] as! String)
                 compref.observeSingleEvent(of: .value, with: { (dataSnapshot) in
