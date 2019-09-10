@@ -7,7 +7,6 @@
 //  Exclusive property of Tesseract Freelance, LLC.
 //
 
-
 import UIKit
 import Firebase
 
