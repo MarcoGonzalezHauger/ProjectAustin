@@ -3636,6 +3636,91 @@ Add your bank.</string>
             </objects>
             <point key="canvasLocation" x="2871.0144927536235" y="1898.6413043478262"/>
         </scene>
+        <!--Payment SentVC-->
+        <scene sceneID="Uj1-yS-How">
+            <objects>
+                <viewController id="1Cj-Yj-zpS" customClass="PaymentSentVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KDK-qq-oFG">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FsZ-lC-CGl">
+                                <rect key="frame" x="27" y="53" width="360" height="550"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="payment verified" translatesAutoresizingMaskIntoConstraints="NO" id="RdN-Jt-MNV">
+                                        <rect key="frame" x="132" y="20" width="96" height="96"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="96" id="5ab-gf-mw1"/>
+                                            <constraint firstAttribute="width" constant="96" id="Tcg-ll-NOA"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hCF-jO-Jvi">
+                                        <rect key="frame" x="63.333333333333329" y="202" width="233.33333333333337" height="60"/>
+                                        <string key="text">Payment Sent
+from Ambassadoor</string>
+                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="25"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$50" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7lg-NE-o9S">
+                                        <rect key="frame" x="152.66666666666666" y="141" width="55" height="36"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Allow up to 3 days for processing." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3RD-mM-aQG">
+                                        <rect key="frame" x="20.666666666666657" y="378" width="319" height="26.333333333333314"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WW0-n8-jsQ">
+                                        <rect key="frame" x="138" y="512" width="84" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="JHW-R1-zd1"/>
+                                            <constraint firstAttribute="width" constant="84" id="ltk-FW-u2Y"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Okay"/>
+                                        <connections>
+                                            <action selector="Dismissed:" destination="1Cj-Yj-zpS" eventType="touchUpInside" id="Dop-9j-OeK"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstItem="RdN-Jt-MNV" firstAttribute="centerX" secondItem="FsZ-lC-CGl" secondAttribute="centerX" id="6D3-Me-7UJ"/>
+                                    <constraint firstItem="RdN-Jt-MNV" firstAttribute="top" secondItem="FsZ-lC-CGl" secondAttribute="top" constant="20" id="Dn3-1A-Sdh"/>
+                                    <constraint firstItem="WW0-n8-jsQ" firstAttribute="centerX" secondItem="3RD-mM-aQG" secondAttribute="centerX" id="FaI-s6-BCj"/>
+                                    <constraint firstItem="WW0-n8-jsQ" firstAttribute="top" secondItem="3RD-mM-aQG" secondAttribute="bottom" constant="107.66666666666669" id="NKp-A4-BYE"/>
+                                    <constraint firstItem="hCF-jO-Jvi" firstAttribute="centerX" secondItem="RdN-Jt-MNV" secondAttribute="centerX" id="SVO-dc-Gzg"/>
+                                    <constraint firstItem="3RD-mM-aQG" firstAttribute="centerX" secondItem="hCF-jO-Jvi" secondAttribute="centerX" id="Ua6-4n-72M"/>
+                                    <constraint firstItem="3RD-mM-aQG" firstAttribute="top" secondItem="hCF-jO-Jvi" secondAttribute="bottom" constant="116" id="jPA-Oa-YVE"/>
+                                    <constraint firstItem="7lg-NE-o9S" firstAttribute="centerX" secondItem="RdN-Jt-MNV" secondAttribute="centerX" id="lJT-GK-0iR"/>
+                                    <constraint firstItem="RdN-Jt-MNV" firstAttribute="centerX" secondItem="FsZ-lC-CGl" secondAttribute="centerX" id="lam-27-fM4"/>
+                                    <constraint firstItem="RdN-Jt-MNV" firstAttribute="centerX" secondItem="FsZ-lC-CGl" secondAttribute="centerX" id="mvF-np-1xa"/>
+                                    <constraint firstAttribute="height" constant="550" id="oml-ib-GKe"/>
+                                    <constraint firstAttribute="width" constant="360" id="rVI-Oo-4Fm"/>
+                                    <constraint firstItem="7lg-NE-o9S" firstAttribute="top" secondItem="RdN-Jt-MNV" secondAttribute="bottom" constant="25" id="sAm-F0-5zQ"/>
+                                    <constraint firstItem="hCF-jO-Jvi" firstAttribute="top" secondItem="7lg-NE-o9S" secondAttribute="bottom" constant="25" id="yH6-cX-CnH"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="FsZ-lC-CGl" firstAttribute="centerY" secondItem="KDK-qq-oFG" secondAttribute="centerY" constant="-40" id="82G-ZX-AsV"/>
+                            <constraint firstItem="FsZ-lC-CGl" firstAttribute="centerX" secondItem="KDK-qq-oFG" secondAttribute="centerX" id="g63-cN-Lfy"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Zcr-cc-T8a"/>
+                    </view>
+                    <connections>
+                        <outlet property="moneyAmountLabel" destination="7lg-NE-o9S" id="YeP-lT-FtY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="P6u-6w-jI3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3579.7101449275365" y="2087.771739130435"/>
+        </scene>
         <!--Category Picker-->
         <scene sceneID="kTL-Oh-lQU">
             <objects>
@@ -3664,6 +3749,7 @@ Add your bank.</string>
         <image name="geomap" width="25" height="25"/>
         <image name="homa" width="25" height="25"/>
         <image name="inPorgress" width="84" height="84"/>
+        <image name="payment verified" width="300" height="300"/>
         <image name="profila" width="25" height="25"/>
         <image name="rejectedOffers" width="84" height="84"/>
         <image name="search" width="84" height="84"/>

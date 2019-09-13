@@ -35,15 +35,16 @@ class OfferHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
 		//Load offers that have already been completed into PreviousOffers: [Offer] = []
 		
 		shelf.delegate = self
-		shelf.datasource = self
+		shelf.dataSource = self
     }
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let thisOffer = PreviousOffers[indexPath.row]
 		let cell = shelf.dequeueReusableCell(withIdentifier: "oldOffer") as! OldOfferCell
 		cell.nameLabel.text = thisOffer.company.name
-		cell.completedLabel.text = DateToAgo(date: thisOffer.allPostsConfrimedSince)
-		cell.infoLabel.text = "\(thisOffer.posts.count) post\(thisOffer.posts.count == 1 ? "" : "s") for \(NumberToPrice(thisOffer.money))"
+		cell.completedLabel.text = DateToAgo(date: thisOffer.allPostsConfrimedSince!)
+		cell.infoLabel.text = "\(thisOffer.posts.count) post\(thisOffer.posts.count == 1 ? "" : "s") for \(NumberToPrice(Value: thisOffer.money))"
+		return cell
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
