@@ -259,3 +259,115 @@ func GetAllUsers(completion:@escaping (_ result: [User])->())  {
         }
     }, withCancel: nil)
 }
+
+//Added by ram
+
+func getDwollaFundingSource(completion: @escaping([DwollaCustomerFSList]?,String,Error?) -> Void) {
+    
+    let ref = Database.database().reference().child("DwollaCustomers").child(Yourself.id)
+    ref.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let totalValues = snapshot.value as? NSDictionary{
+            
+            var objects = [DwollaCustomerFSList]()
+            
+            for value in totalValues.allKeys {
+                
+                let fundSource = DwollaCustomerFSList.init(dictionary: totalValues[value] as! [String: Any])
+                objects.append(fundSource)
+                
+            }
+            completion(objects, "success", nil)
+        }
+        
+        
+    }) { (error) in
+        completion(nil, "success", error)
+    }
+    
+}
+
+func fundTransferAccount(transferURL: String,accountID: String,Obj: DwollaCustomerFSList, currency: String, amount: String) {
+    
+    let ref = Database.database().reference().child("FundTransfer").child(Yourself.id).child(accountID)
+    let fundTransfer: [String: Any] = ["accountID":accountID,"transferURL":transferURL,"currency":currency,"amount":amount,"name":Obj.name,"mask":Obj.mask,"customerURL":Obj.customerURL,"FS":Obj.customerFSURL,"firstname":Obj.firstName,"lastname":Obj.lastName]
+    ref.updateChildValues(fundTransfer)
+    
+//    var fundingSURL = [String]()
+//
+//    let getRef = Database.database().reference().child("FundTransfer").child(Yourself.id).child(accountID)
+//
+//    getRef.observeSingleEvent(of: .value, with: { (snapshot) in
+//
+//        if let value = snapshot.value as? NSDictionary{
+//
+//            if let fundingURL = value["transferURL"] as? [String] {
+//
+//                if fundingURL.count != 0 {
+//
+//                    fundingSURL.append(contentsOf: fundingURL)
+//                    fundingSURL.append(transferURL)
+//                    let ref = Database.database().reference().child("FundTransfer").child(Yourself.id).child(accountID)
+//                    let fundTransfer: [String: Any] = ["accountID":accountID,"transferURL":fundingSURL]
+//                    ref.updateChildValues(fundTransfer)
+//
+//                }else{
+//
+//                    let ref = Database.database().reference().child("FundTransfer").child(Yourself.id).child(accountID)
+//                    fundingSURL.append(transferURL)
+//                    let fundTransfer: [String: Any] = ["accountID":accountID,"transferURL":fundingSURL]
+//                    ref.updateChildValues(fundTransfer)
+//
+//                }
+//
+//            }
+//            //if
+//
+//        }else{
+//
+//            let ref = Database.database().reference().child("FundTransfer").child(Yourself.id).child(accountID)
+//            fundingSURL.append(transferURL)
+//            let fundTransfer: [String: Any] = ["accountID":accountID,"transferURL":fundingSURL]
+//            ref.updateChildValues(fundTransfer)
+//
+//        }
+//
+//    }) { (error) in
+//
+//        let ref = Database.database().reference().child("FundTransfer").child(Yourself.id).child(accountID)
+//        fundingSURL.append(transferURL)
+//        let fundTransfer: [String: Any] = ["accountID":accountID,"transferURL":fundingSURL]
+//        ref.updateChildValues(fundTransfer)
+//
+//    }
+    
+    
+    
+    
+    
+}
+
+func transactionInfo(completion: @escaping([TransactionInfo]?,String,Error?) -> Void) {
+    
+    let ref = Database.database().reference().child("FundTransfer").child(Yourself.id)
+    ref.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let totalValues = snapshot.value as? NSDictionary{
+            
+            var objects = [TransactionInfo]()
+            
+            for value in totalValues.allKeys {
+                
+                let transactionInfo = TransactionInfo.init(dictionary: totalValues[value] as! [String: Any])
+                objects.append(transactionInfo)
+                
+            }
+            completion(objects, "success", nil)
+        }
+        
+        
+    }) { (error) in
+        completion(nil, "success", error)
+    }
+    
+}

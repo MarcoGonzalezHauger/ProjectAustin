@@ -14,6 +14,15 @@ struct API {
     static let INSTAGRAM_CLIENT_ID = "fa083c34de6847ff95db596d75ef1c31"
     static let INSTAGRAM_CLIENTSERCRET = "b81172265e6b417782fcf075e2daf2ff"
     static let INSTAGRAM_REDIRECT_URI = "https://ambassadoor.co/welcome"
+    
+    //Dwolla
+    static let kDwollaClient_id = "CijOdBYNcHDSwXjkf4PnsXjHBYSgKdgc7TdfoDNUZiNvOPfAst"
+    static let kDwollaClient_secret = "m8oCRchilXnkR3eFAKlNuQWFqv9zROJX0CkD5aiys1H3nmvQMb"
+    static let kCreateCustomer = "https://api-sandbox.dwolla.com/customers"
+    
+    static var superBankFundingSource = "https://api-sandbox.dwolla.com/funding-sources/b23abf0b-c28d-4941-84af-617626865f2b"
+    
+    static var kFundTransferURL = "https://api-sandbox.dwolla.com/transfers"
 
     //naveen added
     //naveen login
@@ -101,7 +110,7 @@ struct API {
             "name": user.name!,
             "username": user.username,
             "followerCount": user.followerCount,
-            "profilePicURL": user.profilePicURL!,
+            "profilePicture": user.profilePicURL!,
             "primaryCategory": user.primaryCategory.rawValue,
 			"secondaryCategory": user.SecondaryCategory == nil ? "" : user.SecondaryCategory!.rawValue,
             "averageLikes": user.averageLikes ?? 0,

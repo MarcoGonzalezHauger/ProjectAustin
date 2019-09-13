@@ -156,6 +156,63 @@ class Bank: NSObject {
     
 
 }
+
+//added by ram
+
+class DwollaCustomerFSList: NSObject {
+    
+    var acctID = ""
+    var firstName = ""
+    var lastName = ""
+    var customerURL = ""
+    var customerFSURL = ""
+    var isFSAdded = false
+    var mask = ""
+    var name = ""
+    
+    init(dictionary: [String: Any]) {
+        
+        self.acctID = dictionary["accountID"] as! String
+        self.firstName = dictionary["firstname"] as! String
+        self.lastName = dictionary["lastname"] as! String
+        self.customerURL = dictionary["customerURL"] as! String
+        self.customerFSURL = dictionary["customerFSURL"] as! String
+        self.isFSAdded = dictionary["isFSAdded"] as! Bool
+        self.mask = dictionary["mask"] as! String
+        self.name = dictionary["name"] as! String
+    }
+    
+}
+
+class TransactionInfo: NSObject {
+    
+    var acctID = ""
+    var firstName = ""
+    var lastName = ""
+    var customerURL = ""
+    var customerFSURL = ""
+    var mask = ""
+    var name = ""
+    var transactionURL = ""
+    var amount = ""
+    var currency = ""
+    
+    init(dictionary: [String: Any]) {
+        
+        self.acctID = dictionary["accountID"] as! String
+        self.firstName = dictionary["firstname"] as! String
+        self.lastName = dictionary["lastname"] as! String
+        self.customerURL = dictionary["customerURL"] as! String
+        self.customerFSURL = dictionary["FS"] as! String
+        self.mask = dictionary["mask"] as! String
+        self.name = dictionary["name"] as! String
+        self.transactionURL = dictionary["transferURL"] as! String
+        self.amount = dictionary["currency"] as! String
+        self.currency = dictionary["currency"] as! String
+    }
+    
+}
+
 //Structure for post
 struct Post {
 	let image: String?
@@ -229,6 +286,8 @@ class InstagramManager: NSObject, UIDocumentInteractionControllerDelegate {
         }
         return Singleton.instance
     }
+    
+    
 
     func postImageToInstagramWithCaption(imageInstagram: UIImage, instagramCaption: String, view: UIView,  completion:@escaping (_ bool:Bool) -> ()) {
         // called to post image with caption to the instagram application
