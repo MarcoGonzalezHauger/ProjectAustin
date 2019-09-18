@@ -122,14 +122,14 @@ import Firebase
         
         
         if primeCat_Txt.text!.isEmpty {
-            self.showStandardAlertDialog(title: "Alert!", msg: "Please select \(category_Lbl.text!)")
-        }else if secondaryCat_Txt.text!.isEmpty && GetTierFromFollowerCount(FollowerCount: userfinal!.followerCount) ?? 0 > 6{
-            self.showStandardAlertDialog(title: "Alert!", msg: "Please select Second Category")
-        }else if gender_Txt.text!.isEmpty{
-            self.showStandardAlertDialog(title: "Alert!", msg: "Please select Gender")
-        }else if zipcode_Txt.text!.isEmpty{
-            self.showStandardAlertDialog(title: "Alert!", msg: "Please enter the zipcode")
-        }else{
+            self.showStandardAlertDialog(title: "Alert!", msg: "Please select a \(category_Lbl.text!)")
+        } else if secondaryCat_Txt.text!.isEmpty && GetTierFromFollowerCount(FollowerCount: userfinal!.followerCount) ?? 0 > 6 {
+            self.showStandardAlertDialog(title: "Alert!", msg: "Please select a Second Category")
+        } else if gender_Txt.text!.isEmpty {
+            self.showStandardAlertDialog(title: "Alert!", msg: "Please select your Gender")
+        } else if zipcode_Txt.text!.isEmpty {
+            self.showStandardAlertDialog(title: "Alert!", msg: "Please enter your ZIP code")
+        } else {
             userfinal?.primaryCategory = Category(rawValue: primeCat_Txt.text!)!
             userfinal?.SecondaryCategory =
                 secondaryCat_Txt.text! == "" ? nil : Category(rawValue: secondaryCat_Txt.text!)!
@@ -148,7 +148,7 @@ import Firebase
             //naveen added
             var youroffers: [Offer] = []
             getOfferList { (Offers) in
-                print(Offers.count)
+//                print(Offers.count)
                 youroffers = Offers
                 //                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
                 //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
@@ -167,6 +167,7 @@ import Firebase
 //            }
         }
         
+		
 
     }
 

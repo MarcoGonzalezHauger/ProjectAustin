@@ -32,6 +32,19 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		return 75
 	}
 	
+	@IBAction func logOut(_ sender: Any) {
+        DispatchQueue.main.async {
+            signOutofAmbassadoor()
+            let loginVC = self.storyboard?.instantiateInitialViewController()
+            
+            let appDel:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+            
+            appDel.window?.rootViewController = loginVC
+        }
+
+//        performSegue(withIdentifier: "SignUpVC", sender: self)
+	}
+	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = shelf.dequeueReusableCell(withIdentifier: "menuItem") as! SettingCell
 		let settings = userSettings[indexPath.row]
@@ -117,23 +130,26 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-		if let profilepic = Yourself.profilePicURL {
-			ProfilePicture.downloadAndSetImage(profilepic, isCircle: true)
-		} else {
-			ProfilePicture.image = defaultImage
-		}
-		tierBox.layer.cornerRadius = tierBox.bounds.height / 2
-		tierLabel.text = String(GetTierFromFollowerCount(FollowerCount: Yourself.followerCount) ?? 0)
-		
-		followerCount.text = CompressNumber(number: Yourself.followerCount)
-		averageLikes.text = Yourself.averageLikes == nil ? "N/A" : CompressNumber(number: Yourself.averageLikes!)
-		
-		tierBox.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "tiergrad")!)
-		
-		userSettings = reloadUserSettings()
-		
-		shelf.dataSource = self
-		shelf.delegate = self
+
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        if let profilepic = Yourself.profilePicURL {
+            ProfilePicture.downloadAndSetImage(profilepic, isCircle: true)
+        } else {
+            ProfilePicture.image = defaultImage
+        }
+        tierBox.layer.cornerRadius = tierBox.bounds.height / 2
+        tierLabel.text = String(GetTierFromFollowerCount(FollowerCount: Yourself.followerCount) ?? 0)
+        
+        followerCount.text = CompressNumber(number: Yourself.followerCount)
+        averageLikes.text = Yourself.averageLikes == nil ? "N/A" : CompressNumber(number: Yourself.averageLikes!)
+        
+        tierBox.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "tiergrad")!)
+        
+        userSettings = reloadUserSettings()
+        
+        shelf.dataSource = self
+        shelf.delegate = self
     }
 	
 	@IBOutlet weak var shelf: UITableView!

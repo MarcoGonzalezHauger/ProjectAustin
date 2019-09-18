@@ -14,6 +14,8 @@ import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    
+    var timer: DispatchSourceTimer?
 
 	func AskForNotificationPermission() {
 		UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert]) { (worked, error) in
@@ -161,10 +163,154 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		// Define the custom actions.
 		UIApplication.shared.applicationIconBadgeNumber = 0
 		UNUserNotificationCenter.current().delegate = self
+        
+        // Fetch data once an hour.
+//        UIApplication.shared.setMinimumBackgroundFetchInterval(600)
+        self.startTimer()
 		
 		return true
 	}
+    
+    private func startTimer() {
+        let queue = DispatchQueue(label: "com.firm.app.timer", attributes: .concurrent)
+        
+        timer?.cancel()        // cancel previous timer if any
+        
+        timer = DispatchSource.makeTimerSource(queue: queue)
+        
+        timer?.schedule(deadline: .now(), repeating: .seconds(5), leeway: .milliseconds(100))
+        
+        // or, in Swift 3:
+        //
+        // timer?.scheduleRepeating(deadline: .now(), interval: .seconds(5), leeway: .seconds(1))
+        
+        timer?.setEventHandler { [weak self] in // `[weak self]` only needed if you reference `self` in this closure and you want to prevent strong reference cycle
+            
+            if Yourself != nil{
+                //naveen added
+                var youroffers: [Offer] = []
+                getOfferList { (Offers) in
+//                    print(Offers.count)
+                    youroffers = Offers
+                    //                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
+                    //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
+                    global.AvaliableOffers = youroffers.filter({$0.status == "available"})
+                    global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
+                    global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
+                    
+                    
+                    UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
+                        var newavailableresults: [Offer] = []
+                        for notification in notifications {
+                            print(notification.identifier)
+                            var identifier = notification.identifier
+                            
+                            if identifier.hasPrefix("new") {
+                                identifier = String(identifier.dropFirst(3))
+                            } else if identifier.hasPrefix("accept") {
+                                identifier = String(identifier.dropFirst(6))
+                            }
+                                //naveeen added
+                            else if identifier.hasPrefix("expire"){
+                                identifier = String(identifier.dropFirst(6))
+                            }else{
+                            }
+                            newavailableresults = global.AvaliableOffers.filter({ $0.offer_ID != identifier })
+                            
+                            
+                        }
+                        
+                        for offer in newavailableresults {
+                            self!.CreateExpireNotification(expiringOffer: offer)
+                            self!.CreateNewOfferNotification(newOffer: offer)
+                        }
+                        
+                    }
+                    
+                    
+                    
+                }
+            }else{
+            }
+        }
+        
+        timer?.resume()
+    }
+    
+    private func stopTimer() {
+        timer?.cancel()
+        timer = nil
+    }
 
+//    func application(_ application: UIApplication,
+//                     performFetchWithCompletionHandler completionHandler:
+//        @escaping (UIBackgroundFetchResult) -> Void) {
+//
+//        if Yourself != nil{
+//            //naveen added
+//            var youroffers: [Offer] = []
+//            getOfferList { (Offers) in
+//                print(Offers.count)
+//                youroffers = Offers
+//                //                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
+//                //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
+//                global.AvaliableOffers = youroffers.filter({$0.status == "available"})
+//                global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
+//                global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
+//
+//
+//                UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
+//                    var newavailableresults: [Offer] = []
+//                    for notification in notifications {
+//                        print(notification.identifier)
+//                        var identifier = notification.identifier
+//
+//                        if identifier.hasPrefix("new") {
+//                            identifier = String(identifier.dropFirst(3))
+//                        } else if identifier.hasPrefix("accept") {
+//                            identifier = String(identifier.dropFirst(6))
+//                        }
+//                            //naveeen added
+//                        else if identifier.hasPrefix("expire"){
+//                            identifier = String(identifier.dropFirst(6))
+//                        }else{
+//                        }
+//                        newavailableresults = global.AvaliableOffers.filter({ $0.offer_ID != identifier })
+//
+//
+//                    }
+//
+//                    for offer in newavailableresults {
+//                        self.CreateExpireNotification(expiringOffer: offer)
+//                        self.CreateNewOfferNotification(newOffer: offer)
+//                    }
+//
+//                }
+//
+//                if Offers.count == 0{
+//                    completionHandler(.noData)
+//
+//                }else{
+//                    completionHandler(.newData)
+//
+//                }
+//
+//            }
+//        }else{
+//            completionHandler(.noData)
+//        }
+//
+//
+//
+//
+//
+//        // Check for new data.
+////        if let newData = fetchUpdates() {
+////            addDataToFeed(newData: newData)
+////        }
+//    }
+    
+    
 	func applicationWillResignActive(_ application: UIApplication) {
 		// Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
 		// Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -186,7 +332,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	}
 
 	func applicationWillTerminate(_ application: UIApplication) {
-		
+		self.stopTimer()
 		self.saveContext()
 	}
 

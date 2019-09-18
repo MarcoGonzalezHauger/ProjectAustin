@@ -221,42 +221,14 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
                             //naveen added
                             var youroffers: [Offer] = []
                             getOfferList { (Offers) in
-                                print(Offers.count)
-                                youroffers = Offers
+//                            print(Offers.count)
+                            youroffers = Offers
 //                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
 //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
                                 global.AvaliableOffers = youroffers.filter({$0.status == "available"})
                                 global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
                                 global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
                                 
-                                //naveen added
-//                                UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
-//
-//                                    for notification in notifications {
-//                                        print(notification.identifier)
-//                                        let acceptresults = global.AcceptedOffers.filter({ $0.offer_ID == notification.identifier })
-//                                        let availableresults = global.AvaliableOffers.filter({ $0.offer_ID == notification.identifier })
-//
-//                                        if  acceptresults.count > 0{
-//                                            print("1 exists in the AcceptedOffersarray")
-//                                            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notification.identifier])
-//                                        }
-//
-//                                        if  availableresults.count > 0{
-//                                            print("1 exists in the AvaliableOffersarray")
-//                                            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notification.identifier])
-//                                        }
-//
-//                                    }
-//                                    for offer in global.AcceptedOffers {
-//                                        self.appdel.CreateOfferAcceptNotification(accepteddOffer: offer)
-//                                    }
-//
-//                                    for offer in global.AvaliableOffers {
-//                                        self.appdel.CreateExpireNotification(expiringOffer: offer)
-//                                    }
-//
-//                                }
                                 
                                 UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
                                     var newavailableresults: [Offer] = []
@@ -275,11 +247,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
                                         }else{
                                         }
                                         newavailableresults = global.AvaliableOffers.filter({ $0.offer_ID != identifier })
-                                        
-//                                        if  availableresults.count > 0{
-//                                            print("1 exists in the AvaliableOffersarray")
-//                                            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notification.identifier])
-//                                        }
+                                    
                                         
                                     }
                                     
@@ -310,7 +278,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
         super.viewDidLoad()
         
         API.instaLogout()
-		
+
 		appdel = UIApplication.shared.delegate as? AppDelegate
 		appdel.delegate = self
 		appdel.pageDelegate = self.tabBarController

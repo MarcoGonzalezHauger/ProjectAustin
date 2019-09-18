@@ -37,7 +37,7 @@
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="aCK-mB-QiN">
                                 <rect key="frame" x="0.0" y="48.666666666666686" width="414" height="667.33333333333326"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="OldOffer" rowHeight="98" id="2Xy-8O-u6N" customClass="OldOfferCell" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="98"/>
@@ -98,7 +98,7 @@
                                 </prototypes>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="aCK-mB-QiN" firstAttribute="top" secondItem="uvo-cY-dtY" secondAttribute="bottom" constant="7.5" id="5lt-S7-YgN"/>
                             <constraint firstItem="IuM-RU-JhC" firstAttribute="top" secondItem="TOt-Ih-OqG" secondAttribute="top" constant="10" id="L2B-fK-tWk"/>
@@ -291,11 +291,11 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XUn-yj-HHx">
                                                 <rect key="frame" x="5" y="6" width="179.66666666666666" height="28"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
-                                                <state key="normal" title="USER SETTINGS">
-                                                    <color key="titleColor" red="1" green="0.47450980390000003" blue="0.031372549020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" title="LOG OUT">
+                                                    <color key="titleColor" red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="viewOnInstagram:" destination="NzR-wv-UTB" eventType="touchUpInside" id="cLI-Ry-7FO"/>
+                                                    <action selector="logOut:" destination="Qho-SL-6PY" eventType="touchUpInside" id="pV0-qx-hru"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -392,6 +392,7 @@
                         <outlet property="tierLabel" destination="jKK-Fj-vcI" id="EpE-Cf-I0f"/>
                         <segue destination="AYg-fd-1fP" kind="presentation" identifier="toPicker" modalPresentationStyle="fullScreen" id="p2A-bG-co5"/>
                         <segue destination="wgV-be-tWd" kind="presentation" identifier="toZip" modalPresentationStyle="fullScreen" id="fip-zC-P2e"/>
+                        <segue destination="1hT-mK-oBX" kind="presentation" identifier="SignUpVC" modalPresentationStyle="fullScreen" id="xiK-uJ-hla"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w1X-rx-SMv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1035,9 +1036,9 @@
                                                                         <constraint firstItem="2EA-eQ-Vhx" firstAttribute="top" secondItem="oOi-2l-hcs" secondAttribute="top" id="3pQ-td-EkL"/>
                                                                         <constraint firstAttribute="trailing" secondItem="Xig-U7-J4K" secondAttribute="trailing" id="5hq-xN-sDP"/>
                                                                         <constraint firstAttribute="bottom" secondItem="Xig-U7-J4K" secondAttribute="bottom" id="Anb-u0-Vtj"/>
-                                                                        <constraint firstItem="Xig-U7-J4K" firstAttribute="top" secondItem="2EA-eQ-Vhx" secondAttribute="bottom" id="ONE-ki-Ek8"/>
                                                                         <constraint firstItem="Xig-U7-J4K" firstAttribute="top" secondItem="2EA-eQ-Vhx" secondAttribute="bottom" id="RvV-pI-6qp"/>
                                                                         <constraint firstItem="2EA-eQ-Vhx" firstAttribute="top" secondItem="oOi-2l-hcs" secondAttribute="top" id="lZz-bB-itc"/>
+                                                                        <constraint firstItem="2EA-eQ-Vhx" firstAttribute="top" secondItem="oOi-2l-hcs" secondAttribute="top" id="o3a-AZ-dB0"/>
                                                                         <constraint firstAttribute="trailing" secondItem="2EA-eQ-Vhx" secondAttribute="trailing" id="p94-SS-oq6"/>
                                                                         <constraint firstItem="2EA-eQ-Vhx" firstAttribute="leading" secondItem="oOi-2l-hcs" secondAttribute="leading" id="y9c-ri-8Gh"/>
                                                                         <constraint firstItem="Xig-U7-J4K" firstAttribute="leading" secondItem="oOi-2l-hcs" secondAttribute="leading" id="zzm-2Q-Vp8"/>
@@ -1475,7 +1476,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" cocoaTouchSystemColor="tertiarySystemGroupedBackgroundColor"/>
+                                <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="Vlj-GN-7ea" firstAttribute="leading" secondItem="Wme-6v-GaE" secondAttribute="leading" constant="29" id="05Q-Od-frx"/>
                                     <constraint firstAttribute="trailing" secondItem="3S1-ay-FCk" secondAttribute="trailing" constant="29" id="0SQ-oW-eMv"/>
@@ -1589,7 +1590,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="qYf-PQ-fm9" secondAttribute="trailing" id="6hQ-b8-crj"/>
                             <constraint firstItem="Wme-6v-GaE" firstAttribute="leading" secondItem="Hug-Cz-8oh" secondAttribute="leading" id="9Jl-Rl-NBY"/>
@@ -1621,7 +1622,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J9C-ns-Z5Y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3563.7681159420295" y="1898.6413043478262"/>
+            <point key="canvasLocation" x="3580" y="1410"/>
         </scene>
         <!--Sign UpVC-->
         <scene sceneID="Tlf-M5-7Ef">
@@ -2086,14 +2087,14 @@
                                 <state key="normal" title="Cancel"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YZL-Ca-zTQ">
-                                <rect key="frame" x="20" y="267" width="374" height="162.33333333333337"/>
-                                <string key="text">By clicking confirm, you agree to post a picture on Instagram following the guidelines provided. If you do not follow all guidelines provided by the sender of the offer or do not post the picture before the offer expires, you will not be paid. If you follow all guidelines, you will be paid after 48 hours after the post has been uploaded to Instagram.</string>
+                                <rect key="frame" x="20" y="236.33333333333331" width="374" height="223.33333333333331"/>
+                                <string key="text">By clicking confirm, you agree to post a picture on Instagram following the guidelines provided. If you do not follow all guidelines provided by the sender of the offer or do not post the picture before the offer expires, you will not be paid. If you follow all guidelines, you will be paid after 48 hours after the post has been uploaded to Instagram. If you put anything in the image or caption of the post that will hurt the business, you will not be paid and possibly removed from Ambassadoor.</string>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Important" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ENd-Xy-NTf">
-                                <rect key="frame" x="107" y="233.33333333333334" width="200" height="25.666666666666657"/>
+                                <rect key="frame" x="107" y="202.66666666666666" width="200" height="25.666666666666657"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="O87-9C-SgG"/>
                                 </constraints>
@@ -2857,11 +2858,11 @@
             <objects>
                 <viewController id="jNE-KA-OrG" customClass="ClassPickerVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="B9c-rs-zpk">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ocK-Bc-y0a">
-                                <rect key="frame" x="0.0" y="56" width="414" height="660"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="692"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ClassCell" textLabel="21Z-Bj-10t" detailTextLabel="Dfa-Bv-eof" rowHeight="64" style="IBUITableViewCellStyleSubtitle" id="rTD-8g-Uf6" customClass="ClassCell" customModule="Ambassadoor" customModuleProvider="target">
@@ -3341,7 +3342,7 @@
                     </view>
                     <connections>
                         <outlet property="webView" destination="OYm-by-xSA" id="K0k-R1-j0G"/>
-                        <segue destination="mlQ-sA-hT0" kind="show" identifier="VerifySegue" id="07V-l7-1G7"/>
+                        <segue destination="mlQ-sA-hT0" kind="modal" identifier="VerifySegue" modalPresentationStyle="fullScreen" id="07V-l7-1G7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xpq-jK-hcc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3353,7 +3354,7 @@
             <objects>
                 <viewController id="mlQ-sA-hT0" customClass="VerifedVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gk2-Je-Mfv">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AEe-s3-ata" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
@@ -3406,7 +3407,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CCm-YE-VPE">
-                                <rect key="frame" x="136" y="646" width="142" height="40"/>
+                                <rect key="frame" x="136" y="666" width="142" height="40"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <state key="normal" title="That's not me.">
                                     <color key="titleColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
@@ -3423,7 +3424,7 @@
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qnd-YA-cd8">
-                                <rect key="frame" x="0.0" y="516" width="414" height="110"/>
+                                <rect key="frame" x="0.0" y="536" width="414" height="110"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="puc-U6-tR0" customClass="BoldButton" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="20" y="15" width="374" height="80"/>
@@ -3662,6 +3663,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zh7-ll-Hvw"/>
                     </view>
+                    <navigationItem key="navigationItem" id="OJM-j9-d9p"/>
                     <connections>
                         <outlet property="baseScrollView" destination="mbv-Wb-UMR" id="Wwc-hr-WSc"/>
                         <outlet property="category_Lbl" destination="Bsi-iR-dFH" id="gIm-kY-WZy"/>
@@ -3705,11 +3707,11 @@
             <objects>
                 <viewController id="SxM-ZU-4hb" customClass="CategoryPickerVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="n9Y-ZD-e9D">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="kdL-bT-yYH">
-                                <rect key="frame" x="0.0" y="56" width="414" height="660"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="692"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="catCell" textLabel="Xxd-hs-4DS" style="IBUITableViewCellStyleDefault" id="gk0-Hx-iUk" customClass="catCell" customModule="Ambassadoor" customModuleProvider="target">
@@ -4103,7 +4105,7 @@ from Ambassadoor</string>
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="RdN-Jt-MNV" firstAttribute="centerX" secondItem="FsZ-lC-CGl" secondAttribute="centerX" id="6D3-Me-7UJ"/>
                                     <constraint firstItem="RdN-Jt-MNV" firstAttribute="top" secondItem="FsZ-lC-CGl" secondAttribute="top" constant="20" id="Dn3-1A-Sdh"/>
@@ -4122,7 +4124,7 @@ from Ambassadoor</string>
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="FsZ-lC-CGl" firstAttribute="centerY" secondItem="KDK-qq-oFG" secondAttribute="centerY" constant="-40" id="82G-ZX-AsV"/>
                             <constraint firstItem="FsZ-lC-CGl" firstAttribute="centerX" secondItem="KDK-qq-oFG" secondAttribute="centerX" id="g63-cN-Lfy"/>
@@ -4142,8 +4144,9 @@ from Ambassadoor</string>
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="AYg-fd-1fP" customClass="CategoryPicker" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="6e9-Ts-XrH"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="DeE-S5-L7g">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -4181,7 +4184,7 @@ from Ambassadoor</string>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nma-m2-pab">
                                 <rect key="frame" x="0.0" y="79" width="414" height="637"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="detailButton" indentationWidth="10" editingAccessoryType="detailButton" rowHeight="133" id="cDB-Cf-Foy">
                                         <rect key="frame" x="0.0" y="28" width="414" height="133"/>
@@ -4190,7 +4193,7 @@ from Ambassadoor</string>
                                             <rect key="frame" x="0.0" y="0.0" width="369.33333333333331" height="133"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mAZ-b1-Awy" customClass="ShadowView" customModule="Ambassadoor_Business" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mAZ-b1-Awy" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                                     <rect key="frame" x="20" y="2" width="341" height="128"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
@@ -4237,7 +4240,7 @@ from Ambassadoor</string>
                                 </prototypes>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="7yB-Hz-HVJ" firstAttribute="leading" secondItem="saa-Wo-Abd" secondAttribute="leading" constant="20" id="2Dd-MX-Wyz"/>
                             <constraint firstItem="7yB-Hz-HVJ" firstAttribute="top" secondItem="saa-Wo-Abd" secondAttribute="top" constant="13" id="ZLQ-VZ-nab"/>
@@ -4267,8 +4270,9 @@ from Ambassadoor</string>
         <image name="verified" width="600" height="600"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ruj-Kh-A6S"/>
+        <segue reference="p2A-bG-co5"/>
         <segue reference="xgx-KK-Vhv"/>
-        <segue reference="a1a-Gx-isU"/>
+        <segue reference="KaI-gc-Gcv"/>
+        <segue reference="Tj4-uK-UIG"/>
     </inferredMetricsTieBreakers>
 </document>

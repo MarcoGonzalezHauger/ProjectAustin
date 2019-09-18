@@ -29,6 +29,8 @@ class SignUpVC: UIViewController, UITextFieldDelegate, ConfirmationReturned {
 	@IBAction func signUp(_ sender: Any) {
 		debugPrint("going to sign up")
 		//Brings you to a sign up VC
+        API.instaLogout()
+
 		SigningUp()
 	}
 	

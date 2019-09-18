@@ -28,27 +28,37 @@ class OfferHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
 		dismiss(animated: true, completion: nil)
 	}
 	
+	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+		return 98
+	}
+	
 	override func viewDidLoad() {
         super.viewDidLoad()
 		
-		//TODO: NAVEEN TO-DO
-		//Load offers that have already been completed into PreviousOffers: [Offer] = []
+		//PreviousOffers: [Offer] = []
 		
 		shelf.delegate = self
 		shelf.dataSource = self
     }
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let thisOffer = PreviousOffers[indexPath.row]
-		let cell = shelf.dequeueReusableCell(withIdentifier: "oldOffer") as! OldOfferCell
-		cell.nameLabel.text = thisOffer.company.name
-		cell.completedLabel.text = DateToAgo(date: thisOffer.allPostsConfrimedSince!)
-		cell.infoLabel.text = "\(thisOffer.posts.count) post\(thisOffer.posts.count == 1 ? "" : "s") for \(NumberToPrice(Value: thisOffer.money))"
+	//	let thisOffer = PreviousOffers[indexPath.row]
+		let cell = shelf.dequeueReusableCell(withIdentifier: "OldOffer") as! OldOfferCell
+		
+//		cell.nameLabel.text = thisOffer.company.name
+//		cell.completedLabel.text = DateToAgo(date: thisOffer.allPostsConfrimedSince!)
+//		cell.infoLabel.text = "\(thisOffer.posts.count) post\(thisOffer.posts.count == 1 ? "" : "s") for \(NumberToPrice(Value: thisOffer.money))"
+		
+		cell.nameLabel.text = "This feature will be avaliable soon."
+		cell.completedLabel.text = ""
+		cell.infoLabel.text = ""
+		
 		return cell
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return PreviousOffers.count
+		//return PreviousOffers.count
+		return 1
 	}
 
 }

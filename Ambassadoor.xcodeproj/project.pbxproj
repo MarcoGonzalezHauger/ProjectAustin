@@ -40,8 +40,6 @@
 		E82347FB21A1D6C0000A1A62 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E82347F921A1D6C0000A1A62 /* LaunchScreen.storyboard */; };
 		E838F3CB21F687BB0021D0AD /* FirebaseRefrences.swift in Sources */ = {isa = PBXBuildFile; fileRef = E838F3CA21F687BB0021D0AD /* FirebaseRefrences.swift */; };
 		E84038CC223541DB00959CD9 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84038CB223541DB00959CD9 /* Notifications.swift */; };
-		E84AFCC023290725008C8D57 /* OfferHistoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84AFCBF23290725008C8D57 /* OfferHistoryVC.swift */; };
-		E84AFCC2232BB4EC008C8D57 /* PaymentSentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84AFCC1232BB4EC008C8D57 /* PaymentSentVC.swift */; };
 		E84D685321A9F08C00681D21 /* PostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84D685221A9F08C00681D21 /* PostVC.swift */; };
 		E866724821FF2C8B00241FB3 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E866724721FF2C8B00241FB3 /* SignUpVC.swift */; };
 		E86A1E4B21A784C500DCB0D0 /* structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86A1E4A21A784C500DCB0D0 /* structs.swift */; };
@@ -108,8 +106,6 @@
 		E82347FC21A1D6C0000A1A62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E838F3CA21F687BB0021D0AD /* FirebaseRefrences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseRefrences.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		E84038CB223541DB00959CD9 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
-		E84AFCBF23290725008C8D57 /* OfferHistoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferHistoryVC.swift; sourceTree = "<group>"; };
-		E84AFCC1232BB4EC008C8D57 /* PaymentSentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSentVC.swift; sourceTree = "<group>"; };
 		E84D685221A9F08C00681D21 /* PostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVC.swift; sourceTree = "<group>"; };
 		E866724721FF2C8B00241FB3 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		E86A1E4A21A784C500DCB0D0 /* structs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = structs.swift; sourceTree = "<group>"; };
@@ -252,7 +248,6 @@
 			children = (
 				E81DE120222AF39D00880D41 /* ProfileVC.swift */,
 				E8EF2C79222DDD6300B2EDC6 /* ZipCodeVC.swift */,
-				E84AFCBF23290725008C8D57 /* OfferHistoryVC.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -280,13 +275,13 @@
 			children = (
 				B7D42093232A7A89009F0FCE /* TableviewCells */,
 				B7E86AF2230ECC3800F60E8F /* Helpers */,
-				E81CADDE21AD8C7600F2DCC4 /* Home */,
-				E81DE11F222AF38800880D41 /* Profile */,
 				E8A84AAD222AB3D400D9E2C9 /* Category Picker */,
 				E8C02752220F329A00B79D54 /* Resouces */,
 				C0963EAF220B838F000380C7 /* Extensions */,
 				E866724621FF2C6B00241FB3 /* Signup */,
 				E86B092421DBEF600009C45D /* Social */,
+				E81DE11F222AF38800880D41 /* Profile */,
+				E81CADDE21AD8C7600F2DCC4 /* Home */,
 				E8109EEA21AEE802008882B1 /* Money */,
 				E81CADE221AD90C300F2DCC4 /* Model */,
 				E81CADE121AD90A000F2DCC4 /* View Offer */,
@@ -342,7 +337,6 @@
 			children = (
 				E8C02753220F32C000B79D54 /* BoldButton.swift */,
 				E84038CB223541DB00959CD9 /* Notifications.swift */,
-				E84AFCC1232BB4EC008C8D57 /* PaymentSentVC.swift */,
 			);
 			name = Resouces;
 			sourceTree = "<group>";
@@ -522,7 +516,6 @@
 				B7D4209B232AA94F009F0FCE /* TransactionListVC.swift in Sources */,
 				B7BCE52922E9BB1800666689 /* DateExtension.swift in Sources */,
 				E89480A22236E95C00C809E5 /* categories.swift in Sources */,
-				E84AFCC2232BB4EC008C8D57 /* PaymentSentVC.swift in Sources */,
 				E866724821FF2C8B00241FB3 /* SignUpVC.swift in Sources */,
 				E80FD4FD21A4B8AB003AF50B /* HomeVC.swift in Sources */,
 				E86A1E4D21A797F000DCB0D0 /* Savvy.swift in Sources */,
@@ -530,7 +523,6 @@
 				E84D685321A9F08C00681D21 /* PostVC.swift in Sources */,
 				B7446CC422FD81BC0061983F /* UIViewControllerExtensions.swift in Sources */,
 				E80AB86821B0DA0D00D9B546 /* ViewOfferNC.swift in Sources */,
-				E84AFCC023290725008C8D57 /* OfferHistoryVC.swift in Sources */,
 				B7E86AF4230ECC5E00F60E8F /* PlaidHelper.swift in Sources */,
 				B73F098823291DA000CD6B00 /* DwollaUserInformationVC.swift in Sources */,
 				E8C369572216270E00AE12D7 /* ViewProfileVC.swift in Sources */,
