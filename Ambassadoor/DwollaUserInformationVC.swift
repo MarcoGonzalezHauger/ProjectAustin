@@ -111,7 +111,7 @@ class DwollaUserInformationVC: UIViewController ,UITextFieldDelegate {
         //dateFormatter.dateFormat = "dd/MM/YYYY"
         dateFormatter.dateFormat = "yyyy-MM-dd"
         //        dateFormatter.dateFormat = "mm/dd/yyyy HH:mm:ss"
-        dateFormatter.locale = Locale.current
+        dateFormatter.locale = Locale(identifier: "en_US")
         dateOfBirth.text = dateFormatter.string(from: sender.date)
         
         

@@ -28,6 +28,16 @@ extension Date {
         return dayAfter.month != month
     }
     
+    static func getCurrentDate() -> String {
+        
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = "yyyy/MMM/dd HH:mm:ss"
+        
+        return dateFormatter.string(from: Date())
+        
+    }
+    
 //    func isExpireDateCheck(string:String)-> Bool{
 //        //Ref date
 //        let dateFormatter = DateFormatter()

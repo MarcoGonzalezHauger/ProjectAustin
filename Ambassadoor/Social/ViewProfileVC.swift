@@ -68,6 +68,7 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		tierLabel.text = tier == nil ? "No Tier" : "Tier \(tier!)"
 		nameLabel.text = ThisUser.name ?? ThisUser.username
 		usernameLabel.text = "@\(ThisUser.username)"
+        joinedOn_lbl.text = ThisUser.joinedDate != nil ? "Joined On : " + ThisUser.joinedDate! : ""
 		if let picurl = ThisUser.profilePicURL {
 			profilePic.downloadedFrom(url: URL.init(string: picurl)!, makeImageCircular: true)
 		} else {
@@ -139,7 +140,8 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	@IBOutlet weak var usernameLabel: UILabel!
 	@IBOutlet weak var followerLabel: UILabel!
 	@IBOutlet weak var tierLabel: UILabel!
-	
+    @IBOutlet weak var joinedOn_lbl: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 		shelf.dataSource = self

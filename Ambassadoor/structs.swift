@@ -99,6 +99,7 @@ class User: NSObject {
     var gender: Gender?
     var isBankAdded: Bool
     var yourMoney: Int
+    var joinedDate: String?
 	
     init(dictionary: [String: Any]) {
         self.name = dictionary["name"] as? String
@@ -130,6 +131,7 @@ class User: NSObject {
         self.gender = dictionary["gender"] as? Gender
         self.isBankAdded = dictionary["isBankAdded"] as! Bool 
         self.yourMoney = dictionary["yourMoney"] as! Int
+        self.joinedDate = dictionary["joinedDate"] as? String
     }
 	
 	override var description: String {

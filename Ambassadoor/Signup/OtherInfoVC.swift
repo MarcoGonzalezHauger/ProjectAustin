@@ -135,6 +135,8 @@ import Firebase
                 secondaryCat_Txt.text! == "" ? nil : Category(rawValue: secondaryCat_Txt.text!)!
             userfinal?.zipCode = zipcode_Txt.text!
             userfinal?.gender = TextToGender(gender: gender_Txt.text!)
+            
+            userfinal?.joinedDate = Date.getCurrentDate()
 
             let ref = Database.database().reference().child("users")
             let userReference = ref.child(userfinal!.id)

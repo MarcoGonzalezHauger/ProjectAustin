@@ -116,7 +116,12 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 			if let destination = segue.destination as? CompanyVC {
 				destination.thisCompany = ThisOffer.company
 			}
-		default: break
+            
+        case "segueConfirm":
+            if let destination = segue.destination as? OfferAcceptConfirmVC {
+                destination.ThisOffer = ThisOffer
+            }
+        default: break
 		}
 	}
 	
@@ -214,18 +219,18 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 
 
 	@IBAction func OfferAccepted(_ sender: Any) {
-        //naveen added
-//        if  acceptButton.titleLabel?.text == "Post"{
-////            PostToInst()
-//        }else{
-            let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(ThisOffer.offer_ID)
-            prntRef.updateChildValues(["isAccepted":true])
-            prntRef.updateChildValues(["status":"accepted"])
+        
+        self.performSegue(withIdentifier: "segueConfirm", sender: nil)
 
-            dismiss(animated: true) { self.delegate?.OfferAccepted(offer: self.ThisOffer) }
-//        }
-//		dismiss(animated: true) { self.delegate?.OfferAccepted(offer: self.ThisOffer) }
+//            let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(ThisOffer.offer_ID)
+//            prntRef.updateChildValues(["isAccepted":true])
+//            prntRef.updateChildValues(["status":"accepted"])
+//
+//            dismiss(animated: true) { self.delegate?.OfferAccepted(offer: self.ThisOffer) }
 	}
+    
+    
+    
 	
 //    func PostToInst() {
 //        if let theProfileImageUrl = ThisOffer.posts[0].products![0].image {

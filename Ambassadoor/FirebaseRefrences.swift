@@ -204,6 +204,12 @@ func CreateAccount(instagramUser: User, completion:@escaping (_ Results: User , 
                     instagramUser.zipCode = dictionary["zipCode"] as? String
                     instagramUser.isBankAdded = dictionary["isBankAdded"] as! Bool
                     instagramUser.yourMoney = dictionary["yourMoney"] as! Int
+                    let joined = dictionary["joinedDate"] as? String
+                    if joined != nil {
+                        instagramUser.joinedDate = dictionary["joinedDate"] as? String
+                    }else{
+                        instagramUser.joinedDate = Date.getCurrentDate()
+                    }
                 }
 
             }

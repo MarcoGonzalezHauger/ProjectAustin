@@ -22,7 +22,8 @@ struct ProfileSetting {
 
 class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableViewDataSource {
 	
-	var userSettings: [ProfileSetting] = []
+    @IBOutlet weak var joinedOn_lbl: UILabel!
+    var userSettings: [ProfileSetting] = []
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return userSettings.count
@@ -143,6 +144,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
         
         followerCount.text = CompressNumber(number: Yourself.followerCount)
         averageLikes.text = Yourself.averageLikes == nil ? "N/A" : CompressNumber(number: Yourself.averageLikes!)
+        joinedOn_lbl.text = Yourself.joinedDate != nil ? "Joined On : " + Yourself.joinedDate! : ""
         
         tierBox.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "tiergrad")!)
         

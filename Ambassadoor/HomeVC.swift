@@ -161,6 +161,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 	}
     
     var ref: DatabaseReference!
+    
 	
 	override func viewDidAppear(_ animated: Bool) {
 		
@@ -322,4 +323,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
         
         debugPrint("Home VC has been loaded.")
     }
+    
+
 }
