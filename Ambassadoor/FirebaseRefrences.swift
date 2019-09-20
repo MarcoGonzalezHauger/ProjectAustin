@@ -210,6 +210,15 @@ func CreateAccount(instagramUser: User, completion:@escaping (_ Results: User , 
                     }else{
                         instagramUser.joinedDate = Date.getCurrentDate()
                     }
+                    
+                    let categories = dictionary["categories"] as? [String]
+
+                    if  categories != nil {
+                        instagramUser.categories = dictionary["categories"] as? [String]
+                    }else{
+                        instagramUser.categories = []
+                    }
+                    
                 }
 
             }

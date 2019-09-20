@@ -154,7 +154,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     override init() {
         FirebaseApp.configure()
-        Database.database().isPersistenceEnabled = false
+        Database.database().isPersistenceEnabled = true
         
     }
 
@@ -176,7 +176,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func versionUpdateValidation(){
         let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
         
-        let ref = Database.database().reference().child("LatestAppVersion").child("version")
+        let ref = Database.database().reference().child("LatestAppVersion").child("Influncerversion")
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             
             let latestVersion = snapshot.value as! String

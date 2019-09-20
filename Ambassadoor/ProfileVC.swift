@@ -43,7 +43,6 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
             appDel.window?.rootViewController = loginVC
         }
 
-//        performSegue(withIdentifier: "SignUpVC", sender: self)
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -52,7 +51,19 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		cell.categoryHeader.text = settings.Header
 		switch settings.identifier {
 		case "main_cat":
-			cell.categoryLabel.text = (settings.Information as! Category).rawValue
+//			cell.categoryLabel.text = (settings.Information as! Category).rawValue
+            var finalCategories = ""
+            for category in settings.Information as! [String] {
+                finalCategories.append(category + ",")
+            }
+            if finalCategories != "" {
+                finalCategories.remove(at: finalCategories.index(before: finalCategories.endIndex))
+            }
+            let catcount = settings.Information as! [String]
+            
+            cell.categoryHeader.text = settings.Header + (" \(catcount.count)/5")
+            cell.categoryLabel.text = finalCategories
+
 		case "second_cat":
 			let cat: Category? = settings.Information as? Category
 			cell.categoryLabel.text = cat == nil ? "Choose" : cat!.rawValue
@@ -84,8 +95,19 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		selectedID = setting.identifier
 		switch setting.identifier {
 		case "main_cat":
-			curcat = Yourself.primaryCategory
-			performSegue(withIdentifier: "toPicker", sender: self)
+//            curcat = Yourself.primaryCategory
+//            performSegue(withIdentifier: "toPicker", sender: self)
+            
+            if Yourself.categories!.count < 5 {
+                if  Yourself.categories!.count > 0{
+                    curcat = Category(rawValue: Yourself.categories![0])
+                }else{
+                    curcat = Category(rawValue: "")
+                }
+                performSegue(withIdentifier: "toPicker", sender: self)
+            }
+
+
 		case "second_cat":
 			curcat = Yourself.SecondaryCategory
 			performSegue(withIdentifier: "toPicker", sender: self)
@@ -111,7 +133,9 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		if let destination = segue.destination as? CategoryPicker {
 			destination.SetupPicker(originalCategory: curcat) { (cat) in
 				if self.selectedID == "main_cat" {
-					Yourself.primaryCategory = cat
+//					Yourself.primaryCategory = cat
+                    Yourself.categories?.append(cat.rawValue)
+
 				} else if self.selectedID == "second_cat" {
 					Yourself.SecondaryCategory = cat
 				}
@@ -166,8 +190,12 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
         print(Yourself.primaryCategory as AnyObject)
         print(Yourself.SecondaryCategory as AnyObject)
         print(Yourself.zipCode as AnyObject)
+        print(Yourself.categories as AnyObject)
 
-		avaliableSettings.append(ProfileSetting.init(Header: "MAIN CATEGORY", Information: Yourself.primaryCategory as AnyObject, identifier: "main_cat"))
+
+//		avaliableSettings.append(ProfileSetting.init(Header: "MAIN CATEGORY", Information: Yourself.primaryCategory as AnyObject, identifier: "main_cat"))
+        avaliableSettings.append(ProfileSetting.init(Header: "CATEGORIES", Information: Yourself.categories as AnyObject, identifier: "main_cat"))
+
 		//minimum category of 6.
 		if GetTierFromFollowerCount(FollowerCount: Yourself.followerCount) ?? 0 > 6 {
 			avaliableSettings.append(ProfileSetting.init(Header: "SECONDARY CATEGORY", Information: Yourself.SecondaryCategory as AnyObject, identifier: "second_cat"))

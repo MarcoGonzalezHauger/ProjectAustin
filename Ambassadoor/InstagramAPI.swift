@@ -72,7 +72,8 @@ struct API {
                                     "gender": "",
                                     "isBankAdded": false,
                                     "yourMoney": 0,
-                                    "joinedDate": ""
+                                    "joinedDate": "",
+                                    "categories": []
                                 ]
                                 debugPrint("Done Creating Userinfo dictinary")
                                 getAverageLikesOfUser(instagramId: instagramProfileData["id"] as! String, completed: { (averageLikes: Double?) in
@@ -119,7 +120,8 @@ struct API {
             "gender": user.gender == nil ? "" : user.gender!.rawValue,
             "isBankAdded": user.isBankAdded,
             "yourMoney": user.yourMoney,
-            "joinedDate": user.joinedDate!
+            "joinedDate": user.joinedDate!,
+            "categories": user.categories as AnyObject
         ]
         return userData
     }

@@ -61,7 +61,19 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		if let shelf = shelf {
 			shelf.reloadData()
 		}
-		catLabel.text = ThisUser.primaryCategory.rawValue
+//		catLabel.text = ThisUser.primaryCategory.rawValue
+        var finalCategories = ""
+        if ThisUser.categories != nil{
+            for category in ThisUser.categories! {
+                finalCategories.append(category + ",")
+            }
+        }
+
+        if finalCategories != "" {
+            finalCategories.remove(at: finalCategories.index(before: finalCategories.endIndex))
+        }
+        catLabel.text = finalCategories
+        
 		sinceLabel.text = "Ambassdaoor since 1998"
 		followerLabel.text = NumberToStringWithCommas(number: ThisUser.followerCount) + " followers"
 		let tier: Int? = GetTierFromFollowerCount(FollowerCount: ThisUser.followerCount)
