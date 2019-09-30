@@ -31,6 +31,7 @@ class RejectedOffersVC: UIViewController, UITableViewDataSource, UITableViewDele
 	@IBOutlet weak var backBtn: UIButton!
 	
 	func OfferRejected(sender: Any) {
+        
 	}
 	
 	@IBAction func back(_ sender: Any) {
@@ -41,7 +42,7 @@ class RejectedOffersVC: UIViewController, UITableViewDataSource, UITableViewDele
 	var viewoffer: Offer?
 	
 	func ViewOffer(OfferToView theoffer: Offer) {
-		debugPrint("Viewing Offer: \(theoffer.money) from \(theoffer.company)")
+//		debugPrint("Viewing Offer: \(theoffer.money) from \(theoffer.company)")
 		viewoffer = theoffer
 		performSegue(withIdentifier: "viewOfferSegue", sender: self)
 	}

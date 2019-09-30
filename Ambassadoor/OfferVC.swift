@@ -116,7 +116,12 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 			if let destination = segue.destination as? CompanyVC {
 				destination.thisCompany = ThisOffer.company
 			}
-		default: break
+            
+        case "segueConfirm":
+            if let destination = segue.destination as? OfferAcceptConfirmVC {
+                destination.ThisOffer = ThisOffer
+            }
+        default: break
 		}
 	}
 	
@@ -164,6 +169,46 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
                 print("No")
             }
         }
+        
+        if self.ThisOffer.isAccepted {
+            
+            if !ThisOffer.allConfirmed {
+                //get instagram user media data
+                API.getRecentMedia { (mediaData: [[String:Any]]?) in
+                    
+                    for postVal in mediaData!{
+                        if let captionVal = (postVal["caption"] as? [String:Any]) {
+                            var instacaption = captionVal["text"] as! String
+                            if instacaption.contains("#ad ") || instacaption.contains("#ad") || instacaption.contains(" #ad"){
+                                instacaption = instacaption.replacingOccurrences(of: " #ad ", with: "")
+                                instacaption = instacaption.replacingOccurrences(of: "#ad ", with: "")
+                                instacaption = instacaption.replacingOccurrences(of: " #ad", with: "")
+                                instacaption = instacaption.replacingOccurrences(of: "#ad", with: "")
+
+                                for post in self.ThisOffer.posts {
+                                    if !post.isConfirmed{
+                                        let postCaption = post.captionMustInclude!
+//                                        postCaption.append("#ad.")
+//                                        postCaption.append(post.captionMustInclude!)
+                                        if postCaption == instacaption {
+                                            instagramPostUpdate(post: [self.ThisOffer.offer_ID:postVal])
+                                            SentOutOffersUpdate(offer: self.ThisOffer, post_ID: post.post_ID)
+                                        }
+                                    }
+                                }
+                            }
+
+                            
+                        }else{
+                            
+                        }
+                        
+                    }
+                    
+                }
+            }
+        }
+        
 	}
 	
 	@IBOutlet weak var smallDone: UIButton!
@@ -181,8 +226,13 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 		}
 		
 		//companyname.text = ThisOffer.company.name
+        
+        if  ThisOffer.offer_ID == "XXXDefault"{
+            MoneyLabel.text = "Verify Your Profile"
+        }else{
+            MoneyLabel.text = NumberToPrice(Value: ThisOffer.money)
+        }
 		
-		MoneyLabel.text = NumberToPrice(Value: ThisOffer.money)
 		
 		//Make sure list of posts in offer is reflected.
 		shelf.reloadData()
@@ -214,18 +264,18 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 
 
 	@IBAction func OfferAccepted(_ sender: Any) {
-        //naveen added
-//        if  acceptButton.titleLabel?.text == "Post"{
-////            PostToInst()
-//        }else{
-            let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(ThisOffer.offer_ID)
-            prntRef.updateChildValues(["isAccepted":true])
-            prntRef.updateChildValues(["status":"accepted"])
+        
+        self.performSegue(withIdentifier: "segueConfirm", sender: nil)
 
-            dismiss(animated: true) { self.delegate?.OfferAccepted(offer: self.ThisOffer) }
-//        }
-//		dismiss(animated: true) { self.delegate?.OfferAccepted(offer: self.ThisOffer) }
+//            let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(ThisOffer.offer_ID)
+//            prntRef.updateChildValues(["isAccepted":true])
+//            prntRef.updateChildValues(["status":"accepted"])
+//
+//            dismiss(animated: true) { self.delegate?.OfferAccepted(offer: self.ThisOffer) }
 	}
+    
+    
+    
 	
 //    func PostToInst() {
 //        if let theProfileImageUrl = ThisOffer.posts[0].products![0].image {

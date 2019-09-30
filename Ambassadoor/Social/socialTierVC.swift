@@ -16,14 +16,37 @@ class SocialUserCell: UITableViewCell {
 	@IBOutlet weak var details: UILabel!
 	@IBOutlet weak var profilepicture: UIImageView!
 	@IBOutlet weak var shadow: ShadowView!
-	
+    @IBOutlet weak var verifyLogo_img: UIImageView!
+    
 	var ShowCategory: Bool = false
 	var ThisUser: User? {
 		didSet {
 			if let thisUser = ThisUser {
 				username.text = thisUser.name ?? "@\(thisUser.username)"
-				let secondtext : String = ShowCategory ? thisUser.primaryCategory.rawValue : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
-				details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
+//				let secondtext : String = ShowCategory ? thisUser.primaryCategory.rawValue : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
+                if thisUser.isDefaultOfferVerify {
+                    if GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) != nil {
+                        let secondtext : String = ShowCategory ? thisUser.primaryCategory.rawValue : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount)! + 1 )
+
+                        details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
+                        
+                    }else{
+                        let secondtext : String = ShowCategory ? thisUser.primaryCategory.rawValue : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 1)
+
+                        details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
+                        
+                    }
+                    verifyLogo_img.image = UIImage(named: "verify_Logo")
+
+                }else{
+                    let secondtext : String = ShowCategory ? thisUser.primaryCategory.rawValue : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
+
+                    details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
+                    verifyLogo_img.image = UIImage(named: "")
+                }
+//                let secondtext : String = ShowCategory ? thisUser.primaryCategory.rawValue : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
+//
+//				details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
 					if let picurl = thisUser.profilePicURL {
                         self.profilepicture.downloadAndSetImage(picurl)
                     } else {
@@ -85,11 +108,25 @@ class socialTierVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 	}
 	
 	func GetSameTierUsers() -> [User] {
-		var allpossibleusers = global.SocialData.filter{GetTierFromFollowerCount(FollowerCount: $0.followerCount) ==  GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount)}
-        //naveen commented
-//		allpossibleusers.append(Yourself!)
-		allpossibleusers.sort{return $0.followerCount > $1.followerCount}
-		return allpossibleusers
+        if Yourself!.isDefaultOfferVerify {
+            var allpossibleusers:[User] = []
+            if GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount) != nil {
+                allpossibleusers = global.SocialData.filter{GetTierFromFollowerCount(FollowerCount: $0.followerCount) ==  GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount)! + 1}
+            }else{
+                allpossibleusers  = global.SocialData.filter{GetTierFromFollowerCount(FollowerCount: $0.followerCount) == 1}
+            }
+            allpossibleusers.append(Yourself!)
+
+            allpossibleusers.sort{return $0.followerCount > $1.followerCount}
+            return allpossibleusers
+        }else{
+            var allpossibleusers = global.SocialData.filter{GetTierFromFollowerCount(FollowerCount: $0.followerCount) ==  GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount)}
+            //naveen commented
+    //        allpossibleusers.append(Yourself!)
+            allpossibleusers.sort{return $0.followerCount > $1.followerCount}
+            return allpossibleusers
+        }
+        
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -109,10 +146,26 @@ class socialTierVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 
     override func viewDidLoad() {
         super.viewDidLoad()
-		tierLabel.text = "Tier " + String(GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount) ?? 0)
+        
+        if Yourself!.isDefaultOfferVerify {
+            if GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount) != nil {
+                tierLabel.text = "Tier " + String(GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount)! + 1 )
+            }else{
+               tierLabel.text = "Tier " + String(GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount) ?? 1)
+            }
+        }else{
+            tierLabel.text = "Tier " + String(GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount) ?? 0)
+
+        }
+        
+//		tierLabel.text = "Tier " + String(GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount) ?? 0)
 		rankedShelf.dataSource = self
 		rankedShelf.delegate = self
 		global.delegates.append(self)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        rankedShelf.reloadData()
     }
 	
 	@IBOutlet weak var rankedShelf: UITableView!

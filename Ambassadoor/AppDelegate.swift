@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     var timer: DispatchSourceTimer?
 
+
 	func AskForNotificationPermission() {
 		UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert]) { (worked, error) in
 		}
@@ -29,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	
 	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
 		let identifier = response.notification.request.identifier
-		debugPrint("actionID: \(identifier)")
+		//debugPrint("actionID: \(identifier)")
 		if identifier.hasPrefix("new") {
 			let offer_ID: String = String(identifier.dropFirst(3))
 			sendOffer(id: offer_ID)
@@ -154,10 +155,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     override init() {
         FirebaseApp.configure()
         Database.database().isPersistenceEnabled = false
+        
     }
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-		
+        
 		AskForNotificationPermission()
 		
 		// Define the custom actions.
@@ -167,9 +169,102 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Fetch data once an hour.
 //        UIApplication.shared.setMinimumBackgroundFetchInterval(600)
         self.startTimer()
-		
+        
 		return true
 	}
+    
+    func versionUpdateValidation(){
+        if !NetworkReachability.isConnectedToNetwork() || !canReachGoogle() {
+            let alertMessage = "Make sure your device is connected to the internet.";
+
+            let topWindow: UIWindow? = UIWindow(frame: UIScreen.main.bounds)
+            topWindow?.rootViewController = UIViewController()
+            topWindow?.windowLevel = UIWindow.Level.alert + 1
+            let alert = UIAlertController(title: "No Internet Connection!", message: alertMessage, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "confirm"), style: .cancel, handler: {(_ action: UIAlertAction) -> Void in
+
+                if let url = URL.init(string: "App-Prefs:root=WIFI") {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+                
+            }))
+            topWindow?.makeKeyAndVisible()
+            topWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+        }else{
+            let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+            
+            let ref = Database.database().reference().child("LatestAppVersion").child("Influncerversion")
+            ref.observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                let latestVersion = snapshot.value as! String
+                if (latestVersion == appVersion) {
+                    
+                }else{
+                    let alertMessage = "A new version of Application is available, Please update to version " + latestVersion;
+
+                    let topWindow: UIWindow? = UIWindow(frame: UIScreen.main.bounds)
+                    topWindow?.rootViewController = UIViewController()
+                    topWindow?.windowLevel = UIWindow.Level.alert + 1
+                    let alert = UIAlertController(title: "Update is avaliable", message: alertMessage, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "confirm"), style: .cancel, handler: {(_ action: UIAlertAction) -> Void in
+                        // continue your work
+                        
+                        // important to hide the window after work completed.
+                        // this also keeps a reference to the window until the action is invoked.
+                        topWindow?.isHidden = true // if you want to hide the topwindow then use this
+                        //            topWindow? = nil // if you want to hide the topwindow then use this
+                        
+                        if let url = URL(string: "itms-apps://itunes.apple.com/app"),
+                            UIApplication.shared.canOpenURL(url){
+                            if #available(iOS 10.0, *) {
+                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                            } else {
+                                UIApplication.shared.openURL(url)
+                            }
+                        }
+                        
+                        
+                    }))
+                    topWindow?.makeKeyAndVisible()
+                    topWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+                    
+                }
+            })
+        }
+        
+    }
+    
+    func canReachGoogle() -> Bool
+    {
+        let url = URL(string: "https://8.8.8.8")
+        let semaphore = DispatchSemaphore(value: 0)
+        var success = false
+        let task = urlSession.dataTask(with: url!)
+        { data, response, error in
+            if error != nil
+            {
+                success = false
+            }
+            else
+            {
+                success = true
+            }
+            semaphore.signal()
+        }
+
+        task.resume()
+        semaphore.wait()
+
+        return success
+    }
+    
+    private var urlSession:URLSession = {
+        var newConfiguration:URLSessionConfiguration = .default
+        newConfiguration.waitsForConnectivity = false
+        newConfiguration.allowsCellularAccess = true
+        return URLSession(configuration: newConfiguration)
+    }()
+    
     
     private func startTimer() {
         let queue = DispatchQueue(label: "com.firm.app.timer", attributes: .concurrent)
@@ -195,7 +290,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     //                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
                     //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
                     global.AvaliableOffers = youroffers.filter({$0.status == "available"})
+                    global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
                     global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
+                    global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
                     global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
                     
                     
@@ -241,74 +338,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         timer?.cancel()
         timer = nil
     }
-
-//    func application(_ application: UIApplication,
-//                     performFetchWithCompletionHandler completionHandler:
-//        @escaping (UIBackgroundFetchResult) -> Void) {
-//
-//        if Yourself != nil{
-//            //naveen added
-//            var youroffers: [Offer] = []
-//            getOfferList { (Offers) in
-//                print(Offers.count)
-//                youroffers = Offers
-//                //                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
-//                //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
-//                global.AvaliableOffers = youroffers.filter({$0.status == "available"})
-//                global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
-//                global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
-//
-//
-//                UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
-//                    var newavailableresults: [Offer] = []
-//                    for notification in notifications {
-//                        print(notification.identifier)
-//                        var identifier = notification.identifier
-//
-//                        if identifier.hasPrefix("new") {
-//                            identifier = String(identifier.dropFirst(3))
-//                        } else if identifier.hasPrefix("accept") {
-//                            identifier = String(identifier.dropFirst(6))
-//                        }
-//                            //naveeen added
-//                        else if identifier.hasPrefix("expire"){
-//                            identifier = String(identifier.dropFirst(6))
-//                        }else{
-//                        }
-//                        newavailableresults = global.AvaliableOffers.filter({ $0.offer_ID != identifier })
-//
-//
-//                    }
-//
-//                    for offer in newavailableresults {
-//                        self.CreateExpireNotification(expiringOffer: offer)
-//                        self.CreateNewOfferNotification(newOffer: offer)
-//                    }
-//
-//                }
-//
-//                if Offers.count == 0{
-//                    completionHandler(.noData)
-//
-//                }else{
-//                    completionHandler(.newData)
-//
-//                }
-//
-//            }
-//        }else{
-//            completionHandler(.noData)
-//        }
-//
-//
-//
-//
-//
-//        // Check for new data.
-////        if let newData = fetchUpdates() {
-////            addDataToFeed(newData: newData)
-////        }
-//    }
     
     
 	func applicationWillResignActive(_ application: UIApplication) {
@@ -328,7 +357,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
 	func applicationDidBecomeActive(_ application: UIApplication) {
 		// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        self.versionUpdateValidation()
+
 		globalTimer.timer.fire()
+        
 	}
 
 	func applicationWillTerminate(_ application: UIApplication) {

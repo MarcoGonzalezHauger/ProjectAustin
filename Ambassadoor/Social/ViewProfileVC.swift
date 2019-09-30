@@ -50,10 +50,10 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	}
 	
 	func ShowUser() {
-		debugPrint("(new) ViewProfile activated, YOURSELF=")
-		debugPrint(Yourself!)
-		debugPrint("THISUSER=")
-		debugPrint(ThisUser)
+//		debugPrint("(new) ViewProfile activated, YOURSELF=")
+//		debugPrint(Yourself!)
+//		debugPrint("THISUSER=")
+//		debugPrint(ThisUser)
 		stats = [Stat.init(name: "Follower Count", value1: ThisUser.followerCount, value2: Yourself!.followerCount)]
 		if ThisUser.averageLikes != nil && Yourself!.averageLikes != nil {
 			stats.append(Stat.init(name: "Average Likes", value1: ThisUser.averageLikes!, value2: Yourself!.averageLikes!))
@@ -61,18 +61,38 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		if let shelf = shelf {
 			shelf.reloadData()
 		}
-		catLabel.text = ThisUser.primaryCategory.rawValue
+//		catLabel.text = ThisUser.primaryCategory.rawValue
+        var finalCategories = ""
+        if ThisUser.categories != nil{
+            for category in ThisUser.categories! {
+                finalCategories.append(category + ",")
+            }
+        }
+
+        if finalCategories != "" {
+            finalCategories.remove(at: finalCategories.index(before: finalCategories.endIndex))
+        }
+        catLabel.text = finalCategories
+        
 		sinceLabel.text = "Ambassdaoor since 1998"
 		followerLabel.text = NumberToStringWithCommas(number: ThisUser.followerCount) + " followers"
-		let tier: Int? = GetTierFromFollowerCount(FollowerCount: ThisUser.followerCount)
+        var tier: Int? = GetTierFromFollowerCount(FollowerCount: ThisUser.followerCount)
+        if ThisUser.isDefaultOfferVerify {
+            if tier != nil {
+                tier = tier! + 1
+            }else{
+                tier = 1
+            }
+        }
 		tierLabel.text = tier == nil ? "No Tier" : "Tier \(tier!)"
 		nameLabel.text = ThisUser.name ?? ThisUser.username
 		usernameLabel.text = "@\(ThisUser.username)"
+        joinedOn_lbl.text = ThisUser.joinedDate != nil ? "Joined On : " + ThisUser.joinedDate! : ""
 		if let picurl = ThisUser.profilePicURL {
 			profilePic.downloadedFrom(url: URL.init(string: picurl)!, makeImageCircular: true)
 		} else {
-			debugPrint(defaultImage)
-			debugPrint(profilePic)
+//			debugPrint(defaultImage)
+//			debugPrint(profilePic)
 			profilePic.image = defaultImage
 		}
 	}
@@ -139,7 +159,8 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	@IBOutlet weak var usernameLabel: UILabel!
 	@IBOutlet weak var followerLabel: UILabel!
 	@IBOutlet weak var tierLabel: UILabel!
-	
+    @IBOutlet weak var joinedOn_lbl: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 		shelf.dataSource = self

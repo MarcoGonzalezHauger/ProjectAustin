@@ -135,6 +135,42 @@ import Firebase
                 secondaryCat_Txt.text! == "" ? nil : Category(rawValue: secondaryCat_Txt.text!)!
             userfinal?.zipCode = zipcode_Txt.text!
             userfinal?.gender = TextToGender(gender: gender_Txt.text!)
+            
+            userfinal?.joinedDate = Date.getCurrentDate()
+            userfinal?.categories?.append(primeCat_Txt.text!)
+            userfinal?.isDefaultOfferVerify = false
+            
+            var referralcodeString = ""
+            
+            //user name first and last character
+            if let firstChar = userfinal?.name?.first{
+                referralcodeString.append(firstChar)
+            }
+            if let lastChar = userfinal?.name?.last {
+                referralcodeString.append(lastChar)
+            }
+            
+            //user dateofbirth
+//            let date = getDateFromString(date: (userfinal?.joinedDate!)!)
+//
+//            let dateFormatter = DateFormatter()
+//            dateFormatter.dateFormat = "yy"
+//            let yearString = dateFormatter.string(from: date)
+//
+//            dateFormatter.dateFormat = "MM"
+//            let monthString = dateFormatter.string(from: date)
+//
+//            dateFormatter.dateFormat = "dd"
+//            let dayString = dateFormatter.string(from: date)
+//
+//            referralcodeString.append(dayString)
+//            referralcodeString.append(monthString)
+//            referralcodeString.append(yearString)
+            
+            //random four digit code
+            referralcodeString.append(randomString(length: 4))
+            
+            userfinal?.referralcode = referralcodeString.uppercased()
 
             let ref = Database.database().reference().child("users")
             let userReference = ref.child(userfinal!.id)
@@ -143,6 +179,12 @@ import Firebase
             Yourself = userfinal
             UserDefaults.standard.set(API.INSTAGRAM_ACCESS_TOKEN, forKey: "token")
             UserDefaults.standard.set(Yourself.id, forKey: "userid")
+            
+            //insertd Default offers
+            let refDefaultOffer = Database.database().reference().child("SentOutOffersToUsers").child(userfinal!.id)
+            let postID = refDefaultOffer.childByAutoId().key
+            let offerData = API.serializeDefaultOffer(offerID:"XXXDefault", postID: postID! ,userID:userfinal!.id)
+            refDefaultOffer.updateChildValues(["XXXDefault":offerData])
 
             // ****
             //naveen added
@@ -153,7 +195,9 @@ import Firebase
                 //                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
                 //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
                 global.AvaliableOffers = youroffers.filter({$0.status == "available"})
+                global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
                 global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
+                global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
                 global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
                                 
                     self.dismiss(animated: false) {
@@ -167,8 +211,6 @@ import Firebase
 //            }
         }
         
-		
-
     }
 
     func setDoneOnKeyboard() {

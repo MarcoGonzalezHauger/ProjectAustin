@@ -50,7 +50,7 @@ class Offer : NSObject {
 	let posts: [Post]
 	let offerdate: Date
 	let offer_ID: String
-	let expiredate: Date
+	var expiredate: Date
 	var allPostsConfrimedSince: Date?
 	var allConfirmed: Bool {
 		get {
@@ -79,7 +79,9 @@ class Offer : NSObject {
         self.offerdate = getDateFromString(date: dictionary["offerdate"] as! String)
         self.offer_ID = dictionary["offer_ID"] as! String
         self.expiredate = getDateFromString(date: dictionary["expiredate"] as! String)
-        self.allPostsConfrimedSince = dictionary["allPostsConfirmedSince"] as? Date
+//        self.allPostsConfrimedSince = dictionary["allPostsConfirmedSince"] as? Date
+        self.allPostsConfrimedSince = getDateFromString(date: dictionary["allPostsConfirmedSince"] as! String)
+
         self.isAccepted = dictionary["isAccepted"] as! Bool
     }
 }
@@ -98,7 +100,11 @@ class User: NSObject {
     let id: String
     var gender: Gender?
     var isBankAdded: Bool
-    var yourMoney: Int
+    var yourMoney: Double
+    var joinedDate: String?
+    var categories: [String]?
+    var referralcode: String
+    var isDefaultOfferVerify: Bool
 	
     init(dictionary: [String: Any]) {
         self.name = dictionary["name"] as? String
@@ -109,7 +115,7 @@ class User: NSObject {
 		} else {
 			self.profilePicURL = dictionary["profilePicture"] as? String
 		}
-		debugPrint("Category: \(String(describing: dictionary["primaryCategory"]))")
+//		debugPrint("Category: \(String(describing: dictionary["primaryCategory"]))")
 //		self.primaryCategory = Category.init(rawValue: dictionary["primaryCategory"] as? String ?? "Other")!
         //naveen added
         if ((dictionary["primaryCategory"] ?? "") as! String) == ""{
@@ -129,7 +135,13 @@ class User: NSObject {
         self.id = dictionary["id"] as! String
         self.gender = dictionary["gender"] as? Gender
         self.isBankAdded = dictionary["isBankAdded"] as! Bool 
-        self.yourMoney = dictionary["yourMoney"] as! Int
+        self.yourMoney = dictionary["yourMoney"] as! Double
+        self.joinedDate = dictionary["joinedDate"] as? String
+        self.categories = dictionary["categories"] as? [String]
+        
+        self.referralcode = dictionary["referralcode"] as? String ?? ""
+        self.isDefaultOfferVerify = dictionary["isDefaultOfferVerify"] as? Bool ?? false
+        
     }
 	
 	override var description: String {

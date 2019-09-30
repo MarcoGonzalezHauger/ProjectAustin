@@ -111,7 +111,7 @@ class DwollaUserInformationVC: UIViewController ,UITextFieldDelegate {
         //dateFormatter.dateFormat = "dd/MM/YYYY"
         dateFormatter.dateFormat = "yyyy-MM-dd"
         //        dateFormatter.dateFormat = "mm/dd/yyyy HH:mm:ss"
-        dateFormatter.locale = Locale.current
+        dateFormatter.locale = Locale(identifier: "en_US")
         dateOfBirth.text = dateFormatter.string(from: sender.date)
         
         
@@ -189,6 +189,10 @@ class DwollaUserInformationVC: UIViewController ,UITextFieldDelegate {
                                                                             global.dwollaCustomerInformation.customerFSURL = customerFSURL
                                                                             global.dwollaCustomerInformation.isFSAdded = true
                                                                             self.createDwollaCustomerToFIR(object: global.dwollaCustomerInformation)
+                                                                            
+                                                                            let prntRef  = Database.database().reference().child("users").child(Yourself.id)
+                                                                            prntRef.updateChildValues(["isBankAdded":true])
+                                                                            Yourself.isBankAdded = true
                                                                             
                                                                             DispatchQueue.main.async(execute: {
                                                                                 self.dismiss(animated: true, completion: nil)
