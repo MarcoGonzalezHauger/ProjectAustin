@@ -190,6 +190,10 @@ class DwollaUserInformationVC: UIViewController ,UITextFieldDelegate {
                                                                             global.dwollaCustomerInformation.isFSAdded = true
                                                                             self.createDwollaCustomerToFIR(object: global.dwollaCustomerInformation)
                                                                             
+                                                                            let prntRef  = Database.database().reference().child("users").child(Yourself.id)
+                                                                            prntRef.updateChildValues(["isBankAdded":true])
+                                                                            Yourself.isBankAdded = true
+                                                                            
                                                                             DispatchQueue.main.async(execute: {
                                                                                 self.dismiss(animated: true, completion: nil)
                                                                             })

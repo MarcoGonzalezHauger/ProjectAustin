@@ -26,8 +26,14 @@ class OfferAcceptConfirmVC: UIViewController {
         
         
         let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(ThisOffer.offer_ID)
+        let dayCount = ThisOffer.posts.count * 2
+        let expireDate = Date.getStringFromDate(date: Date().afterDays(day: dayCount))!
+        
+        prntRef.updateChildValues(["expiredate":expireDate])
         prntRef.updateChildValues(["isAccepted":true])
         prntRef.updateChildValues(["status":"accepted"])
+        
+        
 
         dismiss(animated: true) { self.delegate?.OfferAccepted(offer: self.ThisOffer) }
     }

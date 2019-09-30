@@ -18,7 +18,7 @@ protocol IncomingMoneyDelegate {
 class IncomingMoneyCell: UITableViewCell, SyncTimerDelegate {
 	
 	func Tick() {
-		if ThisOffer.allConfirmed {
+        if self.ThisOffer.allConfirmed {
 			if let date = ThisOffer.allPostsConfrimedSince {
 				//User can only collect money after 2 days, or 172800 seconds.
 				TimeLeft.text = DateToCountdown(date: date.addingTimeInterval(172800))
@@ -40,7 +40,11 @@ class IncomingMoneyCell: UITableViewCell, SyncTimerDelegate {
     
 	var ThisOffer: Offer! {
 		didSet {
-			moneyLabel.text = NumberToPrice(Value: ThisOffer.money)
+            if  ThisOffer.offer_ID == "XXXDefault"{
+                moneyLabel.text = "Verify Your Profile"
+            }else{
+                moneyLabel.text = NumberToPrice(Value: ThisOffer.money)
+            }
 			companyName.text = ThisOffer.company.name
 			globalTimer.delegates.append(self)
 		}
@@ -126,9 +130,9 @@ class MoneyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Glo
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.row == 0 {
 			let cell = shelf.dequeueReusableCell(withIdentifier: "yourMoney") as! YourMoneyCell
-            cell.yourMoneyLabel.text = "$" + String(Yourself.yourMoney)
+            cell.yourMoneyLabel.text = NumberToPrice(Value: Yourself!.yourMoney)
             cell.delegate = self
-            return cell
+            return cell      
 		} else {
 			let cell = shelf.dequeueReusableCell(withIdentifier: "incomingMoney") as! IncomingMoneyCell
 			cell.ThisOffer = global.AcceptedOffers[indexPath.row - 1]

@@ -79,8 +79,20 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
             let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(global.AvaliableOffers[ip.row].offer_ID)
             prntRef.updateChildValues(["isAccepted":false])
             prntRef.updateChildValues(["status":"rejected"])
-            global.AvaliableOffers[ip.row].isAccepted = true
-            global.AvaliableOffers[ip.row].status = "accepted"
+            
+            global.AvaliableOffers[ip.row].isAccepted = false
+            global.AvaliableOffers[ip.row].status = "rejected"
+            
+            if global.AvaliableOffers[ip.row].expiredate > Date().addMinutes(minute: 60) {
+                let expireDate = Date.getStringFromDate(date: Date().addMinutes(minute: 60))!
+
+                prntRef.updateChildValues(["expiredate":expireDate])
+                global.AvaliableOffers[ip.row].expiredate = Date().addMinutes(minute: 60)
+            }else{
+                prntRef.updateChildValues(["isExpired":true])
+
+            }
+            
             // **********
             
 			global.RejectedOffers.append(global.AvaliableOffers[ip.row])
@@ -106,7 +118,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 	}
 	
 	func ViewOffer(OfferToView theoffer: Offer) {
-		debugPrint("Viewing Offer: \(theoffer.money) from \(theoffer.company)")
+//		debugPrint("Viewing Offer: \(theoffer.money) from \(theoffer.company)")
 		viewoffer = theoffer
 		performSegue(withIdentifier: "viewOfferSegue", sender: self)
 	}
@@ -216,6 +228,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
                                     
                                 }else{
                                 }
+                            
                             }
                             
                             
@@ -227,7 +240,9 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 //                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
 //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
                                 global.AvaliableOffers = youroffers.filter({$0.status == "available"})
+                                global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
                                 global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
+                                global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
                                 global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
                                 
                                 

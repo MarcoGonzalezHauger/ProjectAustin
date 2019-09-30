@@ -150,9 +150,18 @@ class BankListVC: PlaidLinkEnabledVC, UITableViewDelegate, UITableViewDataSource
 
     @IBOutlet weak var shelf: UITableView!
     @IBOutlet weak var emptybank_Lbl: UILabel!
+    @IBOutlet weak var addBank_btn: UIButton!
     
+    //MARK: Tableview datasource & delegates
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        return global.AcceptedOffers.count + 1
+        
+        if self.dwollaFSList.count > 0{
+            addBank_btn.isHidden = true
+        }else{
+            addBank_btn.isHidden = false
+        }
         return self.dwollaFSList.count
     }
     
@@ -163,6 +172,16 @@ class BankListVC: PlaidLinkEnabledVC, UITableViewDelegate, UITableViewDataSource
         cell.acctIDText.text = "****" + obj.mask
         cell.withdrawButton.tag = indexPath.row
         cell.withdrawButton.addTarget(self, action: #selector(self.withDrawAction(sender:)), for: .touchUpInside)
+        cell.transactionButton.tag = indexPath.row
+        cell.transactionButton.addTarget(self, action: #selector(self.transactionAction(sender:)), for: .touchUpInside)
+        
+        cell.withdrawButton.layer.cornerRadius = 5
+        cell.withdrawButton.clipsToBounds = true
+        
+        cell.transactionButton.layer.cornerRadius = 5
+        cell.transactionButton.clipsToBounds = true
+        
+        
         return cell
     }
 
@@ -184,141 +203,152 @@ class BankListVC: PlaidLinkEnabledVC, UITableViewDelegate, UITableViewDataSource
         let index = sender.tag
         
         let object = self.dwollaFSList[index]
-        self.createDwollaAccessTokenForFundTransfer(fundSource: object.customerFSURL, acctID: object.acctID, object: object)
+        
+        self.performSegue(withIdentifier: "segueWithdraw", sender: object)
+
+       
+//        self.createDwollaAccessTokenForFundTransfer(fundSource: object.customerFSURL, acctID: object.acctID, object: object)
     }
     
-    func createDwollaAccessTokenForFundTransfer(fundSource: String, acctID: String, object: DwollaCustomerFSList) {
+    @IBAction func transactionAction(sender: UIButton){
         
-        let links = ["_links":["source":["href":API.superBankFundingSource],"destination":["href":fundSource]],"amount":["currency":"USD","value":"100"]] as [String: AnyObject]
-        let params = ["grant_type=":"client_credentials"] as [String: AnyObject]
-        getDwollaAccessToken(params: params) { (status, error, data) in
-            let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-            
-            print("dataString=",dataString)
-            do {
-                let json = try JSONSerialization.jsonObject(with: data!, options: []) as? [String : Any]
-                
-                let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-                
-                if let accessToken = json!["access_token"] as? String {
-                    
-                    self.createFundTransfer(params: links, accessToken: accessToken) { (status, error, data, response) in
-                        if error == nil {
-                            
-                            if let header = response as? HTTPURLResponse {
-                                
-                                if header.statusCode == 201 {
-                                    
-                                    let tranferDetail = header.allHeaderFields["Location"]! as! String
-                                    
-                            let tranferID = tranferDetail.components(separatedBy: "/")
-                                    
-                            fundTransferAccount(transferURL: tranferDetail, accountID: tranferID.last!, Obj: object, currency: "USD", amount: "100")
-                                    
-                                    
-                                    
-                                    
-                                }
-                                
-                            }
-                        }
-                    }
-                }
-                
-            }catch _ {
-                
-            }
-        }
-        
-        
+        self.performSegue(withIdentifier: "segueTransaction", sender: nil)
     }
     
-    func getDwollaAccessToken(params: [String: AnyObject],completion: @escaping (_ status: String, _ error: String?, _ dataValue: Data?) -> Void) {
-        
-        let urlString = "https://api-sandbox.dwolla.com/token"
-        
-        let url = URL(string: urlString)
-        
-        let para = "grant_type=client_credentials"
-        let postData = NSMutableData(data: para.data(using: String.Encoding.utf8)!)
-        
-        
-        let credentials = API.kDwollaClient_id + ":" + API.kDwollaClient_secret
-        
-        let session = URLSession.shared
-        var request = URLRequest(url: url!)
-        request.httpMethod = "Post"
-        request.httpBody = postData as Data
-        let credentialData = credentials.data(using: String.Encoding.utf8)
-        let base64 = credentialData!.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.setValue("Basic " + base64, forHTTPHeaderField: "Authorization")
-        request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringCacheData
-        
-        let task = session.dataTask(with: request) {
-            (
-            data, response, error) in
-            if (error != nil && data != nil) {
-                
-                completion("failure", error?.localizedDescription ?? "error", data)
-            }
-            else if (error != nil || data == nil){
-                completion("failure", error?.localizedDescription ?? "error", nil)
-            }
-            else{
-                
-                completion("success",nil,data!)
-            }
-            
-        }
-        
-        task.resume()
-        
-    }
+   
     
+//    func createDwollaAccessTokenForFundTransfer(fundSource: String, acctID: String, object: DwollaCustomerFSList) {
+//        
+//        let links = ["_links":["source":["href":API.superBankFundingSource],"destination":["href":fundSource]],"amount":["currency":"USD","value":"100"]] as [String: AnyObject]
+//        let params = ["grant_type=":"client_credentials"] as [String: AnyObject]
+//        APIManager.shared.getDwollaAccessToken(params: params) { (status, error, data) in
+//            let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+//            
+//            print("dataString=",dataString)
+//            do {
+//                let json = try JSONSerialization.jsonObject(with: data!, options: []) as? [String : Any]
+//                
+//                let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+//                
+//                if let accessToken = json!["access_token"] as? String {
+//                    
+//                    self.createFundTransfer(params: links, accessToken: accessToken) { (status, error, data, response) in
+//                        if error == nil {
+//                            
+//                            if let header = response as? HTTPURLResponse {
+//                                
+//                                if header.statusCode == 201 {
+//                                    
+//                                    let tranferDetail = header.allHeaderFields["Location"]! as! String
+//                                    
+//                            let tranferID = tranferDetail.components(separatedBy: "/")
+//                                    
+//                            fundTransferAccount(transferURL: tranferDetail, accountID: tranferID.last!, Obj: object, currency: "USD", amount: "100")
+//                                    
+//                                    
+//                                    
+//                                    
+//                                }
+//                                
+//                            }
+//                        }
+//                    }
+//                }
+//                
+//            }catch _ {
+//                
+//            }
+//        }
+//        
+//        
+//    }
     
-    func createFundTransfer(params: [String: AnyObject],accessToken: String,completion: @escaping (_ status: String, _ error: String?, _ dataValue: Data?,_ response: URLResponse?) -> Void) {
-        
-        let urlString = API.kFundTransferURL
-        
-        let url = URL(string: urlString)
-        
-        let session = URLSession.shared
-        var request = URLRequest(url: url!)
-        request.httpMethod = "Post"
-        request.setValue("application/vnd.dwolla.v1.hal+json", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/vnd.dwolla.v1.hal+json", forHTTPHeaderField: "Accept")
-        request.setValue("Bearer " + accessToken, forHTTPHeaderField: "Authorization")
-        //NSURLRequest.CachePolicy.reloadIgnoringCacheData
-        request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringCacheData
-        
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
-            
-        } catch let error {
-            print(error.localizedDescription)
-        }
-        
-        let task = session.dataTask(with: request) {
-            (
-            data, response, error) in
-            if (error != nil && data != nil) {
-                
-                completion("failure", error?.localizedDescription ?? "error", data,nil)
-            }
-            else if (error != nil || data == nil){
-                completion("failure", error?.localizedDescription ?? "error", nil,nil)
-            }
-            else{
-                //                let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-                completion("success",nil,data!,response)
-            }
-            
-        }
-        
-        task.resume()
-        
-    }
+//    func getDwollaAccessToken(params: [String: AnyObject],completion: @escaping (_ status: String, _ error: String?, _ dataValue: Data?) -> Void) {
+//
+//        let urlString = "https://api-sandbox.dwolla.com/token"
+//
+//        let url = URL(string: urlString)
+//
+//        let para = "grant_type=client_credentials"
+//        let postData = NSMutableData(data: para.data(using: String.Encoding.utf8)!)
+//
+//
+//        let credentials = API.kDwollaClient_id + ":" + API.kDwollaClient_secret
+//
+//        let session = URLSession.shared
+//        var request = URLRequest(url: url!)
+//        request.httpMethod = "Post"
+//        request.httpBody = postData as Data
+//        let credentialData = credentials.data(using: String.Encoding.utf8)
+//        let base64 = credentialData!.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
+//        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+//        request.setValue("Basic " + base64, forHTTPHeaderField: "Authorization")
+//        request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringCacheData
+//
+//        let task = session.dataTask(with: request) {
+//            (
+//            data, response, error) in
+//            if (error != nil && data != nil) {
+//
+//                completion("failure", error?.localizedDescription ?? "error", data)
+//            }
+//            else if (error != nil || data == nil){
+//                completion("failure", error?.localizedDescription ?? "error", nil)
+//            }
+//            else{
+//
+//                completion("success",nil,data!)
+//            }
+//
+//        }
+//
+//        task.resume()
+//
+//    }
+//
+    
+//    func createFundTransfer(params: [String: AnyObject],accessToken: String,completion: @escaping (_ status: String, _ error: String?, _ dataValue: Data?,_ response: URLResponse?) -> Void) {
+//        
+//        let urlString = API.kFundTransferURL
+//        
+//        let url = URL(string: urlString)
+//        
+//        let session = URLSession.shared
+//        var request = URLRequest(url: url!)
+//        request.httpMethod = "Post"
+//        request.setValue("application/vnd.dwolla.v1.hal+json", forHTTPHeaderField: "Content-Type")
+//        request.setValue("application/vnd.dwolla.v1.hal+json", forHTTPHeaderField: "Accept")
+//        request.setValue("Bearer " + accessToken, forHTTPHeaderField: "Authorization")
+//        //NSURLRequest.CachePolicy.reloadIgnoringCacheData
+//        request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringCacheData
+//        
+//        do {
+//            request.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
+//            
+//        } catch let error {
+//            print(error.localizedDescription)
+//        }
+//        
+//        let task = session.dataTask(with: request) {
+//            (
+//            data, response, error) in
+//            if (error != nil && data != nil) {
+//                
+//                completion("failure", error?.localizedDescription ?? "error", data,nil)
+//            }
+//            else if (error != nil || data == nil){
+//                completion("failure", error?.localizedDescription ?? "error", nil,nil)
+//            }
+//            else{
+//                //                let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+//                completion("success",nil,data!,response)
+//            }
+//            
+//        }
+//        
+//        task.resume()
+//        
+//    }
     
     override func viewDidAppear(_ animated: Bool) {
 //        if !Yourself.isBankAdded {
@@ -362,6 +392,11 @@ class BankListVC: PlaidLinkEnabledVC, UITableViewDelegate, UITableViewDataSource
         if segue.identifier == "toDwollaUserInfo"{
             if let destinationVC = segue.destination as? DwollaUserInformationVC{
                 destinationVC.dwollaTokens = sender as! [String: AnyObject]
+            }
+        }else if segue.identifier == "segueWithdraw"{
+            
+            if let destinationVC = segue.destination as? PaymentSentVC{
+                destinationVC.selectedBank = (sender as! DwollaCustomerFSList)
             }
         }
     }

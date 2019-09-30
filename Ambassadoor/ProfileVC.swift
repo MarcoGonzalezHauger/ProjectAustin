@@ -22,6 +22,7 @@ struct ProfileSetting {
 
 class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableViewDataSource {
 	
+    @IBOutlet weak var referralCode_btn: UIButton!
     @IBOutlet weak var joinedOn_lbl: UILabel!
     var userSettings: [ProfileSetting] = []
 	
@@ -164,11 +165,23 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
             ProfilePicture.image = defaultImage
         }
         tierBox.layer.cornerRadius = tierBox.bounds.height / 2
-        tierLabel.text = String(GetTierFromFollowerCount(FollowerCount: Yourself.followerCount) ?? 0)
+//        tierLabel.text = String(GetTierFromFollowerCount(FollowerCount: Yourself.followerCount) ?? 0)
+        
+        if Yourself.isDefaultOfferVerify {
+            if GetTierFromFollowerCount(FollowerCount: Yourself.followerCount) != nil {
+                tierLabel.text = String(GetTierFromFollowerCount(FollowerCount: Yourself.followerCount)! + 1)
+            }else{
+                tierLabel.text = String(GetTierFromFollowerCount(FollowerCount: Yourself.followerCount) ?? 1)
+            }
+        }else{
+            tierLabel.text = String(GetTierFromFollowerCount(FollowerCount: Yourself.followerCount) ?? 0)
+        }
+
         
         followerCount.text = CompressNumber(number: Yourself.followerCount)
         averageLikes.text = Yourself.averageLikes == nil ? "N/A" : CompressNumber(number: Yourself.averageLikes!)
         joinedOn_lbl.text = Yourself.joinedDate != nil ? "Joined On : " + Yourself.joinedDate! : ""
+        referralCode_btn.setTitle("Referral Code : " + Yourself.referralcode, for: .normal)
         
         tierBox.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "tiergrad")!)
         
@@ -212,5 +225,20 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
         
 		return avaliableSettings
 	}
-
+    @IBAction func referral_Action(_ sender: Any) {
+        // text to share
+        let text = referralCode_btn.titleLabel?.text!
+        
+        // set up activity view controller
+        let textToShare = [ text ]
+        let activityViewController = UIActivityViewController(activityItems: textToShare as [Any], applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
+        
+        // exclude some activity types from the list (optional)
+        activityViewController.excludedActivityTypes = [ UIActivity.ActivityType.mail, UIActivity.ActivityType.message, UIActivity.ActivityType.postToFacebook, UIActivity.ActivityType.postToTwitter ]
+        
+        // present the view controller
+        self.present(activityViewController, animated: true, completion: nil)
+    }
+    
 }

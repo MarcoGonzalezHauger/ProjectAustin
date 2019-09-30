@@ -397,7 +397,7 @@ func getDateFromString(date:String) -> Date {
 	dateFormatterPrint.dateFormat = "MMM dd,yyyy"
 	
 	if let date = dateFormatterGet.date(from: date) {
-		print(dateFormatterPrint.string(from: date))
+		//print(dateFormatterPrint.string(from: date))
 		return date
 	} else {
 		print("There was an error decoding the string")
@@ -422,16 +422,30 @@ func signOutofAmbassadoor() {
 func getStringFromTodayDate() -> String {
 	let formatter = DateFormatter()
 	// initially set the format based on your datepicker date / server String
-	formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+	formatter.dateFormat = "yyyy/MMM/dd HH:mm:ss"
 	
 	let myString = formatter.string(from: Date())
 	
 	return myString
-	//        if let date = dateFormatterPrint.string(from: date) {
-	//            print()
-	//        } else {
-	//            print("There was an error decoding the string")
-	//            return ""
-	//
-	//        }
+}
+
+func randomString(length: Int) -> String {
+    let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    return String((0..<length).map{ _ in letters.randomElement()! })
+}
+
+func GetSortedOffers(offer:[Offer]) -> [Offer] {
+    var sortedlist = offer
+//
+//    //This sort function makes sure of the following: The expired Offers go to the bottom, and then rest are sorted by time remaining decending.
+//    sortedlist.sort { (Offer1, Offer2) -> Bool in
+//        if Offer1.offerdate == Offer2.offerdate {
+//            return Offer1.offerdate < Offer2.offerdate
+//        }
+//        return !Offer1.isExpired
+//    }
+    
+    sortedlist = sortedlist.sorted(by: {$0.offerdate > $1.offerdate})
+    
+    return sortedlist
 }

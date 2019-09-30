@@ -186,5 +186,48 @@ class APIManager {
         
     }
     
+    func createFundTransfer(params: [String: AnyObject],accessToken: String,completion: @escaping (_ status: String, _ error: String?, _ dataValue: Data?,_ response: URLResponse?) -> Void) {
+        
+        let urlString = API.kFundTransferURL
+        
+        let url = URL(string: urlString)
+        
+        let session = URLSession.shared
+        var request = URLRequest(url: url!)
+        request.httpMethod = "Post"
+        request.setValue("application/vnd.dwolla.v1.hal+json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/vnd.dwolla.v1.hal+json", forHTTPHeaderField: "Accept")
+        request.setValue("Bearer " + accessToken, forHTTPHeaderField: "Authorization")
+        //NSURLRequest.CachePolicy.reloadIgnoringCacheData
+        request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringCacheData
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
+        let task = session.dataTask(with: request) {
+            (
+            data, response, error) in
+            if (error != nil && data != nil) {
+                
+                completion("failure", error?.localizedDescription ?? "error", data,nil)
+            }
+            else if (error != nil || data == nil){
+                completion("failure", error?.localizedDescription ?? "error", nil,nil)
+            }
+            else{
+                //                let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+                completion("success",nil,data!,response)
+            }
+            
+        }
+        
+        task.resume()
+        
+    }
+    
 
 }
