@@ -223,6 +223,19 @@ func PostTypeToIcon(posttype: TypeofPost) -> UIImage {
 	}
 }
 
+func GetCategoryStringFromlist(categories: [String]) -> String {
+	var finalCategories = ""
+	for category in categories {
+		finalCategories.append(category + ", ")
+	}
+
+	if finalCategories != "" {
+		finalCategories = String(finalCategories.dropLast(2))
+	}
+	
+	return finalCategories
+}
+
 func OfferFromID(id: String, completion:@escaping(_ offer:Offer?)->()) {
 	debugPrint("attempting to find offer with ID \(id)")
 	
@@ -430,7 +443,7 @@ func getStringFromTodayDate() -> String {
 }
 
 func randomString(length: Int) -> String {
-    let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    let letters = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789"
     return String((0..<length).map{ _ in letters.randomElement()! })
 }
 
@@ -443,9 +456,17 @@ func GetSortedOffers(offer:[Offer]) -> [Offer] {
 //            return Offer1.offerdate < Offer2.offerdate
 //        }
 //        return !Offer1.isExpired
-//    }
-    
-    sortedlist = sortedlist.sorted(by: {$0.offerdate > $1.offerdate})
-    
-    return sortedlist
+	//    }
+	
+	sortedlist = sortedlist.sorted(by: {$0.offerdate > $1.offerdate})
+	
+	return sortedlist
+}
+
+func GetTierForInfluencer(influencer: User) -> Int {
+	if influencer.isDefaultOfferVerify {
+		return (GetTierFromFollowerCount(FollowerCount: influencer.followerCount) ?? 0) + 1
+	} else {
+		return GetTierFromFollowerCount(FollowerCount: influencer.followerCount) ?? 0
+	}
 }

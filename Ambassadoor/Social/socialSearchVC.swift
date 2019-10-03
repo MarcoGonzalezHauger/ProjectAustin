@@ -110,8 +110,7 @@ class socialSearchVC: UIViewController, UITableViewDelegate, UITableViewDataSour
 	}
 	
 	public func GetTrendingUsers() -> [User] {
-		let minusers: Double = 3000
-		var allpossibleusers = global.SocialData.filter{$0.followerCount >= minusers}
+		var allpossibleusers = global.SocialData.filter{$0.zipCode == Yourself!.zipCode}
 //		if Yourself!.followerCount >= minusers {
 //			allpossibleusers.append(Yourself!)
 //		}

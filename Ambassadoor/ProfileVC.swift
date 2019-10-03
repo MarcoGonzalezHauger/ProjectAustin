@@ -23,7 +23,7 @@ struct ProfileSetting {
 class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableViewDataSource {
 	
     @IBOutlet weak var referralCode_btn: UIButton!
-    @IBOutlet weak var joinedOn_lbl: UILabel!
+    //@IBOutlet weak var joinedOn_lbl: UILabel!
     var userSettings: [ProfileSetting] = []
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -53,13 +53,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		switch settings.identifier {
 		case "main_cat":
 //			cell.categoryLabel.text = (settings.Information as! Category).rawValue
-            var finalCategories = ""
-            for category in settings.Information as! [String] {
-                finalCategories.append(category + ",")
-            }
-            if finalCategories != "" {
-                finalCategories.remove(at: finalCategories.index(before: finalCategories.endIndex))
-            }
+			let finalCategories: String = GetCategoryStringFromlist(categories: Yourself.categories ?? [])
             let catcount = settings.Information as! [String]
             
             cell.categoryHeader.text = settings.Header + (" \(catcount.count)/5")
@@ -180,8 +174,8 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
         
         followerCount.text = CompressNumber(number: Yourself.followerCount)
         averageLikes.text = Yourself.averageLikes == nil ? "N/A" : CompressNumber(number: Yourself.averageLikes!)
-        joinedOn_lbl.text = Yourself.joinedDate != nil ? "Joined On : " + Yourself.joinedDate! : ""
-        referralCode_btn.setTitle("Referral Code : " + Yourself.referralcode, for: .normal)
+        //joinedOn_lbl.text = Yourself.joinedDate != nil ? "Joined On : " + Yourself.joinedDate! : ""
+        referralCode_btn.setTitle("Referral Code: " + Yourself.referralcode, for: .normal)
         
         tierBox.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "tiergrad")!)
         
@@ -225,9 +219,10 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
         
 		return avaliableSettings
 	}
+	
     @IBAction func referral_Action(_ sender: Any) {
         // text to share
-        let text = referralCode_btn.titleLabel?.text!
+        let text = "Ambassadoor Business Referral Code: \(Yourself!.referralcode)"
         
         // set up activity view controller
         let textToShare = [ text ]

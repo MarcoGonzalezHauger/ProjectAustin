@@ -40,6 +40,9 @@ struct Stat {
 class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 	
 	@IBOutlet var swdView: UIView!
+	@IBOutlet weak var verifiedView: UIView!
+	@IBOutlet weak var infLogo: UIImageView!
+	@IBOutlet weak var infLabel: UILabel!
 	
 	var ThisUser: User! {
 		didSet {
@@ -54,6 +57,15 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 //		debugPrint(Yourself!)
 //		debugPrint("THISUSER=")
 //		debugPrint(ThisUser)
+		
+		if blackIcons.contains(ThisUser.username) {
+			infLogo.image = UIImage.init(named: "verified_black")
+			infLabel.text = "Ambassadoor Executive"
+			infLabel.textColor = .black
+		} else {
+			verifiedView.isHidden = !ThisUser.isDefaultOfferVerify
+		}
+		
 		stats = [Stat.init(name: "Follower Count", value1: ThisUser.followerCount, value2: Yourself!.followerCount)]
 		if ThisUser.averageLikes != nil && Yourself!.averageLikes != nil {
 			stats.append(Stat.init(name: "Average Likes", value1: ThisUser.averageLikes!, value2: Yourself!.averageLikes!))
@@ -61,20 +73,15 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		if let shelf = shelf {
 			shelf.reloadData()
 		}
-//		catLabel.text = ThisUser.primaryCategory.rawValue
-        var finalCategories = ""
-        if ThisUser.categories != nil{
-            for category in ThisUser.categories! {
-                finalCategories.append(category + ",")
-            }
-        }
-
-        if finalCategories != "" {
-            finalCategories.remove(at: finalCategories.index(before: finalCategories.endIndex))
-        }
-        catLabel.text = finalCategories
+//		catLabel.text = ThisUser.primaryCategory.
+		catLabel.text = GetCategoryStringFromlist(categories: (ThisUser.categories) ?? [])
         
-		sinceLabel.text = "Ambassdaoor since 1998"
+		if let joinedDate = ThisUser.joinedDate {
+			sinceLabel.text = "Ambassador Since \(String(joinedDate.prefix(4)))"
+		} else {
+			sinceLabel.text = ""
+		}
+		
 		followerLabel.text = NumberToStringWithCommas(number: ThisUser.followerCount) + " followers"
         var tier: Int? = GetTierFromFollowerCount(FollowerCount: ThisUser.followerCount)
         if ThisUser.isDefaultOfferVerify {
@@ -87,7 +94,6 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		tierLabel.text = tier == nil ? "No Tier" : "Tier \(tier!)"
 		nameLabel.text = ThisUser.name ?? ThisUser.username
 		usernameLabel.text = "@\(ThisUser.username)"
-        joinedOn_lbl.text = ThisUser.joinedDate != nil ? "Joined On : " + ThisUser.joinedDate! : ""
 		if let picurl = ThisUser.profilePicURL {
 			profilePic.downloadedFrom(url: URL.init(string: picurl)!, makeImageCircular: true)
 		} else {
@@ -159,7 +165,6 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	@IBOutlet weak var usernameLabel: UILabel!
 	@IBOutlet weak var followerLabel: UILabel!
 	@IBOutlet weak var tierLabel: UILabel!
-    @IBOutlet weak var joinedOn_lbl: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
