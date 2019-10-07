@@ -54,10 +54,8 @@ class CategoryPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 	
 	func didChangeSelection() {
 		header.title = delegate?.getTitleHeading()
-		if delegate?.GetSelectedList().count ?? maximumCategories >= maximumCategories {	self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.red]
-			UIView.animate(withDuration: 0.5) {	self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
-				
-			}
+		if delegate?.GetSelectedList().count ?? maximumCategories >= maximumCategories {
+			
 		}
 		doneButton.isEnabled = (delegate?.isDoneButtonClickable() ?? false)
 	}

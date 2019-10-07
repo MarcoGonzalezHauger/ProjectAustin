@@ -91,12 +91,12 @@ class SocialUserCell: UITableViewCell {
 			shadow.ShadowColor = UIColor.init(red: 1, green: 121/255, blue: 8/255, alpha: 1)
 			shadow.ShadowOpacity = 0.75
 			shadow.ShadowRadius = 4
-			shadow.backgroundColor = UIColor.init(red: 1, green: 251/255, blue: 243/255, alpha: 1)
+			shadow.backgroundColor = UIColor.init(named: "SocialYourself")
 		} else {
 			shadow.ShadowColor = UIColor.black
 			shadow.ShadowOpacity = 0.2
 			shadow.ShadowRadius =  1.75
-			shadow.backgroundColor = UIColor.white
+			shadow.backgroundColor = UIColor.systemBackground
 		}
 	}
 }
