@@ -117,7 +117,6 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 			}
 			
 			destination.SetupPicker(originalCategories: yourCats) { (cat) in
-				//					Yourself.primaryCategory = cat
 				
 
 				var newCats: [String] = []

@@ -266,39 +266,14 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 	}
 	
 	var ThisOffer: Offer!
-    //naveen added
-    var selectedIndex:Int!
-
-
-	@IBAction func OfferAccepted(_ sender: Any) {
-        
-        self.performSegue(withIdentifier: "segueConfirm", sender: nil)
-
-//            let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(ThisOffer.offer_ID)
-//            prntRef.updateChildValues(["isAccepted":true])
-//            prntRef.updateChildValues(["status":"accepted"])
-//
-//            dismiss(animated: true) { self.delegate?.OfferAccepted(offer: self.ThisOffer) }
-	}
-    
-    
-    
+	//naveen added
+	var selectedIndex:Int!
 	
-//    func PostToInst() {
-//        if let theProfileImageUrl = ThisOffer.posts[0].products![0].image {
-//            do {
-//                let url = NSURL(string: theProfileImageUrl)
-//                let imageData = try Data(contentsOf: url! as URL)
-//
-//                let image = UIImage(data: imageData)
-//                print(ThisOffer.posts[0].captionMustInclude!)
-//                let offer = ThisOffer
-//                InstagramManager.sharedManager.postImageToInstagramWithCaption(imageInstagram: image!, instagramCaption: ThisOffer.posts[0].captionMustInclude!, view: self.view)
-//
-//            } catch {
-//                print("Unable to load data: \(error)")
-//            }
-//        }
-//    }
-
+	
+	@IBAction func OfferAccepted(_ sender: Any) {
+		
+		self.performSegue(withIdentifier: "segueConfirm", sender: nil)
+		
+	}
+		
 }
