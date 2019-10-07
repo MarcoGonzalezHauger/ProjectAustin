@@ -11,11 +11,10 @@ import UIKit
 
 
 class CategoryPicker: UINavigationController, CategoryPickerDelegate {
-    
 	
-	var complete: ((_ newCategory: Category) -> ())?
+	var complete: ((_ newCategory: [Category]) -> ())?
 	
-	func CategoryPicked(newCategory: Category) {
+	func CategoriesPicked(newCategory: [Category]) {
 		if let completedFunction = complete {
 			completedFunction(newCategory)
 		} 
@@ -27,11 +26,11 @@ class CategoryPicker: UINavigationController, CategoryPickerDelegate {
 
     }
 	
-	func SetupPicker(originalCategory: Category?, completed: ((_ newCategory: Category) -> ())?) {
+	func SetupPicker(originalCategories: [Category], completed: ((_ newCategory: [Category]) -> ())?) {
 		complete = completed
 		if let ClassPicker = self.topViewController as? ClassPickerVC {
 			ClassPicker.delegate = self
-			ClassPicker.originalValue = originalCategory
+			ClassPicker.originalValue = originalCategories
 		} else {
 			debugPrint("Error; unable to find ClassPicker VC as topViewController @ CategoryPicker: UINavCntrl.")
 		}

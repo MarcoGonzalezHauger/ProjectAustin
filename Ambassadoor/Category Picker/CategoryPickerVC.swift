@@ -15,6 +15,7 @@ class catCell: UITableViewCell {
 
 class CategoryPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 	
+	@IBOutlet weak var header: UINavigationItem!
 	@IBOutlet weak var doneButton: UIBarButtonItem!
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -24,8 +25,8 @@ class CategoryPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "catCell") as! catCell
 		cell.titleLabel.text = cats[indexPath.row].rawValue
-		if cats[indexPath.row] == selectedCategory {
-			toSelect = indexPath
+		if delegate?.GetSelectedList().contains(cats[indexPath.row]) ?? false {
+			categoryShelf.selectRow(at: indexPath, animated: true, scrollPosition: .none)
 			cell.accessoryType = .checkmark
 		} else {
 			cell.accessoryType = .none
@@ -33,16 +34,32 @@ class CategoryPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 		return cell
 	}
 	
-	var toSelect: IndexPath?
+	var toSelect: [IndexPath] = []
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		delegate?.CategoryChanged(newCategory: cats[indexPath.row])
-		selectedCategory = cats[indexPath.row]
-		tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+		if delegate?.CategoryAdded(newCategory: cats[indexPath.row]) == false {
+			categoryShelf.deselectRow(at: indexPath, animated: true)
+			MakeShake(viewToShake: (categoryShelf.cellForRow(at: indexPath) as! catCell).titleLabel, coefficient: 0.42)
+		} else {
+			tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+			didChangeSelection()
+		}
 	}
 	
 	func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+		delegate?.CategoryRemoved(removedCategory: cats[indexPath.row])
 		tableView.cellForRow(at: indexPath)?.accessoryType = .none
+		didChangeSelection()
+	}
+	
+	func didChangeSelection() {
+		header.title = delegate?.getTitleHeading()
+		if delegate?.GetSelectedList().count ?? maximumCategories >= maximumCategories {	self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.red]
+			UIView.animate(withDuration: 0.5) {	self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+				
+			}
+		}
+		doneButton.isEnabled = (delegate?.isDoneButtonClickable() ?? false)
 	}
 	
 	@IBAction func doneClicked(_ sender: Any) {
@@ -55,17 +72,13 @@ class CategoryPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 			cats = ClassToCategories[categoryClass]!
 		}
 	}
-	var selectedCategory: Category? {
-		didSet {
-			doneButton.isEnabled = selectedCategory != nil
-		}
-	}
+	
 	var cats: [Category]!
 	var delegate: SubCategoryResultDelegate?
 	
 	override func viewDidAppear(_ animated: Bool) {
-		if let ip = toSelect {
-			categoryShelf.selectRow(at: ip, animated: false, scrollPosition: .middle)
+		for ip in toSelect {
+			categoryShelf.selectRow(at: ip, animated: false, scrollPosition: .none)
 		}
 	}
 	
@@ -73,9 +86,9 @@ class CategoryPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSo
         super.viewDidLoad()
 		categoryShelf.delegate = self
 		categoryShelf.dataSource = self
-		if let ip = toSelect {
-			categoryShelf.selectRow(at: ip, animated: false, scrollPosition: .middle)
-			categoryShelf.cellForRow(at: ip)?.accessoryType = .checkmark
+		didChangeSelection()
+		for ip in toSelect {
+			categoryShelf.selectRow(at: ip, animated: false, scrollPosition: .none)
 		}
     }
 

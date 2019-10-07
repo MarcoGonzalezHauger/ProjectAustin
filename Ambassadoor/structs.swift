@@ -19,26 +19,30 @@ protocol OfferResponse {
 //Shadow Class reused all throughout this app.
 @IBDesignable
 class ShadowView: UIView {
-	override func awakeFromNib() {
-		super.awakeFromNib()
-		DrawShadows()
-	}
-	override var bounds: CGRect { didSet { DrawShadows() } }
-	@IBInspectable var cornerRadius: Float = 10 {	didSet { DrawShadows() } }
-	@IBInspectable var ShadowOpacity: Float = 0.2 { didSet { DrawShadows() } }
-	@IBInspectable var ShadowRadius: Float = 1.75 { didSet { DrawShadows() } }
-	@IBInspectable var ShadowColor: UIColor = UIColor.black { didSet { DrawShadows() } }
-	
-	func DrawShadows() {
-		//draw shadow & rounded corners for offer cell
-		self.layer.cornerRadius = CGFloat(cornerRadius)
-		self.layer.shadowColor = ShadowColor.cgColor
-		self.layer.shadowOpacity = ShadowOpacity
-		self.layer.shadowOffset = CGSize.zero
-		self.layer.shadowRadius = CGFloat(ShadowRadius)
-		self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.layer.cornerRadius).cgPath
-		
-	}
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        DrawShadows()
+    }
+    override var bounds: CGRect { didSet { DrawShadows() } }
+    @IBInspectable var cornerRadius: Float = 10 {    didSet { DrawShadows() } }
+    @IBInspectable var ShadowOpacity: Float = 0.2 { didSet { DrawShadows() } }
+    @IBInspectable var ShadowRadius: Float = 1.75 { didSet { DrawShadows() } }
+    @IBInspectable var ShadowColor: UIColor = UIColor.black { didSet { DrawShadows() } }
+    @IBInspectable var borderWidth: Float = 0.0 { didSet { DrawShadows() }}
+    @IBInspectable var borderColor: UIColor = UIColor.black { didSet { DrawShadows() }}
+    
+    func DrawShadows() {
+        //draw shadow & rounded corners for offer cell
+        self.layer.cornerRadius = CGFloat(cornerRadius)
+        self.layer.shadowColor = ShadowColor.cgColor
+        self.layer.shadowOpacity = ShadowOpacity
+        self.layer.shadowOffset = CGSize.zero
+        self.layer.shadowRadius = CGFloat(ShadowRadius)
+        self.layer.borderWidth = CGFloat(borderWidth)
+        self.layer.borderColor = borderColor.cgColor
+        self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.layer.cornerRadius).cgPath
+        
+    }
 }
 
 //Structure for an offer that comes into username's inbox

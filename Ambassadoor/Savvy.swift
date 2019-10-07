@@ -236,6 +236,8 @@ func GetCategoryStringFromlist(categories: [String]) -> String {
 	return finalCategories
 }
 
+
+
 func OfferFromID(id: String, completion:@escaping(_ offer:Offer?)->()) {
 	debugPrint("attempting to find offer with ID \(id)")
 	
@@ -446,6 +448,33 @@ func randomString(length: Int) -> String {
     let letters = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789"
     return String((0..<length).map{ _ in letters.randomElement()! })
 }
+
+func MakeShake(viewToShake thisView: UIView, coefficient: Float = 1) {
+	let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
+	animation.timingFunction = CAMediaTimingFunction(name: .linear)
+	animation.duration = 0.6
+	animation.values = [-20.0 * coefficient, 20.0 * coefficient, -20.0 * coefficient, 20.0 * coefficient, -10.0 * coefficient, 10.0 * coefficient, -5.0 * coefficient, 5.0 * coefficient, 0 ]
+	thisView.layer.add(animation, forKey: "shake")
+}
+
+func CategoriesToStrings(categories: [Category]) -> [String] {
+	var newCats: [String] = []
+	for x in categories {
+		newCats.append(x.rawValue)
+	}
+	return newCats
+}
+
+func StringsToCategories(strings: [String]) -> [Category] {
+	var newCats: [Category] = []
+	for x in strings {
+		if let cat: Category = Category(rawValue: x) {
+			newCats.append(cat)
+		}
+	}
+	return newCats
+}
+
 
 func GetSortedOffers(offer:[Offer]) -> [Offer] {
     var sortedlist = offer

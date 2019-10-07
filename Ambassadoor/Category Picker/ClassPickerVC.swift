@@ -9,13 +9,19 @@
 
 import UIKit
 
+let maximumCategories: Int = 5
+
 protocol SubCategoryResultDelegate {
-	func CategoryChanged(newCategory: Category)
+	func CategoryAdded(newCategory: Category) -> Bool
+	func CategoryRemoved(removedCategory: Category)
+	func GetSelectedList() -> [Category]
 	func DoneClicked()
+	func isDoneButtonClickable() -> Bool
+	func getTitleHeading() -> String
 }
 
 protocol CategoryPickerDelegate {
-	func CategoryPicked(newCategory: Category)
+	func CategoriesPicked(newCategory: [Category])
 }
 
 
@@ -26,10 +32,52 @@ class ClassCell: UITableViewCell {
 
 class ClassPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SubCategoryResultDelegate {
 	
+	func isDoneButtonClickable() -> Bool {
+		return returnValue.count > 0
+	}
+	
+	func getTitleHeading() -> String {
+		 return "\(returnValue.count)/\(maximumCategories)"
+	}
+	
+	
+	@IBOutlet weak var header: UINavigationItem!
+	
+	func CategoryAdded(newCategory: Category) -> Bool {
+		if returnValue.count >= maximumCategories {
+			debugPrint("No room for new category.")
+			return false
+		}
+		if returnValue.contains(newCategory) {
+			debugPrint("Category already containing")
+			return false
+		}
+		debugPrint("added category selection: \(newCategory)")
+		returnValue.append(newCategory)
+		catChanged()
+		return true
+	}
+	
+	func CategoryRemoved(removedCategory: Category) {
+		returnValue = returnValue.filter{ return $0 != removedCategory }
+		debugPrint("Category Removed: \(removedCategory)")
+		catChanged()
+	}
+	
+	func GetSelectedList() -> [Category] {
+		return returnValue
+	}
+	
+	func catChanged() {
+		classShelf.reloadData()
+		header.title = "\(returnValue.count)/\(maximumCategories) Categories Picked"
+	}
+	
+	
 	@IBOutlet weak var doneButton: UIBarButtonItem!
 	
 	func DoneClicked() {
-		delegate?.CategoryPicked(newCategory: returnValue!)
+		delegate?.CategoriesPicked(newCategory: returnValue)
 		dismiss(animated: true, completion: nil)
 	}
 	
@@ -37,27 +85,18 @@ class ClassPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		DoneClicked()
 	}
 	
-	var returnValue: Category? {
+	var returnValue: [Category] = [] {
 		didSet {
-			doneButton.isEnabled = returnValue != nil
+			doneButton.isEnabled = returnValue.count > 0
 		}
 	}
-	var originalValue: Category? {
+	var originalValue: [Category] = [] {
 		didSet {
 			returnValue = originalValue
 		}
 	}
-	var delegate: CategoryPickerDelegate?
-
 	
-	func CategoryChanged(newCategory: Category) {
-		if originalValue == newCategory {
-			returnValue = nil
-		} else {
-			returnValue = newCategory
-		}
-		classShelf.reloadData()
-	}
+	var delegate: CategoryPickerDelegate?
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return allCategoryClasses.count
@@ -68,11 +107,18 @@ class ClassPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		cell.titleLabel.text = allCategoryClasses[indexPath.row].rawValue
 		if let cat = ClassToCategories[allCategoryClasses[indexPath.row]] {
 			var isSelected = false
-			if returnValue != nil || originalValue != nil {
-				let ref: Category = returnValue ?? originalValue!
-				if cat.contains(ref) {
-					cell.detailLabel.textColor = AmbassadoorColor
-					cell.detailLabel.text = "Selected: \(ref.rawValue)"
+			if returnValue.count > 0 || originalValue.count > 0 {
+				let ref: [Category] = returnValue
+				var selectedCats: [String] = []
+				for c in ref {
+					if cat.contains(c) {
+						selectedCats.append(c.rawValue)
+					}
+				}
+				if selectedCats.count > 0 {
+					cell.detailLabel.textColor = selectedBoxColor
+					let s = GetCategoryStringFromlist(categories: selectedCats)
+					cell.detailLabel.text = "Selected: \(s)"
 					isSelected = true
 				}
 			}
@@ -104,15 +150,16 @@ class ClassPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
+		catChanged()
 		classShelf.dataSource = self
 		classShelf.delegate = self
+		navigationController?.navigationBar.prefersLargeTitles = true
     }
 	
 	var selectedCatClass: categoryClass!
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let destination = segue.destination as? CategoryPickerVC {
-			destination.selectedCategory = returnValue
 			destination.categoryClass = selectedCatClass
 			destination.delegate = self
 		}
