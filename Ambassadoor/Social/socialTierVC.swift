@@ -38,12 +38,12 @@ class SocialUserCell: UITableViewCell {
 //				let secondtext : String = ShowCategory ? thisUser.primaryCategory.rawValue : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
                 if thisUser.isDefaultOfferVerify {
                     if GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) != nil {
-                        let secondtext : String = ShowCategory ? thisUser.primaryCategory.rawValue : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount)! + 1 )
+                        let secondtext : String = ShowCategory ? GetCatString(user: thisUser) : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount)! + 1 )
 
                         details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
                         
                     } else {
-                        let secondtext : String = ShowCategory ? thisUser.primaryCategory.rawValue : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 1)
+                        let secondtext : String = ShowCategory ? GetCatString(user: thisUser) : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 1)
 
                         details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
                         
@@ -51,7 +51,7 @@ class SocialUserCell: UITableViewCell {
                     verifyLogo_img.image = UIImage(named: "verify_Logo")
 
                 } else {
-                    let secondtext : String = ShowCategory ? thisUser.primaryCategory.rawValue : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
+                    let secondtext : String = ShowCategory ? GetCatString(user: thisUser) : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
 
                     details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
                     verifyLogo_img.image = nil
@@ -74,17 +74,29 @@ class SocialUserCell: UITableViewCell {
 		}
 	}
 	
+	func GetCatString(user: User) -> String {
+		if user.categories != nil {
+			if user.categories!.count > 1 {
+				return "\(user.categories![0]) + \(user.categories!.count - 1)"
+			} else {
+				return user.categories![0]
+			}
+		} else {
+			return ""
+		}
+	}
+	
 	func SetColors(isYourself: Bool) {
 		if isYourself {
 			shadow.ShadowColor = UIColor.init(red: 1, green: 121/255, blue: 8/255, alpha: 1)
 			shadow.ShadowOpacity = 0.75
 			shadow.ShadowRadius = 4
-			shadow.backgroundColor = UIColor.init(red: 1, green: 251/255, blue: 243/255, alpha: 1)
+			shadow.backgroundColor = UIColor.init(named: "SocialYourself")
 		} else {
 			shadow.ShadowColor = UIColor.black
 			shadow.ShadowOpacity = 0.2
 			shadow.ShadowRadius =  1.75
-			shadow.backgroundColor = UIColor.white
+			shadow.backgroundColor = UIColor.systemBackground
 		}
 	}
 }

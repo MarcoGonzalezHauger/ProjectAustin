@@ -12,6 +12,7 @@ protocol ConfirmationReturned {
 }
 
 import UIKit
+import Firebase
 
 class SignUpVC: UIViewController, UITextFieldDelegate, ConfirmationReturned {
 	
@@ -22,8 +23,18 @@ class SignUpVC: UIViewController, UITextFieldDelegate, ConfirmationReturned {
 	
 	@IBOutlet weak var heyLabel: UILabel!
 	
+	var code: String?
+	
 	override func viewDidLoad() {
         super.viewDidLoad()
+		let ref = Database.database().reference().child("LatestAppVersion").child("BetaCode")
+		 ref.observeSingleEvent(of: .value, with: { (snapshot) in
+			
+			if let thisCode = snapshot.value as? String {
+				self.code = thisCode
+			}
+			
+		})
     }
 	
 	@IBAction func signUp(_ sender: Any) {
@@ -35,9 +46,28 @@ class SignUpVC: UIViewController, UITextFieldDelegate, ConfirmationReturned {
 	}
 	
 	func SigningUp() {
-		debugPrint("going to preform segue.")
-        performSegue(withIdentifier: "InstagramSegue", sender: self)
-		debugPrint("preformed Segue.")
+		if let code = code {
+			if code != "" {
+				let alert = UIAlertController(title: "Beta code required", message: "A Beta code is required to sign up at this time.", preferredStyle: .alert)
+				alert.addTextField { (textField) in
+					textField.text = ""
+				}
+				alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+					let codec = alert?.textFields![0].text ?? ""
+					if codec == code {
+						self.performSegue(withIdentifier: "InstagramSegue", sender: self)
+					} else {
+						let alert = UIAlertController(title: "Incorrect Code", message: "The beta code you entered was not correct.", preferredStyle: .alert)
+						alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+						self.present(alert, animated: true)
+					}
+				}))
+				self.present(alert, animated: true, completion: nil)
+			} else {
+				performSegue(withIdentifier: "InstagramSegue", sender: self)
+			}
+			
+		}
 	}
     
     

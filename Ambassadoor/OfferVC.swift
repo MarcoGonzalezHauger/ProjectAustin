@@ -121,6 +121,10 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
             if let destination = segue.destination as? OfferAcceptConfirmVC {
                 destination.ThisOffer = ThisOffer
             }
+		case "toReport":
+			if let destination = segue.destination as? ReportOfferVC {
+				destination.ThisOffer = ThisOffer
+			}
         default: break
 		}
 	}
@@ -179,7 +183,7 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
                     for postVal in mediaData!{
                         if let captionVal = (postVal["caption"] as? [String:Any]) {
                             var instacaption = captionVal["text"] as! String
-                            if instacaption.contains("#ad ") || instacaption.contains("#ad") || instacaption.contains(" #ad"){
+                            if instacaption.contains("#ad"){
                                 instacaption = instacaption.replacingOccurrences(of: " #ad ", with: "")
                                 instacaption = instacaption.replacingOccurrences(of: "#ad ", with: "")
                                 instacaption = instacaption.replacingOccurrences(of: " #ad", with: "")
@@ -190,7 +194,7 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
                                         let postCaption = post.captionMustInclude!
 //                                        postCaption.append("#ad.")
 //                                        postCaption.append(post.captionMustInclude!)
-                                        if postCaption == instacaption {
+										if instacaption.contains(postCaption) {
                                             instagramPostUpdate(post: [self.ThisOffer.offer_ID:postVal])
                                             SentOutOffersUpdate(offer: self.ThisOffer, post_ID: post.post_ID)
                                         }
@@ -211,6 +215,7 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
         
 	}
 	
+	@IBOutlet weak var OfferForLabel: UILabel!
 	@IBOutlet weak var smallDone: UIButton!
 	var delegate: OfferResponse?
 	@IBOutlet weak var acceptButtonView: ShadowView!
@@ -228,8 +233,10 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 		//companyname.text = ThisOffer.company.name
         
         if  ThisOffer.offer_ID == "XXXDefault"{
-            MoneyLabel.text = "Verify Your Profile"
+			OfferForLabel.text = "YOU WILL NOT BE PAID FOR THIS OFFER"
+            MoneyLabel.text = "Get Ambassadoor Verified"
         }else{
+			OfferForLabel.text = "OFFER FOR"
             MoneyLabel.text = NumberToPrice(Value: ThisOffer.money)
         }
 		
@@ -259,39 +266,14 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 	}
 	
 	var ThisOffer: Offer!
-    //naveen added
-    var selectedIndex:Int!
-
-
-	@IBAction func OfferAccepted(_ sender: Any) {
-        
-        self.performSegue(withIdentifier: "segueConfirm", sender: nil)
-
-//            let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(ThisOffer.offer_ID)
-//            prntRef.updateChildValues(["isAccepted":true])
-//            prntRef.updateChildValues(["status":"accepted"])
-//
-//            dismiss(animated: true) { self.delegate?.OfferAccepted(offer: self.ThisOffer) }
-	}
-    
-    
-    
+	//naveen added
+	var selectedIndex:Int!
 	
-//    func PostToInst() {
-//        if let theProfileImageUrl = ThisOffer.posts[0].products![0].image {
-//            do {
-//                let url = NSURL(string: theProfileImageUrl)
-//                let imageData = try Data(contentsOf: url! as URL)
-//
-//                let image = UIImage(data: imageData)
-//                print(ThisOffer.posts[0].captionMustInclude!)
-//                let offer = ThisOffer
-//                InstagramManager.sharedManager.postImageToInstagramWithCaption(imageInstagram: image!, instagramCaption: ThisOffer.posts[0].captionMustInclude!, view: self.view)
-//
-//            } catch {
-//                print("Unable to load data: \(error)")
-//            }
-//        }
-//    }
-
+	
+	@IBAction func OfferAccepted(_ sender: Any) {
+		
+		self.performSegue(withIdentifier: "segueConfirm", sender: nil)
+		
+	}
+		
 }

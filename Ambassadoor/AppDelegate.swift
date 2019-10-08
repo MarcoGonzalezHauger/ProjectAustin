@@ -193,7 +193,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }else{
             let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
             
-            let ref = Database.database().reference().child("LatestAppVersion").child("Influncerversion")
+            let ref = Database.database().reference().child("LatestAppVersion").child("Influencerversion")
             ref.observeSingleEvent(of: .value, with: { (snapshot) in
                 
                 let latestVersion = snapshot.value as! String

@@ -58,10 +58,6 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
             
             cell.categoryHeader.text = settings.Header + (" \(catcount.count)/5")
             cell.categoryLabel.text = finalCategories
-
-		case "second_cat":
-			let cat: Category? = settings.Information as? Category
-			cell.categoryLabel.text = cat == nil ? "Choose" : cat!.rawValue
 		case "zip":
 			let zip = settings.Information as! String
 			if zip == "0" {
@@ -90,21 +86,8 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		selectedID = setting.identifier
 		switch setting.identifier {
 		case "main_cat":
-//            curcat = Yourself.primaryCategory
-//            performSegue(withIdentifier: "toPicker", sender: self)
-            
-            if Yourself.categories!.count < 5 {
-                if  Yourself.categories!.count > 0{
-                    curcat = Category(rawValue: Yourself.categories![0])
-                }else{
-                    curcat = Category(rawValue: "")
-                }
-                performSegue(withIdentifier: "toPicker", sender: self)
-            }
-
-
-		case "second_cat":
-			curcat = Yourself.SecondaryCategory
+			//curcat = Yourself.primaryCategory
+			//performSegue(withIdentifier: "toPicker", sender: self)
 			performSegue(withIdentifier: "toPicker", sender: self)
 		case "zip":
 			performSegue(withIdentifier: "toZip", sender: self)
@@ -126,14 +109,21 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let destination = segue.destination as? CategoryPicker {
-			destination.SetupPicker(originalCategory: curcat) { (cat) in
-				if self.selectedID == "main_cat" {
-//					Yourself.primaryCategory = cat
-                    Yourself.categories?.append(cat.rawValue)
+			
+			var yourCats: [Category] = []
+			
+			for c in Yourself.categories ?? [] {
+				yourCats.append(Category(rawValue: c)!)
+			}
+			
+			destination.SetupPicker(originalCategories: yourCats) { (cat) in
+				
 
-				} else if self.selectedID == "second_cat" {
-					Yourself.SecondaryCategory = cat
+				var newCats: [String] = []
+				for c in cat {
+					newCats.append(c.rawValue)
 				}
+				Yourself.categories = newCats
 				self.dataUpdated()
 			}
 		}
@@ -200,13 +190,8 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
         print(Yourself.categories as AnyObject)
 
 
-//		avaliableSettings.append(ProfileSetting.init(Header: "MAIN CATEGORY", Information: Yourself.primaryCategory as AnyObject, identifier: "main_cat"))
-        avaliableSettings.append(ProfileSetting.init(Header: "CATEGORIES", Information: Yourself.categories as AnyObject, identifier: "main_cat"))
 
-		//minimum category of 6.
-		if GetTierFromFollowerCount(FollowerCount: Yourself.followerCount) ?? 0 > 6 {
-			avaliableSettings.append(ProfileSetting.init(Header: "SECONDARY CATEGORY", Information: Yourself.SecondaryCategory as AnyObject, identifier: "second_cat"))
-		}
+        avaliableSettings.append(ProfileSetting.init(Header: "CATEGORIES", Information: Yourself.categories as AnyObject, identifier: "main_cat"))
 		avaliableSettings.append(ProfileSetting.init(Header: "TOWN (ALLOWS GEO OFFERS)", Information: (Yourself.zipCode ?? "0") as AnyObject, identifier: "zip"))
         
         
@@ -218,6 +203,12 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
         self.shelf.reloadData()
         
 		return avaliableSettings
+	}
+	
+	@IBAction func OfferHistoryClicked(_ sender: Any) {
+		let alert = UIAlertController(title: "Unavaliable", message: "This feature is not avaliable yet.", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
 	}
 	
     @IBAction func referral_Action(_ sender: Any) {
