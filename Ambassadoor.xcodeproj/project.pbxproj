@@ -15,6 +15,7 @@
 		B7422E6722FC03510076F076 /* OtherInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7422E6622FC03510076F076 /* OtherInfoVC.swift */; };
 		B7446CC422FD81BC0061983F /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7446CC322FD81BB0061983F /* UIViewControllerExtensions.swift */; };
 		B78D114B2306AF510073F64B /* CustomObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B78D11492306AF500073F64B /* CustomObject.m */; };
+		B792456923477E3C00EAEF0E /* StripeConnectionMKWebview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B792456823477E3C00EAEF0E /* StripeConnectionMKWebview.swift */; };
 		B7B97D72233DE84C0028E7E2 /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B97D71233DE84C0028E7E2 /* NetworkReachability.swift */; };
 		B7BCE52922E9BB1800666689 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BCE52822E9BB1800666689 /* DateExtension.swift */; };
 		B7D42095232A7AB1009F0FCE /* ConnectedPlaidTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D42094232A7AB1009F0FCE /* ConnectedPlaidTVCell.swift */; };
@@ -84,6 +85,7 @@
 		B7446CC322FD81BB0061983F /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		B78D11492306AF500073F64B /* CustomObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomObject.m; sourceTree = "<group>"; };
 		B78D114A2306AF510073F64B /* CustomObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomObject.h; sourceTree = "<group>"; };
+		B792456823477E3C00EAEF0E /* StripeConnectionMKWebview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StripeConnectionMKWebview.swift; path = "../../FinalProjectAustin(03:10:19)/Ambassadoor/StripeConnectionMKWebview.swift"; sourceTree = "<group>"; };
 		B7B97D71233DE84C0028E7E2 /* NetworkReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
 		B7BCE52822E9BB1800666689 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		B7C4BF0E2302FFE00024C3C3 /* Ambassadoor-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ambassadoor-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				B73F098723291DA000CD6B00 /* DwollaUserInformationVC.swift */,
 				B7D4209A232AA94F009F0FCE /* TransactionListVC.swift */,
 				B7FB2885233A1E4700980F17 /* PaymentSentVC.swift */,
+				B792456823477E3C00EAEF0E /* StripeConnectionMKWebview.swift */,
 			);
 			name = Money;
 			sourceTree = "<group>";
@@ -563,6 +566,7 @@
 				E8164F6222249ACC0084CCF9 /* StatVC.swift in Sources */,
 				E82347F621A1D6BF000A1A62 /* Ambassadoor.xcdatamodeld in Sources */,
 				E8CBD7BE21E29400003B5B02 /* People.swift in Sources */,
+				B792456923477E3C00EAEF0E /* StripeConnectionMKWebview.swift in Sources */,
 				B7FB2884233A1B8300980F17 /* TransactionDetailTableViewCell.swift in Sources */,
 				E8963EA121F7F16B0047CF99 /* OfferCell.swift in Sources */,
 				E80AB86C21B1F9E000D9B546 /* inProgressVC.swift in Sources */,
@@ -716,7 +720,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconwGradient;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = F4W3LUKZFA;
+				DEVELOPMENT_TEAM = JMBR2RF2B8;
 				INFOPLIST_FILE = Ambassadoor/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -726,7 +730,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.commonApp.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = OctoberProfile;
+				PROVISIONING_PROFILE_SPECIFIER = commonAppDev;
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambassadoor/Ambassadoor-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -741,7 +745,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconwGradient;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = F4W3LUKZFA;
+				DEVELOPMENT_TEAM = JMBR2RF2B8;
 				INFOPLIST_FILE = Ambassadoor/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -751,7 +755,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.commonApp.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = OctoberProfile;
+				PROVISIONING_PROFILE_SPECIFIER = commonAppDev;
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambassadoor/Ambassadoor-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

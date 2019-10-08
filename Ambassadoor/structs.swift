@@ -196,6 +196,31 @@ class DwollaCustomerFSList: NSObject {
     
 }
 
+//Stripe
+class StripeAccDetail: NSObject {
+    
+    var access_token = ""
+    var livemode = false
+    var refresh_token = ""
+    var token_type = ""
+    var stripe_publishable_key = ""
+    var stripe_user_id = ""
+    var scope = ""
+    
+    init(dictionary: [String: Any]) {
+        
+        self.access_token = dictionary["access_token"] as! String
+        self.livemode = dictionary["livemode"] as! Bool
+        self.refresh_token = dictionary["refresh_token"] as! String
+        self.token_type = dictionary["token_type"] as! String
+        self.stripe_publishable_key = dictionary["stripe_publishable_key"] as! String
+        self.stripe_user_id = dictionary["stripe_user_id"] as! String
+        self.scope = dictionary["scope"] as! String
+    }
+    
+}
+
+
 class TransactionInfo: NSObject {
     
     var acctID = ""
