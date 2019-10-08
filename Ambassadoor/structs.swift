@@ -84,7 +84,9 @@ class Offer : NSObject {
         self.offer_ID = dictionary["offer_ID"] as! String
         self.expiredate = getDateFromString(date: dictionary["expiredate"] as! String)
 //        self.allPostsConfrimedSince = dictionary["allPostsConfirmedSince"] as? Date
-        self.allPostsConfrimedSince = getDateFromString(date: dictionary["allPostsConfirmedSince"] as! String)
+		if dictionary["allPostsConfirmedSince"] as! String != "" {
+			self.allPostsConfrimedSince = getDateFromString(date: dictionary["allPostsConfirmedSince"] as! String)
+		}
 
         self.isAccepted = dictionary["isAccepted"] as! Bool
     }

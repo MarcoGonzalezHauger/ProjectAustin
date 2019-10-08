@@ -404,7 +404,7 @@ func GetTownName(zipCode: String, completed: @escaping (_ cityState: String?) ->
 }
 
 //String To Date conversion
-func getDateFromString(date:String) -> Date {
+func getDateFromString(date: String) -> Date {
 	let dateFormatterGet = DateFormatter()
 	dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss"
 	
@@ -421,10 +421,6 @@ func getDateFromString(date:String) -> Date {
 	}
 	
 }
-
-//MARK: -NAVEEN TO DO
-//TODO: Naveen: Create Sign Out Function for Influencer App
-
 
 func signOutofAmbassadoor() {
     API.instaLogout()

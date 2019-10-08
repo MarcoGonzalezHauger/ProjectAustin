@@ -145,11 +145,12 @@ class OfferCell: UITableViewCell, SyncTimerDelegate {
 	var ThisOffer: Offer! {
 		didSet {
             if  ThisOffer.offer_ID == "XXXDefault"{
-                moneylabel.text = "Verify Your Profile"
+                moneylabel.text = "Get Verified"
+				companylabel.text = "Ambassadoor"
             }else{
                 moneylabel.text = NumberToPrice(Value: ThisOffer.money)
+				companylabel.text = ThisOffer.company.name
             }
-			companylabel.text = ThisOffer.company.name
 			
 			if ThisOffer.isAccepted {
 				//naeen added
