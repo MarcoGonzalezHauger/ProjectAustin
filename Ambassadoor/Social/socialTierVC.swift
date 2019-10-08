@@ -11,19 +11,59 @@ import UIKit
 
 let defaultImage : UIImage = makeImageCircular(image: UIImage.init(named: "defaultuser")!)
 
+let blackIcons: [String] = ["marcogonzalezhauger", "brunogonzalezhauger"]
+
 class SocialUserCell: UITableViewCell {
 	@IBOutlet weak var username: UILabel!
 	@IBOutlet weak var details: UILabel!
 	@IBOutlet weak var profilepicture: UIImageView!
 	@IBOutlet weak var shadow: ShadowView!
+    @IBOutlet weak var verifyLogo_img: UIImageView!
+	@IBOutlet weak var insetOfVerifiedLogo: NSLayoutConstraint!
 	
 	var ShowCategory: Bool = false
 	var ThisUser: User? {
 		didSet {
 			if let thisUser = ThisUser {
+				
+				
+				
 				username.text = thisUser.name ?? "@\(thisUser.username)"
-				let secondtext : String = ShowCategory ? thisUser.primaryCategory.rawValue : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
-				details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
+
+				username.setNeedsLayout()
+				username.layoutIfNeeded()
+				
+				insetOfVerifiedLogo.constant =  username.bounds.width + 12
+				
+//				let secondtext : String = ShowCategory ? thisUser.primaryCategory.rawValue : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
+                if thisUser.isDefaultOfferVerify {
+                    if GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) != nil {
+                        let secondtext : String = ShowCategory ? GetCatString(user: thisUser) : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount)! + 1 )
+
+                        details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
+                        
+                    } else {
+                        let secondtext : String = ShowCategory ? GetCatString(user: thisUser) : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 1)
+
+                        details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
+                        
+                    }
+                    verifyLogo_img.image = UIImage(named: "verify_Logo")
+
+                } else {
+                    let secondtext : String = ShowCategory ? GetCatString(user: thisUser) : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
+
+                    details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
+                    verifyLogo_img.image = nil
+                }
+				
+				if blackIcons.contains(thisUser.username) {
+					  verifyLogo_img.image = UIImage.init(named: "verified_black")
+				}
+				
+//                let secondtext : String = ShowCategory ? thisUser.primaryCategory.rawValue : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
+//
+//				details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
 					if let picurl = thisUser.profilePicURL {
                         self.profilepicture.downloadAndSetImage(picurl)
                     } else {
@@ -34,17 +74,29 @@ class SocialUserCell: UITableViewCell {
 		}
 	}
 	
+	func GetCatString(user: User) -> String {
+		if user.categories != nil {
+			if user.categories!.count > 1 {
+				return "\(user.categories![0]) + \(user.categories!.count - 1)"
+			} else {
+				return user.categories![0]
+			}
+		} else {
+			return ""
+		}
+	}
+	
 	func SetColors(isYourself: Bool) {
 		if isYourself {
 			shadow.ShadowColor = UIColor.init(red: 1, green: 121/255, blue: 8/255, alpha: 1)
 			shadow.ShadowOpacity = 0.75
 			shadow.ShadowRadius = 4
-			shadow.backgroundColor = UIColor.init(red: 1, green: 251/255, blue: 243/255, alpha: 1)
+			shadow.backgroundColor = UIColor.init(named: "SocialYourself")
 		} else {
 			shadow.ShadowColor = UIColor.black
 			shadow.ShadowOpacity = 0.2
 			shadow.ShadowRadius =  1.75
-			shadow.backgroundColor = UIColor.white
+			shadow.backgroundColor = UIColor.systemBackground
 		}
 	}
 }
@@ -61,12 +113,8 @@ class socialTierVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 	var selectedUser: User?
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		if GetSameTierUsers()[indexPath.row].username == Yourself.username {
-			self.tabBarController?.selectedIndex = 1
-		} else {
-			selectedUser = GetSameTierUsers()[indexPath.row]
-			performSegue(withIdentifier: "ViewFromTier", sender: self)
-		}
+		selectedUser = GetSameTierUsers()[indexPath.row]
+		performSegue(withIdentifier: "ViewFromTier", sender: self)
 		rankedShelf.deselectRow(at: indexPath, animated: true)
 	}
 	
@@ -85,11 +133,19 @@ class socialTierVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 	}
 	
 	func GetSameTierUsers() -> [User] {
-		var allpossibleusers = global.SocialData.filter{GetTierFromFollowerCount(FollowerCount: $0.followerCount) ==  GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount)}
-        //naveen commented
-//		allpossibleusers.append(Yourself!)
-		allpossibleusers.sort{return $0.followerCount > $1.followerCount}
-		return allpossibleusers
+		let myTier = GetTierForInfluencer(influencer: Yourself!)
+		var allpossibleresults = global.SocialData
+		allpossibleresults = allpossibleresults.filter { return GetTierForInfluencer(influencer: $0) == myTier }
+		allpossibleresults.sort {
+			if $0.zipCode == Yourself!.zipCode && $1.zipCode != Yourself.zipCode {
+				return true
+			}
+			if $0.zipCode != Yourself!.zipCode && $1.zipCode == Yourself.zipCode {
+				return false
+			}
+			return $0.followerCount > $1.followerCount
+		}
+        return allpossibleresults
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -109,10 +165,26 @@ class socialTierVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 
     override func viewDidLoad() {
         super.viewDidLoad()
-		tierLabel.text = "Tier " + String(GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount) ?? 0)
+        
+        if Yourself!.isDefaultOfferVerify {
+            if GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount) != nil {
+                tierLabel.text = "Tier " + String(GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount)! + 1 )
+            }else{
+               tierLabel.text = "Tier " + String(GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount) ?? 1)
+            }
+        }else{
+            tierLabel.text = "Tier " + String(GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount) ?? 0)
+
+        }
+        
+//		tierLabel.text = "Tier " + String(GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount) ?? 0)
 		rankedShelf.dataSource = self
 		rankedShelf.delegate = self
 		global.delegates.append(self)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        rankedShelf.reloadData()
     }
 	
 	@IBOutlet weak var rankedShelf: UITableView!

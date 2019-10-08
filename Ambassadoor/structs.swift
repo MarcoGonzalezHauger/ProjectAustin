@@ -19,26 +19,30 @@ protocol OfferResponse {
 //Shadow Class reused all throughout this app.
 @IBDesignable
 class ShadowView: UIView {
-	override func awakeFromNib() {
-		super.awakeFromNib()
-		DrawShadows()
-	}
-	override var bounds: CGRect { didSet { DrawShadows() } }
-	@IBInspectable var cornerRadius: Float = 10 {	didSet { DrawShadows() } }
-	@IBInspectable var ShadowOpacity: Float = 0.2 { didSet { DrawShadows() } }
-	@IBInspectable var ShadowRadius: Float = 1.75 { didSet { DrawShadows() } }
-	@IBInspectable var ShadowColor: UIColor = UIColor.black { didSet { DrawShadows() } }
-	
-	func DrawShadows() {
-		//draw shadow & rounded corners for offer cell
-		self.layer.cornerRadius = CGFloat(cornerRadius)
-		self.layer.shadowColor = ShadowColor.cgColor
-		self.layer.shadowOpacity = ShadowOpacity
-		self.layer.shadowOffset = CGSize.zero
-		self.layer.shadowRadius = CGFloat(ShadowRadius)
-		self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.layer.cornerRadius).cgPath
-		
-	}
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        DrawShadows()
+    }
+    override var bounds: CGRect { didSet { DrawShadows() } }
+    @IBInspectable var cornerRadius: Float = 10 {    didSet { DrawShadows() } }
+    @IBInspectable var ShadowOpacity: Float = 0.2 { didSet { DrawShadows() } }
+    @IBInspectable var ShadowRadius: Float = 1.75 { didSet { DrawShadows() } }
+    @IBInspectable var ShadowColor: UIColor = UIColor.black { didSet { DrawShadows() } }
+    @IBInspectable var borderWidth: Float = 0.0 { didSet { DrawShadows() }}
+    @IBInspectable var borderColor: UIColor = UIColor.black { didSet { DrawShadows() }}
+    
+    func DrawShadows() {
+        //draw shadow & rounded corners for offer cell
+        self.layer.cornerRadius = CGFloat(cornerRadius)
+        self.layer.shadowColor = ShadowColor.cgColor
+        self.layer.shadowOpacity = ShadowOpacity
+        self.layer.shadowOffset = CGSize.zero
+        self.layer.shadowRadius = CGFloat(ShadowRadius)
+        self.layer.borderWidth = CGFloat(borderWidth)
+        self.layer.borderColor = borderColor.cgColor
+        self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.layer.cornerRadius).cgPath
+        
+    }
 }
 
 //Structure for an offer that comes into username's inbox
@@ -50,7 +54,7 @@ class Offer : NSObject {
 	let posts: [Post]
 	let offerdate: Date
 	let offer_ID: String
-	let expiredate: Date
+	var expiredate: Date
 	var allPostsConfrimedSince: Date?
 	var allConfirmed: Bool {
 		get {
@@ -79,7 +83,11 @@ class Offer : NSObject {
         self.offerdate = getDateFromString(date: dictionary["offerdate"] as! String)
         self.offer_ID = dictionary["offer_ID"] as! String
         self.expiredate = getDateFromString(date: dictionary["expiredate"] as! String)
-        self.allPostsConfrimedSince = dictionary["allPostsConfirmedSince"] as? Date
+//        self.allPostsConfrimedSince = dictionary["allPostsConfirmedSince"] as? Date
+		if dictionary["allPostsConfirmedSince"] as! String != "" {
+			self.allPostsConfrimedSince = getDateFromString(date: dictionary["allPostsConfirmedSince"] as! String)
+		}
+
         self.isAccepted = dictionary["isAccepted"] as! Bool
     }
 }
@@ -98,7 +106,11 @@ class User: NSObject {
     let id: String
     var gender: Gender?
     var isBankAdded: Bool
-    var yourMoney: Int
+    var yourMoney: Double
+    var joinedDate: String?
+    var categories: [String]?
+    var referralcode: String
+    var isDefaultOfferVerify: Bool
 	
     init(dictionary: [String: Any]) {
         self.name = dictionary["name"] as? String
@@ -109,7 +121,7 @@ class User: NSObject {
 		} else {
 			self.profilePicURL = dictionary["profilePicture"] as? String
 		}
-		debugPrint("Category: \(String(describing: dictionary["primaryCategory"]))")
+//		debugPrint("Category: \(String(describing: dictionary["primaryCategory"]))")
 //		self.primaryCategory = Category.init(rawValue: dictionary["primaryCategory"] as? String ?? "Other")!
         //naveen added
         if ((dictionary["primaryCategory"] ?? "") as! String) == ""{
@@ -129,7 +141,13 @@ class User: NSObject {
         self.id = dictionary["id"] as! String
         self.gender = dictionary["gender"] as? Gender
         self.isBankAdded = dictionary["isBankAdded"] as! Bool 
-        self.yourMoney = dictionary["yourMoney"] as! Int
+        self.yourMoney = dictionary["yourMoney"] as! Double
+        self.joinedDate = dictionary["joinedDate"] as? String
+        self.categories = dictionary["categories"] as? [String]
+        
+        self.referralcode = dictionary["referralcode"] as? String ?? ""
+        self.isDefaultOfferVerify = dictionary["isDefaultOfferVerify"] as? Bool ?? false
+        
     }
 	
 	override var description: String {
@@ -156,6 +174,63 @@ class Bank: NSObject {
     
 
 }
+
+//added by ram
+
+class DwollaCustomerFSList: NSObject {
+    
+    var acctID = ""
+    var firstName = ""
+    var lastName = ""
+    var customerURL = ""
+    var customerFSURL = ""
+    var isFSAdded = false
+    var mask = ""
+    var name = ""
+    
+    init(dictionary: [String: Any]) {
+        
+        self.acctID = dictionary["accountID"] as! String
+        self.firstName = dictionary["firstname"] as! String
+        self.lastName = dictionary["lastname"] as! String
+        self.customerURL = dictionary["customerURL"] as! String
+        self.customerFSURL = dictionary["customerFSURL"] as! String
+        self.isFSAdded = dictionary["isFSAdded"] as! Bool
+        self.mask = dictionary["mask"] as! String
+        self.name = dictionary["name"] as! String
+    }
+    
+}
+
+class TransactionInfo: NSObject {
+    
+    var acctID = ""
+    var firstName = ""
+    var lastName = ""
+    var customerURL = ""
+    var customerFSURL = ""
+    var mask = ""
+    var name = ""
+    var transactionURL = ""
+    var amount = ""
+    var currency = ""
+    
+    init(dictionary: [String: Any]) {
+        
+        self.acctID = dictionary["accountID"] as! String
+        self.firstName = dictionary["firstname"] as! String
+        self.lastName = dictionary["lastname"] as! String
+        self.customerURL = dictionary["customerURL"] as! String
+        self.customerFSURL = dictionary["FS"] as! String
+        self.mask = dictionary["mask"] as! String
+        self.name = dictionary["name"] as! String
+        self.transactionURL = dictionary["transferURL"] as! String
+        self.amount = dictionary["currency"] as! String
+        self.currency = dictionary["currency"] as! String
+    }
+    
+}
+
 //Structure for post
 struct Post {
 	let image: String?
@@ -229,6 +304,8 @@ class InstagramManager: NSObject, UIDocumentInteractionControllerDelegate {
         }
         return Singleton.instance
     }
+    
+    
 
     func postImageToInstagramWithCaption(imageInstagram: UIImage, instagramCaption: String, view: UIView,  completion:@escaping (_ bool:Bool) -> ()) {
         // called to post image with caption to the instagram application

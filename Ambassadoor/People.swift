@@ -10,24 +10,3 @@
 import Foundation
 
 var Yourself : User!
-
-func getUser(Username: String) -> User? {
-	
-	//from a username (WITHOUT @), this should retrieve data from Firebase.
-	
-	return nil
-}
-
-func getGroup(WithCategory: Category) -> [User]? {
-	
-	//Returns 100 people who share the same category as the user.
-	
-	return nil
-}
-
-func getGroup(Tier: Int) -> [User]? {
-	
-	//Returns 100 people who share the same tier as the user.
-	
-	return nil
-}

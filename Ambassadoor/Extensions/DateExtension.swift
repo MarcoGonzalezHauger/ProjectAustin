@@ -12,6 +12,17 @@ import UIKit
 extension Date {
     static var yesterday: Date { return Date().dayBefore }
     static var tomorrow:  Date { return Date().dayAfter }
+    
+    //add days
+    func afterDays(day:Int) -> Date {
+        return Calendar.current.date(byAdding: .day, value: day, to: noon)!
+    }
+    
+    //add 60 minutes
+    func addMinutes(minute:Int) -> Date {
+        return Calendar.current.date(byAdding: .minute, value: minute, to: self)!
+    }
+    
     var dayBefore: Date {
         return Calendar.current.date(byAdding: .day, value: -1, to: noon)!
     }
@@ -26,6 +37,32 @@ extension Date {
     }
     var isLastDayOfMonth: Bool {
         return dayAfter.month != month
+    }
+    
+    static func getCurrentDate() -> String {
+        
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = "yyyy/MMM/dd HH:mm:ss"
+        
+        return dateFormatter.string(from: Date())
+        
+    }
+    
+    static func getDateFromString(date:String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy/MMM/dd HH:mm:ss"
+//        dateFormatter.timeZone = TimeZone.current
+//        dateFormatter.locale = Locale.current
+        return dateFormatter.date(from: date) // replace Date String
+    }
+    
+    static func getStringFromDate(date:Date) -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy/MMM/dd HH:mm:ss"
+        //        dateFormatter.timeZone = TimeZone.current
+        //        dateFormatter.locale = Locale.current
+        return dateFormatter.string(from: date) // replace Date String
     }
     
 //    func isExpireDateCheck(string:String)-> Bool{

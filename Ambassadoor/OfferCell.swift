@@ -67,7 +67,10 @@ class OfferCell: UITableViewCell, SyncTimerDelegate {
 						if let leftstring : String = DateToCountdown(date: o.expiredate)  {
 							viewbutton?.isHidden = false
 							agolabel.isHidden = false
-							expiresin.text = "Expires " + leftstring
+//							expiresin.text = "Expires " + leftstring
+                            //naveen changed
+                            expiresin.text = "Expire " + leftstring
+
 							expiresin.textColor = UIColor.black
 						}
 					}
@@ -127,7 +130,10 @@ class OfferCell: UITableViewCell, SyncTimerDelegate {
 					if let leftstring : String = DateToCountdown(date: o.expiredate)  {
 						viewbutton?.isHidden = false
 						agolabel.isHidden = false
-						expiresin.text = "Expires " + leftstring
+//						expiresin.text = "Expires " + leftstring
+                        //naveen changed
+                        expiresin.text = "Expire " + leftstring
+
 						expiresin.textColor = UIColor.black
 					}
 				}
@@ -138,8 +144,13 @@ class OfferCell: UITableViewCell, SyncTimerDelegate {
 	//Current offer of the cell
 	var ThisOffer: Offer! {
 		didSet {
-			moneylabel.text = NumberToPrice(Value: ThisOffer.money)
-			companylabel.text = ThisOffer.company.name
+            if  ThisOffer.offer_ID == "XXXDefault"{
+                moneylabel.text = "Get Verified"
+				companylabel.text = "Ambassadoor"
+            }else{
+                moneylabel.text = NumberToPrice(Value: ThisOffer.money)
+				companylabel.text = ThisOffer.company.name
+            }
 			
 			if ThisOffer.isAccepted {
 				//naeen added

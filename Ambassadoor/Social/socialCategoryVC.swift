@@ -21,12 +21,8 @@ class socialCategoryVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 	var selectedUser: User?
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		if GetSameCategoryUsers()[indexPath.row].username == Yourself.username {
-			self.tabBarController?.selectedIndex = 1
-		} else {
-			selectedUser = GetSameCategoryUsers()[indexPath.row]
-			performSegue(withIdentifier: "ViewFromCategory", sender: self)
-		}
+		selectedUser = GetSameCategoryUsers()[indexPath.row]
+		performSegue(withIdentifier: "ViewFromCategory", sender: self)
 		rankedShelf.deselectRow(at: indexPath, animated: true)
 	}
 	
@@ -42,10 +38,31 @@ class socialCategoryVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 	
 	func GetSameCategoryUsers() -> [User] {
         var allpossibleusers = global.SocialData
-        //naveen commented
-//		allpossibleusers.append(Yourself!)
-//        var allpossibleusers = global.SocialData.filter{$0.primaryCategory == Yourself!.primaryCategory}
-		allpossibleusers.sort{return $0.followerCount > $1.followerCount }
+		allpossibleusers = allpossibleusers.filter{
+			for x in $0.categories ?? [] {
+				for y in Yourself!.categories ?? [] {
+					if x == y {
+						return true
+					}
+				}
+			}
+			return false
+		}
+		allpossibleusers.sort{
+			if $0.zipCode == Yourself!.zipCode && $1.zipCode != Yourself.zipCode {
+				return true
+			}
+			if $0.zipCode != Yourself!.zipCode && $1.zipCode == Yourself.zipCode {
+				return false
+			}
+			if GetTierForInfluencer(influencer: $0) > GetTierForInfluencer(influencer: $1) {
+				return true
+			} else if GetTierForInfluencer(influencer: $0) < GetTierForInfluencer(influencer: $1) {
+				return false
+			} else {
+				return $0.followerCount > $1.followerCount
+			}
+		}
 		return allpossibleusers
 	}
 	
@@ -71,7 +88,7 @@ class socialCategoryVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 		super.viewDidLoad()
 		navigationController?.setNavigationBarHidden(true, animated: true)
 		navigationController?.interactivePopGestureRecognizer?.delegate = self
-		categoryHeader.text = "Category: " + Yourself!.primaryCategory.rawValue
+		categoryHeader.text = "Same Categories"
 		rankedShelf.dataSource = self
 		rankedShelf.delegate = self
 		global.delegates.append(self)

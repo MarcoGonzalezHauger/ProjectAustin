@@ -56,6 +56,9 @@ class CentralVariables {
 		}
 	}	
 	var delegates: [GlobalListener] = []
+    
+    
+    var dwollaCustomerInformation = DwollaCustomerInformation()
 }
 
 let global = CentralVariables()

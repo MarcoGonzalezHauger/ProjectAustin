@@ -40,6 +40,9 @@ struct Stat {
 class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 	
 	@IBOutlet var swdView: UIView!
+	@IBOutlet weak var verifiedView: UIView!
+	@IBOutlet weak var infLogo: UIImageView!
+	@IBOutlet weak var infLabel: UILabel!
 	
 	var ThisUser: User! {
 		didSet {
@@ -50,10 +53,19 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	}
 	
 	func ShowUser() {
-		debugPrint("(new) ViewProfile activated, YOURSELF=")
-		debugPrint(Yourself!)
-		debugPrint("THISUSER=")
-		debugPrint(ThisUser)
+//		debugPrint("(new) ViewProfile activated, YOURSELF=")
+//		debugPrint(Yourself!)
+//		debugPrint("THISUSER=")
+//		debugPrint(ThisUser)
+		
+		if blackIcons.contains(ThisUser.username) {
+			infLogo.image = UIImage.init(named: "verified_black")
+			infLabel.text = "Ambassadoor Executive"
+			infLabel.textColor = .label
+		} else {
+			verifiedView.isHidden = !ThisUser.isDefaultOfferVerify
+		}
+		
 		stats = [Stat.init(name: "Follower Count", value1: ThisUser.followerCount, value2: Yourself!.followerCount)]
 		if ThisUser.averageLikes != nil && Yourself!.averageLikes != nil {
 			stats.append(Stat.init(name: "Average Likes", value1: ThisUser.averageLikes!, value2: Yourself!.averageLikes!))
@@ -61,18 +73,32 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		if let shelf = shelf {
 			shelf.reloadData()
 		}
-		catLabel.text = ThisUser.primaryCategory.rawValue
-		sinceLabel.text = "Ambassdaoor since 1998"
+//		catLabel.text = ThisUser.primaryCategory.
+		catLabel.text = GetCategoryStringFromlist(categories: (ThisUser.categories) ?? [])
+        
+		if let joinedDate = ThisUser.joinedDate {
+			sinceLabel.text = "Ambassador Since \(String(joinedDate.prefix(4)))"
+		} else {
+			sinceLabel.text = ""
+		}
+		
 		followerLabel.text = NumberToStringWithCommas(number: ThisUser.followerCount) + " followers"
-		let tier: Int? = GetTierFromFollowerCount(FollowerCount: ThisUser.followerCount)
+        var tier: Int? = GetTierFromFollowerCount(FollowerCount: ThisUser.followerCount)
+        if ThisUser.isDefaultOfferVerify {
+            if tier != nil {
+                tier = tier! + 1
+            }else{
+                tier = 1
+            }
+        }
 		tierLabel.text = tier == nil ? "No Tier" : "Tier \(tier!)"
 		nameLabel.text = ThisUser.name ?? ThisUser.username
 		usernameLabel.text = "@\(ThisUser.username)"
 		if let picurl = ThisUser.profilePicURL {
 			profilePic.downloadedFrom(url: URL.init(string: picurl)!, makeImageCircular: true)
 		} else {
-			debugPrint(defaultImage)
-			debugPrint(profilePic)
+//			debugPrint(defaultImage)
+//			debugPrint(profilePic)
 			profilePic.image = defaultImage
 		}
 	}
@@ -139,7 +165,7 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	@IBOutlet weak var usernameLabel: UILabel!
 	@IBOutlet weak var followerLabel: UILabel!
 	@IBOutlet weak var tierLabel: UILabel!
-	
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 		shelf.dataSource = self

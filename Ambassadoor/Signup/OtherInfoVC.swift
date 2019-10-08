@@ -19,15 +19,10 @@ import Firebase
 
     @IBOutlet weak var category_Lbl: UILabel!
     @IBOutlet weak var baseScrollView: UIScrollView!
-    @IBOutlet weak var secondaryCat_Txt: UITextField!
     @IBOutlet weak var primeCat_Txt: UITextField!
     @IBOutlet weak var zipcode_Txt: UITextField!
     @IBOutlet weak var gender_Txt: UITextField!
     
-    @IBOutlet weak var secCatTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var secCatHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var secCatTxtTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var secCatTxtHeightConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,17 +30,8 @@ import Firebase
         // Do any additional setup after loading the view.
         self.setDoneOnKeyboard()
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
-        //minimum category of 6.
-        if GetTierFromFollowerCount(FollowerCount: userfinal!.followerCount) ?? 0 > 6 {
-           category_Lbl.text = "First Category"
-        }else{
-            secCatTopConstraint.constant = 0
-            secCatHeightConstraint.constant = 0
-            secCatTxtTopConstraint.constant = 0
-            secCatTxtHeightConstraint.constant = 0
-        }
-    }
+		NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
+	}
     
     @objc func keyboardWillShow(notification:NSNotification){
         let userInfo = notification.userInfo!
@@ -67,10 +53,6 @@ import Firebase
         if textField == primeCat_Txt {
             self.performSegue(withIdentifier: "otherinfoToCatSegue", sender: nil)
             selectedID = "main_cat"
-            return false
-        }else if textField == secondaryCat_Txt{
-            selectedID = "second_cat"
-            self.performSegue(withIdentifier: "otherinfoToCatSegue", sender: nil)
             return false
         }else if textField == zipcode_Txt{
             return true
@@ -117,58 +99,112 @@ import Firebase
         }
         
     }
-    
+	
     @IBAction func submitTapped(_ sender: Any) {
         
         
-        if primeCat_Txt.text!.isEmpty {
-            self.showStandardAlertDialog(title: "Alert!", msg: "Please select \(category_Lbl.text!)")
-        }else if secondaryCat_Txt.text!.isEmpty && GetTierFromFollowerCount(FollowerCount: userfinal!.followerCount) ?? 0 > 6{
-            self.showStandardAlertDialog(title: "Alert!", msg: "Please select Second Category")
-        }else if gender_Txt.text!.isEmpty{
-            self.showStandardAlertDialog(title: "Alert!", msg: "Please select Gender")
-        }else if zipcode_Txt.text!.isEmpty{
-            self.showStandardAlertDialog(title: "Alert!", msg: "Please enter the zipcode")
-        }else{
-            userfinal?.primaryCategory = Category(rawValue: primeCat_Txt.text!)!
-            userfinal?.SecondaryCategory =
-                secondaryCat_Txt.text! == "" ? nil : Category(rawValue: secondaryCat_Txt.text!)!
+		if userfinal!.categories == nil {
+            self.showStandardAlertDialog(title: "Alert!", msg: "You must choose at least one category before progessing.")
+        } else if gender_Txt.text!.isEmpty {
+            self.showStandardAlertDialog(title: "Alert!", msg: "You must choose your gender before progessing.")
+        } else if zipcode_Txt.text!.isEmpty {
+            self.showStandardAlertDialog(title: "Alert!", msg: "You must enter your Zip Code before progessing. We will not sell this information.")
+        } else {
+            
             userfinal?.zipCode = zipcode_Txt.text!
             userfinal?.gender = TextToGender(gender: gender_Txt.text!)
+            
+            userfinal?.joinedDate = Date.getCurrentDate()
+            userfinal?.categories?.append(primeCat_Txt.text!)
+            userfinal?.isDefaultOfferVerify = false
+            
+            var referralcodeString = ""
+            
+//            //user name first and last character
+//            if let firstChar = userfinal?.name?.first{
+//                referralcodeString.append(firstChar)
+//            }
+//            if let lastChar = userfinal?.name?.last {
+//                referralcodeString.append(lastChar)
+//            }
+//
+            //user dateofbirth
+//            let date = getDateFromString(date: (userfinal?.joinedDate!)!)
+//
+//            let dateFormatter = DateFormatter()
+//            dateFormatter.dateFormat = "yy"
+//            let yearString = dateFormatter.string(from: date)
+//
+//            dateFormatter.dateFormat = "MM"
+//            let monthString = dateFormatter.string(from: date)
+//
+//            dateFormatter.dateFormat = "dd"
+//            let dayString = dateFormatter.string(from: date)
+//
+//            referralcodeString.append(dayString)
+//            referralcodeString.append(monthString)
+//            referralcodeString.append(yearString)
+            
+            //random four digit code
+            referralcodeString.append(randomString(length: 6))
+            
+            userfinal?.referralcode = referralcodeString.uppercased()
 
             let ref = Database.database().reference().child("users")
             let userReference = ref.child(userfinal!.id)
             let userData = API.serializeUser(user: userfinal!, id: userfinal!.id)
             userReference.updateChildValues(userData)
+			
+			let categoryReference = ref.child("categories")
+			
+			var dict: [Int: String] = [:]
+			var i: Int = 0
+			for cat in userfinal!.categories! {
+				dict[i] = cat
+				i += 1
+			}
+			
+			categoryReference.updateChildValues(dict)
+				
             Yourself = userfinal
             UserDefaults.standard.set(API.INSTAGRAM_ACCESS_TOKEN, forKey: "token")
             UserDefaults.standard.set(Yourself.id, forKey: "userid")
-
-            // ****
-            //naveen added
-            var youroffers: [Offer] = []
-            getOfferList { (Offers) in
-                print(Offers.count)
-                youroffers = Offers
-                //                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
-                //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
-                global.AvaliableOffers = youroffers.filter({$0.status == "available"})
-                global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
-                global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
-                                
-                    self.dismiss(animated: false) {
-                        self.delegate?.dismissed(success: false)
-                    }
-
-            }
-            // *********
-//            self.dismiss(animated: false) {
-//                self.delegate?.dismissed(success: false)
-//            }
-        }
-        
-
-    }
+            
+            //insertd Default offers
+            let refDefaultOffer = Database.database().reference().child("SentOutOffersToUsers").child(userfinal!.id)
+            let postID = refDefaultOffer.childByAutoId().key
+			let offerData = API.serializeDefaultOffer(offerID:"XXXDefault", postID: postID! ,userID:userfinal!.id)
+		
+			
+			/*
+			READ : NOTE BY MARCO
+			I have edited this section of code so that the getOfferList function will only be activated after the default offer as been created by putting the code in the Completion Block. This was probably the "button not working" error.
+			*/
+			refDefaultOffer.updateChildValues(["XXXDefault":offerData], withCompletionBlock: { (error, databaseref) in
+				var youroffers: [Offer] = []
+				// ****
+				//naveen added
+				getOfferList { (Offers) in
+					//                print(Offers.count)
+					youroffers = Offers
+					//                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
+					//                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
+					global.AvaliableOffers = youroffers.filter({$0.status == "available"})
+					global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
+					global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
+					global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
+					global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
+					
+					self.dismiss(animated: false) {
+						self.delegate?.dismissed(success: true)
+					}
+					
+				}
+			})
+			
+		}
+		
+	}
 
     func setDoneOnKeyboard() {
         let keyboardToolbar = UIToolbar()
@@ -186,20 +222,15 @@ import Firebase
     
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-        if let destination = segue.destination as? CategoryPicker {
-            destination.SetupPicker(originalCategory: curcat) { (cat) in
-                if self.selectedID == "main_cat" {
-                    self.userfinal!.primaryCategory = cat
-                    self.primeCat_Txt.text = cat.rawValue
-                } else if self.selectedID == "second_cat" {
-                    self.userfinal!.SecondaryCategory = cat
-                    self.secondaryCat_Txt.text = cat.rawValue
-
-                }
+	// In a storyboard-based application, you will often want to do a little preparation before navigation
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		// Get the new view controller using segue.destination.
+		// Pass the selected object to the new view controller.
+		if let destination = segue.destination as? CategoryPicker {
+			destination.SetupPicker(originalCategories: []) { (cat) in
+				let newCats = CategoriesToStrings(categories: cat)
+				self.userfinal!.categories = newCats
+				self.primeCat_Txt.text = GetCategoryStringFromlist(categories:  newCats)
             }
             
         }

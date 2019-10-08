@@ -13,7 +13,7 @@ class AmbassadoorTopLabel: UILabel {
 	
 	override func awakeFromNib() {
 		self.textColor = UIColor(red: 255/255, green: 121/255, blue: 8/255, alpha: 1)
-		self.text = "Project Austin"
+		self.text = "Ambassadoor"
 	}
 	
 }

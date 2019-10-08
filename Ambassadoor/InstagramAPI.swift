@@ -14,6 +14,15 @@ struct API {
     static let INSTAGRAM_CLIENT_ID = "fa083c34de6847ff95db596d75ef1c31"
     static let INSTAGRAM_CLIENTSERCRET = "b81172265e6b417782fcf075e2daf2ff"
     static let INSTAGRAM_REDIRECT_URI = "https://ambassadoor.co/welcome"
+    
+    //Dwolla
+    static let kDwollaClient_id = "CijOdBYNcHDSwXjkf4PnsXjHBYSgKdgc7TdfoDNUZiNvOPfAst"
+    static let kDwollaClient_secret = "m8oCRchilXnkR3eFAKlNuQWFqv9zROJX0CkD5aiys1H3nmvQMb"
+    static let kCreateCustomer = "https://api-sandbox.dwolla.com/customers"
+    
+    static var superBankFundingSource = "https://api-sandbox.dwolla.com/funding-sources/b23abf0b-c28d-4941-84af-617626865f2b"
+    
+    static var kFundTransferURL = "https://api-sandbox.dwolla.com/transfers"
 
     //naveen added
     //naveen login
@@ -22,11 +31,19 @@ struct API {
 //    static let INSTAGRAM_CLIENTSERCRET = "42fc056dd5aa43bf9aacc9fc923df75c"
 //    static let INSTAGRAM_REDIRECT_URI = "https://ambassadoor.com/welcome"
     
+    
+    //get instagram users media
+    static let INSTAGRAM_getMedia = "https://api.instagram.com/v1/users/self/media/recent/?access_token="
+    static var instagramMediaData: [[String: AnyObject]] = []
+
+
+    
     static var INSTAGRAM_ACCESS_TOKEN = ""
     static let threeMonths: Double = 7889229
     static let INSTAGRAM_SCOPE = "public_content" /* add whatever scope you need https://www.instagram.com/developer/ */
     
     static var instagramProfileData: [String: AnyObject] = [:]
+    
     
 	static func getProfileInfo(completed: ((_ user: User?) -> () )?) {
         let url = URL(string: "https://api.instagram.com/v1/users/self/?access_token=" + INSTAGRAM_ACCESS_TOKEN)
@@ -62,7 +79,11 @@ struct API {
                                     "id": instagramProfileData["id"] as! String,
                                     "gender": "",
                                     "isBankAdded": false,
-                                    "yourMoney": 0
+                                    "yourMoney": 0.0,
+                                    "joinedDate": "",
+                                    "categories": [],
+                                    "referralcode": "",
+                                    "isDefaultOfferVerify": false
                                 ]
                                 debugPrint("Done Creating Userinfo dictinary")
                                 getAverageLikesOfUser(instagramId: instagramProfileData["id"] as! String, completed: { (averageLikes: Double?) in
@@ -95,20 +116,100 @@ struct API {
         }.resume()
     }
     
+    //get instagram user recent media
+    static func getRecentMedia(completed: ((_ mediaData: [[String: Any]]?) -> () )?) {
+        let url = URL(string: "https://api.instagram.com/v1/users/self/media/recent/?access_token=" + INSTAGRAM_ACCESS_TOKEN)
+        URLSession.shared.dataTask(with: url!){ (data, response, err) in
+            
+            debugPrint("Downloading username data from instagram API")
+            
+            if err == nil {
+                // check if JSON data is downloaded yet
+                guard let jsondata = data else { return }
+                do {
+                    do {
+                        // Deserilize object from JSON
+                        if let totalData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String : AnyObject] {
+                            let meta = totalData["meta"] as! [String : AnyObject]
+                            //naveen added code validation
+                            let code = meta["code"] as! Int
+                            if  code == 200{
+                                self.instagramMediaData = totalData["data"] as! [[String : AnyObject]]
+//                                var userDictionary: [String: Any] = [
+//                                    "name": instagramMediaData["full_name"] as! String,
+//                                    "username": instagramMediaData["username"] as! String,
+//                                    "followerCount": instagramMediaData["counts"]?["followed_by"] as! Double,
+//                                    "profilePicture": instagramMediaData["profile_picture"] as! String,
+//
+//                                    "primaryCategory": "", // need to get from user on account creation
+//
+//                                    "zipCode": 0,
+//
+//                                    "secondaryCategory": "",
+//
+//                                    //naveen added
+//                                    "id": instagramMediaData["id"] as! String,
+//                                    "gender": "",
+//                                    "isBankAdded": false,
+//                                    "yourMoney": 0,
+//                                    "joinedDate": "",
+//                                    "categories": []
+//                                ]
+//                                debugPrint("Done Creating Userinfo dictinary")
+//                                getAverageLikesOfUser(instagramId: instagramProfileData["id"] as! String, completed: { (averageLikes: Double?) in
+//                                    DispatchQueue.main.async {
+//                                        debugPrint("Got Average Likes of User.")
+//                                        userDictionary["averageLikes"] = averageLikes
+//                                        let user = User(dictionary: userDictionary)
+//                                        DispatchQueue.main.async {
+//                                            UserDefaults.standard.set(user.id, forKey: "userid")
+//
+//                                            completed?(self.instagramMediaData)
+//                                        }
+//                                    }
+//                                })
+                                
+                                completed?(self.instagramMediaData)
+
+                                
+                            }else{
+                                
+                            }
+                            
+                        }
+                    }
+                    // Wait for data to be retrieved before moving on
+                    DispatchQueue.main.async {
+                        debugPrint("Deserialization Failed.")
+                        //completed?(nil)
+                    }
+                } catch {
+                    print("JSON Downloading Error!")
+                }
+            }
+        }.resume()
+    }
+    
+    
+    
     static func serializeUser(user: User, id: String) -> [String: Any] {
         let userData: [String: Any] = [
             "id": id,
             "name": user.name!,
             "username": user.username,
             "followerCount": user.followerCount,
-            "profilePicURL": user.profilePicURL!,
+            "profilePicture": user.profilePicURL!,
             "primaryCategory": user.primaryCategory.rawValue,
 			"secondaryCategory": user.SecondaryCategory == nil ? "" : user.SecondaryCategory!.rawValue,
             "averageLikes": user.averageLikes ?? 0,
 			"zipCode": user.zipCode as Any,
             "gender": user.gender == nil ? "" : user.gender!.rawValue,
             "isBankAdded": user.isBankAdded,
-            "yourMoney": user.yourMoney
+            "yourMoney": user.yourMoney,
+            "joinedDate": user.joinedDate!,
+            "categories": user.categories as AnyObject,
+            "referralcode": user.referralcode,
+            "isDefaultOfferVerify": user.isDefaultOfferVerify
         ]
         return userData
     }
@@ -265,6 +366,44 @@ struct API {
                 }
             }
         }.resume()
+    }
+    
+    static func serializeDefaultOffer(offerID: String, postID:String, userID: String) -> [String: Any] {
+        var posts: [[String: Any]] = [[String: Any]]()
+        let post: [String:Any] = [
+            "PostType":"Single Post",
+            "captionMustInclude":"#Ambassadoor",
+            "confirmedSince":"",
+            "hashCaption":"",
+            "image":"",
+            "instructions":"Create a picture and post it to instagram. It can be of anything.",
+            "isConfirmed":false,
+            "post_ID":postID,
+            "products":[]
+            ]
+        posts.append(post)
+                        
+        let offerData: [String: Any] = [
+            "allConfirmed": false,
+            "allPostsConfirmedSince": "",
+            "category":[],
+            "company": "company1",
+            "expiredate": Date.getStringFromDate(date: Date().afterDays(day: 5)) as Any ,
+            "genders":["All"] as Any,
+            "isAccepted": false,
+            "isExpired": false,
+            "money": 0.0,
+            "offer_ID": offerID,
+            "offerdate": getStringFromTodayDate(),
+            "ownerUserID": "-XXXDefault",
+            "posts": posts,
+            "status": "available",
+            "targetCategories": [],
+            "title": "Default Offer",
+            "user_IDs": [userID] as Any,
+            "zipCodes": [],
+            ]
+        return offerData
     }
     
 }

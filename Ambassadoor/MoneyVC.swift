@@ -18,7 +18,7 @@ protocol IncomingMoneyDelegate {
 class IncomingMoneyCell: UITableViewCell, SyncTimerDelegate {
 	
 	func Tick() {
-		if ThisOffer.allConfirmed {
+        if self.ThisOffer.allConfirmed {
 			if let date = ThisOffer.allPostsConfrimedSince {
 				//User can only collect money after 2 days, or 172800 seconds.
 				TimeLeft.text = DateToCountdown(date: date.addingTimeInterval(172800))
@@ -40,7 +40,11 @@ class IncomingMoneyCell: UITableViewCell, SyncTimerDelegate {
     
 	var ThisOffer: Offer! {
 		didSet {
-			moneyLabel.text = NumberToPrice(Value: ThisOffer.money)
+            if  ThisOffer.offer_ID == "XXXDefault"{
+                moneyLabel.text = ""
+            }else{
+                moneyLabel.text = NumberToPrice(Value: ThisOffer.money)
+            }
 			companyName.text = ThisOffer.company.name
 			globalTimer.delegates.append(self)
 		}
@@ -54,9 +58,9 @@ class IncomingMoneyCell: UITableViewCell, SyncTimerDelegate {
 
 	
 	override func awakeFromNib() {
-		shadowview.cornerRadius = 15
-		shadowview.ShadowOpacity = 0.2
-		shadowview.ShadowRadius = 3
+//		shadowview.cornerRadius = 15
+//		shadowview.ShadowOpacity = 0.2
+//		shadowview.ShadowRadius = 3
 	}
 	
 }
@@ -67,9 +71,9 @@ class YourMoneyCell: UITableViewCell {
     @IBOutlet weak var yourMoneyLabel: UILabel!
 
 	override func awakeFromNib() {
-		shadowview.cornerRadius = 15
-		shadowview.ShadowOpacity = 0.2
-		shadowview.ShadowRadius = 3
+//		shadowview.cornerRadius = 15
+//		shadowview.ShadowOpacity = 0.2
+//		shadowview.ShadowRadius = 3
 	}
     var delegate: IncomingMoneyDelegate?
 
@@ -120,18 +124,18 @@ class MoneyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Glo
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return global.AcceptedOffers.count + 1
+		return global.AcceptedOffers.filter({ $0.offer_ID != "XXXDefault"}).count + 1
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.row == 0 {
 			let cell = shelf.dequeueReusableCell(withIdentifier: "yourMoney") as! YourMoneyCell
-            cell.yourMoneyLabel.text = "$" + String(Yourself.yourMoney)
+            cell.yourMoneyLabel.text = NumberToPrice(Value: Yourself!.yourMoney)
             cell.delegate = self
-            return cell
+            return cell      
 		} else {
 			let cell = shelf.dequeueReusableCell(withIdentifier: "incomingMoney") as! IncomingMoneyCell
-			cell.ThisOffer = global.AcceptedOffers[indexPath.row - 1]
+			cell.ThisOffer = global.AcceptedOffers.filter({ $0.offer_ID != "XXXDefault"})[indexPath.row - 1]
 			cell.delegate = self
 			return cell
 		}

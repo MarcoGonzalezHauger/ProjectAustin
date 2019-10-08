@@ -203,7 +203,65 @@ func CreateAccount(instagramUser: User, completion:@escaping (_ Results: User , 
                     instagramUser.gender = TextToGender(gender: dictionary["gender"] as! String)
                     instagramUser.zipCode = dictionary["zipCode"] as? String
                     instagramUser.isBankAdded = dictionary["isBankAdded"] as! Bool
-                    instagramUser.yourMoney = dictionary["yourMoney"] as! Int
+                    instagramUser.yourMoney = dictionary["yourMoney"] as! Double
+
+                    if let joined = dictionary["joinedDate"] as? String {
+                        instagramUser.joinedDate = joined
+                    }else{
+                        instagramUser.joinedDate = Date.getCurrentDate()
+                    }
+                    
+                    if  let categories = dictionary["categories"] as? [String] {
+                        instagramUser.categories = categories
+                    }else{
+                        instagramUser.categories = []
+                    }
+                    
+                    if let referralcode = dictionary["referralcode"] as? String{
+                        instagramUser.referralcode = referralcode
+                    }else{
+                        var referralcodeString = ""
+                        
+                        //user name first and last character
+                        if let firstChar = instagramUser.name?.first{
+                            referralcodeString.append(firstChar)
+                        }
+                        if let lastChar = instagramUser.name?.last {
+                            referralcodeString.append(lastChar)
+                        }
+                        
+                        //user dateofbirth
+                        let date = getDateFromString(date: instagramUser.joinedDate!)
+                        
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "yy"
+                        let yearString = dateFormatter.string(from: date)
+                        
+                        dateFormatter.dateFormat = "MM"
+                        let monthString = dateFormatter.string(from: date)
+                        
+                        dateFormatter.dateFormat = "dd"
+                        let dayString = dateFormatter.string(from: date)
+
+                        referralcodeString.append(dayString)
+                        referralcodeString.append(monthString)
+                        referralcodeString.append(yearString)
+                        
+                        //random four digit code
+                        referralcodeString.append(randomString(length: 4))
+                        
+                        instagramUser.referralcode = referralcodeString.uppercased()
+                        
+                    }
+                    
+                    
+                    if let isDefaultOfferVerify = dictionary["isDefaultOfferVerify"] as? Bool{
+                        instagramUser.isDefaultOfferVerify = isDefaultOfferVerify
+                    }else{
+                        instagramUser.isDefaultOfferVerify = false
+                    }
+                    
+                    
                 }
 
             }
@@ -259,3 +317,176 @@ func GetAllUsers(completion:@escaping (_ result: [User])->())  {
         }
     }, withCancel: nil)
 }
+
+//Added by ram
+
+func getDwollaFundingSource(completion: @escaping([DwollaCustomerFSList]?,String,Error?) -> Void) {
+    
+    let ref = Database.database().reference().child("DwollaCustomers").child(Yourself.id)
+    ref.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let totalValues = snapshot.value as? NSDictionary{
+            
+            var objects = [DwollaCustomerFSList]()
+            
+            for value in totalValues.allKeys {
+                
+                let fundSource = DwollaCustomerFSList.init(dictionary: totalValues[value] as! [String: Any])
+                objects.append(fundSource)
+                
+            }
+            completion(objects, "success", nil)
+        }
+        
+        
+    }) { (error) in
+        completion(nil, "success", error)
+    }
+    
+}
+
+func fundTransferAccount(transferURL: String,accountID: String,Obj: DwollaCustomerFSList, currency: String, amount: String, date:String) {
+    
+    let ref = Database.database().reference().child("FundTransfer").child(Yourself.id).child(accountID)
+    let fundTransfer: [String: Any] = ["accountID":accountID,"transferURL":transferURL,"currency":currency,"amount":amount,"name":Obj.name,"mask":Obj.mask,"customerURL":Obj.customerURL,"FS":Obj.customerFSURL,"firstname":Obj.firstName,"lastname":Obj.lastName,"date":date]
+    ref.updateChildValues(fundTransfer)
+    
+//    var fundingSURL = [String]()
+//
+//    let getRef = Database.database().reference().child("FundTransfer").child(Yourself.id).child(accountID)
+//
+//    getRef.observeSingleEvent(of: .value, with: { (snapshot) in
+//
+//        if let value = snapshot.value as? NSDictionary{
+//
+//            if let fundingURL = value["transferURL"] as? [String] {
+//
+//                if fundingURL.count != 0 {
+//
+//                    fundingSURL.append(contentsOf: fundingURL)
+//                    fundingSURL.append(transferURL)
+//                    let ref = Database.database().reference().child("FundTransfer").child(Yourself.id).child(accountID)
+//                    let fundTransfer: [String: Any] = ["accountID":accountID,"transferURL":fundingSURL]
+//                    ref.updateChildValues(fundTransfer)
+//
+//                }else{
+//
+//                    let ref = Database.database().reference().child("FundTransfer").child(Yourself.id).child(accountID)
+//                    fundingSURL.append(transferURL)
+//                    let fundTransfer: [String: Any] = ["accountID":accountID,"transferURL":fundingSURL]
+//                    ref.updateChildValues(fundTransfer)
+//
+//                }
+//
+//            }
+//            //if
+//
+//        }else{
+//
+//            let ref = Database.database().reference().child("FundTransfer").child(Yourself.id).child(accountID)
+//            fundingSURL.append(transferURL)
+//            let fundTransfer: [String: Any] = ["accountID":accountID,"transferURL":fundingSURL]
+//            ref.updateChildValues(fundTransfer)
+//
+//        }
+//
+//    }) { (error) in
+//
+//        let ref = Database.database().reference().child("FundTransfer").child(Yourself.id).child(accountID)
+//        fundingSURL.append(transferURL)
+//        let fundTransfer: [String: Any] = ["accountID":accountID,"transferURL":fundingSURL]
+//        ref.updateChildValues(fundTransfer)
+//
+//    }
+
+    
+}
+
+func withdrawUpdate(amount: Double,from: String,to: String, id: String, status: String, type:String, date:String) {
+    
+    let ref = Database.database().reference().child("InfluencerTransactions").child(Yourself.id)
+    ref.observeSingleEvent(of: .value) { (snapshot) in
+        if var transaction = snapshot.value as? [[String:Any]] {
+            
+            let fundTransfer: [String: Any] = ["amount":amount,"from":from,"to":to,"id":id,"status":status,"type":type,"date":date]
+            transaction.append(fundTransfer)
+            
+            let updateref = Database.database().reference().child("InfluencerTransactions")
+            let finalTrans = [Yourself.id:transaction] as [String:Any]
+            updateref.updateChildValues(finalTrans)
+        }
+        
+    }
+    
+    
+}
+
+func instagramPostUpdate(post:[String:Any]) {
+    
+    let ref = Database.database().reference().child("InfluencerInstagramPost").child(Yourself.id)
+    ref.updateChildValues(post)
+
+}
+
+func SentOutOffersUpdate(offer:Offer, post_ID:String) {
+    
+    let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(offer.offer_ID).child("posts")
+    prntRef.observeSingleEvent(of: .value) { (dataSnapshot) in
+        if let posts = dataSnapshot.value as? NSMutableArray{
+            var final: [[String : Any]] = []
+            for value in posts{
+                var obj = value as! [String : Any]
+                if obj["post_ID"] as! String == post_ID {
+                    obj["isConfirmed"] = true as Bool
+                    obj["confirmedSince"] = getStringFromTodayDate()
+                    
+                    final.append(obj)
+                    
+                }else{
+                    final.append(obj)
+                }
+            }
+            
+            let update  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(offer.offer_ID)
+            update.updateChildValues(["posts": final])
+
+            if offer.offer_ID == "XXXDefault" {
+                update.updateChildValues(["allConfirmed":true])
+                update.updateChildValues(["allPostsConfirmedSince":getStringFromTodayDate()])
+                let updateUserData  = Database.database().reference().child("users").child(Yourself.id)
+                updateUserData.updateChildValues(["isDefaultOfferVerify":true])
+                Yourself.isDefaultOfferVerify = true
+
+            }
+            
+            
+        }
+    }
+    
+}
+
+func transactionInfo(completion: @escaping([TransactionInfo]?,String,Error?) -> Void) {
+    
+    let ref = Database.database().reference().child("FundTransfer").child(Yourself.id)
+    ref.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let totalValues = snapshot.value as? NSDictionary{
+            
+            var objects = [TransactionInfo]()
+            
+            for value in totalValues.allKeys {
+                
+                let transactionInfo = TransactionInfo.init(dictionary: totalValues[value] as! [String: Any])
+                objects.append(transactionInfo)
+                
+            }
+            completion(objects, "success", nil)
+        }
+        
+        
+    }) { (error) in
+        completion(nil, "success", error)
+    }
+    
+}
+
