@@ -490,3 +490,34 @@ func transactionInfo(completion: @escaping([TransactionInfo]?,String,Error?) -> 
     
 }
 
+//stripe
+func createStripeAccToFIR(AccDetail:[String:Any] ) {
+        let ref = Database.database().reference().child("InfluencerStripeAccount").child(Yourself.id).child("AccountDetail")
+        ref.updateChildValues(AccDetail)
+    
+    let prntRef  = Database.database().reference().child("users").child(Yourself.id)
+    prntRef.updateChildValues(["isBankAdded":true])
+    Yourself.isBankAdded = true
+}
+
+func getStripeAccDetails(completion: @escaping([StripeAccDetail]?,String,Error?) -> Void) {
+    
+    let ref = Database.database().reference().child("InfluencerStripeAccount").child(Yourself.id).child("AccountDetail")
+    ref.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let totalValues = snapshot.value as? NSDictionary{
+            
+            var objects = [StripeAccDetail]()
+            let accDetail = StripeAccDetail.init(dictionary: totalValues as! [String: Any])
+            objects.append(accDetail)
+            
+            completion(objects, "success", nil)
+        }
+        
+        
+    }) { (error) in
+        completion(nil, "success", error)
+    }
+    
+}
+

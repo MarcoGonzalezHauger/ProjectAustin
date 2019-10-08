@@ -20,7 +20,9 @@ class PaymentSentVC: UIViewController {
     @IBOutlet weak var cancel_btn: UIButton!
     @IBOutlet weak var yourMoney_lbl: UILabel!
     @IBOutlet weak var withdra_txt: UITextField!
-    var selectedBank:DwollaCustomerFSList?
+//    var selectedBank:DwollaCustomerFSList?
+    var selectedBank:StripeAccDetail?
+
     
     var MoneyAmount: Double = 0 {
         didSet {
@@ -32,6 +34,7 @@ class PaymentSentVC: UIViewController {
         super.viewDidLoad()
         self.setDoneOnKeyboard()
         paymentSuccessView.isHidden = true
+        self.cancel_btn.isHidden = false
         moneyAmountLabel.text = NumberToPrice(Value: Yourself!.yourMoney)
         yourMoney_lbl.text = NumberToPrice(Value: Yourself!.yourMoney)
 
@@ -61,7 +64,86 @@ class PaymentSentVC: UIViewController {
         }else if Yourself.yourMoney < Double(withdra_txt.text!)!{
             self.showStandardAlertDialog(title: "Alert!", msg: "don't have enough money in your account")
         }else{
-            self.createDwollaAccessTokenForFundTransfer(fundSource: selectedBank!.customerFSURL, acctID: selectedBank!.acctID, object: selectedBank!)
+//            self.createDwollaAccessTokenForFundTransfer(fundSource: selectedBank!.customerFSURL, acctID: selectedBank!.acctID, object: selectedBank!)
+            let params = ["accountID":selectedBank!.stripe_user_id,"amount":Double(withdra_txt.text!)!] as [String: AnyObject]
+            APIManager.shared.withdrawThroughStripe(params: params) { (status, error, data) in
+                
+                let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+                
+                print("dataString=",dataString as Any)
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data!, options: []) as? [String : Any]
+                    
+                    let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+                    
+                    if let code = json!["code"] as? Int {
+                        
+                        if code == 401 {
+                            let message = json!["message"] as! [String:Any]
+                            self.showStandardAlertDialog(title: "Alert", msg: message["code"] as! String)
+                        }else{
+                            let old = Yourself.yourMoney
+                            let sub = Double(self.withdra_txt.text!)!
+                            let total = old - sub
+                            //update to DB
+                            let prntRef  = Database.database().reference().child("users").child(Yourself.id)
+                            prntRef.updateChildValues(["yourMoney":total])
+
+                            withdrawUpdate(amount: sub, from: Yourself.id, to: Yourself.id, id: self.selectedBank!.stripe_user_id, status: "withdraw", type: "success", date:getStringFromTodayDate())
+
+                            DispatchQueue.main.async {
+                                Yourself.yourMoney = total
+                                self.moneyAmountLabel.text = NumberToPrice(Value: sub)
+                                self.withdra_txt.resignFirstResponder()
+                                self.cancel_btn.isHidden = true
+                                self.withdrawView.isHidden = true
+                                self.paymentSuccessView.isHidden = false
+                            }
+                        }
+
+//                        APIManager.shared.createFundTransfer(params: links, accessToken: accessToken) { (status, error, data, response) in
+//                            if error == nil {
+//
+//                                if let header = response as? HTTPURLResponse {
+//
+//                                    if header.statusCode == 201 {
+//
+//                                        let tranferDetail = header.allHeaderFields["Location"]! as! String
+//
+//                                        let tranferID = tranferDetail.components(separatedBy: "/")
+//
+//                                        fundTransferAccount(transferURL: tranferDetail, accountID: tranferID.last!, Obj: object, currency: "USD", amount: amount, date:getStringFromTodayDate())
+//                                        let old = Yourself.yourMoney
+//                                        let sub = Double(amount)
+//                                        let total = old - sub!
+//                                        //update to DB
+//                                        let prntRef  = Database.database().reference().child("users").child(Yourself.id)
+//                                        prntRef.updateChildValues(["yourMoney":total])
+//
+//                                        withdrawUpdate(amount: sub!, from: Yourself.id, to: Yourself.id, id: tranferID.last!, status: "withdraw", type: "success", date:getStringFromTodayDate())
+//
+//                                        DispatchQueue.main.async {
+//                                            Yourself.yourMoney = total
+//                                            self.moneyAmountLabel.text = NumberToPrice(Value: sub!)
+//                                            self.withdra_txt.resignFirstResponder()
+//                                            self.cancel_btn.isHidden = true
+//                                            self.withdrawView.isHidden = true
+//                                            self.paymentSuccessView.isHidden = false
+//                                        }
+//
+//                                    }
+//
+//                                }
+//                            }
+//                        }
+                    }
+                    
+                }catch _ {
+                    
+                }
+                
+            }
+            
         }
 
     }
@@ -125,6 +207,9 @@ class PaymentSentVC: UIViewController {
         
         
     }
+    
+    
+    
     
     /*
     // MARK: - Navigation

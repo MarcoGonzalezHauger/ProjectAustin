@@ -28,6 +28,8 @@ class BankDetalCell: UITableViewCell {
 class BankListVC: PlaidLinkEnabledVC, UITableViewDelegate, UITableViewDataSource, GlobalListener {
     
     var dwollaFSList = [DwollaCustomerFSList]()
+    var StripeFSList = [StripeAccDetail]()
+
     
     override func handleSuccessWithToken(_ publicToken:String, institutionName:String, institutionID:String, acctID:String, acctName:String, metadata:[String:Any]?){
         
@@ -157,29 +159,44 @@ class BankListVC: PlaidLinkEnabledVC, UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        return global.AcceptedOffers.count + 1
         
-        if self.dwollaFSList.count > 0{
+        if self.StripeFSList.count > 0{
             addBank_btn.isHidden = true
         }else{
             addBank_btn.isHidden = false
         }
-        return self.dwollaFSList.count
+        return self.StripeFSList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = shelf.dequeueReusableCell(withIdentifier: "bank") as! ConnectedPlaidTVCell
-        let obj = self.dwollaFSList[indexPath.row]
-        cell.nameText.text = obj.name
-        cell.acctIDText.text = "****" + obj.mask
-        cell.withdrawButton.tag = indexPath.row
-        cell.withdrawButton.addTarget(self, action: #selector(self.withDrawAction(sender:)), for: .touchUpInside)
-        cell.transactionButton.tag = indexPath.row
-        cell.transactionButton.addTarget(self, action: #selector(self.transactionAction(sender:)), for: .touchUpInside)
+//        let obj = self.dwollaFSList[indexPath.row]
+//        cell.nameText.text = obj.name
+//        cell.acctIDText.text = "****" + obj.mask
+//        cell.withdrawButton.tag = indexPath.row
+//        cell.withdrawButton.addTarget(self, action: #selector(self.withDrawAction(sender:)), for: .touchUpInside)
+//        cell.transactionButton.tag = indexPath.row
+//        cell.transactionButton.addTarget(self, action: #selector(self.transactionAction(sender:)), for: .touchUpInside)
+//
+//        cell.withdrawButton.layer.cornerRadius = 5
+//        cell.withdrawButton.clipsToBounds = true
+//
+//        cell.transactionButton.layer.cornerRadius = 5
+//        cell.transactionButton.clipsToBounds = true
         
-        cell.withdrawButton.layer.cornerRadius = 5
-        cell.withdrawButton.clipsToBounds = true
-        
-        cell.transactionButton.layer.cornerRadius = 5
-        cell.transactionButton.clipsToBounds = true
+        //stripe
+        let obj = self.StripeFSList[indexPath.row]
+        cell.nameText.text = obj.access_token
+        cell.acctIDText.text = "****" + obj.stripe_user_id
+               cell.withdrawButton.tag = indexPath.row
+               cell.withdrawButton.addTarget(self, action: #selector(self.withDrawAction(sender:)), for: .touchUpInside)
+               cell.transactionButton.tag = indexPath.row
+               cell.transactionButton.addTarget(self, action: #selector(self.transactionAction(sender:)), for: .touchUpInside)
+               
+               cell.withdrawButton.layer.cornerRadius = 5
+               cell.withdrawButton.clipsToBounds = true
+               
+               cell.transactionButton.layer.cornerRadius = 5
+               cell.transactionButton.clipsToBounds = true
         
         
         return cell
@@ -192,8 +209,6 @@ class BankListVC: PlaidLinkEnabledVC, UITableViewDelegate, UITableViewDataSource
         shelf.delegate = self
         global.delegates.append(self)
         
-        
-
         // Do any additional setup after loading the view.
 
     }
@@ -202,7 +217,7 @@ class BankListVC: PlaidLinkEnabledVC, UITableViewDelegate, UITableViewDataSource
         
         let index = sender.tag
         
-        let object = self.dwollaFSList[index]
+        let object = self.StripeFSList[index]
         
         self.performSegue(withIdentifier: "segueWithdraw", sender: object)
 
@@ -359,12 +374,23 @@ class BankListVC: PlaidLinkEnabledVC, UITableViewDelegate, UITableViewDataSource
 //            shelf.isHidden = false
 //        }
         
-        getDwollaFundingSource { (object, status, error) in
+//        getDwollaFundingSource { (object, status, error) in
+//            if error == nil {
+//                if object != nil {
+//                    self.emptybank_Lbl.isHidden = true
+//                    self.shelf.isHidden = false
+//                    self.dwollaFSList = object!
+//                    self.shelf.reloadData()
+//                }
+//            }
+//        }
+        
+        getStripeAccDetails { (object, status, error) in
             if error == nil {
                 if object != nil {
                     self.emptybank_Lbl.isHidden = true
                     self.shelf.isHidden = false
-                    self.dwollaFSList = object!
+                    self.StripeFSList = object!
                     self.shelf.reloadData()
                 }
             }
@@ -374,7 +400,9 @@ class BankListVC: PlaidLinkEnabledVC, UITableViewDelegate, UITableViewDataSource
     
     @IBAction func addBank_Action(_ sender: Any) {
         
-        self.presentPlaid()
+//        self.presentPlaid()
+        
+        self.performSegue(withIdentifier: "segueStripConnect", sender: self)
         
     }
     
@@ -396,7 +424,7 @@ class BankListVC: PlaidLinkEnabledVC, UITableViewDelegate, UITableViewDataSource
         }else if segue.identifier == "segueWithdraw"{
             
             if let destinationVC = segue.destination as? PaymentSentVC{
-                destinationVC.selectedBank = (sender as! DwollaCustomerFSList)
+                destinationVC.selectedBank = (sender as! StripeAccDetail)
             }
         }
     }
