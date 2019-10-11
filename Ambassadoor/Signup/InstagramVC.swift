@@ -66,8 +66,8 @@ extension InstagramVC: WKNavigationDelegate {
     // Check callback url for instagram access token
     func checkRequestForCallbackURL(request: URLRequest) -> Bool {
         let requestURLString = (request.url?.absoluteString)! as String
-        print("requestURLString" + requestURLString)
-        if requestURLString.hasPrefix(API.INSTAGRAM_REDIRECT_URI) {
+        print("requestURLString= " + requestURLString)
+        if requestURLString.hasPrefix(API.INSTAGRAM_REDIRECT_URI) || requestURLString.hasPrefix(API.INSTAGRAM_REDIRECT_URI2) {
             let range: Range<String.Index> = requestURLString.range(of: "#access_token=")!
             handleAuth(authToken: String(requestURLString[range.upperBound...]))
             return true
@@ -116,6 +116,8 @@ extension InstagramVC: WKNavigationDelegate {
 
                 } else {
                     debugPrint("Youself user was NIL.")
+                    self.showStandardAlertDialog(title: "Alert", msg: "You have exceeded the maximum number of requests per hour. You have performed a total of 270 requests in the last hour. Our general maximum limit is set at 200 requests per hour.")
+
                 }
             }
         }

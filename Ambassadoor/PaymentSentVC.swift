@@ -65,7 +65,7 @@ class PaymentSentVC: UIViewController {
             self.showStandardAlertDialog(title: "Alert!", msg: "don't have enough money in your account")
         }else{
 //            self.createDwollaAccessTokenForFundTransfer(fundSource: selectedBank!.customerFSURL, acctID: selectedBank!.acctID, object: selectedBank!)
-            let params = ["accountID":selectedBank!.stripe_user_id,"amount":Double(withdra_txt.text!)!] as [String: AnyObject]
+            let params = ["accountID":selectedBank!.stripe_user_id,"amount":Double(withdra_txt.text!)! * 100] as [String: AnyObject]
             APIManager.shared.withdrawThroughStripe(params: params) { (status, error, data) in
                 
                 let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
@@ -73,6 +73,7 @@ class PaymentSentVC: UIViewController {
                 print("dataString=",dataString as Any)
                 do {
                     let json = try JSONSerialization.jsonObject(with: data!, options: []) as? [String : Any]
+                    
                     
                     let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
                     
@@ -83,7 +84,10 @@ class PaymentSentVC: UIViewController {
                             self.showStandardAlertDialog(title: "Alert", msg: message["code"] as! String)
                         }else{
                             let old = Yourself.yourMoney
-                            let sub = Double(self.withdra_txt.text!)!
+                            var sub:Double = 0.0
+                            DispatchQueue.main.async {
+                                sub = Double(self.withdra_txt.text!)!
+                            }
                             let total = old - sub
                             //update to DB
                             let prntRef  = Database.database().reference().child("users").child(Yourself.id)

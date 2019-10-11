@@ -14,6 +14,7 @@ struct API {
     static let INSTAGRAM_CLIENT_ID = "fa083c34de6847ff95db596d75ef1c31"
     static let INSTAGRAM_CLIENTSERCRET = "b81172265e6b417782fcf075e2daf2ff"
     static let INSTAGRAM_REDIRECT_URI = "https://ambassadoor.co/welcome"
+    static let INSTAGRAM_REDIRECT_URI2 = "https://www.ambassadoor.co/welcome"
     
     //Dwolla
     static let kDwollaClient_id = "CijOdBYNcHDSwXjkf4PnsXjHBYSgKdgc7TdfoDNUZiNvOPfAst"
@@ -58,49 +59,54 @@ struct API {
                     do {
                         // Deserilize object from JSON
                         if let profileData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String : AnyObject] {
-                            let meta = profileData["meta"] as! [String : AnyObject]
-                            //naveen added code validation
-                            let code = meta["code"] as! Int
-                            if  code == 200{
-                                self.instagramProfileData = profileData["data"] as! [String : AnyObject]
-                                var userDictionary: [String: Any] = [
-                                    "name": instagramProfileData["full_name"] as! String,
-                                    "username": instagramProfileData["username"] as! String,
-                                    "followerCount": instagramProfileData["counts"]?["followed_by"] as! Double,
-                                    "profilePicture": instagramProfileData["profile_picture"] as! String,
-                                    
-                                    "primaryCategory": "", // need to get from user on account creation
-                                    
-                                    "zipCode": 0,
-                                    
-                                    "secondaryCategory": "",
-                                    
-                                    //naveen added
-                                    "id": instagramProfileData["id"] as! String,
-                                    "gender": "",
-                                    "isBankAdded": false,
-                                    "yourMoney": 0.0,
-                                    "joinedDate": "",
-                                    "categories": [],
-                                    "referralcode": "",
-                                    "isDefaultOfferVerify": false
-                                ]
-                                debugPrint("Done Creating Userinfo dictinary")
-                                getAverageLikesOfUser(instagramId: instagramProfileData["id"] as! String, completed: { (averageLikes: Double?) in
-                                    DispatchQueue.main.async {
-                                        debugPrint("Got Average Likes of User.")
-                                        userDictionary["averageLikes"] = averageLikes
-                                        let user = User(dictionary: userDictionary)
-                                        DispatchQueue.main.async {
-                                            UserDefaults.standard.set(user.id, forKey: "userid")
-
-                                        completed?(user)
-                                        }
-                                    }
-                                })
+                            if let codelimit = profileData["code"] as? Int64{
+                                completed?(nil)
                             }else{
-                                
+                                let meta = profileData["meta"] as! [String : AnyObject]
+                                //naveen added code validation
+                                let code = meta["code"] as! Int
+                                if  code == 200{
+                                    self.instagramProfileData = profileData["data"] as! [String : AnyObject]
+                                    var userDictionary: [String: Any] = [
+                                        "name": instagramProfileData["full_name"] as! String,
+                                        "username": instagramProfileData["username"] as! String,
+                                        "followerCount": instagramProfileData["counts"]?["followed_by"] as! Double,
+                                        "profilePicture": instagramProfileData["profile_picture"] as! String,
+                                        
+                                        "primaryCategory": "", // need to get from user on account creation
+                                        
+                                        "zipCode": 0,
+                                        
+                                        "secondaryCategory": "",
+                                        
+                                        //naveen added
+                                        "id": instagramProfileData["id"] as! String,
+                                        "gender": "",
+                                        "isBankAdded": false,
+                                        "yourMoney": 0.0,
+                                        "joinedDate": "",
+                                        "categories": [],
+                                        "referralcode": "",
+                                        "isDefaultOfferVerify": false
+                                    ]
+                                    debugPrint("Done Creating Userinfo dictinary")
+                                    getAverageLikesOfUser(instagramId: instagramProfileData["id"] as! String, completed: { (averageLikes: Double?) in
+                                        DispatchQueue.main.async {
+                                            debugPrint("Got Average Likes of User.")
+                                            userDictionary["averageLikes"] = averageLikes
+                                            let user = User(dictionary: userDictionary)
+                                            DispatchQueue.main.async {
+                                                UserDefaults.standard.set(user.id, forKey: "userid")
+
+                                            completed?(user)
+                                            }
+                                        }
+                                    })
+                                }else{
+                                    
+                                }
                             }
+                            
 
                         }
                     }

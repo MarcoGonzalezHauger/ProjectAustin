@@ -44,6 +44,17 @@ class SignUpVC: UIViewController, UITextFieldDelegate, ConfirmationReturned {
 
 		SigningUp()
 	}
+    
+    @IBAction func goToBusinessApp(_ sender: Any) {
+        if let url = URL(string: "itms-apps://itunes.apple.com/app"),
+            UIApplication.shared.canOpenURL(url){
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+        }
+    }
 	
 	func SigningUp() {
 		if let code = code {
