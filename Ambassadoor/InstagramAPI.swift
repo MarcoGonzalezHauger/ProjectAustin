@@ -8,6 +8,7 @@
 //
 
 import Foundation
+import WebKit
 
 struct API {
     static let INSTAGRAM_AUTHURL = "https://api.instagram.com/oauth/authorize/"
@@ -199,8 +200,6 @@ struct API {
             "username": user.username,
             "followerCount": user.followerCount,
             "profilePicture": user.profilePicURL!,
-            "primaryCategory": user.primaryCategory.rawValue,
-			"secondaryCategory": user.SecondaryCategory == nil ? "" : user.SecondaryCategory!.rawValue,
             "averageLikes": user.averageLikes ?? 0,
 			"zipCode": user.zipCode as Any,
             "gender": user.gender == nil ? "" : user.gender!.rawValue,
@@ -294,16 +293,16 @@ struct API {
     
     //naveen added func
     static func instaLogout(){
-        let cookieJar : HTTPCookieStorage = HTTPCookieStorage.shared
-        for cookie in cookieJar.cookies! as [HTTPCookie]{
-//            print("cookie.domain = %@", cookie.domain)
-            
-            if cookie.domain == "www.instagram.com" ||
-                cookie.domain == "api.instagram.com" || cookie.domain == ".instagram.com"{
-                
-                cookieJar.deleteCookie(cookie)
-            }
-        }
+        let dataStore = WKWebsiteDataStore.default()
+		dataStore.fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { (records) in
+			for record in records {
+				if record.displayName.contains("instagram") {
+					dataStore.removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), for: [record], completionHandler: {
+						print("Deleted: " + record.displayName);
+					})
+				}
+			}
+		}
     }
     
     

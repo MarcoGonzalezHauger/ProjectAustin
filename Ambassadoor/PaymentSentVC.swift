@@ -21,7 +21,7 @@ class PaymentSentVC: UIViewController {
     @IBOutlet weak var yourMoney_lbl: UILabel!
     @IBOutlet weak var withdra_txt: UITextField!
 //    var selectedBank:DwollaCustomerFSList?
-    var selectedBank:StripeAccDetail?
+    var selectedBank : StripeAccDetail?
 
     
     var MoneyAmount: Double = 0 {

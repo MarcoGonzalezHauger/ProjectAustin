@@ -23,10 +23,12 @@ import Firebase
     @IBOutlet weak var zipcode_Txt: UITextField!
     @IBOutlet weak var gender_Txt: UITextField!
     
-    
+	@IBOutlet weak var townNameLabel: UILabel!
+	
     override func viewDidLoad() {
         super.viewDidLoad()
-
+		townNameLabel.text = ""
+		
         // Do any additional setup after loading the view.
         self.setDoneOnKeyboard()
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
@@ -115,7 +117,6 @@ import Firebase
             userfinal?.gender = TextToGender(gender: gender_Txt.text!)
             
             userfinal?.joinedDate = Date.getCurrentDate()
-            userfinal?.categories?.append(primeCat_Txt.text!)
             userfinal?.isDefaultOfferVerify = false
             
             var referralcodeString = ""
@@ -152,29 +153,32 @@ import Firebase
 
             let ref = Database.database().reference().child("users")
             let userReference = ref.child(userfinal!.id)
+			debugPrint("Create User Reference.")
             let userData = API.serializeUser(user: userfinal!, id: userfinal!.id)
+			debugPrint("Serialized user Data.")
             userReference.updateChildValues(userData)
-			
+			debugPrint("Update Child Values with User Data.")
 			let categoryReference = ref.child("categories")
 			
-			var dict: [Int: String] = [:]
-			var i: Int = 0
+			var dict: [Double: String] = [:]
+			var i: Double = 0
 			for cat in userfinal!.categories! {
 				dict[i] = cat
 				i += 1
 			}
-			
 			categoryReference.updateChildValues(dict)
+			debugPrint("Update Categories for User.")
 				
             Yourself = userfinal
             UserDefaults.standard.set(API.INSTAGRAM_ACCESS_TOKEN, forKey: "token")
             UserDefaults.standard.set(Yourself.id, forKey: "userid")
+			debugPrint("Created UserDefaults.")
             
             //insertd Default offers
             let refDefaultOffer = Database.database().reference().child("SentOutOffersToUsers").child(userfinal!.id)
             let postID = refDefaultOffer.childByAutoId().key
 			let offerData = API.serializeDefaultOffer(offerID:"XXXDefault", postID: postID! ,userID:userfinal!.id)
-		
+			debugPrint("Default offer Created.")
 			
 			/*
 			READ : NOTE BY MARCO
@@ -205,7 +209,15 @@ import Firebase
 		}
 		
 	}
-
+	
+	@IBAction func zipCodeEntered(_ sender: Any) {
+		if let text = zipcode_Txt.text {
+			GetTownName(zipCode: text) { (TownName) in
+				self.townNameLabel.text = TownName ?? ""
+			}
+		}
+	}
+	
     func setDoneOnKeyboard() {
         let keyboardToolbar = UIToolbar()
         keyboardToolbar.sizeToFit()
@@ -227,7 +239,12 @@ import Firebase
 		// Get the new view controller using segue.destination.
 		// Pass the selected object to the new view controller.
 		if let destination = segue.destination as? CategoryPicker {
-			destination.SetupPicker(originalCategories: []) { (cat) in
+			var cats: [Category] = []
+			if let doCat = userfinal!.categories  {
+				cats = StringsToCategories(strings: doCat)
+			}
+			
+			destination.SetupPicker(originalCategories: cats) { (cat) in
 				let newCats = CategoriesToStrings(categories: cat)
 				self.userfinal!.categories = newCats
 				self.primeCat_Txt.text = GetCategoryStringFromlist(categories:  newCats)

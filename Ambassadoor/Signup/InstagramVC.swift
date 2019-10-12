@@ -9,18 +9,20 @@
 
 import UIKit
 import WebKit
+import JavaScriptCore
 
 class InstagramVC: UIViewController, ConfirmationReturned {
 	
 	func dismissed(success: Bool!) {
 		if success {
+			//Proceed button clicked
 			self.dismiss(animated: false) {
 				self.delegate?.dismissed(success: true)
 			}
 		} else {
-			
-			// THIS IS WHERE I NEED THE CODE TO DISABLE AUTOCOMPLETE ON THE WEBVIEW <-------------------------
+			//NOT ME button clicked
 			loadLogin()
+			
 		}
 	}
 	
@@ -45,14 +47,20 @@ class InstagramVC: UIViewController, ConfirmationReturned {
     
     // Loads the Instagram login page
     func loadLogin() {
+		if attemptedLogOut {
+			API.instaLogout()
+		}
+		
 //		let authURL = String(format: "%@?client_id=%@&redirect_uri=%@&response_type=token&scope=%@&DEBUG=True", arguments: [API.INSTAGRAM_AUTHURL,API.INSTAGRAM_CLIENT_ID,API.INSTAGRAM_REDIRECT_URI, API.INSTAGRAM_SCOPE])
-        let authURL = String(format: "%@?client_id=%@&redirect_uri=%@&response_type=token", arguments: [API.INSTAGRAM_AUTHURL,API.INSTAGRAM_CLIENT_ID,API.INSTAGRAM_REDIRECT_URI])
+		
+        let authURL = String(format: "%@?client_id=%@&redirect_uri=%@&response_type=token", arguments: [API.INSTAGRAM_AUTHURL, API.INSTAGRAM_CLIENT_ID, API.INSTAGRAM_REDIRECT_URI])
 
 
         let urlRequest = URLRequest.init(url: URL.init(string: authURL)!)
         // Puts login page into WebView on VC
         webView.load(urlRequest)
 		debugPrint("WEB VIEW URL: \(String(describing: webView.url))")
+		
 
     }
 }
@@ -66,7 +74,7 @@ extension InstagramVC: WKNavigationDelegate {
     // Check callback url for instagram access token
     func checkRequestForCallbackURL(request: URLRequest) -> Bool {
         let requestURLString = (request.url?.absoluteString)! as String
-        print("requestURLString" + requestURLString)
+        //print("requestURLString" + requestURLString)
         if requestURLString.hasPrefix(API.INSTAGRAM_REDIRECT_URI) {
             let range: Range<String.Index> = requestURLString.range(of: "#access_token=")!
             handleAuth(authToken: String(requestURLString[range.upperBound...]))
@@ -124,17 +132,10 @@ extension InstagramVC: WKNavigationDelegate {
     func worked(){
         debugPrint("Segue complete.")
     }
-    
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: ((WKNavigationActionPolicy) -> Void)) {
-        decisionHandler(.allow)
-        let sucessful = checkRequestForCallbackURL(request: navigationAction.request)
-		if sucessful {
-			//debugPrint("Request for CallBackURL sucessful.")
-            
-		} else {
-			//debugPrint("Request for CallBackURL failed.")
-            
-		}
+	
+	func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: ((WKNavigationActionPolicy) -> Void)) {
+		decisionHandler(.allow)
+		checkRequestForCallbackURL(request: navigationAction.request)
     }
     
     func getDwollaProcessorToken(params: [String: AnyObject],completion: @escaping (_ status: String,  _ error: String?, _ dataValue: Data?) -> Void) {

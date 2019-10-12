@@ -155,7 +155,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     override init() {
         FirebaseApp.configure()
         Database.database().isPersistenceEnabled = false
-        
+		InitializeFormAPI(completed: nil)
     }
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -269,15 +269,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     private func startTimer() {
         let queue = DispatchQueue(label: "com.firm.app.timer", attributes: .concurrent)
         
-        timer?.cancel()        // cancel previous timer if any
+        timer?.cancel()
         
         timer = DispatchSource.makeTimerSource(queue: queue)
         
         timer?.schedule(deadline: .now(), repeating: .seconds(5), leeway: .milliseconds(100))
-        
-        // or, in Swift 3:
-        //
-        // timer?.scheduleRepeating(deadline: .now(), interval: .seconds(5), leeway: .seconds(1))
         
         timer?.setEventHandler { [weak self] in // `[weak self]` only needed if you reference `self` in this closure and you want to prevent strong reference cycle
             
@@ -299,7 +295,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
                         var newavailableresults: [Offer] = []
                         for notification in notifications {
-                            print(notification.identifier)
+                            //print(notification.identifier)
                             var identifier = notification.identifier
                             
                             if identifier.hasPrefix("new") {
