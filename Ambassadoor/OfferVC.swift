@@ -12,6 +12,10 @@ import UserNotifications
 import Firebase
 //Preview post when on offerVC.
 
+protocol ConfirmPage {
+	func dismissPage()
+}
+
 class PreviewPostCell: UITableViewCell {
 	
 	//simple outlets.
@@ -20,7 +24,14 @@ class PreviewPostCell: UITableViewCell {
 	
 }
 
-class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SyncTimerDelegate {
+class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SyncTimerDelegate, ConfirmPage {
+	
+	func dismissPage() {
+		dismiss(animated: true) {
+			self.delegate?.OfferAccepted(offer: self.ThisOffer)
+		}
+	}
+	
 	
 	func Tick() {
 		CheckExperation()
@@ -28,11 +39,19 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 	
 	func CheckExperation() {
 		if ThisOffer.isAccepted == false {
-			expirationView.isHidden = false
+			if ThisOffer.offer_ID == "XXXDefaults" {
+				expirationView.isHidden = true
+			}
 			if ThisOffer.isExpired {
 				expirationLabel.text = "Expired"
 				if !acceptButtonView.isHidden {
 					acceptButtonView.isHidden = true
+				}
+				
+				if acceptButtonView.isHidden {
+					OfferForMargin.constant = 16
+				} else {
+					OfferForMargin.constant = 90
 				}
 				//dismiss(animated: true, completion: nil)
                 
@@ -120,6 +139,7 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
         case "segueConfirm":
             if let destination = segue.destination as? OfferAcceptConfirmVC {
                 destination.ThisOffer = ThisOffer
+				destination.Confirmdelegate = self
             }
 		case "toReport":
 			if let destination = segue.destination as? ReportOfferVC {
@@ -144,6 +164,7 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 	//@IBOutlet weak var companyname: UILabel!
 	@IBOutlet weak var shelf: UITableView!
 	@IBOutlet weak var ShelfView: ShadowView!
+	@IBOutlet weak var OfferForMargin: NSLayoutConstraint!
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
@@ -159,6 +180,13 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 //            acceptButtonView.isHidden = false
 //            acceptButton.setTitle("Post", for: .normal)
 		}
+	
+		if acceptButtonView.isHidden {
+			OfferForMargin.constant = 16
+		} else {
+			OfferForMargin.constant = 90
+		}
+		
 		//59 48
 		expirationView.layer.cornerRadius = 5
 		expirationView.layer.borderWidth = 1
@@ -219,26 +247,30 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 	@IBOutlet weak var smallDone: UIButton!
 	var delegate: OfferResponse?
 	@IBOutlet weak var acceptButtonView: ShadowView!
+	@IBOutlet weak var viewCompany: UIButton!
+	@IBOutlet weak var reportButton: UIButton!
 	
 	func UpdateOfferInformation() {
 		
 		//Make sure that if there is no company logo a default image is displayed. A building with a dish on it.
 		
-		if let picUrl  = ThisOffer.company.logo {
-			logo.downloadAndSetImage(picUrl, isCircle: false)
-		} else {
-			logo.image = UIImage(named: "defaultcompany")
-		}
-		
-		//companyname.text = ThisOffer.company.name
-        
-        if  ThisOffer.offer_ID == "XXXDefault"{
+        if  ThisOffer.offer_ID == "XXXDefault" {
 			OfferForLabel.text = "YOU WILL NOT BE PAID FOR THIS OFFER"
             MoneyLabel.text = "Get Ambassadoor Verified"
-        }else{
+			logo.image = UIImage.init(named: "BigVerifiedLogo")
+			viewCompany.isHidden = true
+			reportButton.isHidden = true
+			expirationView.isHidden = true
+		} else {
+			if let picUrl  = ThisOffer.company.logo {
+				logo.downloadAndSetImage(picUrl, isCircle: false)
+			} else {
+				logo.image = UIImage(named: "defaultcompany")
+			}
 			OfferForLabel.text = "OFFER FOR"
             MoneyLabel.text = NumberToPrice(Value: ThisOffer.money)
-        }
+		}
+		
 		
 		
 		//Make sure list of posts in offer is reflected.

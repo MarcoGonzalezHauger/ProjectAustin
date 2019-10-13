@@ -14,13 +14,14 @@ class InstagramVC: UIViewController, ConfirmationReturned {
 	
 	func dismissed(success: Bool!) {
 		if success {
+			//Proceed button clicked
 			self.dismiss(animated: false) {
 				self.delegate?.dismissed(success: true)
 			}
 		} else {
-			
-			// THIS IS WHERE I NEED THE CODE TO DISABLE AUTOCOMPLETE ON THE WEBVIEW <-------------------------
+			//NOT ME button clicked
 			loadLogin()
+			
 		}
 	}
 	
@@ -38,21 +39,27 @@ class InstagramVC: UIViewController, ConfirmationReturned {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-		debugPrint("before LoadLogin()")
+		print("before LoadLogin()")
         loadLogin()
-		debugPrint("after LoadLogin()")
+		print("after LoadLogin()")
     }
     
     // Loads the Instagram login page
     func loadLogin() {
+		if attemptedLogOut {
+			API.instaLogout()
+		}
+		
 //		let authURL = String(format: "%@?client_id=%@&redirect_uri=%@&response_type=token&scope=%@&DEBUG=True", arguments: [API.INSTAGRAM_AUTHURL,API.INSTAGRAM_CLIENT_ID,API.INSTAGRAM_REDIRECT_URI, API.INSTAGRAM_SCOPE])
-        let authURL = String(format: "%@?client_id=%@&redirect_uri=%@&response_type=token", arguments: [API.INSTAGRAM_AUTHURL,API.INSTAGRAM_CLIENT_ID,API.INSTAGRAM_REDIRECT_URI])
+		
+        let authURL = String(format: "%@?client_id=%@&redirect_uri=%@&response_type=token", arguments: [API.INSTAGRAM_AUTHURL, API.INSTAGRAM_CLIENT_ID, API.INSTAGRAM_REDIRECT_URI])
 
 
         let urlRequest = URLRequest.init(url: URL.init(string: authURL)!)
         // Puts login page into WebView on VC
         webView.load(urlRequest)
-		debugPrint("WEB VIEW URL: \(String(describing: webView.url))")
+		print("WEB VIEW URL: \(String(describing: webView.url))")
+		
 
     }
 }
@@ -78,17 +85,17 @@ extension InstagramVC: WKNavigationDelegate {
     // Handle Instagram auth token from callback url and handle it with our logic
     //naveen commented
 //    func handleAuth(authToken: String) {
-//        debugPrint("Instagram authentication token = ", authToken)
+//        print("Instagram authentication token = ", authToken)
 //        API.INSTAGRAM_ACCESS_TOKEN = authToken
 //		API.getProfileInfo { (user: User?) in
 //			DispatchQueue.main.async {
 //				if user != nil {
-//					debugPrint("user NOT nil, creating user.")
+//					print("user NOT nil, creating user.")
 //                    CreateAccount(instagramUser: user!)
 //					Yourself = user
 //					self.performSegue(withIdentifier: "VerifySegue", sender: self)
 //				} else {
-//					debugPrint("Youself user was NIL.")
+//					print("Youself user was NIL.")
 //				}
 //			}
 //		}
@@ -96,12 +103,12 @@ extension InstagramVC: WKNavigationDelegate {
     
     //naveen added
     func handleAuth(authToken: String) {
-        debugPrint("Instagram authentication token = ", authToken)
+        print("Instagram authentication token = ", authToken)
         API.INSTAGRAM_ACCESS_TOKEN = authToken
         API.getProfileInfo { (user: User?) in
             DispatchQueue.main.async {
                 if user != nil {
-                    debugPrint("user NOT nil, creating user.")
+                    print("user NOT nil, creating user.")
                     CreateAccount(instagramUser: user!) { (userVal, alreadyRegistered) in
                         Yourself = userVal
                         if alreadyRegistered {
@@ -117,25 +124,20 @@ extension InstagramVC: WKNavigationDelegate {
                 } else {
                     debugPrint("Youself user was NIL.")
                     self.showStandardAlertDialog(title: "Alert", msg: "You have exceeded the maximum number of requests per hour. You have performed a total of 270 requests in the last hour. Our general maximum limit is set at 200 requests per hour.")
-
                 }
             }
         }
     }
     
     func worked(){
-        debugPrint("Segue complete.")
+        print("Segue complete.")
     }
-    
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: ((WKNavigationActionPolicy) -> Void)) {
-        decisionHandler(.allow)
-        let sucessful = checkRequestForCallbackURL(request: navigationAction.request)
-		if sucessful {
-			//debugPrint("Request for CallBackURL sucessful.")
-            
-		} else {
-			//debugPrint("Request for CallBackURL failed.")
-            
+	
+	func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: ((WKNavigationActionPolicy) -> Void)) {
+		decisionHandler(.allow)
+		let success: Bool = checkRequestForCallbackURL(request: navigationAction.request)
+		if success {
+			print("Sucessful login.")
 		}
     }
     

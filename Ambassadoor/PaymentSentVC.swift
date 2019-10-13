@@ -21,7 +21,7 @@ class PaymentSentVC: UIViewController {
     @IBOutlet weak var yourMoney_lbl: UILabel!
     @IBOutlet weak var withdra_txt: UITextField!
 //    var selectedBank:DwollaCustomerFSList?
-    var selectedBank:StripeAccDetail?
+    var selectedBank : StripeAccDetail?
 
     
     var MoneyAmount: Double = 0 {
@@ -75,7 +75,7 @@ class PaymentSentVC: UIViewController {
                     let json = try JSONSerialization.jsonObject(with: data!, options: []) as? [String : Any]
                     
                     
-                    let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+					_ = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
                     
                     if let code = json!["code"] as? Int {
                         
@@ -159,11 +159,11 @@ class PaymentSentVC: UIViewController {
         APIManager.shared.getDwollaAccessToken(params: params) { (status, error, data) in
             let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
             
-            print("dataString=",dataString)
+			print("dataString=",dataString ?? "nil")
             do {
                 let json = try JSONSerialization.jsonObject(with: data!, options: []) as? [String : Any]
                 
-                let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+				_ = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
                 
                 if let accessToken = json!["access_token"] as? String {
                     

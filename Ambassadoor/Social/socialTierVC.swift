@@ -20,40 +20,46 @@ class SocialUserCell: UITableViewCell {
 	@IBOutlet weak var shadow: ShadowView!
     @IBOutlet weak var verifyLogo_img: UIImageView!
 	@IBOutlet weak var insetOfVerifiedLogo: NSLayoutConstraint!
+	@IBOutlet weak var gradView: UIView!
+	@IBOutlet weak var tierLabel: UILabel!
 	
-	var ShowCategory: Bool = false
+	var ShowCategory: Bool = true {
+		didSet {
+			ShowCategory = true
+		}
+	}
+	
+	override func awakeFromNib() {
+		gradView.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "tiergrad")!)
+	}
+	
 	var ThisUser: User? {
 		didSet {
 			if let thisUser = ThisUser {
-				
-				
-				
+								
 				username.text = thisUser.name ?? "@\(thisUser.username)"
-
+				
 				username.setNeedsLayout()
 				username.layoutIfNeeded()
 				
 				insetOfVerifiedLogo.constant =  username.bounds.width + 12
 				
 //				let secondtext : String = ShowCategory ? thisUser.primaryCategory.rawValue : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
+				
+				let secondtext : String = GetCatString(user: thisUser)
+				details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
+				
+				
                 if thisUser.isDefaultOfferVerify {
-                    if GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) != nil {
-                        let secondtext : String = ShowCategory ? GetCatString(user: thisUser) : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount)! + 1 )
 
-                        details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
-                        
-                    } else {
-                        let secondtext : String = ShowCategory ? GetCatString(user: thisUser) : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 1)
-
-                        details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
-                        
-                    }
+					tierLabel.text = String((GetTierFromFollowerCount(FollowerCount: thisUser.followerCount)) ?? 0 + 1 )
+					
                     verifyLogo_img.image = UIImage(named: "verify_Logo")
 
                 } else {
-                    let secondtext : String = ShowCategory ? GetCatString(user: thisUser) : "Tier " + String(GetTierFromFollowerCount(FollowerCount: thisUser.followerCount) ?? 0)
-
-                    details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
+					
+					tierLabel.text = String((GetTierFromFollowerCount(FollowerCount: thisUser.followerCount)) ?? 0)
+					
                     verifyLogo_img.image = nil
                 }
 				
@@ -99,6 +105,7 @@ class SocialUserCell: UITableViewCell {
 			shadow.backgroundColor = UIColor.systemBackground
 		}
 	}
+	
 }
 
 class socialTierVC: UIViewController, UITableViewDelegate, UITableViewDataSource, GlobalListener {

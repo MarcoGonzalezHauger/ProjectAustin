@@ -108,54 +108,6 @@ func NumberToStringWithCommas(number: Double) -> String {
 	return numformat.string(from: NSNumber(value:number)) ?? String(number)
 }
 
-//func SubCategoryToString(subcategory: Categories) -> String {
-//	switch subcategory {
-//	case .Hiker: return "Hiker"
-//	case .WinterSports: return "Winter Sports"
-//	case .Baseball: return "Baseball"
-//	case .Basketball: return "Basketball"
-//	case .Golf: return "Golf"
-//	case .Tennis: return "Tennis"
-//	case .Soccer: return "Soccer"
-//	case .Football: return "Football"
-//	case .Boxing: return "Boxing"
-//	case .MMA: return "MMA"
-//	case .Swimming: return "Swimming"
-//	case .TableTennis: return "Table Tennis"
-//	case .Gymnastics: return "Gymnastics"
-//	case .Dancer: return "Dancer"
-//	case .Rugby: return "Rugby"
-//	case .Bowling: return "Bowling"
-//	case .Frisbee: return "Frisbee"
-//	case .Cricket: return "Cricket"
-//	case .SpeedBiking: return "Speed Biking"
-//	case .MountainBiking: return "Mountain Biking"
-//	case .WaterSkiing: return "Water Skiing"
-//	case .Running: return "Running"
-//	case .PowerLifting: return "Power Lifting"
-//	case .BodyBuilding: return "Body Building"
-//	case .Wrestling: return "Wrestling"
-//	case .StrongMan: return "Strong Man"
-//	case .NASCAR: return "NASCAR"
-//	case .RalleyRacing: return "Ralley Racing"
-//	case .Parkour: return "Parkour"
-//	case .Model: return "Model"
-//	case .Makeup: return "Makeup"
-//	case .Actor: return "Actor"
-//	case .RunwayModel: return "Runway Model"
-//	case .Designer: return "Designer"
-//	case .Brand: return "Brand"
-//	case .Stylist: return "Stylist"
-//	case .HairStylist: return "Hair Stylist"
-//	case .FasionArtist: return "Fasion Artist"
-//	case .Painter: return "Painter"
-//	case .Sketcher: return "Sketcher"
-//	case .Musician: return "Musician"
-//	case .Band: return "Band"
-//	case .SingerSongWriter: return "Singer/Songwriter"
-//    case .Other: return "Other"
-//	}
-//}
 
 func GetTierFromFollowerCount(FollowerCount: Double) -> Int? {
 	
@@ -252,7 +204,7 @@ func GetCategoryStringFromlist(categories: [String]) -> String {
 
 
 func OfferFromID(id: String, completion:@escaping(_ offer:Offer?)->()) {
-	debugPrint("attempting to find offer with ID \(id)")
+	print("attempting to find offer with ID \(id)")
 	
 	////    return global.AvaliableOffers.filter { (ThisOffer) -> Bool in
 	////        return ThisOffer.offer_ID == id
@@ -380,40 +332,80 @@ func TextToGender(gender: String) -> Gender {
 	}
 }
 
-func GetTownName(zipCode: String, completed: @escaping (_ cityState: String?) -> () ) {
-	debugPrint("Getting town name from zipCode=\(zipCode)")
-	
-	//FORM API Key, subject to change.
-	let APIKey: String = "nyprsz9yiBMbAubGgkcab"
-	
-	
-	guard let url = URL(string: "https://form-api.com/api/geo/country/zip?key=\(APIKey)&country=US&zipcode=" + zipCode) else { completed(nil)
-		return }
-	var cityState: String = ""
-	URLSession.shared.dataTask(with: url){ (data, response, err) in
-		if err == nil {
-			// check if JSON data is downloaded yet
-			guard let jsondata = data else { return }
-			do {
-				do {
-					// Deserilize object from JSON
-					if let zipCodeData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String : AnyObject] {
-						if let result = zipCodeData["result"] {
-							let city = result["city"] as! String
-							let state = result["state"] as! String
-							let stateDict = ["Alabama": "AL","Alaska": "AK","Arizona": "AZ","Arkansas": "AR","California": "CA","Colorado": "CO","Connecticut": "CT","Delaware": "DE","Florida": "FL","Georgia": "GA","Hawaii": "HI","Idaho": "ID","Illinois": "IL","Indiana": "IN","Iowa": "IA","Kansas": "KS","Kentucky": "KY","Louisiana": "LA","Maine": "ME","Maryland": "MD","Massachusetts": "MA","Michigan": "MI","Minnesota": "MN","Mississippi": "MS","Missouri": "MO","Montana": "MT","Nebraska": "NE","Nevada": "NV","New Hampshire": "NH","New Jersey": "NJ","New Mexico": "NM","New York": "NY","North Carolina": "NC","North Dakota": "ND","Ohio": "OH","Oklahoma": "OK","Oregon": "OR","Pennsylvania": "PA","Rhode Island": "RI","South Carolina": "SC","South Dakota": "SD","Tennessee": "TN","Texas": "TX","Utah": "UT","Vermont": "VT","Virginia": "VA","Washington": "WA","West Virginia": "WV","Wisconsin": "WI","Wyoming": "WY"] 
-							cityState = city + ", " + (stateDict[state] ?? state)
-						}
-					}
-					DispatchQueue.main.async {
-						completed(cityState)
-					}
-				}
-			} catch {
-				print("JSON Downloading Error!")
+func InitializeFormAPI(completed: (() -> Void)?) {
+	let ref = Database.database().reference().child("Admin").child("FormAPIKey")
+	ref.observeSingleEvent(of: .value) { (Snapshot) in
+		if let apikey: String = Snapshot.value as? String {
+			FormAPIKey = apikey
+			if let comp = completed {
+				comp()
 			}
 		}
-	}.resume()
+	}
+}
+
+var FormAPIKey: String?
+
+var zipCodeDic: [String: String] = [:]
+func GetTownName(zipCode: String, completed: @escaping (_ cityState: String?, _ zipCode: String) -> () ) {
+	//print("Getting town name from zipCode=\(zipCode)")
+	
+	//FORM API Key, subject to change.
+	
+	if (zipCodeDic[zipCode] ?? "") != "" {
+		completed(zipCodeDic[zipCode]!, zipCode)
+		return
+	}
+	
+	if zipCode.count < 3 {
+		return
+	}
+	
+	if let APIKey: String = FormAPIKey {
+		guard let url = URL(string: "https://form-api.com/api/geo/country/zip?key=\(APIKey)&country=US&zipcode=" + zipCode) else { completed(nil, zipCode)
+			return }
+		var cityState: String = ""
+		URLSession.shared.dataTask(with: url){ (data, response, err) in
+			if err == nil {
+				// check if JSON data is downloaded yet
+				guard let jsondata = data else { return }
+				do {
+					do {
+						// Deserilize object from JSON
+						if let zipCodeData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String : AnyObject] {
+							if let result = zipCodeData["result"] {
+								let city = result["city"] as! String
+								let state = result["state"] as! String
+								let stateDict = ["Alabama": "AL","Alaska": "AK","Arizona": "AZ","Arkansas": "AR","California": "CA","Colorado": "CO","Connecticut": "CT","Delaware": "DE","Florida": "FL","Georgia": "GA","Hawaii": "HI","Idaho": "ID","Illinois": "IL","Indiana": "IN","Iowa": "IA","Kansas": "KS","Kentucky": "KY","Louisiana": "LA","Maine": "ME","Maryland": "MD","Massachusetts": "MA","Michigan": "MI","Minnesota": "MN","Mississippi": "MS","Missouri": "MO","Montana": "MT","Nebraska": "NE","Nevada": "NV","New Hampshire": "NH","New Jersey": "NJ","New Mexico": "NM","New York": "NY","North Carolina": "NC","North Dakota": "ND","Ohio": "OH","Oklahoma": "OK","Oregon": "OR","Pennsylvania": "PA","Rhode Island": "RI","South Carolina": "SC","South Dakota": "SD","Tennessee": "TN","Texas": "TX","Utah": "UT","Vermont": "VT","Virginia": "VA","Washington": "WA","West Virginia": "WV","Wisconsin": "WI","Wyoming": "WY"]
+								cityState = city + ", " + (stateDict[state] ?? state)
+							}
+						}
+						DispatchQueue.main.async {
+							zipCodeDic[zipCode] = cityState
+							completed(cityState, zipCode)
+						}
+					}
+				} catch {
+					print("JSON Downloading Error!")
+				}
+			}
+		}.resume()
+	} else {
+		InitializeFormAPI {
+			GetTownName(zipCode: zipCode, completed: completed)
+		}
+	}
+}
+
+func OpenAppStoreID(id: String) {
+	if let url = URL(string: "itms-apps://itunes.apple.com/\(id)"),
+		UIApplication.shared.canOpenURL(url){
+		if #available(iOS 10.0, *) {
+			UIApplication.shared.open(url, options: [:], completionHandler: nil)
+		} else {
+			UIApplication.shared.openURL(url)
+		}
+	}
 }
 
 //String To Date conversion
@@ -436,11 +428,10 @@ func getDateFromString(date: String) -> Date {
 }
 
 func signOutofAmbassadoor() {
-    API.instaLogout()
-    Yourself = nil
     UserDefaults.standard.set(nil, forKey: "token")
     UserDefaults.standard.set(nil, forKey: "userid")
-    
+    API.instaLogout()
+    Yourself = nil
 }
 
 func getStringFromTodayDate() -> String {

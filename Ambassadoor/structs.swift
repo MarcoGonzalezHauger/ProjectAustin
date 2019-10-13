@@ -98,8 +98,6 @@ class User: NSObject {
 	let username: String
 	let followerCount: Double
 	let profilePicURL: String?
-	var primaryCategory: Category
-	var SecondaryCategory: Category?
 	let averageLikes: Double?
 	var zipCode: String?
     //naveen added
@@ -121,20 +119,9 @@ class User: NSObject {
 		} else {
 			self.profilePicURL = dictionary["profilePicture"] as? String
 		}
-//		debugPrint("Category: \(String(describing: dictionary["primaryCategory"]))")
+//		print("Category: \(String(describing: dictionary["primaryCategory"]))")
 //		self.primaryCategory = Category.init(rawValue: dictionary["primaryCategory"] as? String ?? "Other")!
         //naveen added
-        if ((dictionary["primaryCategory"] ?? "") as! String) == ""{
-            self.primaryCategory = Category.init(rawValue: "Other")!
-        } else {
-            self.primaryCategory = ((dictionary["primaryCategory"] as? String ?? "") == "" ? nil : Category.init(rawValue: dictionary["primaryCategory"] as! String))!
-        }
-        
-		if ((dictionary["secondaryCategory"] ?? "") as! String) == ""{
-			self.SecondaryCategory = nil
-		} else {
-			self.SecondaryCategory = ((dictionary["secondaryCategory"] as? String ?? "") == "" ? nil : Category.init(rawValue: dictionary["secondaryCategory"] as! String))!
-		}
 		self.averageLikes = dictionary["averageLikes"] as? Double
 		self.zipCode = dictionary["zipCode"] as? String
         //naveen added
@@ -151,7 +138,7 @@ class User: NSObject {
     }
 	
 	override var description: String {
-		return "NAME: \(name ?? "NIL")\nUSERNAME: \(username)\nFOLLOWER COUNT: \(followerCount)\nPROFILE PIC: \(profilePicURL ?? "NIL")\nACCOUNT TYPE: \(primaryCategory)\nAVERAGE LIKES: \(averageLikes ?? -404)"
+		return "NAME: \(name ?? "NIL")\nUSERNAME: \(username)\nFOLLOWER COUNT: \(followerCount)\nPROFILE PIC: \(profilePicURL ?? "NIL")\nCATEGORIES: \(GetCategoryStringFromlist(categories: categories ?? []))\nAVERAGE LIKES: \(averageLikes ?? -404)"
 	}
 }
 //naveen added

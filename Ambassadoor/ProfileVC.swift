@@ -20,6 +20,8 @@ struct ProfileSetting {
 	let identifier: String
 }
 
+var attemptedLogOut: Bool = false
+
 class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableViewDataSource {
 	
     @IBOutlet weak var referralCode_btn: UIButton!
@@ -34,16 +36,13 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		return 75
 	}
 	
-	@IBAction func logOut(_ sender: Any) {
-        DispatchQueue.main.async {
-            signOutofAmbassadoor()
-            let loginVC = self.storyboard?.instantiateInitialViewController()
-            
-            let appDel:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-            
-            appDel.window?.rootViewController = loginVC
-        }
-
+	
+	
+	@IBAction func logOut(_ sender: Any) {            signOutofAmbassadoor()
+		attemptedLogOut = true
+		let loginVC = self.storyboard?.instantiateInitialViewController()
+		let appDel:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+		appDel.window?.rootViewController = loginVC
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -56,22 +55,18 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 			let finalCategories: String = GetCategoryStringFromlist(categories: Yourself.categories ?? [])
             let catcount = settings.Information as! [String]
             
-            cell.categoryHeader.text = settings.Header + (" \(catcount.count)/5")
+            cell.categoryHeader.text = settings.Header + (" \(catcount.count)/\(maximumCategories)")
             cell.categoryLabel.text = finalCategories
 		case "zip":
 			let zip = settings.Information as! String
 			if zip == "0" {
 				cell.categoryLabel.text = "None, you won't recieve Geo Offers."
 			} else {
-				if (zipCodeDic[String(zip)] ?? "") != "" {
-					cell.categoryLabel.text = zipCodeDic[zip]!
-				} else {
-					cell.categoryLabel.text = "Zip Code: \(zip)"
-                    //naveen commented
-//					GetTownName(zipCode: String(zip)) { (townName) in
-//						cell.categoryLabel.text = townName
-//						zipCodeDic[String(zip)] = townName
-//					}
+				cell.categoryLabel.text = "Zip Code: \(zip)"
+				//naveen commented
+				GetTownName(zipCode: String(zip)) { (townName, zipCode) in
+					cell.categoryLabel.text = townName
+					zipCodeDic[String(zip)] = townName
 				}
 			}
 		default:
@@ -184,15 +179,13 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	
 	func reloadUserSettings() -> [ProfileSetting] {
 		var avaliableSettings: [ProfileSetting] = []
-        print(Yourself.primaryCategory as AnyObject)
-        print(Yourself.SecondaryCategory as AnyObject)
         print(Yourself.zipCode as AnyObject)
         print(Yourself.categories as AnyObject)
 
 
 
         avaliableSettings.append(ProfileSetting.init(Header: "CATEGORIES", Information: Yourself.categories as AnyObject, identifier: "main_cat"))
-		avaliableSettings.append(ProfileSetting.init(Header: "TOWN (ALLOWS GEO OFFERS)", Information: (Yourself.zipCode ?? "0") as AnyObject, identifier: "zip"))
+		avaliableSettings.append(ProfileSetting.init(Header: "ZIP CODE (ALLOWS GEO OFFERS)", Information: (Yourself.zipCode ?? "0") as AnyObject, identifier: "zip"))
         
         
         let ref = Database.database().reference().child("users")

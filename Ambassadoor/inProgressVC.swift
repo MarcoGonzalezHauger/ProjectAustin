@@ -29,7 +29,7 @@ class inProgressVC: UIViewController, UITableViewDataSource, UITableViewDelegate
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		debugPrint("cell selected at \(indexPath.row) (within InProgress Tab)")
+		print("cell selected at \(indexPath.row) (within InProgress Tab)")
         selectedIndex = indexPath.row
 		ViewOfferFromCell(sender: shelf.cellForRow(at: indexPath) as! OfferCell)
 		shelf.deselectRow(at: indexPath, animated: false)

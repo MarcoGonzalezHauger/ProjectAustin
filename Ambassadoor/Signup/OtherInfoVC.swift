@@ -23,10 +23,12 @@ import Firebase
     @IBOutlet weak var zipcode_Txt: UITextField!
     @IBOutlet weak var gender_Txt: UITextField!
     
-    
+	@IBOutlet weak var townNameLabel: UILabel!
+	
     override func viewDidLoad() {
         super.viewDidLoad()
-
+		townNameLabel.text = ""
+		
         // Do any additional setup after loading the view.
         self.setDoneOnKeyboard()
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
@@ -54,9 +56,9 @@ import Firebase
             self.performSegue(withIdentifier: "otherinfoToCatSegue", sender: nil)
             selectedID = "main_cat"
             return false
-        }else if textField == zipcode_Txt{
+        } else if textField == zipcode_Txt {
             return true
-        }else{
+        } else {
             // create an actionSheet
             let actionSheetController: UIAlertController = UIAlertController(title: "Choose Gender", message: nil, preferredStyle: .actionSheet)
             
@@ -100,6 +102,16 @@ import Firebase
         
     }
 	
+	@IBAction func textChanged(_ sender: Any) {
+		if let text = zipcode_Txt.text {
+			GetTownName(zipCode: text) { (TownName, zipCode) in
+				if self.zipcode_Txt.text == zipCode {
+					self.townNameLabel.text = TownName ?? ""
+				}
+			}
+		}
+	}
+	
     @IBAction func submitTapped(_ sender: Any) {
         
         
@@ -115,7 +127,6 @@ import Firebase
             userfinal?.gender = TextToGender(gender: gender_Txt.text!)
             
             userfinal?.joinedDate = Date.getCurrentDate()
-            userfinal?.categories?.append(primeCat_Txt.text!)
             userfinal?.isDefaultOfferVerify = false
             
 //            var referralcodeString = ""
@@ -218,8 +229,6 @@ import Firebase
 		}
 		
 	}
-    
-
     func setDoneOnKeyboard() {
         let keyboardToolbar = UIToolbar()
         keyboardToolbar.sizeToFit()
@@ -241,9 +250,14 @@ import Firebase
 		// Get the new view controller using segue.destination.
 		// Pass the selected object to the new view controller.
 		if let destination = segue.destination as? CategoryPicker {
-			destination.SetupPicker(originalCategories: []) { (cat) in
+			var cats: [Category] = []
+			if let doCat = userfinal!.categories  {
+				cats = StringsToCategories(strings: doCat)
+			}
+			
+			destination.SetupPicker(originalCategories: cats) { (cat) in
 				let newCats = CategoriesToStrings(categories: cat)
-//				self.userfinal!.categories = newCats
+				self.userfinal!.categories = newCats
 				self.primeCat_Txt.text = GetCategoryStringFromlist(categories:  newCats)
             }
             

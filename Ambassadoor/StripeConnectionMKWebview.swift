@@ -88,9 +88,9 @@ class StripeConnectionMKWebview: UIViewController, WKNavigationDelegate {
             
             print("dataString=",dataString as Any)
             do {
-                let json = try JSONSerialization.jsonObject(with: data!, options: []) as? [String : Any]
+				_ = try JSONSerialization.jsonObject(with: data!, options: []) as? [String : Any]
                 
-                let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+				_ = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
                 
                 if let accDetail = try JSONSerialization.jsonObject(with: data!, options: []) as? [String : Any] {
                     

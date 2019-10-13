@@ -79,7 +79,7 @@ func getOfferList(completion:@escaping (_ result: [Offer])->()) {
     var offers : [Offer] = []
     let ref = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id)
     ref.observeSingleEvent(of: .value, with: {(snapshot) in
-        print(snapshot.childrenCount)
+        //print(snapshot.childrenCount)
         if let dictionary = snapshot.value as? [String: AnyObject] {
             for (_, offer) in dictionary{
                 var offerDictionary = offer as? [String: AnyObject]
@@ -194,12 +194,6 @@ func CreateAccount(instagramUser: User, completion:@escaping (_ Results: User , 
             if (user.childSnapshot(forPath: "username").value as! String == instagramUser.username) {
                 alreadyRegistered = true
                 if let dictionary = user.value as? [String: AnyObject] {
-                    instagramUser.primaryCategory = Category(rawValue: dictionary["primaryCategory"] as! String)!
-                    if dictionary["secondaryCategory"] as? String == "" || dictionary["secondaryCategory"] as? String == nil {
-                        instagramUser.SecondaryCategory = nil
-                    }else{
-                        instagramUser.SecondaryCategory = Category(rawValue: (dictionary["secondaryCategory"] as? String)!)!
-                    }
                     instagramUser.gender = TextToGender(gender: dictionary["gender"] as! String)
                     instagramUser.zipCode = dictionary["zipCode"] as? String
                     instagramUser.isBankAdded = dictionary["isBankAdded"] as! Bool

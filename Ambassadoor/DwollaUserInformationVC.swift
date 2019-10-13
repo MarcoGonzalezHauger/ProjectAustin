@@ -176,7 +176,7 @@ class DwollaUserInformationVC: UIViewController ,UITextFieldDelegate {
                                                                 
                                                                 let dataString = NSString(data: cusData!, encoding: String.Encoding.utf8.rawValue)
                                                                 
-                                                                print("dataString=",dataString)
+                                                                print("dataString=",dataString ?? "nil")
                                                                 
                                                                 if cusError == nil {
                                                                     

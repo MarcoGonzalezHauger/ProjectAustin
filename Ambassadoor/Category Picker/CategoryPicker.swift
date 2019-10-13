@@ -32,7 +32,7 @@ class CategoryPicker: UINavigationController, CategoryPickerDelegate {
 			ClassPicker.delegate = self
 			ClassPicker.originalValue = originalCategories
 		} else {
-			debugPrint("Error; unable to find ClassPicker VC as topViewController @ CategoryPicker: UINavCntrl.")
+			print("Error; unable to find ClassPicker VC as topViewController @ CategoryPicker: UINavCntrl.")
 		}
 	
 	}

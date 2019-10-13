@@ -8,6 +8,7 @@
 //
 
 import Foundation
+import WebKit
 
 struct API {
     static let INSTAGRAM_AUTHURL = "https://api.instagram.com/oauth/authorize/"
@@ -50,7 +51,7 @@ struct API {
         let url = URL(string: "https://api.instagram.com/v1/users/self/?access_token=" + INSTAGRAM_ACCESS_TOKEN)
         URLSession.shared.dataTask(with: url!){ (data, response, err) in
 			
-			debugPrint("Downloading username data from instagram API")
+			print("Downloading username data from instagram API")
 			
             if err == nil {
                 // check if JSON data is downloaded yet
@@ -59,6 +60,7 @@ struct API {
                     do {
                         // Deserilize object from JSON
                         if let profileData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String : AnyObject] {
+
                             if let codelimit = profileData["code"] as? Int64{
                                 completed?(nil)
                             }else{
@@ -73,11 +75,7 @@ struct API {
                                         "followerCount": instagramProfileData["counts"]?["followed_by"] as! Double,
                                         "profilePicture": instagramProfileData["profile_picture"] as! String,
                                         
-                                        "primaryCategory": "", // need to get from user on account creation
-                                        
                                         "zipCode": 0,
-                                        
-                                        "secondaryCategory": "",
                                         
                                         //naveen added
                                         "id": instagramProfileData["id"] as! String,
@@ -112,7 +110,7 @@ struct API {
                     }
                     // Wait for data to be retrieved before moving on
                     DispatchQueue.main.async {
-						debugPrint("Deserialization Failed.")
+						print("Deserialization Failed.")
 						//completed?(nil)
                     }
                 } catch {
@@ -127,7 +125,7 @@ struct API {
         let url = URL(string: "https://api.instagram.com/v1/users/self/media/recent/?access_token=" + INSTAGRAM_ACCESS_TOKEN)
         URLSession.shared.dataTask(with: url!){ (data, response, err) in
             
-            debugPrint("Downloading username data from instagram API")
+            print("Downloading username data from instagram API")
             
             if err == nil {
                 // check if JSON data is downloaded yet
@@ -161,10 +159,10 @@ struct API {
 //                                    "joinedDate": "",
 //                                    "categories": []
 //                                ]
-//                                debugPrint("Done Creating Userinfo dictinary")
+//                                print("Done Creating Userinfo dictinary")
 //                                getAverageLikesOfUser(instagramId: instagramProfileData["id"] as! String, completed: { (averageLikes: Double?) in
 //                                    DispatchQueue.main.async {
-//                                        debugPrint("Got Average Likes of User.")
+//                                        print("Got Average Likes of User.")
 //                                        userDictionary["averageLikes"] = averageLikes
 //                                        let user = User(dictionary: userDictionary)
 //                                        DispatchQueue.main.async {
@@ -186,7 +184,7 @@ struct API {
                     }
                     // Wait for data to be retrieved before moving on
                     DispatchQueue.main.async {
-                        debugPrint("Deserialization Failed.")
+                        print("Deserialization Failed.")
                         //completed?(nil)
                     }
                 } catch {
@@ -205,8 +203,6 @@ struct API {
             "username": user.username,
             "followerCount": user.followerCount,
             "profilePicture": user.profilePicURL!,
-            "primaryCategory": user.primaryCategory.rawValue,
-			"secondaryCategory": user.SecondaryCategory == nil ? "" : user.SecondaryCategory!.rawValue,
             "averageLikes": user.averageLikes ?? 0,
 			"zipCode": user.zipCode as Any,
             "gender": user.gender == nil ? "" : user.gender!.rawValue,
@@ -244,7 +240,7 @@ struct API {
                         if let profileData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String : AnyObject] {
                             if let data = profileData["data"] {
                                 profilePictureURL = data["profile_picture"] as! String
-                                debugPrint(profilePictureURL)
+                                print(profilePictureURL)
                             }
                         }
                     }
@@ -300,16 +296,16 @@ struct API {
     
     //naveen added func
     static func instaLogout(){
-        let cookieJar : HTTPCookieStorage = HTTPCookieStorage.shared
-        for cookie in cookieJar.cookies! as [HTTPCookie]{
-//            print("cookie.domain = %@", cookie.domain)
-            
-            if cookie.domain == "www.instagram.com" ||
-                cookie.domain == "api.instagram.com" || cookie.domain == ".instagram.com"{
-                
-                cookieJar.deleteCookie(cookie)
-            }
-        }
+        let dataStore = WKWebsiteDataStore.default()
+		dataStore.fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { (records) in
+			for record in records {
+				if record.displayName.contains("instagram") {
+					dataStore.removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), for: [record], completionHandler: {
+						print("Deleted: " + record.displayName);
+					})
+				}
+			}
+		}
     }
     
     
@@ -317,7 +313,7 @@ struct API {
         let url = URL(string: "https://api.instagram.com/v1/users/self/?access_token=" + INSTAGRAM_ACCESS_TOKEN)
         URLSession.shared.dataTask(with: url!){ (data, response, err) in
             
-            debugPrint("Downloading username data from instagram API")
+            print("Downloading username data from instagram API")
             
             if err == nil {
                 // check if JSON data is downloaded yet
@@ -347,10 +343,10 @@ struct API {
                                     "id": instagramProfileData["id"] as! String,
                                     "gender": ""
                                 ]
-                                debugPrint("Done Creating Userinfo dictinary")
+                                print("Done Creating Userinfo dictinary")
                                 getAverageLikesOfUser(instagramId: instagramProfileData["id"] as! String, completed: { (averageLikes: Double?) in
                                     DispatchQueue.main.async {
-                                        debugPrint("Got Average Likes of User.")
+                                        print("Got Average Likes of User.")
                                         userDictionary["averageLikes"] = averageLikes
                                         let user = User(dictionary: userDictionary)
                                         completed?(user)
@@ -364,7 +360,7 @@ struct API {
                     }
                     // Wait for data to be retrieved before moving on
                     DispatchQueue.main.async {
-                        debugPrint("Deserialization Failed.")
+                        print("Deserialization Failed.")
                         //completed?(nil)
                     }
                 } catch {
@@ -394,7 +390,7 @@ struct API {
             "allPostsConfirmedSince": "",
             "category":[],
             "company": "company1",
-            "expiredate": Date.getStringFromDate(date: Date().afterDays(day: 5)) as Any ,
+            "expiredate": Date.getStringFromDate(date: Date().afterDays(day: 365*1000)) as Any ,
             "genders":["All"] as Any,
             "isAccepted": false,
             "isExpired": false,

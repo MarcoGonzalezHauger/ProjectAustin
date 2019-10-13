@@ -19,9 +19,17 @@ class ProductPreview: UICollectionViewCell {
 
 class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 	
+	@IBOutlet weak var IncludeLabel: UILabel!
+	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		guard let products : [Product] = ThisPost.products else { return 0 }
-		return products.count
+		var returnValue: Int
+		if let products : [Product] = ThisPost.products {
+			returnValue = products.count
+		} else {
+			returnValue = 0
+		}
+		IncludeLabel.isHidden = returnValue == 0
+		return returnValue
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -149,12 +157,16 @@ class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 	@IBOutlet weak var gridHeight: NSLayoutConstraint!
 	
 	func UpdatePostInformation() {
-
-        postimage.image = PostTypeToIcon(posttype: ThisPost.PostType)
+		
+		postimage.image = PostTypeToIcon(posttype: ThisPost.PostType)
 		postLabel.text = PostTypeToText(posttype: ThisPost.PostType)
 		rulesText.text = ThisPost.instructions
 		
-		captionText.text = ThisPost.captionMustInclude
+		if let caption = ThisPost.captionMustInclude {
+			captionText.text = "\(caption) and #ad"
+		} else {
+			captionText.text = "#ad"
+		}
 	}
 	
 	@IBAction func Dismiss(_ sender: Any) {
