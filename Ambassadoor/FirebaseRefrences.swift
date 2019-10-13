@@ -216,30 +216,30 @@ func CreateAccount(instagramUser: User, completion:@escaping (_ Results: User , 
                     }else{
                         var referralcodeString = ""
                         
-                        //user name first and last character
-                        if let firstChar = instagramUser.name?.first{
-                            referralcodeString.append(firstChar)
-                        }
-                        if let lastChar = instagramUser.name?.last {
-                            referralcodeString.append(lastChar)
-                        }
-                        
-                        //user dateofbirth
-                        let date = getDateFromString(date: instagramUser.joinedDate!)
-                        
-                        let dateFormatter = DateFormatter()
-                        dateFormatter.dateFormat = "yy"
-                        let yearString = dateFormatter.string(from: date)
-                        
-                        dateFormatter.dateFormat = "MM"
-                        let monthString = dateFormatter.string(from: date)
-                        
-                        dateFormatter.dateFormat = "dd"
-                        let dayString = dateFormatter.string(from: date)
-
-                        referralcodeString.append(dayString)
-                        referralcodeString.append(monthString)
-                        referralcodeString.append(yearString)
+//                        //user name first and last character
+//                        if let firstChar = instagramUser.name?.first{
+//                            referralcodeString.append(firstChar)
+//                        }
+//                        if let lastChar = instagramUser.name?.last {
+//                            referralcodeString.append(lastChar)
+//                        }
+//                        
+//                        //user dateofbirth
+//                        let date = getDateFromString(date: instagramUser.joinedDate!)
+//                        
+//                        let dateFormatter = DateFormatter()
+//                        dateFormatter.dateFormat = "yy"
+//                        let yearString = dateFormatter.string(from: date)
+//                        
+//                        dateFormatter.dateFormat = "MM"
+//                        let monthString = dateFormatter.string(from: date)
+//                        
+//                        dateFormatter.dateFormat = "dd"
+//                        let dayString = dateFormatter.string(from: date)
+//
+//                        referralcodeString.append(dayString)
+//                        referralcodeString.append(monthString)
+//                        referralcodeString.append(yearString)
                         
                         //random four digit code
                         referralcodeString.append(randomString(length: 4))
@@ -415,9 +415,9 @@ func withdrawUpdate(amount: Double,from: String,to: String, id: String, status: 
     
 }
 
-func instagramPostUpdate(post:[String:Any]) {
+func instagramPostUpdate(offerID:String, post:[String:Any]) {
     
-    let ref = Database.database().reference().child("InfluencerInstagramPost").child(Yourself.id)
+    let ref = Database.database().reference().child("InfluencerInstagramPost").child(Yourself.id).child(offerID)
     ref.updateChildValues(post)
 
 }
@@ -514,4 +514,89 @@ func getStripeAccDetails(completion: @escaping([StripeAccDetail]?,String,Error?)
     }
     
 }
+
+//Update UserData to firebase
+func updateUserDataToFIR(user: User, completion:@escaping (_ Results: User) -> ()) {
+    
+        var referralCode = ""
+    
+        let ref = Database.database().reference().child("InfluencerReferralCodes")
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            print(snapshot.childrenCount)
+
+            if let referralCodeList = snapshot.value as? NSMutableArray{
+                
+                var final = referralCodeList as! [String]
+                referralCode = randomString(length: 6).uppercased()
+                while !final.contains(referralCode){
+                    referralCode = randomString(length: 6).uppercased()
+                }
+                
+                user.referralcode = referralCode
+
+                let ref = Database.database().reference().child("users")
+                let userReference = ref.child(user.id)
+                let userData = API.serializeUser(user: user, id: user.id)
+                userReference.updateChildValues(userData)
+                
+                final.append(referralCode)
+                //update referral code
+                let refCode = Database.database().reference()
+                refCode.updateChildValues(["InfluencerReferralCodes":final])
+                
+                completion(user)
+
+            }else{
+                user.referralcode = randomString(length: 6).uppercased()
+
+                let ref = Database.database().reference().child("users")
+                let userReference = ref.child(user.id)
+                let userData = API.serializeUser(user: user, id: user.id)
+                userReference.updateChildValues(userData)
+                
+                var final:[String] = []
+                final.append(user.referralcode)
+                //update referral code
+                let refCode = Database.database().reference()
+                refCode.updateChildValues(["InfluencerReferralCodes":final])
+                
+                completion(user)
+            }
+
+
+        })
+}
+
+func createDefaultOffer(userID:String, completion:@escaping (_ isdone:Bool) -> ()) {
+        //insertd Default offers
+        let refDefaultOffer = Database.database().reference().child("SentOutOffersToUsers").child(userID)
+        let postID = refDefaultOffer.childByAutoId().key
+        let offerData = API.serializeDefaultOffer(offerID:"XXXDefault", postID: postID! ,userID:userID)
+    
+        
+        /*
+        READ : NOTE BY MARCO
+        I have edited this section of code so that the getOfferList function will only be activated after the default offer as been created by putting the code in the Completion Block. This was probably the "button not working" error.
+        */
+        refDefaultOffer.updateChildValues(["XXXDefault":offerData], withCompletionBlock: { (error, databaseref) in
+            var youroffers: [Offer] = []
+            // ****
+            //naveen added
+            getOfferList { (Offers) in
+                //                print(Offers.count)
+                youroffers = Offers
+                //                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
+                //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
+                global.AvaliableOffers = youroffers.filter({$0.status == "available"})
+                global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
+                global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
+                global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
+                global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
+                
+                completion(true)
+                
+            }
+        })
+}
+
 

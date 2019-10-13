@@ -148,6 +148,19 @@ func GetTierFromFollowerCount(FollowerCount: Double) -> Int? {
 	}
 }
 
+func GetFeeFromFollowerCount(FollowerCount: Double) -> Int? {
+    
+    //Tier is grouping people of similar follower count to encourage competition between users.
+    
+    switch FollowerCount {
+    case 0...749: return 2
+    case 750...1249: return 3
+    case 1250...2999: return 4
+    case 3000...: return 5
+    default: return nil
+    }
+}
+
 func makeImageCircular(image: UIImage) -> UIImage {
 	let ImageLayer = CALayer()
 	

@@ -264,58 +264,140 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         timer = DispatchSource.makeTimerSource(queue: queue)
         
-        timer?.schedule(deadline: .now(), repeating: .seconds(5), leeway: .milliseconds(100))
+        timer?.schedule(deadline: .now(), repeating: .seconds(10), leeway: .milliseconds(100))
         
         timer?.setEventHandler { [weak self] in // `[weak self]` only needed if you reference `self` in this closure and you want to prevent strong reference cycle
             
-            if Yourself != nil{
-                //naveen added
-                var youroffers: [Offer] = []
-                getOfferList { (Offers) in
-//                    print(Offers.count)
-                    youroffers = Offers
-                    //                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
-                    //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
-                    global.AvaliableOffers = youroffers.filter({$0.status == "available"})
-                    global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
-                    global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
-                    global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
-                    global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
-                    
-                    
-                    UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
-                        var newavailableresults: [Offer] = []
-                        for notification in notifications {
-                            //print(notification.identifier)
-                            var identifier = notification.identifier
+//            if Yourself != nil{
+//                //get updated user detail
+//
+//                //get updated offers List
+//                //naveen added
+//                var youroffers: [Offer] = []
+//                getOfferList { (Offers) in
+////                    print(Offers.count)
+//                    youroffers = Offers
+//                    //                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
+//                    //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
+//                    global.AvaliableOffers = youroffers.filter({$0.status == "available"})
+//                    global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
+//                    global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
+//                    global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
+//                    global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
+//
+//
+//                    UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
+//                        var newavailableresults: [Offer] = []
+//                        for notification in notifications {
+//                            print(notification.identifier)
+//                            var identifier = notification.identifier
+//
+//                            if identifier.hasPrefix("new") {
+//                                identifier = String(identifier.dropFirst(3))
+//                            } else if identifier.hasPrefix("accept") {
+//                                identifier = String(identifier.dropFirst(6))
+//                            }
+//                                //naveeen added
+//                            else if identifier.hasPrefix("expire"){
+//                                identifier = String(identifier.dropFirst(6))
+//                            }else{
+//                            }
+//                            newavailableresults = global.AvaliableOffers.filter({ $0.offer_ID != identifier })
+//
+//
+//                        }
+//
+//                        for offer in newavailableresults {
+//                            self!.CreateExpireNotification(expiringOffer: offer)
+//                            self!.CreateNewOfferNotification(newOffer: offer)
+//                        }
+//
+//                    }
+//
+//
+//
+//                }
+//            }else{
+//            }
+            
+            
+            //new change
+                    if  Yourself != nil{
+                        if UserDefaults.standard.object(forKey: "token") != nil  {
+                            // exist
+                            //        //naveen login
+                            API.INSTAGRAM_ACCESS_TOKEN = UserDefaults.standard.object(forKey: "token") as! String
                             
-                            if identifier.hasPrefix("new") {
-                                identifier = String(identifier.dropFirst(3))
-                            } else if identifier.hasPrefix("accept") {
-                                identifier = String(identifier.dropFirst(6))
+                            API.getProfileInfo { (user: User?) in
+            //                    DispatchQueue.main.async {
+                                    if user != nil {
+                                        Yourself = user
+                                        CreateAccount(instagramUser: user!) { (userVal, alreadyRegistered) in
+                                            Yourself = userVal
+                                            if alreadyRegistered {
+                                                UserDefaults.standard.set(API.INSTAGRAM_ACCESS_TOKEN, forKey: "token")
+                                                UserDefaults.standard.set(Yourself.id, forKey: "userid")
+                                                
+                                            }else{
+                                            }
+                                        
+                                        }
+                                        
+                                        
+                                        //naveen added
+                                        var youroffers: [Offer] = []
+                                        getOfferList { (Offers) in
+            //                            print(Offers.count)
+                                        youroffers = Offers
+            //                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
+            //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
+                                            global.AvaliableOffers = youroffers.filter({$0.status == "available"})
+                                            global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
+                                            global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
+                                            global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
+                                            global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
+                                            
+                                            
+                                            UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
+                                                var newavailableresults: [Offer] = []
+                                                for notification in notifications {
+                                                    print(notification.identifier)
+                                                    var identifier = notification.identifier
+
+                                                    if identifier.hasPrefix("new") {
+                                                        identifier = String(identifier.dropFirst(3))
+                                                    } else if identifier.hasPrefix("accept") {
+                                                        identifier = String(identifier.dropFirst(6))
+                                                    }
+                                                        //naveeen added
+                                                    else if identifier.hasPrefix("expire"){
+                                                        identifier = String(identifier.dropFirst(6))
+                                                    }else{
+                                                    }
+                                                    newavailableresults = global.AvaliableOffers.filter({ $0.offer_ID != identifier })
+                                                    
+                                                }
+                                                
+                                                for offer in newavailableresults {
+                                                    self!.CreateExpireNotification(expiringOffer: offer)
+                                                    self!.CreateNewOfferNotification(newOffer: offer)
+                                                }
+                                                
+                                            }
+                                            
+                                            
+                                        }
+                                    } else {
+                                        debugPrint("Youself user was NIL.")
+                                        
+                                    }
+            //                    }
                             }
-                                //naveeen added
-                            else if identifier.hasPrefix("expire"){
-                                identifier = String(identifier.dropFirst(6))
-                            }else{
-                            }
-                            newavailableresults = global.AvaliableOffers.filter({ $0.offer_ID != identifier })
-                            
-                            
+                        } else {
+                            // not exist
                         }
-                        
-                        for offer in newavailableresults {
-                            self!.CreateExpireNotification(expiringOffer: offer)
-                            self!.CreateNewOfferNotification(newOffer: offer)
-                        }
-                        
                     }
-                    
-                    
-                    
-                }
-            }else{
-            }
+            
         }
         
         timer?.resume()

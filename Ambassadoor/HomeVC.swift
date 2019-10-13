@@ -230,7 +230,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 						self.GetUser()
 					}
 				}
-                
             } else {
                 // not exist
                 performSegue(withIdentifier: "showSignUpVC", sender: self)
@@ -241,29 +240,20 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 	}
 	
 	func GetUser() {
-		API.INSTAGRAM_ACCESS_TOKEN = UserDefaults.standard.object(forKey: "token") as! String
-		
 		API.getProfileInfo { (user: User?) in
 			//                    DispatchQueue.main.async {
 			if user != nil {
 				Yourself = user
 				CreateAccount(instagramUser: user!) { (userVal, alreadyRegistered) in
 					Yourself = userVal
-					if let zipCode = userVal.zipCode {
-						GetTownName(zipCode: zipCode) { (name, zipCode) in
-							print("Loaded Town Name.")
-						}
-					}
 					if alreadyRegistered {
 						UserDefaults.standard.set(API.INSTAGRAM_ACCESS_TOKEN, forKey: "token")
 						UserDefaults.standard.set(Yourself.id, forKey: "userid")
 						
 					}else{
-						
 					}
 					
 				}
-				
 				
 				//naveen added
 				var youroffers: [Offer] = []
@@ -277,6 +267,44 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 					global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
 					global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
 					global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
+					
+					
+					//post verify check
+					
+					//get instagram user media data
+					API.getRecentMedia { (mediaData: [[String:Any]]?) in
+						for postVal in mediaData!{
+							if let captionVal = (postVal["caption"] as? [String:Any]) {
+								var instacaption = captionVal["text"] as! String
+								if instacaption.contains("#ad"){
+									instacaption = instacaption.replacingOccurrences(of: " #ad ", with: "")
+									instacaption = instacaption.replacingOccurrences(of: "#ad ", with: "")
+									instacaption = instacaption.replacingOccurrences(of: " #ad", with: "")
+									instacaption = instacaption.replacingOccurrences(of: "#ad", with: "")
+									
+									for offer in global.AcceptedOffers {
+										if !offer.allConfirmed {
+											for post in offer.posts {
+												let postCaption = post.captionMustInclude!
+												if instacaption.contains(postCaption) {
+													instagramPostUpdate(offerID: offer.offer_ID, post: [post.post_ID:postVal])
+													SentOutOffersUpdate(offer: offer, post_ID: post.post_ID)
+												}
+											}
+										}
+										
+									}
+									
+								}
+								
+								
+							}else{
+								
+							}
+							
+						}
+						
+					}
 					
 					
 					UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
@@ -309,9 +337,12 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 					
 					
 				}
+				
 			} else {
-				print("Youself user was NIL.")
+				debugPrint("Youself user was NIL.")
+				self.showStandardAlertDialog(title: "Alert", msg: "You have exceeded the maximum number of requests per hour. You have performed a total of 270 requests in the last hour. Our general maximum limit is set at 200 requests per hour.")
 			}
+			//                    }
 		}
 	}
 		

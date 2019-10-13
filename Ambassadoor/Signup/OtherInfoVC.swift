@@ -129,7 +129,7 @@ import Firebase
             userfinal?.joinedDate = Date.getCurrentDate()
             userfinal?.isDefaultOfferVerify = false
             
-            var referralcodeString = ""
+//            var referralcodeString = ""
             
 //            //user name first and last character
 //            if let firstChar = userfinal?.name?.first{
@@ -157,74 +157,78 @@ import Firebase
 //            referralcodeString.append(yearString)
             
             //random four digit code
-            referralcodeString.append(randomString(length: 6))
+//            referralcodeString.append(randomString(length: 6))
             
-            userfinal?.referralcode = referralcodeString.uppercased()
-
-            let ref = Database.database().reference().child("users")
-            let userReference = ref.child(userfinal!.id)
-			print("Create User Reference.")
-            let userData = API.serializeUser(user: userfinal!, id: userfinal!.id)
-			print("Serialized user Data.")
-            userReference.updateChildValues(userData)
-			print("Update Child Values with User Data.")
-			//let categoryReference = ref.child("categories")
-			
-//			var dict: [Int: Any] = [:]
-//			var i: Int = 0
-//			for cat in userfinal!.categories! {
-//				dict[i] = String(cat)
-//				i += 1
-//			}
-//			print(dict.description)
-//			categoryReference.updateChildValues(dict)
-//			print("Update Categories for User.")
-				
-            Yourself = userfinal
-            UserDefaults.standard.set(API.INSTAGRAM_ACCESS_TOKEN, forKey: "token")
-            UserDefaults.standard.set(Yourself.id, forKey: "userid")
-			print("Created UserDefaults.")
             
-            //insertd Default offers
-            let refDefaultOffer = Database.database().reference().child("SentOutOffersToUsers").child(userfinal!.id)
-            let postID = refDefaultOffer.childByAutoId().key
-			let offerData = API.serializeDefaultOffer(offerID:"XXXDefault", postID: postID! ,userID:userfinal!.id)
-			print("Default offer Created.")
-			
-			/*
-			READ : NOTE BY MARCO
-			I have edited this section of code so that the getOfferList function will only be activated after the default offer as been created by putting the code in the Completion Block. This was probably the "button not working" error.
-			*/
-			refDefaultOffer.updateChildValues(["XXXDefault":offerData], withCompletionBlock: { (error, databaseref) in
-				var youroffers: [Offer] = []
-				// ****
-				//naveen added
-				getOfferList { (Offers) in
-					//                print(Offers.count)
-					youroffers = Offers
-					//                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
-					//                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
-					global.AvaliableOffers = youroffers.filter({$0.status == "available"})
-					global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
-					global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
-					global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
-					global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
-					
-					self.dismiss(animated: false) {
-						self.delegate?.dismissed(success: true)
-					}
-					
-				}
-			})
+            updateUserDataToFIR(user: userfinal!){ (user) in
+                
+//                    userfinal?.referralcode = referralcodeString.uppercased()
+//
+//                    let ref = Database.database().reference().child("users")
+//                    let userReference = ref.child(userfinal!.id)
+//                    let userData = API.serializeUser(user: userfinal!, id: userfinal!.id)
+//                    userReference.updateChildValues(userData)
+                    
+//                    let categoryReference = ref.child("categories")
+//
+//                    var dict: [Int: String] = [:]
+//                    var i: Int = 0
+//                    for cat in user.categories! {
+//                        dict[i] = cat
+//                        i += 1
+//                    }
+//
+//                    categoryReference.updateChildValues(dict)
+                        
+                    Yourself = user
+                    UserDefaults.standard.set(API.INSTAGRAM_ACCESS_TOKEN, forKey: "token")
+                    UserDefaults.standard.set(Yourself.id, forKey: "userid")
+                
+                //create default offer
+                createDefaultOffer(userID: user.id){ (bool) in
+                    
+                    self.dismiss(animated: false) {
+                        self.delegate?.dismissed(success: true)
+                    }
+                }
+                    
+//                    //insertd Default offers
+//                    let refDefaultOffer = Database.database().reference().child("SentOutOffersToUsers").child(user.id)
+//                    let postID = refDefaultOffer.childByAutoId().key
+//                    let offerData = API.serializeDefaultOffer(offerID:"XXXDefault", postID: postID! ,userID:user.id)
+//                
+//                    
+//                    /*
+//                    READ : NOTE BY MARCO
+//                    I have edited this section of code so that the getOfferList function will only be activated after the default offer as been created by putting the code in the Completion Block. This was probably the "button not working" error.
+//                    */
+//                    refDefaultOffer.updateChildValues(["XXXDefault":offerData], withCompletionBlock: { (error, databaseref) in
+//                        var youroffers: [Offer] = []
+//                        // ****
+//                        //naveen added
+//                        getOfferList { (Offers) in
+//                            //                print(Offers.count)
+//                            youroffers = Offers
+//                            //                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
+//                            //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
+//                            global.AvaliableOffers = youroffers.filter({$0.status == "available"})
+//                            global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
+//                            global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
+//                            global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
+//                            global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
+//                            
+//                            self.dismiss(animated: false) {
+//                                self.delegate?.dismissed(success: true)
+//                            }
+//                            
+//                        }
+//                    })
+                
+            }
 			
 		}
 		
 	}
-	
-	@IBAction func zipCodeEntered(_ sender: Any) {
-		
-	}
-	
     func setDoneOnKeyboard() {
         let keyboardToolbar = UIToolbar()
         keyboardToolbar.sizeToFit()
