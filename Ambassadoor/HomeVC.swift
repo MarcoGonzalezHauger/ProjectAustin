@@ -231,7 +231,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
                             
                             }
                             
-                            
                             //naveen added
                             var youroffers: [Offer] = []
                             getOfferList { (Offers) in
@@ -244,6 +243,44 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
                                 global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
                                 global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
                                 global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
+                                
+                                                        
+                                //post verify check
+
+                                //get instagram user media data
+                                API.getRecentMedia { (mediaData: [[String:Any]]?) in
+                                    for postVal in mediaData!{
+                                        if let captionVal = (postVal["caption"] as? [String:Any]) {
+                                            var instacaption = captionVal["text"] as! String
+                                            if instacaption.contains("#ad"){
+                                                instacaption = instacaption.replacingOccurrences(of: " #ad ", with: "")
+                                                instacaption = instacaption.replacingOccurrences(of: "#ad ", with: "")
+                                                instacaption = instacaption.replacingOccurrences(of: " #ad", with: "")
+                                                instacaption = instacaption.replacingOccurrences(of: "#ad", with: "")
+                                                
+                                                for offer in global.AcceptedOffers {
+                                                    if !offer.allConfirmed {
+                                                        for post in offer.posts {
+                                                            let postCaption = post.captionMustInclude!
+                                                            if instacaption.contains(postCaption) {
+                                                                instagramPostUpdate(offerID: offer.offer_ID, post: [post.post_ID:postVal])
+                                                                SentOutOffersUpdate(offer: offer, post_ID: post.post_ID)
+                                                            }
+                                                        }
+                                                    }
+
+                                                }
+                                                
+                                            }
+
+                                            
+                                        }else{
+                                            
+                                        }
+                                        
+                                    }
+                                    
+                                }
                                 
                                 
                                 UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
@@ -276,8 +313,10 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
                                 
                                 
                             }
+                            
                         } else {
                             debugPrint("Youself user was NIL.")
+                            self.showStandardAlertDialog(title: "Alert", msg: "You have exceeded the maximum number of requests per hour. You have performed a total of 270 requests in the last hour. Our general maximum limit is set at 200 requests per hour.")
                         }
 //                    }
                 }
