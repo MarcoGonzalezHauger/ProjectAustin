@@ -9,7 +9,6 @@
 
 import UIKit
 import WebKit
-import JavaScriptCore
 
 class InstagramVC: UIViewController, ConfirmationReturned {
 	
@@ -40,9 +39,9 @@ class InstagramVC: UIViewController, ConfirmationReturned {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-		debugPrint("before LoadLogin()")
+		print("before LoadLogin()")
         loadLogin()
-		debugPrint("after LoadLogin()")
+		print("after LoadLogin()")
     }
     
     // Loads the Instagram login page
@@ -59,7 +58,7 @@ class InstagramVC: UIViewController, ConfirmationReturned {
         let urlRequest = URLRequest.init(url: URL.init(string: authURL)!)
         // Puts login page into WebView on VC
         webView.load(urlRequest)
-		debugPrint("WEB VIEW URL: \(String(describing: webView.url))")
+		print("WEB VIEW URL: \(String(describing: webView.url))")
 		
 
     }
@@ -86,17 +85,17 @@ extension InstagramVC: WKNavigationDelegate {
     // Handle Instagram auth token from callback url and handle it with our logic
     //naveen commented
 //    func handleAuth(authToken: String) {
-//        debugPrint("Instagram authentication token = ", authToken)
+//        print("Instagram authentication token = ", authToken)
 //        API.INSTAGRAM_ACCESS_TOKEN = authToken
 //		API.getProfileInfo { (user: User?) in
 //			DispatchQueue.main.async {
 //				if user != nil {
-//					debugPrint("user NOT nil, creating user.")
+//					print("user NOT nil, creating user.")
 //                    CreateAccount(instagramUser: user!)
 //					Yourself = user
 //					self.performSegue(withIdentifier: "VerifySegue", sender: self)
 //				} else {
-//					debugPrint("Youself user was NIL.")
+//					print("Youself user was NIL.")
 //				}
 //			}
 //		}
@@ -104,12 +103,12 @@ extension InstagramVC: WKNavigationDelegate {
     
     //naveen added
     func handleAuth(authToken: String) {
-        debugPrint("Instagram authentication token = ", authToken)
+        print("Instagram authentication token = ", authToken)
         API.INSTAGRAM_ACCESS_TOKEN = authToken
         API.getProfileInfo { (user: User?) in
             DispatchQueue.main.async {
                 if user != nil {
-                    debugPrint("user NOT nil, creating user.")
+                    print("user NOT nil, creating user.")
                     CreateAccount(instagramUser: user!) { (userVal, alreadyRegistered) in
                         Yourself = userVal
                         if alreadyRegistered {
@@ -123,19 +122,22 @@ extension InstagramVC: WKNavigationDelegate {
                     }
 
                 } else {
-                    debugPrint("Youself user was NIL.")
+                    print("Youself user was NIL.")
                 }
             }
         }
     }
     
     func worked(){
-        debugPrint("Segue complete.")
+        print("Segue complete.")
     }
 	
 	func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: ((WKNavigationActionPolicy) -> Void)) {
 		decisionHandler(.allow)
-		checkRequestForCallbackURL(request: navigationAction.request)
+		let success: Bool = checkRequestForCallbackURL(request: navigationAction.request)
+		if success {
+			print("Sucessful login.")
+		}
     }
     
     func getDwollaProcessorToken(params: [String: AnyObject],completion: @escaping (_ status: String,  _ error: String?, _ dataValue: Data?) -> Void) {

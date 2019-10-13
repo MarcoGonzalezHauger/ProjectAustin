@@ -55,22 +55,18 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 			let finalCategories: String = GetCategoryStringFromlist(categories: Yourself.categories ?? [])
             let catcount = settings.Information as! [String]
             
-            cell.categoryHeader.text = settings.Header + (" \(catcount.count)/5")
+            cell.categoryHeader.text = settings.Header + (" \(catcount.count)/\(maximumCategories)")
             cell.categoryLabel.text = finalCategories
 		case "zip":
 			let zip = settings.Information as! String
 			if zip == "0" {
 				cell.categoryLabel.text = "None, you won't recieve Geo Offers."
 			} else {
-				if (zipCodeDic[String(zip)] ?? "") != "" {
-					cell.categoryLabel.text = zipCodeDic[zip]!
-				} else {
-					cell.categoryLabel.text = "Zip Code: \(zip)"
-                    //naveen commented
-//					GetTownName(zipCode: String(zip)) { (townName) in
-//						cell.categoryLabel.text = townName
-//						zipCodeDic[String(zip)] = townName
-//					}
+				cell.categoryLabel.text = "Zip Code: \(zip)"
+				//naveen commented
+				GetTownName(zipCode: String(zip)) { (townName, zipCode) in
+					cell.categoryLabel.text = townName
+					zipCodeDic[String(zip)] = townName
 				}
 			}
 		default:

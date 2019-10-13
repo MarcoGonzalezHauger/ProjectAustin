@@ -12,8 +12,7 @@ import Firebase
 class OfferAcceptConfirmVC: UIViewController {
 
     var ThisOffer: Offer!
-    var delegate: OfferResponse?
-
+	var Confirmdelegate: ConfirmPage?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,21 +25,26 @@ class OfferAcceptConfirmVC: UIViewController {
         
         
         let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(ThisOffer.offer_ID)
-        let dayCount = ThisOffer.posts.count * 2
-        let expireDate = Date.getStringFromDate(date: Date().afterDays(day: dayCount))!
+		let dayCount = ThisOffer.posts.count * 2
+		var expireDate = Date.getStringFromDate(date: Date().afterDays(day: dayCount))!
+		if ThisOffer.offer_ID == "XXXDefault" {
+			let foreverDate = 365 * 1000
+			expireDate = Date.getStringFromDate(date: Date().afterDays(day: foreverDate))!
+		}
         
         prntRef.updateChildValues(["expiredate":expireDate])
         prntRef.updateChildValues(["isAccepted":true])
         prntRef.updateChildValues(["status":"accepted"])
         
-        
 
-        dismiss(animated: true) { self.delegate?.OfferAccepted(offer: self.ThisOffer) }
+        dismiss(animated: true) {
+			self.Confirmdelegate?.dismissPage()
+		}
     }
     
     @IBAction func cancel_Action(_ sender: Any) {
-        
-        self.navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+		
     }
     
     /*

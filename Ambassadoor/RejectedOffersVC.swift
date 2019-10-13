@@ -42,7 +42,7 @@ class RejectedOffersVC: UIViewController, UITableViewDataSource, UITableViewDele
 	var viewoffer: Offer?
 	
 	func ViewOffer(OfferToView theoffer: Offer) {
-//		debugPrint("Viewing Offer: \(theoffer.money) from \(theoffer.company)")
+//		print("Viewing Offer: \(theoffer.money) from \(theoffer.company)")
 		viewoffer = theoffer
 		performSegue(withIdentifier: "viewOfferSegue", sender: self)
 	}
@@ -57,7 +57,7 @@ class RejectedOffersVC: UIViewController, UITableViewDataSource, UITableViewDele
 				destination.ThisOffer = newviewoffer
 			}
 		} else {
-			debugPrint("Segue to sign up is being prepared.")
+			print("Segue to sign up is being prepared.")
 		}
 	}
 	

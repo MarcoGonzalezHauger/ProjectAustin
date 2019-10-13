@@ -16,7 +16,7 @@ extension UIViewController {
     
     func showStandardAlertDialog(title:String = "Error", msg:String = "An unhandled error occurred."){
         let alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "OK 😩", style: UIAlertAction.Style.default, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     

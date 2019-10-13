@@ -50,7 +50,7 @@ struct API {
         let url = URL(string: "https://api.instagram.com/v1/users/self/?access_token=" + INSTAGRAM_ACCESS_TOKEN)
         URLSession.shared.dataTask(with: url!){ (data, response, err) in
 			
-			debugPrint("Downloading username data from instagram API")
+			print("Downloading username data from instagram API")
 			
             if err == nil {
                 // check if JSON data is downloaded yet
@@ -86,10 +86,10 @@ struct API {
                                     "referralcode": "",
                                     "isDefaultOfferVerify": false
                                 ]
-                                debugPrint("Done Creating Userinfo dictinary")
+                                print("Done Creating Userinfo dictinary")
                                 getAverageLikesOfUser(instagramId: instagramProfileData["id"] as! String, completed: { (averageLikes: Double?) in
                                     DispatchQueue.main.async {
-                                        debugPrint("Got Average Likes of User.")
+                                        print("Got Average Likes of User.")
                                         userDictionary["averageLikes"] = averageLikes
                                         let user = User(dictionary: userDictionary)
                                         DispatchQueue.main.async {
@@ -107,7 +107,7 @@ struct API {
                     }
                     // Wait for data to be retrieved before moving on
                     DispatchQueue.main.async {
-						debugPrint("Deserialization Failed.")
+						print("Deserialization Failed.")
 						//completed?(nil)
                     }
                 } catch {
@@ -122,7 +122,7 @@ struct API {
         let url = URL(string: "https://api.instagram.com/v1/users/self/media/recent/?access_token=" + INSTAGRAM_ACCESS_TOKEN)
         URLSession.shared.dataTask(with: url!){ (data, response, err) in
             
-            debugPrint("Downloading username data from instagram API")
+            print("Downloading username data from instagram API")
             
             if err == nil {
                 // check if JSON data is downloaded yet
@@ -156,10 +156,10 @@ struct API {
 //                                    "joinedDate": "",
 //                                    "categories": []
 //                                ]
-//                                debugPrint("Done Creating Userinfo dictinary")
+//                                print("Done Creating Userinfo dictinary")
 //                                getAverageLikesOfUser(instagramId: instagramProfileData["id"] as! String, completed: { (averageLikes: Double?) in
 //                                    DispatchQueue.main.async {
-//                                        debugPrint("Got Average Likes of User.")
+//                                        print("Got Average Likes of User.")
 //                                        userDictionary["averageLikes"] = averageLikes
 //                                        let user = User(dictionary: userDictionary)
 //                                        DispatchQueue.main.async {
@@ -181,7 +181,7 @@ struct API {
                     }
                     // Wait for data to be retrieved before moving on
                     DispatchQueue.main.async {
-                        debugPrint("Deserialization Failed.")
+                        print("Deserialization Failed.")
                         //completed?(nil)
                     }
                 } catch {
@@ -237,7 +237,7 @@ struct API {
                         if let profileData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String : AnyObject] {
                             if let data = profileData["data"] {
                                 profilePictureURL = data["profile_picture"] as! String
-                                debugPrint(profilePictureURL)
+                                print(profilePictureURL)
                             }
                         }
                     }
@@ -310,7 +310,7 @@ struct API {
         let url = URL(string: "https://api.instagram.com/v1/users/self/?access_token=" + INSTAGRAM_ACCESS_TOKEN)
         URLSession.shared.dataTask(with: url!){ (data, response, err) in
             
-            debugPrint("Downloading username data from instagram API")
+            print("Downloading username data from instagram API")
             
             if err == nil {
                 // check if JSON data is downloaded yet
@@ -340,10 +340,10 @@ struct API {
                                     "id": instagramProfileData["id"] as! String,
                                     "gender": ""
                                 ]
-                                debugPrint("Done Creating Userinfo dictinary")
+                                print("Done Creating Userinfo dictinary")
                                 getAverageLikesOfUser(instagramId: instagramProfileData["id"] as! String, completed: { (averageLikes: Double?) in
                                     DispatchQueue.main.async {
-                                        debugPrint("Got Average Likes of User.")
+                                        print("Got Average Likes of User.")
                                         userDictionary["averageLikes"] = averageLikes
                                         let user = User(dictionary: userDictionary)
                                         completed?(user)
@@ -357,7 +357,7 @@ struct API {
                     }
                     // Wait for data to be retrieved before moving on
                     DispatchQueue.main.async {
-                        debugPrint("Deserialization Failed.")
+                        print("Deserialization Failed.")
                         //completed?(nil)
                     }
                 } catch {
@@ -387,7 +387,7 @@ struct API {
             "allPostsConfirmedSince": "",
             "category":[],
             "company": "company1",
-            "expiredate": Date.getStringFromDate(date: Date().afterDays(day: 5)) as Any ,
+            "expiredate": Date.getStringFromDate(date: Date().afterDays(day: 365*1000)) as Any ,
             "genders":["All"] as Any,
             "isAccepted": false,
             "isExpired": false,

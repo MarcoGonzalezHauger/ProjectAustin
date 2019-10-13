@@ -119,7 +119,7 @@ class User: NSObject {
 		} else {
 			self.profilePicURL = dictionary["profilePicture"] as? String
 		}
-//		debugPrint("Category: \(String(describing: dictionary["primaryCategory"]))")
+//		print("Category: \(String(describing: dictionary["primaryCategory"]))")
 //		self.primaryCategory = Category.init(rawValue: dictionary["primaryCategory"] as? String ?? "Other")!
         //naveen added
 		self.averageLikes = dictionary["averageLikes"] as? Double

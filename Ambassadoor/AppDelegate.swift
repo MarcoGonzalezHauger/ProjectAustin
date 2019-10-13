@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	
 	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
 		let identifier = response.notification.request.identifier
-		//debugPrint("actionID: \(identifier)")
+		//print("actionID: \(identifier)")
 		if identifier.hasPrefix("new") {
 			let offer_ID: String = String(identifier.dropFirst(3))
 			sendOffer(id: offer_ID)
@@ -197,9 +197,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             ref.observeSingleEvent(of: .value, with: { (snapshot) in
                 
                 let latestVersion = snapshot.value as! String
-                if (latestVersion == appVersion) {
-                    
-                }else{
+                if latestVersion != appVersion {
                     let alertMessage = "A new version of Application is available, Please update to version " + latestVersion;
 
                     let topWindow: UIWindow? = UIWindow(frame: UIScreen.main.bounds)
@@ -214,14 +212,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         topWindow?.isHidden = true // if you want to hide the topwindow then use this
                         //            topWindow? = nil // if you want to hide the topwindow then use this
                         
-                        if let url = URL(string: "itms-apps://itunes.apple.com/app"),
-                            UIApplication.shared.canOpenURL(url){
-                            if #available(iOS 10.0, *) {
-                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                            } else {
-                                UIApplication.shared.openURL(url)
-                            }
-                        }
+                        OpenAppStoreID(id: "1483075744")
                         
                         
                     }))

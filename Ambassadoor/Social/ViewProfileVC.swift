@@ -53,10 +53,10 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	}
 	
 	func ShowUser() {
-//		debugPrint("(new) ViewProfile activated, YOURSELF=")
-//		debugPrint(Yourself!)
-//		debugPrint("THISUSER=")
-//		debugPrint(ThisUser)
+//		print("(new) ViewProfile activated, YOURSELF=")
+//		print(Yourself!)
+//		print("THISUSER=")
+//		print(ThisUser)
 		
 		if blackIcons.contains(ThisUser.username) {
 			infLogo.image = UIImage.init(named: "verified_black")
@@ -97,8 +97,8 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		if let picurl = ThisUser.profilePicURL {
 			profilePic.downloadedFrom(url: URL.init(string: picurl)!, makeImageCircular: true)
 		} else {
-//			debugPrint(defaultImage)
-//			debugPrint(profilePic)
+//			print(defaultImage)
+//			print(profilePic)
 			profilePic.image = defaultImage
 		}
 	}
@@ -128,7 +128,7 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	}
 	
 	@IBAction func dismiss(_ sender: Any) {
-		debugPrint("Attempted to dismiss ViewProfileVC")
+		print("Attempted to dismiss ViewProfileVC")
 		self.navigationController?.popViewController(animated: true)
 		self.dismiss(animated: true, completion: nil)	}
 	
@@ -148,7 +148,7 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		
 		let user = ThisUser.username
 		let instaURL = URL(string: "instagram://user?username=\(user)")!
-		debugPrint(instaURL)
+		print(instaURL)
 		let sharedApps = UIApplication.shared
 		
 		if sharedApps.canOpenURL(instaURL) {

@@ -32,6 +32,7 @@ class VerifedVC: UIViewController, ConfirmationReturned {
 	
 	@IBAction func notme(_ sender: Any) {
 		self.dismiss(animated: false) {
+			attemptedLogOut = true
 			self.delegate?.dismissed(success: false)
 		}
 	}

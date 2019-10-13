@@ -79,7 +79,7 @@ class PageVC: UIPageViewController, UIPageViewControllerDataSource, UIPageViewCo
         }
 		
 		let bgView = UIView(frame: UIScreen.main.bounds)
-		bgView.backgroundColor = UIColor.white
+		bgView.backgroundColor = UIColor.systemBackground
 		view.insertSubview(bgView, at: 0)
     }
 	

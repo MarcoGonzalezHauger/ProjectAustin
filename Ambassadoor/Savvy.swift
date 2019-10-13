@@ -191,7 +191,7 @@ func GetCategoryStringFromlist(categories: [String]) -> String {
 
 
 func OfferFromID(id: String, completion:@escaping(_ offer:Offer?)->()) {
-	debugPrint("attempting to find offer with ID \(id)")
+	print("attempting to find offer with ID \(id)")
 	
 	////    return global.AvaliableOffers.filter { (ThisOffer) -> Bool in
 	////        return ThisOffer.offer_ID == id
@@ -333,12 +333,23 @@ func InitializeFormAPI(completed: (() -> Void)?) {
 
 var FormAPIKey: String?
 
-func GetTownName(zipCode: String, completed: @escaping (_ cityState: String?) -> () ) {
-	debugPrint("Getting town name from zipCode=\(zipCode)")
+var zipCodeDic: [String: String] = [:]
+func GetTownName(zipCode: String, completed: @escaping (_ cityState: String?, _ zipCode: String) -> () ) {
+	//print("Getting town name from zipCode=\(zipCode)")
 	
 	//FORM API Key, subject to change.
+	
+	if (zipCodeDic[zipCode] ?? "") != "" {
+		completed(zipCodeDic[zipCode]!, zipCode)
+		return
+	}
+	
+	if zipCode.count < 3 {
+		return
+	}
+	
 	if let APIKey: String = FormAPIKey {
-		guard let url = URL(string: "https://form-api.com/api/geo/country/zip?key=\(APIKey)&country=US&zipcode=" + zipCode) else { completed(nil)
+		guard let url = URL(string: "https://form-api.com/api/geo/country/zip?key=\(APIKey)&country=US&zipcode=" + zipCode) else { completed(nil, zipCode)
 			return }
 		var cityState: String = ""
 		URLSession.shared.dataTask(with: url){ (data, response, err) in
@@ -357,7 +368,8 @@ func GetTownName(zipCode: String, completed: @escaping (_ cityState: String?) ->
 							}
 						}
 						DispatchQueue.main.async {
-							completed(cityState)
+							zipCodeDic[zipCode] = cityState
+							completed(cityState, zipCode)
 						}
 					}
 				} catch {
@@ -368,6 +380,17 @@ func GetTownName(zipCode: String, completed: @escaping (_ cityState: String?) ->
 	} else {
 		InitializeFormAPI {
 			GetTownName(zipCode: zipCode, completed: completed)
+		}
+	}
+}
+
+func OpenAppStoreID(id: String) {
+	if let url = URL(string: "itms-apps://itunes.apple.com/\(id)"),
+		UIApplication.shared.canOpenURL(url){
+		if #available(iOS 10.0, *) {
+			UIApplication.shared.open(url, options: [:], completionHandler: nil)
+		} else {
+			UIApplication.shared.openURL(url)
 		}
 	}
 }

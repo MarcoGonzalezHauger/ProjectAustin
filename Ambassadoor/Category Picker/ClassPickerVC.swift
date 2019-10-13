@@ -45,14 +45,14 @@ class ClassPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	
 	func CategoryAdded(newCategory: Category) -> Bool {
 		if returnValue.count >= maximumCategories {
-			debugPrint("No room for new category.")
+			print("No room for new category.")
 			return false
 		}
 		if returnValue.contains(newCategory) {
-			debugPrint("Category already containing")
+			print("Category already containing")
 			return false
 		}
-		debugPrint("added category selection: \(newCategory)")
+		print("added category selection: \(newCategory)")
 		returnValue.append(newCategory)
 		catChanged()
 		return true
@@ -60,7 +60,7 @@ class ClassPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	
 	func CategoryRemoved(removedCategory: Category) {
 		returnValue = returnValue.filter{ return $0 != removedCategory }
-		debugPrint("Category Removed: \(removedCategory)")
+		print("Category Removed: \(removedCategory)")
 		catChanged()
 	}
 	

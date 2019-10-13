@@ -44,10 +44,10 @@ class socialPageVC: UIPageViewController, UIPageViewControllerDataSource, UIPage
 	}
 	
 	func GoToSearch(sender: UIViewController) {
-		debugPrint("Go To Search has been activated")
+		print("Go To Search has been activated")
 		goToPage(index: 2, sender: sender)
 		if let searchPage = socialOrderedVC[2] as? socialSearchVC {
-			debugPrint("autoSearch = true...")
+			print("autoSearch = true...")
 			searchPage.autoSearch = true
 			viewDidAppear(true)
 		}

@@ -56,9 +56,9 @@ import Firebase
             self.performSegue(withIdentifier: "otherinfoToCatSegue", sender: nil)
             selectedID = "main_cat"
             return false
-        }else if textField == zipcode_Txt{
+        } else if textField == zipcode_Txt {
             return true
-        }else{
+        } else {
             // create an actionSheet
             let actionSheetController: UIAlertController = UIAlertController(title: "Choose Gender", message: nil, preferredStyle: .actionSheet)
             
@@ -101,6 +101,16 @@ import Firebase
         }
         
     }
+	
+	@IBAction func textChanged(_ sender: Any) {
+		if let text = zipcode_Txt.text {
+			GetTownName(zipCode: text) { (TownName, zipCode) in
+				if self.zipcode_Txt.text == zipCode {
+					self.townNameLabel.text = TownName ?? ""
+				}
+			}
+		}
+	}
 	
     @IBAction func submitTapped(_ sender: Any) {
         
@@ -153,32 +163,33 @@ import Firebase
 
             let ref = Database.database().reference().child("users")
             let userReference = ref.child(userfinal!.id)
-			debugPrint("Create User Reference.")
+			print("Create User Reference.")
             let userData = API.serializeUser(user: userfinal!, id: userfinal!.id)
-			debugPrint("Serialized user Data.")
+			print("Serialized user Data.")
             userReference.updateChildValues(userData)
-			debugPrint("Update Child Values with User Data.")
-			let categoryReference = ref.child("categories")
+			print("Update Child Values with User Data.")
+			//let categoryReference = ref.child("categories")
 			
-			var dict: [Double: String] = [:]
-			var i: Double = 0
-			for cat in userfinal!.categories! {
-				dict[i] = cat
-				i += 1
-			}
-			categoryReference.updateChildValues(dict)
-			debugPrint("Update Categories for User.")
+//			var dict: [Int: Any] = [:]
+//			var i: Int = 0
+//			for cat in userfinal!.categories! {
+//				dict[i] = String(cat)
+//				i += 1
+//			}
+//			print(dict.description)
+//			categoryReference.updateChildValues(dict)
+//			print("Update Categories for User.")
 				
             Yourself = userfinal
             UserDefaults.standard.set(API.INSTAGRAM_ACCESS_TOKEN, forKey: "token")
             UserDefaults.standard.set(Yourself.id, forKey: "userid")
-			debugPrint("Created UserDefaults.")
+			print("Created UserDefaults.")
             
             //insertd Default offers
             let refDefaultOffer = Database.database().reference().child("SentOutOffersToUsers").child(userfinal!.id)
             let postID = refDefaultOffer.childByAutoId().key
 			let offerData = API.serializeDefaultOffer(offerID:"XXXDefault", postID: postID! ,userID:userfinal!.id)
-			debugPrint("Default offer Created.")
+			print("Default offer Created.")
 			
 			/*
 			READ : NOTE BY MARCO
@@ -211,11 +222,7 @@ import Firebase
 	}
 	
 	@IBAction func zipCodeEntered(_ sender: Any) {
-		if let text = zipcode_Txt.text {
-			GetTownName(zipCode: text) { (TownName) in
-				self.townNameLabel.text = TownName ?? ""
-			}
-		}
+		
 	}
 	
     func setDoneOnKeyboard() {
