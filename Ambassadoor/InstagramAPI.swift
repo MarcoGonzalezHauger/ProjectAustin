@@ -131,30 +131,31 @@ struct API {
             
             if err == nil {
                 // check if JSON data is downloaded yet
-                guard let jsondata = data else { return }
-                do {
-                    do {
-                        // Deserilize object from JSON
-                        if let totalData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String : AnyObject] {
-                            let meta = totalData["meta"] as! [String : AnyObject]
-                            //naveen added code validation
-                            let code = meta["code"] as! Int
-                            if  code == 200{
-                                self.instagramMediaData = totalData["data"] as! [[String : AnyObject]]
-                                completed?(self.instagramMediaData)
-
-                                
-                            }else{
-                                
-                            }
-                            
-                        }
-                    }
-                    // Wait for data to be retrieved before moving on
-                    DispatchQueue.main.async {
-                        print("Deserialization Failed.")
-                        //completed?(nil)
-                    }
+				guard let jsondata = data else { return }
+				do {
+					do {
+						// Deserilize object from JSON
+						if let totalData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String : AnyObject] {
+							if let meta = totalData["meta"] as? [String : AnyObject] {
+								//naveen added code validation
+								let code = meta["code"] as! Int
+								if  code == 200{
+									self.instagramMediaData = totalData["data"] as! [[String : AnyObject]]
+									completed?(self.instagramMediaData)
+									
+									
+								}else{
+									
+								}
+							}
+							
+						}
+					}
+					// Wait for data to be retrieved before moving on
+					DispatchQueue.main.async {
+						print("Deserialization Failed.")
+						//completed?(nil)
+					}
                 } catch {
                     print("JSON Downloading Error!")
                 }
