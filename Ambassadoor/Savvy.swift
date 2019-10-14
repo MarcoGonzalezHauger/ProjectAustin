@@ -499,3 +499,46 @@ func GetTierForInfluencer(influencer: User) -> Int {
 		return GetTierFromFollowerCount(FollowerCount: influencer.followerCount) ?? 0
 	}
 }
+
+func CheckForCompletedOffers(completion: (() -> Void)?) {
+	print("Checking for completed Offers.")
+	API.getRecentMedia { (mediaData: [[String:Any]]?) in
+		for OfferIndex in 0..<(global.AcceptedOffers.count) {
+			if global.AcceptedOffers[OfferIndex].isAccepted {
+				if !global.AcceptedOffers[OfferIndex].allConfirmed {
+					//get instagram user media data
+					for postVal in mediaData!{
+						if let captionVal = (postVal["caption"] as? [String:Any]) {
+							let instacaption = captionVal["text"] as! String
+							if instacaption.contains("#ad"){
+								print("Has #ad")
+								for PostIndex in 0..<(global.AcceptedOffers[OfferIndex].posts.count) {
+									print("On Post")
+									if !global.AcceptedOffers[OfferIndex].posts[PostIndex].isConfirmed{
+										print("Isn't Confirmed.")
+										let postCaption = global.AcceptedOffers[OfferIndex].posts[PostIndex].captionMustInclude!
+										print("CAPTION: " + global.AcceptedOffers[OfferIndex].posts[PostIndex].captionMustInclude!)
+										print("POST CAPTION: " + instacaption)
+										//                                        postCaption.append("#ad.")
+										//                                        postCaption.append(post.captionMustInclude!)
+										if instacaption.lowercased().contains(postCaption.lowercased()) {
+											print("Good Caption")
+											global.AcceptedOffers[OfferIndex].posts[PostIndex].isConfirmed = true
+											global.AcceptedOffers[OfferIndex].posts[PostIndex].confirmedSince = Date()
+											instagramPostUpdate(offerID: global.AcceptedOffers[OfferIndex].offer_ID, post: [global.AcceptedOffers[OfferIndex].offer_ID:postVal])
+											SentOutOffersUpdate(offer: global.AcceptedOffers[OfferIndex], post_ID: global.AcceptedOffers[OfferIndex].posts[PostIndex].post_ID)
+										}
+									}
+								}
+							}
+							
+						}
+						
+					}
+				}
+			}
+		}
+	}
+}
+
+

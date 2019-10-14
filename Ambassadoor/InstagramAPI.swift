@@ -42,7 +42,7 @@ struct API {
     
     static var INSTAGRAM_ACCESS_TOKEN = ""
     static let threeMonths: Double = 7889229
-    static let INSTAGRAM_SCOPE = "public_content" /* add whatever scope you need https://www.instagram.com/developer/ */
+    static let INSTAGRAM_SCOPE = "basic" /* add whatever scope you need https://www.instagram.com/developer/ */
     
     static var instagramProfileData: [String: AnyObject] = [:]
     
@@ -51,7 +51,7 @@ struct API {
         let url = URL(string: "https://api.instagram.com/v1/users/self/?access_token=" + INSTAGRAM_ACCESS_TOKEN)
         URLSession.shared.dataTask(with: url!){ (data, response, err) in
 			
-			print("Downloading username data from instagram API")
+			print("GetProfileInfo: Downloading username data from instagram API")
 			
             if err == nil {
                 // check if JSON data is downloaded yet
@@ -67,7 +67,8 @@ struct API {
                                 let meta = profileData["meta"] as! [String : AnyObject]
                                 //naveen added code validation
                                 let code = meta["code"] as! Int
-                                if  code == 200{
+                                if  code == 200 {
+									print("code was 200.")
                                     self.instagramProfileData = profileData["data"] as! [String : AnyObject]
                                     var userDictionary: [String: Any] = [
                                         "name": instagramProfileData["full_name"] as! String,
@@ -101,7 +102,8 @@ struct API {
                                         }
                                     })
                                 }else{
-                                    
+									print("\(code): \(meta["error_type"] as! String)\n\(meta["error_message"] as! String)")
+									print("code was not 200.")
                                 }
                             }
                             
@@ -125,7 +127,7 @@ struct API {
         let url = URL(string: "https://api.instagram.com/v1/users/self/media/recent/?access_token=" + INSTAGRAM_ACCESS_TOKEN)
         URLSession.shared.dataTask(with: url!){ (data, response, err) in
             
-            print("Downloading username data from instagram API")
+            print("GetRecentMedia: Downloading username data from instagram API")
             
             if err == nil {
                 // check if JSON data is downloaded yet
@@ -139,40 +141,6 @@ struct API {
                             let code = meta["code"] as! Int
                             if  code == 200{
                                 self.instagramMediaData = totalData["data"] as! [[String : AnyObject]]
-//                                var userDictionary: [String: Any] = [
-//                                    "name": instagramMediaData["full_name"] as! String,
-//                                    "username": instagramMediaData["username"] as! String,
-//                                    "followerCount": instagramMediaData["counts"]?["followed_by"] as! Double,
-//                                    "profilePicture": instagramMediaData["profile_picture"] as! String,
-//
-//                                    "primaryCategory": "", // need to get from user on account creation
-//
-//                                    "zipCode": 0,
-//
-//                                    "secondaryCategory": "",
-//
-//                                    //naveen added
-//                                    "id": instagramMediaData["id"] as! String,
-//                                    "gender": "",
-//                                    "isBankAdded": false,
-//                                    "yourMoney": 0,
-//                                    "joinedDate": "",
-//                                    "categories": []
-//                                ]
-//                                print("Done Creating Userinfo dictinary")
-//                                getAverageLikesOfUser(instagramId: instagramProfileData["id"] as! String, completed: { (averageLikes: Double?) in
-//                                    DispatchQueue.main.async {
-//                                        print("Got Average Likes of User.")
-//                                        userDictionary["averageLikes"] = averageLikes
-//                                        let user = User(dictionary: userDictionary)
-//                                        DispatchQueue.main.async {
-//                                            UserDefaults.standard.set(user.id, forKey: "userid")
-//
-//                                            completed?(self.instagramMediaData)
-//                                        }
-//                                    }
-//                                })
-                                
                                 completed?(self.instagramMediaData)
 
                                 
@@ -313,7 +281,7 @@ struct API {
         let url = URL(string: "https://api.instagram.com/v1/users/self/?access_token=" + INSTAGRAM_ACCESS_TOKEN)
         URLSession.shared.dataTask(with: url!){ (data, response, err) in
             
-            print("Downloading username data from instagram API")
+            print("Get Insight: Downloading username data from instagram API")
             
             if err == nil {
                 // check if JSON data is downloaded yet
@@ -333,12 +301,8 @@ struct API {
                                     "followerCount": instagramProfileData["counts"]?["followed_by"] as! Double,
                                     "profilePicture": instagramProfileData["profile_picture"] as! String,
                                     
-                                    "primaryCategory": "", // need to get from user on account creation
-                                    
                                     "zipCode": "0",
-                                    
-                                    "secondaryCategory": "",
-                                    
+									
                                     //naveen added
                                     "id": instagramProfileData["id"] as! String,
                                     "gender": ""

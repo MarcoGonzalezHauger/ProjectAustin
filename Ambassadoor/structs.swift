@@ -51,7 +51,7 @@ class Offer : NSObject {
     var status: String
 	let money: Double
 	let company: Company
-	let posts: [Post]
+	var posts: [Post]
 	let offerdate: Date
 	let offer_ID: String
 	var expiredate: Date

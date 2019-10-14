@@ -218,9 +218,10 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 //		print(Yourself)
         
         
-        if  Yourself == nil{
+        if  Yourself == nil {
+			print("Yourself is nil.")
             if UserDefaults.standard.object(forKey: "token") != nil  {
-				
+				API.INSTAGRAM_ACCESS_TOKEN = UserDefaults.standard.object(forKey: "token") as! String
 				let ref = Database.database().reference().child("users").child(UserDefaults.standard.object(forKey: "userid") as! String).child("id")
 				print("USER ID: \(UserDefaults.standard.object(forKey: "userid") as! String)")
 				ref.observeSingleEvent(of: .value) { (snapshot) in
@@ -240,6 +241,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 	}
 	
 	func GetUser() {
+		print("Getting user information.")
 		API.getProfileInfo { (user: User?) in
 			//                    DispatchQueue.main.async {
 			if user != nil {
@@ -249,8 +251,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 					if alreadyRegistered {
 						UserDefaults.standard.set(API.INSTAGRAM_ACCESS_TOKEN, forKey: "token")
 						UserDefaults.standard.set(Yourself.id, forKey: "userid")
-						
-					}else{
 					}
 					
 				}
@@ -337,9 +337,13 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 					
 					
 				}
-				
+				CheckForCompletedOffers() {
+					
+				}
 			} else {
-				debugPrint("Youself user was NIL.")
+				print("Youself user was NIL.")
+				attemptedLogOut = true
+				self.performSegue(withIdentifier: "showSignUpVC", sender: self)
 				self.showStandardAlertDialog(title: "Alert", msg: "You have exceeded the maximum number of requests per hour. You have performed a total of 270 requests in the last hour. Our general maximum limit is set at 200 requests per hour.")
 			}
 			//                    }

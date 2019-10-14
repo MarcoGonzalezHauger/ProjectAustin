@@ -264,7 +264,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         timer = DispatchSource.makeTimerSource(queue: queue)
         
-        timer?.schedule(deadline: .now(), repeating: .seconds(10), leeway: .milliseconds(100))
+        timer?.schedule(deadline: .now(), repeating: .seconds(30), leeway: .milliseconds(100))
         
         timer?.setEventHandler { [weak self] in // `[weak self]` only needed if you reference `self` in this closure and you want to prevent strong reference cycle
             
@@ -393,6 +393,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                                     }
             //                    }
                             }
+							CheckForCompletedOffers() {
+								
+							}
                         } else {
                             // not exist
                         }

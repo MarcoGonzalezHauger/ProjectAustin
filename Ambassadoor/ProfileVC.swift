@@ -185,7 +185,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 
 
         avaliableSettings.append(ProfileSetting.init(Header: "CATEGORIES", Information: Yourself.categories as AnyObject, identifier: "main_cat"))
-		avaliableSettings.append(ProfileSetting.init(Header: "ZIP CODE (ALLOWS GEO OFFERS)", Information: (Yourself.zipCode ?? "0") as AnyObject, identifier: "zip"))
+		avaliableSettings.append(ProfileSetting.init(Header: "TOWN (ALLOWS GEO OFFERS)", Information: (Yourself.zipCode ?? "0") as AnyObject, identifier: "zip"))
         
         
         let ref = Database.database().reference().child("users")

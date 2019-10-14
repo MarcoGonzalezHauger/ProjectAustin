@@ -162,23 +162,7 @@ import Firebase
             
             updateUserDataToFIR(user: userfinal!){ (user) in
                 
-//                    userfinal?.referralcode = referralcodeString.uppercased()
-//
-//                    let ref = Database.database().reference().child("users")
-//                    let userReference = ref.child(userfinal!.id)
-//                    let userData = API.serializeUser(user: userfinal!, id: userfinal!.id)
-//                    userReference.updateChildValues(userData)
-                    
-//                    let categoryReference = ref.child("categories")
-//
-//                    var dict: [Int: String] = [:]
-//                    var i: Int = 0
-//                    for cat in user.categories! {
-//                        dict[i] = cat
-//                        i += 1
-//                    }
-//
-//                    categoryReference.updateChildValues(dict)
+				print("updated User Data TO FIR")
                         
                     Yourself = user
                     UserDefaults.standard.set(API.INSTAGRAM_ACCESS_TOKEN, forKey: "token")
@@ -186,8 +170,11 @@ import Firebase
                 
                 //create default offer
                 createDefaultOffer(userID: user.id){ (bool) in
+					
+					print("Created default offer")
                     
                     self.dismiss(animated: false) {
+						print("dismissed")
                         self.delegate?.dismissed(success: true)
                     }
                 }
@@ -229,6 +216,8 @@ import Firebase
 		}
 		
 	}
+	
+	
     func setDoneOnKeyboard() {
         let keyboardToolbar = UIToolbar()
         keyboardToolbar.sizeToFit()

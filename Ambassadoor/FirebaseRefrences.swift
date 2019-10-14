@@ -137,16 +137,16 @@ func getOfferList(completion:@escaping (_ result: [Offer])->()) {
 }
 
 //Gets all relavent people, people who you are friends and a few random people to compete with.
-func GetRandomTestUsers() -> [User] { 
-	var userslist : [User] = []
-	for _ : Int in (1...Int.random(in: 1...50)) {
-		for x : Category in [.Hiker, .WinterSports, .Baseball, .Basketball, .Golf, .Tennis, .Soccer, .Football, .Boxing, .MMA, .Swimming, .TableTennis, .Gymnastics, .Dancer, .Rugby, .Bowling, .Frisbee, .Cricket, .SpeedBiking, .MountainBiking, .WaterSkiing, .Running, .PowerLifting, .BodyBuilding, .Wrestling, .StrongMan, .NASCAR, .RalleyRacing, .Parkour, .Model, .Makeup, .Actor, .RunwayModel, .Designer, .Brand, .Stylist, .HairStylist, .FasionArtist, .Painter, .Sketcher, .Musician, .Band, .SingerSongWriter, .WinterSports] {
-			userslist.append(User.init(dictionary: ["name": GetRandomName() as AnyObject, "username": getRandomUsername() as AnyObject, "followerCount": Double(Int.random(in: 10...1000) << 2) as AnyObject, "profilePicture": "https://scontent-lga3-1.cdninstagram.com/vp/60d965d5d78243bd600e899ceef7b22e/5D03F5A8/t51.2885-19/s150x150/16123627_1826526524262048_8535256149333639168_n.jpg?_nc_ht=scontent-lga3-1.cdninstagram.com" as  AnyObject, "primaryCategory": x as AnyObject, "averageLikes": pow(Double(Int.random(in: 1...1000)), 2) as AnyObject, "id": "" as AnyObject]))
-		}
-	}
-	userslist.append(User.init(dictionary: ["name": "The guy I'm looking for" as AnyObject, "username": "GuyImLooking4" as AnyObject, "followerCount": Double(Int.random(in: 10...1000) << 2) as AnyObject, "profilePicture": "https://st2.depositphotos.com/1061700/10161/v/950/depositphotos_101612710-stock-illustration-question-mark-icon-vector-illustration.jpg" as  AnyObject, "primaryCategory": Category.Parkour as AnyObject, "averageLikes": Double(Int.random(in: 1...1000) << 2) as AnyObject, "id": "" as AnyObject]))
-	return userslist
-}
+//func GetRandomTestUsers() -> [User] {
+//	var userslist : [User] = []
+//	for _ : Int in (1...Int.random(in: 1...50)) {
+//		for x : Category in [.Hiker, .WinterSports, .Baseball, .Basketball, .Golf, .Tennis, .Soccer, .Football, .Boxing, .MMA, .Swimming, .TableTennis, .Gymnastics, .Dancer, .Rugby, .Bowling, .Frisbee, .Cricket, .SpeedBiking, .MountainBiking, .WaterSkiing, .Running, .PowerLifting, .BodyBuilding, .Wrestling, .StrongMan, .NASCAR, .RalleyRacing, .Parkour, .Model, .Makeup, .Actor, .RunwayModel, .Designer, .Brand, .Stylist, .HairStylist, .FasionArtist, .Painter, .Sketcher, .Musician, .Band, .SingerSongWriter, .WinterSports] {
+//			userslist.append(User.init(dictionary: ["name": GetRandomName() as AnyObject, "username": getRandomUsername() as AnyObject, "followerCount": Double(Int.random(in: 10...1000) << 2) as AnyObject, "profilePicture": "https://scontent-lga3-1.cdninstagram.com/vp/60d965d5d78243bd600e899ceef7b22e/5D03F5A8/t51.2885-19/s150x150/16123627_1826526524262048_8535256149333639168_n.jpg?_nc_ht=scontent-lga3-1.cdninstagram.com" as  AnyObject, "primaryCategory": x as AnyObject, "averageLikes": pow(Double(Int.random(in: 1...1000)), 2) as AnyObject, "id": "" as AnyObject]))
+//		}
+//	}
+//	userslist.append(User.init(dictionary: ["name": "The guy I'm looking for" as AnyObject, "username": "GuyImLooking4" as AnyObject, "followerCount": Double(Int.random(in: 10...1000) << 2) as AnyObject, "profilePicture": "https://st2.depositphotos.com/1061700/10161/v/950/depositphotos_101612710-stock-illustration-question-mark-icon-vector-illustration.jpg" as  AnyObject, "primaryCategory": Category.Parkour as AnyObject, "averageLikes": Double(Int.random(in: 1...1000) << 2) as AnyObject, "id": "" as AnyObject]))
+//	return userslist
+//}
 
 func GetRandomName() ->  String {
 	return "\(Int.random(in: 0...9))BrunoG\(Int.random(in: 100...9999))"
@@ -189,7 +189,7 @@ func CreateAccount(instagramUser: User, completion:@escaping (_ Results: User , 
     // Boolean flag to keep track if user is already in database
     var alreadyRegistered: Bool = false
     ref.observeSingleEvent(of: .value, with: { (snapshot) in
-        print(snapshot.childrenCount)
+        //print(snapshot.childrenCount)
         for case let user as DataSnapshot in snapshot.children {
             if (user.childSnapshot(forPath: "username").value as! String == instagramUser.username) {
                 alreadyRegistered = true
@@ -524,44 +524,36 @@ func updateUserDataToFIR(user: User, completion:@escaping (_ Results: User) -> (
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             print(snapshot.childrenCount)
 
-            if let referralCodeList = snapshot.value as? NSMutableArray{
+			if let referralCodeList = snapshot.value as? [String] {
+				
+				print("referral code list loaded.")
                 
-                var final = referralCodeList as! [String]
+                var final = referralCodeList
                 referralCode = randomString(length: 6).uppercased()
-                while !final.contains(referralCode){
+                while final.contains(referralCode) {
                     referralCode = randomString(length: 6).uppercased()
                 }
                 
                 user.referralcode = referralCode
+				
+				print("Referral Code Set.")
 
-                let ref = Database.database().reference().child("users")
-                let userReference = ref.child(user.id)
+                let userReference = Database.database().reference().child("users").child(user.id)
                 let userData = API.serializeUser(user: user, id: user.id)
+				print("User Data Serialized")
                 userReference.updateChildValues(userData)
+				print("User Data Uploaded")
                 
                 final.append(referralCode)
                 //update referral code
                 let refCode = Database.database().reference()
                 refCode.updateChildValues(["InfluencerReferralCodes":final])
+				print("Updated list of taken referral codes.")
                 
                 completion(user)
-
-            }else{
-                user.referralcode = randomString(length: 6).uppercased()
-
-                let ref = Database.database().reference().child("users")
-                let userReference = ref.child(user.id)
-                let userData = API.serializeUser(user: user, id: user.id)
-                userReference.updateChildValues(userData)
-                
-                var final:[String] = []
-                final.append(user.referralcode)
-                //update referral code
-                let refCode = Database.database().reference()
-                refCode.updateChildValues(["InfluencerReferralCodes":final])
-                
-                completion(user)
-            }
+			} else {
+				print("Referral Code List could not be converted into [String]")
+			}
 
 
         })
