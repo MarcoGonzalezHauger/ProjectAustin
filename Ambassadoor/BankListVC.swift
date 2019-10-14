@@ -366,13 +366,15 @@ class BankListVC: PlaidLinkEnabledVC, UITableViewDelegate, UITableViewDataSource
 //    }
     
     override func viewDidAppear(_ animated: Bool) {
-//        if !Yourself.isBankAdded {
-//            emptybank_Lbl.isHidden = false
-//            shelf.isHidden = true
-//        }else{
-//            emptybank_Lbl.isHidden = true
-//            shelf.isHidden = false
-//        }
+        if !Yourself.isBankAdded {
+            emptybank_Lbl.isHidden = false
+            shelf.isHidden = true
+            self.performSegue(withIdentifier: "segueStripConnect", sender: self)
+
+        }else{
+            emptybank_Lbl.isHidden = true
+            shelf.isHidden = false
+        }
         
 //        getDwollaFundingSource { (object, status, error) in
 //            if error == nil {

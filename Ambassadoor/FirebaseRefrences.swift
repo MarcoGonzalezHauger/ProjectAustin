@@ -255,6 +255,12 @@ func CreateAccount(instagramUser: User, completion:@escaping (_ Results: User , 
                         instagramUser.isDefaultOfferVerify = false
                     }
                     
+                    if let lastPaidOSCDate = dictionary["lastPaidOSCDate"] as? String{
+                        instagramUser.lastPaidOSCDate = lastPaidOSCDate
+                    }else{
+                        instagramUser.lastPaidOSCDate = Date.getCurrentDate()
+                    }
+                    
                     
                 }
 
@@ -396,18 +402,20 @@ func fundTransferAccount(transferURL: String,accountID: String,Obj: DwollaCustom
     
 }
 
-func withdrawUpdate(amount: Double,from: String,to: String, id: String, status: String, type:String, date:String) {
+func withdrawUpdate(amount: Double, fee: Double,from: String,to: String, id: String, status: String, type:String, date:String) {
     
     let ref = Database.database().reference().child("InfluencerTransactions").child(Yourself.id)
     ref.observeSingleEvent(of: .value) { (snapshot) in
         if var transaction = snapshot.value as? [[String:Any]] {
             
-            let fundTransfer: [String: Any] = ["amount":amount,"from":from,"to":to,"id":id,"status":status,"type":type,"date":date]
+            let fundTransfer: [String: Any] = ["amount":amount,"fee":fee,"from":from,"to":to,"id":id,"status":status,"type":type,"date":date]
             transaction.append(fundTransfer)
             
             let updateref = Database.database().reference().child("InfluencerTransactions")
             let finalTrans = [Yourself.id:transaction] as [String:Any]
             updateref.updateChildValues(finalTrans)
+        }else{
+            
         }
         
     }

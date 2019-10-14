@@ -65,6 +65,13 @@ extension Date {
         return dateFormatter.string(from: date) // replace Date String
     }
     
+    static func getmonthsBetweenDate(startDate:Date,endDate:Date) -> Int{
+        let calendar = Calendar.current
+
+        let components = calendar.dateComponents([.month], from: startDate, to: endDate)
+
+        return components.month!
+    }
 //    func isExpireDateCheck(string:String)-> Bool{
 //        //Ref date
 //        let dateFormatter = DateFormatter()

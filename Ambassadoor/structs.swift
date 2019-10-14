@@ -109,6 +109,7 @@ class User: NSObject {
     var categories: [String]?
     var referralcode: String
     var isDefaultOfferVerify: Bool
+    var lastPaidOSCDate: String
 	
     init(dictionary: [String: Any]) {
         self.name = dictionary["name"] as? String
@@ -134,6 +135,7 @@ class User: NSObject {
         
         self.referralcode = dictionary["referralcode"] as? String ?? ""
         self.isDefaultOfferVerify = dictionary["isDefaultOfferVerify"] as? Bool ?? false
+        self.lastPaidOSCDate = dictionary["lastPaidOSCDate"] as? String ?? Date.getCurrentDate()
         
     }
 	

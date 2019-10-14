@@ -128,6 +128,7 @@ import Firebase
             
             userfinal?.joinedDate = Date.getCurrentDate()
             userfinal?.isDefaultOfferVerify = false
+            userfinal?.lastPaidOSCDate = Date.getCurrentDate()
             
 //            var referralcodeString = ""
             

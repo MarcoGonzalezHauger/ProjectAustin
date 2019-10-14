@@ -86,7 +86,8 @@ struct API {
                                         "joinedDate": "",
                                         "categories": [],
                                         "referralcode": "",
-                                        "isDefaultOfferVerify": false
+                                        "isDefaultOfferVerify": false,
+                                        "lastPaidOSCDate": ""
                                     ]
                                     debugPrint("Done Creating Userinfo dictinary")
                                     getAverageLikesOfUser(instagramId: instagramProfileData["id"] as! String, completed: { (averageLikes: Double?) in
@@ -180,7 +181,8 @@ struct API {
             "joinedDate": user.joinedDate!,
             "categories": user.categories as AnyObject,
             "referralcode": user.referralcode,
-            "isDefaultOfferVerify": user.isDefaultOfferVerify
+            "isDefaultOfferVerify": user.isDefaultOfferVerify,
+            "lastPaidOSCDate": user.lastPaidOSCDate
         ]
         return userData
     }

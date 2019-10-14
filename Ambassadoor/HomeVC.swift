@@ -344,7 +344,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 				print("Youself user was NIL.")
 				attemptedLogOut = true
 				self.performSegue(withIdentifier: "showSignUpVC", sender: self)
-				self.showStandardAlertDialog(title: "Alert", msg: "You have exceeded the maximum number of requests per hour. You have performed a total of 270 requests in the last hour. Our general maximum limit is set at 200 requests per hour.")
+//				self.showStandardAlertDialog(title: "Alert", msg: "You have exceeded the maximum number of requests per hour. You have performed a total of 270 requests in the last hour. Our general maximum limit is set at 200 requests per hour.")
 			}
 			//                    }
 		}
