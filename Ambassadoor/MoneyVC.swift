@@ -35,7 +35,7 @@ class IncomingMoneyCell: UITableViewCell, SyncTimerDelegate {
 	@IBOutlet weak var companyName: UILabel!
 	@IBOutlet weak var TimeLeft: UILabel!
     
-    //naveen added
+    
     var selectedIndex:Int!
     
 	var ThisOffer: Offer! {
@@ -147,4 +147,8 @@ class MoneyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Glo
 		shelf.delegate = self
 		global.delegates.append(self)
 	}
+    
+    override func viewWillAppear(_ animated: Bool) {
+        shelf.reloadData()
+    }
 }

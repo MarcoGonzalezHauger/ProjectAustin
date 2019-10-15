@@ -68,7 +68,7 @@ class OfferCell: UITableViewCell, SyncTimerDelegate {
 							viewbutton?.isHidden = false
 							agolabel.isHidden = false
 //							expiresin.text = "Expires " + leftstring
-                            //naveen changed
+                            
                             expiresin.text = "Expire " + leftstring
 
 							expiresin.textColor = UIColor.black
@@ -131,7 +131,7 @@ class OfferCell: UITableViewCell, SyncTimerDelegate {
 						viewbutton?.isHidden = false
 						agolabel.isHidden = false
 //						expiresin.text = "Expires " + leftstring
-                        //naveen changed
+                        
                         expiresin.text = "Expire " + leftstring
 
 						expiresin.textColor = UIColor.black

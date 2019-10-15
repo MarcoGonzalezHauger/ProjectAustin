@@ -63,7 +63,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 				cell.categoryLabel.text = "None, you won't recieve Geo Offers."
 			} else {
 				cell.categoryLabel.text = "Zip Code: \(zip)"
-				//naveen commented
+				
 				GetTownName(zipCode: String(zip)) { (townName, zipCode) in
 					cell.categoryLabel.text = townName
 					zipCodeDic[String(zip)] = townName
@@ -129,7 +129,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	
 	func dataUpdated() {
 		userSettings = reloadUserSettings()
-        //naveen commented
+        
 //		self.shelf.reloadData()
 	}
 	

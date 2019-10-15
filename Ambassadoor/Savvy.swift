@@ -304,7 +304,7 @@ func PostTypeToText(posttype: TypeofPost) -> String {
 		return "Story Post"
 	}
 }
-//naveen added
+
 func TextToPostType(posttype: String) -> TypeofPost {
 	switch posttype {
 	case "Single Post":
@@ -318,7 +318,7 @@ func TextToPostType(posttype: String) -> TypeofPost {
 	}
 }
 
-//naveen added
+
 func TextToGender(gender: String) -> Gender {
 	switch gender {
 	case "Male":

@@ -47,7 +47,7 @@ class ShadowView: UIView {
 
 //Structure for an offer that comes into username's inbox
 class Offer : NSObject {
-    //naveen added
+    
     var status: String
 	let money: Double
 	let company: Company
@@ -75,7 +75,7 @@ class Offer : NSObject {
 		return "Offer by \(company.name) for $\(String(money)) that is \(isExpired ? "" : "not ") expired."
 	}
     init(dictionary: [String: AnyObject]) {
-        //naveen added
+        
         self.status = dictionary["status"] as! String
         self.money = dictionary["money"] as! Double
         self.company = dictionary["company"] as! Company
@@ -100,7 +100,6 @@ class User: NSObject {
 	let profilePicURL: String?
 	let averageLikes: Double?
 	var zipCode: String?
-    //naveen added
     let id: String
     var gender: Gender?
     var isBankAdded: Bool
@@ -122,10 +121,8 @@ class User: NSObject {
 		}
 //		print("Category: \(String(describing: dictionary["primaryCategory"]))")
 //		self.primaryCategory = Category.init(rawValue: dictionary["primaryCategory"] as? String ?? "Other")!
-        //naveen added
 		self.averageLikes = dictionary["averageLikes"] as? Double
 		self.zipCode = dictionary["zipCode"] as? String
-        //naveen added
         self.id = dictionary["id"] as! String
         self.gender = dictionary["gender"] as? Gender
         self.isBankAdded = dictionary["isBankAdded"] as! Bool 
@@ -143,7 +140,7 @@ class User: NSObject {
 		return "NAME: \(name ?? "NIL")\nUSERNAME: \(username)\nFOLLOWER COUNT: \(followerCount)\nPROFILE PIC: \(profilePicURL ?? "NIL")\nCATEGORIES: \(GetCategoryStringFromlist(categories: categories ?? []))\nAVERAGE LIKES: \(averageLikes ?? -404)"
 	}
 }
-//naveen added
+
 class Bank: NSObject {
     let publicToken: String
     let institutionName: String
@@ -151,7 +148,6 @@ class Bank: NSObject {
     var acctID: String
     var acctName: String
    
-    
     init(dictionary: [String: Any]) {
         self.publicToken = dictionary["publicToken"] as! String
         self.institutionName = dictionary["institutionName"] as! String
@@ -211,6 +207,33 @@ class StripeAccDetail: NSObject {
         self.stripe_publishable_key = dictionary["stripe_publishable_key"] as! String
         self.stripe_user_id = dictionary["stripe_user_id"] as! String
         self.scope = dictionary["scope"] as! String
+    }
+    
+}
+
+//transaction History
+class TransactionHistory: NSObject {
+    
+    var Amount = 0.0
+    var To = ""
+    var createdAt = ""
+    var from = ""
+    var id = ""
+    var status = ""
+    var type = ""
+    var fee = 0.0
+    
+    init(dictionary: [String: Any]) {
+        
+        self.Amount = dictionary["Amount"] as! Double
+        self.To = dictionary["To"] as! String
+        self.createdAt = dictionary["createdAt"] as! String
+        self.from = dictionary["from"] as! String
+        self.id = dictionary["id"] as! String
+        self.status = dictionary["status"] as! String
+        self.type = dictionary["type"] as! String
+        self.fee = dictionary["fee"] as? Double ?? 0.0
+
     }
     
 }
@@ -292,7 +315,6 @@ enum TypeofPost {
 	case SinglePost, MultiPost, Story
 }
 
-//naveen added
 enum Status: String {
     case available, accepted, rejected
 }

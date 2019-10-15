@@ -39,8 +39,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 			global.AvaliableOffers.remove(at: ip.row)
 			shelf.deleteRows(at: [ip], with: .right)
             
-            //accept offer notifications
-            //naveen added
+            //accept offer notification
 //            UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
 //
 //                for notification in notifications {
@@ -83,7 +82,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 				return
 			}
 			
-            //naveen added
             let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(global.AvaliableOffers[ip.row].offer_ID)
             prntRef.updateChildValues(["isAccepted":false])
             prntRef.updateChildValues(["status":"rejected"])
@@ -187,8 +185,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		
 		//TEMPORARY MEASURE TO ALLOW FOR FASTER DEBUGGING.
 //		API.INSTAGRAM_ACCESS_TOKEN = "1605029612.fa083c3.815705ce93ab4ce89f21ee2aabdd7071"
-////        //naveen login
-//        API.INSTAGRAM_ACCESS_TOKEN = "3225555942.a92e22c.e7bf50100dfc4b12b93138cde8463ede"
 //
 //		API.getProfileInfo { (user: User?) in
 //			DispatchQueue.main.async {
@@ -200,22 +196,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 //			}
 //		}
 
-        
-//        print(API.INSTAGRAM_ACCESS_TOKEN)
-//		if Yourself == nil {
-//			print("Yourself is nil so showing signup VC.")
-//			performSegue(withIdentifier: "showSignUpVC", sender: self)
-//        }else{
-//            //naveen added
-//            var fakeoffers: [Offer] = []
-//            getOfferList { (Offers) in
-//                print(Offers.count)
-//                fakeoffers = Offers
-//                global.AvaliableOffers = fakeoffers.filter({$0.isAccepted == false})
-//                global.AcceptedOffers = fakeoffers.filter({$0.isAccepted == true})
-//            }
-//        }
-//		print(Yourself)
         
         
         if  Yourself == nil {
@@ -255,13 +235,12 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 					
 				}
 				
-				//naveen added
 				var youroffers: [Offer] = []
 				getOfferList { (Offers) in
-					//                            print(Offers.count)
+                    
 					youroffers = Offers
-					//                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
-					//                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
+//                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
+//                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
 					global.AvaliableOffers = youroffers.filter({$0.status == "available"})
 					global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
 					global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
@@ -359,7 +338,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		print("Home VC started to load.")
 		
 		//First code to be executed when opening App
-		
 		//declare datasource & Delegates
 		shelf.delegate = self
 		shelf.dataSource = self
@@ -372,24 +350,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 //		let fakeoffers: [Offer] = GetFakeOffers()
 //        global.AvaliableOffers = fakeoffers.filter({$0.isAccepted == false})
 //        global.AcceptedOffers = fakeoffers.filter({$0.isAccepted == true})
-        
-        //naveen added
-//        var fakeoffers: [Offer] = []
-//        getOfferList { (Offers) in
-//            print(Offers.count)
-//            fakeoffers = Offers
-//            global.AvaliableOffers = fakeoffers.filter({$0.isAccepted == false})
-//            global.AcceptedOffers = fakeoffers.filter({$0.isAccepted == true})
-//        }
-
-		
-//		let fakeusers: [User] = GetRandomTestUsers()
-//        global.SocialData = GetAllUsers
-        //naveen added
-//        _ = GetAllUsers(completion: { (users) in
-//            global.SocialData = users
-//        })
-        
         
         // Creating account with call to function (uncomment to for new data to appear in Firebase)
         //let accountCreated: Bool = CreateAccount(instagramUser: "czar_chomicki")
