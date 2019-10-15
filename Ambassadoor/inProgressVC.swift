@@ -77,7 +77,7 @@ class inProgressVC: UIViewController, UITableViewDataSource, UITableViewDelegate
 	}
 	
 	@IBOutlet weak var backBtn: UIButton!
-    //naveen added
+    
     var selectedIndex:Int!
 	
     override func viewDidLoad() {

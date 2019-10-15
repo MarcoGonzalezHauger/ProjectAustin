@@ -63,7 +63,7 @@ class StripeConnectionMKWebview: UIViewController, WKNavigationDelegate {
 
         if let url = navigationAction.request.url {
                 print(url.absoluteString)
-                if url.absoluteString.hasPrefix("https://connect.stripe.com/connect/default_new/oauth/test?"){
+                if url.absoluteString.hasPrefix("https://connect.stripe.com/connect/default_new/oauth/test?") || url.absoluteString.hasPrefix("https://connect.stripe.com/connect/default/oauth/test?"){
                     print("SUCCESS")
 //                    self.dismiss(animated: true, completion: nil)
                     
@@ -95,7 +95,9 @@ class StripeConnectionMKWebview: UIViewController, WKNavigationDelegate {
                 if let accDetail = try JSONSerialization.jsonObject(with: data!, options: []) as? [String : Any] {
                     
                     createStripeAccToFIR(AccDetail:accDetail)
-                    self.dismiss(animated: true, completion: nil)
+                    DispatchQueue.main.async {
+                        self.dismiss(animated: true, completion: nil)
+                    }
 
                 }
                 

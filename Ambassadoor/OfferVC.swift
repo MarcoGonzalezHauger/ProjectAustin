@@ -261,7 +261,6 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 	}
 	
 	var ThisOffer: Offer!
-	//naveen added
 	var selectedIndex:Int!
 	
 	

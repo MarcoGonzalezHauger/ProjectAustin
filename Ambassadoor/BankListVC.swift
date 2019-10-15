@@ -186,17 +186,18 @@ class BankListVC: PlaidLinkEnabledVC, UITableViewDelegate, UITableViewDataSource
         //stripe
         let obj = self.StripeFSList[indexPath.row]
         cell.nameText.text = obj.access_token
-        cell.acctIDText.text = "****" + obj.stripe_user_id
-               cell.withdrawButton.tag = indexPath.row
-               cell.withdrawButton.addTarget(self, action: #selector(self.withDrawAction(sender:)), for: .touchUpInside)
-               cell.transactionButton.tag = indexPath.row
-               cell.transactionButton.addTarget(self, action: #selector(self.transactionAction(sender:)), for: .touchUpInside)
-               
-               cell.withdrawButton.layer.cornerRadius = 5
-               cell.withdrawButton.clipsToBounds = true
-               
-               cell.transactionButton.layer.cornerRadius = 5
-               cell.transactionButton.clipsToBounds = true
+//        cell.acctIDText.text = "****" + obj.stripe_user_id
+        cell.acctIDText.text = "*************"
+        cell.withdrawButton.tag = indexPath.row
+        cell.withdrawButton.addTarget(self, action: #selector(self.withDrawAction(sender:)), for: .touchUpInside)
+        cell.transactionButton.tag = indexPath.row
+        cell.transactionButton.addTarget(self, action: #selector(self.transactionAction(sender:)), for: .touchUpInside)
+       
+        cell.withdrawButton.layer.cornerRadius = 5
+        cell.withdrawButton.clipsToBounds = true
+       
+        cell.transactionButton.layer.cornerRadius = 5
+        cell.transactionButton.clipsToBounds = true
         
         
         return cell
@@ -210,6 +211,17 @@ class BankListVC: PlaidLinkEnabledVC, UITableViewDelegate, UITableViewDataSource
         global.delegates.append(self)
         
         // Do any additional setup after loading the view.
+        if !Yourself.isBankAdded {
+            emptybank_Lbl.isHidden = false
+            shelf.isHidden = true
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "segueStripConnect", sender: self)
+            }
+
+        }else{
+            emptybank_Lbl.isHidden = true
+            shelf.isHidden = false
+        }
 
     }
     
@@ -369,6 +381,8 @@ class BankListVC: PlaidLinkEnabledVC, UITableViewDelegate, UITableViewDataSource
 //        if !Yourself.isBankAdded {
 //            emptybank_Lbl.isHidden = false
 //            shelf.isHidden = true
+//            self.performSegue(withIdentifier: "segueStripConnect", sender: self)
+//
 //        }else{
 //            emptybank_Lbl.isHidden = true
 //            shelf.isHidden = false

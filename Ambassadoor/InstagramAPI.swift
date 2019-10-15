@@ -25,14 +25,6 @@ struct API {
     static var superBankFundingSource = "https://api-sandbox.dwolla.com/funding-sources/b23abf0b-c28d-4941-84af-617626865f2b"
     
     static var kFundTransferURL = "https://api-sandbox.dwolla.com/transfers"
-
-    //naveen added
-    //naveen login
-    //"https://ambassdoor.com/welcome#access_token=3225555942.3a8760e.7a76cfffabb44e21bcc0db92dc10f7f8"
-//    static let INSTAGRAM_CLIENT_ID = "a92e22c060e04281917b29a4120aadf3"
-//    static let INSTAGRAM_CLIENTSERCRET = "42fc056dd5aa43bf9aacc9fc923df75c"
-//    static let INSTAGRAM_REDIRECT_URI = "https://ambassadoor.com/welcome"
-    
     
     //get instagram users media
     static let INSTAGRAM_getMedia = "https://api.instagram.com/v1/users/self/media/recent/?access_token="
@@ -75,10 +67,7 @@ struct API {
                                         "username": instagramProfileData["username"] as! String,
                                         "followerCount": instagramProfileData["counts"]?["followed_by"] as! Double,
                                         "profilePicture": instagramProfileData["profile_picture"] as! String,
-                                        
                                         "zipCode": 0,
-                                        
-                                        //naveen added
                                         "id": instagramProfileData["id"] as! String,
                                         "gender": "",
                                         "isBankAdded": false,
@@ -86,7 +75,8 @@ struct API {
                                         "joinedDate": "",
                                         "categories": [],
                                         "referralcode": "",
-                                        "isDefaultOfferVerify": false
+                                        "isDefaultOfferVerify": false,
+                                        "lastPaidOSCDate": ""
                                     ]
                                     debugPrint("Done Creating Userinfo dictinary")
                                     getAverageLikesOfUser(instagramId: instagramProfileData["id"] as! String, completed: { (averageLikes: Double?) in
@@ -180,11 +170,12 @@ struct API {
             "joinedDate": user.joinedDate!,
             "categories": user.categories as AnyObject,
             "referralcode": user.referralcode,
-            "isDefaultOfferVerify": user.isDefaultOfferVerify
+            "isDefaultOfferVerify": user.isDefaultOfferVerify,
+            "lastPaidOSCDate": user.lastPaidOSCDate
         ]
         return userData
     }
-    //naveen added
+    
     static func serializeBank(bank: Bank) -> [String: Any] {
         let bankData: [String: Any] = [
             "publicToken": bank.publicToken,
@@ -263,7 +254,7 @@ struct API {
         }.resume()
     }
     
-    //naveen added func
+    
     static func instaLogout(){
         let dataStore = WKWebsiteDataStore.default()
 		dataStore.fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { (records) in
@@ -301,10 +292,7 @@ struct API {
                                     "username": instagramProfileData["username"] as! String,
                                     "followerCount": instagramProfileData["counts"]?["followed_by"] as! Double,
                                     "profilePicture": instagramProfileData["profile_picture"] as! String,
-                                    
                                     "zipCode": "0",
-									
-                                    //naveen added
                                     "id": instagramProfileData["id"] as! String,
                                     "gender": ""
                                 ]

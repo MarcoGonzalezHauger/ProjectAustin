@@ -25,7 +25,7 @@ class VerifedVC: UIViewController, ConfirmationReturned {
 //		self.dismiss(animated: false) {
 //			self.delegate?.dismissed(success: true)
 //		}
-        //naveen added
+        
         self.performSegue(withIdentifier: "verifyToOtherVCSegue", sender: user)
         
 	}
@@ -37,7 +37,6 @@ class VerifedVC: UIViewController, ConfirmationReturned {
 		}
 	}
 	
-    //naveen added
     func dismissed(success: Bool!) {
         self.dismiss(animated: false) {
             self.delegate?.dismissed(success: true)

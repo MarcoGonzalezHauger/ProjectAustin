@@ -73,7 +73,6 @@ func GetFakeOffers() -> [Offer] {
     return fakeoffers
 }
 
-//naveen added func
 
 func getOfferList(completion:@escaping (_ result: [Offer])->()) {
     var offers : [Offer] = []
@@ -215,32 +214,6 @@ func CreateAccount(instagramUser: User, completion:@escaping (_ Results: User , 
                         instagramUser.referralcode = referralcode
                     }else{
                         var referralcodeString = ""
-                        
-//                        //user name first and last character
-//                        if let firstChar = instagramUser.name?.first{
-//                            referralcodeString.append(firstChar)
-//                        }
-//                        if let lastChar = instagramUser.name?.last {
-//                            referralcodeString.append(lastChar)
-//                        }
-//                        
-//                        //user dateofbirth
-//                        let date = getDateFromString(date: instagramUser.joinedDate!)
-//                        
-//                        let dateFormatter = DateFormatter()
-//                        dateFormatter.dateFormat = "yy"
-//                        let yearString = dateFormatter.string(from: date)
-//                        
-//                        dateFormatter.dateFormat = "MM"
-//                        let monthString = dateFormatter.string(from: date)
-//                        
-//                        dateFormatter.dateFormat = "dd"
-//                        let dayString = dateFormatter.string(from: date)
-//
-//                        referralcodeString.append(dayString)
-//                        referralcodeString.append(monthString)
-//                        referralcodeString.append(yearString)
-                        
                         //random four digit code
                         referralcodeString.append(randomString(length: 4))
                         
@@ -253,6 +226,12 @@ func CreateAccount(instagramUser: User, completion:@escaping (_ Results: User , 
                         instagramUser.isDefaultOfferVerify = isDefaultOfferVerify
                     }else{
                         instagramUser.isDefaultOfferVerify = false
+                    }
+                    
+                    if let lastPaidOSCDate = dictionary["lastPaidOSCDate"] as? String{
+                        instagramUser.lastPaidOSCDate = lastPaidOSCDate
+                    }else{
+                        instagramUser.lastPaidOSCDate = Date.getCurrentDate()
                     }
                     
                     
@@ -396,18 +375,20 @@ func fundTransferAccount(transferURL: String,accountID: String,Obj: DwollaCustom
     
 }
 
-func withdrawUpdate(amount: Double,from: String,to: String, id: String, status: String, type:String, date:String) {
+func withdrawUpdate(amount: Double, fee: Double,from: String,to: String, id: String, status: String, type:String, date:String) {
     
     let ref = Database.database().reference().child("InfluencerTransactions").child(Yourself.id)
     ref.observeSingleEvent(of: .value) { (snapshot) in
         if var transaction = snapshot.value as? [[String:Any]] {
             
-            let fundTransfer: [String: Any] = ["amount":amount,"from":from,"to":to,"id":id,"status":status,"type":type,"date":date]
+            let fundTransfer: [String: Any] = ["Amount":amount,"fee":fee,"from":from,"To":to,"id":id,"status":status,"type":type,"createdAt":date]
             transaction.append(fundTransfer)
             
             let updateref = Database.database().reference().child("InfluencerTransactions")
             let finalTrans = [Yourself.id:transaction] as [String:Any]
             updateref.updateChildValues(finalTrans)
+        }else{
+            
         }
         
     }
@@ -504,6 +485,30 @@ func getStripeAccDetails(completion: @escaping([StripeAccDetail]?,String,Error?)
             var objects = [StripeAccDetail]()
             let accDetail = StripeAccDetail.init(dictionary: totalValues as! [String: Any])
             objects.append(accDetail)
+            
+            completion(objects, "success", nil)
+        }
+        
+        
+    }) { (error) in
+        completion(nil, "success", error)
+    }
+    
+}
+
+func getTransactionHistory(completion: @escaping([TransactionHistory]?,String,Error?) -> Void) {
+    
+    let ref = Database.database().reference().child("InfluencerTransactions").child(Yourself.id)
+    ref.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let totalValues = snapshot.value as? [[String:Any]]{
+            
+            var objects = [TransactionHistory]()
+            for transaction in totalValues {
+                let accDetail = TransactionHistory.init(dictionary: transaction )
+                objects.append(accDetail)
+            }
+            
             
             completion(objects, "success", nil)
         }
