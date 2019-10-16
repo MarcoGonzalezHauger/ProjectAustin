@@ -197,9 +197,8 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 //		}
 
         
-        
         if  Yourself == nil {
-			LockTabBar()
+			self.LockTheTabBar()
 			print("Yourself is nil.")
             if UserDefaults.standard.object(forKey: "token") != nil  {
 				API.INSTAGRAM_ACCESS_TOKEN = UserDefaults.standard.object(forKey: "token") as! String
@@ -209,8 +208,9 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 					if snapshot.exists() == false {
 						self.performSegue(withIdentifier: "showSignUpVC", sender: self)
 					} else {
-						self.GetUser()
-						self.UnlockTabBar()
+						self.GetUser() {
+							self.UnlockTheTabBar()
+						}
 					}
 				}
             } else {
@@ -218,33 +218,38 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
                 performSegue(withIdentifier: "showSignUpVC", sender: self)
             }
 		} else {
-			UnlockTabBar()
+			self.UnlockTheTabBar()
 		}
         
 	}
 	
-	func LockTabBar() {
-		let tabBarControllerItems = self.tabBarController?.tabBar.items
-
-		if let tabArray = tabBarControllerItems {
-			for tbi in tabArray {
-				tbi.isEnabled = false
+	func LockTheTabBar() {
+		DispatchQueue.main.async {
+			print("Locked Tab Bar.")
+			let tabBarControllerItems = self.tabBarController?.tabBar.items
+			
+			if let tabArray = tabBarControllerItems {
+				for tbi in tabArray {
+					tbi.isEnabled = false
+				}
 			}
 		}
 	}
 	
-	func UnlockTabBar() {
-		
-		let tabBarControllerItems = self.tabBarController?.tabBar.items
-		
-		if let tabArray = tabBarControllerItems {
-			for tbi in tabArray {
-				tbi.isEnabled = true
+	func UnlockTheTabBar() {
+		DispatchQueue.main.async {
+			print("Unlocking Tab Bar.")
+			let tabBarControllerItems = self.tabBarController?.tabBar.items
+			
+			if let tabArray = tabBarControllerItems {
+				for tbi in tabArray {
+					tbi.isEnabled = true
+				}
 			}
 		}
 	}
 	
-	func GetUser() {
+	func GetUser(hasCompleted: @escaping () -> ()) {
 		print("Getting user information.")
 		API.getProfileInfo { (user: User?) in
 			//                    DispatchQueue.main.async {
@@ -304,9 +309,8 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 							}else{
 								
 							}
-							
 						}
-						
+						hasCompleted()
 					}
 					
 					
