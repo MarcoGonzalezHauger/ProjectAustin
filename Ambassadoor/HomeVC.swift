@@ -199,6 +199,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
         
         
         if  Yourself == nil {
+			LockTabBar()
 			print("Yourself is nil.")
             if UserDefaults.standard.object(forKey: "token") != nil  {
 				API.INSTAGRAM_ACCESS_TOKEN = UserDefaults.standard.object(forKey: "token") as! String
@@ -209,15 +210,38 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 						self.performSegue(withIdentifier: "showSignUpVC", sender: self)
 					} else {
 						self.GetUser()
+						self.UnlockTabBar()
 					}
 				}
             } else {
                 // not exist
                 performSegue(withIdentifier: "showSignUpVC", sender: self)
             }
-        }
+		} else {
+			UnlockTabBar()
+		}
         
-        
+	}
+	
+	func LockTabBar() {
+		let tabBarControllerItems = self.tabBarController?.tabBar.items
+
+		if let tabArray = tabBarControllerItems {
+			for tbi in tabArray {
+				tbi.isEnabled = false
+			}
+		}
+	}
+	
+	func UnlockTabBar() {
+		
+		let tabBarControllerItems = self.tabBarController?.tabBar.items
+		
+		if let tabArray = tabBarControllerItems {
+			for tbi in tabArray {
+				tbi.isEnabled = true
+			}
+		}
 	}
 	
 	func GetUser() {
