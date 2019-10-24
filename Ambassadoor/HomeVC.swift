@@ -138,6 +138,10 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 				destination.delegate = self
 				destination.ThisOffer = newviewoffer
 			}
+		} else if segue.identifier == "toFakeSplash" {
+			if let destination = segue.destination as? FakeSplash {
+				self.delegate = destination
+			}
 		} else {
 			print("Segue to sign up is being prepared.")
 		}
@@ -179,7 +183,8 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 	}
     
     var ref: DatabaseReference!
-    
+	
+	var delegate: DismissNow?
 	
 	override func viewDidAppear(_ animated: Bool) {
 		
@@ -195,59 +200,28 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 //				}
 //			}
 //		}
-
-        
         if  Yourself == nil {
-			self.LockTheTabBar()
 			print("Yourself is nil.")
             if UserDefaults.standard.object(forKey: "token") != nil  {
+				self.performSegue(withIdentifier: "toFakeSplash", sender: self)
 				API.INSTAGRAM_ACCESS_TOKEN = UserDefaults.standard.object(forKey: "token") as! String
 				let ref = Database.database().reference().child("users").child(UserDefaults.standard.object(forKey: "userid") as! String).child("id")
 				print("USER ID: \(UserDefaults.standard.object(forKey: "userid") as! String)")
 				ref.observeSingleEvent(of: .value) { (snapshot) in
+					self.delegate?.dismissNow()
 					if snapshot.exists() == false {
 						self.performSegue(withIdentifier: "showSignUpVC", sender: self)
 					} else {
-						self.GetUser() {
-							self.UnlockTheTabBar()
-						}
+						self.GetUser {}
 					}
 				}
             } else {
                 // not exist
                 performSegue(withIdentifier: "showSignUpVC", sender: self)
             }
-		} else {
-			self.UnlockTheTabBar()
-		}
-        
-	}
-	
-	func LockTheTabBar() {
-		DispatchQueue.main.async {
-			print("Locked Tab Bar.")
-			let tabBarControllerItems = self.tabBarController?.tabBar.items
-			
-			if let tabArray = tabBarControllerItems {
-				for tbi in tabArray {
-					tbi.isEnabled = false
-				}
-			}
 		}
 	}
 	
-	func UnlockTheTabBar() {
-		DispatchQueue.main.async {
-			print("Unlocking Tab Bar.")
-			let tabBarControllerItems = self.tabBarController?.tabBar.items
-			
-			if let tabArray = tabBarControllerItems {
-				for tbi in tabArray {
-					tbi.isEnabled = true
-				}
-			}
-		}
-	}
 	
 	func GetUser(hasCompleted: @escaping () -> ()) {
 		print("Getting user information.")

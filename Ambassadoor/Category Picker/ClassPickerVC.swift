@@ -12,16 +12,16 @@ import UIKit
 let maximumCategories: Int = 5
 
 protocol SubCategoryResultDelegate {
-	func CategoryAdded(newCategory: Category) -> Bool
-	func CategoryRemoved(removedCategory: Category)
-	func GetSelectedList() -> [Category]
+	func CategoryAdded(newCategory: String) -> Bool
+	func CategoryRemoved(removedCategory: String)
+	func GetSelectedList() -> [String]
 	func DoneClicked()
 	func isDoneButtonClickable() -> Bool
 	func getTitleHeading() -> String
 }
 
 protocol CategoryPickerDelegate {
-	func CategoriesPicked(newCategory: [Category])
+	func CategoriesPicked(newCategory: [String])
 }
 
 
@@ -43,7 +43,7 @@ class ClassPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	
 	@IBOutlet weak var header: UINavigationItem!
 	
-	func CategoryAdded(newCategory: Category) -> Bool {
+	func CategoryAdded(newCategory: String) -> Bool {
 		if returnValue.count >= maximumCategories {
 			print("No room for new category.")
 			return false
@@ -58,13 +58,13 @@ class ClassPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		return true
 	}
 	
-	func CategoryRemoved(removedCategory: Category) {
+	func CategoryRemoved(removedCategory: String) {
 		returnValue = returnValue.filter{ return $0 != removedCategory }
 		print("Category Removed: \(removedCategory)")
 		catChanged()
 	}
 	
-	func GetSelectedList() -> [Category] {
+	func GetSelectedList() -> [String] {
 		return returnValue
 	}
 	
@@ -77,6 +77,7 @@ class ClassPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	@IBOutlet weak var doneButton: UIBarButtonItem!
 	
 	func DoneClicked() {
+		print("returning", returnValue)
 		delegate?.CategoriesPicked(newCategory: returnValue)
 		dismiss(animated: true, completion: nil)
 	}
@@ -85,12 +86,12 @@ class ClassPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		DoneClicked()
 	}
 	
-	var returnValue: [Category] = [] {
+	var returnValue: [String] = [] {
 		didSet {
 			doneButton.isEnabled = returnValue.count > 0
 		}
 	}
-	var originalValue: [Category] = [] {
+	var originalValue: [String] = [] {
 		didSet {
 			returnValue = originalValue
 		}
@@ -108,11 +109,10 @@ class ClassPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		if let cat = ClassToCategories[allCategoryClasses[indexPath.row]] {
 			var isSelected = false
 			if returnValue.count > 0 || originalValue.count > 0 {
-				let ref: [Category] = returnValue
 				var selectedCats: [String] = []
-				for c in ref {
+				for c in returnValue {
 					if cat.contains(c) {
-						selectedCats.append(c.rawValue)
+						selectedCats.append(c)
 					}
 				}
 				if selectedCats.count > 0 {
@@ -127,13 +127,18 @@ class ClassPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 				if cat.count < 3 {
 					cell.detailLabel.text = ""
 				} else {
-					cell.detailLabel.text = "\(cat[0].rawValue), \(cat[1].rawValue), \(cat[2].rawValue), etc."
+					cell.detailLabel.text = "\(cat[0]), \(cat[1]), \(cat[2]), etc."
 				}
 			}
 		} else {
 			cell.detailLabel.text = ""
 		}
 		return cell
+	}
+	
+	@IBAction func clear(_ sender: Any) {
+		returnValue = []
+		catChanged()
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
