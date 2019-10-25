@@ -231,9 +231,19 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 				logo.image = UIImage(named: "defaultcompany")
 			}
 			OfferForLabel.text = "OFFER FOR"
-            MoneyLabel.text = NumberToPrice(Value: ThisOffer.money)
+            
+            //ambver update
+            if ThisOffer.status == "paid" {
+                MoneyLabel.text = NumberToPrice(Value: ThisOffer.money) + " Received"
+            }else if ThisOffer.status == "denied" {
+                MoneyLabel.text = NumberToPrice(Value: ThisOffer.money) + " Denied"
+            }else{
+                MoneyLabel.text = NumberToPrice(Value: ThisOffer.money)
+            }
+            
+            //MoneyLabel.text = NumberToPrice(Value: ThisOffer.money)
+
 		}
-		
 		
 		
 		//Make sure list of posts in offer is reflected.

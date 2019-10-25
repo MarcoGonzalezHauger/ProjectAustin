@@ -74,6 +74,8 @@ class Offer : NSObject {
 	var debugInfo: String {
 		return "Offer by \(company.name) for $\(String(money)) that is \(isExpired ? "" : "not ") expired."
 	}
+    var ownerUserID: String
+    var title: String
     init(dictionary: [String: AnyObject]) {
         
         self.status = dictionary["status"] as! String
@@ -89,6 +91,8 @@ class Offer : NSObject {
 		}
 
         self.isAccepted = dictionary["isAccepted"] as! Bool
+        self.ownerUserID = dictionary["ownerUserID"] as! String
+        self.title = dictionary["title"] as! String
     }
 }
 
@@ -109,6 +113,8 @@ class User: NSObject {
     var referralcode: String
     var isDefaultOfferVerify: Bool
     var lastPaidOSCDate: String
+    var priorityValue: Int
+    var authenticationToken: String
 	
     init(dictionary: [String: Any]) {
         self.name = dictionary["name"] as? String
@@ -133,7 +139,8 @@ class User: NSObject {
         self.referralcode = dictionary["referralcode"] as? String ?? ""
         self.isDefaultOfferVerify = dictionary["isDefaultOfferVerify"] as? Bool ?? false
         self.lastPaidOSCDate = dictionary["lastPaidOSCDate"] as? String ?? Date.getCurrentDate()
-        
+        self.priorityValue = dictionary["priorityValue"] as? Int ?? 0
+        self.authenticationToken = dictionary["authenticationToken"] as? String ?? ""
     }
 	
 	override var description: String {
@@ -157,7 +164,6 @@ class Bank: NSObject {
 
     }
     
-
 }
 
 //added by ram
@@ -278,6 +284,8 @@ struct Post {
 	let PostType: TypeofPost
 	var confirmedSince: Date?
 	var isConfirmed: Bool
+    var denyMessage: String?
+    var status: String?
 }
 
 //struct for product
@@ -394,5 +402,76 @@ class InstagramManager: NSObject, UIDocumentInteractionControllerDelegate {
     }
 
 }
+
+//Amount refound funcs
+class Deposit: NSObject {
+    var userID: String?
+    var currentBalance: Double?
+    var totalDepositAmount: Double?
+    var totalDeductedAmount: Double?
+    var lastDeductedAmount: Double?
+    var lastDepositedAmount: Double?
+    var lastTransactionHistory: TransactionDetails?
+    var depositHistory: [Any]?
+    
+    init(dictionary: [String: Any]) {
+        
+        self.userID = dictionary["userID"] as? String
+        self.currentBalance = dictionary["currentBalance"] as? Double
+        self.totalDepositAmount = dictionary["totalDepositAmount"] as? Double
+        self.totalDeductedAmount = dictionary["totalDeductedAmount"] as? Double
+        self.lastDeductedAmount = dictionary["lastDeductedAmount"] as? Double
+        self.lastDepositedAmount = dictionary["lastDepositedAmount"] as? Double
+        self.lastTransactionHistory = TransactionDetails.init(dictionary: dictionary["lastTransactionHistory"] as! [String : Any])
+        self.depositHistory = dictionary["depositHistory"] as? [Any]
+        
+    }
+    
+}
+
+class TransactionDetails: NSObject {
+    var id: String?
+    var status: String?
+    var type: String?
+    var currencyIsoCode: String?
+    var amount: String?
+    var createdAt: String?
+    var updatedAt: String?
+    var transactionType: String?
+    var cardDetails: Any?
+    var userName: String?
+    var offerName: String?
+    
+    init(dictionary: [String: Any]) {
+        self.id = dictionary["id"] as? String
+        self.status = dictionary["status"] as? String
+        self.type = dictionary["type"] as? String
+        self.currencyIsoCode = dictionary["currencyIsoCode"] as? String
+        self.amount = dictionary["amount"] as? String
+        self.createdAt = dictionary["createdAt"] as? String
+        self.updatedAt = dictionary["updatedAt"] as? String
+        if dictionary.keys.contains("creditCard") {
+            if dictionary["creditCard"] != nil {
+                self.cardDetails = dictionary["creditCard"]
+            }
+        }else if dictionary.keys.contains("paypalAccount") {
+            if dictionary["creditCard"] != nil {
+                self.cardDetails = dictionary["paypalAccount"]
+            }
+        }else if dictionary.keys.contains("cardDetails") {
+            if dictionary["cardDetails"] != nil {
+                self.cardDetails = dictionary["cardDetails"]
+            }
+        }else if dictionary.keys.contains("paidDetails") {
+            if dictionary["paidDetails"] != nil {
+                self.cardDetails = dictionary["paidDetails"]
+            }
+        }
+        self.userName = dictionary["userName"] as? String
+        self.offerName = dictionary["offerName"] as? String
+    }
+    
+}
+
 
 
