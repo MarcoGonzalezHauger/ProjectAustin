@@ -104,6 +104,10 @@ class MoneyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Glo
 			if let destination = (destination as! UINavigationController).topViewController as? OfferVC {
 				destination.isCloseButton = true
 				destination.ThisOffer = newviewoffer
+                if let picUrl  = newviewoffer!.company.logo {
+                    UIImageView().downloadAndSetImage(picUrl, isCircle: false)
+                } else {
+                }
 //                destination.selectedIndex = selectedIndex
 			}
         }

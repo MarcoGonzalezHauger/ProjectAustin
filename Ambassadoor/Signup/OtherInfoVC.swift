@@ -144,7 +144,8 @@ class OtherInfoVC: UIViewController, UITextFieldDelegate, CategoryExplainedDeleg
             userfinal?.joinedDate = Date.getCurrentDate()
             userfinal?.isDefaultOfferVerify = false
             userfinal?.lastPaidOSCDate = Date.getCurrentDate()
-            
+            userfinal?.priorityValue = 0
+
             
             updateUserDataToFIR(user: userfinal!){ (user) in
                 

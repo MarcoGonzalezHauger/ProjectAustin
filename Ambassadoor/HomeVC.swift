@@ -94,18 +94,83 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 
                 prntRef.updateChildValues(["expiredate":expireDate])
                 global.AvaliableOffers[ip.row].expiredate = Date().addMinutes(minute: 60)
+                
+                global.RejectedOffers.append(global.AvaliableOffers[ip.row])
+                global.AvaliableOffers.remove(at: ip.row)
+                shelf.deleteRows(at: [ip], with: .left)
             }else{
                 prntRef.updateChildValues(["isExpired":true])
+                
+                // amount refund Business User
+                self.getDepositDetails(companyUserID: global.AvaliableOffers[ip.row].ownerUserID) { (deposit, status, error) in
+                    
+                    let depositedAmount = global.AvaliableOffers[ip.row].money
+                    
+                    let cardDetails = ["last4":"0000","expireMonth":"00","expireYear":"0000","country":"US"] as [String : Any]
+                    
+                    
+                    let transactionDict = ["id":Yourself.id,"userName":Yourself.username,"status":"success","offerName":global.AvaliableOffers[ip.row].title,"type":"refund","currencyIsoCode":"USD","amount":String(depositedAmount),"createdAt":Date.getCurrentDate(),"updatedAt":Date.getCurrentDate(),"transactionType":"refund","cardDetails":cardDetails] as [String : Any]
 
+                    
+                        if status == "success" {
+                        
+                        let transactionObj = TransactionDetails.init(dictionary: transactionDict)
+                        
+                        let tranObj = serializeTransactionDetails(transaction: transactionObj)
+                        
+                        let currentBalance = deposit!.currentBalance! + depositedAmount
+                        let totalDepositAmount = deposit!.totalDepositAmount!
+                        deposit?.totalDepositAmount = totalDepositAmount
+                        deposit?.currentBalance = currentBalance
+                        deposit?.lastDepositedAmount = depositedAmount
+                        deposit?.lastTransactionHistory = transactionObj
+                        var depositHistory = [Any]()
+                        
+                        
+                        depositHistory.append(contentsOf: (deposit!.depositHistory!))
+                        depositHistory.append(tranObj)
+                        
+                        deposit?.depositHistory = depositHistory
+                            
+                        sendDepositAmount(deposit: deposit!, companyUserID: global.AvaliableOffers[ip.row].ownerUserID)
+                        
+                    }
+                    else{
+                                                
+                    }
+                    
+                    global.RejectedOffers.append(global.AvaliableOffers[ip.row])
+                    global.AvaliableOffers.remove(at: ip.row)
+                    self.shelf.deleteRows(at: [ip], with: .left)
+                    
+                }
             }
-            
             // **********
             
-			global.RejectedOffers.append(global.AvaliableOffers[ip.row])
-			global.AvaliableOffers.remove(at: ip.row)
-			shelf.deleteRows(at: [ip], with: .left)
+//			global.RejectedOffers.append(global.AvaliableOffers[ip.row])
+//			global.AvaliableOffers.remove(at: ip.row)
+//			shelf.deleteRows(at: [ip], with: .left)
 		}
 	}
+    
+    func getDepositDetails(companyUserID: String,completion: @escaping(Deposit?,String,Error?) -> Void) {
+        
+        let ref = Database.database().reference().child("BusinessDeposit").child(companyUserID)
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if let totalValues = snapshot.value as? NSDictionary{
+                
+                let deposit = Deposit.init(dictionary: totalValues as! [String : Any])
+                completion(deposit, "success", nil)
+            }else{
+                completion(nil, "new", nil)
+            }
+        }) { (error) in
+               completion(nil, "failure", error)
+        }
+    }
+
+    
 
 	var Pager: PageVC!
 	var viewoffer: Offer?
@@ -137,6 +202,12 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 			if let destination = (destination as! UINavigationController).topViewController as? OfferVC {
 				destination.delegate = self
 				destination.ThisOffer = newviewoffer
+                if let picUrl  = newviewoffer.company.logo {
+                    UIImageView().downloadAndSetImage(picUrl, isCircle: false)
+                } else {
+
+                }
+                
 			}
 		} else if segue.identifier == "toFakeSplash" {
 			if let destination = segue.destination as? FakeSplash {
@@ -235,7 +306,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 						UserDefaults.standard.set(API.INSTAGRAM_ACCESS_TOKEN, forKey: "token")
 						UserDefaults.standard.set(Yourself.id, forKey: "userid")
 					}
-					
+					hasCompleted()
 				}
 				
 				var youroffers: [Offer] = []
@@ -246,48 +317,11 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
 					global.AvaliableOffers = youroffers.filter({$0.status == "available"})
 					global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
-					global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
+                    //Ambver update
+					global.AcceptedOffers = youroffers.filter({$0.status == "accepted" || $0.status == "paid" || $0.status == "denied"})
 					global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
 					global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
-					
-					
-					//post verify check
-					
-					//get instagram user media data
-					API.getRecentMedia { (mediaData: [[String:Any]]?) in
-						for postVal in mediaData!{
-							if let captionVal = (postVal["caption"] as? [String:Any]) {
-								var instacaption = captionVal["text"] as! String
-								if instacaption.contains("#ad"){
-									instacaption = instacaption.replacingOccurrences(of: " #ad ", with: "")
-									instacaption = instacaption.replacingOccurrences(of: "#ad ", with: "")
-									instacaption = instacaption.replacingOccurrences(of: " #ad", with: "")
-									instacaption = instacaption.replacingOccurrences(of: "#ad", with: "")
-									
-									for offer in global.AcceptedOffers {
-										if !offer.allConfirmed {
-											for post in offer.posts {
-												let postCaption = post.captionMustInclude!
-												if instacaption.contains(postCaption) {
-													instagramPostUpdate(offerID: offer.offer_ID, post: [post.post_ID:postVal])
-													SentOutOffersUpdate(offer: offer, post_ID: post.post_ID)
-												}
-											}
-										}
 										
-									}
-									
-								}
-								
-								
-							}else{
-								
-							}
-						}
-						hasCompleted()
-					}
-					
-					
 					UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
 						var newavailableresults: [Offer] = []
 						for notification in notifications {
@@ -306,7 +340,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 							}
 							newavailableresults = global.AvaliableOffers.filter({ $0.offer_ID != identifier })
 							
-							
 						}
 						
 						for offer in newavailableresults {
@@ -315,7 +348,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 						}
 						
 					}
-					
 					
 				}
 				CheckForCompletedOffers() {
@@ -361,7 +393,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		
         view.layoutIfNeeded()
 		
-        print("Home VC has been loaded.")
     }
     
 

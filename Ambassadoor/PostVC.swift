@@ -96,6 +96,13 @@ class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 		} else {
 			captionText.text = "#ad"
 		}
+        
+        //ambver update
+        if ThisPost.status == "denied" {
+            if let msg = ThisPost.denyMessage {
+                self.showStandardAlertDialog(title: "Alert", msg: msg)
+            }
+        }
 	}
 	
 	@IBAction func Dismiss(_ sender: Any) {

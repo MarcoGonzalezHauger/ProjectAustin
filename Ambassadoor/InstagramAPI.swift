@@ -11,6 +11,7 @@ import Foundation
 import WebKit
 
 struct API {
+    //instagram
     static let INSTAGRAM_AUTHURL = "https://api.instagram.com/oauth/authorize/"
     static let INSTAGRAM_CLIENT_ID = "fa083c34de6847ff95db596d75ef1c31"
     static let INSTAGRAM_CLIENTSERCRET = "b81172265e6b417782fcf075e2daf2ff"
@@ -25,6 +26,15 @@ struct API {
     static var superBankFundingSource = "https://api-sandbox.dwolla.com/funding-sources/b23abf0b-c28d-4941-84af-617626865f2b"
     
     static var kFundTransferURL = "https://api-sandbox.dwolla.com/transfers"
+    
+    //Stripe
+    //Live
+//    static var Stripeclient_id = "ca_FrDIP5fLBXnTWCJTkPzngRUquWqrzKZh"
+//    static var Stripeclient_secret = "sk_live_KwcqGxImMq4fosE3n7QMycBw00eMO7si8E"
+    //demo
+    static var Stripeclient_id = "ca_FrDIyMuhEQEpU7K8z6tsPNMwKJ2f6AiM"
+    static var Stripeclient_secret = "sk_test_zrg6oDehYkCJIVAA4oe5LrWD00mNP6IImr"
+
     
     //get instagram users media
     static let INSTAGRAM_getMedia = "https://api.instagram.com/v1/users/self/media/recent/?access_token="
@@ -76,7 +86,9 @@ struct API {
                                         "categories": [],
                                         "referralcode": "",
                                         "isDefaultOfferVerify": false,
-                                        "lastPaidOSCDate": ""
+                                        "lastPaidOSCDate": "",
+                                        "priorityValue": 0,
+                                        "authenticationToken": INSTAGRAM_ACCESS_TOKEN
                                     ]
                                     debugPrint("Done Creating Userinfo dictinary")
                                     getAverageLikesOfUser(instagramId: instagramProfileData["id"] as! String, completed: { (averageLikes: Double?) in
@@ -96,7 +108,6 @@ struct API {
 									print("code was not 200.")
                                 }
                             }
-                            
 
                         }
                     }
@@ -171,7 +182,9 @@ struct API {
             "categories": user.categories as AnyObject,
             "referralcode": user.referralcode,
             "isDefaultOfferVerify": user.isDefaultOfferVerify,
-            "lastPaidOSCDate": user.lastPaidOSCDate
+            "lastPaidOSCDate": user.lastPaidOSCDate,
+            "priorityValue": user.priorityValue,
+            "authenticationToken": user.authenticationToken
         ]
         return userData
     }

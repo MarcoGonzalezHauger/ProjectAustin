@@ -59,7 +59,6 @@ class InstagramVC: UIViewController, ConfirmationReturned {
         // Puts login page into WebView on VC
         webView.load(urlRequest)
 		print("WEB VIEW URL: \(String(describing: webView.url))")
-		
 
     }
 }

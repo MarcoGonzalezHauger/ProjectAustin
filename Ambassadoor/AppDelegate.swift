@@ -204,7 +204,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             ref.observeSingleEvent(of: .value, with: { (snapshot) in
                 
                 let latestVersion = snapshot.value as! String
-                if latestVersion != appVersion {
+                let versionCompare = appVersion!.compare(latestVersion, options: .numeric)
+                if versionCompare == .orderedDescending || versionCompare == .orderedSame {
+                    
+                }else{
                     let alertMessage = "A new version of Application is available, Please update to version " + latestVersion;
 
                     let topWindow: UIWindow? = UIWindow(frame: UIScreen.main.bounds)
@@ -225,7 +228,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     }))
                     topWindow?.makeKeyAndVisible()
                     topWindow?.rootViewController?.present(alert, animated: true, completion: nil)
-                    
                 }
             })
         }
@@ -306,7 +308,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
                                         global.AvaliableOffers = youroffers.filter({$0.status == "available"})
                                         global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
-                                        global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
+                                    //Ambver update
+                                        global.AcceptedOffers = youroffers.filter({$0.status == "accepted" || $0.status == "paid" || $0.status == "denied"})
                                         global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
                                         global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
                                         
@@ -337,7 +340,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                                             }
                                             
                                         }
-                                    
                                     
                                 }
                             } else {
