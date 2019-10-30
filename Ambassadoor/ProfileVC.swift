@@ -94,7 +94,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.row == 0 {
 			let cell = shelf.dequeueReusableCell(withIdentifier: "progressBar") as! ProgressBarCell
-			if Yourself.followerCount > TierThresholds.last! {
+			if Yourself.followerCount > TierThreshholds.last! {
 				cell.percentage = 1
 				cell.current.text = String(GetTierForInfluencer(influencer: Yourself))
 				cell.goal.text = "MAX"
@@ -102,12 +102,12 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 				var min = 0.0
 				var goal = 0.0
 				var index = 0
-				while index < TierThresholds.count {
-					if Yourself.followerCount > TierThresholds[index] {
+				while index < TierThreshholds.count {
+					if Yourself.followerCount > TierThreshholds[index] {
 						//found goal (tier + 1)
-						goal = TierThresholds[index + 1]
+						goal = TierThreshholds[index + 1]
 						//minimim goal
-						min = TierThresholds[index]
+						min = TierThreshholds[index]
 					}
 					index += 1
 				}
@@ -150,6 +150,11 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		if indexPath.row == 0 {
+			performSegue(withIdentifier: "TierInfoVC", sender: self)
+			shelf.deselectRow(at: indexPath, animated: false)
+			return
+		}
 		let setting = userSettings[indexPath.row - 1]
 		selectedID = setting.identifier
 		switch setting.identifier {

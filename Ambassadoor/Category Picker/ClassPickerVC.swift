@@ -54,6 +54,7 @@ class ClassPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		}
 		print("added category selection: \(newCategory)")
 		returnValue.append(newCategory)
+		DisableUndo()
 		catChanged()
 		return true
 	}
@@ -136,9 +137,30 @@ class ClassPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		return cell
 	}
 	
+	@IBOutlet weak var clearButton: UIBarButtonItem!
+	
+	var undoEnabled = false
+	var MuteDisable = false
+	var undoSavedItems: [String] = []
+	
+	func DisableUndo() {
+		undoEnabled	= false
+		clearButton.title = "Clear"
+		clearButton.style = .plain
+	}
+	
 	@IBAction func clear(_ sender: Any) {
-		returnValue = []
-		catChanged()
+		if undoEnabled {
+			returnValue = undoSavedItems
+			catChanged()
+		} else {
+			undoSavedItems = returnValue
+			returnValue = []
+			catChanged()
+		}
+		undoEnabled	= !undoEnabled
+		clearButton.title = undoEnabled ? "Undo" : "Clear"
+		clearButton.style = undoEnabled ? .done : .plain
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

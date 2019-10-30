@@ -108,7 +108,7 @@ func NumberToStringWithCommas(number: Double) -> String {
 	return numformat.string(from: NSNumber(value:number)) ?? String(number)
 }
 
-let TierThresholds: [Double] = [0, 100, 200, 350, 500, 750, 1000, 1250, 1500, 2000, 3000, 4000, 5000, 7500, 10000, 15000, 25000, 50000, 75000, 100000, 150000, 200000, 300000, 500000, 750000, 1000000, 1500000, 2000000, 3000000, 4000000, 5000000]
+let TierThreshholds: [Double] = [0, 100, 200, 350, 500, 750, 1000, 1250, 1500, 2000, 3000, 4000, 5000, 7500, 10000, 15000, 25000, 50000, 75000, 100000, 150000, 200000, 300000, 500000, 750000, 1000000, 1500000, 2000000, 3000000, 4000000, 5000000]
 
 func GetTierFromFollowerCount(FollowerCount: Double) -> Int? {
 	
