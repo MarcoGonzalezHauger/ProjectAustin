@@ -185,25 +185,6 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		B7D42093232A7A89009F0FCE /* TableviewCells */ = {
-			isa = PBXGroup;
-			children = (
-				B7D42094232A7AB1009F0FCE /* ConnectedPlaidTVCell.swift */,
-			);
-			name = TableviewCells;
-			sourceTree = "<group>";
-		};
-		B7E86AF2230ECC3800F60E8F /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				B7E86AF3230ECC5E00F60E8F /* PlaidHelper.swift */,
-				B7E86AF5230ECE1B00F60E8F /* PlaidLinkEnabledVC.swift */,
-				B73F098523291B3100CD6B00 /* APIManager.swift */,
-				B7B97D71233DE84C0028E7E2 /* NetworkReachability.swift */,
-			);
-			name = Helpers;
-			sourceTree = "<group>";
-		};
 		C0963EAF220B838F000380C7 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -212,75 +193,6 @@
 				B7446CC322FD81BB0061983F /* UIViewControllerExtensions.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		E8109EEA21AEE802008882B1 /* Money */ = {
-			isa = PBXGroup;
-			children = (
-				E8109EEB21AEE818008882B1 /* MoneyVC.swift */,
-				E8109EED21AF6BA8008882B1 /* WithdrawVC.swift */,
-				B7E86AEF230EA46E00F60E8F /* BankListVC.swift */,
-				B73F098723291DA000CD6B00 /* DwollaUserInformationVC.swift */,
-				B7D4209A232AA94F009F0FCE /* TransactionListVC.swift */,
-				B7FB2885233A1E4700980F17 /* PaymentSentVC.swift */,
-				E8E84120234CF43C00AA4957 /* StripeConnectionMKWebview.swift */,
-			);
-			name = Money;
-			sourceTree = "<group>";
-		};
-		E81CADDE21AD8C7600F2DCC4 /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				E80FD4FC21A4B8AB003AF50B /* HomeVC.swift */,
-				E86A1E4E21A86CE900DCB0D0 /* RejectedOffersVC.swift */,
-				E80FD4FE21A4F1E4003AF50B /* PageVC.swift */,
-				E80AB86B21B1F9E000D9B546 /* inProgressVC.swift */,
-				E8963EA021F7F16B0047CF99 /* OfferCell.swift */,
-			);
-			name = Home;
-			sourceTree = "<group>";
-		};
-		E81CADE121AD90A000F2DCC4 /* View Offer */ = {
-			isa = PBXGroup;
-			children = (
-				B7C4BF0E2302FFE00024C3C3 /* Ambassadoor-Bridging-Header.h */,
-				B78D114A2306AF510073F64B /* CustomObject.h */,
-				B78D11492306AF500073F64B /* CustomObject.m */,
-				E86A1E5221A893D100DCB0D0 /* OfferVC.swift */,
-				B7FA5F3623339F700088C3FE /* OfferAcceptConfirmVC.swift */,
-				E8F9D0AD21AA3FDC00DD1616 /* CompanyVC.swift */,
-				E84D685221A9F08C00681D21 /* PostVC.swift */,
-				E8F9D0AB21AA362500DD1616 /* ProductVC.swift */,
-				E80AB86721B0DA0D00D9B546 /* ViewOfferNC.swift */,
-				E8589FEF234A971400F1BBDE /* ReportOfferVC.swift */,
-			);
-			name = "View Offer";
-			sourceTree = "<group>";
-		};
-		E81CADE221AD90C300F2DCC4 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				C0D73642220676CF00A84EB7 /* InstagramAPI.swift */,
-				E86A1E4A21A784C500DCB0D0 /* structs.swift */,
-				E89480A12236E95C00C809E5 /* categories.swift */,
-				E86A1E4C21A797F000DCB0D0 /* Savvy.swift */,
-				E86A1E5021A87C1200DCB0D0 /* global.swift */,
-				E80AB86921B18A6400D9B546 /* GlobalTimeSync.swift */,
-				E8CBD7BD21E29400003B5B02 /* People.swift */,
-				E838F3CA21F687BB0021D0AD /* FirebaseRefrences.swift */,
-				E87EC2E1236C998C00690037 /* GeolocationTools.swift */,
-			);
-			name = Model;
-			sourceTree = "<group>";
-		};
-		E81DE11F222AF38800880D41 /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-				E81DE120222AF39D00880D41 /* ProfileVC.swift */,
-				E8EF2C79222DDD6300B2EDC6 /* ZipCodeVC.swift */,
-				E8C9048B236859A400FB9584 /* TierInfoVC.swift */,
-			);
-			name = Profile;
 			sourceTree = "<group>";
 		};
 		E82347E121A1D6BF000A1A62 = {
@@ -304,18 +216,18 @@
 		E82347EC21A1D6BF000A1A62 /* Ambassadoor */ = {
 			isa = PBXGroup;
 			children = (
-				B7D42093232A7A89009F0FCE /* TableviewCells */,
-				B7E86AF2230ECC3800F60E8F /* Helpers */,
+				E870FE69236CF491002ABE31 /* View Offer */,
+				E870FE68236CF48D002ABE31 /* Model */,
+				E870FE67236CF487002ABE31 /* Money */,
+				E870FE66236CF47E002ABE31 /* Home */,
+				E870FE65236CF46C002ABE31 /* Resources */,
+				E870FE64236CF465002ABE31 /* TableviewCells */,
+				E870FE63236CF45E002ABE31 /* Helpers */,
 				E8A84AAD222AB3D400D9E2C9 /* Category Picker */,
-				E8C02752220F329A00B79D54 /* Resouces */,
 				C0963EAF220B838F000380C7 /* Extensions */,
 				E866724621FF2C6B00241FB3 /* Signup */,
 				E86B092421DBEF600009C45D /* Social */,
-				E81DE11F222AF38800880D41 /* Profile */,
-				E81CADDE21AD8C7600F2DCC4 /* Home */,
-				E8109EEA21AEE802008882B1 /* Money */,
-				E81CADE221AD90C300F2DCC4 /* Model */,
-				E81CADE121AD90A000F2DCC4 /* View Offer */,
+				E870FE62236CF446002ABE31 /* Profile */,
 				E8F9D0AF21AB86B100DD1616 /* GoogleService-Info.plist */,
 				E82347ED21A1D6BF000A1A62 /* AppDelegate.swift */,
 				B7FA5F342333789F0088C3FE /* TabBarVC.swift */,
@@ -357,6 +269,104 @@
 			path = Social;
 			sourceTree = "<group>";
 		};
+		E870FE62236CF446002ABE31 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				E81DE120222AF39D00880D41 /* ProfileVC.swift */,
+				E8EF2C79222DDD6300B2EDC6 /* ZipCodeVC.swift */,
+				E8C9048B236859A400FB9584 /* TierInfoVC.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		E870FE63236CF45E002ABE31 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				B7E86AF3230ECC5E00F60E8F /* PlaidHelper.swift */,
+				B7E86AF5230ECE1B00F60E8F /* PlaidLinkEnabledVC.swift */,
+				B73F098523291B3100CD6B00 /* APIManager.swift */,
+				B7B97D71233DE84C0028E7E2 /* NetworkReachability.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		E870FE64236CF465002ABE31 /* TableviewCells */ = {
+			isa = PBXGroup;
+			children = (
+				B7D42094232A7AB1009F0FCE /* ConnectedPlaidTVCell.swift */,
+			);
+			path = TableviewCells;
+			sourceTree = "<group>";
+		};
+		E870FE65236CF46C002ABE31 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E8C02753220F32C000B79D54 /* BoldButton.swift */,
+				E84038CB223541DB00959CD9 /* Notifications.swift */,
+				E8D4B2472362543100DC0FEA /* FakeSplash.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		E870FE66236CF47E002ABE31 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				E80FD4FC21A4B8AB003AF50B /* HomeVC.swift */,
+				E86A1E4E21A86CE900DCB0D0 /* RejectedOffersVC.swift */,
+				E80FD4FE21A4F1E4003AF50B /* PageVC.swift */,
+				E80AB86B21B1F9E000D9B546 /* inProgressVC.swift */,
+				E8963EA021F7F16B0047CF99 /* OfferCell.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		E870FE67236CF487002ABE31 /* Money */ = {
+			isa = PBXGroup;
+			children = (
+				E8109EEB21AEE818008882B1 /* MoneyVC.swift */,
+				E8109EED21AF6BA8008882B1 /* WithdrawVC.swift */,
+				B7E86AEF230EA46E00F60E8F /* BankListVC.swift */,
+				B73F098723291DA000CD6B00 /* DwollaUserInformationVC.swift */,
+				B7D4209A232AA94F009F0FCE /* TransactionListVC.swift */,
+				B7FB2885233A1E4700980F17 /* PaymentSentVC.swift */,
+				E8E84120234CF43C00AA4957 /* StripeConnectionMKWebview.swift */,
+			);
+			path = Money;
+			sourceTree = "<group>";
+		};
+		E870FE68236CF48D002ABE31 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C0D73642220676CF00A84EB7 /* InstagramAPI.swift */,
+				E86A1E4A21A784C500DCB0D0 /* structs.swift */,
+				E89480A12236E95C00C809E5 /* categories.swift */,
+				E86A1E4C21A797F000DCB0D0 /* Savvy.swift */,
+				E86A1E5021A87C1200DCB0D0 /* global.swift */,
+				E80AB86921B18A6400D9B546 /* GlobalTimeSync.swift */,
+				E8CBD7BD21E29400003B5B02 /* People.swift */,
+				E838F3CA21F687BB0021D0AD /* FirebaseRefrences.swift */,
+				E87EC2E1236C998C00690037 /* GeolocationTools.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E870FE69236CF491002ABE31 /* View Offer */ = {
+			isa = PBXGroup;
+			children = (
+				B7C4BF0E2302FFE00024C3C3 /* Ambassadoor-Bridging-Header.h */,
+				B78D114A2306AF510073F64B /* CustomObject.h */,
+				B78D11492306AF500073F64B /* CustomObject.m */,
+				E86A1E5221A893D100DCB0D0 /* OfferVC.swift */,
+				B7FA5F3623339F700088C3FE /* OfferAcceptConfirmVC.swift */,
+				E8F9D0AD21AA3FDC00DD1616 /* CompanyVC.swift */,
+				E84D685221A9F08C00681D21 /* PostVC.swift */,
+				E8F9D0AB21AA362500DD1616 /* ProductVC.swift */,
+				E80AB86721B0DA0D00D9B546 /* ViewOfferNC.swift */,
+				E8589FEF234A971400F1BBDE /* ReportOfferVC.swift */,
+			);
+			path = "View Offer";
+			sourceTree = "<group>";
+		};
 		E8A84AAD222AB3D400D9E2C9 /* Category Picker */ = {
 			isa = PBXGroup;
 			children = (
@@ -365,16 +375,6 @@
 				E8EF2C77222D786500B2EDC6 /* CategoryPicker.swift */,
 			);
 			path = "Category Picker";
-			sourceTree = "<group>";
-		};
-		E8C02752220F329A00B79D54 /* Resouces */ = {
-			isa = PBXGroup;
-			children = (
-				E8C02753220F32C000B79D54 /* BoldButton.swift */,
-				E84038CB223541DB00959CD9 /* Notifications.swift */,
-				E8D4B2472362543100DC0FEA /* FakeSplash.swift */,
-			);
-			name = Resouces;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
