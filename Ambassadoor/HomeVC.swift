@@ -72,6 +72,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 	}
 	
 	//Offer was rejected; Remove it from the list and add it to the rejected VCs List.
+    // Amount refunded to Business User account
 	func OfferRejected(sender: Any) {
 		if let ip : IndexPath = shelf.indexPath(for: sender as! UITableViewCell) {
 			
@@ -188,6 +189,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		}
 	}
 	
+    // Offer Details view from list
 	func ViewOffer(OfferToView theoffer: Offer) {
 //		print("Viewing Offer: \(theoffer.money) from \(theoffer.company)")
 		viewoffer = theoffer
@@ -202,11 +204,11 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 			if let destination = (destination as! UINavigationController).topViewController as? OfferVC {
 				destination.delegate = self
 				destination.ThisOffer = newviewoffer
-                if let picUrl  = newviewoffer.company.logo {
-                    UIImageView().downloadAndSetImage(picUrl, isCircle: false)
-                } else {
-
-                }
+//                if let picUrl  = newviewoffer.company.logo {
+//                    UIImageView().downloadAndSetImage(picUrl, isCircle: false)
+//                } else {
+//
+//                }
                 
 			}
 		} else if segue.identifier == "toFakeSplash" {
@@ -221,6 +223,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 	//The Table view in which users are given offers
 	@IBOutlet weak var shelf: UITableView!
 	
+    //MARK: Tableview data source and delegates
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return global.AvaliableOffers.count
 	}
@@ -237,6 +240,13 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		ViewOfferFromCell(sender: shelf.cellForRow(at: indexPath) as! OfferCell)
 		shelf.deselectRow(at: indexPath, animated: false)
 	}
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = shelf.dequeueReusableCell(withIdentifier: "HomeOfferCell")  as! OfferCell
+        cell.delegate = self
+        cell.ThisOffer = global.AvaliableOffers[indexPath.row]
+        return cell
+    }
 	
 	@IBAction func goToInProgressOffers(_ sender: Any) {
 		Pager.goToPage(index: 2, sender: self)
@@ -246,12 +256,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		Pager.goToPage(index: 0, sender: self)
 	}
 	
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = shelf.dequeueReusableCell(withIdentifier: "HomeOfferCell")  as! OfferCell
-		cell.delegate = self
-		cell.ThisOffer = global.AvaliableOffers[indexPath.row]
-		return cell
-	}
     
     var ref: DatabaseReference!
 	
@@ -271,6 +275,8 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 //				}
 //			}
 //		}
+        
+        // First time open app we can fetch user details
         if  Yourself == nil {
 			print("Yourself is nil.")
             if UserDefaults.standard.object(forKey: "token") != nil  {
@@ -283,7 +289,16 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 					if snapshot.exists() == false {
 						self.performSegue(withIdentifier: "showSignUpVC", sender: self)
 					} else {
-						self.GetUser {}
+						self.GetUser {
+							if let zip = Yourself.zipCode {
+								
+								//Download Zip Code Information To Cache.
+								
+								GetTownName(zipCode: zip) { _,_ in }
+								GetAllZipCodesInRadius(zipCode: zip, radiusInMiles: socialPageMileRadius, completed: nil)
+							}
+						}
+						
 					}
 				}
             } else {
@@ -353,11 +368,11 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 				CheckForCompletedOffers() {
 					
 				}
+				
 			} else {
 				print("Youself user was NIL.")
 				attemptedLogOut = true
 				self.performSegue(withIdentifier: "showSignUpVC", sender: self)
-//				self.showStandardAlertDialog(title: "Alert", msg: "You have exceeded the maximum number of requests per hour. You have performed a total of 270 requests in the last hour. Our general maximum limit is set at 200 requests per hour.")
 			}
 			//                    }
 		}

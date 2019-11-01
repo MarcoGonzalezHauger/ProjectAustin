@@ -36,36 +36,6 @@ class socialCategoryVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 		}
 	}
 	
-	func GetSameCategoryUsers() -> [User] {
-        var allpossibleusers = global.SocialData
-		allpossibleusers = allpossibleusers.filter{
-			for x in $0.categories ?? [] {
-				for y in Yourself!.categories ?? [] {
-					if x == y {
-						return true
-					}
-				}
-			}
-			return false
-		}
-		allpossibleusers.sort{
-			if $0.zipCode == Yourself!.zipCode && $1.zipCode != Yourself.zipCode {
-				return true
-			}
-			if $0.zipCode != Yourself!.zipCode && $1.zipCode == Yourself.zipCode {
-				return false
-			}
-			if GetTierForInfluencer(influencer: $0) > GetTierForInfluencer(influencer: $1) {
-				return true
-			} else if GetTierForInfluencer(influencer: $0) < GetTierForInfluencer(influencer: $1) {
-				return false
-			} else {
-				return $0.followerCount > $1.followerCount
-			}
-		}
-		return allpossibleusers
-	}
-	
 	@IBAction func search(_ sender: Any) {
 		Pager.GoToSearch(sender: self)
 	}

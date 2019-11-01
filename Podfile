@@ -14,5 +14,5 @@ target 'Ambassadoor' do
   pod 'Firebase/Database'
   pod 'SwiftKeychainWrapper'
   pod 'Plaid'
-
+  pod 'SDWebImage'
 end

@@ -109,15 +109,6 @@ class socialSearchVC: UIViewController, UITableViewDelegate, UITableViewDataSour
 		completed(metusers)
 	}
 	
-	public func GetTrendingUsers() -> [User] {
-		var allpossibleusers = global.SocialData.filter{$0.zipCode == Yourself!.zipCode}
-//		if Yourself!.followerCount >= minusers {
-//			allpossibleusers.append(Yourself!)
-//		}
-		allpossibleusers.sort{return $0.followerCount > $1.followerCount}
-		return allpossibleusers
-	}
-	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
 		//Displays user's information in a cell.

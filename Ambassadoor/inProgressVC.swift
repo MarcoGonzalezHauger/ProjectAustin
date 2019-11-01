@@ -53,10 +53,10 @@ class inProgressVC: UIViewController, UITableViewDataSource, UITableViewDelegate
 				destination.isCloseButton = true
 				destination.ThisOffer = newviewoffer
                 destination.selectedIndex = selectedIndex
-                if let picUrl  = newviewoffer.company.logo {
-                    UIImageView().downloadAndSetImage(picUrl, isCircle: false)
-                } else {
-                }
+//                if let picUrl  = newviewoffer.company.logo {
+//                    UIImageView().downloadAndSetImage(picUrl, isCircle: false)
+//                } else {
+//                }
 			}
 		}
 	}
