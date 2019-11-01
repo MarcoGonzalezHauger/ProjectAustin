@@ -20,21 +20,7 @@ func GetSameCategoryUsers() -> [User] {
 		}
 		return false
 	}
-	allpossibleusers.sort {
-		if $0.zipCode == Yourself!.zipCode && $1.zipCode != Yourself.zipCode {
-			return true
-		}
-		if $0.zipCode != Yourself!.zipCode && $1.zipCode == Yourself.zipCode {
-			return false
-		}
-		if GetTierForInfluencer(influencer: $0) > GetTierForInfluencer(influencer: $1) {
-			return true
-		} else if GetTierForInfluencer(influencer: $0) < GetTierForInfluencer(influencer: $1) {
-			return false
-		} else {
-			return $0.followerCount > $1.followerCount
-		}
-	}
+	allpossibleusers = DoClassicSort(allpossibleresults)
 	return allpossibleusers
 }
 
@@ -42,15 +28,7 @@ func GetSameTierUsers() -> [User] {
 	let myTier = GetTierForInfluencer(influencer: Yourself!)
 	var allpossibleresults = global.SocialData
 	allpossibleresults = allpossibleresults.filter { return GetTierForInfluencer(influencer: $0) == myTier }
-	allpossibleresults.sort {
-		if $0.zipCode == Yourself!.zipCode && $1.zipCode != Yourself.zipCode {
-			return true
-		}
-		if $0.zipCode != Yourself!.zipCode && $1.zipCode == Yourself.zipCode {
-			return false
-		}
-		return $0.followerCount > $1.followerCount
-	}
+	allpossibleresults = DoClassicSort(allpossibleresults)
 	return allpossibleresults
 }
 
@@ -69,13 +47,11 @@ func DoClassicSort(influencers: [User]) -> [User] {
 	let distances = GetSocialZipDistances()
 	
 	editableInflunecers.sort {
-		if $0.zipCode == Yourself!.zipCode && $1.zipCode != Yourself.zipCode {
-			return true
-		}
-		if $0.zipCode != Yourself!.zipCode && $1.zipCode == Yourself.zipCode {
-			return false
-		}
-		return $0.followerCount > $1.followerCount
+		let influencer1distance = distances[$0.zipCode] ?? 100
+		let influencer1Score = ((1/((influencer1distance+5)*0.1))/5) + (GetTierForInfluencer($0)/4)
+		let influencer2distance = distances[$1.zipCode] ?? 100
+		let influencer2Score = (1/((influencer2distance+5)*0.1))/5 + (GetTierForInfluencer($1)/4)
+		return influencer1score > influencer2score
 	}
 	
 	return editableInflunecers
