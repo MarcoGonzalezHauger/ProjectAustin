@@ -121,9 +121,9 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		}
 		let cell = shelf.dequeueReusableCell(withIdentifier: "menuItem") as! SettingCell
 		let settings = userSettings[indexPath.row - 1]
-		cell.categoryHeader.text = settings.Header
 		switch settings.identifier {
 		case "main_cat":
+			cell.categoryHeader.text = settings.Header
 //			cell.categoryLabel.text = (settings.Information as! Category).rawValue
 			let finalCategories: String = GetCategoryStringFromlist(categories: Yourself.categories ?? [])
             let catcount = settings.Information as! [String]
@@ -131,15 +131,17 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
             cell.categoryHeader.text = settings.Header + (" \(catcount.count)/\(maximumCategories)")
             cell.categoryLabel.text = finalCategories
 		case "zip":
+		cell.categoryHeader.text = "TOWN"
 			let zip = settings.Information as! String
 			if zip == "0" {
 				cell.categoryLabel.text = "None, you won't recieve local Offers."
 			} else {
+				cell.categoryHeader.text = settings.Header
 				cell.categoryLabel.text = "Zip Code: \(zip)"
 				
 				GetTownName(zipCode: String(zip)) { (townName, zipCode) in
-					cell.categoryLabel.text = townName
-					zipCodeDic[String(zip)] = townName
+					cell.categoryLabel.text = townName?.CityAndStateName
+					cell.categoryHeader.text = "TOWN (\(zip))"
 				}
 			}
 		default:
@@ -147,7 +149,6 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		}
 		return cell
 	}
-	
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if indexPath.row == 0 {
@@ -176,6 +177,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	func ZipCodeEntered(zipCode: String?) {
 		if let zipCode = zipCode {
 			Yourself.zipCode = zipCode
+			GetAllZipCodesInRadius(zipCode: zipCode, radiusInMiles: socialPageMileRadius, completed: nil) //For Cache
 		}
 		self.dataUpdated()
 	}
@@ -223,7 +225,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 
         
         followerCount.text = CompressNumber(number: Yourself.followerCount)
-        averageLikes.text = Yourself.averageLikes == nil ? "N/A" : CompressNumber(number: Yourself.averageLikes!)
+        averageLikes.text = Yourself.averageLikes == nil ? "0" : CompressNumber(number: Yourself.averageLikes!)
         //joinedOn_lbl.text = Yourself.joinedDate != nil ? "Joined On : " + Yourself.joinedDate! : ""
         referralCode_btn.setTitle("Referral Code: " + Yourself.referralcode, for: .normal)
         
@@ -250,11 +252,14 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 
 
         avaliableSettings.append(ProfileSetting.init(Header: "CATEGORIES", Information: Yourself.categories as AnyObject, identifier: "main_cat"))
-		avaliableSettings.append(ProfileSetting.init(Header: "TOWN (ALLOWS GEO OFFERS)", Information: (Yourself.zipCode ?? "0") as AnyObject, identifier: "zip"))
+		avaliableSettings.append(ProfileSetting.init(Header: "TOWN", Information: (Yourself.zipCode ?? "0") as AnyObject, identifier: "zip"))
         
         
         let ref = Database.database().reference().child("users")
         let userReference = ref.child(Yourself.id)
+		if Yourself.referralcode == "" {
+			fatalError()
+		}
         let userData = API.serializeUser(user: Yourself, id: Yourself.id)
         userReference.updateChildValues(userData)
         

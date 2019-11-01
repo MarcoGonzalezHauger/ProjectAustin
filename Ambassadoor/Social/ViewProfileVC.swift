@@ -83,15 +83,8 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		}
 		
 		followerLabel.text = NumberToStringWithCommas(number: ThisUser.followerCount) + " followers"
-        var tier: Int? = GetTierFromFollowerCount(FollowerCount: ThisUser.followerCount)
-        if ThisUser.isDefaultOfferVerify {
-            if tier != nil {
-                tier = tier! + 1
-            }else{
-                tier = 1
-            }
-        }
-		tierLabel.text = tier == nil ? "No Tier" : "Tier \(tier!)"
+        var tier: Int? = GetTierForInfluencer(influencer: ThisUser)
+		tierNum.text = String(tier ?? 0)
 		nameLabel.text = ThisUser.name ?? ThisUser.username
 		usernameLabel.text = "@\(ThisUser.username)"
 		if let picurl = ThisUser.profilePicURL {
@@ -104,6 +97,7 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	}
 	
 	@IBOutlet weak var profilePic: UIImageView!
+	@IBOutlet weak var tierNum: UILabel!
 	
 	var stats: [Stat] = []
 	

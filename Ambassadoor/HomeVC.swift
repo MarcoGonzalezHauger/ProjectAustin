@@ -283,7 +283,16 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 					if snapshot.exists() == false {
 						self.performSegue(withIdentifier: "showSignUpVC", sender: self)
 					} else {
-						self.GetUser {}
+						self.GetUser {
+							if let zip = Yourself.zipCode {
+								
+								//Download Zip Code Information To Cache.
+								
+								GetTownName(zipCode: zip) { _,_ in }
+								GetAllZipCodesInRadius(zipCode: zip, radiusInMiles: socialPageMileRadius, completed: nil)
+							}
+						}
+						
 					}
 				}
             } else {
@@ -353,6 +362,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 				CheckForCompletedOffers() {
 					
 				}
+				
 			} else {
 				print("Youself user was NIL.")
 				attemptedLogOut = true

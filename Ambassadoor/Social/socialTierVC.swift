@@ -49,17 +49,11 @@ class SocialUserCell: UITableViewCell {
 				let secondtext : String = GetCatString(user: thisUser)
 				details.text = NumberToStringWithCommas(number: thisUser.followerCount) + " followers • " + secondtext
 				
+				tierLabel.text = String(GetTierForInfluencer(influencer: thisUser))
 				
                 if thisUser.isDefaultOfferVerify {
-
-					tierLabel.text = String((GetTierFromFollowerCount(FollowerCount: thisUser.followerCount)) ?? 0 + 1 )
-					
                     verifyLogo_img.image = UIImage(named: "verify_Logo")
-
                 } else {
-					
-					tierLabel.text = String((GetTierFromFollowerCount(FollowerCount: thisUser.followerCount)) ?? 0)
-					
                     verifyLogo_img.image = nil
                 }
 				
@@ -139,21 +133,7 @@ class socialTierVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 		Pager.GoToSearch(sender: self)
 	}
 	
-	func GetSameTierUsers() -> [User] {
-		let myTier = GetTierForInfluencer(influencer: Yourself!)
-		var allpossibleresults = global.SocialData
-		allpossibleresults = allpossibleresults.filter { return GetTierForInfluencer(influencer: $0) == myTier }
-		allpossibleresults.sort {
-			if $0.zipCode == Yourself!.zipCode && $1.zipCode != Yourself.zipCode {
-				return true
-			}
-			if $0.zipCode != Yourself!.zipCode && $1.zipCode == Yourself.zipCode {
-				return false
-			}
-			return $0.followerCount > $1.followerCount
-		}
-        return allpossibleresults
-	}
+	
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
@@ -181,6 +161,7 @@ class socialTierVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             }
         }else{
             tierLabel.text = "Tier " + String(GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount) ?? 0)
+
         }
         
 //		tierLabel.text = "Tier " + String(GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount) ?? 0)

@@ -25,28 +25,10 @@ class TierInfoVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 		return TierThreshholds.count
 	}
 	
-	//var lowerOne = false
-	
 	@IBOutlet weak var isVerifiedSwitch: UISwitch!
 	
 	@IBAction func verifiedSwitch(_ sender: Any) {
-//		var allIndexPaths: [IndexPath] = shelf.indexPathsForVisibleRows!
-//		allIndexPaths.removeAll { (ip) -> Bool in
-//			return ip.row == 0 || ip.row == TierThreshholds.count - 1
-//		}
-//		shelf.reloadRows(at: allIndexPaths, with: .none)
 		shelf.reloadData()
-//		if isVerifiedSwitch.isOn {
-//			lowerOne = true
-//			shelf.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .top)
-//			lowerOne = false
-//			shelf.insertRows(at: [IndexPath(row: TierThreshholds.count - 1, section: 0)], with: .bottom)
-//		} else {
-//			lowerOne = true
-//			shelf.deleteRows(at: [IndexPath(row: TierThreshholds.count - 1, section: 0)], with: .bottom)
-//			lowerOne = false
-//			shelf.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
-//		}
 	}
 	
 	let myTier = GetTierForInfluencer(influencer: Yourself)
@@ -69,7 +51,7 @@ class TierInfoVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
-
+		isVerifiedSwitch.isOn = Yourself.isDefaultOfferVerify
     }
 
 	@IBAction func doneClicked(_ sender: Any) {

@@ -108,45 +108,21 @@ func NumberToStringWithCommas(number: Double) -> String {
 	return numformat.string(from: NSNumber(value:number)) ?? String(number)
 }
 
-let TierThreshholds: [Double] = [0, 100, 200, 350, 500, 750, 1000, 1250, 1500, 2000, 3000, 4000, 5000, 7500, 10000, 15000, 25000, 50000, 75000, 100000, 150000, 200000, 300000, 500000, 750000, 1000000, 1500000, 2000000, 3000000, 4000000, 5000000]
+let TierThreshholds: [Double] = [0, 100, 200, 300, 500, 750, 1000, 1250, 1500, 2000, 3000, 4000, 5000, 6250, 7750, 9500, 11500, 13750, 16250, 19000, 22000, 25250, 28750]
 
 func GetTierFromFollowerCount(FollowerCount: Double) -> Int? {
 	
-	//Tier is grouping people of similar follower count to encourage competition between users.
-	
-	switch FollowerCount {
-	case 100...199: return 1
-	case 200...349: return 2
-	case 350...499: return 3
-	case 500...749: return 4
-	case 750...999: return 5
-	case 1000...1249: return 6
-	case 1250...1499: return 7
-	case 1500...1999: return 8
-	case 2000...2999: return 9
-	case 3000...3999: return 10
-	case 4000...4999: return 11
-	case 5000...7499: return 12
-	case 7500...9999: return 13
-	case 10000...14999: return 14
-	case 15000...24999: return 15
-	case 25000...49999: return 16
-	case 50000...74999: return 17
-	case 75000...99999: return 18
-	case 100000...149999: return 19
-	case 150000...199999: return 20
-	case 200000...299999: return 21
-	case 300000...499999: return 22
-	case 500000...749999: return 23
-	case 750000...999999: return 24
-	case 1000000...1499999: return 25
-	case 1500000...1999999: return 26
-	case 2000000...2999999: return 27
-	case 3000000...3999999: return 28
-	case 4000000...4999999: return 29
-	case 5000000...: return 30
-	default: return nil
+	var index: Int = 0
+	var max: Int = 0
+	while index < TierThreshholds.count {
+		if FollowerCount > TierThreshholds[index] {
+			max = index
+		} else {
+			return max
+		}
+		index += 1
 	}
+	return TierThreshholds.count
 }
 
 func GetFeeFromFollowerCount(FollowerCount: Double) -> Int? {
@@ -335,71 +311,6 @@ func TextToGender(gender: String) -> Gender {
 	}
 }
 
-func InitializeFormAPI(completed: (() -> Void)?) {
-	let ref = Database.database().reference().child("Admin").child("FormAPIKey")
-	ref.observeSingleEvent(of: .value) { (Snapshot) in
-		if let apikey: String = Snapshot.value as? String {
-			FormAPIKey = apikey
-			if let comp = completed {
-				comp()
-			}
-		}
-	}
-}
-
-var FormAPIKey: String?
-
-var zipCodeDic: [String: String] = [:]
-func GetTownName(zipCode: String, completed: @escaping (_ cityState: String?, _ zipCode: String) -> () ) {
-	//print("Getting town name from zipCode=\(zipCode)")
-	
-	//FORM API Key, subject to change.
-	
-	if (zipCodeDic[zipCode] ?? "") != "" {
-		completed(zipCodeDic[zipCode]!, zipCode)
-		return
-	}
-	
-	if zipCode.count < 3 {
-		return
-	}
-	
-	if let APIKey: String = FormAPIKey {
-		guard let url = URL(string: "https://form-api.com/api/geo/country/zip?key=\(APIKey)&country=US&zipcode=" + zipCode) else { completed(nil, zipCode)
-			return }
-		var cityState: String = ""
-		URLSession.shared.dataTask(with: url){ (data, response, err) in
-			if err == nil {
-				// check if JSON data is downloaded yet
-				guard let jsondata = data else { return }
-				do {
-					do {
-						// Deserilize object from JSON
-						if let zipCodeData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String : AnyObject] {
-							if let result = zipCodeData["result"] {
-								let city = result["city"] as! String
-								let state = result["state"] as! String
-								let stateDict = ["Alabama": "AL","Alaska": "AK","Arizona": "AZ","Arkansas": "AR","California": "CA","Colorado": "CO","Connecticut": "CT","Delaware": "DE","Florida": "FL","Georgia": "GA","Hawaii": "HI","Idaho": "ID","Illinois": "IL","Indiana": "IN","Iowa": "IA","Kansas": "KS","Kentucky": "KY","Louisiana": "LA","Maine": "ME","Maryland": "MD","Massachusetts": "MA","Michigan": "MI","Minnesota": "MN","Mississippi": "MS","Missouri": "MO","Montana": "MT","Nebraska": "NE","Nevada": "NV","New Hampshire": "NH","New Jersey": "NJ","New Mexico": "NM","New York": "NY","North Carolina": "NC","North Dakota": "ND","Ohio": "OH","Oklahoma": "OK","Oregon": "OR","Pennsylvania": "PA","Rhode Island": "RI","South Carolina": "SC","South Dakota": "SD","Tennessee": "TN","Texas": "TX","Utah": "UT","Vermont": "VT","Virginia": "VA","Washington": "WA","West Virginia": "WV","Wisconsin": "WI","Wyoming": "WY"]
-								cityState = city + ", " + (stateDict[state] ?? state)
-							}
-						}
-						DispatchQueue.main.async {
-							zipCodeDic[zipCode] = cityState
-							completed(cityState, zipCode)
-						}
-					}
-				} catch {
-					print("JSON Downloading Error!")
-				}
-			}
-		}.resume()
-	} else {
-		InitializeFormAPI {
-			GetTownName(zipCode: zipCode, completed: completed)
-		}
-	}
-}
-
 func OpenAppStoreID(id: String) {
 	if let url = URL(string: "itms-apps://itunes.apple.com/\(id)"),
 		UIApplication.shared.canOpenURL(url){
@@ -517,14 +428,16 @@ func CheckForCompletedOffers(completion: (() -> Void)?) {
 									}
 								}
 							}
-							
 						}
-						
 					}
 				}
 			}
 		}
 	}
+}
+
+func ResortLocation() {
+	
 }
 
 //refund funcs

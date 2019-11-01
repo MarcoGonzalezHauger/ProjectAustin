@@ -153,8 +153,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     override init() {
         FirebaseApp.configure()
-        Database.database().isPersistenceEnabled = false
-		InitializeFormAPI(completed: nil)
+        Database.database().isPersistenceEnabled = true
+		//Form-API Depreciated
+//		InitializeFormAPI(completed: nil)
+		InitializeZipCodeAPI(completed: nil)
     }
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
