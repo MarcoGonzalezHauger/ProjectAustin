@@ -17,12 +17,12 @@ let imageCache = NSCache<NSString, AnyObject>()
 public extension UIImageView {
     
     struct Holder {
-        static var activityIndicatorProperty: UIActivityIndicatorView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
+        static var activityIndicatorProperty: UIActivityIndicatorView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.medium)
     }
     
     var activityIndicator: UIActivityIndicatorView {
         get {
-            return UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
+            return UIActivityIndicatorView(style: UIActivityIndicatorView.Style.medium)
         }
         set(newValue) {
             Holder.activityIndicatorProperty = newValue

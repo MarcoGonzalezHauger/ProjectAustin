@@ -35,7 +35,7 @@ class IncomingMoneyCell: UITableViewCell, SyncTimerDelegate {
 	@IBOutlet weak var companyName: UILabel!
 	@IBOutlet weak var TimeLeft: UILabel!
     
-    //naveen added
+    
     var selectedIndex:Int!
     
 	var ThisOffer: Offer! {
@@ -104,6 +104,10 @@ class MoneyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Glo
 			if let destination = (destination as! UINavigationController).topViewController as? OfferVC {
 				destination.isCloseButton = true
 				destination.ThisOffer = newviewoffer
+                if let picUrl  = newviewoffer!.company.logo {
+                    UIImageView().downloadAndSetImage(picUrl, isCircle: false)
+                } else {
+                }
 //                destination.selectedIndex = selectedIndex
 			}
         }
@@ -147,4 +151,8 @@ class MoneyVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Glo
 		shelf.delegate = self
 		global.delegates.append(self)
 	}
+    
+    override func viewWillAppear(_ animated: Bool) {
+        shelf.reloadData()
+    }
 }

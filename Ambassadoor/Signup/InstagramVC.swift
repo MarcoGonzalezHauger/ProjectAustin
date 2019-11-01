@@ -59,7 +59,6 @@ class InstagramVC: UIViewController, ConfirmationReturned {
         // Puts login page into WebView on VC
         webView.load(urlRequest)
 		print("WEB VIEW URL: \(String(describing: webView.url))")
-		
 
     }
 }
@@ -75,7 +74,8 @@ extension InstagramVC: WKNavigationDelegate {
         let requestURLString = (request.url?.absoluteString)! as String
         print("requestURLString= " + requestURLString)
         if requestURLString.hasPrefix(API.INSTAGRAM_REDIRECT_URI) || requestURLString.hasPrefix(API.INSTAGRAM_REDIRECT_URI2) {
-            let range: Range<String.Index> = requestURLString.range(of: "#access_token=")!
+            let range: Range<String.Index> = requestURLString.range(of: "access_token=")!
+			print("Access Token : " + String(requestURLString[range.upperBound...]))
             handleAuth(authToken: String(requestURLString[range.upperBound...]))
             return true
         }
@@ -83,25 +83,6 @@ extension InstagramVC: WKNavigationDelegate {
     }
 
     // Handle Instagram auth token from callback url and handle it with our logic
-    //naveen commented
-//    func handleAuth(authToken: String) {
-//        print("Instagram authentication token = ", authToken)
-//        API.INSTAGRAM_ACCESS_TOKEN = authToken
-//		API.getProfileInfo { (user: User?) in
-//			DispatchQueue.main.async {
-//				if user != nil {
-//					print("user NOT nil, creating user.")
-//                    CreateAccount(instagramUser: user!)
-//					Yourself = user
-//					self.performSegue(withIdentifier: "VerifySegue", sender: self)
-//				} else {
-//					print("Youself user was NIL.")
-//				}
-//			}
-//		}
-//    }
-    
-    //naveen added
     func handleAuth(authToken: String) {
         print("Instagram authentication token = ", authToken)
         API.INSTAGRAM_ACCESS_TOKEN = authToken

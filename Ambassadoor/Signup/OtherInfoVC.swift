@@ -9,13 +9,21 @@
 import UIKit
 import Firebase
  
+protocol CategoryExplainedDelegate {
+	func Explained()
+}
 
- class OtherInfoVC: UIViewController, UITextFieldDelegate {
-    
+class OtherInfoVC: UIViewController, UITextFieldDelegate, CategoryExplainedDelegate {
+	
+	func Explained() {
+		self.performSegue(withIdentifier: "otherinfoToCatSegue", sender: nil)
+		selectedID = "main_cat"
+	}
+	
     var delegate: ConfirmationReturned?
     var userfinal: User?
     var selectedID: String!
-    var curcat: Category?
+    var curcat: String?
 
     @IBOutlet weak var category_Lbl: UILabel!
     @IBOutlet weak var baseScrollView: UIScrollView!
@@ -51,10 +59,17 @@ import Firebase
         baseScrollView.contentInset = contentInset
     }
     
+	var needsExplanation = true
+	
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField == primeCat_Txt {
-            self.performSegue(withIdentifier: "otherinfoToCatSegue", sender: nil)
-            selectedID = "main_cat"
+			if needsExplanation {
+				self.performSegue(withIdentifier: "categoryExplanation", sender: self)
+				needsExplanation = false
+			} else {
+				self.performSegue(withIdentifier: "otherinfoToCatSegue", sender: nil)
+				selectedID = "main_cat"
+			}
             return false
         } else if textField == zipcode_Txt {
             return true
@@ -129,37 +144,8 @@ import Firebase
             userfinal?.joinedDate = Date.getCurrentDate()
             userfinal?.isDefaultOfferVerify = false
             userfinal?.lastPaidOSCDate = Date.getCurrentDate()
-            
-//            var referralcodeString = ""
-            
-//            //user name first and last character
-//            if let firstChar = userfinal?.name?.first{
-//                referralcodeString.append(firstChar)
-//            }
-//            if let lastChar = userfinal?.name?.last {
-//                referralcodeString.append(lastChar)
-//            }
-//
-            //user dateofbirth
-//            let date = getDateFromString(date: (userfinal?.joinedDate!)!)
-//
-//            let dateFormatter = DateFormatter()
-//            dateFormatter.dateFormat = "yy"
-//            let yearString = dateFormatter.string(from: date)
-//
-//            dateFormatter.dateFormat = "MM"
-//            let monthString = dateFormatter.string(from: date)
-//
-//            dateFormatter.dateFormat = "dd"
-//            let dayString = dateFormatter.string(from: date)
-//
-//            referralcodeString.append(dayString)
-//            referralcodeString.append(monthString)
-//            referralcodeString.append(yearString)
-            
-            //random four digit code
-//            referralcodeString.append(randomString(length: 6))
-            
+            userfinal?.priorityValue = 0
+
             
             updateUserDataToFIR(user: userfinal!){ (user) in
                 
@@ -180,37 +166,6 @@ import Firebase
                     }
                 }
                     
-//                    //insertd Default offers
-//                    let refDefaultOffer = Database.database().reference().child("SentOutOffersToUsers").child(user.id)
-//                    let postID = refDefaultOffer.childByAutoId().key
-//                    let offerData = API.serializeDefaultOffer(offerID:"XXXDefault", postID: postID! ,userID:user.id)
-//                
-//                    
-//                    /*
-//                    READ : NOTE BY MARCO
-//                    I have edited this section of code so that the getOfferList function will only be activated after the default offer as been created by putting the code in the Completion Block. This was probably the "button not working" error.
-//                    */
-//                    refDefaultOffer.updateChildValues(["XXXDefault":offerData], withCompletionBlock: { (error, databaseref) in
-//                        var youroffers: [Offer] = []
-//                        // ****
-//                        //naveen added
-//                        getOfferList { (Offers) in
-//                            //                print(Offers.count)
-//                            youroffers = Offers
-//                            //                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
-//                            //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
-//                            global.AvaliableOffers = youroffers.filter({$0.status == "available"})
-//                            global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
-//                            global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
-//                            global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
-//                            global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
-//                            
-//                            self.dismiss(animated: false) {
-//                                self.delegate?.dismissed(success: true)
-//                            }
-//                            
-//                        }
-//                    })
                 
             }
 			
@@ -240,18 +195,19 @@ import Firebase
 		// Get the new view controller using segue.destination.
 		// Pass the selected object to the new view controller.
 		if let destination = segue.destination as? CategoryPicker {
-			var cats: [Category] = []
-			if let doCat = userfinal!.categories  {
-				cats = StringsToCategories(strings: doCat)
+			var cats: [String] = []
+			if let doCats: [String] = userfinal?.categories  {
+				cats = doCats
 			}
-			
 			destination.SetupPicker(originalCategories: cats) { (cat) in
-				let newCats = CategoriesToStrings(categories: cat)
-				self.userfinal!.categories = newCats
-				self.primeCat_Txt.text = GetCategoryStringFromlist(categories:  newCats)
+				self.userfinal!.categories = cat
+				self.primeCat_Txt.text = GetCategoryStringFromlist(categories: cat)
             }
             
         }
+		if let destination = segue.destination as? CategoryExplanation {
+			destination.delegate = self
+		}
         
     }
   

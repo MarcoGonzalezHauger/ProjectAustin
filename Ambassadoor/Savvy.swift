@@ -108,6 +108,7 @@ func NumberToStringWithCommas(number: Double) -> String {
 	return numformat.string(from: NSNumber(value:number)) ?? String(number)
 }
 
+let TierThreshholds: [Double] = [0, 100, 200, 350, 500, 750, 1000, 1250, 1500, 2000, 3000, 4000, 5000, 7500, 10000, 15000, 25000, 50000, 75000, 100000, 150000, 200000, 300000, 500000, 750000, 1000000, 1500000, 2000000, 3000000, 4000000, 5000000]
 
 func GetTierFromFollowerCount(FollowerCount: Double) -> Int? {
 	
@@ -191,7 +192,9 @@ func PostTypeToIcon(posttype: TypeofPost) -> UIImage {
 func GetCategoryStringFromlist(categories: [String]) -> String {
 	var finalCategories = ""
 	for category in categories {
-		finalCategories.append(category + ", ")
+		if AllCategories.contains(category) {
+			finalCategories.append(category + ", ")
+		}
 	}
 
 	if finalCategories != "" {
@@ -252,7 +255,7 @@ func OfferFromID(id: String, completion:@escaping(_ offer:Offer?)->()) {
 									post["products"] = productfinal as AnyObject
 								}
 								
-								postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: post["captionMustInclude"] as? String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool))
+								postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: post["captionMustInclude"] as? String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool,denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? ""))
 							}
 							offerDictionary!["posts"] = postfinal as AnyObject
 							let userInstanceOffer = Offer(dictionary: offerDictionary!)
@@ -304,7 +307,7 @@ func PostTypeToText(posttype: TypeofPost) -> String {
 		return "Story Post"
 	}
 }
-//naveen added
+
 func TextToPostType(posttype: String) -> TypeofPost {
 	switch posttype {
 	case "Single Post":
@@ -318,7 +321,7 @@ func TextToPostType(posttype: String) -> TypeofPost {
 	}
 }
 
-//naveen added
+
 func TextToGender(gender: String) -> Gender {
 	switch gender {
 	case "Male":
@@ -457,24 +460,6 @@ func MakeShake(viewToShake thisView: UIView, coefficient: Float = 1) {
 	thisView.layer.add(animation, forKey: "shake")
 }
 
-func CategoriesToStrings(categories: [Category]) -> [String] {
-	var newCats: [String] = []
-	for x in categories {
-		newCats.append(x.rawValue)
-	}
-	return newCats
-}
-
-func StringsToCategories(strings: [String]) -> [Category] {
-	var newCats: [Category] = []
-	for x in strings {
-		if let cat: Category = Category(rawValue: x) {
-			newCats.append(cat)
-		}
-	}
-	return newCats
-}
-
 
 func GetSortedOffers(offer:[Offer]) -> [Offer] {
     var sortedlist = offer
@@ -507,7 +492,7 @@ func CheckForCompletedOffers(completion: (() -> Void)?) {
 			if global.AcceptedOffers[OfferIndex].isAccepted {
 				if !global.AcceptedOffers[OfferIndex].allConfirmed {
 					//get instagram user media data
-					for postVal in mediaData!{
+					for var postVal in mediaData!{
 						if let captionVal = (postVal["caption"] as? [String:Any]) {
 							let instacaption = captionVal["text"] as! String
 							if instacaption.contains("#ad"){
@@ -525,7 +510,8 @@ func CheckForCompletedOffers(completion: (() -> Void)?) {
 											print("Good Caption")
 											global.AcceptedOffers[OfferIndex].posts[PostIndex].isConfirmed = true
 											global.AcceptedOffers[OfferIndex].posts[PostIndex].confirmedSince = Date()
-											instagramPostUpdate(offerID: global.AcceptedOffers[OfferIndex].offer_ID, post: [global.AcceptedOffers[OfferIndex].offer_ID:postVal])
+                                            postVal["status"] = "posted"
+                                            instagramPostUpdate(offerID: global.AcceptedOffers[OfferIndex].offer_ID, post: [global.AcceptedOffers[OfferIndex].posts[PostIndex].post_ID:postVal])
 											SentOutOffersUpdate(offer: global.AcceptedOffers[OfferIndex], post_ID: global.AcceptedOffers[OfferIndex].posts[PostIndex].post_ID)
 										}
 									}
@@ -539,6 +525,30 @@ func CheckForCompletedOffers(completion: (() -> Void)?) {
 			}
 		}
 	}
+}
+
+//refund funcs
+func serializeTransactionDetails(transaction: TransactionDetails) -> [String: Any] {
+    
+    let transactionSerialize = ["id":transaction.id,"userName":transaction.userName,"status":transaction.status,"offerName":transaction.offerName,"type":transaction.type,"currencyIsoCode":transaction.currencyIsoCode,"amount":transaction.amount,"createdAt":transaction.createdAt,"updatedAt":transaction.updatedAt,"cardDetails":transaction.cardDetails] as [String: Any]
+    
+    return transactionSerialize
+}
+
+func sendDepositAmount(deposit: Deposit,companyUserID: String) {
+    
+    let ref = Database.database().reference().child("BusinessDeposit").child(companyUserID)
+    var offerDictionary: [String: Any] = [:]
+
+    offerDictionary = serializeDepositDetails(deposit: deposit)
+    ref.updateChildValues(offerDictionary)
+}
+
+func serializeDepositDetails(deposit: Deposit) -> [String: Any] {
+    let transactionData = serializeTransactionDetails(transaction: deposit.lastTransactionHistory!)
+    let depositSerialize = ["userID":deposit.userID!,"currentBalance":deposit.currentBalance!,"totalDepositAmount":deposit.totalDepositAmount,"totalDeductedAmount":deposit.totalDeductedAmount,"lastDeductedAmount":deposit.lastDeductedAmount,"lastDepositedAmount":deposit.lastDepositedAmount,"lastTransactionHistory":transactionData,"depositHistory":deposit.depositHistory] as [String : Any]
+    
+    return depositSerialize
 }
 
 

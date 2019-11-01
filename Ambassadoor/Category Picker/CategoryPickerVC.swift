@@ -24,7 +24,7 @@ class CategoryPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "catCell") as! catCell
-		cell.titleLabel.text = cats[indexPath.row].rawValue
+		cell.titleLabel.text = cats[indexPath.row]
 		if delegate?.GetSelectedList().contains(cats[indexPath.row]) ?? false {
 			categoryShelf.selectRow(at: indexPath, animated: true, scrollPosition: .none)
 			cell.accessoryType = .checkmark
@@ -37,7 +37,7 @@ class CategoryPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 	var toSelect: [IndexPath] = []
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		if delegate?.CategoryAdded(newCategory: cats[indexPath.row]) == false {
+		if delegate?.CategoryAdded(newCategory: cats![indexPath.row]) == false {
 			categoryShelf.deselectRow(at: indexPath, animated: true)
 			MakeShake(viewToShake: (categoryShelf.cellForRow(at: indexPath) as! catCell).titleLabel, coefficient: 0.42)
 		} else {
@@ -47,7 +47,7 @@ class CategoryPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 	}
 	
 	func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-		delegate?.CategoryRemoved(removedCategory: cats[indexPath.row])
+		delegate?.CategoryRemoved(removedCategory: cats![indexPath.row])
 		tableView.cellForRow(at: indexPath)?.accessoryType = .none
 		didChangeSelection()
 	}
@@ -71,7 +71,7 @@ class CategoryPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 		}
 	}
 	
-	var cats: [Category]!
+	var cats: [String]!
 	var delegate: SubCategoryResultDelegate?
 	
 	override func viewDidAppear(_ animated: Bool) {

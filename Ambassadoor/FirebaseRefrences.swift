@@ -73,7 +73,6 @@ func GetFakeOffers() -> [Offer] {
     return fakeoffers
 }
 
-//naveen added func
 
 func getOfferList(completion:@escaping (_ result: [Offer])->()) {
     var offers : [Offer] = []
@@ -109,7 +108,7 @@ func getOfferList(completion:@escaping (_ result: [Offer])->()) {
                                     post["products"] = productfinal as AnyObject
                                 }
                                 
-                                postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: post["captionMustInclude"] as? String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool))
+                                postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: post["captionMustInclude"] as? String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool,denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? ""))
                                 
                             }
                             offerDictionary!["posts"] = postfinal as AnyObject
@@ -215,32 +214,6 @@ func CreateAccount(instagramUser: User, completion:@escaping (_ Results: User , 
                         instagramUser.referralcode = referralcode
                     }else{
                         var referralcodeString = ""
-                        
-//                        //user name first and last character
-//                        if let firstChar = instagramUser.name?.first{
-//                            referralcodeString.append(firstChar)
-//                        }
-//                        if let lastChar = instagramUser.name?.last {
-//                            referralcodeString.append(lastChar)
-//                        }
-//                        
-//                        //user dateofbirth
-//                        let date = getDateFromString(date: instagramUser.joinedDate!)
-//                        
-//                        let dateFormatter = DateFormatter()
-//                        dateFormatter.dateFormat = "yy"
-//                        let yearString = dateFormatter.string(from: date)
-//                        
-//                        dateFormatter.dateFormat = "MM"
-//                        let monthString = dateFormatter.string(from: date)
-//                        
-//                        dateFormatter.dateFormat = "dd"
-//                        let dayString = dateFormatter.string(from: date)
-//
-//                        referralcodeString.append(dayString)
-//                        referralcodeString.append(monthString)
-//                        referralcodeString.append(yearString)
-                        
                         //random four digit code
                         referralcodeString.append(randomString(length: 4))
                         
@@ -261,6 +234,21 @@ func CreateAccount(instagramUser: User, completion:@escaping (_ Results: User , 
                         instagramUser.lastPaidOSCDate = Date.getCurrentDate()
                     }
                     
+                    if let priorityValue = dictionary["priorityValue"] as? Int{
+                        instagramUser.priorityValue = priorityValue
+                    }else{
+                        instagramUser.priorityValue = 0
+                    }
+                    
+                    if let authenticationToken = dictionary["authenticationToken"] as? String{
+                        if authenticationToken != "" {
+                            instagramUser.authenticationToken = authenticationToken
+                        }else{
+                            instagramUser.authenticationToken = API.INSTAGRAM_ACCESS_TOKEN
+                        }
+                    }else{
+                        instagramUser.authenticationToken = API.INSTAGRAM_ACCESS_TOKEN
+                    }
                     
                 }
 
@@ -408,7 +396,7 @@ func withdrawUpdate(amount: Double, fee: Double,from: String,to: String, id: Str
     ref.observeSingleEvent(of: .value) { (snapshot) in
         if var transaction = snapshot.value as? [[String:Any]] {
             
-            let fundTransfer: [String: Any] = ["amount":amount,"fee":fee,"from":from,"to":to,"id":id,"status":status,"type":type,"date":date]
+            let fundTransfer: [String: Any] = ["Amount":amount,"fee":fee,"from":from,"To":to,"id":id,"status":status,"type":type,"createdAt":date]
             transaction.append(fundTransfer)
             
             let updateref = Database.database().reference().child("InfluencerTransactions")
@@ -523,6 +511,30 @@ func getStripeAccDetails(completion: @escaping([StripeAccDetail]?,String,Error?)
     
 }
 
+func getTransactionHistory(completion: @escaping([TransactionHistory]?,String,Error?) -> Void) {
+    
+    let ref = Database.database().reference().child("InfluencerTransactions").child(Yourself.id)
+    ref.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let totalValues = snapshot.value as? [[String:Any]]{
+            
+            var objects = [TransactionHistory]()
+            for transaction in totalValues {
+                let accDetail = TransactionHistory.init(dictionary: transaction )
+                objects.append(accDetail)
+            }
+            
+            
+            completion(objects, "success", nil)
+        }
+        
+        
+    }) { (error) in
+        completion(nil, "success", error)
+    }
+    
+}
+
 //Update UserData to firebase
 func updateUserDataToFIR(user: User, completion:@escaping (_ Results: User) -> ()) {
     
@@ -589,7 +601,8 @@ func createDefaultOffer(userID:String, completion:@escaping (_ isdone:Bool) -> (
                 //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
                 global.AvaliableOffers = youroffers.filter({$0.status == "available"})
                 global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
-                global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
+                //Ambver update
+                global.AcceptedOffers = youroffers.filter({$0.status == "accepted" || $0.status == "paid" || $0.status == "denied"})
                 global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
                 global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
                 

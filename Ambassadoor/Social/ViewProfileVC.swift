@@ -66,10 +66,10 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 			verifiedView.isHidden = !ThisUser.isDefaultOfferVerify
 		}
 		
-		stats = [Stat.init(name: "Follower Count", value1: ThisUser.followerCount, value2: Yourself!.followerCount)]
-		if ThisUser.averageLikes != nil && Yourself!.averageLikes != nil {
-			stats.append(Stat.init(name: "Average Likes", value1: ThisUser.averageLikes!, value2: Yourself!.averageLikes!))
-		}
+		stats = [Stat.init(name: "Follower Count", value1: Yourself!.followerCount, value2: ThisUser.followerCount)]
+		let youraverage = Yourself!.averageLikes ?? 0
+		let theiraverage = ThisUser.averageLikes ?? 0
+		stats.append(Stat.init(name: "Average Likes", value1: youraverage, value2: theiraverage))
 		if let shelf = shelf {
 			shelf.reloadData()
 		}

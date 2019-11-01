@@ -11,6 +11,7 @@ import Foundation
 import WebKit
 
 struct API {
+    //instagram
     static let INSTAGRAM_AUTHURL = "https://api.instagram.com/oauth/authorize/"
     static let INSTAGRAM_CLIENT_ID = "fa083c34de6847ff95db596d75ef1c31"
     static let INSTAGRAM_CLIENTSERCRET = "b81172265e6b417782fcf075e2daf2ff"
@@ -25,14 +26,15 @@ struct API {
     static var superBankFundingSource = "https://api-sandbox.dwolla.com/funding-sources/b23abf0b-c28d-4941-84af-617626865f2b"
     
     static var kFundTransferURL = "https://api-sandbox.dwolla.com/transfers"
-
-    //naveen added
-    //naveen login
-    //"https://ambassdoor.com/welcome#access_token=3225555942.3a8760e.7a76cfffabb44e21bcc0db92dc10f7f8"
-//    static let INSTAGRAM_CLIENT_ID = "a92e22c060e04281917b29a4120aadf3"
-//    static let INSTAGRAM_CLIENTSERCRET = "42fc056dd5aa43bf9aacc9fc923df75c"
-//    static let INSTAGRAM_REDIRECT_URI = "https://ambassadoor.com/welcome"
     
+    //Stripe
+    //Live
+//    static var Stripeclient_id = "ca_FrDIP5fLBXnTWCJTkPzngRUquWqrzKZh"
+//    static var Stripeclient_secret = "sk_live_KwcqGxImMq4fosE3n7QMycBw00eMO7si8E"
+    //demo
+    static var Stripeclient_id = "ca_FrDIyMuhEQEpU7K8z6tsPNMwKJ2f6AiM"
+    static var Stripeclient_secret = "sk_test_zrg6oDehYkCJIVAA4oe5LrWD00mNP6IImr"
+
     
     //get instagram users media
     static let INSTAGRAM_getMedia = "https://api.instagram.com/v1/users/self/media/recent/?access_token="
@@ -75,10 +77,7 @@ struct API {
                                         "username": instagramProfileData["username"] as! String,
                                         "followerCount": instagramProfileData["counts"]?["followed_by"] as! Double,
                                         "profilePicture": instagramProfileData["profile_picture"] as! String,
-                                        
                                         "zipCode": 0,
-                                        
-                                        //naveen added
                                         "id": instagramProfileData["id"] as! String,
                                         "gender": "",
                                         "isBankAdded": false,
@@ -87,7 +86,9 @@ struct API {
                                         "categories": [],
                                         "referralcode": "",
                                         "isDefaultOfferVerify": false,
-                                        "lastPaidOSCDate": ""
+                                        "lastPaidOSCDate": "",
+                                        "priorityValue": 0,
+                                        "authenticationToken": INSTAGRAM_ACCESS_TOKEN
                                     ]
                                     debugPrint("Done Creating Userinfo dictinary")
                                     getAverageLikesOfUser(instagramId: instagramProfileData["id"] as! String, completed: { (averageLikes: Double?) in
@@ -107,7 +108,6 @@ struct API {
 									print("code was not 200.")
                                 }
                             }
-                            
 
                         }
                     }
@@ -182,11 +182,13 @@ struct API {
             "categories": user.categories as AnyObject,
             "referralcode": user.referralcode,
             "isDefaultOfferVerify": user.isDefaultOfferVerify,
-            "lastPaidOSCDate": user.lastPaidOSCDate
+            "lastPaidOSCDate": user.lastPaidOSCDate,
+            "priorityValue": user.priorityValue,
+            "authenticationToken": user.authenticationToken
         ]
         return userData
     }
-    //naveen added
+    
     static func serializeBank(bank: Bank) -> [String: Any] {
         let bankData: [String: Any] = [
             "publicToken": bank.publicToken,
@@ -265,7 +267,7 @@ struct API {
         }.resume()
     }
     
-    //naveen added func
+    
     static func instaLogout(){
         let dataStore = WKWebsiteDataStore.default()
 		dataStore.fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { (records) in
@@ -303,10 +305,7 @@ struct API {
                                     "username": instagramProfileData["username"] as! String,
                                     "followerCount": instagramProfileData["counts"]?["followed_by"] as! Double,
                                     "profilePicture": instagramProfileData["profile_picture"] as! String,
-                                    
                                     "zipCode": "0",
-									
-                                    //naveen added
                                     "id": instagramProfileData["id"] as! String,
                                     "gender": ""
                                 ]

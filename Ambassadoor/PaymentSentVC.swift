@@ -66,7 +66,7 @@ class PaymentSentVC: UIViewController {
         }else{
 //            self.createDwollaAccessTokenForFundTransfer(fundSource: selectedBank!.customerFSURL, acctID: selectedBank!.acctID, object: selectedBank!)
             
-            
+
             //calculation for OSC for user
            var subAmount:Double = 0.0
            let pendingMonths = Date.getmonthsBetweenDate(startDate: Date.getDateFromString(date: Yourself.lastPaidOSCDate)!, endDate: Date.getDateFromString(date: Date.getCurrentDate())!)
@@ -77,95 +77,73 @@ class PaymentSentVC: UIViewController {
 //           DispatchQueue.main.async {
                subAmount = withdrawAmount + Double(feeAmount)
 //           }
-           let finaltotalAmount = Yourself.yourMoney - subAmount
             
-            
-            let params = ["accountID":selectedBank!.stripe_user_id,"amount":subAmount * 100] as [String: AnyObject]
-            APIManager.shared.withdrawThroughStripe(params: params) { (status, error, data) in
+            if  Yourself.yourMoney < subAmount && feeAmount > 0 {
+                self.showStandardAlertDialog(title: "Alert", msg: "This transaction including monthly fee amount  $\(feeAmount). So you don't have enough money in your account")
+            }else{
+                let finaltotalAmount = Yourself.yourMoney - subAmount
                 
-                let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-                
-                print("dataString=",dataString as Any)
-                do {
-                    let json = try JSONSerialization.jsonObject(with: data!, options: []) as? [String : Any]
-                    
-                    
-					_ = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-                    
-                    if let code = json!["code"] as? Int {
-                        
-                        if code == 401 {
-                            let message = json!["message"] as! [String:Any]
-                            self.showStandardAlertDialog(title: "Alert", msg: message["code"] as! String)
-                        }else{
-//                            let old = Yourself.yourMoney
-//                            var sub:Double = 0.0
-//                            let pendingMonths = Date.getmonthsBetweenDate(startDate: Date.getDateFromString(date: Yourself.lastPaidOSCDate)!, endDate: Date.getDateFromString(date: Date.getCurrentDate())!)
-//                            let fee = pendingMonths * GetFeeFromFollowerCount(FollowerCount: Yourself.followerCount)!
-//
-//                            print("fee=\(fee)")
-//                            DispatchQueue.main.async {
-//                                sub = Double(self.withdra_txt.text!)! + Double(fee)
-//                            }
-//                            let total = old - sub
-                            //update to DB
-                            let prntRef  = Database.database().reference().child("users").child(Yourself.id)
-                            prntRef.updateChildValues(["yourMoney":finaltotalAmount])
-
-                            withdrawUpdate(amount: withdrawAmount,fee:Double(feeAmount), from: Yourself.id, to: Yourself.id, id: self.selectedBank!.stripe_user_id, status: "withdraw", type: "success", date:getStringFromTodayDate())
-
-                            DispatchQueue.main.async {
-                                Yourself.yourMoney = finaltotalAmount
-                                self.moneyAmountLabel.text = NumberToPrice(Value: subAmount)
-                                self.withdra_txt.resignFirstResponder()
-                                self.cancel_btn.isHidden = true
-                                self.withdrawView.isHidden = true
-                                self.paymentSuccessView.isHidden = false
-                            }
-                        }
-
-//                        APIManager.shared.createFundTransfer(params: links, accessToken: accessToken) { (status, error, data, response) in
-//                            if error == nil {
-//
-//                                if let header = response as? HTTPURLResponse {
-//
-//                                    if header.statusCode == 201 {
-//
-//                                        let tranferDetail = header.allHeaderFields["Location"]! as! String
-//
-//                                        let tranferID = tranferDetail.components(separatedBy: "/")
-//
-//                                        fundTransferAccount(transferURL: tranferDetail, accountID: tranferID.last!, Obj: object, currency: "USD", amount: amount, date:getStringFromTodayDate())
-//                                        let old = Yourself.yourMoney
-//                                        let sub = Double(amount)
-//                                        let total = old - sub!
-//                                        //update to DB
-//                                        let prntRef  = Database.database().reference().child("users").child(Yourself.id)
-//                                        prntRef.updateChildValues(["yourMoney":total])
-//
-//                                        withdrawUpdate(amount: sub!, from: Yourself.id, to: Yourself.id, id: tranferID.last!, status: "withdraw", type: "success", date:getStringFromTodayDate())
-//
-//                                        DispatchQueue.main.async {
-//                                            Yourself.yourMoney = total
-//                                            self.moneyAmountLabel.text = NumberToPrice(Value: sub!)
-//                                            self.withdra_txt.resignFirstResponder()
-//                                            self.cancel_btn.isHidden = true
-//                                            self.withdrawView.isHidden = true
-//                                            self.paymentSuccessView.isHidden = false
-//                                        }
-//
-//                                    }
-//
-//                                }
-//                            }
-//                        }
-                    }
-                    
-                }catch _ {
-                    
+                var msg = "Do you want to withdraw $\(subAmount) from your account ?"
+                if feeAmount > 0 {
+                    msg = "This transaction including monthly fee amount $\(feeAmount). Totally we will debit $\(subAmount) from your account"
                 }
-                
+                 
+                 let alert = UIAlertController(title: "Alert", message: msg, preferredStyle: .alert)
+                 alert.addAction(UIAlertAction(title: "proceed", style: .default, handler: { (action) in
+                     let params = ["accountID":self.selectedBank!.stripe_user_id,"amount":subAmount * 100] as [String: AnyObject]
+                                 APIManager.shared.withdrawThroughStripe(params: params) { (status, error, data) in
+                                     
+                                     let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+                                     
+                                     print("dataString=",dataString as Any)
+                                     do {
+                                         let json = try JSONSerialization.jsonObject(with: data!, options: []) as? [String : Any]
+                                         
+                                         
+                                         _ = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+                                         
+                                         if let code = json!["code"] as? Int {
+                                             
+                                             if code == 401 {
+                                                 let message = json!["message"] as! [String:Any]
+                                                 self.showStandardAlertDialog(title: "Alert", msg: message["code"] as! String)
+                                             }else{
+                                                 //update to DB
+                                                 let prntRef  = Database.database().reference().child("users").child(Yourself.id)
+                                                 prntRef.updateChildValues(["yourMoney":finaltotalAmount])
+                                                prntRef.updateChildValues(["lastPaidOSCDate":Date.getCurrentDate()])
+
+                                                 withdrawUpdate(amount: withdrawAmount,fee:Double(feeAmount), from: Yourself.id, to: Yourself.id, id: self.selectedBank!.stripe_user_id, status: "success", type: "withdraw", date:getStringFromTodayDate())
+                                                
+
+                                                 DispatchQueue.main.async {
+                                                     Yourself.yourMoney = finaltotalAmount
+                                                     self.moneyAmountLabel.text = NumberToPrice(Value: subAmount)
+                                                     self.withdra_txt.resignFirstResponder()
+                                                     self.cancel_btn.isHidden = true
+                                                     self.withdrawView.isHidden = true
+                                                     self.paymentSuccessView.isHidden = false
+                                                 }
+                                             }
+                                         }
+                                         
+                                     }catch _ {
+                                         
+                                     }
+                                     
+                                 }
+                 }))
+                 alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+                     
+                 }))
+                 
+                 DispatchQueue.main.async {
+                     self.present(alert, animated: true, completion: nil)
+                 }
             }
+            
+
+    
             
         }
 

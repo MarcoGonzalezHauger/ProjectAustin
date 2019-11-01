@@ -47,7 +47,7 @@ class ShadowView: UIView {
 
 //Structure for an offer that comes into username's inbox
 class Offer : NSObject {
-    //naveen added
+    
     var status: String
 	let money: Double
 	let company: Company
@@ -74,8 +74,10 @@ class Offer : NSObject {
 	var debugInfo: String {
 		return "Offer by \(company.name) for $\(String(money)) that is \(isExpired ? "" : "not ") expired."
 	}
+    var ownerUserID: String
+    var title: String
     init(dictionary: [String: AnyObject]) {
-        //naveen added
+        
         self.status = dictionary["status"] as! String
         self.money = dictionary["money"] as! Double
         self.company = dictionary["company"] as! Company
@@ -89,6 +91,8 @@ class Offer : NSObject {
 		}
 
         self.isAccepted = dictionary["isAccepted"] as! Bool
+        self.ownerUserID = dictionary["ownerUserID"] as! String
+        self.title = dictionary["title"] as! String
     }
 }
 
@@ -100,7 +104,6 @@ class User: NSObject {
 	let profilePicURL: String?
 	let averageLikes: Double?
 	var zipCode: String?
-    //naveen added
     let id: String
     var gender: Gender?
     var isBankAdded: Bool
@@ -110,6 +113,8 @@ class User: NSObject {
     var referralcode: String
     var isDefaultOfferVerify: Bool
     var lastPaidOSCDate: String
+    var priorityValue: Int
+    var authenticationToken: String
 	
     init(dictionary: [String: Any]) {
         self.name = dictionary["name"] as? String
@@ -122,10 +127,8 @@ class User: NSObject {
 		}
 //		print("Category: \(String(describing: dictionary["primaryCategory"]))")
 //		self.primaryCategory = Category.init(rawValue: dictionary["primaryCategory"] as? String ?? "Other")!
-        //naveen added
 		self.averageLikes = dictionary["averageLikes"] as? Double
 		self.zipCode = dictionary["zipCode"] as? String
-        //naveen added
         self.id = dictionary["id"] as! String
         self.gender = dictionary["gender"] as? Gender
         self.isBankAdded = dictionary["isBankAdded"] as! Bool 
@@ -136,14 +139,15 @@ class User: NSObject {
         self.referralcode = dictionary["referralcode"] as? String ?? ""
         self.isDefaultOfferVerify = dictionary["isDefaultOfferVerify"] as? Bool ?? false
         self.lastPaidOSCDate = dictionary["lastPaidOSCDate"] as? String ?? Date.getCurrentDate()
-        
+        self.priorityValue = dictionary["priorityValue"] as? Int ?? 0
+        self.authenticationToken = dictionary["authenticationToken"] as? String ?? ""
     }
 	
 	override var description: String {
 		return "NAME: \(name ?? "NIL")\nUSERNAME: \(username)\nFOLLOWER COUNT: \(followerCount)\nPROFILE PIC: \(profilePicURL ?? "NIL")\nCATEGORIES: \(GetCategoryStringFromlist(categories: categories ?? []))\nAVERAGE LIKES: \(averageLikes ?? -404)"
 	}
 }
-//naveen added
+
 class Bank: NSObject {
     let publicToken: String
     let institutionName: String
@@ -151,7 +155,6 @@ class Bank: NSObject {
     var acctID: String
     var acctName: String
    
-    
     init(dictionary: [String: Any]) {
         self.publicToken = dictionary["publicToken"] as! String
         self.institutionName = dictionary["institutionName"] as! String
@@ -161,7 +164,6 @@ class Bank: NSObject {
 
     }
     
-
 }
 
 //added by ram
@@ -215,6 +217,33 @@ class StripeAccDetail: NSObject {
     
 }
 
+//transaction History
+class TransactionHistory: NSObject {
+    
+    var Amount = 0.0
+    var To = ""
+    var createdAt = ""
+    var from = ""
+    var id = ""
+    var status = ""
+    var type = ""
+    var fee = 0.0
+    
+    init(dictionary: [String: Any]) {
+        
+        self.Amount = dictionary["Amount"] as! Double
+        self.To = dictionary["To"] as! String
+        self.createdAt = dictionary["createdAt"] as! String
+        self.from = dictionary["from"] as! String
+        self.id = dictionary["id"] as! String
+        self.status = dictionary["status"] as! String
+        self.type = dictionary["type"] as! String
+        self.fee = dictionary["fee"] as? Double ?? 0.0
+
+    }
+    
+}
+
 
 class TransactionInfo: NSObject {
     
@@ -255,6 +284,8 @@ struct Post {
 	let PostType: TypeofPost
 	var confirmedSince: Date?
 	var isConfirmed: Bool
+    var denyMessage: String?
+    var status: String?
 }
 
 //struct for product
@@ -292,7 +323,6 @@ enum TypeofPost {
 	case SinglePost, MultiPost, Story
 }
 
-//naveen added
 enum Status: String {
     case available, accepted, rejected
 }
@@ -372,5 +402,76 @@ class InstagramManager: NSObject, UIDocumentInteractionControllerDelegate {
     }
 
 }
+
+//Amount refound funcs
+class Deposit: NSObject {
+    var userID: String?
+    var currentBalance: Double?
+    var totalDepositAmount: Double?
+    var totalDeductedAmount: Double?
+    var lastDeductedAmount: Double?
+    var lastDepositedAmount: Double?
+    var lastTransactionHistory: TransactionDetails?
+    var depositHistory: [Any]?
+    
+    init(dictionary: [String: Any]) {
+        
+        self.userID = dictionary["userID"] as? String
+        self.currentBalance = dictionary["currentBalance"] as? Double
+        self.totalDepositAmount = dictionary["totalDepositAmount"] as? Double
+        self.totalDeductedAmount = dictionary["totalDeductedAmount"] as? Double
+        self.lastDeductedAmount = dictionary["lastDeductedAmount"] as? Double
+        self.lastDepositedAmount = dictionary["lastDepositedAmount"] as? Double
+        self.lastTransactionHistory = TransactionDetails.init(dictionary: dictionary["lastTransactionHistory"] as! [String : Any])
+        self.depositHistory = dictionary["depositHistory"] as? [Any]
+        
+    }
+    
+}
+
+class TransactionDetails: NSObject {
+    var id: String?
+    var status: String?
+    var type: String?
+    var currencyIsoCode: String?
+    var amount: String?
+    var createdAt: String?
+    var updatedAt: String?
+    var transactionType: String?
+    var cardDetails: Any?
+    var userName: String?
+    var offerName: String?
+    
+    init(dictionary: [String: Any]) {
+        self.id = dictionary["id"] as? String
+        self.status = dictionary["status"] as? String
+        self.type = dictionary["type"] as? String
+        self.currencyIsoCode = dictionary["currencyIsoCode"] as? String
+        self.amount = dictionary["amount"] as? String
+        self.createdAt = dictionary["createdAt"] as? String
+        self.updatedAt = dictionary["updatedAt"] as? String
+        if dictionary.keys.contains("creditCard") {
+            if dictionary["creditCard"] != nil {
+                self.cardDetails = dictionary["creditCard"]
+            }
+        }else if dictionary.keys.contains("paypalAccount") {
+            if dictionary["creditCard"] != nil {
+                self.cardDetails = dictionary["paypalAccount"]
+            }
+        }else if dictionary.keys.contains("cardDetails") {
+            if dictionary["cardDetails"] != nil {
+                self.cardDetails = dictionary["cardDetails"]
+            }
+        }else if dictionary.keys.contains("paidDetails") {
+            if dictionary["paidDetails"] != nil {
+                self.cardDetails = dictionary["paidDetails"]
+            }
+        }
+        self.userName = dictionary["userName"] as? String
+        self.offerName = dictionary["offerName"] as? String
+    }
+    
+}
+
 
 

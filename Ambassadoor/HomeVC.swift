@@ -39,8 +39,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 			global.AvaliableOffers.remove(at: ip.row)
 			shelf.deleteRows(at: [ip], with: .right)
             
-            //accept offer notifications
-            //naveen added
+            //accept offer notification
 //            UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
 //
 //                for notification in notifications {
@@ -83,7 +82,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 				return
 			}
 			
-            //naveen added
             let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(global.AvaliableOffers[ip.row].offer_ID)
             prntRef.updateChildValues(["isAccepted":false])
             prntRef.updateChildValues(["status":"rejected"])
@@ -96,18 +94,83 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 
                 prntRef.updateChildValues(["expiredate":expireDate])
                 global.AvaliableOffers[ip.row].expiredate = Date().addMinutes(minute: 60)
+                
+                global.RejectedOffers.append(global.AvaliableOffers[ip.row])
+                global.AvaliableOffers.remove(at: ip.row)
+                shelf.deleteRows(at: [ip], with: .left)
             }else{
                 prntRef.updateChildValues(["isExpired":true])
+                
+                // amount refund Business User
+                self.getDepositDetails(companyUserID: global.AvaliableOffers[ip.row].ownerUserID) { (deposit, status, error) in
+                    
+                    let depositedAmount = global.AvaliableOffers[ip.row].money
+                    
+                    let cardDetails = ["last4":"0000","expireMonth":"00","expireYear":"0000","country":"US"] as [String : Any]
+                    
+                    
+                    let transactionDict = ["id":Yourself.id,"userName":Yourself.username,"status":"success","offerName":global.AvaliableOffers[ip.row].title,"type":"refund","currencyIsoCode":"USD","amount":String(depositedAmount),"createdAt":Date.getCurrentDate(),"updatedAt":Date.getCurrentDate(),"transactionType":"refund","cardDetails":cardDetails] as [String : Any]
 
+                    
+                        if status == "success" {
+                        
+                        let transactionObj = TransactionDetails.init(dictionary: transactionDict)
+                        
+                        let tranObj = serializeTransactionDetails(transaction: transactionObj)
+                        
+                        let currentBalance = deposit!.currentBalance! + depositedAmount
+                        let totalDepositAmount = deposit!.totalDepositAmount!
+                        deposit?.totalDepositAmount = totalDepositAmount
+                        deposit?.currentBalance = currentBalance
+                        deposit?.lastDepositedAmount = depositedAmount
+                        deposit?.lastTransactionHistory = transactionObj
+                        var depositHistory = [Any]()
+                        
+                        
+                        depositHistory.append(contentsOf: (deposit!.depositHistory!))
+                        depositHistory.append(tranObj)
+                        
+                        deposit?.depositHistory = depositHistory
+                            
+                        sendDepositAmount(deposit: deposit!, companyUserID: global.AvaliableOffers[ip.row].ownerUserID)
+                        
+                    }
+                    else{
+                                                
+                    }
+                    
+                    global.RejectedOffers.append(global.AvaliableOffers[ip.row])
+                    global.AvaliableOffers.remove(at: ip.row)
+                    self.shelf.deleteRows(at: [ip], with: .left)
+                    
+                }
             }
-            
             // **********
             
-			global.RejectedOffers.append(global.AvaliableOffers[ip.row])
-			global.AvaliableOffers.remove(at: ip.row)
-			shelf.deleteRows(at: [ip], with: .left)
+//			global.RejectedOffers.append(global.AvaliableOffers[ip.row])
+//			global.AvaliableOffers.remove(at: ip.row)
+//			shelf.deleteRows(at: [ip], with: .left)
 		}
 	}
+    
+    func getDepositDetails(companyUserID: String,completion: @escaping(Deposit?,String,Error?) -> Void) {
+        
+        let ref = Database.database().reference().child("BusinessDeposit").child(companyUserID)
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if let totalValues = snapshot.value as? NSDictionary{
+                
+                let deposit = Deposit.init(dictionary: totalValues as! [String : Any])
+                completion(deposit, "success", nil)
+            }else{
+                completion(nil, "new", nil)
+            }
+        }) { (error) in
+               completion(nil, "failure", error)
+        }
+    }
+
+    
 
 	var Pager: PageVC!
 	var viewoffer: Offer?
@@ -139,6 +202,16 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 			if let destination = (destination as! UINavigationController).topViewController as? OfferVC {
 				destination.delegate = self
 				destination.ThisOffer = newviewoffer
+                if let picUrl  = newviewoffer.company.logo {
+                    UIImageView().downloadAndSetImage(picUrl, isCircle: false)
+                } else {
+
+                }
+                
+			}
+		} else if segue.identifier == "toFakeSplash" {
+			if let destination = segue.destination as? FakeSplash {
+				self.delegate = destination
 			}
 		} else {
 			print("Segue to sign up is being prepared.")
@@ -181,14 +254,13 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 	}
     
     var ref: DatabaseReference!
-    
+	
+	var delegate: DismissNow?
 	
 	override func viewDidAppear(_ animated: Bool) {
 		
 		//TEMPORARY MEASURE TO ALLOW FOR FASTER DEBUGGING.
 //		API.INSTAGRAM_ACCESS_TOKEN = "1605029612.fa083c3.815705ce93ab4ce89f21ee2aabdd7071"
-////        //naveen login
-//        API.INSTAGRAM_ACCESS_TOKEN = "3225555942.a92e22c.e7bf50100dfc4b12b93138cde8463ede"
 //
 //		API.getProfileInfo { (user: User?) in
 //			DispatchQueue.main.async {
@@ -199,48 +271,30 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 //				}
 //			}
 //		}
-
-        
-//        print(API.INSTAGRAM_ACCESS_TOKEN)
-//		if Yourself == nil {
-//			print("Yourself is nil so showing signup VC.")
-//			performSegue(withIdentifier: "showSignUpVC", sender: self)
-//        }else{
-//            //naveen added
-//            var fakeoffers: [Offer] = []
-//            getOfferList { (Offers) in
-//                print(Offers.count)
-//                fakeoffers = Offers
-//                global.AvaliableOffers = fakeoffers.filter({$0.isAccepted == false})
-//                global.AcceptedOffers = fakeoffers.filter({$0.isAccepted == true})
-//            }
-//        }
-//		print(Yourself)
-        
-        
         if  Yourself == nil {
 			print("Yourself is nil.")
             if UserDefaults.standard.object(forKey: "token") != nil  {
+				self.performSegue(withIdentifier: "toFakeSplash", sender: self)
 				API.INSTAGRAM_ACCESS_TOKEN = UserDefaults.standard.object(forKey: "token") as! String
 				let ref = Database.database().reference().child("users").child(UserDefaults.standard.object(forKey: "userid") as! String).child("id")
 				print("USER ID: \(UserDefaults.standard.object(forKey: "userid") as! String)")
 				ref.observeSingleEvent(of: .value) { (snapshot) in
+					self.delegate?.dismissNow()
 					if snapshot.exists() == false {
 						self.performSegue(withIdentifier: "showSignUpVC", sender: self)
 					} else {
-						self.GetUser()
+						self.GetUser {}
 					}
 				}
             } else {
                 // not exist
                 performSegue(withIdentifier: "showSignUpVC", sender: self)
             }
-        }
-        
-        
+		}
 	}
 	
-	func GetUser() {
+	
+	func GetUser(hasCompleted: @escaping () -> ()) {
 		print("Getting user information.")
 		API.getProfileInfo { (user: User?) in
 			//                    DispatchQueue.main.async {
@@ -252,61 +306,22 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 						UserDefaults.standard.set(API.INSTAGRAM_ACCESS_TOKEN, forKey: "token")
 						UserDefaults.standard.set(Yourself.id, forKey: "userid")
 					}
-					
+					hasCompleted()
 				}
 				
-				//naveen added
 				var youroffers: [Offer] = []
 				getOfferList { (Offers) in
-					//                            print(Offers.count)
+                    
 					youroffers = Offers
-					//                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
-					//                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
+//                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
+//                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
 					global.AvaliableOffers = youroffers.filter({$0.status == "available"})
 					global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
-					global.AcceptedOffers = youroffers.filter({$0.status == "accepted"})
+                    //Ambver update
+					global.AcceptedOffers = youroffers.filter({$0.status == "accepted" || $0.status == "paid" || $0.status == "denied"})
 					global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
 					global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
-					
-					
-					//post verify check
-					
-					//get instagram user media data
-					API.getRecentMedia { (mediaData: [[String:Any]]?) in
-						for postVal in mediaData!{
-							if let captionVal = (postVal["caption"] as? [String:Any]) {
-								var instacaption = captionVal["text"] as! String
-								if instacaption.contains("#ad"){
-									instacaption = instacaption.replacingOccurrences(of: " #ad ", with: "")
-									instacaption = instacaption.replacingOccurrences(of: "#ad ", with: "")
-									instacaption = instacaption.replacingOccurrences(of: " #ad", with: "")
-									instacaption = instacaption.replacingOccurrences(of: "#ad", with: "")
-									
-									for offer in global.AcceptedOffers {
-										if !offer.allConfirmed {
-											for post in offer.posts {
-												let postCaption = post.captionMustInclude!
-												if instacaption.contains(postCaption) {
-													instagramPostUpdate(offerID: offer.offer_ID, post: [post.post_ID:postVal])
-													SentOutOffersUpdate(offer: offer, post_ID: post.post_ID)
-												}
-											}
-										}
 										
-									}
-									
-								}
-								
-								
-							}else{
-								
-							}
-							
-						}
-						
-					}
-					
-					
 					UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
 						var newavailableresults: [Offer] = []
 						for notification in notifications {
@@ -325,7 +340,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 							}
 							newavailableresults = global.AvaliableOffers.filter({ $0.offer_ID != identifier })
 							
-							
 						}
 						
 						for offer in newavailableresults {
@@ -334,7 +348,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 						}
 						
 					}
-					
 					
 				}
 				CheckForCompletedOffers() {
@@ -359,7 +372,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		print("Home VC started to load.")
 		
 		//First code to be executed when opening App
-		
 		//declare datasource & Delegates
 		shelf.delegate = self
 		shelf.dataSource = self
@@ -373,24 +385,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 //        global.AvaliableOffers = fakeoffers.filter({$0.isAccepted == false})
 //        global.AcceptedOffers = fakeoffers.filter({$0.isAccepted == true})
         
-        //naveen added
-//        var fakeoffers: [Offer] = []
-//        getOfferList { (Offers) in
-//            print(Offers.count)
-//            fakeoffers = Offers
-//            global.AvaliableOffers = fakeoffers.filter({$0.isAccepted == false})
-//            global.AcceptedOffers = fakeoffers.filter({$0.isAccepted == true})
-//        }
-
-		
-//		let fakeusers: [User] = GetRandomTestUsers()
-//        global.SocialData = GetAllUsers
-        //naveen added
-//        _ = GetAllUsers(completion: { (users) in
-//            global.SocialData = users
-//        })
-        
-        
         // Creating account with call to function (uncomment to for new data to appear in Firebase)
         //let accountCreated: Bool = CreateAccount(instagramUser: "czar_chomicki")
         
@@ -399,7 +393,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		
         view.layoutIfNeeded()
 		
-        print("Home VC has been loaded.")
     }
     
 

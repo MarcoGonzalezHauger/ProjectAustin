@@ -20,6 +20,47 @@ struct ProfileSetting {
 	let identifier: String
 }
 
+class ProgressBarCell: UITableViewCell {
+	@IBOutlet weak var current: UILabel!
+	@IBOutlet weak var goal: UILabel!
+	@IBOutlet weak var hollowBar: ShadowView!
+	@IBOutlet weak var Progressbar: UIView!
+	@IBOutlet weak var progressValue: NSLayoutConstraint!
+	@IBOutlet weak var rightMargin: NSLayoutConstraint!
+	@IBOutlet weak var titleLabel: UILabel!
+	
+	override func awakeFromNib() {
+		Progressbar.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "Instagrad")!)
+		if Yourself.isDefaultOfferVerify {
+			titleLabel.text = "Tier Progress"
+		}
+	}
+	
+	func GetWidth() -> CGFloat {
+		if percentage >= 1 {
+			return hollowBar.bounds.width
+		} else if percentage <= 0 {
+			return 40
+		} else {
+			return 40 + ((hollowBar.bounds.width - 40) * CGFloat(percentage))
+		}
+	}
+	
+	var percentage: Double = 0 {
+		didSet {
+			progressValue.constant = GetWidth()
+			if hollowBar.bounds.width - GetWidth() < 34 {
+				rightMargin.constant = (hollowBar.bounds.width - GetWidth()) + 4
+				goal.textColor = UIColor.white
+			} else {
+				rightMargin.constant = 8
+				goal.textColor = UIColor.label
+			}
+		}
+	}
+	
+}
+
 var attemptedLogOut: Bool = false
 
 class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableViewDataSource {
@@ -29,25 +70,57 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
     var userSettings: [ProfileSetting] = []
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return userSettings.count
+		return userSettings.count + 1
 	}
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 75
+		if indexPath.row == 0 {
+			return 65
+		} else {
+			return 75
+		}
 	}
 	
 	
 	
-	@IBAction func logOut(_ sender: Any) {            signOutofAmbassadoor()
+	@IBAction func logOut(_ sender: Any) {
+		signOutofAmbassadoor()
 		attemptedLogOut = true
 		let loginVC = self.storyboard?.instantiateInitialViewController()
-		let appDel:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+		let appDel: AppDelegate = UIApplication.shared.delegate as! AppDelegate
 		appDel.window?.rootViewController = loginVC
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		if indexPath.row == 0 {
+			let cell = shelf.dequeueReusableCell(withIdentifier: "progressBar") as! ProgressBarCell
+			if Yourself.followerCount > TierThreshholds.last! {
+				cell.percentage = 1
+				cell.current.text = String(GetTierForInfluencer(influencer: Yourself))
+				cell.goal.text = "MAX"
+			} else {
+				var min = 0.0
+				var goal = 0.0
+				var index = 0
+				while index < TierThreshholds.count {
+					if Yourself.followerCount > TierThreshholds[index] {
+						//found goal (tier + 1)
+						goal = TierThreshholds[index + 1]
+						//minimim goal
+						min = TierThreshholds[index]
+					}
+					index += 1
+				}
+				let numerator = Yourself.followerCount - min
+				let dominator = goal - min
+				cell.percentage = numerator / dominator
+				cell.current.text = "\(GetTierForInfluencer(influencer: Yourself))"
+				cell.goal.text = "\(Int(GetTierForInfluencer(influencer: Yourself)) + 1)"
+			}
+			return cell
+		}
 		let cell = shelf.dequeueReusableCell(withIdentifier: "menuItem") as! SettingCell
-		let settings = userSettings[indexPath.row]
+		let settings = userSettings[indexPath.row - 1]
 		cell.categoryHeader.text = settings.Header
 		switch settings.identifier {
 		case "main_cat":
@@ -60,10 +133,10 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		case "zip":
 			let zip = settings.Information as! String
 			if zip == "0" {
-				cell.categoryLabel.text = "None, you won't recieve Geo Offers."
+				cell.categoryLabel.text = "None, you won't recieve local Offers."
 			} else {
 				cell.categoryLabel.text = "Zip Code: \(zip)"
-				//naveen commented
+				
 				GetTownName(zipCode: String(zip)) { (townName, zipCode) in
 					cell.categoryLabel.text = townName
 					zipCodeDic[String(zip)] = townName
@@ -77,7 +150,12 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		let setting = userSettings[indexPath.row]
+		if indexPath.row == 0 {
+			performSegue(withIdentifier: "TierInfoVC", sender: self)
+			shelf.deselectRow(at: indexPath, animated: false)
+			return
+		}
+		let setting = userSettings[indexPath.row - 1]
 		selectedID = setting.identifier
 		switch setting.identifier {
 		case "main_cat":
@@ -93,7 +171,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	}
 	
 	var selectedID: String!
-	var curcat: Category?
+	var curcat: String?
 	
 	func ZipCodeEntered(zipCode: String?) {
 		if let zipCode = zipCode {
@@ -104,21 +182,8 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let destination = segue.destination as? CategoryPicker {
-			
-			var yourCats: [Category] = []
-			
-			for c in Yourself.categories ?? [] {
-				yourCats.append(Category(rawValue: c)!)
-			}
-			
-			destination.SetupPicker(originalCategories: yourCats) { (cat) in
-				
-
-				var newCats: [String] = []
-				for c in cat {
-					newCats.append(c.rawValue)
-				}
-				Yourself.categories = newCats
+			destination.SetupPicker(originalCategories: Yourself!.categories!) { (cat) in
+				Yourself.categories = cat
 				self.dataUpdated()
 			}
 		}
@@ -129,7 +194,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	
 	func dataUpdated() {
 		userSettings = reloadUserSettings()
-        //naveen commented
+        
 //		self.shelf.reloadData()
 	}
 	
