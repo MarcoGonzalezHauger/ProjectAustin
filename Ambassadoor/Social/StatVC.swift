@@ -25,8 +25,8 @@ class StatVC: UIViewController {
 			Value.textColor = UIColor(red: 200/255, green: 0, blue: 0, alpha: 1)
 			shdwView.ShadowColor = UIColor(red: 200/255, green: 0, blue: 0, alpha: 1)
 		}
-		theirValue.text = "\(Int(Statistic.value2))"
-		yourValue.text = "\(Int(Statistic.value1))"
+		theirValue.text = "\(NumberToStringWithCommas(number: Statistic.value2))"
+		yourValue.text = "\(NumberToStringWithCommas(number: Statistic.value1))"
 		Value.text = num
 	}
 	

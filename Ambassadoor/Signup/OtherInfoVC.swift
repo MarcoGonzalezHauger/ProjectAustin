@@ -9,13 +9,21 @@
 import UIKit
 import Firebase
  
+protocol CategoryExplainedDelegate {
+	func Explained()
+}
 
- class OtherInfoVC: UIViewController, UITextFieldDelegate {
-    
+class OtherInfoVC: UIViewController, UITextFieldDelegate, CategoryExplainedDelegate {
+	
+	func Explained() {
+		self.performSegue(withIdentifier: "otherinfoToCatSegue", sender: nil)
+		selectedID = "main_cat"
+	}
+	
     var delegate: ConfirmationReturned?
     var userfinal: User?
     var selectedID: String!
-    var curcat: Category?
+    var curcat: String?
 
     @IBOutlet weak var category_Lbl: UILabel!
     @IBOutlet weak var baseScrollView: UIScrollView!
@@ -51,10 +59,17 @@ import Firebase
         baseScrollView.contentInset = contentInset
     }
     
+	var needsExplanation = true
+	
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField == primeCat_Txt {
-            self.performSegue(withIdentifier: "otherinfoToCatSegue", sender: nil)
-            selectedID = "main_cat"
+			if needsExplanation {
+				self.performSegue(withIdentifier: "categoryExplanation", sender: self)
+				needsExplanation = false
+			} else {
+				self.performSegue(withIdentifier: "otherinfoToCatSegue", sender: nil)
+				selectedID = "main_cat"
+			}
             return false
         } else if textField == zipcode_Txt {
             return true
@@ -180,18 +195,19 @@ import Firebase
 		// Get the new view controller using segue.destination.
 		// Pass the selected object to the new view controller.
 		if let destination = segue.destination as? CategoryPicker {
-			var cats: [Category] = []
-			if let doCat = userfinal!.categories  {
-				cats = StringsToCategories(strings: doCat)
+			var cats: [String] = []
+			if let doCats: [String] = userfinal?.categories  {
+				cats = doCats
 			}
-			
 			destination.SetupPicker(originalCategories: cats) { (cat) in
-				let newCats = CategoriesToStrings(categories: cat)
-				self.userfinal!.categories = newCats
-				self.primeCat_Txt.text = GetCategoryStringFromlist(categories:  newCats)
+				self.userfinal!.categories = cat
+				self.primeCat_Txt.text = GetCategoryStringFromlist(categories: cat)
             }
             
         }
+		if let destination = segue.destination as? CategoryExplanation {
+			destination.delegate = self
+		}
         
     }
   

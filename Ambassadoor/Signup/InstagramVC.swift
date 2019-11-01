@@ -75,6 +75,7 @@ extension InstagramVC: WKNavigationDelegate {
         print("requestURLString= " + requestURLString)
         if requestURLString.hasPrefix(API.INSTAGRAM_REDIRECT_URI) || requestURLString.hasPrefix(API.INSTAGRAM_REDIRECT_URI2) {
             let range: Range<String.Index> = requestURLString.range(of: "access_token=")!
+			print("Access Token : " + String(requestURLString[range.upperBound...]))
             handleAuth(authToken: String(requestURLString[range.upperBound...]))
             return true
         }

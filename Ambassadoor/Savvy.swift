@@ -108,6 +108,7 @@ func NumberToStringWithCommas(number: Double) -> String {
 	return numformat.string(from: NSNumber(value:number)) ?? String(number)
 }
 
+let TierThreshholds: [Double] = [0, 100, 200, 350, 500, 750, 1000, 1250, 1500, 2000, 3000, 4000, 5000, 7500, 10000, 15000, 25000, 50000, 75000, 100000, 150000, 200000, 300000, 500000, 750000, 1000000, 1500000, 2000000, 3000000, 4000000, 5000000]
 
 func GetTierFromFollowerCount(FollowerCount: Double) -> Int? {
 	
@@ -191,7 +192,9 @@ func PostTypeToIcon(posttype: TypeofPost) -> UIImage {
 func GetCategoryStringFromlist(categories: [String]) -> String {
 	var finalCategories = ""
 	for category in categories {
-		finalCategories.append(category + ", ")
+		if AllCategories.contains(category) {
+			finalCategories.append(category + ", ")
+		}
 	}
 
 	if finalCategories != "" {
@@ -455,24 +458,6 @@ func MakeShake(viewToShake thisView: UIView, coefficient: Float = 1) {
 	animation.duration = 0.6
 	animation.values = [-20.0 * coefficient, 20.0 * coefficient, -20.0 * coefficient, 20.0 * coefficient, -10.0 * coefficient, 10.0 * coefficient, -5.0 * coefficient, 5.0 * coefficient, 0 ]
 	thisView.layer.add(animation, forKey: "shake")
-}
-
-func CategoriesToStrings(categories: [Category]) -> [String] {
-	var newCats: [String] = []
-	for x in categories {
-		newCats.append(x.rawValue)
-	}
-	return newCats
-}
-
-func StringsToCategories(strings: [String]) -> [Category] {
-	var newCats: [Category] = []
-	for x in strings {
-		if let cat: Category = Category(rawValue: x) {
-			newCats.append(cat)
-		}
-	}
-	return newCats
 }
 
 

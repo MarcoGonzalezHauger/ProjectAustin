@@ -9,6 +9,7 @@
 
 import UIKit
 import Firebase
+import SDWebImage
 
 class ProductPreview: UICollectionViewCell {
 	@IBOutlet weak var ProductImage: UIImageView!
@@ -39,10 +40,15 @@ class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = grid.dequeueReusableCell(withReuseIdentifier: "ProductCell", for: indexPath) as! ProductPreview
 		if let logoUrl = ThisPost.products![indexPath.item].image {
-			cell.ProductImage.downloadAndSetImage(logoUrl, isCircle: false)
+//			cell.ProductImage.downloadAndSetImage(logoUrl, isCircle: false)
+            cell.ProductImage.sd_setImage(with: URL.init(string: logoUrl), placeholderImage: UIImage(named: "shopping cart"))
+
 		} else {
 			cell.ProductImage.image = UIImage(named: "shopping cart")
 		}
+        
+
+        
 		cell.ProductLabel.text = ThisPost.products![indexPath.item].name
 		return cell
 	}
