@@ -181,7 +181,6 @@ class socialTierVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             }
         }else{
             tierLabel.text = "Tier " + String(GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount) ?? 0)
-
         }
         
 //		tierLabel.text = "Tier " + String(GetTierFromFollowerCount(FollowerCount: Yourself!.followerCount) ?? 0)
