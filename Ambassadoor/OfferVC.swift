@@ -10,6 +10,8 @@
 import UIKit
 import UserNotifications
 import Firebase
+import SDWebImage
+
 //Preview post when on offerVC.
 
 protocol ConfirmPage {
@@ -226,10 +228,14 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 			expirationView.isHidden = true
 		} else {
 			if let picUrl  = ThisOffer.company.logo {
-				logo.downloadAndSetImage(picUrl, isCircle: false)
+//				logo.downloadAndSetImage(picUrl, isCircle: false)
+                logo.sd_setImage(with: URL.init(string: picUrl), placeholderImage: UIImage(named: "defaultcompany"))
+
 			} else {
 				logo.image = UIImage(named: "defaultcompany")
 			}
+                    
+            
 			OfferForLabel.text = "OFFER FOR"
             
             //ambver update
