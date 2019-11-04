@@ -46,7 +46,7 @@ class SignUpVC: UIViewController, UITextFieldDelegate, ConfirmationReturned {
 	}
     
     @IBAction func goToBusinessApp(_ sender: Any) {
-        if let url = URL(string: "itms-apps://itunes.apple.com/app"),
+        if let url = URL(string: ""),
             UIApplication.shared.canOpenURL(url){
             if #available(iOS 10.0, *) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -57,27 +57,31 @@ class SignUpVC: UIViewController, UITextFieldDelegate, ConfirmationReturned {
     }
 	
 	@IBAction func AreYouaBusiness(_ sender: Any) {
-		OpenAppStoreID(id: "1483207154")
+		OpenAppStoreID(id: "amassadoorbusiness/id1483207154")
 	}
 	
 	func SigningUp() {
 		if let code = code {
 			if code != "" {
-				let alert = UIAlertController(title: "Beta code required", message: "A Beta code is required to sign up at this time.", preferredStyle: .alert)
-				alert.addTextField { (textField) in
-					textField.text = ""
-				}
-				alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-					let codec = alert?.textFields![0].text ?? ""
-					if codec.lowercased() == code {
-						self.performSegue(withIdentifier: "InstagramSegue", sender: self)
-					} else {
-						let alert = UIAlertController(title: "Incorrect Code", message: "The beta code you entered was not correct.", preferredStyle: .alert)
-						alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-						self.present(alert, animated: true)
+				if FreePass {
+					performSegue(withIdentifier: "InstagramSegue", sender: self)
+				} else {
+					let alert = UIAlertController(title: "Beta code required", message: "A Beta code is required to sign up at this time.", preferredStyle: .alert)
+					alert.addTextField { (textField) in
+						textField.text = ""
 					}
-				}))
-				self.present(alert, animated: true, completion: nil)
+					alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+						let codec = alert?.textFields![0].text ?? ""
+						if codec.lowercased() == code {
+							self.performSegue(withIdentifier: "InstagramSegue", sender: self)
+						} else {
+							let alert = UIAlertController(title: "Incorrect Code", message: "The beta code you entered was not correct.", preferredStyle: .alert)
+							alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+							self.present(alert, animated: true)
+						}
+					}))
+					self.present(alert, animated: true, completion: nil)
+				}
 			} else {
 				performSegue(withIdentifier: "InstagramSegue", sender: self)
 			}

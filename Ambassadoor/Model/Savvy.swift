@@ -312,7 +312,7 @@ func TextToGender(gender: String) -> Gender {
 }
 
 func OpenAppStoreID(id: String) {
-	if let url = URL(string: "itms-apps://itunes.apple.com/\(id)"),
+	if let url = URL(string: "https://apps.apple.com/us/app/\(id)"),
 		UIApplication.shared.canOpenURL(url){
 		if #available(iOS 10.0, *) {
 			UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -443,7 +443,16 @@ func ResortLocation() {
 //refund funcs
 func serializeTransactionDetails(transaction: TransactionDetails) -> [String: Any] {
     
-    let transactionSerialize = ["id":transaction.id,"userName":transaction.userName,"status":transaction.status,"offerName":transaction.offerName,"type":transaction.type,"currencyIsoCode":transaction.currencyIsoCode,"amount":transaction.amount,"createdAt":transaction.createdAt,"updatedAt":transaction.updatedAt,"cardDetails":transaction.cardDetails] as [String: Any]
+	let transactionSerialize = ["id":transaction.id as Any,
+								"userName":transaction.userName as Any,
+								"status":transaction.status as Any,
+								"offerName":transaction.offerName as Any,
+								"type":transaction.type as Any,
+								"currencyIsoCode":transaction.currencyIsoCode as Any,
+								"amount":transaction.amount as Any,
+								"createdAt":transaction.createdAt as Any,
+								"updatedAt":transaction.updatedAt as Any,
+								"cardDetails":transaction.cardDetails as Any] as [String: Any]
     
     return transactionSerialize
 }
@@ -454,13 +463,20 @@ func sendDepositAmount(deposit: Deposit,companyUserID: String) {
     var offerDictionary: [String: Any] = [:]
 
     offerDictionary = serializeDepositDetails(deposit: deposit)
-    ref.updateChildValues(offerDictionary)
+	ref.updateChildValues(offerDictionary)
 }
 
 func serializeDepositDetails(deposit: Deposit) -> [String: Any] {
-    let transactionData = serializeTransactionDetails(transaction: deposit.lastTransactionHistory!)
-    let depositSerialize = ["userID":deposit.userID!,"currentBalance":deposit.currentBalance!,"totalDepositAmount":deposit.totalDepositAmount,"totalDeductedAmount":deposit.totalDeductedAmount,"lastDeductedAmount":deposit.lastDeductedAmount,"lastDepositedAmount":deposit.lastDepositedAmount,"lastTransactionHistory":transactionData,"depositHistory":deposit.depositHistory] as [String : Any]
-    
+	let transactionData = serializeTransactionDetails(transaction: deposit.lastTransactionHistory!)
+	let depositSerialize = ["userID":deposit.userID! as Any,
+							"currentBalance":deposit.currentBalance! as Any,
+							"totalDepositAmount":deposit.totalDepositAmount as Any,
+							"totalDeductedAmount":deposit.totalDeductedAmount as Any,
+							"lastDeductedAmount":deposit.lastDeductedAmount as Any,
+							"lastDepositedAmount":deposit.lastDepositedAmount as Any,
+							"lastTransactionHistory":transactionData as Any,
+							"depositHistory":deposit.depositHistory as Any] as [String : Any]
+	
     return depositSerialize
 }
 

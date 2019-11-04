@@ -473,5 +473,5 @@ class TransactionDetails: NSObject {
     
 }
 
-
+var FreePass = false //If user has a newer app version; Not beta code required.
 

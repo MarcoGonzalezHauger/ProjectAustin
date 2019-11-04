@@ -43,6 +43,7 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	@IBOutlet weak var verifiedView: UIView!
 	@IBOutlet weak var infLogo: UIImageView!
 	@IBOutlet weak var infLabel: UILabel!
+	@IBOutlet weak var tierBubble: ShadowView!
 	
 	var ThisUser: User! {
 		didSet {
@@ -167,6 +168,7 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		shelf.reloadData()
 		shelf.layer.cornerRadius = 10
 		swdView.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "Instagrad")!)
+		tierBubble.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "tiergrad")!)
 		ShowUser()
     }
 

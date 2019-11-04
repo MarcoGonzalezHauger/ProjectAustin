@@ -20,7 +20,7 @@ func GetSameCategoryUsers() -> [User] {
 		}
 		return false
 	}
-	allpossibleusers = DoClassicSort(allpossibleresults)
+	allpossibleusers = DoClassicSort(influencers: allpossibleusers)
 	return allpossibleusers
 }
 
@@ -28,7 +28,7 @@ func GetSameTierUsers() -> [User] {
 	let myTier = GetTierForInfluencer(influencer: Yourself!)
 	var allpossibleresults = global.SocialData
 	allpossibleresults = allpossibleresults.filter { return GetTierForInfluencer(influencer: $0) == myTier }
-	allpossibleresults = DoClassicSort(allpossibleresults)
+	allpossibleresults = DoClassicSort(influencers: allpossibleresults)
 	return allpossibleresults
 }
 
@@ -47,11 +47,11 @@ func DoClassicSort(influencers: [User]) -> [User] {
 	let distances = GetSocialZipDistances()
 	
 	editableInflunecers.sort {
-		let influencer1distance = distances[$0.zipCode] ?? 100
-		let influencer1Score = ((1/((influencer1distance+5)*0.1))/5) + (GetTierForInfluencer($0)/4)
-		let influencer2distance = distances[$1.zipCode] ?? 100
-		let influencer2Score = (1/((influencer2distance+5)*0.1))/5 + (GetTierForInfluencer($1)/4)
-		return influencer1score > influencer2score
+		let influencer1distance = distances[$0.zipCode ?? "_"] ?? 100 //The reson I used a underscore is beacuse there is NO WAY that that is a possible zip code, ensuring the number will be 100.
+		let influencer1Score: Double = Double((1/((influencer1distance+5)*0.1))/5) + Double(GetTierForInfluencer(influencer: $0)/4)
+		let influencer2distance = distances[$1.zipCode ?? "_"] ?? 100
+		let influencer2Score: Double = Double((1/((influencer2distance+5)*0.1))/5) + Double(GetTierForInfluencer(influencer: $1)/4)
+		return influencer1Score > influencer2Score
 	}
 	
 	return editableInflunecers
