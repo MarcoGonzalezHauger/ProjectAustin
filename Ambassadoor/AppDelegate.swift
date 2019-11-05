@@ -153,7 +153,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     override init() {
         FirebaseApp.configure()
-        Database.database().isPersistenceEnabled = true
+        Database.database().isPersistenceEnabled = false
 		//Form-API Depreciated
 //		InitializeFormAPI(completed: nil)
 		InitializeZipCodeAPI(completed: nil)
@@ -208,7 +208,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 let latestVersion = snapshot.value as! String
                 let versionCompare = appVersion!.compare(latestVersion, options: .numeric)
                 if versionCompare == .orderedDescending || versionCompare == .orderedSame {
-                    
+					FreePass = true
+                    print("This version is ABOVE.")
                 }else{
                     let alertMessage = "A new version of Application is available, Please update to version " + latestVersion;
 
@@ -224,7 +225,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         topWindow?.isHidden = true // if you want to hide the topwindow then use this
                         //            topWindow? = nil // if you want to hide the topwindow then use this
                         
-                        OpenAppStoreID(id: "1483075744")
+                        OpenAppStoreID(id: "ambassadoor/id1483075744")
                         
                         
                     }))
