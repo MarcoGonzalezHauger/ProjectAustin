@@ -20,7 +20,11 @@ class OfferAcceptConfirmVC: UIViewController {
         // Do any additional setup after loading the view.
         
     }
-    
+	
+	@IBAction func confirmButtonDown(_ sender: Any) {
+		UseTapticEngine()
+	}
+	
     @IBAction func OfferConfirmed(_ sender: Any) {
         
         

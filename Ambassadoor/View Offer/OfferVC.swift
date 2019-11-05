@@ -279,6 +279,9 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 	var ThisOffer: Offer!
 	var selectedIndex:Int!
 	
+	@IBAction func acceptButtonDown(_ sender: Any) {
+		UseTapticEngine()
+	}
 	
 	@IBAction func OfferAccepted(_ sender: Any) {
 		

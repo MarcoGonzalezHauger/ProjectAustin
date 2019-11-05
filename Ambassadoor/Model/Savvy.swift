@@ -440,6 +440,11 @@ func ResortLocation() {
 	
 }
 
+let impact = UIImpactFeedbackGenerator()
+func UseTapticEngine() {
+	impact.impactOccurred()
+}
+
 //refund funcs
 func serializeTransactionDetails(transaction: TransactionDetails) -> [String: Any] {
     
