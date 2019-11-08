@@ -334,6 +334,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 					global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
                     //Ambver update
 					global.AcceptedOffers = youroffers.filter({$0.status == "accepted" || $0.status == "paid" || $0.status == "denied"})
+                    global.OffersHistory = youroffers.filter({$0.status == "paid" || $0.status == "denied"})
 					global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
 					global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
 										
