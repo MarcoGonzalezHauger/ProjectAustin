@@ -21,10 +21,16 @@ import UIKit
 	@objc optional func CompletedOffersChanged() -> ()
 	@objc optional func SocialDataChanged() -> ()
     @objc optional func OffersForUserChanged() -> ()
+    @objc optional func OffersHistoryChanged() -> ()
+
 }
 
 class CentralVariables {
-	
+        var OffersHistory: [Offer] = [] { didSet {
+            OffersHistory = OffersHistory.sorted{ (Offer1, Offer2) -> Bool in
+                return (Offer1.money / Double(Offer1.posts.count)) > (Offer2.money / Double(Offer2.posts.count))    }
+            EachListener(){ if let targetfunction = $0.OffersHistoryChanged { targetfunction()}}}}
+    
 	//The offers that are currently in the users inbox.
 	var AvaliableOffers: [Offer] = [] { didSet {
         //naveen commented

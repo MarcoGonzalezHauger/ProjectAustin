@@ -269,9 +269,11 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	}
 	
 	@IBAction func OfferHistoryClicked(_ sender: Any) {
-		let alert = UIAlertController(title: "Unavaliable", message: "This feature is not avaliable yet.", preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
+//		let alert = UIAlertController(title: "Unavaliable", message: "This feature is not avaliable yet.", preferredStyle: UIAlertController.Style.alert)
+//        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+//        self.present(alert, animated: true, completion: nil)
+        
+        self.performSegue(withIdentifier: "OfferHistory", sender: nil)
 	}
 	
     @IBAction func referral_Action(_ sender: Any) {

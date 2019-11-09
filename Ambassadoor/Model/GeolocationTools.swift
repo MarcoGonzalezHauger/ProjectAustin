@@ -28,6 +28,24 @@ struct ZipCodeData {
 		state = dictionary["state"] as! String
 	}
 }
+func serializeZipcodeData(zipCodeData: ZipCodeData) -> [String: AnyObject] {
+    
+    let finalSerialize = ["zip_code":zipCodeData.zipCode as String,
+                                "lat":zipCodeData.geo_latitude as Double,
+                                "lng":zipCodeData.geo_longitude as Double,
+                                "city":zipCodeData.cityName as String,
+                                "state":zipCodeData.state as String] as [String: AnyObject]
+    
+    return finalSerialize
+}
+func serializeRadiusData(zipCodeRadius: zipCodeRadius) -> [String:AnyObject] {
+    
+    let finalSerialize = ["zipCode":zipCodeRadius.zipCode as String,
+                                "radius":zipCodeRadius.radius as Int,
+                                "results":zipCodeRadius.results as [String:Double]] as [String: AnyObject]
+    
+    return finalSerialize
+}
 
 var zipCodeDic: [String: ZipCodeData] = [:]
 
@@ -70,10 +88,26 @@ func GetSocialZipDistances() -> [String: Double] {
 
 //Uses zip code API to get all zip codes in a certain radius.
 func GetAllZipCodesInRadius(zipCode: String, radiusInMiles: Int, completed:((_ zipCodeDistances: [String: Double]?, _ zipCode: String, _ radiusInMiles: Int) -> () )?) {
+
 	
 	if zipCode.count < 3 {
 		return
 	}
+    
+    if let radiusDataArray = UserDefaults.standard.object(forKey: "searchradius") as? NSData {
+    
+        do {
+            let radiusDataArray1 = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSObject.self], from: radiusDataArray as Data)
+            let storedData = radiusDataArray1 as! [[String:AnyObject]]
+            zipCodeRadiusDic = []
+            for data in storedData {
+                zipCodeRadiusDic.append(zipCodeRadius.init(zipCode: data["zipCode"] as! String, radius: data["radius"] as! Int, results: data["results"] as! [String : Double]))
+            }
+        }catch {
+            print("User creation failed with error: \(error)")
+            
+        }
+    }
 	
 	//zcr stands for Zip Code Radius (struct)
 	for zcr in zipCodeRadiusDic {
@@ -113,8 +147,53 @@ func GetAllZipCodesInRadius(zipCode: String, radiusInMiles: Int, completed:((_ z
 								}
 							}
 						}
-						completed?(distances, zipCode, radiusInMiles)
-						zipCodeRadiusDic.append(zipCodeRadius(zipCode: zipCode, radius: radiusInMiles, results: distances))
+                        
+                        
+                        if let radiusDataArray = UserDefaults.standard.object(forKey: "searchradius") as? NSData {
+                        do {
+                            let radiusDataArray1 = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self], from : radiusDataArray as Data)
+                            let storedData = radiusDataArray1 as! [[String:AnyObject]]
+                            zipCodeRadiusDic = []
+                            for data in storedData {
+                                zipCodeRadiusDic.append(zipCodeRadius.init(zipCode: data["zipCode"] as! String, radius: data["radius"] as! Int, results: data["results"] as! [String : Double]))
+                            }
+                            zipCodeRadiusDic.append(zipCodeRadius(zipCode: zipCode, radius: radiusInMiles, results: distances))
+                            
+                            //stored cach
+                            var finalData:[[String:AnyObject]] = [[String:AnyObject]]()
+                            for data in zipCodeRadiusDic {
+                                finalData.append(serializeRadiusData(zipCodeRadius: data))
+                            }
+
+                            let placesData = try NSKeyedArchiver.archivedData(withRootObject: finalData as NSArray, requiringSecureCoding: false)
+                            UserDefaults.standard.set(placesData, forKey: "searchradius")
+                                
+                            DispatchQueue.main.async {
+                                completed?(distances, zipCode, radiusInMiles)
+                            }
+
+                        }catch {
+                            print("Couldn't write file")
+                        }
+                        }else{
+                            zipCodeRadiusDic.append(zipCodeRadius(zipCode: zipCode, radius: radiusInMiles, results: distances))
+
+                            //stored cach
+                            var finalData:[[String:AnyObject]] = [[String:AnyObject]]()
+                            for data in zipCodeRadiusDic {
+                                finalData.append(serializeRadiusData(zipCodeRadius: data))
+                            }
+
+                            let placesData = try NSKeyedArchiver.archivedData(withRootObject: finalData, requiringSecureCoding: false)
+                            UserDefaults.standard.set(placesData, forKey: "searchradius")
+                                
+                            DispatchQueue.main.async {
+                                completed?(distances, zipCode, radiusInMiles)
+                            }
+                            
+                        }
+
+                        
 					}
 				} catch {
 					print("JSON Downloading Error!")
@@ -127,6 +206,19 @@ func GetAllZipCodesInRadius(zipCode: String, radiusInMiles: Int, completed:((_ z
 }
 
 func GetTownName(zipCode: String, completed: @escaping (_ zipCodeInfo: ZipCodeData?, _ zipCode: String) -> () ) {
+    
+    if let placesDataArray = UserDefaults.standard.object(forKey: "searchplaces") as? NSData {
+    
+    do {
+        let placesArray1 = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self], from: placesDataArray as Data)
+        let storedData = placesArray1 as! [String : [String:Any]]
+        for zipcodeKey in storedData.keys {
+            zipCodeDic[zipcodeKey] = ZipCodeData.init(dictionary: storedData[zipcodeKey]! as [String : AnyObject])
+        }
+    }catch {
+        print("Couldn't write file")
+    }
+    }
 
 	if let zcd = zipCodeDic[zipCode] {
 		completed(zcd, zipCode)
@@ -148,20 +240,47 @@ func GetTownName(zipCode: String, completed: @escaping (_ zipCodeInfo: ZipCodeDa
 				// check if JSON data is downloaded yet
 				guard let jsondata = data else { return }
 				do {
-					do {
 						// Deserilize object from JSON
 						if let zipCodeData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String : AnyObject] {
 							if zipCodeData["error_code"] == nil {
 								cityState = ZipCodeData.init(dictionary: zipCodeData)
 							}
 						}
-						DispatchQueue.main.async {
+//						DispatchQueue.main.async {
 							if let cityState = cityState {
-								zipCodeDic[zipCode] = cityState
-								completed(cityState, zipCode)
-							}
-						}
-					}
+                            zipCodeDic[zipCode] = cityState
+                                if let placesDataArray = UserDefaults.standard.object(forKey: "searchplaces") as? NSData {
+                                do {
+                                    let placesArray1 = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self], from : placesDataArray as Data)
+                                    var storedData = placesArray1 as! [String : [String:AnyObject]]
+                                    storedData[zipCode] = serializeZipcodeData(zipCodeData: zipCodeDic[zipCode]!)
+                                    let placesData = try NSKeyedArchiver.archivedData(withRootObject: storedData, requiringSecureCoding: false)
+                                    UserDefaults.standard.set(placesData, forKey: "searchplaces")
+                                        
+                                    DispatchQueue.main.async {
+                                        completed(cityState, zipCode)
+                                    }
+
+                                }catch {
+                                    print("Couldn't write file")
+                                }
+                                }else{
+                                    let storedData = [zipCode:serializeZipcodeData(zipCodeData: zipCodeDic[zipCode]!)] as [String:[String:AnyObject]]
+                                    let placesData = try NSKeyedArchiver.archivedData(withRootObject: storedData, requiringSecureCoding: false)
+                                    UserDefaults.standard.set(placesData, forKey: "searchplaces")
+                                        
+                                    DispatchQueue.main.async {
+                                        completed(cityState, zipCode)
+                                    }
+                                    
+                                }
+                                
+                               
+                            }else{
+                                completed(nil, zipCode)
+                            }
+                            
+//						}
 				} catch {
 					print("JSON Downloading Error!")
 				}
@@ -172,4 +291,5 @@ func GetTownName(zipCode: String, completed: @escaping (_ zipCodeInfo: ZipCodeDa
 			GetTownName(zipCode: zipCode, completed: completed)
 		}
 	}
+
 }

@@ -34,11 +34,14 @@ class ZipCodeVC: UIViewController, MKMapViewDelegate {
 		GetTownName(zipCode: code) { (zipCodeInfo, zipCode) in
 			if self.currentquery == zipCode {
 				guard let zipCodeInfo = zipCodeInfo else { return }
-				self.nameLabel.text = zipCodeInfo.CityAndStateName
-				let noLocation = CLLocationCoordinate2DMake(CLLocationDegrees(exactly: zipCodeInfo.geo_latitude) ?? 0, CLLocationDegrees(exactly: zipCodeInfo.geo_longitude) ?? 0)
-				let viewRegion = MKCoordinateRegion(center: noLocation, latitudinalMeters: 2500, longitudinalMeters: 2500)
-				self.mapView.setRegion(viewRegion, animated: true)
-				self.zipField.resignFirstResponder()
+                DispatchQueue.main.async {
+                    self.nameLabel.text = zipCodeInfo.CityAndStateName
+                    let noLocation = CLLocationCoordinate2DMake(CLLocationDegrees(exactly: zipCodeInfo.geo_latitude) ?? 0, CLLocationDegrees(exactly: zipCodeInfo.geo_longitude) ?? 0)
+                    let viewRegion = MKCoordinateRegion(center: noLocation, latitudinalMeters: 2500, longitudinalMeters: 2500)
+                    self.mapView.setRegion(viewRegion, animated: true)
+                    self.zipField.resignFirstResponder()
+                }
+
 			}
 		}
 	}
