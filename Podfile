@@ -12,7 +12,7 @@ target 'Ambassadoor' do
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
   pod 'Firebase/Database'
-  pod 'SwiftKeychainWrapper'
-  pod 'Plaid'
+#  pod 'SwiftKeychainWrapper'
+#  pod 'Plaid'
   pod 'SDWebImage'
 end
