@@ -11,6 +11,7 @@ import UIKit
 
 class CompanyVC: UIViewController {
 
+    //Company Detail UI's
 	@IBOutlet weak var companyLogo: UIImageView!
 	@IBOutlet weak var companyNameLabel: UILabel!
 	@IBOutlet weak var CompanyMission: UILabel!
@@ -33,12 +34,13 @@ class CompanyVC: UIViewController {
 		_ = navigationController?.popViewController(animated: true)
 	}
 	
+    //open company website here
 	@IBAction func openwebsite(_ sender: Any) {
 		if let url = URL(string: thisCompany.website) {
 			UIApplication.shared.open(url, options: [:])
 		}
 	}
-	
+	//open google search for company name
 	@IBAction func GoogleIt(_ sender: Any) {
 		GoogleSearch(query: thisCompany.name)
 	}

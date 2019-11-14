@@ -55,10 +55,6 @@ class RejectedOffersVC: UIViewController, UITableViewDataSource, UITableViewDele
 			if let destination = (destination as! UINavigationController).topViewController as? OfferVC {
 				destination.delegate = self
 				destination.ThisOffer = newviewoffer
-//                if let picUrl  = newviewoffer.company.logo {
-//                    UIImageView().downloadAndSetImage(picUrl, isCircle: false)
-//                } else {
-//                }
 			}
 		} else {
 			print("Segue to sign up is being prepared.")

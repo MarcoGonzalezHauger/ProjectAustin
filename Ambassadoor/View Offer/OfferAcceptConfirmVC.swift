@@ -25,8 +25,8 @@ class OfferAcceptConfirmVC: UIViewController {
 		UseTapticEngine()
 	}
 	
+    //If user agree and confirm the offer. we need to update offer expire date, offer status and isaccepted status to FIR
     @IBAction func OfferConfirmed(_ sender: Any) {
-        
         
         let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(ThisOffer.offer_ID)
 		let dayCount = ThisOffer.posts.count * 2
@@ -39,7 +39,6 @@ class OfferAcceptConfirmVC: UIViewController {
         prntRef.updateChildValues(["expiredate":expireDate])
         prntRef.updateChildValues(["isAccepted":true])
         prntRef.updateChildValues(["status":"accepted"])
-        
 
         dismiss(animated: true) {
 			self.Confirmdelegate?.dismissPage()

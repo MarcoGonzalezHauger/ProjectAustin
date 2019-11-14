@@ -130,7 +130,7 @@ class User: NSObject {
 		self.averageLikes = dictionary["averageLikes"] as? Double
 		self.zipCode = dictionary["zipCode"] as? String
         self.id = dictionary["id"] as! String
-        self.gender = dictionary["gender"] as? Gender
+        self.gender = (dictionary["gender"] as? Gender.RawValue).map { Gender(rawValue: $0) }!
         self.isBankAdded = dictionary["isBankAdded"] as! Bool 
         self.yourMoney = dictionary["yourMoney"] as! Double
         self.joinedDate = dictionary["joinedDate"] as? String
@@ -148,6 +148,7 @@ class User: NSObject {
 	}
 }
 
+// Structure for Bank information
 class Bank: NSObject {
     let publicToken: String
     let institutionName: String
@@ -167,7 +168,6 @@ class Bank: NSObject {
 }
 
 //added by ram
-
 class DwollaCustomerFSList: NSObject {
     
     var acctID = ""
@@ -193,7 +193,7 @@ class DwollaCustomerFSList: NSObject {
     
 }
 
-//Stripe
+// Structure for Stripe details
 class StripeAccDetail: NSObject {
     
     var access_token = ""
@@ -217,7 +217,7 @@ class StripeAccDetail: NSObject {
     
 }
 
-//transaction History
+//Structure for transaction History
 class TransactionHistory: NSObject {
     
     var Amount = 0.0
@@ -244,7 +244,7 @@ class TransactionHistory: NSObject {
     
 }
 
-
+// Structure for transaction Information
 class TransactionInfo: NSObject {
     
     var acctID = ""
@@ -327,81 +327,6 @@ enum Status: String {
     case available, accepted, rejected
 }
     
-    //instagram post data
-class InstagramManager: NSObject, UIDocumentInteractionControllerDelegate {
-
-    private let kInstagramURL = "instagram://"
-    //    private let kInstagramURL = "instagram://share"
-    //    private let kInstagramURL = "instagram://app"
-
-    private let kUTI = "com.instagram.exclusivegram"
-    private let kfileNameExtension = "instagram.igo"
-    private let kAlertViewTitle = "Error"
-    private let kAlertViewMessage = "Please install the Instagram application"
-
-    var documentInteractionController = UIDocumentInteractionController()
-
-    // singleton manager
-    class var sharedManager: InstagramManager {
-        struct Singleton {
-            static let instance = InstagramManager()
-        }
-        return Singleton.instance
-    }
-    
-    
-
-    func postImageToInstagramWithCaption(imageInstagram: UIImage, instagramCaption: String, view: UIView,  completion:@escaping (_ bool:Bool) -> ()) {
-        // called to post image with caption to the instagram application
-        
-//        let instagramURL = NSURL(string: kInstagramURL)
-        let instagramURL = NSURL(string: kInstagramURL + "user?username=\(Yourself.username)")
-        if UIApplication.shared.canOpenURL(instagramURL! as URL) {
-            let jpgPath = (NSTemporaryDirectory() as NSString).appendingPathComponent(kfileNameExtension)
-            //            UIImageJPEGRepresentation(imageInstagram, 1.0)!.writeToFile(jpgPath, atomically: true)
-            do {
-                try imageInstagram.jpegData(compressionQuality: 1.0)!.write(to: URL(fileURLWithPath: jpgPath), options: .atomic)
-            } catch let error {
-                print(error)
-            }
-            let rect = CGRect(x: 0,y: 0,width: 612,height: 612)
-            let fileURL = NSURL.fileURL(withPath: jpgPath)
-            documentInteractionController.url = fileURL
-            documentInteractionController.delegate = self
-            documentInteractionController.uti = kUTI
-            documentInteractionController.dismissMenu(animated: true)
-            documentInteractionController.name = instagramCaption
-
-            // adding caption for the image
-            //["InstagramCaption": instagramCaption]
-            documentInteractionController.annotation = ["InstagramCaption": instagramCaption]
-            documentInteractionController.presentOpenInMenu(from: rect, in: view, animated: true)
-            completion(true)
-        }
-        else {
-            // alert displayed when the instagram application is not available in the device
-            completion(false)
-            //            UIAlertView(title: kAlertViewTitle, message: kAlertViewMessage, delegate:nil, cancelButtonTitle:"Ok").show()
-            
-        }
-    }
-    
-    func documentInteractionControllerDidEndPreview(_ controller: UIDocumentInteractionController) {
-        
-    }
-    
-    func documentInteractionControllerDidDismissOpenInMenu(_ controller: UIDocumentInteractionController) {
-        
-    }
-    
-    func documentInteractionController(_ controller: UIDocumentInteractionController, didEndSendingToApplication application: String?) {
-        
-    }
-    func documentInteractionController(_ controller: UIDocumentInteractionController, willBeginSendingToApplication application: String?) {
-        
-    }
-
-}
 
 //Amount refound funcs
 class Deposit: NSObject {

@@ -16,6 +16,7 @@ protocol PresentOfferDelegate {
 
 class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, OfferCellDelegate, GlobalListener, OfferResponse, PresentOfferDelegate {
 	
+    // if open offer via notification get offer Detail using offer ID
 	func SendOffer(OfferID: String) {
 //		if let presentThisOffer = OfferFromID(id: OfferID) {
 //			ViewOffer(OfferToView: presentThisOffer)
@@ -29,6 +30,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
         })
 	}
 	
+    // if
 	func OfferAccepted(offer: Offer) {
 		isQue = true
 		if let ip : IndexPath = currentviewoffer {
@@ -39,21 +41,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 			global.AvaliableOffers.remove(at: ip.row)
 			shelf.deleteRows(at: [ip], with: .right)
             
-            //accept offer notification
-//            UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
-//
-//                for notification in notifications {
-//                    print(notification.identifier)
-//                    if global.AvaliableOffers[ip.row].offer_ID == notification.identifier {
-//                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notification.identifier])
-//
-//                        self.appdel.CreateOfferAcceptNotification(accepteddOffer: global.AvaliableOffers[ip.row])
-//
-//                    }
-//
-//                }
-//
-//            }
 
 		}
 		isQue = false
@@ -154,6 +141,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 		}
 	}
     
+    // get deposit detail from Business user
     func getDepositDetails(companyUserID: String,completion: @escaping(Deposit?,String,Error?) -> Void) {
         
         let ref = Database.database().reference().child("BusinessDeposit").child(companyUserID)
@@ -177,7 +165,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 	var viewoffer: Offer?
 	var currentviewoffer: IndexPath?
 	var appdel: AppDelegate!
-	
 	//simply shows the offer.
 	func ViewOfferFromCell(sender: Any) {
 		if let sender = sender as? OfferCell {
@@ -287,7 +274,9 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 				ref.observeSingleEvent(of: .value) { (snapshot) in
 					self.delegate?.dismissNow()
 					if snapshot.exists() == false {
-						self.performSegue(withIdentifier: "showSignUpVC", sender: self)
+                        DispatchQueue.main.async {
+                            self.performSegue(withIdentifier: "showSignUpVC", sender: self)
+                        }
 					} else {
 						self.GetUser {
 							if let zip = Yourself.zipCode {
@@ -333,8 +322,8 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 					global.AvaliableOffers = youroffers.filter({$0.status == "available"})
 					global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
                     //Ambver update
-					global.AcceptedOffers = youroffers.filter({$0.status == "accepted" || $0.status == "paid" || $0.status == "denied"})
-                    global.OffersHistory = youroffers.filter({$0.status == "paid" || $0.status == "denied"})
+					global.AcceptedOffers = youroffers.filter({$0.status == "accepted" || $0.status == "denied"})
+                    global.OffersHistory = youroffers.filter({$0.status == "paid"})
 					global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
 					global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
 										
@@ -373,8 +362,11 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 			} else {
 				print("Youself user was NIL.")
 				attemptedLogOut = true
-				self.performSegue(withIdentifier: "showSignUpVC", sender: self)
-			}
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "showSignUpVC", sender: self)
+                }
+                
+            }
 			//                    }
 		}
 	}
