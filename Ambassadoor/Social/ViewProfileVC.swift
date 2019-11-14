@@ -142,6 +142,7 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		//checks if the instagram app is avaliable, if it is it will open the app, if it isn't it will open the ambassador's account in safari.
 		
 		let user = ThisUser.username
+        // open user instagram page
 		let instaURL = URL(string: "instagram://user?username=\(user)")!
 		print(instaURL)
 		let sharedApps = UIApplication.shared

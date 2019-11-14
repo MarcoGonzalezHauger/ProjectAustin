@@ -39,6 +39,7 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 		CheckExperation()
 	}
 	
+    // show/hide expire date count here
 	func CheckExperation() {
 		if ThisOffer.isAccepted == false {
 			if ThisOffer.offer_ID == "XXXDefaults" {
@@ -117,18 +118,22 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		return 45
 	}
-	
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        posttosend = ThisOffer.posts[indexPath.row]
+        performSegue(withIdentifier: "toPost", sender: self)
+        tableView.selectRow(at: nil, animated: true, scrollPosition: .none)
+    }
 	
 	//Post that the View Post VC will give you. Used in prepare for segue.
 	var posttosend : Post!
 	
+    //Pass the some values this VC to another VC'c
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		switch segue.identifier {
 		case "toPost":
 			if let destination = segue.destination as? ViewPostVC {
 				destination.ThisPost = posttosend
 				destination.companystring = ThisOffer.company.name
-                //naveen added
                 destination.isPostEnable = ThisOffer.isAccepted
                 destination.offer_ID = ThisOffer.offer_ID
                 destination.selectedIndex = selectedIndex
@@ -150,15 +155,11 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
         default: break
 		}
 	}
-	
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		posttosend = ThisOffer.posts[indexPath.row]
-		performSegue(withIdentifier: "toPost", sender: self)
-		tableView.selectRow(at: nil, animated: true, scrollPosition: .none)
-	}
+
 	
 	//This VC makes a nice panel that pops up to give you details about an offer BEFORE you accept it.
 	
+    // Offer Detail UI's
 	@IBOutlet weak var MoneyLabel: UILabel!
 	@IBOutlet weak var expirationView: UIView!
 	@IBOutlet weak var expirationLabel: UILabel!
@@ -178,9 +179,6 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 
 		if isCloseButton {
 			acceptButtonView.isHidden = true
-            //naveen addded
-//            acceptButtonView.isHidden = false
-//            acceptButton.setTitle("Post", for: .normal)
 		}
 	
 		if acceptButtonView.isHidden {
@@ -203,6 +201,8 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
                 print("No")
             }
         }
+        
+        // compare and verify offer post and user instagram post here
 		CheckForCompletedOffers() {
 			self.shelf.reloadData()
 		}
@@ -215,6 +215,8 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 	@IBOutlet weak var viewCompany: UIButton!
 	@IBOutlet weak var reportButton: UIButton!
 	
+    // Offer Detail UI's values update here
+    
 	func UpdateOfferInformation() {
 		
 		//Make sure that if there is no company logo a default image is displayed. A building with a dish on it.
@@ -229,6 +231,7 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 		} else {
 			if let picUrl  = ThisOffer.company.logo {
 //				logo.downloadAndSetImage(picUrl, isCircle: false)
+                //we are using sd webimage cach used
                 logo.sd_setImage(with: URL.init(string: picUrl), placeholderImage: UIImage(named: "defaultcompany"))
 
 			} else {
@@ -238,7 +241,7 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
             
 			OfferForLabel.text = "OFFER FOR"
             
-            //ambver update
+            //showing offer amount status 
             if ThisOffer.status == "paid" {
                 MoneyLabel.text = NumberToPrice(Value: ThisOffer.money) + " Received"
             }else if ThisOffer.status == "denied" {
@@ -283,6 +286,7 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 		UseTapticEngine()
 	}
 	
+    // move accept to confirm offer VC
 	@IBAction func OfferAccepted(_ sender: Any) {
 		
 		self.performSegue(withIdentifier: "segueConfirm", sender: nil)

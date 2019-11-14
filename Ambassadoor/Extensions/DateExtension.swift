@@ -72,28 +72,6 @@ extension Date {
 
         return components.month!
     }
-//    func isExpireDateCheck(string:String)-> Bool{
-//        //Ref date
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "MM/dd/yyyy"
-//        let someDate = dateFormatter.date(from: "03/10/2015")
-//        
-//        //Get calendar
-//        let calendar = NSCalendar.current
-//        
-//        //Get just MM/dd/yyyy from current date
-//        let flags = NSCalendar.Unit.day.rawValue | NSCalendar.Unit.month.rawValue | NSCalendar.Unit.year.rawValue
-//        let components = calendar.components(flags, fromDate: NSDate())
-//        
-//        //Convert to NSDate
-//        let today = calendar.dateFromComponents(components)
-//        
-//        if someDate!.timeIntervalSinceDate(today!).isSignMinus {
-//            //someDate is berofe than today
-//        } else {
-//            //someDate is equal or after than today
-//        }
-//    }
     
 
 }

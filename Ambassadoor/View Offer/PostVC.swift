@@ -46,9 +46,7 @@ class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 		} else {
 			cell.ProductImage.image = UIImage(named: "shopping cart")
 		}
-        
-
-        
+                
 		cell.ProductLabel.text = ThisPost.products![indexPath.item].name
 		return cell
 	}
@@ -63,6 +61,7 @@ class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 		grid.selectItem(at: nil, animated: true, scrollPosition: .top)
 	}
 	
+    //next VC pass product value and companyname
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let destination = segue.destination as? ProductVC {
 			destination.thisProduct = producttosend
@@ -70,6 +69,7 @@ class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 		}
 	}
 
+    //post detail UI's
 	@IBOutlet weak var postimage: UIImageView!
 	@IBOutlet weak var postLabel: UILabel!
 	@IBOutlet weak var rulesText: UITextView!
@@ -91,6 +91,7 @@ class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 	@IBOutlet weak var ViewInsideStackHeight: NSLayoutConstraint!
 	@IBOutlet weak var gridHeight: NSLayoutConstraint!
 	
+    //post Detail UI's values update here
 	func UpdatePostInformation() {
 		
 		postimage.image = PostTypeToIcon(posttype: ThisPost.PostType)
@@ -103,7 +104,7 @@ class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 			captionText.text = "#ad"
 		}
         
-        //ambver update
+        //If offer has denied means we will show denied message here
         if ThisPost.status == "denied" {
             if let msg = ThisPost.denyMessage {
                 self.showStandardAlertDialog(title: "Alert", msg: msg)

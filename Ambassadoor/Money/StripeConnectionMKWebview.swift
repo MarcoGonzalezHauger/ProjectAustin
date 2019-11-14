@@ -107,28 +107,7 @@ class StripeConnectionMKWebview: UIViewController, WKNavigationDelegate {
         }
         
     }
-    
-//    func webView(_ webView: WKWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
-//        if let url = request.url {
-//
-//            if let urlComponents = URLComponents(string: url.absoluteString) {
-//                if let queryString = urlComponents.queryItems {
-//                    for query in queryString {
-//                        if query.name == "stripe_user_id" {
-//                            if let value = query.value {
-//
-//                                //If authentication to your Stripe Account was successful, the Stripe User ID will be returned as a query string in the variable 'value'.  You can then proceed to save it to your application’s database, to use at a later stage for any subsequent Stripe connection requests.
-//
-//                                print("Stripe User ID = \(value)")
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//        return true
-//    }
+
     
     
     @IBAction func cancel_Action(_ sender: Any) {

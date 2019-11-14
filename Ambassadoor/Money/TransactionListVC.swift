@@ -57,7 +57,7 @@ class TransactionListVC: UIViewController,UITableViewDataSource, UITableViewDele
         return self.transactionHistoryList.count
     }
         
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = shelf.dequeueReusableCell(withIdentifier: "transaction") as! TransactionDetailTableViewCell
             
             //stripe

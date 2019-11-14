@@ -45,6 +45,7 @@ class SignUpVC: UIViewController, UITextFieldDelegate, ConfirmationReturned {
 		SigningUp()
 	}
     
+    // open App Store to business App
     @IBAction func goToBusinessApp(_ sender: Any) {
         if let url = URL(string: ""),
             UIApplication.shared.canOpenURL(url){
