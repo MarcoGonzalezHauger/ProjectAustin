@@ -71,7 +71,7 @@ class OfferCell: UITableViewCell, SyncTimerDelegate {
                             
                             expiresin.text = "Expire " + leftstring
 
-							expiresin.textColor = UIColor.black
+							expiresin.textColor = GetForeColor()
 						}
 					}
 				}
@@ -134,7 +134,7 @@ class OfferCell: UITableViewCell, SyncTimerDelegate {
                         
                         expiresin.text = "Expire " + leftstring
 
-						expiresin.textColor = UIColor.black
+						expiresin.textColor = GetForeColor()
 					}
 				}
 			}

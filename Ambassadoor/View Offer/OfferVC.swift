@@ -78,8 +78,8 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 					expirationView.layer.borderColor = UIColor.init(red: 255/255, green: 59/255, blue: 48/255, alpha: 1).cgColor
 					expirationLabel.textColor = UIColor.init(red: 255/255, green: 59/255, blue: 48/255, alpha: 1)
 				} else {
-					expirationView.layer.borderColor = UIColor.black.cgColor
-					expirationLabel.textColor = UIColor.black
+					expirationView.layer.borderColor = GetForeColor().cgColor
+					expirationLabel.textColor = GetForeColor()
 				}
 			}
 		} else {

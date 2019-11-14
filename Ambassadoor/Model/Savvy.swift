@@ -445,6 +445,22 @@ func UseTapticEngine() {
 	impact.impactOccurred()
 }
 
+func GetForeColor() -> UIColor {
+	if #available(iOS 13.0, *) {
+		return .label
+	} else {
+		return .black
+	}
+}
+
+func GetBackColor() -> UIColor {
+	if #available(iOS 13.0, *) {
+		return .systemBackground
+	} else {
+		return .white
+	}
+}
+
 //refund funcs
 func serializeTransactionDetails(transaction: TransactionDetails) -> [String: Any] {
     
