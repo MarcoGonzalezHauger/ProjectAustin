@@ -51,15 +51,27 @@ extension Date {
     
     static func getDateFromString(date:String) -> Date? {
         let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(abbreviation: "EST")
         dateFormatter.dateFormat = "yyyy/MMM/dd HH:mm:ss"
 //        dateFormatter.timeZone = TimeZone.current
 //        dateFormatter.locale = Locale.current
+        
         return dateFormatter.date(from: date) // replace Date String
     }
     
     static func getStringFromDate(date:Date) -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy/MMM/dd HH:mm:ss"
+        //        dateFormatter.timeZone = TimeZone.current
+        //        dateFormatter.locale = Locale.current
+        return dateFormatter.string(from: date) // replace Date String
+    }
+    
+    static func getStringFromSecondDate(date:Date) -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(abbreviation: "EST")
+        dateFormatter.dateFormat = "yyyy/MMM/dd HH:mm:ss"
+        //dateFormatter.timeZone = TimeZone(abbreviation: "EST")
         //        dateFormatter.timeZone = TimeZone.current
         //        dateFormatter.locale = Locale.current
         return dateFormatter.string(from: date) // replace Date String

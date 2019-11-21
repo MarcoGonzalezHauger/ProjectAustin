@@ -345,6 +345,29 @@ func getDateFromString(date: String) -> Date {
 	}
 	
 }
+
+//String To Date conversion
+func getESTDateFromString(date: String) -> Date {
+    let dateFormatterGet = DateFormatter()
+    dateFormatterGet.timeZone = TimeZone(abbreviation: "EST")
+    dateFormatterGet.dateFormat = "yyyy/MMM/dd HH:mm:ss"
+    //let estDate = dateFormatterGet.date(from: date)!
+    print("currentDate =",Date())
+//    let dateFormatterPrint = DateFormatter()
+//    dateFormatterPrint.timeZone = TimeZone(abbreviation: "IST")
+//    dateFormatterPrint.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//    dateFormatterPrint.string(from: estDate)
+    
+    if let date = dateFormatterGet.date(from: date) {
+        //print(dateFormatterPrint.string(from: date))
+        return date
+    } else {
+        print("There was an error decoding the string")
+        return Date()
+        
+    }
+    
+}
 // after signout user change local values and logout to instagram
 func signOutofAmbassadoor() {
     UserDefaults.standard.set(nil, forKey: "token")

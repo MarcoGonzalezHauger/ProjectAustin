@@ -63,7 +63,7 @@ class CentralVariables {
 	}	
 	var delegates: [GlobalListener] = []
     
-    
+    var deviceFIRToken = ""
     var dwollaCustomerInformation = DwollaCustomerInformation()
 }
 

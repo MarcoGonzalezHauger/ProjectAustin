@@ -78,6 +78,57 @@ class OfferCell: UITableViewCell, SyncTimerDelegate {
 			}
 		}
 	}
+    
+//    func TickReject() {
+//
+//            if let o : Offer = ThisOfferRejected {
+//
+//                //Ago label.
+//                agolabel.text = DateToAgo(date: o.offerdate)
+//
+//                //If the reject button exists, it lets the program know if the offer is rejected or not.
+//                if rejectbutton != nil {
+//
+//                    //If the offer HASN'T been rejected yet, but is expired, it will reject the offer. When the user sees it, it will be expired there.
+//                    if o.isExpired {
+//                        OfferExpired()
+//                        return
+//                    }
+//
+//                    //If it will expire in the next hour, turn "ago" label red.
+//                    if o.expiredate.timeIntervalSinceNow < 3600 {
+//                        agolabel.textColor = UIColor.red
+//                    } else {
+//                        agolabel.textColor = UIColor.lightGray
+//                    }
+//                } else {
+//                    //Offers that have already been rejected will not show the view button, instead a countdown to when they're expired. Which is usually in 1 hour since rejection.
+//                    //if experation date is more than "now" (which will return NIL), say "expired" in red.
+//                    if self.isCellRejectExpired != o.isExpired {
+//                        self.isCellRejectExpired = o.isExpired
+//                        if o.isExpired == true { OfferExpired() }
+//                    }
+//                    if let expiresin = expiresInLabel {
+//                        if isCellRejectExpired == true {
+//                            viewbutton?.isHidden = true
+//                            agolabel.isHidden = true
+//                            expiresin.text = "Expired"
+//                            expiresin.textColor = UIColor.red
+//                        } else {
+//                            if let leftstring : String = DateToCountdown(date: o.expiredate)  {
+//                                viewbutton?.isHidden = false
+//                                agolabel.isHidden = false
+//    //                            expiresin.text = "Expires " + leftstring
+//
+//                                expiresin.text = "Expire " + leftstring
+//
+//                                expiresin.textColor = UIColor.black
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
 	
 	@IBOutlet weak var viewbutton: UIButton!
 	@IBOutlet weak var rejectbutton: UIButton!
@@ -140,6 +191,30 @@ class OfferCell: UITableViewCell, SyncTimerDelegate {
 			}
 		}
 	}
+    
+//    var isCellRejectExpired: Bool? {
+//            didSet {
+//                guard let o = ThisOffer else { return }
+//                if let expiresin = expiresInLabel {
+//                    if isCellRejectExpired == true {
+//                        viewbutton?.isHidden = true
+//                        agolabel.isHidden = true
+//                        expiresin.text = "Expired"
+//                        expiresin.textColor = UIColor.red
+//                    } else {
+//                        if let leftstring : String = DateToCountdown(date: o.expiredate)  {
+//                            viewbutton?.isHidden = false
+//                            agolabel.isHidden = false
+//    //                        expiresin.text = "Expires " + leftstring
+//
+//                            expiresin.text = "Expire " + leftstring
+//
+//                            expiresin.textColor = UIColor.black
+//                        }
+//                    }
+//                }
+//            }
+//        }
 	
 	//Current offer of the cell
 	var ThisOffer: Offer! {
@@ -165,4 +240,28 @@ class OfferCell: UITableViewCell, SyncTimerDelegate {
 			Tick()
 		}
 	}
+    
+//    var ThisOfferRejected: Offer! {
+//        didSet {
+//            if  ThisOfferRejected.offer_ID == "XXXDefault"{
+//                moneylabel.text = "Get Verified"
+//                companylabel.text = "Ambassadoor"
+//            }else{
+//                moneylabel.text = NumberToPrice(Value: ThisOfferRejected.money)
+//                companylabel.text = ThisOfferRejected.company.name
+//            }
+//
+//            if ThisOfferRejected.isAccepted {
+//                //naeen added
+//                postsLabel.text = ThisOfferRejected.posts.count == 1 ? "For 1 post" : "For \(ThisOffer.posts.count) posts"
+//
+//            } else {
+//                postsLabel.text = ThisOfferRejected.posts.count == 1 ? "For 1 post" : "For \(ThisOffer.posts.count) posts"
+//            }
+//
+//
+//            self.isCellRejectExpired = ThisOfferRejected.isExpired
+//            TickReject()
+//        }
+//    }
 }

@@ -84,7 +84,8 @@ class Offer : NSObject {
         self.posts = dictionary["posts"] as! [Post]
         self.offerdate = getDateFromString(date: dictionary["offerdate"] as! String)
         self.offer_ID = dictionary["offer_ID"] as! String
-        self.expiredate = getDateFromString(date: dictionary["expiredate"] as! String)
+        //self.expiredate = getDateFromString(date: dictionary["expiredate"] as! String)
+        self.expiredate = getESTDateFromString(date: dictionary["expiredate"] as! String)
 //        self.allPostsConfrimedSince = dictionary["allPostsConfirmedSince"] as? Date
 		if dictionary["allPostsConfirmedSince"] as! String != "" {
 			self.allPostsConfrimedSince = getDateFromString(date: dictionary["allPostsConfirmedSince"] as! String)
@@ -115,7 +116,8 @@ class User: NSObject {
     var lastPaidOSCDate: String
     var priorityValue: Int
     var authenticationToken: String
-	
+    var tokenFIR: String?
+    
     init(dictionary: [String: Any]) {
         self.name = dictionary["name"] as? String
         self.username = dictionary["username"] as! String
@@ -141,6 +143,7 @@ class User: NSObject {
         self.lastPaidOSCDate = dictionary["lastPaidOSCDate"] as? String ?? Date.getCurrentDate()
         self.priorityValue = dictionary["priorityValue"] as? Int ?? 0
         self.authenticationToken = dictionary["authenticationToken"] as? String ?? ""
+        self.tokenFIR = dictionary["tokenFIR"] as? String ?? ""
     }
 	
 	override var description: String {

@@ -183,7 +183,8 @@ struct API {
             "isDefaultOfferVerify": user.isDefaultOfferVerify,
             "lastPaidOSCDate": user.lastPaidOSCDate,
             "priorityValue": user.priorityValue,
-            "authenticationToken": user.authenticationToken
+            "authenticationToken": user.authenticationToken,
+            "tokenFIR":global.deviceFIRToken
         ]
         return userData
     }
