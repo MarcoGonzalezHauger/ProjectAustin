@@ -32,8 +32,41 @@ class RejectedOffersVC: UIViewController, UITableViewDataSource, UITableViewDele
 	
 	func OfferRejected(sender: Any) {
         
+        if let ip : IndexPath = shelf.indexPath(for: sender as! UITableViewCell) {
+            
+            if global.AvaliableOffers[ip.row].offer_ID == "XXXDefault" {
+                let alert = UIAlertController(title: "Verification Offer", message: "You can not reject this offer because it is the verification offer.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+                return
+            }
+            
+            let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(global.AvaliableOffers[ip.row].offer_ID)
+            prntRef.updateChildValues(["isAccepted":false])
+            prntRef.updateChildValues(["status":"rejected"])
+            
+            global.AvaliableOffers[ip.row].isAccepted = false
+            global.AvaliableOffers[ip.row].status = "rejected"
+            
+            if global.AvaliableOffers[ip.row].expiredate > Date().addMinutes(minute: 60) {
+                let expireDate = Date.getStringFromSecondDate(date: Date().addMinutes(minute: 60))!
+                
+                prntRef.updateChildValues(["expiredate":expireDate])
+                global.AvaliableOffers[ip.row].expiredate = Date().addMinutes(minute: 60)
+                
+                global.RejectedOffers.append(global.AvaliableOffers[ip.row])
+                global.AvaliableOffers.remove(at: ip.row)
+                shelf.deleteRows(at: [ip], with: .left)
+            }else{
+                prntRef.updateChildValues(["isExpired":true,"shouldRefund":true])
+                
+
+            }
+            
+        }
+        
 	}
-	
+
 	@IBAction func back(_ sender: Any) {
 		Pager.goToPage(index: 1, sender: self)
 	}
@@ -55,10 +88,6 @@ class RejectedOffersVC: UIViewController, UITableViewDataSource, UITableViewDele
 			if let destination = (destination as! UINavigationController).topViewController as? OfferVC {
 				destination.delegate = self
 				destination.ThisOffer = newviewoffer
-//                if let picUrl  = newviewoffer.company.logo {
-//                    UIImageView().downloadAndSetImage(picUrl, isCircle: false)
-//                } else {
-//                }
 			}
 		} else {
 			print("Segue to sign up is being prepared.")

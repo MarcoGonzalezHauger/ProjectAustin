@@ -134,6 +134,7 @@
 		 
 	 }
 	 
+    // create account for new user's sign up
 	 @IBAction func submitTapped(_ sender: Any) {
 		 
 		 
@@ -159,6 +160,7 @@
 				 print("updated User Data TO FIR")
 						 
 					 Yourself = user
+                
 					 UserDefaults.standard.set(API.INSTAGRAM_ACCESS_TOKEN, forKey: "token")
 					 UserDefaults.standard.set(Yourself.id, forKey: "userid")
 				 

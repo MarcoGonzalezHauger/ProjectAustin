@@ -182,6 +182,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		self.dataUpdated()
 	}
 	
+    // pass some value to another VC
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let destination = segue.destination as? CategoryPicker {
 			destination.SetupPicker(originalCategories: Yourself!.categories!) { (cat) in
@@ -194,6 +195,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		}
 	}
 	
+    // update user setting list
 	func dataUpdated() {
 		userSettings = reloadUserSettings()
         

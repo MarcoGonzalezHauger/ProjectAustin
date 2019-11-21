@@ -12,7 +12,7 @@ import UIKit
 
 let imageCache = NSCache<NSString, AnyObject>()
 
-//This extension allows UIImageViews to download images from the web and hvae them saved in cache.
+//This extension allows UIImageViews to download images from the web and have them saved in cache.
 
 public extension UIImageView {
     

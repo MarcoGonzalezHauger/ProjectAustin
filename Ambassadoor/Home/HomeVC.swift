@@ -16,6 +16,7 @@ protocol PresentOfferDelegate {
 
 class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, OfferCellDelegate, GlobalListener, OfferResponse, PresentOfferDelegate {
 	
+    // if open offer via notification get offer Detail using offer ID
 	func SendOffer(OfferID: String) {
 //		if let presentThisOffer = OfferFromID(id: OfferID) {
 //			ViewOffer(OfferToView: presentThisOffer)
@@ -29,6 +30,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
         })
 	}
 	
+    // if
 	func OfferAccepted(offer: Offer) {
 		isQue = true
 		if let ip : IndexPath = currentviewoffer {
@@ -39,21 +41,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 			global.AvaliableOffers.remove(at: ip.row)
 			shelf.deleteRows(at: [ip], with: .right)
             
-            //accept offer notification
-//            UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
-//
-//                for notification in notifications {
-//                    print(notification.identifier)
-//                    if global.AvaliableOffers[ip.row].offer_ID == notification.identifier {
-//                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notification.identifier])
-//
-//                        self.appdel.CreateOfferAcceptNotification(accepteddOffer: global.AvaliableOffers[ip.row])
-//
-//                    }
-//
-//                }
-//
-//            }
 
 		}
 		isQue = false
@@ -90,61 +77,63 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
             global.AvaliableOffers[ip.row].isAccepted = false
             global.AvaliableOffers[ip.row].status = "rejected"
             
+            //Date.getCurrentDateString()
             if global.AvaliableOffers[ip.row].expiredate > Date().addMinutes(minute: 60) {
-                let expireDate = Date.getStringFromDate(date: Date().addMinutes(minute: 60))!
+                let expireDate = Date.getStringFromSecondDate(date: Date().addMinutes(minute: 60))!
 
                 prntRef.updateChildValues(["expiredate":expireDate])
-                global.AvaliableOffers[ip.row].expiredate = Date().addMinutes(minute: 60)
+                global.AvaliableOffers[ip.row].expiredate = getESTDateFromString(date: expireDate)
                 
                 global.RejectedOffers.append(global.AvaliableOffers[ip.row])
                 global.AvaliableOffers.remove(at: ip.row)
                 shelf.deleteRows(at: [ip], with: .left)
             }else{
-                prntRef.updateChildValues(["isExpired":true])
+                prntRef.updateChildValues(["isExpired":true,"shouldRefund":true])
+                
                 
                 // amount refund Business User
-                self.getDepositDetails(companyUserID: global.AvaliableOffers[ip.row].ownerUserID) { (deposit, status, error) in
-                    
-                    let depositedAmount = global.AvaliableOffers[ip.row].money
-                    
-                    let cardDetails = ["last4":"0000","expireMonth":"00","expireYear":"0000","country":"US"] as [String : Any]
-                    
-                    
-                    let transactionDict = ["id":Yourself.id,"userName":Yourself.username,"status":"success","offerName":global.AvaliableOffers[ip.row].title,"type":"refund","currencyIsoCode":"USD","amount":String(depositedAmount),"createdAt":Date.getCurrentDate(),"updatedAt":Date.getCurrentDate(),"transactionType":"refund","cardDetails":cardDetails] as [String : Any]
-
-                    
-                        if status == "success" {
-                        
-                        let transactionObj = TransactionDetails.init(dictionary: transactionDict)
-                        
-                        let tranObj = serializeTransactionDetails(transaction: transactionObj)
-                        
-                        let currentBalance = deposit!.currentBalance! + depositedAmount
-                        let totalDepositAmount = deposit!.totalDepositAmount!
-                        deposit?.totalDepositAmount = totalDepositAmount
-                        deposit?.currentBalance = currentBalance
-                        deposit?.lastDepositedAmount = depositedAmount
-                        deposit?.lastTransactionHistory = transactionObj
-                        var depositHistory = [Any]()
-                        
-                        
-                        depositHistory.append(contentsOf: (deposit!.depositHistory!))
-                        depositHistory.append(tranObj)
-                        
-                        deposit?.depositHistory = depositHistory
-                            
-                        sendDepositAmount(deposit: deposit!, companyUserID: global.AvaliableOffers[ip.row].ownerUserID)
-                        
-                    }
-                    else{
-                                                
-                    }
-                    
-                    global.RejectedOffers.append(global.AvaliableOffers[ip.row])
-                    global.AvaliableOffers.remove(at: ip.row)
-                    self.shelf.deleteRows(at: [ip], with: .left)
-                    
-                }
+//                self.getDepositDetails(companyUserID: global.AvaliableOffers[ip.row].ownerUserID) { (deposit, status, error) in
+//
+//                    let depositedAmount = global.AvaliableOffers[ip.row].money
+//
+//                    let cardDetails = ["last4":"0000","expireMonth":"00","expireYear":"0000","country":"US"] as [String : Any]
+//
+//
+//                    let transactionDict = ["id":Yourself.id,"userName":Yourself.username,"status":"success","offerName":global.AvaliableOffers[ip.row].title,"type":"refund","currencyIsoCode":"USD","amount":String(depositedAmount),"createdAt":Date.getCurrentDate(),"updatedAt":Date.getCurrentDate(),"transactionType":"refund","cardDetails":cardDetails] as [String : Any]
+//
+//
+//                        if status == "success" {
+//
+//                        let transactionObj = TransactionDetails.init(dictionary: transactionDict)
+//
+//                        let tranObj = serializeTransactionDetails(transaction: transactionObj)
+//
+//                        let currentBalance = deposit!.currentBalance! + depositedAmount
+//                        let totalDepositAmount = deposit!.totalDepositAmount!
+//                        deposit?.totalDepositAmount = totalDepositAmount
+//                        deposit?.currentBalance = currentBalance
+//                        deposit?.lastDepositedAmount = depositedAmount
+//                        deposit?.lastTransactionHistory = transactionObj
+//                        var depositHistory = [Any]()
+//
+//
+//                        depositHistory.append(contentsOf: (deposit!.depositHistory!))
+//                        depositHistory.append(tranObj)
+//
+//                        deposit?.depositHistory = depositHistory
+//
+//                        sendDepositAmount(deposit: deposit!, companyUserID: global.AvaliableOffers[ip.row].ownerUserID)
+//
+//                    }
+//                    else{
+//
+//                    }
+//
+//                    global.RejectedOffers.append(global.AvaliableOffers[ip.row])
+//                    global.AvaliableOffers.remove(at: ip.row)
+//                    self.shelf.deleteRows(at: [ip], with: .left)
+//
+//                }
             }
             // **********
             
@@ -152,8 +141,10 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 //			global.AvaliableOffers.remove(at: ip.row)
 //			shelf.deleteRows(at: [ip], with: .left)
 		}
+        
 	}
     
+    // get deposit detail from Business user
     func getDepositDetails(companyUserID: String,completion: @escaping(Deposit?,String,Error?) -> Void) {
         
         let ref = Database.database().reference().child("BusinessDeposit").child(companyUserID)
@@ -177,7 +168,6 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 	var viewoffer: Offer?
 	var currentviewoffer: IndexPath?
 	var appdel: AppDelegate!
-	
 	//simply shows the offer.
 	func ViewOfferFromCell(sender: Any) {
 		if let sender = sender as? OfferCell {
@@ -287,7 +277,9 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 				ref.observeSingleEvent(of: .value) { (snapshot) in
 					self.delegate?.dismissNow()
 					if snapshot.exists() == false {
-						self.performSegue(withIdentifier: "showSignUpVC", sender: self)
+                        DispatchQueue.main.async {
+                            self.performSegue(withIdentifier: "showSignUpVC", sender: self)
+                        }
 					} else {
 						self.GetUser {
 							if let zip = Yourself.zipCode {
@@ -333,8 +325,8 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 					global.AvaliableOffers = youroffers.filter({$0.status == "available"})
 					global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
                     //Ambver update
-					global.AcceptedOffers = youroffers.filter({$0.status == "accepted" || $0.status == "paid" || $0.status == "denied"})
-                    global.OffersHistory = youroffers.filter({$0.status == "paid" || $0.status == "denied"})
+					global.AcceptedOffers = youroffers.filter({$0.status == "accepted" || $0.status == "denied"})
+                    global.OffersHistory = youroffers.filter({$0.status == "paid"})
 					global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
 					global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
 										
@@ -373,8 +365,11 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 			} else {
 				print("Youself user was NIL.")
 				attemptedLogOut = true
-				self.performSegue(withIdentifier: "showSignUpVC", sender: self)
-			}
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "showSignUpVC", sender: self)
+                }
+                
+            }
 			//                    }
 		}
 	}

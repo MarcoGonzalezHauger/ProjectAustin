@@ -24,6 +24,7 @@ func NumberToPrice(Value: Double, enforceCents isBig: Bool = false) -> String {
 	return ""
 }
 
+// open external for google search words
 func GoogleSearch(query: String) {
 	let newquery = query.replacingOccurrences(of: " ", with: "+")
 	if let url = URL(string: "https://www.google.com/search?q=\(newquery)") {
@@ -108,8 +109,10 @@ func NumberToStringWithCommas(number: Double) -> String {
 	return numformat.string(from: NSNumber(value:number)) ?? String(number)
 }
 
+// Tier level array
 let TierThreshholds: [Double] = [0, 100, 200, 300, 500, 750, 1000, 1250, 1500, 2000, 3000, 4000, 5000, 6250, 7750, 9500, 11500, 13750, 16250, 19000, 22000, 25250, 28750]
 
+// get Tier level based on the instagram followers count
 func GetTierFromFollowerCount(FollowerCount: Double) -> Int? {
 	
 	var index: Int = 0
@@ -125,6 +128,7 @@ func GetTierFromFollowerCount(FollowerCount: Double) -> Int? {
 	return TierThreshholds.count
 }
 
+// get organic subscription fee amount based on instagram followers count
 func GetFeeFromFollowerCount(FollowerCount: Double) -> Int? {
     
     //Tier is grouping people of similar follower count to encourage competition between users.
@@ -181,7 +185,7 @@ func GetCategoryStringFromlist(categories: [String]) -> String {
 }
 
 
-
+// get offer information using offerID
 func OfferFromID(id: String, completion:@escaping(_ offer:Offer?)->()) {
 	print("attempting to find offer with ID \(id)")
 	
@@ -311,6 +315,7 @@ func TextToGender(gender: String) -> Gender {
 	}
 }
 
+// Open App Store Application
 func OpenAppStoreID(id: String) {
 	if let url = URL(string: "https://apps.apple.com/us/app/\(id)"),
 		UIApplication.shared.canOpenURL(url){
@@ -341,6 +346,29 @@ func getDateFromString(date: String) -> Date {
 	
 }
 
+//String To Date conversion
+func getESTDateFromString(date: String) -> Date {
+    let dateFormatterGet = DateFormatter()
+    dateFormatterGet.timeZone = TimeZone(abbreviation: "EST")
+    dateFormatterGet.dateFormat = "yyyy/MMM/dd HH:mm:ss"
+    //let estDate = dateFormatterGet.date(from: date)!
+    print("currentDate =",Date())
+//    let dateFormatterPrint = DateFormatter()
+//    dateFormatterPrint.timeZone = TimeZone(abbreviation: "IST")
+//    dateFormatterPrint.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//    dateFormatterPrint.string(from: estDate)
+    
+    if let date = dateFormatterGet.date(from: date) {
+        //print(dateFormatterPrint.string(from: date))
+        return date
+    } else {
+        print("There was an error decoding the string")
+        return Date()
+        
+    }
+    
+}
+// after signout user change local values and logout to instagram
 func signOutofAmbassadoor() {
     UserDefaults.standard.set(nil, forKey: "token")
     UserDefaults.standard.set(nil, forKey: "userid")
@@ -388,6 +416,7 @@ func GetSortedOffers(offer:[Offer]) -> [Offer] {
 	return sortedlist
 }
 
+// get tier level
 func GetTierForInfluencer(influencer: User) -> Int {
 	if influencer.isDefaultOfferVerify {
 		return (GetTierFromFollowerCount(FollowerCount: influencer.followerCount) ?? 0) + 1
@@ -396,6 +425,7 @@ func GetTierForInfluencer(influencer: User) -> Int {
 	}
 }
 
+// compare and verify Offer post and instagram post. and update sendoutoffer and influencerInstagrampost to FIR
 func CheckForCompletedOffers(completion: (() -> Void)?) {
 	print("Checking for completed Offers.")
 	API.getRecentMedia { (mediaData: [[String:Any]]?) in
