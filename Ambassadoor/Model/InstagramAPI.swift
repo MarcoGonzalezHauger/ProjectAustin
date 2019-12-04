@@ -62,7 +62,7 @@ struct API {
                         // Deserilize object from JSON
                         if let profileData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String : AnyObject] {
 
-                            if let codelimit = profileData["code"] as? Int64{
+                            if let codelimit = profileData["code"] as? Int64 {
                                 completed?(nil)
                             }else{
                                 let meta = profileData["meta"] as! [String : AnyObject]
@@ -142,10 +142,6 @@ struct API {
 								if  code == 200{
 									self.instagramMediaData = totalData["data"] as! [[String : AnyObject]]
 									completed?(self.instagramMediaData)
-									
-									
-								}else{
-									
 								}
 							}
 							
