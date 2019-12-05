@@ -31,8 +31,8 @@ struct API {
 //    static var Stripeclient_id = "ca_FrDIP5fLBXnTWCJTkPzngRUquWqrzKZh"
 //    static var Stripeclient_secret = "sk_live_KwcqGxImMq4fosE3n7QMycBw00eMO7si8E"
     //demo
-    static var Stripeclient_id = "ca_FrDIyMuhEQEpU7K8z6tsPNMwKJ2f6AiM"
-    static var Stripeclient_secret = "sk_test_zrg6oDehYkCJIVAA4oe5LrWD00mNP6IImr"
+    static var Stripeclient_id = "ca_FrDIP5fLBXnTWCJTkPzngRUquWqrzKZh"
+    static var Stripeclient_secret = "sk_live_KwcqGxImMq4fosE3n7QMycBw00eMO7si8E"
 
     
     //get instagram users media
@@ -62,7 +62,7 @@ struct API {
                         // Deserilize object from JSON
                         if let profileData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String : AnyObject] {
 
-                            if let codelimit = profileData["code"] as? Int64{
+                            if let codelimit = profileData["code"] as? Int64 {
                                 completed?(nil)
                             }else{
                                 let meta = profileData["meta"] as! [String : AnyObject]
@@ -142,10 +142,6 @@ struct API {
 								if  code == 200{
 									self.instagramMediaData = totalData["data"] as! [[String : AnyObject]]
 									completed?(self.instagramMediaData)
-									
-									
-								}else{
-									
 								}
 							}
 							

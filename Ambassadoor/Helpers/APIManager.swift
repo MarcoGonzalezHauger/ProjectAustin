@@ -112,7 +112,7 @@ class APIManager {
         
         let url = URL(string: stripeurl)
         
-        let para = "client_secret=sk_live_KwcqGxImMq4fosE3n7QMycBw00eMO7si8E/code=\(authorization_code)/grant_type=authorization_code"
+		let para = "client_secret=\(API.Stripeclient_secret)/code=\(authorization_code)/grant_type=authorization_code"
 
         
 //        let para = "grant_type=client_credentials"
