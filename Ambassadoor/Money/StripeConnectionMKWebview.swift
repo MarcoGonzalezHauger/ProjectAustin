@@ -40,6 +40,25 @@ class StripeConnectionMKWebview: UIViewController, WKNavigationDelegate {
         
         activityIndicatorView.isHidden = false
         webView_MKWeb.load(request)
+        
+//        if let url = URL.init(string: "https://www.ambassadoor.co/paid?code=ac_GIqEPAQpAhj0GzSaoam9w5dvJy8iqut6") {
+//                        print(url.absoluteString)
+//                    /* Test
+//                     if url.absoluteString.hasPrefix("https://connect.stripe.com/connect/default_new/oauth/test?") || url.absoluteString.hasPrefix("https://connect.stripe.com/connect/default/oauth/test?"){
+//                     print("SUCCESS")
+//                     */
+//                        if url.absoluteString.hasPrefix("https://www.ambassadoor.co/paid?") || url.absoluteString.hasPrefix("https://www.ambassadoor.co/paid?code="){
+//                            print("SUCCESS")
+//        //                    self.dismiss(animated: true, completion: nil)
+//                            
+//                            if let range = url.absoluteString.range(of: "code=") {
+//                                let code = url.absoluteString[range.upperBound...]
+//                                print(code) // prints "123.456.7891"
+//                                self.getAccountID(code: String(code))
+//                            }
+//
+//                     }
+//                }
     }
     
     
@@ -58,12 +77,21 @@ class StripeConnectionMKWebview: UIViewController, WKNavigationDelegate {
     
     
      func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping ((WKNavigationActionPolicy) -> Void)) {
+        
+        
+        
 
         print("webView:\(webView) decidePolicyForNavigationAction:\(navigationAction) decisionHandler:\(String(describing: decisionHandler))")
+        
+        print("navigation=",navigationAction.request.url!.absoluteString)
 
         if let url = navigationAction.request.url {
                 print(url.absoluteString)
-                if url.absoluteString.hasPrefix("https://connect.stripe.com/connect/default_new/oauth/test?") || url.absoluteString.hasPrefix("https://connect.stripe.com/connect/default/oauth/test?"){
+            /* Test
+             if url.absoluteString.hasPrefix("https://connect.stripe.com/connect/default_new/oauth/test?") || url.absoluteString.hasPrefix("https://connect.stripe.com/connect/default/oauth/test?"){
+             print("SUCCESS")
+             */
+                if url.absoluteString.hasPrefix("https://www.ambassadoor.co/paid?") || url.absoluteString.hasPrefix("https://www.ambassadoor.co/paid?code="){
                     print("SUCCESS")
 //                    self.dismiss(animated: true, completion: nil)
                     
