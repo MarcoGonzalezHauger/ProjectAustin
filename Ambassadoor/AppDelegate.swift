@@ -11,12 +11,14 @@ import UIKit
 import CoreData
 import Firebase
 import UserNotifications
+import FirebaseInstanceID
+import FirebaseCore
+import FirebaseMessaging
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
     var timer: DispatchSourceTimer?
-
 
 	func AskForNotificationPermission() {
 		UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert]) { (worked, error) in
@@ -28,6 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		delegate?.SendOffer(OfferID: id)
 	}
 	
+    // received user notification here
 	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
 		let identifier = response.notification.request.identifier
 		//print("actionID: \(identifier)")
@@ -45,12 +48,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }else{
             sendOffer(id: identifier)
         }
-        
 
 		completionHandler()
 	}
     
-    //naveen added func
+    // user notification present here
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
     {
         let id = notification.request.identifier
@@ -58,11 +60,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         completionHandler([.sound, .alert])
     }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data){
+        
+        let deviceTokenString1 = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        print("deviceToken1=",deviceTokenString1)
+        
+        
+        InstanceID.instanceID().instanceID { (result, error) in
+            if let error = error {
+                print("Error fetching remote instange ID: \(error)")
+            } else if let result = result {
+                print("Remote instance ID token: \(result.token)")
+                global.deviceFIRToken = result.token
+                //print("avvv=",InstanceID.instanceID().token()!)
+            }
+        }
+        
+    }
+
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error){
+        
+    }
 
 	
 	var delegate: PresentOfferDelegate?
 	var pageDelegate: UITabBarController?
 	
+    // create new expire notification here
 	func CreateExpireNotification(expiringOffer: Offer) {
 //		let content = UNMutableNotificationContent()
 //		content.title = "Offer Will Expire in 1h"
@@ -78,7 +103,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //			UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
 //        }
         
-        //naveen added
         let dateComponents = DateComponents(year: Calendar.current.component(.year, from: expiringOffer.expiredate), month: Calendar.current.component(.month, from: expiringOffer.expiredate), day: Calendar.current.component(.day, from: expiringOffer.expiredate))
         let yourFireDate = Calendar.current.date(from: dateComponents)
         let content = UNMutableNotificationContent()
@@ -112,7 +136,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
 	
-    //naveen added func
+    // create offer Accepted notification here
     func CreateOfferAcceptNotification(accepteddOffer: Offer) {
         let content = UNMutableNotificationContent()
         content.title = "Offer Accepted"
@@ -130,6 +154,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
     }
     
+    // create new offer notification here
 	func CreateNewOfferNotification(newOffer: Offer) {
 		let content = UNMutableNotificationContent()
 		content.title = "New Offer"
@@ -152,28 +177,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	var window: UIWindow?
     
     override init() {
-        FirebaseApp.configure()
-        Database.database().isPersistenceEnabled = false
-		//Form-API Depreciated
-//		InitializeFormAPI(completed: nil)
-		InitializeZipCodeAPI(completed: nil)
+        
     }
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-		AskForNotificationPermission()
-		
+		//AskForNotificationPermission()
+                FirebaseApp.configure()
+                Database.database().isPersistenceEnabled = false
+                //Form-API Depreciated
+        //        InitializeFormAPI(completed: nil)
+                InitializeZipCodeAPI(completed: nil)
 		// Define the custom actions.
 		UIApplication.shared.applicationIconBadgeNumber = 0
 		UNUserNotificationCenter.current().delegate = self
-        
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.badge, .alert, .sound]) { (granted, error) in
+            guard granted else {return}
+            DispatchQueue.main.async {
+                application.registerForRemoteNotifications()
+                
+            }
+        }
+        NotificationCenter.default.addObserver(self, selector: #selector(tokenRefreshNotification(_:)), name: NSNotification.Name.InstanceIDTokenRefresh, object: nil)
         // Fetch data once an hour.
 //        UIApplication.shared.setMinimumBackgroundFetchInterval(600)
         self.startTimer()
         
 		return true
 	}
+    @objc func tokenRefreshNotification(_ notification: Notification) {
+            
     
+            InstanceID.instanceID().instanceID { (result, error) in
+                if let error = error {
+                    print("Error fetching remote instange ID: \(error)")
+                } else if let result = result {
+                    print("Remote instance ID token: \(result.token)")
+                    global.deviceFIRToken = result.token
+                }
+            }
+        }
+    //checking internet connection and latest app version. if not updated version go to the app store page
     func versionUpdateValidation(){
         if !NetworkReachability.isConnectedToNetwork() || !canReachGoogle() {
             let alertMessage = "Make sure your device is connected to the internet.";
@@ -184,6 +229,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let alert = UIAlertController(title: "No Internet Connection!", message: alertMessage, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "confirm"), style: .cancel, handler: {(_ action: UIAlertAction) -> Void in
 
+                //if not connect to internet automatically open to direct network connection page Note:this func not allowed for apple
 //                if let url = URL.init(string: "App-Prefs:root=WIFI") {
 //                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
 //                }
@@ -192,6 +238,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 // this also keeps a reference to the window until the action is invoked.
                 topWindow?.isHidden = true // if you want to hide the topwindow then use this
                 // topWindow = nil // if you want to hide the topwindow then use this
+                
+                //if not connected to internet automatically open settings page
                 if let url = URL.init(string: UIApplication.openSettingsURLString) {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
@@ -237,6 +285,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
     }
     
+    // checking internet reach connection
     func canReachGoogle() -> Bool
     {
         let url = URL(string: "https://8.8.8.8")
@@ -268,7 +317,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return URLSession(configuration: newConfiguration)
     }()
     
-    
+    // Update User details, OfferList and completed offer verification for every 10 sec
     private func startTimer() {
         let queue = DispatchQueue(label: "com.firm.app.timer", attributes: .concurrent)
         
@@ -292,8 +341,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                             global.AvaliableOffers = youroffers.filter({$0.status == "available"})
                             global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
                         //Ambver update
-                            global.AcceptedOffers = youroffers.filter({$0.status == "accepted" || $0.status == "paid" || $0.status == "denied"})
-                        global.OffersHistory = youroffers.filter({$0.status == "paid" || $0.status == "denied"})
+                            global.AcceptedOffers = youroffers.filter({$0.status == "accepted" || $0.status == "denied"})
+                        global.OffersHistory = youroffers.filter({$0.status == "paid"})
 
                             global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
                             global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
@@ -333,23 +382,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             
         }
         
-    
-
-        
         timer?.resume()
     }
     
+    // after close the app stop the timer
     private func stopTimer() {
         timer?.cancel()
         timer = nil
     }
     
+    // get user details From FIR
     func fetchUserDetails() {
         let usersRef = Database.database().reference().child("users").child(Yourself.id)
         usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let dictionary = snapshot.value as? [String: AnyObject] {
                 let userInstance = User(dictionary: dictionary )
                 Yourself = userInstance
+                print("Appdelegate gender = \(Yourself.gender)")
+
             }
         }, withCancel: nil)
     }
@@ -413,7 +463,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	}()
 
 	// MARK: - Core Data Saving support
-
 	func saveContext () {
 	    let context = persistentContainer.viewContext
 	    if context.hasChanges {

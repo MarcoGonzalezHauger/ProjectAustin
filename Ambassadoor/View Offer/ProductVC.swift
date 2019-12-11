@@ -11,6 +11,7 @@ import UIKit
 
 class ProductVC: UIViewController {
 
+    //Product Details UI's
 	@IBOutlet weak var productLabel: UILabel!
 	@IBOutlet weak var companyLabel: UILabel!
 	@IBOutlet weak var productImage: UIImageView!
@@ -21,6 +22,7 @@ class ProductVC: UIViewController {
 		UpdatePostInformation()
     }
 	
+    //Product Detail UI's values update here
 	func UpdatePostInformation() {
 		productLabel.text = thisProduct.name
 		if let logoUrl = thisProduct.image {
@@ -37,12 +39,14 @@ class ProductVC: UIViewController {
 		_ = navigationController?.popViewController(animated: true)
 	}
 	
+    //open product buy page 
 	@IBAction func buyButton(_ sender: Any) {
 		if let url = URL(string: thisProduct.buy_url) {
 			UIApplication.shared.open(url, options: [:])
 		}
 	}
 	
+    //open google for product name details search
 	@IBAction func GoogleIt(_ sender: Any) {
 		GoogleSearch(query: thisProduct.name)
 	}

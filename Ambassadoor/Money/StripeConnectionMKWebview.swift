@@ -57,25 +57,34 @@ class StripeConnectionMKWebview: UIViewController, WKNavigationDelegate {
     }
     
     
-     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping ((WKNavigationActionPolicy) -> Void)) {
-
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping ((WKNavigationActionPolicy) -> Void)) {
+        
+        
+        
+        
         print("webView:\(webView) decidePolicyForNavigationAction:\(navigationAction) decisionHandler:\(String(describing: decisionHandler))")
-
+        
+        print("navigation=",navigationAction.request.url!.absoluteString)
+        
         if let url = navigationAction.request.url {
-                print(url.absoluteString)
-                if url.absoluteString.hasPrefix("https://connect.stripe.com/connect/default_new/oauth/test?") || url.absoluteString.hasPrefix("https://connect.stripe.com/connect/default/oauth/test?"){
-                    print("SUCCESS")
-//                    self.dismiss(animated: true, completion: nil)
-                    
-                    if let range = url.absoluteString.range(of: "code=") {
-                        let code = url.absoluteString[range.upperBound...]
-                        print(code) // prints "123.456.7891"
-                        self.getAccountID(code: String(code))
-                    }
-
-             }
+            print(url.absoluteString)
+            /* Test
+             if url.absoluteString.hasPrefix("https://connect.stripe.com/connect/default_new/oauth/test?") || url.absoluteString.hasPrefix("https://connect.stripe.com/connect/default/oauth/test?"){
+             print("SUCCESS")
+             */
+            if url.absoluteString.hasPrefix("https://www.ambassadoor.co/paid?") || url.absoluteString.hasPrefix("https://www.ambassadoor.co/paid?code="){
+                print("SUCCESS")
+                //                    self.dismiss(animated: true, completion: nil)
+                
+                if let range = url.absoluteString.range(of: "code=") {
+                    let code = url.absoluteString[range.upperBound...]
+                    print(code) // prints "123.456.7891"
+                    self.getAccountID(code: String(code))
+                }
+                
+            }
         }
-
+        
         decisionHandler(.allow)
     }
 
@@ -107,28 +116,7 @@ class StripeConnectionMKWebview: UIViewController, WKNavigationDelegate {
         }
         
     }
-    
-//    func webView(_ webView: WKWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
-//        if let url = request.url {
-//
-//            if let urlComponents = URLComponents(string: url.absoluteString) {
-//                if let queryString = urlComponents.queryItems {
-//                    for query in queryString {
-//                        if query.name == "stripe_user_id" {
-//                            if let value = query.value {
-//
-//                                //If authentication to your Stripe Account was successful, the Stripe User ID will be returned as a query string in the variable 'value'.  You can then proceed to save it to your application’s database, to use at a later stage for any subsequent Stripe connection requests.
-//
-//                                print("Stripe User ID = \(value)")
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//        return true
-//    }
+
     
     
     @IBAction func cancel_Action(_ sender: Any) {

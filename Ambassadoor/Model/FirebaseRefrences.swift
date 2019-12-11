@@ -260,14 +260,8 @@ func CreateAccount(instagramUser: User, completion:@escaping (_ Results: User , 
             let userData = API.serializeUser(user: instagramUser, id: instagramUser.id)
             userReference.updateChildValues(userData)
             completion(instagramUser,true)
-//            return instagramUser
         } else {
-//            let userReference = ref.child(instagramUser.id)
-//            let userData = API.serializeUser(user: instagramUser, id: instagramUser.id)
-//            userReference.updateChildValues(userData)
             completion(instagramUser,false)
-//            return instagramUser
-
         }
     })
 
@@ -338,54 +332,6 @@ func fundTransferAccount(transferURL: String,accountID: String,Obj: DwollaCustom
     let ref = Database.database().reference().child("FundTransfer").child(Yourself.id).child(accountID)
     let fundTransfer: [String: Any] = ["accountID":accountID,"transferURL":transferURL,"currency":currency,"amount":amount,"name":Obj.name,"mask":Obj.mask,"customerURL":Obj.customerURL,"FS":Obj.customerFSURL,"firstname":Obj.firstName,"lastname":Obj.lastName,"date":date]
     ref.updateChildValues(fundTransfer)
-    
-//    var fundingSURL = [String]()
-//
-//    let getRef = Database.database().reference().child("FundTransfer").child(Yourself.id).child(accountID)
-//
-//    getRef.observeSingleEvent(of: .value, with: { (snapshot) in
-//
-//        if let value = snapshot.value as? NSDictionary{
-//
-//            if let fundingURL = value["transferURL"] as? [String] {
-//
-//                if fundingURL.count != 0 {
-//
-//                    fundingSURL.append(contentsOf: fundingURL)
-//                    fundingSURL.append(transferURL)
-//                    let ref = Database.database().reference().child("FundTransfer").child(Yourself.id).child(accountID)
-//                    let fundTransfer: [String: Any] = ["accountID":accountID,"transferURL":fundingSURL]
-//                    ref.updateChildValues(fundTransfer)
-//
-//                }else{
-//
-//                    let ref = Database.database().reference().child("FundTransfer").child(Yourself.id).child(accountID)
-//                    fundingSURL.append(transferURL)
-//                    let fundTransfer: [String: Any] = ["accountID":accountID,"transferURL":fundingSURL]
-//                    ref.updateChildValues(fundTransfer)
-//
-//                }
-//
-//            }
-//            //if
-//
-//        }else{
-//
-//            let ref = Database.database().reference().child("FundTransfer").child(Yourself.id).child(accountID)
-//            fundingSURL.append(transferURL)
-//            let fundTransfer: [String: Any] = ["accountID":accountID,"transferURL":fundingSURL]
-//            ref.updateChildValues(fundTransfer)
-//
-//        }
-//
-//    }) { (error) in
-//
-//        let ref = Database.database().reference().child("FundTransfer").child(Yourself.id).child(accountID)
-//        fundingSURL.append(transferURL)
-//        let fundTransfer: [String: Any] = ["accountID":accountID,"transferURL":fundingSURL]
-//        ref.updateChildValues(fundTransfer)
-//
-//    }
 
     
 }
@@ -411,13 +357,14 @@ func withdrawUpdate(amount: Double, fee: Double,from: String,to: String, id: Str
     
 }
 
+// added instagram post to FIR. after verified the offer post and instagram post
 func instagramPostUpdate(offerID:String, post:[String:Any]) {
     
     let ref = Database.database().reference().child("InfluencerInstagramPost").child(Yourself.id).child(offerID)
     ref.updateChildValues(post)
 
 }
-
+// update sentoutOffer to FIR
 func SentOutOffersUpdate(offer:Offer, post_ID:String) {
     
     let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(offer.offer_ID).child("posts")
@@ -488,6 +435,94 @@ func createStripeAccToFIR(AccDetail:[String:Any] ) {
     let prntRef  = Database.database().reference().child("users").child(Yourself.id)
     prntRef.updateChildValues(["isBankAdded":true])
     Yourself.isBankAdded = true
+}
+
+//Get influencer worked Companies
+
+func getInfluencerWorkedCompanies(influencer: User, completion: @escaping([Comapny]?,String,Error?)-> Void) {
+    
+    let ref = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id)
+    
+    var cmpObject = [Comapny]()
+    
+    ref.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let totalValues = snapshot.value as? NSDictionary{
+            
+            let allOfferKeys = totalValues.allKeys
+            
+            var companyPathArray = [String]()
+            
+            for offerKey in allOfferKeys {
+                
+                let offKey = offerKey as! String
+                
+                if offKey != "XXXDefault"{
+                    
+                    let offerValues = totalValues[offKey] as! [String: AnyObject]
+                    
+                    if let statusValue = offerValues["status"] as? String {
+                        if statusValue == "accepted" {
+                            
+                            if let ownerCompany = offerValues["ownerUserID"] as? String {
+                                
+                                if let companyID = offerValues["company"] as? String {
+                                    
+                                    let appendedCompanyPath = ownerCompany + "/" + companyID
+                                    companyPathArray.append(appendedCompanyPath)
+                                }
+                                
+                            }
+                            
+                        }
+                    }
+                    
+                }
+            }
+            
+            if companyPathArray.count != 0 {
+                
+                let serialQueue = DispatchQueue.init(label: "serialQueue")
+                
+                for (index,compayPath) in companyPathArray.enumerated() {
+                    
+                    let refCompany = Database.database().reference().child("companies").child(compayPath)
+                    
+                    serialQueue.async {
+                    
+                    refCompany.observeSingleEvent(of: .value) { (snap) in
+                        
+                        if let companyDetails = snap.value as? [String: AnyObject]{
+                            
+                            let cmyDetail = Comapny.init(dictionary: companyDetails)
+                            cmpObject.append(cmyDetail)
+                            
+                        }
+                        
+                        if index == companyPathArray.count - 1 {
+                            
+                            completion(cmpObject, "success", nil)
+                            
+                        }
+                        
+                    }
+                    
+                }
+                    
+                }
+                
+            }else{
+                completion(nil, "success", nil)
+            }
+            
+        }
+        
+    }) { (error) in
+        
+        completion(nil, "failure", error)
+        
+    }
+        
 }
 
 func getStripeAccDetails(completion: @escaping([StripeAccDetail]?,String,Error?) -> Void) {
@@ -602,8 +637,8 @@ func createDefaultOffer(userID:String, completion:@escaping (_ isdone:Bool) -> (
                 global.AvaliableOffers = youroffers.filter({$0.status == "available"})
                 global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
                 //Ambver update
-                global.AcceptedOffers = youroffers.filter({$0.status == "accepted" || $0.status == "paid" || $0.status == "denied"})
-                global.OffersHistory = youroffers.filter({$0.status == "paid" || $0.status == "denied"})
+                global.AcceptedOffers = youroffers.filter({$0.status == "accepted" || $0.status == "denied"})
+                global.OffersHistory = youroffers.filter({$0.status == "paid"})
                 global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
                 global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
                 

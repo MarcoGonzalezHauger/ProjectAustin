@@ -22,37 +22,6 @@ class TabBarVC: UITabBarController {
 
     }
     
-//    func versionUpdateValidation(){
-//        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-//
-//        let ref = Database.database().reference().child("LatestAppVersion").child("version")
-//        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-//
-//            let latestVersion = snapshot.value as! String
-//            if (latestVersion == appVersion) {
-//
-//            }else{
-//                let alertMessage = "A new version of Application is available,Please update to version " + latestVersion;
-//                let alert = UIAlertController(title: "New Version Available", message: alertMessage, preferredStyle: .alert)
-//
-//                let okBtn = UIAlertAction(title: "Update", style: .default, handler: {(_ action: UIAlertAction) -> Void in
-//                    if let url = URL(string: "itms-apps://itunes.apple.com/app"),
-//                        UIApplication.shared.canOpenURL(url){
-//                        if #available(iOS 10.0, *) {
-//                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-//                        } else {
-//                            UIApplication.shared.openURL(url)
-//                        }
-//                    }
-//                })
-//
-//                alert.addAction(okBtn)
-//                DispatchQueue.global().async {
-//                    self.present(alert, animated: true, completion: nil)
-//                }
-//            }
-//        })
-//    }
     
 
     /*

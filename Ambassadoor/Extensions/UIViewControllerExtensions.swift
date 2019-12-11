@@ -31,23 +31,6 @@ extension UIViewController {
     }
     
     
-//    func showProgressIndicator() {
-//        view.addSubview(ProgressIndicatorManager.shared.progressIndicator)
-//        ProgressIndicatorManager.shared.progressIndicator.center = view.center
-//        ProgressIndicatorManager.shared.startAnimating()
-//
-//        toggleUserInteraction(false)
-//    }
-//
-//
-//    func hideProgressIndicator() {
-//
-//        ProgressIndicatorManager.shared.progressIndicator.removeFromSuperview()
-//        ProgressIndicatorManager.shared.stopAnimating()
-//
-//        toggleUserInteraction(true)
-//    }
-    
     func toggleUserInteraction(_ enable: Bool) {
         if let activeView = navigationController?.view ?? view {
             activeView.isUserInteractionEnabled = enable

@@ -33,6 +33,7 @@ class SocialUserCell: UITableViewCell {
 		gradView.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "tiergrad")!)
 	}
 	
+    // show User Information here
 	var ThisUser: User? {
 		didSet {
 			if let thisUser = ThisUser {

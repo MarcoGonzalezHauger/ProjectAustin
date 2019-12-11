@@ -142,6 +142,7 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		//checks if the instagram app is avaliable, if it is it will open the app, if it isn't it will open the ambassador's account in safari.
 		
 		let user = ThisUser.username
+        // open user instagram page
 		let instaURL = URL(string: "instagram://user?username=\(user)")!
 		print(instaURL)
 		let sharedApps = UIApplication.shared
@@ -170,6 +171,17 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		swdView.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "Instagrad")!)
 		tierBubble.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "tiergrad")!)
 		ShowUser()
+        getInfluencerWorkedCompanies(influencer: Yourself) { (company, status, error) in
+            
+            if status == "success"{
+                
+                if company?.count != 0 {
+                
+                    global.influencerWrkCompany = company!
+                    
+                }
+            }
+        }
     }
 
 }

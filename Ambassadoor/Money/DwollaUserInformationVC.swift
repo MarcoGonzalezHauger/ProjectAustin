@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 
+// this class currenty not used
 class DwollaUserInformationVC: UIViewController ,UITextFieldDelegate {
     
     @IBOutlet weak var firstName: UITextField!

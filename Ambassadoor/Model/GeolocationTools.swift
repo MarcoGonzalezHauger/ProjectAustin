@@ -9,6 +9,7 @@
 import Foundation
 import Firebase
 
+// Structure for zipcode data
 struct ZipCodeData {
 	let zipCode: String
 	let geo_latitude: Double
@@ -28,6 +29,7 @@ struct ZipCodeData {
 		state = dictionary["state"] as! String
 	}
 }
+// convert ZipCodeData class object to JSON value. this func we need to store userdefault value
 func serializeZipcodeData(zipCodeData: ZipCodeData) -> [String: AnyObject] {
     
     let finalSerialize = ["zip_code":zipCodeData.zipCode as String,
@@ -38,6 +40,7 @@ func serializeZipcodeData(zipCodeData: ZipCodeData) -> [String: AnyObject] {
     
     return finalSerialize
 }
+// convert zipCodeRadius class object to JSON value. this func we need to store userdefault value
 func serializeRadiusData(zipCodeRadius: zipCodeRadius) -> [String:AnyObject] {
     
     let finalSerialize = ["zipCode":zipCodeRadius.zipCode as String,
@@ -86,7 +89,7 @@ func GetSocialZipDistances() -> [String: Double] {
 	return [Yourself.zipCode ?? "0": 0]
 }
 
-//Uses zip code API to get all zip codes in a certain radius.
+//Uses zip code API to get all zip codes in a certain radius. before API call we are checking userdefault values for same zipCoderadius value
 func GetAllZipCodesInRadius(zipCode: String, radiusInMiles: Int, completed:((_ zipCodeDistances: [String: Double]?, _ zipCode: String, _ radiusInMiles: Int) -> () )?) {
 
 	
@@ -94,6 +97,7 @@ func GetAllZipCodesInRadius(zipCode: String, radiusInMiles: Int, completed:((_ z
 		return
 	}
     
+    // check local cache values here
     if let radiusDataArray = UserDefaults.standard.object(forKey: "searchradius") as? NSData {
     
         do {
@@ -148,7 +152,7 @@ func GetAllZipCodesInRadius(zipCode: String, radiusInMiles: Int, completed:((_ z
 							}
 						}
                         
-                        
+                        // check local cache values here
                         if let radiusDataArray = UserDefaults.standard.object(forKey: "searchradius") as? NSData {
                         do {
                             let radiusDataArray1 = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self], from : radiusDataArray as Data)
@@ -159,12 +163,13 @@ func GetAllZipCodesInRadius(zipCode: String, radiusInMiles: Int, completed:((_ z
                             }
                             zipCodeRadiusDic.append(zipCodeRadius(zipCode: zipCode, radius: radiusInMiles, results: distances))
                             
-                            //stored cach
+                            
                             var finalData:[[String:AnyObject]] = [[String:AnyObject]]()
                             for data in zipCodeRadiusDic {
                                 finalData.append(serializeRadiusData(zipCodeRadius: data))
                             }
 
+                            // store local cache values here
                             let placesData = try NSKeyedArchiver.archivedData(withRootObject: finalData as NSArray, requiringSecureCoding: false)
                             UserDefaults.standard.set(placesData, forKey: "searchradius")
                                 
@@ -178,12 +183,13 @@ func GetAllZipCodesInRadius(zipCode: String, radiusInMiles: Int, completed:((_ z
                         }else{
                             zipCodeRadiusDic.append(zipCodeRadius(zipCode: zipCode, radius: radiusInMiles, results: distances))
 
-                            //stored cach
+                            
                             var finalData:[[String:AnyObject]] = [[String:AnyObject]]()
                             for data in zipCodeRadiusDic {
                                 finalData.append(serializeRadiusData(zipCodeRadius: data))
                             }
 
+                            // store local cache values here
                             let placesData = try NSKeyedArchiver.archivedData(withRootObject: finalData, requiringSecureCoding: false)
                             UserDefaults.standard.set(placesData, forKey: "searchradius")
                                 
@@ -205,8 +211,10 @@ func GetAllZipCodesInRadius(zipCode: String, radiusInMiles: Int, completed:((_ z
 	//
 }
 
+// before API call we are checking userdefault values for same zipCode value
 func GetTownName(zipCode: String, completed: @escaping (_ zipCodeInfo: ZipCodeData?, _ zipCode: String) -> () ) {
     
+    // check local cache values here
     if let placesDataArray = UserDefaults.standard.object(forKey: "searchplaces") as? NSData {
     
     do {
@@ -249,11 +257,13 @@ func GetTownName(zipCode: String, completed: @escaping (_ zipCodeInfo: ZipCodeDa
 //						DispatchQueue.main.async {
 							if let cityState = cityState {
                             zipCodeDic[zipCode] = cityState
+                                // check local cache values here
                                 if let placesDataArray = UserDefaults.standard.object(forKey: "searchplaces") as? NSData {
                                 do {
                                     let placesArray1 = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self], from : placesDataArray as Data)
                                     var storedData = placesArray1 as! [String : [String:AnyObject]]
                                     storedData[zipCode] = serializeZipcodeData(zipCodeData: zipCodeDic[zipCode]!)
+                                    // store local cache values here
                                     let placesData = try NSKeyedArchiver.archivedData(withRootObject: storedData, requiringSecureCoding: false)
                                     UserDefaults.standard.set(placesData, forKey: "searchplaces")
                                         
@@ -265,6 +275,7 @@ func GetTownName(zipCode: String, completed: @escaping (_ zipCodeInfo: ZipCodeDa
                                     print("Couldn't write file")
                                 }
                                 }else{
+                                    // store local cache values here
                                     let storedData = [zipCode:serializeZipcodeData(zipCodeData: zipCodeDic[zipCode]!)] as [String:[String:AnyObject]]
                                     let placesData = try NSKeyedArchiver.archivedData(withRootObject: storedData, requiringSecureCoding: false)
                                     UserDefaults.standard.set(placesData, forKey: "searchplaces")

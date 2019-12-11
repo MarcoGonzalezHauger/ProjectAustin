@@ -33,7 +33,7 @@ class CentralVariables {
     
 	//The offers that are currently in the users inbox.
 	var AvaliableOffers: [Offer] = [] { didSet {
-        //naveen commented
+        
 //		UIApplication.shared.applicationIconBadgeNumber = AvaliableOffers.count
 		AvaliableOffers = AvaliableOffers.sorted{ (Offer1, Offer2) -> Bool in
 			return (Offer1.money / Double(Offer1.posts.count)) > (Offer2.money / Double(Offer2.posts.count))	}
@@ -63,8 +63,10 @@ class CentralVariables {
 	}	
 	var delegates: [GlobalListener] = []
     
-    
+    var deviceFIRToken = ""
     var dwollaCustomerInformation = DwollaCustomerInformation()
+    //Influencer worked Companies
+    var influencerWrkCompany = [Comapny]()
 }
 
 let global = CentralVariables()
