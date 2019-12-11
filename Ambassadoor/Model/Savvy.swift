@@ -453,6 +453,8 @@ func CheckForCompletedOffers(completion: (() -> Void)?) {
 											global.AcceptedOffers[OfferIndex].posts[PostIndex].confirmedSince = Date()
                                             postVal["status"] = "posted"
                                             instagramPostUpdate(offerID: global.AcceptedOffers[OfferIndex].offer_ID, post: [global.AcceptedOffers[OfferIndex].posts[PostIndex].post_ID:postVal])
+                                            let pushParam = ["offer":global.AcceptedOffers[OfferIndex].title,"token":Yourself.tokenFIR,"user":Yourself.username] as [String : AnyObject]
+                                            sendPushNotification(params: pushParam)
 											SentOutOffersUpdate(offer: global.AcceptedOffers[OfferIndex], post_ID: global.AcceptedOffers[OfferIndex].posts[PostIndex].post_ID)
 										}
 									}
@@ -464,6 +466,33 @@ func CheckForCompletedOffers(completion: (() -> Void)?) {
 			}
 		}
 	}
+}
+
+func sendPushNotification(params: [String: AnyObject]){
+    
+    let urlString = "https://us-central1-amassadoor.cloudfunctions.net/" + "sendNotificationToInstagramDetected"
+    
+    let url = URL(string: urlString)!
+    
+    let session = URLSession.shared
+    var request = URLRequest(url: url)
+    request.httpMethod = "Post"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringCacheData
+    
+    do {
+        request.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+    } catch let error {
+        print(error.localizedDescription)
+    }
+    
+    let task = session.dataTask(with: request) { (data, response, error) in
+        
+        let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+        print("result=",dataString!)
+        
+    }
+    task.resume()
 }
 
 func ResortLocation() {

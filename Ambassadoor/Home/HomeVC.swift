@@ -281,6 +281,11 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
                             self.performSegue(withIdentifier: "showSignUpVC", sender: self)
                         }
 					} else {
+                        
+                        let userTokenUpdateref = Database.database().reference().child("users").child(UserDefaults.standard.object(forKey: "userid") as! String)
+                        
+                        userTokenUpdateref.updateChildValues(["tokenFIR":global.deviceFIRToken])
+                        
 						self.GetUser {
 							if let zip = Yourself.zipCode {
 								

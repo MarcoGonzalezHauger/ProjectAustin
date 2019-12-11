@@ -437,6 +437,94 @@ func createStripeAccToFIR(AccDetail:[String:Any] ) {
     Yourself.isBankAdded = true
 }
 
+//Get influencer worked Companies
+
+func getInfluencerWorkedCompanies(influencer: User, completion: @escaping([Comapny]?,String,Error?)-> Void) {
+    
+    let ref = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id)
+    
+    var cmpObject = [Comapny]()
+    
+    ref.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let totalValues = snapshot.value as? NSDictionary{
+            
+            let allOfferKeys = totalValues.allKeys
+            
+            var companyPathArray = [String]()
+            
+            for offerKey in allOfferKeys {
+                
+                let offKey = offerKey as! String
+                
+                if offKey != "XXXDefault"{
+                    
+                    let offerValues = totalValues[offKey] as! [String: AnyObject]
+                    
+                    if let statusValue = offerValues["status"] as? String {
+                        if statusValue == "accepted" {
+                            
+                            if let ownerCompany = offerValues["ownerUserID"] as? String {
+                                
+                                if let companyID = offerValues["company"] as? String {
+                                    
+                                    let appendedCompanyPath = ownerCompany + "/" + companyID
+                                    companyPathArray.append(appendedCompanyPath)
+                                }
+                                
+                            }
+                            
+                        }
+                    }
+                    
+                }
+            }
+            
+            if companyPathArray.count != 0 {
+                
+                let serialQueue = DispatchQueue.init(label: "serialQueue")
+                
+                for (index,compayPath) in companyPathArray.enumerated() {
+                    
+                    let refCompany = Database.database().reference().child("companies").child(compayPath)
+                    
+                    serialQueue.async {
+                    
+                    refCompany.observeSingleEvent(of: .value) { (snap) in
+                        
+                        if let companyDetails = snap.value as? [String: AnyObject]{
+                            
+                            let cmyDetail = Comapny.init(dictionary: companyDetails)
+                            cmpObject.append(cmyDetail)
+                            
+                        }
+                        
+                        if index == companyPathArray.count - 1 {
+                            
+                            completion(cmpObject, "success", nil)
+                            
+                        }
+                        
+                    }
+                    
+                }
+                    
+                }
+                
+            }else{
+                completion(nil, "success", nil)
+            }
+            
+        }
+        
+    }) { (error) in
+        
+        completion(nil, "failure", error)
+        
+    }
+        
+}
+
 func getStripeAccDetails(completion: @escaping([StripeAccDetail]?,String,Error?) -> Void) {
     
     let ref = Database.database().reference().child("InfluencerStripeAccount").child(Yourself.id).child("AccountDetail")

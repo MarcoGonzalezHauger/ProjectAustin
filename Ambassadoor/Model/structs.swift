@@ -151,6 +151,25 @@ class User: NSObject {
 	}
 }
 
+class Comapny: NSObject {
+    var accountBalance: Double?
+    var account_ID: String?
+    var logo: String?
+    var name: String?
+    var owner: String?
+    var referralcode: String?
+    var website: String?
+    init(dictionary: [String: Any]) {
+        self.accountBalance = dictionary["accountBalance"] as? Double ?? 0
+        self.account_ID = dictionary["account_ID"] as? String ?? ""
+        self.logo = dictionary["logo"] as? String ?? ""
+        self.name = dictionary["name"] as? String ?? ""
+        self.owner = dictionary["owner"] as? String ?? ""
+        self.referralcode = dictionary["referralcode"] as? String ?? ""
+        self.website = dictionary["website"] as? String ?? ""
+    }
+}
+
 // Structure for Bank information
 class Bank: NSObject {
     let publicToken: String
