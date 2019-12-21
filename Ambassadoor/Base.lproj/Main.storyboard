@@ -5016,73 +5016,6 @@
                                     <action selector="Dismissed:" destination="1Cj-Yj-zpS" eventType="touchUpInside" id="XeN-YP-BgV"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3L1-Ht-rtV" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="15" y="144" width="384" height="456"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$20.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kCV-cb-j7I">
-                                        <rect key="frame" x="119" y="156" width="146" height="48"/>
-                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="40"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Money" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h5g-FN-Dny">
-                                        <rect key="frame" x="115.66666666666666" y="112" width="152.99999999999997" height="36"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter Your Withdraw Amount :" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZjV-J8-3nh">
-                                        <rect key="frame" x="38" y="234" width="308" height="21"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="21" id="PIE-yK-uS3"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="0" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ig3-bG-1gG">
-                                        <rect key="frame" x="95" y="272" width="194" height="34"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="34" id="Btr-c5-pxX"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                                    </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m25-9v-ecx">
-                                        <rect key="frame" x="95" y="328" width="194" height="120"/>
-                                        <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
-                                        <state key="normal" title="Submit">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="5"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="submit_Action:" destination="1Cj-Yj-zpS" eventType="touchUpInside" id="zK1-kc-UUl"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="m25-9v-ecx" secondAttribute="trailing" constant="95" id="0W5-yZ-Vvj"/>
-                                    <constraint firstAttribute="bottom" secondItem="m25-9v-ecx" secondAttribute="bottom" constant="8" id="57n-6r-Z1E"/>
-                                    <constraint firstItem="ZjV-J8-3nh" firstAttribute="top" secondItem="kCV-cb-j7I" secondAttribute="bottom" constant="30" id="7eT-aX-VRn"/>
-                                    <constraint firstItem="m25-9v-ecx" firstAttribute="leading" secondItem="3L1-Ht-rtV" secondAttribute="leading" constant="95" id="7vb-JX-7Nd"/>
-                                    <constraint firstItem="kCV-cb-j7I" firstAttribute="top" secondItem="h5g-FN-Dny" secondAttribute="bottom" constant="8" id="9gI-I8-DJP"/>
-                                    <constraint firstAttribute="trailing" secondItem="ZjV-J8-3nh" secondAttribute="trailing" constant="38" id="KWl-D2-Oaz"/>
-                                    <constraint firstItem="h5g-FN-Dny" firstAttribute="centerX" secondItem="kCV-cb-j7I" secondAttribute="centerX" id="MQA-43-cim"/>
-                                    <constraint firstAttribute="trailing" secondItem="Ig3-bG-1gG" secondAttribute="trailing" constant="95" id="N7G-lL-9oN"/>
-                                    <constraint firstItem="m25-9v-ecx" firstAttribute="top" secondItem="Ig3-bG-1gG" secondAttribute="bottom" constant="22" id="UjX-Cy-0NY"/>
-                                    <constraint firstItem="kCV-cb-j7I" firstAttribute="centerX" secondItem="3L1-Ht-rtV" secondAttribute="centerX" id="Z7S-Fd-b2S"/>
-                                    <constraint firstItem="ZjV-J8-3nh" firstAttribute="leading" secondItem="3L1-Ht-rtV" secondAttribute="leading" constant="38" id="c8M-wT-GOv"/>
-                                    <constraint firstItem="Ig3-bG-1gG" firstAttribute="top" secondItem="ZjV-J8-3nh" secondAttribute="bottom" constant="17" id="d8a-tK-5NG"/>
-                                    <constraint firstItem="Ig3-bG-1gG" firstAttribute="leading" secondItem="3L1-Ht-rtV" secondAttribute="leading" constant="95" id="dOB-jo-Q44"/>
-                                    <constraint firstItem="kCV-cb-j7I" firstAttribute="centerY" secondItem="3L1-Ht-rtV" secondAttribute="centerY" constant="-48" id="ltb-x0-sZa"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FsZ-lC-CGl">
                                 <rect key="frame" x="27" y="133" width="360" height="550"/>
                                 <subviews>
@@ -5180,6 +5113,88 @@ from Ambassadoor</string>
                                     <constraint firstItem="hCF-jO-Jvi" firstAttribute="top" secondItem="7lg-NE-o9S" secondAttribute="bottom" constant="25" id="yH6-cX-CnH"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3L1-Ht-rtV" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                <rect key="frame" x="15" y="144" width="384" height="752"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$20.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kCV-cb-j7I">
+                                        <rect key="frame" x="119" y="76" width="146" height="48"/>
+                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="40"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Withdraw" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h5g-FN-Dny">
+                                        <rect key="frame" x="130" y="40" width="124.33333333333331" height="36"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kN7-yZ-uQT" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                        <rect key="frame" x="92" y="224" width="200" height="75"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m25-9v-ecx">
+                                                <rect key="frame" x="0.0" y="0.0" width="200" height="75"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="75" id="U2t-W9-dBi"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                                                <state key="normal" title="Get Paid">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="5"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="submit_Action:" destination="1Cj-Yj-zpS" eventType="touchUpInside" id="zK1-kc-UUl"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" name="AmbassadoorOrange"/>
+                                        <constraints>
+                                            <constraint firstItem="m25-9v-ecx" firstAttribute="leading" secondItem="kN7-yZ-uQT" secondAttribute="leading" id="2Fd-bY-BVc"/>
+                                            <constraint firstAttribute="trailing" secondItem="m25-9v-ecx" secondAttribute="trailing" id="8fC-B9-yFo"/>
+                                            <constraint firstAttribute="trailing" secondItem="m25-9v-ecx" secondAttribute="trailing" id="CYK-Wr-TqC"/>
+                                            <constraint firstItem="m25-9v-ecx" firstAttribute="leading" secondItem="kN7-yZ-uQT" secondAttribute="leading" id="FRF-Tg-13f"/>
+                                            <constraint firstAttribute="height" constant="75" id="OLb-PS-IoV"/>
+                                            <constraint firstItem="m25-9v-ecx" firstAttribute="top" secondItem="kN7-yZ-uQT" secondAttribute="top" id="aWU-EH-MkQ"/>
+                                            <constraint firstAttribute="width" constant="200" id="nRY-6p-fbW"/>
+                                            <constraint firstAttribute="bottom" secondItem="m25-9v-ecx" secondAttribute="bottom" id="qPo-GN-hhB"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="ShadowColor">
+                                                <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                                <real key="value" value="0.20000000000000001"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We will take $5." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Cb-Rc-zuK">
+                                        <rect key="frame" x="132" y="125" width="120" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstItem="kN7-yZ-uQT" firstAttribute="top" secondItem="6Cb-Rc-zuK" secondAttribute="bottom" constant="78" id="0Fv-WB-oFn"/>
+                                    <constraint firstItem="h5g-FN-Dny" firstAttribute="top" secondItem="3L1-Ht-rtV" secondAttribute="top" constant="40" id="0jX-iy-nQX"/>
+                                    <constraint firstItem="6Cb-Rc-zuK" firstAttribute="centerX" secondItem="3L1-Ht-rtV" secondAttribute="centerX" id="7a7-uY-zKh"/>
+                                    <constraint firstItem="kCV-cb-j7I" firstAttribute="top" secondItem="h5g-FN-Dny" secondAttribute="bottom" id="9gI-I8-DJP"/>
+                                    <constraint firstItem="kN7-yZ-uQT" firstAttribute="centerX" secondItem="3L1-Ht-rtV" secondAttribute="centerX" id="Hfs-xe-Aca"/>
+                                    <constraint firstItem="6Cb-Rc-zuK" firstAttribute="top" secondItem="kCV-cb-j7I" secondAttribute="bottom" constant="1" id="HuP-ib-goo"/>
+                                    <constraint firstItem="h5g-FN-Dny" firstAttribute="centerX" secondItem="kCV-cb-j7I" secondAttribute="centerX" id="MQA-43-cim"/>
+                                    <constraint firstItem="kCV-cb-j7I" firstAttribute="centerX" secondItem="3L1-Ht-rtV" secondAttribute="centerX" id="Z7S-Fd-b2S"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -5189,16 +5204,16 @@ from Ambassadoor</string>
                             <constraint firstItem="3L1-Ht-rtV" firstAttribute="top" secondItem="KDK-qq-oFG" secondAttribute="top" constant="144" id="T4n-sB-omH"/>
                             <constraint firstItem="APX-qd-PdE" firstAttribute="top" secondItem="KDK-qq-oFG" secondAttribute="top" constant="21" id="ZJh-Ta-oum"/>
                             <constraint firstItem="FsZ-lC-CGl" firstAttribute="centerX" secondItem="KDK-qq-oFG" secondAttribute="centerX" id="g63-cN-Lfy"/>
-                            <constraint firstAttribute="bottom" secondItem="3L1-Ht-rtV" secondAttribute="bottom" constant="296" id="go8-Py-dpn"/>
+                            <constraint firstAttribute="bottom" secondItem="3L1-Ht-rtV" secondAttribute="bottom" id="go8-Py-dpn"/>
                             <constraint firstItem="3L1-Ht-rtV" firstAttribute="leading" secondItem="KDK-qq-oFG" secondAttribute="leading" constant="15" id="rQk-P9-8l7"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Zcr-cc-T8a"/>
                     </view>
                     <connections>
                         <outlet property="cancel_btn" destination="APX-qd-PdE" id="0QC-71-n6o"/>
+                        <outlet property="feeAmount_lbl" destination="6Cb-Rc-zuK" id="ksW-Fq-Qs4"/>
                         <outlet property="moneyAmountLabel" destination="7lg-NE-o9S" id="YeP-lT-FtY"/>
                         <outlet property="paymentSuccessView" destination="FsZ-lC-CGl" id="eBe-5h-TcA"/>
-                        <outlet property="withdra_txt" destination="Ig3-bG-1gG" id="KEh-Km-AFB"/>
                         <outlet property="withdrawView" destination="3L1-Ht-rtV" id="Qby-hi-HCn"/>
                         <outlet property="yourMoney_lbl" destination="kCV-cb-j7I" id="xXB-PF-x8j"/>
                     </connections>
