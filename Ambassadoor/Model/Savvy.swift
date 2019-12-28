@@ -487,9 +487,10 @@ func sendPushNotification(params: [String: AnyObject]){
     }
     
     let task = session.dataTask(with: request) { (data, response, error) in
-        
+        if error != nil {
         let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
         print("result=",dataString!)
+        }
         
     }
     task.resume()
