@@ -24,7 +24,7 @@ class ShadowView: UIView {
         DrawShadows()
     }
     override var bounds: CGRect { didSet { DrawShadows() } }
-    @IBInspectable var cornerRadius: Float = 10 {    didSet { DrawShadows() } }
+    @IBInspectable var cornerRadius: Float = 10 { didSet { DrawShadows() } }
     @IBInspectable var ShadowOpacity: Float = 0.2 { didSet { DrawShadows() } }
     @IBInspectable var ShadowRadius: Float = 1.75 { didSet { DrawShadows() } }
     @IBInspectable var ShadowColor: UIColor = UIColor.black { didSet { DrawShadows() } }

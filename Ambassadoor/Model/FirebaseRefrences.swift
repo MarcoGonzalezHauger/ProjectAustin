@@ -190,7 +190,7 @@ func CreateAccount(instagramUser: User, completion:@escaping (_ Results: User , 
     ref.observeSingleEvent(of: .value, with: { (snapshot) in
         //print(snapshot.childrenCount)
         for case let user as DataSnapshot in snapshot.children {
-            if (user.childSnapshot(forPath: "username").value as! String == instagramUser.username) {
+            if (user.childSnapshot(forPath: "username").value as? String == instagramUser.username) {
                 alreadyRegistered = true
                 if let dictionary = user.value as? [String: AnyObject] {
                     instagramUser.gender = TextToGender(gender: dictionary["gender"] as! String)
