@@ -124,7 +124,7 @@ class ClassPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 				}
 			}
 			if isSelected == false {
-				cell.detailLabel.textColor = UIColor.label
+				cell.detailLabel.textColor = GetForeColor()
 				if cat.count < 3 {
 					cell.detailLabel.text = ""
 				} else {

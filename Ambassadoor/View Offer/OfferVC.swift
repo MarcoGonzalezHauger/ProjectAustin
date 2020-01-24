@@ -100,7 +100,7 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 		let cell : PreviewPostCell = shelf.dequeueReusableCell(withIdentifier: "PostPreviewCell") as! PreviewPostCell
 		
 		//Set label for cell to type of post (Function from Savvy.swift)
-		cell.PostTypeLabel.text = PostTypeToText(posttype: ThisOffer.posts[indexPath.row].PostType)
+		cell.PostTypeLabel.text = "Post \(indexPath.row + 1)"
 		
 		//Making sure the check mark only appears if the offer is accepted, and later shows different checks depedning on if it's set or not.
 		if ThisOffer.isAccepted == false {
@@ -120,6 +120,7 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 	}
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         posttosend = ThisOffer.posts[indexPath.row]
+		selectedIndex =	indexPath.row + 1
         performSegue(withIdentifier: "toPost", sender: self)
         tableView.selectRow(at: nil, animated: true, scrollPosition: .none)
     }

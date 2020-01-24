@@ -38,7 +38,7 @@ class PaymentSentVC: UIViewController {
         self.cancel_btn.isHidden = false
 		let fee: Double = Double(GetFeeFromFollowerCount(FollowerCount: Yourself.followerCount) ?? 0)
 		MoneyAmount = Yourself!.yourMoney - fee
-		feeAmount_lbl.text = "We will take \(NumberToPrice(Value: fee))."
+		feeAmount_lbl.text = "Ambassadoor will take \(NumberToPrice(Value: fee))."
 
         print("yourMony=\(Yourself!.yourMoney)")
 	}

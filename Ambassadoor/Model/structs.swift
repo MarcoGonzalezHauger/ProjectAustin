@@ -300,7 +300,6 @@ class TransactionInfo: NSObject {
 struct Post {
 	let image: String?
 	let instructions: String
-	let captionMustInclude: String?
 	let products: [Product]?
 	let post_ID: String
 	let PostType: TypeofPost
@@ -308,6 +307,8 @@ struct Post {
 	var isConfirmed: Bool
     var denyMessage: String?
     var status: String?
+	var hashtags: [String]
+	var keywords: [String]
 }
 
 //struct for product

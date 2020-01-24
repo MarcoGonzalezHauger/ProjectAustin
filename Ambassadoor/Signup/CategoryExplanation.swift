@@ -17,7 +17,6 @@ class CategoryExplanation: UIViewController {
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
-		self.okayButton.isEnabled = false
 		sliderWidth.constant = 0
     }
     
@@ -31,7 +30,6 @@ class CategoryExplanation: UIViewController {
 			 self.view.layoutIfNeeded()
 		})
 		DispatchQueue.main.asyncAfter(deadline: .now() + 4.8) {
-			self.okayButton.isEnabled = true
 			self.okayButton.setTitle("OKAY", for: .normal)
 		}
 	}

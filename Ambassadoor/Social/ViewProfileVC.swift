@@ -62,7 +62,7 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		if blackIcons.contains(ThisUser.username) {
 			infLogo.image = UIImage.init(named: "verified_black")
 			infLabel.text = "Ambassadoor Executive"
-			infLabel.textColor = .label
+			infLabel.textColor = GetForeColor()
 		} else {
 			verifiedView.isHidden = !ThisUser.isDefaultOfferVerify
 		}

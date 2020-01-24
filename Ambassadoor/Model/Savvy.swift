@@ -235,7 +235,7 @@ func OfferFromID(id: String, completion:@escaping(_ offer:Offer?)->()) {
 									post["products"] = productfinal as AnyObject
 								}
 								
-								postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: post["captionMustInclude"] as? String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool,denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? ""))
+								postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool,denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? []))
 							}
 							offerDictionary!["posts"] = postfinal as AnyObject
 							let userInstanceOffer = Offer(dictionary: offerDictionary!)
@@ -442,12 +442,26 @@ func CheckForCompletedOffers(completion: (() -> Void)?) {
 									print("On Post")
 									if !global.AcceptedOffers[OfferIndex].posts[PostIndex].isConfirmed{
 										print("Isn't Confirmed.")
-										let postCaption = global.AcceptedOffers[OfferIndex].posts[PostIndex].captionMustInclude!
-										print("CAPTION: " + global.AcceptedOffers[OfferIndex].posts[PostIndex].captionMustInclude!)
+										let hashtags = global.AcceptedOffers[OfferIndex].posts[PostIndex].hashtags
+										let phrases = global.AcceptedOffers[OfferIndex].posts[PostIndex].keywords
 										print("POST CAPTION: " + instacaption)
 										//                                        postCaption.append("#ad.")
 										//                                        postCaption.append(post.captionMustInclude!)
-										if instacaption.lowercased().contains(postCaption.lowercased()) {
+										
+										var isGood = true
+										for h in hashtags {
+											if !instacaption.contains("#\(h)") {
+												isGood = false
+											}
+										}
+										
+										for p in phrases {
+											if !instacaption.contains(p) {
+												isGood = false
+											}
+										}
+										
+										if isGood {
 											print("Good Caption")
 											global.AcceptedOffers[OfferIndex].posts[PostIndex].isConfirmed = true
 											global.AcceptedOffers[OfferIndex].posts[PostIndex].confirmedSince = Date()

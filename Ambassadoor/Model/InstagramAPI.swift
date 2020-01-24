@@ -284,7 +284,8 @@ struct API {
         var posts: [[String: Any]] = [[String: Any]]()
         let post: [String:Any] = [
             "PostType":"Single Post",
-            "captionMustInclude":"#Ambassadoor",
+            "hashtags": ["Ambassadoor"],
+			"keywords": [],
             "confirmedSince":"",
             "hashCaption":"",
             "image":"",

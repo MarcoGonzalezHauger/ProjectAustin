@@ -92,7 +92,7 @@ class socialPageVC: UIPageViewController, UIPageViewControllerDataSource, UIPage
         }
 		
 		let bgView = UIView(frame: UIScreen.main.bounds)
-		bgView.backgroundColor = UIColor.systemBackground
+		bgView.backgroundColor = GetBackColor()
 		view.insertSubview(bgView, at: 0)
 	}
 	
