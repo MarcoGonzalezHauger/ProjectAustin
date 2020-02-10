@@ -50,7 +50,7 @@ class Offer : NSObject {
     
     var status: String
 	let money: Double
-	let company: Company
+	let company: Company?
 	var posts: [Post]
 	let offerdate: Date
 	let offer_ID: String
@@ -72,7 +72,7 @@ class Offer : NSObject {
 		return self.expiredate.timeIntervalSinceNow <= 0
 	}
 	var debugInfo: String {
-		return "Offer by \(company.name) for $\(String(money)) that is \(isExpired ? "" : "not ") expired."
+		return "Offer by \(company?.name) for $\(String(money)) that is \(isExpired ? "" : "not ") expired."
 	}
     var ownerUserID: String
     var title: String
@@ -80,7 +80,7 @@ class Offer : NSObject {
         
         self.status = dictionary["status"] as! String
         self.money = dictionary["money"] as! Double
-        self.company = dictionary["company"] as! Company
+        self.company = dictionary["company"] as? Company
         self.posts = dictionary["posts"] as! [Post]
         self.offerdate = getDateFromString(date: dictionary["offerdate"] as! String)
         self.offer_ID = dictionary["offer_ID"] as! String
@@ -308,6 +308,8 @@ struct Post {
 	var isConfirmed: Bool
     var denyMessage: String?
     var status: String?
+    var keywords: [String]?
+    var hashtags: [String]?
 }
 
 //struct for product

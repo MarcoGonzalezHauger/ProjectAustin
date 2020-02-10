@@ -224,7 +224,8 @@ class OfferCell: UITableViewCell, SyncTimerDelegate {
 				companylabel.text = "Ambassadoor"
             }else{
                 moneylabel.text = NumberToPrice(Value: ThisOffer.money)
-				companylabel.text = ThisOffer.company.name
+				//companylabel.text = ThisOffer.company?.name ?? ""
+                companylabel.text = ThisOffer.title
             }
 			
 			if ThisOffer.isAccepted {

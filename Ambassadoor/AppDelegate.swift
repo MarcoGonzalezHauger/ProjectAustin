@@ -108,12 +108,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let content = UNMutableNotificationContent()
         content.title = NSString.localizedUserNotificationString(forKey:
             "Offer Will Expire in 1h", arguments: nil)
-        content.body = NSString.localizedUserNotificationString(forKey: "An offer by \(expiringOffer.company.name) for \(NumberToPrice(Value: expiringOffer.money)) is about to expire.", arguments: nil)
+        content.body = NSString.localizedUserNotificationString(forKey: "An offer by \(expiringOffer.company?.name ?? nil) for \(NumberToPrice(Value: expiringOffer.money)) is about to expire.", arguments: nil)
         content.categoryIdentifier = "\(expiringOffer.offer_ID)"
         content.sound = UNNotificationSound.default
         content.badge = 1
         
-        downloadImage(expiringOffer.company.logo ?? "") { (logo) in
+        downloadImage(expiringOffer.company?.logo ?? "") { (logo) in
             if let logo = logo {
                 if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
                     content.attachments = [attachment]
@@ -141,8 +141,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let content = UNMutableNotificationContent()
         content.title = "Offer Accepted"
         content.badge = 1
-        content.body = "An offer by \(accepteddOffer.company.name) for \(NumberToPrice(Value: accepteddOffer.money)) is Accepted."
-        downloadImage(accepteddOffer.company.logo ?? "") { (logo) in
+        content.body = "An offer by \(accepteddOffer.company?.name) for \(NumberToPrice(Value: accepteddOffer.money)) is Accepted."
+        downloadImage(accepteddOffer.company?.logo ?? "") { (logo) in
             if let logo = logo {
                 if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
                     content.attachments = [attachment]
@@ -159,8 +159,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		let content = UNMutableNotificationContent()
 		content.title = "New Offer"
         content.badge = 1
-		content.body = "\(newOffer.company.name) will pay you \(NumberToPrice(Value: newOffer.money)) for \(newOffer.posts.count) posts."
-		downloadImage(newOffer.company.logo ?? "") { (logo) in
+		content.body = "\(newOffer.company?.name) will pay you \(NumberToPrice(Value: newOffer.money)) for \(newOffer.posts.count) posts."
+		downloadImage(newOffer.company?.logo ?? "") { (logo) in
 			if let logo = logo {
 				if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
 					content.attachments = [attachment]

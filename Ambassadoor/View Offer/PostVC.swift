@@ -98,9 +98,57 @@ class ViewPostVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 		postLabel.text = PostTypeToText(posttype: ThisPost.PostType)
 		rulesText.text = ThisPost.instructions
 		
-		if let caption = ThisPost.captionMustInclude {
-			captionText.text = "\(caption) and #ad"
-		} else {
+		if let caption = ThisPost.keywords {
+            
+            if caption.count != 0{
+                
+                //captionText.text = "\(caption) and #ad"
+                
+                let groupedText = caption.reduce("", { (result, hash) -> String in
+                    return (result + hash + ",")
+                })
+                
+                captionText.text = "\(groupedText) and #ad"
+                
+            }else{
+                if let hashtags = ThisPost.hashtags{
+                    
+                    if hashtags.count != 0{
+                        
+                        //captionText.text = "\(caption) and #ad"
+                        
+                        let groupedText = hashtags.reduce("", { (result, hash) -> String in
+                            return (result + "#" + hash + ",")
+                        })
+                        
+                        captionText.text = "\(groupedText) and #ad"
+                        
+                    }else{
+                        captionText.text = "#ad"
+                    }
+                    
+                }else {
+                    captionText.text = "#ad"
+                }
+            }
+			
+        }else if let hashtags = ThisPost.hashtags{
+            
+            if hashtags.count != 0{
+                
+                //captionText.text = "\(caption) and #ad"
+                
+                let groupedText = hashtags.reduce("", { (result, hash) -> String in
+                    return (result + "#" + hash + ",")
+                })
+                
+                captionText.text = "\(groupedText) and #ad"
+                
+            }else{
+                captionText.text = "#ad"
+            }
+            
+        }else {
 			captionText.text = "#ad"
 		}
         

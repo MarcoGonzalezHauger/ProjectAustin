@@ -133,7 +133,7 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 		case "toPost":
 			if let destination = segue.destination as? ViewPostVC {
 				destination.ThisPost = posttosend
-				destination.companystring = ThisOffer.company.name
+				destination.companystring = ThisOffer.company?.name ?? ""
                 destination.isPostEnable = ThisOffer.isAccepted
                 destination.offer_ID = ThisOffer.offer_ID
                 destination.selectedIndex = selectedIndex
@@ -229,7 +229,7 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 			reportButton.isHidden = true
 			expirationView.isHidden = true
 		} else {
-			if let picUrl  = ThisOffer.company.logo {
+			if let picUrl  = ThisOffer.company?.logo {
 //				logo.downloadAndSetImage(picUrl, isCircle: false)
                 //we are using sd webimage cach used
                 logo.sd_setImage(with: URL.init(string: picUrl), placeholderImage: UIImage(named: "defaultcompany"))

@@ -82,52 +82,90 @@ func getOfferList(completion:@escaping (_ result: [Offer])->()) {
         if let dictionary = snapshot.value as? [String: AnyObject] {
             for (_, offer) in dictionary{
                 var offerDictionary = offer as? [String: AnyObject]
+                
+                
+                
+                               //post detail fetch data
+                               if let posts = offerDictionary!["posts"] as? NSMutableArray{
+                                   var postfinal : [Post] = []
+                                   
+                                   for postv in posts {
+                                       var post = postv as! [String:AnyObject]
+                                       var productfinal : [Product] = []
+                                       
+                                       if let products = post["products"] as? NSMutableArray{
+                                           for productDic in products {
+                                               let product = productDic as! [String:AnyObject]
+                                               productfinal.append(Product.init(image: (product["image"] as! String), name: product["name"] as! String, price: product["price"] as! Double, buy_url: product["buy_url"] as! String, color: product["color"] as! String, product_ID: product["product_ID"] as! String))
+                                           }
+                                           post["products"] = productfinal as AnyObject
+                                       }
+                                       
+                                       postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: post["captionMustInclude"] as? String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool,denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? "",keywords: post["keywords"] as? [String] ?? [], hashtags: post["hashtags"] as? [String] ?? []))
+                                       
+                                   }
+                                   offerDictionary!["posts"] = postfinal as AnyObject
+                                   let userInstance = Offer(dictionary: offerDictionary!)
+                                   offers.append(userInstance)
+                                   DispatchQueue.main.async {
+
+                                   completion(offers)
+                                   }
+                                   
+                               }else{
+                                   
+                               }
+                
+                
+                
+                
+                
 //                print("company=\(offerDictionary!["company"] as! String)")
                 //company detail fetch data
-                let compref = Database.database().reference().child("companies").child(offerDictionary!["ownerUserID"] as! String).child(offerDictionary!["company"] as! String)
-                compref.observeSingleEvent(of: .value, with: { (dataSnapshot) in
-                    if let company = dataSnapshot.value as? [String: AnyObject] {
-                        let companyDetail = Company.init(name: company["name"] as! String, logo:
-                            company["logo"] as? String, mission: company["mission"] as! String, website: company["website"] as! String, account_ID: company["account_ID"] as! String, instagram_name: company["name"] as! String, description: company["description"] as! String)
-                        
-                        offerDictionary!["company"] = companyDetail as AnyObject
-                        
-                        //post detail fetch data
-                        if let posts = offerDictionary!["posts"] as? NSMutableArray{
-                            var postfinal : [Post] = []
-                            
-                            for postv in posts {
-                                var post = postv as! [String:AnyObject]
-                                var productfinal : [Product] = []
-                                
-                                if let products = post["products"] as? NSMutableArray{
-                                    for productDic in products {
-                                        let product = productDic as! [String:AnyObject]
-                                        productfinal.append(Product.init(image: (product["image"] as! String), name: product["name"] as! String, price: product["price"] as! Double, buy_url: product["buy_url"] as! String, color: product["color"] as! String, product_ID: product["product_ID"] as! String))
-                                    }
-                                    post["products"] = productfinal as AnyObject
-                                }
-                                
-                                postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: post["captionMustInclude"] as? String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool,denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? ""))
-                                
-                            }
-                            offerDictionary!["posts"] = postfinal as AnyObject
-                            let userInstance = Offer(dictionary: offerDictionary!)
-                            offers.append(userInstance)
-                            DispatchQueue.main.async {
-
-                            completion(offers)
-                            }
-                            
-                        }else{
-                            
-                        }
-                        
-                    }else{
-                        
-                    }
-                    
-                }, withCancel: nil)
+//                let compref = Database.database().reference().child("companies").child(offerDictionary!["ownerUserID"] as! String).child(offerDictionary!["company"] as! String)
+//                compref.observeSingleEvent(of: .value, with: { (dataSnapshot) in
+//                    if let company = dataSnapshot.value as? [String: AnyObject] {
+//                        let companyDetail = Company.init(name: company["name"] as! String, logo:
+//                            company["logo"] as? String, mission: company["mission"] as! String, website: company["website"] as! String, account_ID: company["account_ID"] as! String, instagram_name: company["name"] as! String, description: company["description"] as! String)
+//
+//                        offerDictionary!["company"] = companyDetail as AnyObject
+//
+//                        //post detail fetch data
+//                        if let posts = offerDictionary!["posts"] as? NSMutableArray{
+//                            var postfinal : [Post] = []
+//
+//                            for postv in posts {
+//                                var post = postv as! [String:AnyObject]
+//                                var productfinal : [Product] = []
+//
+//                                if let products = post["products"] as? NSMutableArray{
+//                                    for productDic in products {
+//                                        let product = productDic as! [String:AnyObject]
+//                                        productfinal.append(Product.init(image: (product["image"] as! String), name: product["name"] as! String, price: product["price"] as! Double, buy_url: product["buy_url"] as! String, color: product["color"] as! String, product_ID: product["product_ID"] as! String))
+//                                    }
+//                                    post["products"] = productfinal as AnyObject
+//                                }
+//
+//                                postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: post["captionMustInclude"] as? String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool,denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? "",keywords: post["keywords"] as? [String] ?? []))
+//
+//                            }
+//                            offerDictionary!["posts"] = postfinal as AnyObject
+//                            let userInstance = Offer(dictionary: offerDictionary!)
+//                            offers.append(userInstance)
+//                            DispatchQueue.main.async {
+//
+//                            completion(offers)
+//                            }
+//
+//                        }else{
+//
+//                        }
+//
+//                    }else{
+//
+//                    }
+//
+//                }, withCancel: nil)
                 
             }
         }
@@ -364,8 +402,11 @@ func instagramPostUpdate(offerID:String, post:[String:Any]) {
     ref.updateChildValues(post)
 
 }
+
+
+
 // update sentoutOffer to FIR
-func SentOutOffersUpdate(offer:Offer, post_ID:String) {
+func SentOutOffersUpdate(offer:Offer, post_ID:String, status: String) {
     
     let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(offer.offer_ID).child("posts")
     prntRef.observeSingleEvent(of: .value) { (dataSnapshot) in
@@ -375,6 +416,8 @@ func SentOutOffersUpdate(offer:Offer, post_ID:String) {
                 var obj = value as! [String : Any]
                 if obj["post_ID"] as! String == post_ID {
                     obj["isConfirmed"] = true as Bool
+                    let currentDate = Date.getStringFromSecondDate(date: Date())!
+                    obj["confirmedSince"] = currentDate
                     obj["confirmedSince"] = getStringFromTodayDate()
                     
                     final.append(obj)
@@ -385,7 +428,19 @@ func SentOutOffersUpdate(offer:Offer, post_ID:String) {
             }
             
             let update  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(offer.offer_ID)
-            update.updateChildValues(["posts": final])
+            var isConfirmAllPost = true
+            for (index,_) in final.enumerated(){
+                if let checkConfirm = final[index]["isConfirmed"] as? Bool {
+                    if !checkConfirm{
+                       isConfirmAllPost = false
+                    }
+                }
+            }
+            if isConfirmAllPost {
+                update.updateChildValues(["posts": final,"status": status,"allConfirmed":true])
+            }else{
+                update.updateChildValues(["posts": final,"status": "accepted","allConfirmed":false])
+            }
 
             if offer.offer_ID == "XXXDefault" {
                 update.updateChildValues(["allConfirmed":true])

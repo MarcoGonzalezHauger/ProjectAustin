@@ -43,7 +43,7 @@ class OfferHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let thisOffer = PreviousOffers[indexPath.row]
         let cell = shelf.dequeueReusableCell(withIdentifier: "OldOffer") as! OldOfferCell
         
-        cell.nameLabel.text = thisOffer.company.name
+        cell.nameLabel.text = thisOffer.company?.name ?? ""
         cell.completedLabel.text = DateToAgo(date: thisOffer.allPostsConfrimedSince!)
         cell.infoLabel.text = "\(thisOffer.posts.count) post\(thisOffer.posts.count == 1 ? "" : "s") for \(NumberToPrice(Value: thisOffer.money))"
         

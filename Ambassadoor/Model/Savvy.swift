@@ -235,7 +235,7 @@ func OfferFromID(id: String, completion:@escaping(_ offer:Offer?)->()) {
 									post["products"] = productfinal as AnyObject
 								}
 								
-								postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: post["captionMustInclude"] as? String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool,denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? ""))
+                                postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: post["captionMustInclude"] as? String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool,denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? "",keywords: post["keywords"] as? [String] ?? [], hashtags: post["hashtags"] as? [String] ?? []))
 							}
 							offerDictionary!["posts"] = postfinal as AnyObject
 							let userInstanceOffer = Offer(dictionary: offerDictionary!)
@@ -351,7 +351,6 @@ func getESTDateFromString(date: String) -> Date {
     let dateFormatterGet = DateFormatter()
     dateFormatterGet.timeZone = TimeZone(abbreviation: "EST")
     dateFormatterGet.dateFormat = "yyyy/MMM/dd HH:mm:ss"
-    //let estDate = dateFormatterGet.date(from: date)!
     print("currentDate =",Date())
 //    let dateFormatterPrint = DateFormatter()
 //    dateFormatterPrint.timeZone = TimeZone(abbreviation: "IST")
@@ -385,6 +384,7 @@ func getStringFromTodayDate() -> String {
 	
 	return myString
 }
+
 
 func randomString(length: Int) -> String {
     let letters = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789"
@@ -447,16 +447,84 @@ func CheckForCompletedOffers(completion: (() -> Void)?) {
 										print("POST CAPTION: " + instacaption)
 										//                                        postCaption.append("#ad.")
 										//                                        postCaption.append(post.captionMustInclude!)
-										if instacaption.lowercased().contains(postCaption.lowercased()) {
-											print("Good Caption")
-											global.AcceptedOffers[OfferIndex].posts[PostIndex].isConfirmed = true
-											global.AcceptedOffers[OfferIndex].posts[PostIndex].confirmedSince = Date()
-                                            postVal["status"] = "posted"
-                                            instagramPostUpdate(offerID: global.AcceptedOffers[OfferIndex].offer_ID, post: [global.AcceptedOffers[OfferIndex].posts[PostIndex].post_ID:postVal])
-                                            let pushParam = ["offer":global.AcceptedOffers[OfferIndex].title,"token":Yourself.tokenFIR,"user":Yourself.username] as [String : AnyObject]
-                                            sendPushNotification(params: pushParam)
-											SentOutOffersUpdate(offer: global.AcceptedOffers[OfferIndex], post_ID: global.AcceptedOffers[OfferIndex].posts[PostIndex].post_ID)
-										}
+                                        
+                                        var isIncludedKeywords = false
+                                        var isIncludedHashTags = false
+                                        
+                                        if global.AcceptedOffers[OfferIndex].posts[PostIndex].keywords?.count != 0 {
+                                            
+                                            for keywordVal in global.AcceptedOffers[OfferIndex].posts[PostIndex].keywords! {
+                                                //keywordVal
+                                                if instacaption.lowercased().contains(keywordVal.lowercased()) {
+                                                    print("Good Caption")
+                                                    
+                                                    isIncludedKeywords = true
+
+                                                }
+                                                
+                                            }
+                                            
+                                            if isIncludedKeywords{
+                                                
+                                                global.AcceptedOffers[OfferIndex].posts[PostIndex].isConfirmed = true
+                                                global.AcceptedOffers[OfferIndex].posts[PostIndex].confirmedSince = Date()
+                                                postVal["status"] = "posted"
+                                                instagramPostUpdate(offerID: global.AcceptedOffers[OfferIndex].offer_ID, post: [global.AcceptedOffers[OfferIndex].posts[PostIndex].post_ID:postVal])
+                                                let pushParam = ["offer":global.AcceptedOffers[OfferIndex].title,"token":Yourself.tokenFIR,"user":Yourself.username] as [String : AnyObject]
+                                                sendPushNotification(params: pushParam)
+                                                if global.AcceptedOffers[OfferIndex] != nil{
+                                                SentOutOffersUpdate(offer: global.AcceptedOffers[OfferIndex], post_ID: global.AcceptedOffers[OfferIndex].posts[PostIndex].post_ID, status: "posted")
+                                                }
+                                                 
+                                                
+                                            }
+                                            
+                                        }else if global.AcceptedOffers[OfferIndex].posts[PostIndex].hashtags?.count != 0 {
+                                            
+                                            for hashtagVal in global.AcceptedOffers[OfferIndex].posts[PostIndex].hashtags! {
+                                                //keywordVal
+                                                if instacaption.lowercased().contains(hashtagVal.lowercased()) {
+                                                    print("Good Caption")
+                                                    
+                                                    isIncludedHashTags = true
+
+                                                }
+                                                
+                                            }
+                                            
+                                            if isIncludedHashTags{
+                                                
+                                                global.AcceptedOffers[OfferIndex].posts[PostIndex].isConfirmed = true
+                                                global.AcceptedOffers[OfferIndex].posts[PostIndex].confirmedSince = Date()
+                                                postVal["status"] = "posted"
+                                                instagramPostUpdate(offerID: global.AcceptedOffers[OfferIndex].offer_ID, post: [global.AcceptedOffers[OfferIndex].posts[PostIndex].post_ID:postVal])
+                                                let pushParam = ["offer":global.AcceptedOffers[OfferIndex].title,"token":Yourself.tokenFIR,"user":Yourself.username] as [String : AnyObject]
+                                                sendPushNotification(params: pushParam)
+                                                if global.AcceptedOffers[OfferIndex] != nil{
+                                                SentOutOffersUpdate(offer: global.AcceptedOffers[OfferIndex], post_ID: global.AcceptedOffers[OfferIndex].posts[PostIndex].post_ID, status: "posted")
+                                                }
+                                                
+                                            }
+                                            
+                                            
+                                        }
+                                        
+                                        else{
+                                            
+                                            if instacaption.lowercased().contains(postCaption.lowercased()) {
+                                                print("Good Caption")
+                                                global.AcceptedOffers[OfferIndex].posts[PostIndex].isConfirmed = true
+                                                global.AcceptedOffers[OfferIndex].posts[PostIndex].confirmedSince = Date()
+                                                postVal["status"] = "posted"
+                                                instagramPostUpdate(offerID: global.AcceptedOffers[OfferIndex].offer_ID, post: [global.AcceptedOffers[OfferIndex].posts[PostIndex].post_ID:postVal])
+                                                let pushParam = ["offer":global.AcceptedOffers[OfferIndex].title,"token":Yourself.tokenFIR,"user":Yourself.username] as [String : AnyObject]
+                                                sendPushNotification(params: pushParam)
+                                                if global.AcceptedOffers[OfferIndex] != nil{
+                                                SentOutOffersUpdate(offer: global.AcceptedOffers[OfferIndex], post_ID: global.AcceptedOffers[OfferIndex].posts[PostIndex].post_ID, status: "posted")
+                                                }
+                                            }
+                                            
+                                        }
 									}
 								}
 							}
