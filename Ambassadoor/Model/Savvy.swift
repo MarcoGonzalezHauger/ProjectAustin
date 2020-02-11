@@ -351,7 +351,6 @@ func getESTDateFromString(date: String) -> Date {
     let dateFormatterGet = DateFormatter()
     dateFormatterGet.timeZone = TimeZone(abbreviation: "EST")
     dateFormatterGet.dateFormat = "yyyy/MMM/dd HH:mm:ss"
-    //let estDate = dateFormatterGet.date(from: date)!
     print("currentDate =",Date())
 //    let dateFormatterPrint = DateFormatter()
 //    dateFormatterPrint.timeZone = TimeZone(abbreviation: "IST")
@@ -385,6 +384,7 @@ func getStringFromTodayDate() -> String {
 	
 	return myString
 }
+
 
 func randomString(length: Int) -> String {
     let letters = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789"
