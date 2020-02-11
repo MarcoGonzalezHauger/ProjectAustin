@@ -45,7 +45,7 @@ class IncomingMoneyCell: UITableViewCell, SyncTimerDelegate {
             }else{
                 moneyLabel.text = NumberToPrice(Value: ThisOffer.money)
             }
-			companyName.text = ThisOffer.company.name
+			companyName.text = ThisOffer.company?.name ?? ""
 			globalTimer.delegates.append(self)
 		}
 	}

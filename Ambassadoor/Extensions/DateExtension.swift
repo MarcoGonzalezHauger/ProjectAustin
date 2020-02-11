@@ -66,7 +66,7 @@ extension Date {
         //        dateFormatter.locale = Locale.current
         return dateFormatter.string(from: date) // replace Date String
     }
-    
+    //"yyyy/MMM/dd HH:mm:ss"
     static func getStringFromSecondDate(date:Date) -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(abbreviation: "EST")
