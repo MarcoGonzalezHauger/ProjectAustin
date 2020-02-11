@@ -97,7 +97,7 @@ class SocialUserCell: UITableViewCell {
 			shadow.ShadowColor = UIColor.black
 			shadow.ShadowOpacity = 0.2
 			shadow.ShadowRadius =  1.75
-			shadow.backgroundColor = UIColor.systemBackground
+			shadow.backgroundColor = GetBackColor()
 		}
 	}
 	

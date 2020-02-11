@@ -65,6 +65,8 @@ class CentralVariables {
     
     var deviceFIRToken = ""
     var dwollaCustomerInformation = DwollaCustomerInformation()
+    //Influencer worked Companies
+    var influencerWrkCompany = [Comapny]()
 }
 
 let global = CentralVariables()

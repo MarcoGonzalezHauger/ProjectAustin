@@ -62,7 +62,7 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		if blackIcons.contains(ThisUser.username) {
 			infLogo.image = UIImage.init(named: "verified_black")
 			infLabel.text = "Ambassadoor Executive"
-			infLabel.textColor = .label
+			infLabel.textColor = GetForeColor()
 		} else {
 			verifiedView.isHidden = !ThisUser.isDefaultOfferVerify
 		}
@@ -161,9 +161,9 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	@IBOutlet weak var usernameLabel: UILabel!
 	@IBOutlet weak var followerLabel: UILabel!
 	@IBOutlet weak var tierLabel: UILabel!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
 		shelf.dataSource = self
 		shelf.delegate = self
 		shelf.reloadData()
@@ -171,6 +171,17 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		swdView.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "Instagrad")!)
 		tierBubble.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "tiergrad")!)
 		ShowUser()
-    }
-
+		getInfluencerWorkedCompanies(influencer: Yourself) { (company, status, error) in
+			
+			if status == "success"{
+				
+				if let company = company {
+					if company.count != 0 {
+						global.influencerWrkCompany = company
+					}
+				}
+			}
+		}
+	}
+	
 }

@@ -14,15 +14,23 @@ let imageCache = NSCache<NSString, AnyObject>()
 
 //This extension allows UIImageViews to download images from the web and have them saved in cache.
 
+func GetUIActivityIndicator() -> UIActivityIndicatorView {
+	if #available(iOS 13.0, *) {
+		return UIActivityIndicatorView(style: .medium)
+	} else {
+		return UIActivityIndicatorView()
+	}
+}
+
 public extension UIImageView {
     
     struct Holder {
-        static var activityIndicatorProperty: UIActivityIndicatorView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.medium)
+        static var activityIndicatorProperty: UIActivityIndicatorView = GetUIActivityIndicator()
     }
     
     var activityIndicator: UIActivityIndicatorView {
         get {
-            return UIActivityIndicatorView(style: UIActivityIndicatorView.Style.medium)
+			return GetUIActivityIndicator()
         }
         set(newValue) {
             Holder.activityIndicatorProperty = newValue

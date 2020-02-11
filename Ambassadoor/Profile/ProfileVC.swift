@@ -54,7 +54,7 @@ class ProgressBarCell: UITableViewCell {
 				goal.textColor = UIColor.white
 			} else {
 				rightMargin.constant = 8
-				goal.textColor = UIColor.label
+				goal.textColor = GetForeColor()
 			}
 		}
 	}

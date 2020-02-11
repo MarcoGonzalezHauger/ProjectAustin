@@ -11,9 +11,6 @@ import UIKit
 import CoreData
 import Firebase
 import UserNotifications
-import FirebaseInstanceID
-import FirebaseCore
-import FirebaseMessaging
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -60,28 +57,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         completionHandler([.sound, .alert])
     }
-    
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data){
-        
-        let deviceTokenString1 = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-        print("deviceToken1=",deviceTokenString1)
-        
-        
-        InstanceID.instanceID().instanceID { (result, error) in
-            if let error = error {
-                print("Error fetching remote instange ID: \(error)")
-            } else if let result = result {
-                print("Remote instance ID token: \(result.token)")
-                global.deviceFIRToken = result.token
-                //print("avvv=",InstanceID.instanceID().token()!)
-            }
-        }
-        
-    }
-
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error){
-        
-    }
 
 	
 	var delegate: PresentOfferDelegate?
@@ -108,12 +83,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let content = UNMutableNotificationContent()
         content.title = NSString.localizedUserNotificationString(forKey:
             "Offer Will Expire in 1h", arguments: nil)
-        content.body = NSString.localizedUserNotificationString(forKey: "An offer by \(expiringOffer.company?.name ?? nil) for \(NumberToPrice(Value: expiringOffer.money)) is about to expire.", arguments: nil)
+        content.body = NSString.localizedUserNotificationString(forKey: "An offer by \(expiringOffer.company.name) for \(NumberToPrice(Value: expiringOffer.money)) is about to expire.", arguments: nil)
         content.categoryIdentifier = "\(expiringOffer.offer_ID)"
         content.sound = UNNotificationSound.default
         content.badge = 1
         
-        downloadImage(expiringOffer.company?.logo ?? "") { (logo) in
+        downloadImage(expiringOffer.company.logo ?? "") { (logo) in
             if let logo = logo {
                 if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
                     content.attachments = [attachment]
@@ -141,8 +116,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let content = UNMutableNotificationContent()
         content.title = "Offer Accepted"
         content.badge = 1
-        content.body = "An offer by \(accepteddOffer.company?.name) for \(NumberToPrice(Value: accepteddOffer.money)) is Accepted."
-        downloadImage(accepteddOffer.company?.logo ?? "") { (logo) in
+        content.body = "An offer by \(accepteddOffer.company.name) for \(NumberToPrice(Value: accepteddOffer.money)) is Accepted."
+        downloadImage(accepteddOffer.company.logo ?? "") { (logo) in
             if let logo = logo {
                 if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
                     content.attachments = [attachment]
@@ -159,8 +134,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		let content = UNMutableNotificationContent()
 		content.title = "New Offer"
         content.badge = 1
-		content.body = "\(newOffer.company?.name) will pay you \(NumberToPrice(Value: newOffer.money)) for \(newOffer.posts.count) posts."
-		downloadImage(newOffer.company?.logo ?? "") { (logo) in
+		content.body = "\(newOffer.company.name) will pay you \(NumberToPrice(Value: newOffer.money)) for \(newOffer.posts.count) posts."
+		downloadImage(newOffer.company.logo ?? "") { (logo) in
 			if let logo = logo {
 				if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
 					content.attachments = [attachment]
@@ -177,47 +152,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	var window: UIWindow?
     
     override init() {
-        
+        FirebaseApp.configure()
+        Database.database().isPersistenceEnabled = false
+		//Form-API Depreciated
+//		InitializeFormAPI(completed: nil)
+		InitializeZipCodeAPI(completed: nil)
     }
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-		//AskForNotificationPermission()
-                FirebaseApp.configure()
-                Database.database().isPersistenceEnabled = false
-                //Form-API Depreciated
-        //        InitializeFormAPI(completed: nil)
-                InitializeZipCodeAPI(completed: nil)
+		AskForNotificationPermission()
+		
 		// Define the custom actions.
 		UIApplication.shared.applicationIconBadgeNumber = 0
 		UNUserNotificationCenter.current().delegate = self
-        let center = UNUserNotificationCenter.current()
-        center.requestAuthorization(options: [.badge, .alert, .sound]) { (granted, error) in
-            guard granted else {return}
-            DispatchQueue.main.async {
-                application.registerForRemoteNotifications()
-                
-            }
-        }
-        NotificationCenter.default.addObserver(self, selector: #selector(tokenRefreshNotification(_:)), name: NSNotification.Name.InstanceIDTokenRefresh, object: nil)
+        
         // Fetch data once an hour.
 //        UIApplication.shared.setMinimumBackgroundFetchInterval(600)
         self.startTimer()
         
 		return true
 	}
-    @objc func tokenRefreshNotification(_ notification: Notification) {
-            
     
-            InstanceID.instanceID().instanceID { (result, error) in
-                if let error = error {
-                    print("Error fetching remote instange ID: \(error)")
-                } else if let result = result {
-                    print("Remote instance ID token: \(result.token)")
-                    global.deviceFIRToken = result.token
-                }
-            }
-        }
     //checking internet connection and latest app version. if not updated version go to the app store page
     func versionUpdateValidation(){
         if !NetworkReachability.isConnectedToNetwork() || !canReachGoogle() {

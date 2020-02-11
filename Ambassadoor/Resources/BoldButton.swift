@@ -29,6 +29,7 @@ class BoldButton: UIControl {
 		TheButton.addTarget(self, action: #selector(ButtonDown), for: .touchDown)
 		TheButton.addTarget(self, action: #selector(ButtonUp), for: .touchUpInside)
 		TheButton.addTarget(self, action: #selector(ButtonUp), for: .touchUpOutside)
+		TheButton.addTarget(self, action: #selector(ButtonUp), for: .touchCancel)
 		TheButton.addTarget(self, action: #selector(ButtonPressed), for: .touchUpInside)
 		self.clipsToBounds = true
 		DrawControl(isLitUp: false)

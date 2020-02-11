@@ -235,7 +235,7 @@ func OfferFromID(id: String, completion:@escaping(_ offer:Offer?)->()) {
 									post["products"] = productfinal as AnyObject
 								}
 								
-								postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool,denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? []))
+								postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: post["captionMustInclude"] as? String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool,denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? ""))
 							}
 							offerDictionary!["posts"] = postfinal as AnyObject
 							let userInstanceOffer = Offer(dictionary: offerDictionary!)
@@ -345,28 +345,6 @@ func getDateFromString(date: String) -> Date {
 	}
 	
 }
-
-//String To Date conversion
-func getESTDateFromString(date: String) -> Date {
-    let dateFormatterGet = DateFormatter()
-    dateFormatterGet.timeZone = TimeZone(abbreviation: "EST")
-    dateFormatterGet.dateFormat = "yyyy/MMM/dd HH:mm:ss"
-    print("currentDate =",Date())
-//    let dateFormatterPrint = DateFormatter()
-//    dateFormatterPrint.timeZone = TimeZone(abbreviation: "IST")
-//    dateFormatterPrint.dateFormat = "yyyy-MM-dd HH:mm:ss"
-//    dateFormatterPrint.string(from: estDate)
-    
-    if let date = dateFormatterGet.date(from: date) {
-        //print(dateFormatterPrint.string(from: date))
-        return date
-    } else {
-        print("There was an error decoding the string")
-        return Date()
-        
-    }
-    
-}
 // after signout user change local values and logout to instagram
 func signOutofAmbassadoor() {
     UserDefaults.standard.set(nil, forKey: "token")
@@ -384,7 +362,6 @@ func getStringFromTodayDate() -> String {
 	
 	return myString
 }
-
 
 func randomString(length: Int) -> String {
     let letters = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789"
@@ -442,33 +419,17 @@ func CheckForCompletedOffers(completion: (() -> Void)?) {
 									print("On Post")
 									if !global.AcceptedOffers[OfferIndex].posts[PostIndex].isConfirmed{
 										print("Isn't Confirmed.")
-										let hashtags = global.AcceptedOffers[OfferIndex].posts[PostIndex].hashtags
-										let phrases = global.AcceptedOffers[OfferIndex].posts[PostIndex].keywords
+										let postCaption = global.AcceptedOffers[OfferIndex].posts[PostIndex].captionMustInclude!
+										print("CAPTION: " + global.AcceptedOffers[OfferIndex].posts[PostIndex].captionMustInclude!)
 										print("POST CAPTION: " + instacaption)
 										//                                        postCaption.append("#ad.")
 										//                                        postCaption.append(post.captionMustInclude!)
-										
-										var isGood = true
-										for h in hashtags {
-											if !instacaption.contains("#\(h)") {
-												isGood = false
-											}
-										}
-										
-										for p in phrases {
-											if !instacaption.contains(p) {
-												isGood = false
-											}
-										}
-										
-										if isGood {
+										if instacaption.lowercased().contains(postCaption.lowercased()) {
 											print("Good Caption")
 											global.AcceptedOffers[OfferIndex].posts[PostIndex].isConfirmed = true
 											global.AcceptedOffers[OfferIndex].posts[PostIndex].confirmedSince = Date()
                                             postVal["status"] = "posted"
                                             instagramPostUpdate(offerID: global.AcceptedOffers[OfferIndex].offer_ID, post: [global.AcceptedOffers[OfferIndex].posts[PostIndex].post_ID:postVal])
-                                            let pushParam = ["offer":global.AcceptedOffers[OfferIndex].title,"token":Yourself.tokenFIR,"user":Yourself.username] as [String : AnyObject]
-                                            sendPushNotification(params: pushParam)
 											SentOutOffersUpdate(offer: global.AcceptedOffers[OfferIndex], post_ID: global.AcceptedOffers[OfferIndex].posts[PostIndex].post_ID)
 										}
 									}
@@ -480,34 +441,6 @@ func CheckForCompletedOffers(completion: (() -> Void)?) {
 			}
 		}
 	}
-}
-
-func sendPushNotification(params: [String: AnyObject]){
-    
-    let urlString = "https://us-central1-amassadoor.cloudfunctions.net/" + "sendNotificationToInstagramDetected"
-    
-    let url = URL(string: urlString)!
-    
-    let session = URLSession.shared
-    var request = URLRequest(url: url)
-    request.httpMethod = "Post"
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringCacheData
-    
-    do {
-        request.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
-    } catch let error {
-        print(error.localizedDescription)
-    }
-    
-    let task = session.dataTask(with: request) { (data, response, error) in
-        if error != nil {
-        let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-        print("result=",dataString!)
-        }
-        
-    }
-    task.resume()
 }
 
 func ResortLocation() {

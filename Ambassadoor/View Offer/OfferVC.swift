@@ -100,7 +100,7 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 		let cell : PreviewPostCell = shelf.dequeueReusableCell(withIdentifier: "PostPreviewCell") as! PreviewPostCell
 		
 		//Set label for cell to type of post (Function from Savvy.swift)
-		cell.PostTypeLabel.text = PostTypeToText(posttype: ThisOffer.posts[indexPath.row].PostType)
+		cell.PostTypeLabel.text = "Post \(indexPath.row + 1)"
 		
 		//Making sure the check mark only appears if the offer is accepted, and later shows different checks depedning on if it's set or not.
 		if ThisOffer.isAccepted == false {
@@ -120,6 +120,7 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 	}
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         posttosend = ThisOffer.posts[indexPath.row]
+		selectedIndex =	indexPath.row + 1
         performSegue(withIdentifier: "toPost", sender: self)
         tableView.selectRow(at: nil, animated: true, scrollPosition: .none)
     }
@@ -133,7 +134,7 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 		case "toPost":
 			if let destination = segue.destination as? ViewPostVC {
 				destination.ThisPost = posttosend
-				destination.companystring = ThisOffer.company.name
+				destination.companystring = ThisOffer.company?.name ?? ""
                 destination.isPostEnable = ThisOffer.isAccepted
                 destination.offer_ID = ThisOffer.offer_ID
                 destination.selectedIndex = selectedIndex
@@ -229,7 +230,7 @@ class OfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Syn
 			reportButton.isHidden = true
 			expirationView.isHidden = true
 		} else {
-			if let picUrl  = ThisOffer.company.logo {
+			if let picUrl  = ThisOffer.company?.logo {
 //				logo.downloadAndSetImage(picUrl, isCircle: false)
                 //we are using sd webimage cach used
                 logo.sd_setImage(with: URL.init(string: picUrl), placeholderImage: UIImage(named: "defaultcompany"))
