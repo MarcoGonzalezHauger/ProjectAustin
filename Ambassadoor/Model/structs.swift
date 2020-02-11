@@ -24,7 +24,7 @@ class ShadowView: UIView {
         DrawShadows()
     }
     override var bounds: CGRect { didSet { DrawShadows() } }
-    @IBInspectable var cornerRadius: Float = 10 {    didSet { DrawShadows() } }
+    @IBInspectable var cornerRadius: Float = 10 { didSet { DrawShadows() } }
     @IBInspectable var ShadowOpacity: Float = 0.2 { didSet { DrawShadows() } }
     @IBInspectable var ShadowRadius: Float = 1.75 { didSet { DrawShadows() } }
     @IBInspectable var ShadowColor: UIColor = UIColor.black { didSet { DrawShadows() } }
@@ -149,6 +149,25 @@ class User: NSObject {
 	override var description: String {
 		return "NAME: \(name ?? "NIL")\nUSERNAME: \(username)\nFOLLOWER COUNT: \(followerCount)\nPROFILE PIC: \(profilePicURL ?? "NIL")\nCATEGORIES: \(GetCategoryStringFromlist(categories: categories ?? []))\nAVERAGE LIKES: \(averageLikes ?? -404)"
 	}
+}
+
+class Comapny: NSObject {
+    var accountBalance: Double?
+    var account_ID: String?
+    var logo: String?
+    var name: String?
+    var owner: String?
+    var referralcode: String?
+    var website: String?
+    init(dictionary: [String: Any]) {
+        self.accountBalance = dictionary["accountBalance"] as? Double ?? 0
+        self.account_ID = dictionary["account_ID"] as? String ?? ""
+        self.logo = dictionary["logo"] as? String ?? ""
+        self.name = dictionary["name"] as? String ?? ""
+        self.owner = dictionary["owner"] as? String ?? ""
+        self.referralcode = dictionary["referralcode"] as? String ?? ""
+        self.website = dictionary["website"] as? String ?? ""
+    }
 }
 
 // Structure for Bank information
@@ -281,7 +300,6 @@ class TransactionInfo: NSObject {
 struct Post {
 	let image: String?
 	let instructions: String
-	let captionMustInclude: String?
 	let products: [Product]?
 	let post_ID: String
 	let PostType: TypeofPost
@@ -289,6 +307,8 @@ struct Post {
 	var isConfirmed: Bool
     var denyMessage: String?
     var status: String?
+	var hashtags: [String]
+	var keywords: [String]
 }
 
 //struct for product

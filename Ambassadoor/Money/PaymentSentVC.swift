@@ -17,152 +17,105 @@ class PaymentSentVC: UIViewController {
     @IBOutlet weak var paymentSuccessView: UIView!
     @IBOutlet weak var withdrawView: ShadowView!
     
-    @IBOutlet weak var cancel_btn: UIButton!
+	@IBOutlet weak var feeAmount_lbl: UILabel!
+	@IBOutlet weak var cancel_btn: UIButton!
     @IBOutlet weak var yourMoney_lbl: UILabel!
-    @IBOutlet weak var withdra_txt: UITextField!
 //    var selectedBank:DwollaCustomerFSList?
     var selectedBank : StripeAccDetail?
 
     
     var MoneyAmount: Double = 0 {
         didSet {
-            moneyAmountLabel.text = NumberToPrice(Value: MoneyAmount)
+			yourMoney_lbl.text = NumberToPrice(Value: MoneyAmount)
         }
     }
-    
+	
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setDoneOnKeyboard()
+        //self.setDoneOnKeyboard()
         paymentSuccessView.isHidden = true
+		view.bringSubviewToFront(paymentSuccessView)
         self.cancel_btn.isHidden = false
-        moneyAmountLabel.text = NumberToPrice(Value: Yourself!.yourMoney)
-        yourMoney_lbl.text = NumberToPrice(Value: Yourself!.yourMoney)
+		let fee: Double = Double(GetFeeFromFollowerCount(FollowerCount: Yourself.followerCount) ?? 0)
+		MoneyAmount = Yourself!.yourMoney - fee
+		feeAmount_lbl.text = "Ambassadoor will take \(NumberToPrice(Value: fee))."
 
         print("yourMony=\(Yourself!.yourMoney)")
-    }
-    func setDoneOnKeyboard() {
-        let keyboardToolbar = UIToolbar()
-        keyboardToolbar.sizeToFit()
-        let flexBarButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(PaymentSentVC.dismissKeyboard))
-        keyboardToolbar.items = [flexBarButton, doneBarButton]
-        withdra_txt.inputAccessoryView = keyboardToolbar
-    }
-    
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
-    }
-    
-    @IBAction func Dismissed(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    // this action amount transfer to admin account To Influencer bank account. and update user money value and added user transaction detail in FIR
-    @IBAction func submit_Action(_ sender: Any) {
-        
-        if withdra_txt.text!.isEmpty {
-            self.showStandardAlertDialog(title: "Alert!", msg: "Please enter your withdraw amount")
-        }else if Yourself.yourMoney < Double(withdra_txt.text!)!{
-            self.showStandardAlertDialog(title: "Alert!", msg: "don't have enough money in your account")
-        }else{
-//            self.createDwollaAccessTokenForFundTransfer(fundSource: selectedBank!.customerFSURL, acctID: selectedBank!.acctID, object: selectedBank!)
-            
-
-            //calculation for OSC for user
-           var subAmount:Double = 0.0
-           let pendingMonths = Date.getmonthsBetweenDate(startDate: Date.getDateFromString(date: Yourself.lastPaidOSCDate)!, endDate: Date.getDateFromString(date: Date.getCurrentDate())!)
-           let feeAmount = pendingMonths * GetFeeFromFollowerCount(FollowerCount: Yourself.followerCount)!
-           let withdrawAmount = Double(self.withdra_txt.text!)!
-           print("fee=\(feeAmount)")
-            print(withdrawAmount)
-//           DispatchQueue.main.async {
-               subAmount = withdrawAmount + Double(feeAmount)
-//           }
-            
-            if  Yourself.yourMoney < subAmount && feeAmount > 0 {
-                self.showStandardAlertDialog(title: "Alert", msg: "This transaction including monthly fee amount  $\(feeAmount). So you don't have enough money in your account")
-            }else{
-                let finaltotalAmount = Yourself.yourMoney - subAmount
-                
-                var msg = "Do you want to withdraw $\(subAmount) from your account ?"
-                if feeAmount > 0 {
-                    msg = "This transaction including monthly fee amount $\(feeAmount). Totally we will debit $\(subAmount) from your account"
-                }
-                 
-                 let alert = UIAlertController(title: "Alert", message: msg, preferredStyle: .alert)
-                 alert.addAction(UIAlertAction(title: "proceed", style: .default, handler: { (action) in
-                     let params = ["accountID":self.selectedBank!.stripe_user_id,"amount":subAmount * 100] as [String: AnyObject]
-                                 APIManager.shared.withdrawThroughStripe(params: params) { (status, error, data) in
-                                     
-                                     let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-                                     
-                                     print("dataString=",dataString as Any)
-                                     do {
-                                         let json = try JSONSerialization.jsonObject(with: data!, options: []) as? [String : Any]
-                                         
-                                         
-                                         _ = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-                                         
-                                         if let code = json!["code"] as? Int {
-                                             
-                                             if code == 401 {
-                                                 let message = json!["message"] as! [String:Any]
-                                                 self.showStandardAlertDialog(title: "Alert", msg: message["code"] as! String)
-                                             }else{
-                                                 //update to DB
-                                                 let prntRef  = Database.database().reference().child("users").child(Yourself.id)
-                                                 prntRef.updateChildValues(["yourMoney":finaltotalAmount])
-                                                prntRef.updateChildValues(["lastPaidOSCDate":Date.getCurrentDate()])
-
-                                                 withdrawUpdate(amount: withdrawAmount,fee:Double(feeAmount), from: Yourself.id, to: Yourself.id, id: self.selectedBank!.stripe_user_id, status: "success", type: "withdraw", date:getStringFromTodayDate())
-                                                
-
-                                                 DispatchQueue.main.async {
-                                                     Yourself.yourMoney = finaltotalAmount
-                                                     self.moneyAmountLabel.text = NumberToPrice(Value: subAmount)
-                                                     self.withdra_txt.resignFirstResponder()
-                                                     self.cancel_btn.isHidden = true
-                                                     self.withdrawView.isHidden = true
-                                                     self.paymentSuccessView.isHidden = false
-                                                 }
-                                             }
-                                         }
-                                         
-                                     }catch _ {
-                                         
-                                     }
-                                     
-                                 }
-                 }))
-                 alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
-                     
-                 }))
-                 
-                 DispatchQueue.main.async {
-                     self.present(alert, animated: true, completion: nil)
-                 }
-            }
-            
-
-    
-            
-        }
-
-    }
-    
-    
-    
-
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+	}
+	func setDoneOnKeyboard() {
+		let keyboardToolbar = UIToolbar()
+		keyboardToolbar.sizeToFit()
+		let flexBarButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+		let doneBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(PaymentSentVC.dismissKeyboard))
+		keyboardToolbar.items = [flexBarButton, doneBarButton]
+	}
+	
+	@objc func dismissKeyboard() {
+		view.endEditing(true)
+	}
+	
+	@IBAction func Dismissed(_ sender: Any) {
+		dismiss(animated: true, completion: nil)
+	}
+	
+	// this action amount transfer to admin account To Influencer bank account. and update user money value and added user transaction detail in FIR
+	@IBAction func submit_Action(_ sender: Any) {
+		//            self.createDwollaAccessTokenForFundTransfer(fundSource: selectedBank!.customerFSURL, acctID: selectedBank!.acctID, object: selectedBank!)
+		
+		
+		//calculation for OSC for user
+		var subAmount:Double = 0.0
+		//we WILL NOT penalize influencers for not using our service!
+		//let pendingMonths = Date.getmonthsBetweenDate(startDate: Date.getDateFromString(date: Yourself.lastPaidOSCDate)!, endDate: Date.getDateFromString(date: Date.getCurrentDate())!)
+		let feeAmount = GetFeeFromFollowerCount(FollowerCount: Yourself.followerCount)!
+		let withdrawAmount = MoneyAmount - Double(feeAmount)
+		print("fee=\(feeAmount)")
+		print(withdrawAmount)
+		//           DispatchQueue.main.async {
+		subAmount = withdrawAmount + Double(feeAmount)
+		//           }
+		
+		let finaltotalAmount = Yourself.yourMoney - subAmount
+		let params = ["accountID":self.selectedBank!.stripe_user_id,"amount":subAmount * 100] as [String: AnyObject]
+		APIManager.shared.withdrawThroughStripe(params: params) { (status, error, data) in
+			
+			let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+			
+			print("dataString=",dataString as Any)
+			do {
+				let json = try JSONSerialization.jsonObject(with: data!, options: []) as? [String : Any]
+				
+				
+				_ = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+				
+				if let code = json!["code"] as? Int {
+					
+					if code == 401 {
+						let message = json!["message"] as! [String:Any]
+						self.showStandardAlertDialog(title: "Alert", msg: message["code"] as! String)
+					}else{
+						//update to DB
+						let prntRef  = Database.database().reference().child("users").child(Yourself.id)
+						prntRef.updateChildValues(["yourMoney":finaltotalAmount])
+						prntRef.updateChildValues(["lastPaidOSCDate":Date.getCurrentDate()])
+						
+						withdrawUpdate(amount: withdrawAmount,fee:Double(feeAmount), from: Yourself.id, to: Yourself.id, id: self.selectedBank!.stripe_user_id, status: "success", type: "withdraw", date:getStringFromTodayDate())
+						
+						DispatchQueue.main.async {
+							Yourself.yourMoney = finaltotalAmount
+							self.moneyAmountLabel.text = NumberToPrice(Value: subAmount)
+							self.cancel_btn.isHidden = true
+							self.withdrawView.isHidden = true
+							self.paymentSuccessView.isHidden = false
+						}
+					}
+				}
+				
+			}catch _ {
+				
+			}
+			
+		}
+		
+	}
 }

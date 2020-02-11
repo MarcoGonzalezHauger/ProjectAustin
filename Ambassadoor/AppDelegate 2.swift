@@ -11,9 +11,6 @@ import UIKit
 import CoreData
 import Firebase
 import UserNotifications
-import FirebaseInstanceID
-import FirebaseCore
-import FirebaseMessaging
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -59,28 +56,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         print("Received notification with ID = \(id)")
         
         completionHandler([.sound, .alert])
-    }
-    
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data){
-        
-        let deviceTokenString1 = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-        print("deviceToken1=",deviceTokenString1)
-        
-        
-        InstanceID.instanceID().instanceID { (result, error) in
-            if let error = error {
-                print("Error fetching remote instange ID: \(error)")
-            } else if let result = result {
-                print("Remote instance ID token: \(result.token)")
-                global.deviceFIRToken = result.token
-                //print("avvv=",InstanceID.instanceID().token()!)
-            }
-        }
-        
-    }
-
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error){
-        
     }
 
 	
@@ -177,47 +152,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	var window: UIWindow?
     
     override init() {
-        
+        FirebaseApp.configure()
+        Database.database().isPersistenceEnabled = false
+		//Form-API Depreciated
+//		InitializeFormAPI(completed: nil)
+		InitializeZipCodeAPI(completed: nil)
     }
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-		//AskForNotificationPermission()
-                FirebaseApp.configure()
-                Database.database().isPersistenceEnabled = false
-                //Form-API Depreciated
-        //        InitializeFormAPI(completed: nil)
-                InitializeZipCodeAPI(completed: nil)
+		AskForNotificationPermission()
+		
 		// Define the custom actions.
 		UIApplication.shared.applicationIconBadgeNumber = 0
 		UNUserNotificationCenter.current().delegate = self
-        let center = UNUserNotificationCenter.current()
-        center.requestAuthorization(options: [.badge, .alert, .sound]) { (granted, error) in
-            guard granted else {return}
-            DispatchQueue.main.async {
-                application.registerForRemoteNotifications()
-                
-            }
-        }
-        NotificationCenter.default.addObserver(self, selector: #selector(tokenRefreshNotification(_:)), name: NSNotification.Name.InstanceIDTokenRefresh, object: nil)
+        
         // Fetch data once an hour.
 //        UIApplication.shared.setMinimumBackgroundFetchInterval(600)
         self.startTimer()
         
 		return true
 	}
-    @objc func tokenRefreshNotification(_ notification: Notification) {
-            
     
-            InstanceID.instanceID().instanceID { (result, error) in
-                if let error = error {
-                    print("Error fetching remote instange ID: \(error)")
-                } else if let result = result {
-                    print("Remote instance ID token: \(result.token)")
-                    global.deviceFIRToken = result.token
-                }
-            }
-        }
     //checking internet connection and latest app version. if not updated version go to the app store page
     func versionUpdateValidation(){
         if !NetworkReachability.isConnectedToNetwork() || !canReachGoogle() {

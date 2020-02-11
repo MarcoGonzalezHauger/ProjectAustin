@@ -253,6 +253,8 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 	
 	override func viewDidAppear(_ animated: Bool) {
 		
+		performSegue(withIdentifier: "toSignUp", sender: self)
+		
 		//TEMPORARY MEASURE TO ALLOW FOR FASTER DEBUGGING.
 //		API.INSTAGRAM_ACCESS_TOKEN = "1605029612.fa083c3.815705ce93ab4ce89f21ee2aabdd7071"
 //
@@ -281,6 +283,11 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
                             self.performSegue(withIdentifier: "showSignUpVC", sender: self)
                         }
 					} else {
+                        
+                        let userTokenUpdateref = Database.database().reference().child("users").child(UserDefaults.standard.object(forKey: "userid") as! String)
+                        
+                        userTokenUpdateref.updateChildValues(["tokenFIR":global.deviceFIRToken])
+                        
 						self.GetUser {
 							if let zip = Yourself.zipCode {
 								

@@ -70,6 +70,8 @@ class socialCategoryVC: UIViewController, UITableViewDelegate, UITableViewDataSo
             self.rankedShelf.reloadData()
         })
     }
+    
+    
 	
 	@IBOutlet weak var rankedShelf: UITableView!
 	
