@@ -24,10 +24,14 @@ class CreateLoginVC: UIViewController {
 	@IBOutlet weak var infoLabel: UILabel!
 	@IBOutlet weak var proceedButton: UIButton!
 	@IBOutlet weak var proceedView: UIView!
+	@IBOutlet weak var backButton: UIButton!
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
-		
+		if #available(iOS 13.0, *) {
+			self.isModalInPresentation = true
+		}
+		infoLabel.text = defaultText
     }
 	@IBAction func Next(_ sender: Any) {
 		passwordText.becomeFirstResponder()
@@ -38,6 +42,8 @@ class CreateLoginVC: UIViewController {
 			CheckAccountAvaliability()
 		}
 	}
+	
+	let defaultText: String = "Choose an Email and Password"
 	
 	@IBAction func proceedButtonPressed(_ sender: Any) {
 		CheckAccountAvaliability()
@@ -60,13 +66,34 @@ class CreateLoginVC: UIViewController {
 	}
 	
 	func AvaliabilitySuccess() {
-		infoLabel.textColor = .green
+		UIView.animate(withDuration: 0.25) {
+			self.proceedView.alpha = 0
+			self.emailText.alpha = 0
+			self.passwordText.alpha = 0
+			self.backButton.alpha = 0
+		}
+		
+		infoLabel.textColor = .systemGreen
+		infoLabel.font = UIFont.systemFont(ofSize: 19, weight: .heavy)
 		SetLabelText(text: "Login Avaliable", animated: true)
 		NewAccount.email = emailText.text!
 		NewAccount.password = passwordText.text!
 		accInfoUpdate()
-		DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1.25) {
+			UIView.animate(withDuration: 0.25) {
+				self.infoLabel.alpha = 0
+			}
+		}
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
 			self.navigationController?.popViewController(animated: true)
+		}
+	}
+	
+	@IBAction func textChanged(_ sender: Any) {
+		if let sender = sender as? UITextField {
+			if sender.text!.contains(" ") {
+				sender.text = sender.text?.replacingOccurrences(of: " ", with: "")
+			}
 		}
 	}
 	
@@ -82,7 +109,7 @@ class CreateLoginVC: UIViewController {
 				self.infoLabel.textColor = GetForeColor()
 			}, completion: nil)
 			DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-				self.SetLabelText(text: "Choose Email and a Password", animated: true)
+				self.SetLabelText(text: self.defaultText, animated: true)
 				self.proceedButton.isEnabled = true
 			}
 		}

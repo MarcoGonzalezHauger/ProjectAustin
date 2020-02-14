@@ -25,6 +25,7 @@ class SigninVC: UIViewController {
 	@IBOutlet weak var passwordText: UITextField!
 	@IBOutlet weak var signinButton: BoldButton!
 	@IBOutlet weak var authLabel: UILabel!
+	@IBOutlet weak var ForgotPasswordButton: UIButton!
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +57,7 @@ class SigninVC: UIViewController {
 	}
 	
 	func SignInNow() {
-		LoginFailed(reason: .noEmail) //[RAM] THIS IS FOR TESTING PURPOSES, REMOVE THIS.
+		LoginFailed(reason: .passwordInvalid) //[RAM] THIS IS FOR TESTING PURPOSES, REMOVE THIS.
 		
 		if false {
 			//[RAM]
@@ -97,9 +98,21 @@ class SigninVC: UIViewController {
 		}
 	}
 	
+	@IBAction func textChanged(_ sender: Any) {
+		if let sender = sender as? UITextField {
+			if sender.text!.contains(" ") {
+				sender.text = sender.text?.replacingOccurrences(of: " ", with: "")
+			}
+		}
+	}
+	
 	func LoginFailed(reason: LoginProblem) {
 		signinButton.Text = "Sign In"
 		MakeShake(viewToShake: signinButton)
+		
+		if reason == .passwordInvalid {
+			ForgotPasswordButton.isHidden = false
+		}
 		
 		SetLabelText(text: GetLabelTextFromIssue(reason: reason), animated: false)
 		authLabel.textColor = .red
@@ -141,7 +154,7 @@ class SigninVC: UIViewController {
 		case .userDoesNotExist:
 			return "No Account For Email"
 		case .passwordInvalid:
-			return "Password Invalid"
+			return "Password Incorrect"
 		case .badEmailFormat:
 			return "Invalid Email"
 		default:

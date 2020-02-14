@@ -24,6 +24,17 @@ func NumberToPrice(Value: Double, enforceCents isBig: Bool = false) -> String {
 	return ""
 }
 
+func AnimateLabelText(label: UILabel, text textstring: String) {
+	let animation: CATransition = CATransition()
+	animation.timingFunction = CAMediaTimingFunction(name:
+		CAMediaTimingFunctionName.easeInEaseOut)
+	animation.type = CATransitionType.push
+	animation.subtype = CATransitionSubtype.fromTop
+	label.text = textstring
+	animation.duration = 0.25
+	label.layer.add(animation, forKey: CATransitionType.push.rawValue)
+}
+
 // open external for google search words
 func GoogleSearch(query: String) {
 	let newquery = query.replacingOccurrences(of: " ", with: "+")

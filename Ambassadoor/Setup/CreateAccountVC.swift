@@ -17,7 +17,7 @@ class CreateStep: UITableViewCell {
 	@IBOutlet weak var centerGuide: NSLayoutConstraint!
 	func SetSubtitle(string: String) {
 		descLabel.text = string
-		centerGuide.constant = string == "" ? 0 : -8
+		centerGuide.constant = string == "" ? 0 : -9
 	}
 }
 
@@ -30,17 +30,21 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 	@IBOutlet weak var stepShelf: UITableView!
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return 3
+		return GetListSize()
+	}
+	
+	@IBAction func createAccount(_ sender: Any) {
+		NewAccount = NewAccountInfo(email: "", password: "", categories: [], gender: "", zipCode: 0, instagramKey: "", instagramUsername: "")
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = stepShelf.dequeueReusableCell(withIdentifier: "nextStep") as! CreateStep
 		switch indexPath.row {
 		case 0:
-			cell.titleLabel.text = "Create Login"
+			cell.titleLabel.text = NewAccount.email == "" ? "Create Login" : "Login Created"
 			cell.SetSubtitle(string: NewAccount.email)
 		case 1:
-			cell.titleLabel.text = "Connect Instagram"
+			cell.titleLabel.text = NewAccount.instagramUsername == "" ? "Connect Instagram" : "Instagram Connected"
 			cell.SetSubtitle(string: NewAccount.instagramUsername)
 		case 2:
 			cell.titleLabel.text = "Enter Basic Information"
@@ -56,9 +60,24 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 		switch indexPath.row {
 		case 0:
 			performSegue(withIdentifier: "toCreateLogin", sender: self)
+		case 1:
+			performSegue(withIdentifier: "toConnectInstagram", sender: self)
+		case 2:
+			performSegue(withIdentifier: "toBasicInfo", sender: self)
 		default:
 			break
 		}
+	}
+	
+	func GetListSize() -> Int {
+		return 3 //FOR TESTING PURPOSES ONLY
+		if NewAccount.instagramUsername != "" {
+			return 3
+		}
+		if NewAccount.email	!= "" {
+			return 2
+		}
+		return 1
 	}
 
     override func viewDidLoad() {
@@ -67,6 +86,7 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 		stepShelf.delegate = self
 		stepShelf.dataSource = self
 		//nextStep
+		stepShelf.alwaysBounceVertical = false
     }
 
 	@IBAction func cancelled(_ sender: Any) {
