@@ -10,6 +10,12 @@ import UIKit
 import UserNotifications
 import NotificationCenter
 
+enum CreateAccountProblem {
+	case noConnection
+	case emailTaken
+	case instaTaken
+}
+
 class CreateStep: UITableViewCell {
 	@IBOutlet weak var checkImage: UIImageView!
 	@IBOutlet weak var titleLabel: UILabel!
@@ -23,18 +29,61 @@ class CreateStep: UITableViewCell {
 
 class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NewAccountListener {
 	
+	var delegate: AutoDimiss?
+	var wasFailed = false
+	
+	@IBOutlet weak var CreateButtonView: ShadowView!
+	@IBOutlet weak var CreateButton: UIButton!
+	
+	func CreateAccount() {
+		
+	}
+	
+	func AccountCreationFailed(problem: CreateAccountProblem) {
+		wasFailed = true
+		
+		YouShallNotPass(SaveButtonView: CreateButtonView, returnColor: UIColor.init(named: "AmbassadoorOrange")!)
+		
+		switch problem {
+		case .emailTaken:
+			break
+		case .instaTaken:
+			break
+		case .noConnection:
+			break
+		default:
+			break
+		}
+	}
+	
 	func AccountUpdated(NewAccount: NewAccountInfo) {
 		stepShelf.reloadData()
+		let loginGood = NewAccount.email != ""
+		let instaGood = NewAccount.instagramUsername != ""
+		let infoGood = NewAccount.zipCode != ""
+		let allGood = loginGood && instaGood && infoGood
+		SetButtonState(enabled: allGood)
 	}
 	
 	@IBOutlet weak var stepShelf: UITableView!
+	
+	func SetButtonState(enabled: Bool) {
+		UIView.animate(withDuration: 0.5) {
+			if enabled {
+				self.CreateButtonView.backgroundColor = UIColor.init(named: "AmbassadoorOrange")!
+			} else {
+				self.CreateButtonView.backgroundColor = .systemGray
+			}
+		}
+		CreateButton.isEnabled = enabled
+	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return GetListSize()
 	}
 	
 	@IBAction func createAccount(_ sender: Any) {
-		NewAccount = NewAccountInfo(email: "", password: "", categories: [], gender: "", zipCode: 0, instagramKey: "", instagramUsername: "")
+		CreateAccount()
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -43,12 +92,20 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 		case 0:
 			cell.titleLabel.text = NewAccount.email == "" ? "Create Login" : "Login Created"
 			cell.SetSubtitle(string: NewAccount.email)
+			cell.checkImage.image = UIImage.init(named: NewAccount.email == "" ? "check" : "check_fill")
 		case 1:
 			cell.titleLabel.text = NewAccount.instagramUsername == "" ? "Connect Instagram" : "Instagram Connected"
 			cell.SetSubtitle(string: NewAccount.instagramUsername)
+			cell.checkImage.image = UIImage.init(named: NewAccount.instagramUsername == "" ? "check" : "check_fill")
 		case 2:
-			cell.titleLabel.text = "Enter Basic Information"
-			cell.SetSubtitle(string: "")
+			if NewAccount.zipCode == "" {
+				cell.titleLabel.text = "Enter Basic Information"
+				cell.SetSubtitle(string: "")
+			} else {
+				cell.titleLabel.text = "Basic Information Entered"
+				cell.SetSubtitle(string: "Categories: " + NewAccount.categories.joined(separator: ", "))
+			}
+			cell.checkImage.image = UIImage.init(named: NewAccount.zipCode == "" ? "check" : "check_fill")
 		default:
 			break
 		}
@@ -70,7 +127,9 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 	}
 	
 	func GetListSize() -> Int {
-		return 3 //FOR TESTING PURPOSES ONLY
+		if wasFailed {
+			return 3
+		}
 		if NewAccount.instagramUsername != "" {
 			return 3
 		}

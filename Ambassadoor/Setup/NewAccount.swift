@@ -17,7 +17,7 @@ struct NewAccountInfo {
 	var password: String
 	var categories: [String]
 	var gender: String
-	var zipCode: Int?
+	var zipCode: String
 	var instagramKey: String
 	var instagramUsername: String
 }
@@ -28,6 +28,6 @@ func accInfoUpdate() {
 	}
 }
 	
-var NewAccount: NewAccountInfo = NewAccountInfo.init(email: "", password: "", categories: [], gender: "", zipCode: 0, instagramKey: "", instagramUsername: "")
+var NewAccount: NewAccountInfo = NewAccountInfo.init(email: "", password: "", categories: [], gender: "", zipCode: "", instagramKey: "", instagramUsername: "")
 
 var NewAccountListeners: [NewAccountListener] = []

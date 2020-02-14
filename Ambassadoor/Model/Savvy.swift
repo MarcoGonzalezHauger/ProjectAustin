@@ -24,6 +24,22 @@ func NumberToPrice(Value: Double, enforceCents isBig: Bool = false) -> String {
 	return ""
 }
 
+func YouShallNotPass(SaveButtonView viewToReject: UIView, returnColor rcolor: UIColor = .systemBlue) {
+	
+	UseTapticEngine()
+	
+	MakeShake(viewToShake: viewToReject)
+	
+	viewToReject.backgroundColor = .systemRed
+	DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+		UIView.animate(withDuration: 0.8) {
+			viewToReject.backgroundColor = rcolor
+		}
+	}
+	
+}
+
+
 func AnimateLabelText(label: UILabel, text textstring: String) {
 	let animation: CATransition = CATransition()
 	animation.timingFunction = CAMediaTimingFunction(name:

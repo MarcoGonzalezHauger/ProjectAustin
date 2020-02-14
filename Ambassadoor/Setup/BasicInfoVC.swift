@@ -18,6 +18,8 @@ class basicInfoVC: UIViewController {
 	@IBOutlet weak var finishbottom: NSLayoutConstraint!
 	@IBOutlet weak var finishButton: UIButton!
 	@IBOutlet weak var scrollView: UIScrollView!
+	@IBOutlet weak var categoryLabel: UILabel!
+	@IBOutlet weak var genderSegment: UISegmentedControl!
 	
 	var categories: [String] = []
 	
@@ -31,11 +33,7 @@ class basicInfoVC: UIViewController {
 		if #available(iOS 13.0, *) {
 			self.isModalInPresentation = true
 		}
-		
-		categories = ["test one"]
-		
-        // Do any additional setup after loading the view.
-    }
+	}
 	
 	func SetBottom(constant: CGFloat) {
 		
@@ -64,11 +62,47 @@ class basicInfoVC: UIViewController {
 	}
 	
 	@IBAction func finishedPressed(_ sender: Any) {
-		
+		NewAccount.categories = categories
+		NewAccount.gender = GenderIndexToString(index: genderSegment.selectedSegmentIndex)
+		NewAccount.zipCode = zipText.text!
+		accInfoUpdate()
+		navigationController?.popViewController(animated: true)
+	}
+	
+	func GenderIndexToString(index: Int) -> String {
+		switch index {
+		case 0:
+			return "Male"
+		case 1:
+			return "Female"
+		case 2:
+			return "Other"
+		default:
+			return "Other"
+		}
 	}
 	
 	@IBAction func cancelPressed(_ sender: Any) {
 		navigationController?.popViewController(animated: true)
+	}
+	
+	@IBAction func pickCategories(_ sender: Any) {
+		performSegue(withIdentifier: "toPicker", sender: self)
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if let destination = segue.destination as? CategoryPicker {
+			destination.SetupPicker(originalCategories: categories) { (cat) in
+				self.categories = cat
+				self.checkForFinish()
+				var labeltext = ""
+				for s in cat {
+					labeltext += s + "\n"
+				}
+				self.categoryLabel.text = String(labeltext.dropLast())
+				
+			}
+		}
 	}
 	
 	@IBAction func zipCodeChanged(_ sender: Any) {

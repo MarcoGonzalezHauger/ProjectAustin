@@ -42,6 +42,9 @@ class WelcomeVC: UIViewController, AutoDimiss {
 		if let destination = segue.destination as? SigninVC {
 			destination.delegate = self
 		}
+		if let destination = segue.destination as? CreateAccountVC {
+			destination.delegate = self
+		}
 	}
 	
 }

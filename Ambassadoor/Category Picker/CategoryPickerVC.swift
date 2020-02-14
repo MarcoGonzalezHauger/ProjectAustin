@@ -35,11 +35,32 @@ class CategoryPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 	}
 	
 	var toSelect: [IndexPath] = []
+	var denyAtRow: [Int] = []
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		if denyAtRow.contains(indexPath.row) {
+			categoryShelf.deselectRow(at: indexPath, animated: true)
+			return
+		}
 		if delegate?.CategoryAdded(newCategory: cats![indexPath.row]) == false {
 			categoryShelf.deselectRow(at: indexPath, animated: true)
-			MakeShake(viewToShake: (categoryShelf.cellForRow(at: indexPath) as! catCell).titleLabel, coefficient: 0.42)
+			let cell = categoryShelf.cellForRow(at: indexPath) as! catCell
+			
+			denyAtRow.append(indexPath.row)
+			
+			let oldText = cell.titleLabel.text!
+			
+			cell.titleLabel.textColor = .systemRed
+			AnimateLabelText(label: cell.titleLabel, text: "Categories Full")
+			DispatchQueue.main.asyncAfter(deadline: .now() + 1.25) {
+				cell.titleLabel.textColor = GetForeColor()
+				AnimateLabelText(label: cell.titleLabel, text: oldText)
+			}
+			DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+				self.denyAtRow.removeAll(where: {$0 == indexPath.row})
+			}
+			
+			MakeShake(viewToShake: cell.titleLabel, coefficient: 0.1)
 		} else {
 			tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
 			didChangeSelection()
