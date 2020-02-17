@@ -253,7 +253,7 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 	
 	override func viewDidAppear(_ animated: Bool) {
 		
-		//performSegue(withIdentifier: "toSignUp", sender: self)
+		performSegue(withIdentifier: "toSignUp", sender: self)
 		
 		//TEMPORARY MEASURE TO ALLOW FOR FASTER DEBUGGING.
 //		API.INSTAGRAM_ACCESS_TOKEN = "1605029612.fa083c3.815705ce93ab4ce89f21ee2aabdd7071"

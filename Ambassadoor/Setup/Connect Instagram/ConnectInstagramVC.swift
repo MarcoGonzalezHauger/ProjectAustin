@@ -41,6 +41,9 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
 	@IBOutlet weak var webView: WKWebView!
 	@IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
 	
+	//[RAM] These are the three different possibilties when a user logs in. The functoins are done, you just need to call them.
+	
+	
 	func AccountLoggedIn(instagramUsername: String) {
 		igName = instagramUsername
 		performSegue(withIdentifier: "toConnected", sender: self)
@@ -49,6 +52,10 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
 	func AccountAlreadyInUse(emailOfExistingUser email: String) {
 		alreadyUsedEmail = email
 		performSegue(withIdentifier: "toInUse", sender: self)
+	}
+	
+	func NotBusinessAccount() {
+		performSegue(withIdentifier: "toNotBusiness", sender: self)
 	}
 	
 	override func viewDidLoad() {
@@ -82,6 +89,9 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
 		if let destination = segue.destination as? AccountInUseVC {
 			destination.delegate = self
 			destination.SetEmail(email: alreadyUsedEmail)
+		}
+		if let destination = segue.destination as? NotBusinessVC {
+			destination.delegate = self
 		}
 	}
 	

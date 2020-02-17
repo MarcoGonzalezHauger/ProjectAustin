@@ -21,7 +21,17 @@ class basicInfoVC: UIViewController {
 	@IBOutlet weak var categoryLabel: UILabel!
 	@IBOutlet weak var genderSegment: UISegmentedControl!
 	
-	var categories: [String] = []
+	//[RAM] you don't have to do any code work here
+	
+	var categories: [String] = [] {
+		didSet {
+			if categories.count > 0 {
+				categoryLabel.textColor = GetForeColor()
+			} else {
+				categoryLabel.textColor = .systemGray
+			}
+		}
+	}
 	
 	override func viewDidLoad() {
         super.viewDidLoad()

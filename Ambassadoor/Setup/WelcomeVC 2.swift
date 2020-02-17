@@ -25,7 +25,7 @@ class WelcomeVC: UIViewController, AutoDimiss {
 		if #available(iOS 13.0, *) {
 			self.isModalInPresentation = true
 		}
-    }`
+    }
 	
 	override func viewDidAppear(_ animated: Bool) {
 		let notificationCenter = UNUserNotificationCenter.current()
@@ -40,9 +40,6 @@ class WelcomeVC: UIViewController, AutoDimiss {
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let destination = segue.destination as? SigninVC {
-			destination.delegate = self
-		}
-		if let destination = segue.destination as? CreateAccountVC {
 			destination.delegate = self
 		}
 	}
