@@ -684,26 +684,28 @@ func checkIfEmailExist(email: String, completion: @escaping(_ exist: Bool)-> Voi
     }
 }
 
-func checkIfUserExists(userID: String,completion: @escaping(_ exist: Bool)-> Void) {
+func checkIfUserExists(userID: String,completion: @escaping(_ exist: Bool, _ user: User?)-> Void) {
     //var isAlreadyRegistered: Bool = false
     let ref = Database.database().reference().child("users").child(userID)
     ref.observeSingleEvent(of: .value, with: { (snapshot) in
         
         if let _ = snapshot.value as? [String: AnyObject]{
-            completion(true)
+            completion(true, nil)
             
         }else{
             createNewInfluencerAuthentication(info: NewAccount)
             let userData = API.serializeRawUserData(details: NewAccount)
             ref.updateChildValues(userData)
-            completion(false)
+            let userRef = User.init(dictionary: userData)
+            completion(false, userRef)
         }
         
     }) { (error) in
          createNewInfluencerAuthentication(info: NewAccount)
          let userData = API.serializeRawUserData(details: NewAccount)
          ref.updateChildValues(userData)
-         completion(false)
+        let userRef = User.init(dictionary: userData)
+        completion(false, userRef)
     }
 }
 
@@ -733,6 +735,19 @@ func filterQueryByField(email: String, completion:@escaping(_ exist: Bool, _ use
         
     }
     
+}
+
+func fetchSingleUserDetails(userID: String, completion: @escaping(_ status: Bool, _ user: User)->Void) {
+    let usersRef = Database.database().reference().child("users").child(userID)
+    usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
+        if let dictionary = snapshot.value as? [String: AnyObject] {
+            let userInstance = User(dictionary: dictionary )
+            //Yourself = userInstance
+            completion(true,userInstance)
+//            print("Appdelegate gender = \(Yourself.gender)")
+
+        }
+    }, withCancel: nil)
 }
 
 func updatePassword(userID: String,password: String){

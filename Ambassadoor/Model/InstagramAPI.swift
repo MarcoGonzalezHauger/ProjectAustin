@@ -11,11 +11,22 @@ import Foundation
 import WebKit
 
 struct API {
+    /*
     //instagram base url and secret key's
     static let INSTAGRAM_AUTHURL = "https://api.instagram.com/oauth/authorize/"
     static let INSTAGRAM_CLIENT_ID = "fa083c34de6847ff95db596d75ef1c31"
     static let INSTAGRAM_CLIENTSERCRET = "b81172265e6b417782fcf075e2daf2ff"
     static let INSTAGRAM_REDIRECT_URI = "https://ambassadoor.co/welcome"
+    static let INSTAGRAM_REDIRECT_URI2 = "https://www.ambassadoor.co/welcome"
+    */
+    
+    static let INSTAGRAM_AUTHURL = "https://api.instagram.com/oauth/authorize/"
+    //static let INSTAGRAM_CLIENT_ID = "fa083c34de6847ff95db596d75ef1c31"
+    static let INSTAGRAM_CLIENT_ID = "177566490238866"
+    //static let INSTAGRAM_CLIENTSERCRET = "b81172265e6b417782fcf075e2daf2ff"
+    static let INSTAGRAM_CLIENTSERCRET = "7ef91a8ef559a42d72562d3a9b210275"
+    static let INSTAGRAM_REDIRECT_URI = "https://www.ambassadoor.co/"
+    //static let INSTAGRAM_REDIRECT_URI = "https://ambassadoor.co/welcome"
     static let INSTAGRAM_REDIRECT_URI2 = "https://www.ambassadoor.co/welcome"
     
     //Dwolla account information Note: currently not using dwolla
@@ -122,6 +133,98 @@ struct API {
         }.resume()
     }
     
+    static func getProfileInfo(userId: String,completed: ((_ businessuser: Bool) -> () )?) {
+        
+        
+        let url = URL(string: "https://graph.instagram.com/me?fields=id,username,media_count,account_type&access_token=" + INSTAGRAM_ACCESS_TOKEN)
+//        let url = URL(string: "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=" + INSTAGRAM_ACCESS_TOKEN)
+        URLSession.shared.dataTask(with: url!){ (data, response, err) in
+            
+            print("GetProfileInfo: Downloading username data from instagram API")
+            
+            if err == nil {
+                // check if JSON data is downloaded yet
+                guard let jsondata = data else { return }
+                do {
+                    do {
+                        // Deserilize object from JSON
+                        if let profileData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String : AnyObject] {
+                            
+                            if let business = profileData["account_type"] as? String{
+                                
+                                if business == "BUSINESS"{
+                                    
+                                    completed!(true)
+                                    
+                                }else{
+                                    completed!(false)
+                                }
+                                
+                            }else{
+                                completed!(false)
+                            }
+
+                        }
+                    }
+                    // Wait for data to be retrieved before moving on
+                    DispatchQueue.main.async {
+                        print("Deserialization Failed.")
+                        //completed?(nil)
+                    }
+                } catch {
+                    print("JSON Downloading Error!")
+                }
+            }
+        }.resume()
+    }
+    
+    static func getInstagramAccessToken(params: [String: AnyObject],appendedURI: String,completion:@escaping(String,String,Int64)-> Void){
+        
+        let urlString = "https://api.instagram.com/oauth/access_token"
+        
+        let url = URL(string: urlString)!
+        
+        let session = URLSession.shared
+        var request = URLRequest(url: url)
+        request.httpMethod = "Post"
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField:"Content-Type");
+        //request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringCacheData
+        request.httpBody = appendedURI.data(using: .utf8)
+        
+        //        do {
+        //            request.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+        //        } catch let error {
+        //            print(error.localizedDescription)
+        //        }
+        
+        let task = session.dataTask(with: request) { (data, response, error) in
+            if error == nil {
+                let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+                print("result=",dataString!)
+                do {
+                    
+                    if let accDetail = try JSONSerialization.jsonObject(with: data!, options: []) as? [String : Any] {
+                        
+                        let accessToken = accDetail["access_token"] as! String
+                        
+                        let userID = accDetail["user_id"] as! Int64
+                        
+                        completion("success", accessToken, userID)
+                        
+                    }
+                    
+                }catch let error {
+                    
+                    
+                    
+                }
+            }
+            
+        }
+        task.resume()
+    }
+    
     //get instagram user recent media post data
     static func getRecentMedia(completed: ((_ mediaData: [[String: Any]]?) -> () )?) {
         let url = URL(string: "https://api.instagram.com/v1/users/self/media/recent/?access_token=" + INSTAGRAM_ACCESS_TOKEN)
@@ -167,7 +270,7 @@ struct API {
             "name": user.name!,
             "username": user.username,
             "followerCount": user.followerCount,
-            "profilePicture": user.profilePicURL!,
+            "profilePicture": user.profilePicURL ?? "",
             "averageLikes": user.averageLikes ?? 0,
 			"zipCode": user.zipCode as Any,
             "gender": user.gender == nil ? "" : user.gender!.rawValue,

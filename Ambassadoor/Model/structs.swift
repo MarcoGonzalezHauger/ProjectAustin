@@ -117,11 +117,11 @@ class User: NSObject {
     var priorityValue: Int
     var authenticationToken: String
     var tokenFIR: String?
-    
+    //followerCount
     init(dictionary: [String: Any]) {
         self.name = dictionary["name"] as? String
         self.username = dictionary["username"] as! String
-        self.followerCount = dictionary["followerCount"] as! Double
+        self.followerCount = Double(dictionary["followerCount"] as! Int64)
 		if (dictionary["profilePicture"] as? String ?? "") == "" {
 			self.profilePicURL = nil
 		} else {

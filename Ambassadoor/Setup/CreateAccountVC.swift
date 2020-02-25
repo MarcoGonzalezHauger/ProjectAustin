@@ -56,11 +56,12 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                     referralcodeString.append(randomString(length: 6))
                     let referral = referralcodeString.uppercased()
                     NewAccount.referralCode = referral
-                    checkIfUserExists(userID: NewAccount.id) { (exist) in
+                    checkIfUserExists(userID: NewAccount.id) { (exist, user) in
                         
                         if exist{
                             self.AccountCreationFailed(problem: .instaTaken)
                         }else{
+                            Yourself = user
                             self.AccountSuccessfullyCreated()
                         }
                         
@@ -83,8 +84,12 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 	//OTHER CODE:
 	
 	func AccountSuccessfullyCreated() {
-		delegate?.DismissNow()
-        self.dismiss(animated: true, completion: nil)
+
+//        self.delegate?.DismissNow()
+        self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
+//        self.dismiss(animated: true) {
+//
+//        }
 	}
 	
 	

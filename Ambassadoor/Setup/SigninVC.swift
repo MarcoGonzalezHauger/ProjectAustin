@@ -32,14 +32,14 @@ class SigninVC: UIViewController {
     }
 	
 	func SignInNow() {
-		LoginFailed(reason: .passwordInvalid) //[RAM] THIS IS FOR TESTING PURPOSES, REMOVE THIS.
+		//LoginFailed(reason: .passwordInvalid) //[RAM] THIS IS FOR TESTING PURPOSES, REMOVE THIS.
 		
 		//if false {
 			//[RAM]
 			
 			
-			LoginSuccessful() //If the login is valid, use this function to go to HomeVC.
-			LoginFailed(reason: .badEmailFormat) //If login failed, use this function which will tell the user why their login failed
+			//LoginSuccessful() //If the login is valid, use this function to go to HomeVC.
+			//LoginFailed(reason: .badEmailFormat) //If login failed, use this function which will tell the user why their login failed
 			//Please program cases for all possible problems found in "LoginProblem"
 			//For example, if the user didn't have an email use:
 			//LoginFailed(reason: .noEmail)
@@ -63,7 +63,11 @@ class SigninVC: UIViewController {
                             
                             if self.passwordText.text!.md5() == password {
                                 
-                                self.LoginSuccessful()
+                                fetchSingleUserDetails(userID: userID) { (status, user) in
+                                    Yourself = user
+                                    self.LoginSuccessful()
+                                    
+                                }
                                 
                             }else{
                                 self.LoginFailed(reason: .passwordInvalid)
