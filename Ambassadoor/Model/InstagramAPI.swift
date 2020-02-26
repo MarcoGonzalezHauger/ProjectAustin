@@ -382,6 +382,45 @@ struct API {
 		}
     }
     
+    //If instagram user is business user, we need to allow user to facebook login for fetching instagram business user details.
+    
+    static func facebookLoginAct(userIDBusiness: String, owner: UIViewController, completion: @escaping(_ object:Any?, _ error: Error?)->Void) {
+        
+        let login: LoginManager = LoginManager()
+        login.logOut()
+        login.logIn(permissions: ["instagram_basic","pages_show_list"], from: owner) { (result, FBerror) in
+            if((FBerror) != nil){
+                
+                completion(nil, FBerror)
+                
+            }else{
+                GraphRequest(graphPath: userIDBusiness, parameters: ["fields":"biography,id,followers_count,follows_count,media_count,name,profile_picture_url,username,website"]).start(completionHandler: { (connection, userDetail, error) -> Void in
+                    
+                    if error == nil{
+                        completion(userDetail, nil)
+                    }else{
+                        completion(nil, error)
+                    }
+                    
+                })
+                
+            }
+            
+        }
+        
+    }
+    
+    static func calculateAverageLikes(userID: String,completion:@escaping(_ recentMedia: Any?,_ error: Error?)->Void) {
+        
+        GraphRequest(graphPath: userID + "/media", parameters: [:]).start(completionHandler: { (connection, recentMedia, error) -> Void in
+            if error == nil{
+            completion(recentMedia,nil)
+            }else{
+            completion(nil,error)
+            }
+        })
+        
+    }
     
     static func serializeDefaultOffer(offerID: String, postID:String, userID: String) -> [String: Any] {
         var posts: [[String: Any]] = [[String: Any]]()

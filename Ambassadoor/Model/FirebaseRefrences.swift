@@ -648,7 +648,8 @@ func checkIfEmailExist(email: String, completion: @escaping(_ exist: Bool)-> Voi
     let query = ref.queryOrdered(byChild: "email").queryEqual(toValue: email)
     query.observeSingleEvent(of: .value, with: { (snapshot) in
         
-        if let _ = snapshot.value as? [String: AnyObject] {
+        //if let _ = snapshot.value as? [String: AnyObject] {
+        if snapshot.exists() {
             isExist = true
             completion(isExist)
             
@@ -689,7 +690,8 @@ func checkIfUserExists(userID: String,completion: @escaping(_ exist: Bool, _ use
     let ref = Database.database().reference().child("users").child(userID)
     ref.observeSingleEvent(of: .value, with: { (snapshot) in
         
-        if let _ = snapshot.value as? [String: AnyObject]{
+        //if let _ = snapshot.value as? [String: AnyObject]{
+        if snapshot.exists(){
             completion(true, nil)
             
         }else{
@@ -707,6 +709,12 @@ func checkIfUserExists(userID: String,completion: @escaping(_ exist: Bool, _ use
         let userRef = User.init(dictionary: userData)
         completion(false, userRef)
     }
+}
+
+func updateUserDetails(userID: String, userData:[String: Any]){
+    
+    let ref = Database.database().reference().child("users").child(userID)
+     ref.updateChildValues(userData)
 }
 
 func createNewInfluencerAuthentication(info: NewAccountInfo) {
@@ -756,6 +764,8 @@ func updatePassword(userID: String,password: String){
     ref.updateChildValues(["password":password])
     
 }
+
+
 
 //func authenticateUser(email: String, password: String, completion: @escaping(_ success: Bool)-> Void) {
 //

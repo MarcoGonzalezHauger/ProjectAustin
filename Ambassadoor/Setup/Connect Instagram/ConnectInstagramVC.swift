@@ -88,51 +88,7 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
 
         }
     
-    func loginAct(userIDBusiness: String) {
-        
-        let login: LoginManager = LoginManager()
-        login.logOut()
-        login.logIn(permissions: ["instagram_basic","pages_show_list"], from: self) { (result, FBerror) in
-            if((FBerror) != nil){
-                
-            }else{
-                
-                GraphRequest(graphPath: userIDBusiness, parameters: ["fields":"biography,id,followers_count,follows_count,media_count,name,profile_picture_url,username,website"]).start(completionHandler: { (connection, userDetail, error) -> Void in
-                    
-                    if let userDetailDict = userDetail as? [String: AnyObject]{
-                        
-                        if let id = userDetailDict["id"] as? String {
-                           NewAccount.id = id
-                        }
-                        if let followerCount = userDetailDict["followers_count"] as? Int {
-                            NewAccount.followerCount = Int64(followerCount)
-                        }
-                        if let name = userDetailDict["name"] as? String {
-                            NewAccount.instagramName = name
-                        }
-                        if let pic = userDetailDict["profile_picture_url"] as? String {
-                            NewAccount.profilePicture = pic
-                        }
-                        if let username = userDetailDict["username"] as? String {
-                            NewAccount.instagramUsername = username
-                            self.igName = username
-                        }
-                        NewAccount.authenticationToken = AccessToken.current!.tokenString
-                        
-                        DispatchQueue.main.async {
-                            self.performSegue(withIdentifier: "toConnected", sender: self)
-                            //self.NotBusinessAccount()
-                        }
-                        
-                    }
-                    
-                })
-                
-            }
-            
-        }
-        
-    }
+
 	
 	@IBAction func cancelButtonPressed(_ sender: Any) {
 		self.navigationController?.popViewController(animated: true)
@@ -184,7 +140,44 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
             
             if businessuser{
                 self.showStandardAlertDialog(title: "Business User", msg: "You have verified as business user. login with facebook to fetch your business account details") { (clickAction) in
-                    self.loginAct(userIDBusiness: userID)
+                    //self.loginAct(userIDBusiness: userID)
+                    
+                    API.facebookLoginAct(userIDBusiness: userID, owner: self) { (userDetail, error) in
+                        if error == nil {
+                            
+                            if let userDetailDict = userDetail as? [String: AnyObject]{
+                                
+                                if let id = userDetailDict["id"] as? String {
+                                    NewAccount.id = id
+                                }
+                                if let followerCount = userDetailDict["followers_count"] as? Int {
+                                    NewAccount.followerCount = Int64(followerCount)
+                                }
+                                if let name = userDetailDict["name"] as? String {
+                                    NewAccount.instagramName = name
+                                }
+                                if let pic = userDetailDict["profile_picture_url"] as? String {
+                                    NewAccount.profilePicture = pic
+                                }
+                                if let username = userDetailDict["username"] as? String {
+                                    NewAccount.instagramUsername = username
+                                    self.igName = username
+                                }
+                                NewAccount.authenticationToken = AccessToken.current!.tokenString
+                                
+                                DispatchQueue.main.async {
+                                    self.performSegue(withIdentifier: "toConnected", sender: self)
+                                    //self.NotBusinessAccount()
+                                }
+                                
+                            }else{
+                                self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")
+                            }
+                            
+                        }else{
+                            self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")
+                        }
+                    }
                 }
                 
             }else{
@@ -283,5 +276,42 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
      //                    }
      //
      //                })
+     */
+    
+    /*
+     if error == nil {
+     
+     if let userDetailDict = userDetail as? [String: AnyObject]{
+         
+         if let id = userDetailDict["id"] as? String {
+            NewAccount.id = id
+         }
+         if let followerCount = userDetailDict["followers_count"] as? Int {
+             NewAccount.followerCount = Int64(followerCount)
+         }
+         if let name = userDetailDict["name"] as? String {
+             NewAccount.instagramName = name
+         }
+         if let pic = userDetailDict["profile_picture_url"] as? String {
+             NewAccount.profilePicture = pic
+         }
+         if let username = userDetailDict["username"] as? String {
+             NewAccount.instagramUsername = username
+             self.igName = username
+         }
+         NewAccount.authenticationToken = AccessToken.current!.tokenString
+         
+         DispatchQueue.main.async {
+             self.performSegue(withIdentifier: "toConnected", sender: self)
+             //self.NotBusinessAccount()
+         }
+         
+     }else{
+         self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")
+     }
+     
+     }else{
+         self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")
+     }
      */
 }
