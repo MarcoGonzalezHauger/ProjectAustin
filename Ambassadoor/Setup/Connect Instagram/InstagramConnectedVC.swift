@@ -58,7 +58,7 @@ class InstagramConnectedVC: UIViewController {
     
     func AverageLikes() {
         
-        API.calculateAverageLikes(userID: NewAccount.id) { (recentMedia, error) in
+        API.calculateAverageLikes(userID: NewAccount.id, longLiveToken: NewAccount.authenticationToken) { (recentMedia, error) in
             
             if error == nil {
             
@@ -75,7 +75,7 @@ class InstagramConnectedVC: UIViewController {
                         
                         if let mediaID = mediaObject["id"] as? String {
                             
-                            GraphRequest(graphPath: mediaID, parameters: ["fields":"like_count,timestamp"]).start(completionHandler: { (connection, recentMediaDetails, error) -> Void in
+                            GraphRequest(graphPath: mediaID, parameters: ["fields":"like_count,timestamp","access_token":NewAccount.authenticationToken]).start(completionHandler: { (connection, recentMediaDetails, error) -> Void in
                                 
                                 if let mediaDict = recentMediaDetails as? [String: AnyObject] {
                                     

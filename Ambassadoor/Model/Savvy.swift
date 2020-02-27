@@ -461,8 +461,9 @@ func CheckForCompletedOffers(completion: (() -> Void)?) {
 				if !global.AcceptedOffers[OfferIndex].allConfirmed {
 					//get instagram user media data
 					for var postVal in mediaData!{
-						if let captionVal = (postVal["caption"] as? [String:Any]) {
-							let instacaption = captionVal["text"] as! String
+                        //if let captionVal = (postVal["caption"] as? [String:Any]) {
+						if let captionVal = (postVal["caption"] as? String) {
+							let instacaption = captionVal
 							if instacaption.contains("#ad"){
 								print("Has #ad")
 								for PostIndex in 0..<(global.AcceptedOffers[OfferIndex].posts.count) {

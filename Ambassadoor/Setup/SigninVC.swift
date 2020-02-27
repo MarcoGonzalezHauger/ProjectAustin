@@ -71,7 +71,11 @@ class SigninVC: UIViewController {
                                         
                                     }
                                 }else{
-                                    
+//                                    fetchSingleUserDetails(userID: userID) { (status, user) in
+//                                        Yourself = user
+//                                        self.LoginSuccessful()
+//
+//                                    }
                                     self.callIfAccessTokenExpired(userID: userID)
                                 }
                                 
@@ -99,7 +103,7 @@ class SigninVC: UIViewController {
     
     func callIfAccessTokenExpired(userID: String) {
         
-        API.facebookLoginAct(userIDBusiness: userID, owner: self) { (userDetail, error) in
+        API.facebookLoginAct(userIDBusiness: userID, owner: self) { (userDetail,longliveToken, error) in
             if error == nil {
                 
                 if let userDetailDict = userDetail as? [String: AnyObject]{
@@ -119,9 +123,10 @@ class SigninVC: UIViewController {
                     if let username = userDetailDict["username"] as? String {
                         NewAccount.instagramUsername = username
                     }
-                    NewAccount.authenticationToken = AccessToken.current!.tokenString
+                    //AccessToken.current!.tokenString
+                    NewAccount.authenticationToken = longliveToken!
                     
-                    API.calculateAverageLikes(userID: userID) { (recentMedia, error) in
+                    API.calculateAverageLikes(userID: userID, longLiveToken: NewAccount.authenticationToken) { (recentMedia, error) in
                         
                         if error == nil{
                             
@@ -160,7 +165,7 @@ class SigninVC: UIViewController {
                     
                     if let mediaID = mediaObject["id"] as? String {
                         
-                        GraphRequest(graphPath: mediaID, parameters: ["fields":"like_count,timestamp"]).start(completionHandler: { (connection, recentMediaDetails, error) -> Void in
+                        GraphRequest(graphPath: mediaID, parameters: ["fields":"like_count,timestamp","access_token":NewAccount.authenticationToken]).start(completionHandler: { (connection, recentMediaDetails, error) -> Void in
                             
                             if let mediaDict = recentMediaDetails as? [String: AnyObject] {
                                 

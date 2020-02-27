@@ -142,7 +142,7 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                 self.showStandardAlertDialog(title: "Business User", msg: "You have verified as business user. login with facebook to fetch your business account details") { (clickAction) in
                     //self.loginAct(userIDBusiness: userID)
                     
-                    API.facebookLoginAct(userIDBusiness: userID, owner: self) { (userDetail, error) in
+                    API.facebookLoginAct(userIDBusiness: userID, owner: self) { (userDetail,longLiveToken,error) in
                         if error == nil {
                             
                             if let userDetailDict = userDetail as? [String: AnyObject]{
@@ -163,7 +163,7 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                                     NewAccount.instagramUsername = username
                                     self.igName = username
                                 }
-                                NewAccount.authenticationToken = AccessToken.current!.tokenString
+                                NewAccount.authenticationToken = longLiveToken!
                                 
                                 DispatchQueue.main.async {
                                     self.performSegue(withIdentifier: "toConnected", sender: self)
