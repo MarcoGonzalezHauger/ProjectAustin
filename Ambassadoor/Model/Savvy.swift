@@ -494,6 +494,8 @@ func CheckForCompletedOffers(completion: (() -> Void)?) {
 											global.AcceptedOffers[OfferIndex].posts[PostIndex].isConfirmed = true
 											global.AcceptedOffers[OfferIndex].posts[PostIndex].confirmedSince = Date()
                                             postVal["status"] = "posted"
+                                            postVal["type"] = "carousel"
+                                            postVal["images"] = Yourself.profilePicURL ?? ""
                                             instagramPostUpdate(offerID: global.AcceptedOffers[OfferIndex].offer_ID, post: [global.AcceptedOffers[OfferIndex].posts[PostIndex].post_ID:postVal])
                                             let pushParam = ["offer":global.AcceptedOffers[OfferIndex].title,"token":Yourself.tokenFIR,"user":Yourself.username] as [String : AnyObject]
                                             sendPushNotification(params: pushParam)
