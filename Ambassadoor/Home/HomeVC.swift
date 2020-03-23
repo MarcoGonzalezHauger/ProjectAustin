@@ -252,6 +252,16 @@ class HomeVC: UIViewController, UITableViewDataSource, UITableViewDelegate, Offe
 	var delegate: DismissNow?
 	
 	override func viewDidAppear(_ animated: Bool) {
+        /*
+        getFilteredUsers(userIDs: ["4899005","24162407"]) { (status, users, tokens) in
+            
+            if status {
+                
+            }else{
+                
+            }
+            
+        }*/
 		if  Yourself == nil {
 		performSegue(withIdentifier: "toSignUp", sender: self)
         }

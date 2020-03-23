@@ -758,6 +758,93 @@ func fetchSingleUserDetails(userID: String, completion: @escaping(_ status: Bool
     }, withCancel: nil)
 }
 
+func updateFollowingList(userID: String, ownUserID: User) {
+    let usersRef = Database.database().reference().child("users").child(ownUserID.id)
+    usersRef.updateChildValues(["following":ownUserID.following!])
+}
+
+func getFilteredUsers(userIDs: [String], completion: @escaping(_ status: Bool, _ users: [User]?, _ deveiceTokens: [String]?)-> Void) {
+    
+    let usersRef = Database.database().reference().child("users")
+    usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let dictValue = snapshot.value as? [String: AnyObject] {
+            
+            let filteredData = dictValue.filter { (value) -> Bool in
+                return userIDs.contains(value.key)
+            }
+            
+            var usersList = [User]()
+            var tokens = [String]()
+            
+            for (_,value) in filteredData {
+                
+                if let valueDict = value as? [String: Any] {
+                    
+                    let user = User.init(dictionary: valueDict)
+                    usersList.append(user)
+                    if let token = valueDict["tokenFIR"] as? String {
+                    tokens.append(token)
+                    }
+                    
+                }
+                
+            }
+            completion(true,usersList,tokens)
+        }
+        
+    }) { (error) in
+        completion(false,nil, nil)
+    }
+    
+}
+
+func getCompanyDetails(id: String, completion: @escaping (_ status: Bool,_ companyDeatails: Company?)->Void) {
+    
+    let usersRef = Database.database().reference().child("companies").child(id)
+    usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let dict = snapshot.value as? [String: [String: Any]] {
+            
+            if let dictValue = dict.values.first {
+                
+                let company = Company.init(name: dictValue["name"] as! String, logo: "", mission: "", website: "", account_ID: "", instagram_name: "", description: "")
+                
+                completion(true, company)
+                
+            }else{
+                completion(false, nil)
+            }
+            
+            
+            
+        }
+        
+    }) { (error) in
+        
+        completion(false, nil)
+        
+    }
+    
+}
+
+func fetchBusinessUserDetails(userID: String, completion: @escaping(_ status: Bool, _ deviceFIR: String?)->Void) {
+    let usersRef = Database.database().reference().child("CompanyUser").child(userID)
+    usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
+        if let dictionary = snapshot.value as? [String: AnyObject] {
+            if let deviceToken = dictionary["deviceFIRToken"] as? String {
+               completion(true,deviceToken)
+            }else{
+               completion(false,nil)
+            }
+            //Yourself = userInstance
+            
+//            print("Appdelegate gender = \(Yourself.gender)")
+
+        }
+    }, withCancel: nil)
+}
+
 func updatePassword(userID: String,password: String){
     
     let ref = Database.database().reference().child("InfluencerAuthentication").child(userID)

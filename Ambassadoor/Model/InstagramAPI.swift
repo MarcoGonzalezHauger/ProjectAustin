@@ -616,9 +616,12 @@ struct API {
             "lastPaidOSCDate": "",
             "priorityValue": 0,
             "authenticationToken": details.authenticationToken,
-            "tokenFIR":global.deviceFIRToken
+            "tokenFIR":global.deviceFIRToken,
+            "following":[]
         ]
         return userData
     }
+    
+    
     
 }
