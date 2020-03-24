@@ -117,6 +117,8 @@ class User: NSObject {
     var priorityValue: Int
     var authenticationToken: String
     var tokenFIR: String?
+    var following: [String]?
+    
     //followerCount
     init(dictionary: [String: Any]) {
         self.name = dictionary["name"] as? String
@@ -144,6 +146,7 @@ class User: NSObject {
         self.priorityValue = dictionary["priorityValue"] as? Int ?? 0
         self.authenticationToken = dictionary["authenticationToken"] as? String ?? ""
         self.tokenFIR = dictionary["tokenFIR"] as? String ?? ""
+        self.following = dictionary["following"] as? [String] ?? []
     }
 	
 	override var description: String {
@@ -330,6 +333,8 @@ struct Company {
 	let account_ID: String
 	let instagram_name: String
 	let description: String
+    
+    
 }
 
 //Carries personal info only avalible to view and edit by the user.

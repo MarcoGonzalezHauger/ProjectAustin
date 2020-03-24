@@ -54,6 +54,8 @@ class CentralVariables {
     
     //Offers tied to a User
     var OffersForUser: [Offer] = [] { didSet { EachListener(){ if let targetfunction = $0.OffersForUserChanged{ targetfunction()}}}}
+    
+    
 	
 	//Every VC that is connected to this global variable.
 	func EachListener(updatefor: (_ Listener: GlobalListener) -> ()) {
