@@ -461,8 +461,9 @@ func CheckForCompletedOffers(completion: (() -> Void)?) {
 				if !global.AcceptedOffers[OfferIndex].allConfirmed {
 					//get instagram user media data
 					for var postVal in mediaData!{
-						if let captionVal = (postVal["caption"] as? [String:Any]) {
-							let instacaption = captionVal["text"] as! String
+                        //if let captionVal = (postVal["caption"] as? [String:Any]) {
+						if let captionVal = (postVal["caption"] as? String) {
+							let instacaption = captionVal
 							if instacaption.contains("#ad"){
 								print("Has #ad")
 								for PostIndex in 0..<(global.AcceptedOffers[OfferIndex].posts.count) {
@@ -493,6 +494,8 @@ func CheckForCompletedOffers(completion: (() -> Void)?) {
 											global.AcceptedOffers[OfferIndex].posts[PostIndex].isConfirmed = true
 											global.AcceptedOffers[OfferIndex].posts[PostIndex].confirmedSince = Date()
                                             postVal["status"] = "posted"
+                                            postVal["type"] = "carousel"
+                                            postVal["images"] = Yourself.profilePicURL ?? ""
                                             instagramPostUpdate(offerID: global.AcceptedOffers[OfferIndex].offer_ID, post: [global.AcceptedOffers[OfferIndex].posts[PostIndex].post_ID:postVal])
                                             let pushParam = ["offer":global.AcceptedOffers[OfferIndex].title,"token":Yourself.tokenFIR,"user":Yourself.username] as [String : AnyObject]
                                             sendPushNotification(params: pushParam)
@@ -601,5 +604,7 @@ func serializeDepositDetails(deposit: Deposit) -> [String: Any] {
 	
     return depositSerialize
 }
+
+
 
 

@@ -44,6 +44,7 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	@IBOutlet weak var infLogo: UIImageView!
 	@IBOutlet weak var infLabel: UILabel!
 	@IBOutlet weak var tierBubble: ShadowView!
+    @IBOutlet weak var follow: UIButton!
 	
 	var ThisUser: User! {
 		didSet {
@@ -95,6 +96,12 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 //			print(profilePic)
 			profilePic.image = defaultImage
 		}
+        if (Yourself.following?.contains(ThisUser.id))!{
+            
+            self.follow.setTitle("Following", for: .normal)
+        }else{
+            self.follow.setTitle("Follow", for: .normal)
+        }
 	}
 	
 	@IBOutlet weak var profilePic: UIImageView!
@@ -153,6 +160,27 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 			sharedApps.open(URL(string: "https://instagram.com/\(user)")!)
 		}
 	}
+    
+    @IBAction func followAction(_ sender: Any){
+        
+        if (Yourself.following?.contains(ThisUser.id))!{
+            
+            self.follow.setTitle("Follow", for: .normal)
+            var followingList = Yourself.following
+            if let i = followingList?.firstIndex(of: ThisUser.id){
+                followingList?.remove(at: i)
+                Yourself.following = followingList
+                updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
+            }
+        }else{
+            self.follow.setTitle("Following", for: .normal)
+            var followingList = Yourself.following
+            followingList?.append(ThisUser.id)
+            Yourself.following = followingList
+            updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
+        }
+        
+    }
 	
 	@IBOutlet weak var shelf: UITableView!
 	@IBOutlet weak var catLabel: UILabel!

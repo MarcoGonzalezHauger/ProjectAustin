@@ -29,6 +29,9 @@ struct API {
     //static let INSTAGRAM_REDIRECT_URI = "https://ambassadoor.co/welcome"
     static let INSTAGRAM_REDIRECT_URI2 = "https://www.ambassadoor.co/welcome"
     
+    static let FACEBOOK_CLIENT_ID = "1802052916593320"
+    static let FACEBOOK_CLIENTSERCRET = "933711de6744e652f5bbf00ec53b36cc"
+    
     //Dwolla account information Note: currently not using dwolla
     static let kDwollaClient_id = "CijOdBYNcHDSwXjkf4PnsXjHBYSgKdgc7TdfoDNUZiNvOPfAst"
     static let kDwollaClient_secret = "m8oCRchilXnkR3eFAKlNuQWFqv9zROJX0CkD5aiys1H3nmvQMb"
@@ -49,7 +52,7 @@ struct API {
     //get instagram users media
     static let INSTAGRAM_getMedia = "https://api.instagram.com/v1/users/self/media/recent/?access_token="
     static var instagramMediaData: [[String: AnyObject]] = []
-
+    static var instagramMediaID: [String] = [String]()
     
     static var INSTAGRAM_ACCESS_TOKEN = ""
     static let threeMonths: Double = 7889229
@@ -227,6 +230,95 @@ struct API {
     
     //get instagram user recent media post data
     static func getRecentMedia(completed: ((_ mediaData: [[String: Any]]?) -> () )?) {
+        
+        API.calculateAverageLikes(userID: Yourself.id, longLiveToken: Yourself.authenticationToken) { (recentMedia, error) in
+            
+            if error == nil {
+                
+                if let recentMediaDict = recentMedia as? [String: AnyObject] {
+                    
+                    if let mediaData = recentMediaDict["data"] as? [[String: AnyObject]]{
+                        for (index,mediaObject) in mediaData.enumerated() {
+                            
+                            if let mediaID = mediaObject["id"] as? String {
+                                
+                                //if !self.instagramMediaID.contains(mediaID) {
+                                
+                                GraphRequest(graphPath: mediaID, parameters: ["fields":"like_count,timestamp,caption,username","access_token":Yourself.authenticationToken]).start(completionHandler: { (connection, recentMediaDetails, error) -> Void in
+                                    
+                                    if let mediaDict = recentMediaDetails as? [String: AnyObject] {
+                                        
+                                        if let timeStamp = mediaDict["timestamp"] as? String{
+                                            print(Date.getDateFromISO8601DateString(ISO8601String: timeStamp))
+                                            print(Date().deductMonths(month: -3))
+                                            
+                                            if Date.getDateFromISO8601DateString(ISO8601String: timeStamp) > Date().deductMonths(month: -3){
+                                                self.instagramMediaData.append(mediaDict)
+                                                self.instagramMediaID.append(mediaID)
+                                                if index == mediaData.count - 1 {
+                                                 completed?(self.instagramMediaData)
+                                                }
+                                            }
+                                        }
+                                    }
+                                })
+                                //}
+                            }
+                        }
+                    }
+                }
+            }else{
+                //1001 Time Out
+                //NSLocalizedDescription
+                //com.facebook.sdk:FBSDKGraphRequestErrorHTTPStatusCodeKey
+                //NSLocalizedRecoverySuggestion
+                //com.facebook.sdk:FBSDKGraphRequestErrorGraphErrorCodeKey
+                //com.facebook.sdk:FBSDKGraphRequestErrorParsedJSONResponseKey
+                let err = error! as NSError
+                print(err.userInfo)
+                        if let errorObject = err.userInfo["com.facebook.sdk:FBSDKGraphRequestErrorParsedJSONResponseKey"] as? [String: AnyObject]{
+                            
+                            if let errorCode = errorObject["code"] as? Int{
+                                
+                                if errorCode == 400 {
+                                    
+                                    if let errorData = errorObject["body"] as? [String: AnyObject]{
+                                       
+                                        if let errorJson = errorData["error"] as? [String: AnyObject]{
+                                            
+                                            if let errorJsonCode = errorJson["code"] as? Int {
+                                                
+                                                if errorJsonCode == 102 {
+                                                    //"User Access Token has expired. Please login with your Facebook Account"
+                                                    let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
+                                                    
+                                                    (appDelegate?.window!.rootViewController)!.showStandardAlertDialog(title: "Alert", msg: "User Access Token has expired. Please login with your Facebook Account") { (alert) in
+                                                        
+                                                        API.facebookLoginAct(userIDBusiness: Yourself.id, owner: (appDelegate?.window!.rootViewController)!) { (data, longLiveToken,error) in
+                                                            
+                                                        }
+                                                        
+                                                    }
+                                                }
+                                                
+                                            }
+                                            
+                                        }
+                                        
+                                    }
+                                    
+                                }
+                                
+                            }
+                            
+                        }
+                        
+                    
+                
+            }
+        }
+        
+        /*
         let url = URL(string: "https://api.instagram.com/v1/users/self/media/recent/?access_token=" + INSTAGRAM_ACCESS_TOKEN)
         URLSession.shared.dataTask(with: url!){ (data, response, err) in
             
@@ -260,6 +352,7 @@ struct API {
                 }
             }
         }.resume()
+    */
     }
     
     
@@ -382,6 +475,75 @@ struct API {
 		}
     }
     
+    //If instagram user is business user, we need to allow user to facebook login for fetching instagram business user details.
+    
+    static func facebookLoginAct(userIDBusiness: String, owner: UIViewController, completion: @escaping(_ object:Any?, _ longliveToken: String?, _ error: Error?)->Void) {
+        
+        let login: LoginManager = LoginManager()
+        login.logOut()
+        login.logIn(permissions: ["instagram_basic","pages_show_list"], from: owner) { (result, FBerror) in
+            if((FBerror) != nil){
+                
+                completion(nil, nil, FBerror)
+                
+            }else{
+                
+                
+                GraphRequest(graphPath: "/oauth/access_token", parameters: ["grant_type": "fb_exchange_token","client_id":API.FACEBOOK_CLIENT_ID,"client_secret": FACEBOOK_CLIENTSERCRET,"fb_exchange_token":AccessToken.current!.tokenString]).start(completionHandler: { (connection, userToken, error) -> Void in
+                    
+                    if error == nil{
+                        //completion(userDetail, nil)
+                        
+                        if let liveTokenDict = userToken as? [String: AnyObject] {
+                           
+                            if let liveToken = liveTokenDict["access_token"] as? String{
+                                
+                                GraphRequest(graphPath: userIDBusiness, parameters: ["fields":"biography,id,followers_count,follows_count,media_count,name,profile_picture_url,username,website"]).start(completionHandler: { (connection, userDetail, tokenError) -> Void in
+                                    
+                                    if error == nil{
+                                        completion(userDetail, liveToken, nil)
+                                    }else{
+                                        completion(nil, nil, tokenError)
+                                    }
+                                    
+                                })
+                               
+                            }
+                            
+                        }
+                        
+                    }else{
+                        GraphRequest(graphPath: userIDBusiness, parameters: ["fields":"biography,id,followers_count,follows_count,media_count,name,profile_picture_url,username,website"]).start(completionHandler: { (connection, userDetail, tokenError) -> Void in
+                            
+                            if error == nil{
+                                completion(userDetail, AccessToken.current!.tokenString, nil)
+                            }else{
+                                completion(nil, nil, tokenError)
+                            }
+                            
+                        })
+                    }
+                    
+                })
+                
+                
+            }
+            
+        }
+        
+    }
+    
+    static func calculateAverageLikes(userID: String,longLiveToken: String,completion:@escaping(_ recentMedia: Any?,_ error: Error?)->Void) {
+        
+        GraphRequest(graphPath: userID + "/media", parameters: ["access_token":longLiveToken]).start(completionHandler: { (connection, recentMedia, error) -> Void in
+            if error == nil{
+            completion(recentMedia,nil)
+            }else{
+            completion(nil,error)
+            }
+        })
+        
+    }
     
     static func serializeDefaultOffer(offerID: String, postID:String, userID: String) -> [String: Any] {
         var posts: [[String: Any]] = [[String: Any]]()
@@ -454,9 +616,12 @@ struct API {
             "lastPaidOSCDate": "",
             "priorityValue": 0,
             "authenticationToken": details.authenticationToken,
-            "tokenFIR":global.deviceFIRToken
+            "tokenFIR":global.deviceFIRToken,
+            "following":[]
         ]
         return userData
     }
+    
+    
     
 }
