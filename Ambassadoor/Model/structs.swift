@@ -118,7 +118,7 @@ class User: NSObject {
     var authenticationToken: String
     var tokenFIR: String?
     var following: [String]?
-    
+    var email: String?
     //followerCount
     init(dictionary: [String: Any]) {
         self.name = dictionary["name"] as? String
@@ -134,7 +134,8 @@ class User: NSObject {
 		self.averageLikes = dictionary["averageLikes"] as? Double
 		self.zipCode = dictionary["zipCode"] as? String
         self.id = dictionary["id"] as! String
-        self.gender = (dictionary["gender"] as? Gender.RawValue).map { Gender(rawValue: $0) }!
+        self.gender = Gender(rawValue: dictionary["gender"] as? String ?? "Male")
+        //self.gender = (dictionary["gender"] as? Gender.RawValue).map { Gender(rawValue: $0) }!
         self.isBankAdded = dictionary["isBankAdded"] as! Bool 
         self.yourMoney = dictionary["yourMoney"] as! Double
         self.joinedDate = dictionary["joinedDate"] as? String
@@ -147,6 +148,7 @@ class User: NSObject {
         self.authenticationToken = dictionary["authenticationToken"] as? String ?? ""
         self.tokenFIR = dictionary["tokenFIR"] as? String ?? ""
         self.following = dictionary["following"] as? [String] ?? []
+        self.email = dictionary["email"] as? String ?? ""
     }
 	
 	override var description: String {
