@@ -605,6 +605,81 @@ func serializeDepositDetails(deposit: Deposit) -> [String: Any] {
     return depositSerialize
 }
 
+func AverageLikes(userID: String, userToken: String) {
+    
+    API.calculateAverageLikes(userID: userID, longLiveToken: userToken) { (recentMedia, error) in
+        
+        if error == nil {
+        
+        if let recentMediaDict = recentMedia as? [String: AnyObject] {
+            
+            if let mediaData = recentMediaDict["data"] as? [[String: AnyObject]]{
+                
+                
+                var numberOfPost = 0
+                var numberOfLikes = 0
+                
+                for (index,mediaObject) in mediaData.enumerated() {
+                    
+                    if let mediaID = mediaObject["id"] as? String {
+                        
+                        GraphRequest(graphPath: mediaID, parameters: ["fields":"like_count,timestamp","access_token":userToken]).start(completionHandler: { (connection, recentMediaDetails, error) -> Void in
+                            
+                            if let mediaDict = recentMediaDetails as? [String: AnyObject] {
+                                
+                                if let timeStamp = mediaDict["timestamp"] as? String{
+                                    print(Date.getDateFromISO8601DateString(ISO8601String: timeStamp))
+                                    print(Date().deductMonths(month: -3))
+                                    
+                                    if Date.getDateFromISO8601DateString(ISO8601String: timeStamp) > Date().deductMonths(month: -3){
+                                        
+                                        if let likeCount = mediaDict["like_count"] as? Int{
+                                            numberOfPost += 1
+                                            numberOfLikes += likeCount
+                                        }
+                                        
+                                        
+                                        
+                                    }
+                                    
+                                }
+                                
+                            }
+                            
+                            
+                            if index == mediaObject.count - 1{
+                                
+                                if numberOfPost != 0 {
+                                
+                                if Double(numberOfLikes/numberOfPost) != nil{
+                                    let avgLikes = Double(numberOfLikes/numberOfPost)
+                                    
+                                    let userData: [String: Any] = ["averageLikes": avgLikes]
+                                    Yourself.averageLikes = avgLikes
+                                    updateUserDetails(userID: userID, userData: userData)
+                                    
+                                }
+                                
+                            }
+                                
+                            }
+                            
+                        })
+                        
+                    }
+                    
+                }
+                
+                
+            }
+        }
+    }
+    }
+    
+//        GraphRequest(graphPath: NewAccount.id + "/media", parameters: [:]).start(completionHandler: { (connection, recentMedia, error) -> Void in
+//        })
+    
+}
 
 
 

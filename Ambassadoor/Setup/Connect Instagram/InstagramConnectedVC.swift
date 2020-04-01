@@ -28,7 +28,11 @@ class InstagramConnectedVC: UIViewController {
         
         sliderWidth.constant = 0
         self.view .layoutIfNeeded()
-        self.AverageLikes()
+            self.slider.backgroundColor = UIColor.clear
+            self.proceed.setTitle("Proceed", for: .normal)
+            self.proceed.setTitleColor(.white, for: .normal)
+            self.BOX.backgroundColor = UIColor.systemBlue
+        //self.AverageLikes()
     }
     /*
      

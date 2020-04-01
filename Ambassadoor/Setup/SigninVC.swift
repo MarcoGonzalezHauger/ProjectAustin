@@ -70,6 +70,7 @@ class SigninVC: UIViewController {
                                         self.LoginSuccessful()
                                         
                                     }
+                                    
                                 }else{
 //                                    fetchSingleUserDetails(userID: userID) { (status, user) in
 //                                        Yourself = user
@@ -126,20 +127,21 @@ class SigninVC: UIViewController {
                     //AccessToken.current!.tokenString
                     NewAccount.authenticationToken = longliveToken!
                     
-                    API.calculateAverageLikes(userID: userID, longLiveToken: NewAccount.authenticationToken) { (recentMedia, error) in
-                        
-                        if error == nil{
-                            
-                            self.averageLikes(recentMedia: recentMedia, userID: userID)
-                            
-                        }else{
-                            
-                        }
-                        
-                    }
+                    self.updateLoginDetailsToServer(userID: userID)
                     
-                    //                    Yourself = updateUserDetails(userID: userID)
-                    //                    self.LoginSuccessful()
+//                    API.calculateAverageLikes(userID: userID, longLiveToken: NewAccount.authenticationToken) { (recentMedia, error) in
+//
+//                        if error == nil{
+//
+//                            self.averageLikes(recentMedia: recentMedia, userID: userID)
+//
+//                        }else{
+//
+//                        }
+//
+//                    }
+                    
+                    
                     
                 }else{
                     self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")
@@ -152,76 +154,97 @@ class SigninVC: UIViewController {
         
     }
     
-    func averageLikes(recentMedia: Any, userID: String) {
+    func updateLoginDetailsToServer(userID: String) {
+        let userData: [String: Any] = [
+            "id": NewAccount.id,
+            "name": NewAccount.instagramName,
+            "username": NewAccount.instagramUsername,
+            "followerCount": NewAccount.followerCount,
+            "profilePicture": NewAccount.profilePicture,
+            "authenticationToken": NewAccount.authenticationToken,
+            "tokenFIR":global.deviceFIRToken
+        ]
         
-        if let recentMediaDict = recentMedia as? [String: AnyObject] {
-            
-            if let mediaData = recentMediaDict["data"] as? [[String: AnyObject]]{
-                
-                var numberOfPost = 0
-                var numberOfLikes = 0
-                
-                for (index,mediaObject) in mediaData.enumerated() {
-                    
-                    if let mediaID = mediaObject["id"] as? String {
-                        
-                        GraphRequest(graphPath: mediaID, parameters: ["fields":"like_count,timestamp","access_token":NewAccount.authenticationToken]).start(completionHandler: { (connection, recentMediaDetails, error) -> Void in
-                            
-                            if let mediaDict = recentMediaDetails as? [String: AnyObject] {
-                                
-                                if let timeStamp = mediaDict["timestamp"] as? String{
-                                    print(Date.getDateFromISO8601DateString(ISO8601String: timeStamp))
-                                    print(Date().deductMonths(month: -3))
-                                    
-                                    if Date.getDateFromISO8601DateString(ISO8601String: timeStamp) > Date().deductMonths(month: -3){
-                                        
-                                        if let likeCount = mediaDict["like_count"] as? Int{
-                                            numberOfPost += 1
-                                            numberOfLikes += likeCount
-                                        }
-                                    }
-                                    
-                                }
-                                
-                            }
-                            
-                            
-                            
-                            if index == mediaObject.count - 1{
-                                if Double(numberOfLikes/numberOfPost) != nil{
-                                    NewAccount.averageLikes = Double(numberOfLikes/numberOfPost)
-                                }
-                                
-                                let userData: [String: Any] = [
-                                    "id": NewAccount.id,
-                                    "name": NewAccount.instagramName,
-                                    "username": NewAccount.instagramUsername,
-                                    "followerCount": NewAccount.followerCount,
-                                    "profilePicture": NewAccount.profilePicture,
-                                    "averageLikes": NewAccount.averageLikes,
-                                    "authenticationToken": NewAccount.authenticationToken,
-                                    "tokenFIR":global.deviceFIRToken
-                                ]
-                                
-                                updateUserDetails(userID: userID, userData: userData)
-                                fetchSingleUserDetails(userID: userID) { (status, user) in
-                                    Yourself = user
-                                    self.LoginSuccessful()
-                                    
-                                }
-                            }
-                            
-                        })
-                        
-                    }
-                    
-                }
-                
-            }
+        updateUserDetails(userID: userID, userData: userData)
+        
+        fetchSingleUserDetails(userID: userID) { (status, user) in
+            Yourself = user
+            AverageLikes(userID: userID, userToken: NewAccount.authenticationToken)
+            self.LoginSuccessful()
             
         }
-        
     }
+    
+//    func averageLikes(recentMedia: Any, userID: String) {
+//
+//        if let recentMediaDict = recentMedia as? [String: AnyObject] {
+//
+//            if let mediaData = recentMediaDict["data"] as? [[String: AnyObject]]{
+//
+//                var numberOfPost = 0
+//                var numberOfLikes = 0
+//
+//                for (index,mediaObject) in mediaData.enumerated() {
+//
+//                    if let mediaID = mediaObject["id"] as? String {
+//
+//                        GraphRequest(graphPath: mediaID, parameters: ["fields":"like_count,timestamp","access_token":NewAccount.authenticationToken]).start(completionHandler: { (connection, recentMediaDetails, error) -> Void in
+//
+//                            if let mediaDict = recentMediaDetails as? [String: AnyObject] {
+//
+//                                if let timeStamp = mediaDict["timestamp"] as? String{
+//                                    print(Date.getDateFromISO8601DateString(ISO8601String: timeStamp))
+//                                    print(Date().deductMonths(month: -3))
+//
+//                                    if Date.getDateFromISO8601DateString(ISO8601String: timeStamp) > Date().deductMonths(month: -3){
+//
+//                                        if let likeCount = mediaDict["like_count"] as? Int{
+//                                            numberOfPost += 1
+//                                            numberOfLikes += likeCount
+//                                        }
+//                                    }
+//
+//                                }
+//
+//                            }
+//
+//
+//
+//                            if index == mediaObject.count - 1{
+//                                if Double(numberOfLikes/numberOfPost) != nil{
+//                                    NewAccount.averageLikes = Double(numberOfLikes/numberOfPost)
+//                                }
+//
+//                                let userData: [String: Any] = [
+//                                    "id": NewAccount.id,
+//                                    "name": NewAccount.instagramName,
+//                                    "username": NewAccount.instagramUsername,
+//                                    "followerCount": NewAccount.followerCount,
+//                                    "profilePicture": NewAccount.profilePicture,
+//                                    "averageLikes": NewAccount.averageLikes,
+//                                    "authenticationToken": NewAccount.authenticationToken,
+//                                    "tokenFIR":global.deviceFIRToken
+//                                ]
+//
+//                                updateUserDetails(userID: userID, userData: userData)
+//                                fetchSingleUserDetails(userID: userID) { (status, user) in
+//                                    Yourself = user
+//                                    self.LoginSuccessful()
+//
+//                                }
+//                            }
+//
+//                        })
+//
+//                    }
+//
+//                }
+//
+//            }
+//
+//        }
+//
+//    }
     
     //OTHER CODE BELOW
     

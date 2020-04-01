@@ -103,7 +103,7 @@ class User: NSObject {
 	let username: String
 	let followerCount: Double
 	let profilePicURL: String?
-	let averageLikes: Double?
+	var averageLikes: Double?
 	var zipCode: String?
     let id: String
     var gender: Gender?
