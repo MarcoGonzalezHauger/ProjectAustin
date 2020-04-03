@@ -73,9 +73,9 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
     
     // Loads the Instagram login page
         func loadLogin() {
-            if attemptedLogOut {
+            //if attemptedLogOut {
                 API.instaLogout()
-            }
+            //}
             
             let authURL = String(format: "%@?client_id=%@&redirect_uri=%@&scope=user_profile,user_media&response_type=code", arguments: [API.INSTAGRAM_AUTHURL, API.INSTAGRAM_CLIENT_ID, API.INSTAGRAM_REDIRECT_URI])
 

@@ -39,6 +39,8 @@ class basicInfoVC: UIViewController {
 		finishbottom.constant = -120
 		
 		blurView.alpha = 0.5
+        
+        genderSegment.selectedSegmentIndex = 0
 		
 		if #available(iOS 13.0, *) {
 			self.isModalInPresentation = true

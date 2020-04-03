@@ -376,7 +376,8 @@ struct API {
             "lastPaidOSCDate": user.lastPaidOSCDate,
             "priorityValue": user.priorityValue,
             "authenticationToken": user.authenticationToken,
-            "tokenFIR":global.deviceFIRToken
+            "tokenFIR":global.deviceFIRToken,
+            "email":user.email ?? ""
         ]
         return userData
     }
@@ -617,7 +618,8 @@ struct API {
             "priorityValue": 0,
             "authenticationToken": details.authenticationToken,
             "tokenFIR":global.deviceFIRToken,
-            "following":[]
+            "following":[],
+            "email":details.email
         ]
         return userData
     }

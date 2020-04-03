@@ -59,6 +59,8 @@ class CreateLoginVC: UIViewController {
                 
                 if passwordText.text?.count != 0 {
                     
+                    if isMeetingComplexity(password: passwordText.text!){
+                    
                     checkIfEmailExist(email: emailText.text!) { (isExist) in
                         
                         if isExist{
@@ -68,6 +70,12 @@ class CreateLoginVC: UIViewController {
                         }
                         
                     }
+                }
+                else{
+                    
+                    AvaliabilityFailed(reason: .weakPassword)
+                        
+                }
                     
                 }else{
                     AvaliabilityFailed(reason: .noPassword)
