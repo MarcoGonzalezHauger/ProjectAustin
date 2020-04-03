@@ -14,6 +14,11 @@ class SettingCell: UITableViewCell {
 	@IBOutlet weak var categoryLabel: UILabel!
 }
 
+class CashOutCell: UITableViewCell {
+//    @IBOutlet weak var categoryHeader: UILabel!
+//    @IBOutlet weak var categoryLabel: UILabel!
+}
+
 struct ProfileSetting {
 	let Header: String
 	let Information: AnyObject
@@ -70,12 +75,14 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
     var userSettings: [ProfileSetting] = []
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return userSettings.count + 1
+		return userSettings.count + 2
 	}
+	
+	let cashHeight: CGFloat = 85
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		if indexPath.row == 0 {
-			return 65
+			return cashHeight
 		} else {
 			return 75
 		}
@@ -93,6 +100,10 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.row == 0 {
+            let cell = shelf.dequeueReusableCell(withIdentifier: "cashBox", for: indexPath) as! CashOutCell
+			return cell
+		}
+		if indexPath.row == 1 {
 			let cell = shelf.dequeueReusableCell(withIdentifier: "progressBar") as! ProgressBarCell
 			if Yourself.followerCount > TierThreshholds.last! {
 				cell.percentage = 1
@@ -120,7 +131,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 			return cell
 		}
 		let cell = shelf.dequeueReusableCell(withIdentifier: "menuItem") as! SettingCell
-		let settings = userSettings[indexPath.row - 1]
+		let settings = userSettings[indexPath.row - 2]
 		switch settings.identifier {
 		case "main_cat":
 			cell.categoryHeader.text = settings.Header
@@ -204,7 +215,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-
+		shelf.alwaysBounceVertical = false
     }
     override func viewWillAppear(_ animated: Bool) {
         if let profilepic = Yourself.profilePicURL {
@@ -237,6 +248,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
         
         shelf.dataSource = self
         shelf.delegate = self
+        
     }
 	
 	@IBOutlet weak var shelf: UITableView!
@@ -264,6 +276,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		}
         let userData = API.serializeUser(user: Yourself, id: Yourself.id)
         userReference.updateChildValues(userData)
+        
         
         self.shelf.reloadData()
         

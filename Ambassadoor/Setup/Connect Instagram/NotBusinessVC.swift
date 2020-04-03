@@ -12,14 +12,16 @@ class NotBusinessVC: UIViewController {
 	
 	//[RAM] I can not get the scroll view to work, can you take a look at it?
 	
+	@IBOutlet weak var scrollView: UIScrollView!
 	var delegate: VerificationReturned?
 	
     override func viewDidLoad() {
         super.viewDidLoad()
 		delegate?.ThatsNotMe()
-		
+		scrollView.alwaysBounceVertical = false
     }
 	@IBAction func closeButtonPressed(_ sender: Any) {
+		delegate?.ThatsNotMe()
 		dismiss(animated: true, completion: nil)
 	}
 	

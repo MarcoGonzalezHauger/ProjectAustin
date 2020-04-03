@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6Q1-4r-QbC">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Offers-->
+        <scene sceneID="tkj-ap-9eR">
+            <objects>
+                <viewController storyboardIdentifier="SimplexOfferHome" id="6Q1-4r-QbC" customClass="OfferMenuVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="U6v-JN-Ar8">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LrO-XP-73G" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="124"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="US7-Bc-mcK">
+                                        <rect key="frame" x="20" y="52" width="374" height="32"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="31" id="Agz-AY-Am1"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="Followed"/>
+                                            <segment title="Filtered"/>
+                                            <segment title="All"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="segmentValueChangeWithSender:" destination="6Q1-4r-QbC" eventType="valueChanged" id="YRZ-aB-xXk"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description of current page" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7z4-xJ-yxF">
+                                        <rect key="frame" x="123.5" y="91" width="167" height="16"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="16" id="nJ2-vG-gCw"/>
+                                            <constraint firstAttribute="width" constant="167" id="oYc-d6-ZK1"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstItem="US7-Bc-mcK" firstAttribute="leading" secondItem="LrO-XP-73G" secondAttribute="leading" constant="20" id="MFh-Il-ZVN"/>
+                                    <constraint firstAttribute="trailing" secondItem="US7-Bc-mcK" secondAttribute="trailing" constant="20" id="T12-JI-7dr"/>
+                                    <constraint firstItem="7z4-xJ-yxF" firstAttribute="centerX" secondItem="US7-Bc-mcK" secondAttribute="centerX" id="gIl-zN-ilT"/>
+                                    <constraint firstItem="US7-Bc-mcK" firstAttribute="top" secondItem="LrO-XP-73G" secondAttribute="top" constant="52" id="h7b-Mq-Pp6"/>
+                                    <constraint firstAttribute="height" constant="124" id="w5l-F6-TA7"/>
+                                    <constraint firstItem="7z4-xJ-yxF" firstAttribute="top" secondItem="US7-Bc-mcK" secondAttribute="bottom" constant="8" id="xyf-Da-xZX"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                        <real key="value" value="0.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="ShadowColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bJ8-0y-OrD">
+                                <rect key="frame" x="0.0" y="132" width="414" height="705"/>
+                                <connections>
+                                    <segue destination="wp5-xe-NcL" kind="embed" identifier="PageView" id="stR-0p-bft"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="bJ8-0y-OrD" firstAttribute="leading" secondItem="zyf-Ca-Zq7" secondAttribute="leading" id="2No-G5-2JQ"/>
+                            <constraint firstItem="LrO-XP-73G" firstAttribute="trailing" secondItem="zyf-Ca-Zq7" secondAttribute="trailing" id="7Pq-Hk-rTP"/>
+                            <constraint firstItem="bJ8-0y-OrD" firstAttribute="top" secondItem="LrO-XP-73G" secondAttribute="bottom" constant="8" id="K1N-Su-1jJ"/>
+                            <constraint firstItem="LrO-XP-73G" firstAttribute="leading" secondItem="zyf-Ca-Zq7" secondAttribute="leading" id="Ofg-1U-i2M"/>
+                            <constraint firstAttribute="bottom" secondItem="bJ8-0y-OrD" secondAttribute="bottom" constant="59" id="Sfo-UU-Isk"/>
+                            <constraint firstItem="zyf-Ca-Zq7" firstAttribute="trailing" secondItem="bJ8-0y-OrD" secondAttribute="trailing" id="onP-eb-hEJ"/>
+                            <constraint firstItem="LrO-XP-73G" firstAttribute="top" secondItem="U6v-JN-Ar8" secondAttribute="top" id="xOO-e9-Poi"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="zyf-Ca-Zq7"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Offers" image="homa" selectedImage="_highlighted_homa" id="6Cj-my-xdO"/>
+                    <connections>
+                        <outlet property="offerSegmentFilter" destination="US7-Bc-mcK" id="om4-qp-G8M"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U6Y-Rh-2nS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="37.681159420289859" y="94.419642857142847"/>
+        </scene>
+        <!--SignUp-->
+        <scene sceneID="ifY-Hp-ZeU">
+            <objects>
+                <viewControllerPlaceholder storyboardName="LoginSetup" referencedIdentifier="SignUp" id="pi6-zK-5vb" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Qvc-vw-8GH"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JtV-iA-faN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1393" y="-167"/>
+        </scene>
+        <!--OffersPVC-->
+        <scene sceneID="c6I-8Z-WdN">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="wp5-xe-NcL" customClass="OffersPVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <connections>
+                        <segue destination="pi6-zK-5vb" kind="show" identifier="toSignUp" id="ccb-hD-zgO"/>
+                    </connections>
+                </pageViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="68f-fR-jcT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="897" y="113"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="vL2-4L-R1h">
+            <objects>
+                <viewController storyboardIdentifier="allOffers" useStoryboardIdentifierAsRestorationIdentifier="YES" id="8pI-lw-8yE" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="m9I-1g-igz">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="gbe-co-Q8C"/>
+                    </view>
+                    <size key="freeformSize" width="414" height="700"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tsQ-A8-FOd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3213" y="479"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="CSC-Xc-BuZ">
+            <objects>
+                <viewController storyboardIdentifier="filteredOffers" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Uk9-8h-D98" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="WBH-Vp-1nf">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HZ0-2X-NSF">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="standardOfferCell" rowHeight="85" id="zCz-5m-bRO">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="85"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zCz-5m-bRO" id="NFh-bB-u04">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="85"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Vf-4O-rSL" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                                    <rect key="frame" x="6" y="7.5" width="402" height="70"/>
+                                                    <subviews>
+                                                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mRs-tv-l4w" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                                            <rect key="frame" x="0.0" y="0.0" width="402" height="70"/>
+                                                            <subviews>
+                                                                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3f7-w9-w7Q" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                                                    <rect key="frame" x="0.0" y="50" width="200" height="20"/>
+                                                                    <color key="backgroundColor" red="1" green="0.89051556977008794" blue="0.1373122322716912" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="20" id="Gcg-RP-Uw8"/>
+                                                                        <constraint firstAttribute="width" constant="200" id="MaP-us-1hX"/>
+                                                                    </constraints>
+                                                                    <userDefinedRuntimeAttributes>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                            <real key="value" value="0.0"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                                                            <real key="value" value="0.0"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                    </userDefinedRuntimeAttributes>
+                                                                </view>
+                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2L6-yl-DEN" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="402" height="65"/>
+                                                                    <subviews>
+                                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cXe-Ca-Pnk">
+                                                                            <rect key="frame" x="8" y="8" width="50" height="50"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="height" constant="50" id="Mbx-Nb-pXK"/>
+                                                                                <constraint firstAttribute="width" constant="50" id="UgZ-Df-j2o"/>
+                                                                            </constraints>
+                                                                        </imageView>
+                                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="beJ-mn-QzQ">
+                                                                            <rect key="frame" x="66" y="10.5" width="163.5" height="45.5"/>
+                                                                            <subviews>
+                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="$20.26" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dZD-Ih-JCs">
+                                                                                    <rect key="frame" x="0.0" y="0.0" width="66.5" height="23"/>
+                                                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                                                                    <nil key="textColor"/>
+                                                                                    <nil key="highlightedColor"/>
+                                                                                </label>
+                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Company Name Here" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rQD-Bd-4Sw">
+                                                                                    <rect key="frame" x="0.0" y="25" width="163.5" height="20.5"/>
+                                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                                    <nil key="textColor"/>
+                                                                                    <nil key="highlightedColor"/>
+                                                                                </label>
+                                                                            </subviews>
+                                                                        </stackView>
+                                                                    </subviews>
+                                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                                    <constraints>
+                                                                        <constraint firstItem="cXe-Ca-Pnk" firstAttribute="top" secondItem="2L6-yl-DEN" secondAttribute="top" constant="8" id="H3O-Fr-IVJ"/>
+                                                                        <constraint firstItem="beJ-mn-QzQ" firstAttribute="centerY" secondItem="cXe-Ca-Pnk" secondAttribute="centerY" id="KQD-hs-gMS"/>
+                                                                        <constraint firstItem="beJ-mn-QzQ" firstAttribute="leading" secondItem="cXe-Ca-Pnk" secondAttribute="trailing" constant="8" id="QEd-p8-9Q7"/>
+                                                                        <constraint firstItem="cXe-Ca-Pnk" firstAttribute="leading" secondItem="2L6-yl-DEN" secondAttribute="leading" constant="8" id="sQD-N0-Ek2"/>
+                                                                    </constraints>
+                                                                    <userDefinedRuntimeAttributes>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                            <real key="value" value="10"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                                                            <real key="value" value="0.0"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                    </userDefinedRuntimeAttributes>
+                                                                </view>
+                                                            </subviews>
+                                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                            <constraints>
+                                                                <constraint firstItem="2L6-yl-DEN" firstAttribute="leading" secondItem="mRs-tv-l4w" secondAttribute="leading" id="0cd-k8-dCk"/>
+                                                                <constraint firstItem="2L6-yl-DEN" firstAttribute="top" secondItem="mRs-tv-l4w" secondAttribute="top" id="2qz-2r-QtQ"/>
+                                                                <constraint firstAttribute="trailing" secondItem="2L6-yl-DEN" secondAttribute="trailing" id="Z93-U6-fCo"/>
+                                                                <constraint firstAttribute="bottom" secondItem="2L6-yl-DEN" secondAttribute="bottom" constant="5" id="bhw-i2-3qm"/>
+                                                                <constraint firstItem="3f7-w9-w7Q" firstAttribute="leading" secondItem="mRs-tv-l4w" secondAttribute="leading" id="mOH-hz-CQo"/>
+                                                                <constraint firstAttribute="bottom" secondItem="3f7-w9-w7Q" secondAttribute="bottom" id="tkM-sg-3wB"/>
+                                                            </constraints>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                    <real key="value" value="10"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                                                    <real key="value" value="0.0"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                        </view>
+                                                    </subviews>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="bottom" secondItem="mRs-tv-l4w" secondAttribute="bottom" id="2w3-m3-d5H"/>
+                                                        <constraint firstItem="mRs-tv-l4w" firstAttribute="top" secondItem="7Vf-4O-rSL" secondAttribute="top" id="8Of-10-au4"/>
+                                                        <constraint firstItem="mRs-tv-l4w" firstAttribute="leading" secondItem="7Vf-4O-rSL" secondAttribute="leading" id="CSs-qo-Hal"/>
+                                                        <constraint firstAttribute="height" constant="70" id="nxQ-qI-C1R"/>
+                                                        <constraint firstAttribute="trailing" secondItem="mRs-tv-l4w" secondAttribute="trailing" id="wzm-sf-KY2"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                            <real key="value" value="8"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                                            <real key="value" value="0.20000000000000001"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
+                                                            <real key="value" value="3"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="ShadowColor">
+                                                            <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                            <real key="value" value="0.25"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                            <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="7Vf-4O-rSL" secondAttribute="trailing" constant="6" id="XBt-jr-Ges"/>
+                                                <constraint firstItem="7Vf-4O-rSL" firstAttribute="leading" secondItem="NFh-bB-u04" secondAttribute="leading" constant="6" id="fDq-Id-D21"/>
+                                                <constraint firstItem="7Vf-4O-rSL" firstAttribute="centerY" secondItem="NFh-bB-u04" secondAttribute="centerY" id="uBL-LT-ynA"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="AZS-ra-hvR" firstAttribute="trailing" secondItem="HZ0-2X-NSF" secondAttribute="trailing" id="0k3-0B-jKF"/>
+                            <constraint firstItem="HZ0-2X-NSF" firstAttribute="leading" secondItem="AZS-ra-hvR" secondAttribute="leading" id="SiD-RL-Vb0"/>
+                            <constraint firstItem="HZ0-2X-NSF" firstAttribute="top" secondItem="WBH-Vp-1nf" secondAttribute="top" id="igW-BK-YGU"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="HZ0-2X-NSF" secondAttribute="bottom" id="w1G-eU-FQt"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="AZS-ra-hvR"/>
+                    </view>
+                    <size key="freeformSize" width="414" height="700"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="El4-tU-DE0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2530.434782608696" y="478.79464285714283"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="fud-vc-egf">
+            <objects>
+                <viewController storyboardIdentifier="followedOffers" useStoryboardIdentifierAsRestorationIdentifier="YES" id="S8M-po-FLT" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KU4-wr-aHk">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="SsL-Xy-u14"/>
+                    </view>
+                    <size key="freeformSize" width="414" height="700"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iMd-TW-hdt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1839" y="479"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="_highlighted_homa" width="30" height="30"/>
+        <image name="homa" width="30" height="30"/>
+    </resources>
+</document>
