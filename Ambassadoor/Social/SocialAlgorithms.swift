@@ -62,3 +62,19 @@ func isValidEmail(emailStr:String) -> Bool {
     let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
     return emailPred.evaluate(with: emailStr)
 }
+
+func isMeetingComplexity(password: String) -> Bool {
+    switch password {
+    case _ where password.count < 7:
+        return false
+    case _ where password.uppercased() == password:
+        return false
+    case _ where password.lowercased() == password:
+        return false
+    case _ where password.lowercased().contains("ambassadoor"):
+    return false
+    default:
+        return true
+    }
+    
+}
