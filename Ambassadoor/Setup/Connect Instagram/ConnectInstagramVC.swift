@@ -30,7 +30,7 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
 	}
 	
 	func ThatsNotMe() {
-		//[RAM] WKWebView needs to be reset so that the influencer could login again.
+		loadLogin()
 	}
 	
 
@@ -72,21 +72,21 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
     }
     
     // Loads the Instagram login page
-        func loadLogin() {
-            //if attemptedLogOut {
-                API.instaLogout()
-            //}
-            
-            let authURL = String(format: "%@?client_id=%@&redirect_uri=%@&scope=user_profile,user_media&response_type=code", arguments: [API.INSTAGRAM_AUTHURL, API.INSTAGRAM_CLIENT_ID, API.INSTAGRAM_REDIRECT_URI])
-
-            let urlRequest = URLRequest.init(url: URL.init(string: authURL)!)
-            // Puts login page into WebView on VC
-            self.webView.navigationDelegate = self
-            webView.load(urlRequest)
-            
-            print("WEB VIEW URL: \(String(describing: webView.url))")
-
-        }
+	func loadLogin() {
+		//if attemptedLogOut {
+		API.instaLogout()
+		//}
+		
+		let authURL = String(format: "%@?client_id=%@&redirect_uri=%@&scope=user_profile,user_media&response_type=code", arguments: [API.INSTAGRAM_AUTHURL, API.INSTAGRAM_CLIENT_ID, API.INSTAGRAM_REDIRECT_URI])
+		
+		let urlRequest = URLRequest.init(url: URL.init(string: authURL)!)
+		// Puts login page into WebView on VC
+		self.webView.navigationDelegate = self
+		webView.load(urlRequest)
+		
+		print("WEB VIEW URL: \(String(describing: webView.url))")
+		
+	}
     
 
 	
