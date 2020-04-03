@@ -152,7 +152,7 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 		switch indexPath.row {
 		case 0:
 			cell.titleLabel.text = NewAccount.email == "" ? "Create Login" : "Login Created"
-			cell.SetSubtitle(string: NewAccount.email)
+			cell.SetSubtitle(string: NewAccount.email.lowercased())
 			cell.checkImage.image = UIImage.init(named: NewAccount.email == "" ? "check" : "check_fill")
 		case 1:
 			cell.titleLabel.text = NewAccount.instagramUsername == "" ? "Connect Instagram" : "Instagram Connected"

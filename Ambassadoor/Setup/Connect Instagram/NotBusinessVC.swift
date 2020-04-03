@@ -21,6 +21,7 @@ class NotBusinessVC: UIViewController {
 		scrollView.alwaysBounceVertical = false
     }
 	@IBAction func closeButtonPressed(_ sender: Any) {
+		delegate?.ThatsNotMe()
 		dismiss(animated: true, completion: nil)
 	}
 	

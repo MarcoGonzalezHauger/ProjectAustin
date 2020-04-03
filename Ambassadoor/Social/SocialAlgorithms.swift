@@ -63,18 +63,18 @@ func isValidEmail(emailStr:String) -> Bool {
     return emailPred.evaluate(with: emailStr)
 }
 
-func isMeetingComplexity(password: String) -> Bool {
+func isMeetingComplexity(password: String) -> Int {
     switch password {
     case _ where password.count < 7:
-        return false
+        return 1
     case _ where password.uppercased() == password:
-        return false
+        return 1
     case _ where password.lowercased() == password:
-        return false
+        return 1
     case _ where password.lowercased().contains("ambassadoor"):
-    return false
+		return 2
     default:
-        return true
+        return 0
     }
     
 }
