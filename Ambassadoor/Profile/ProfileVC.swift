@@ -14,6 +14,11 @@ class SettingCell: UITableViewCell {
 	@IBOutlet weak var categoryLabel: UILabel!
 }
 
+class CashOutCell: UITableViewCell {
+//    @IBOutlet weak var categoryHeader: UILabel!
+//    @IBOutlet weak var categoryLabel: UILabel!
+}
+
 struct ProfileSetting {
 	let Header: String
 	let Information: AnyObject
@@ -95,7 +100,8 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.row == 0 {
-			return shelf.dequeueReusableCell(withIdentifier: "cashBox")!
+            let cell = shelf.dequeueReusableCell(withIdentifier: "cashBox", for: indexPath) as! CashOutCell
+			return cell
 		}
 		if indexPath.row == 1 {
 			let cell = shelf.dequeueReusableCell(withIdentifier: "progressBar") as! ProgressBarCell
@@ -242,6 +248,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
         
         shelf.dataSource = self
         shelf.delegate = self
+        
     }
 	
 	@IBOutlet weak var shelf: UITableView!
@@ -269,6 +276,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		}
         let userData = API.serializeUser(user: Yourself, id: Yourself.id)
         userReference.updateChildValues(userData)
+        
         
         self.shelf.reloadData()
         

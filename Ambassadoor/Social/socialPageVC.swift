@@ -76,6 +76,7 @@ class socialPageVC: UIPageViewController, UIPageViewControllerDataSource, UIPage
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+        
 		dataSource = self
 		delegate = self
 		
@@ -94,6 +95,8 @@ class socialPageVC: UIPageViewController, UIPageViewControllerDataSource, UIPage
 		let bgView = UIView(frame: UIScreen.main.bounds)
 		bgView.backgroundColor = GetBackColor()
 		view.insertSubview(bgView, at: 0)
+        
+    
 	}
 	
 }
