@@ -50,7 +50,7 @@ class Offer : NSObject {
     
     var status: String
 	let money: Double
-	let company: Company?
+    var company: Company?
 	var posts: [Post]
 	let offerdate: Date
 	let offer_ID: String
@@ -76,12 +76,47 @@ class Offer : NSObject {
 	}
     var ownerUserID: String
     var title: String
+    
+    var isRefferedByInfluencer: Bool?
+    var isReferCommissionPaid: Bool?
+    var referralAmount: Double?
+    var referralCommission: Double?
+    var referralID: String?
+    
+    var cashPower: Double?
+    
+    var influencerFilter: [String: AnyObject]?
+    
+    var incresePay: Double?
+    
+    var companyDetails: [String: Any]?
+    
     init(dictionary: [String: AnyObject]) {
         
         self.status = dictionary["status"] as! String
         self.money = dictionary["money"] as! Double
-        self.company = dictionary["company"] as? Company
-        self.posts = dictionary["posts"] as! [Post]
+        self.company = nil
+        if let companyDetails = dictionary["companyDetails"] as? [String: AnyObject]{
+            
+          self.company = Company.init(name: companyDetails["name"] as! String, logo: companyDetails["logo"] as? String, mission: companyDetails["mission"] as! String, website: companyDetails["website"] as! String, account_ID: companyDetails["account_ID"] as! String, instagram_name: "", description: "")
+            
+        }
+        
+        
+        var postVal = [Post]()
+        
+        if let posDict = dictionary["posts"] as? [[String: AnyObject]]{
+
+        for post in posDict {
+
+        postVal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool,denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? []))
+
+
+        }
+        
+        }
+        
+        self.posts = postVal
         self.offerdate = getDateFromString(date: dictionary["offerdate"] as! String)
         self.offer_ID = dictionary["offer_ID"] as! String
         //self.expiredate = getDateFromString(date: dictionary["expiredate"] as! String)
@@ -94,7 +129,30 @@ class Offer : NSObject {
         self.isAccepted = dictionary["isAccepted"] as! Bool
         self.ownerUserID = dictionary["ownerUserID"] as! String
         self.title = dictionary["title"] as! String
+        
+        self.isRefferedByInfluencer = dictionary["isRefferedByInfluencer"] as? Bool ?? false
+        self.isReferCommissionPaid = dictionary["isReferCommissionPaid"] as? Bool ?? false
+        self.referralAmount = dictionary["referralAmount"] as? Double ?? 0.0
+        self.referralID = dictionary["referralID"] as? String ?? ""
+        self.referralCommission = dictionary["referralCommission"] as? Double ?? 0.0
+        
+        self.cashPower = dictionary["cashPower"] as? Double ?? 0.0
+        self.influencerFilter = dictionary["influencerFilter"] as? [String: AnyObject] ?? [:]
+        self.incresePay = dictionary["incresePay"] as? Double ?? 0.0
+        self.companyDetails = dictionary["companyDetails"] as? [String: Any] ?? [:]
     }
+}
+
+class allOfferObject: NSObject {
+    var offer: Offer
+    var isFiltered: Bool
+    
+    init(offer: Offer, isFiltered: Bool) {
+        
+        self.offer = offer
+        self.isFiltered = isFiltered
+    }
+    
 }
 
 //Strcuture for users
