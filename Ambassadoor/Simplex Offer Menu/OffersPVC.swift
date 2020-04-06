@@ -9,7 +9,12 @@
 
 import UIKit
 
-class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, OfferMenuSegmentDelegate {
+    func segmentIndex(index: Int) {
+        let viewController = OrderedVC[index]
+        goToPage(index: index, sender: viewController)
+    }
+    
 	
 	
 	//Turn page -1
@@ -47,12 +52,14 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
 	
 	//Allows for returning of VC when string is inputted.
 	func newVC(VC: String) -> UIViewController {
-		let NewVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: VC)
+		let NewVC = UIStoryboard(name: "OfferMenu", bundle: nil).instantiateViewController(withIdentifier: VC)
 		return NewVC
 	}
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if Yourself != nil{
 		dataSource = self
 		delegate = self
 		
@@ -71,6 +78,16 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
 		let bgView = UIView(frame: UIScreen.main.bounds)
 		bgView.backgroundColor = GetBackColor()
 		view.insertSubview(bgView, at: 0)
+        }else{
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "toSignUp", sender: self)
+            }
+            
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
     }
 	
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6Q1-4r-QbC">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,30 +11,34 @@
         <!--Offers-->
         <scene sceneID="tkj-ap-9eR">
             <objects>
-                <viewController storyboardIdentifier="SimplexOfferHome" id="6Q1-4r-QbC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SimplexOfferHome" id="6Q1-4r-QbC" customClass="OfferMenuVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="U6v-JN-Ar8">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bJ8-0y-OrD">
-                                <rect key="frame" x="0.0" y="124" width="414" height="772"/>
-                                <connections>
-                                    <segue destination="wp5-xe-NcL" kind="embed" id="stR-0p-bft"/>
-                                </connections>
-                            </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LrO-XP-73G" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="-10" width="414" height="134"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="124"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="US7-Bc-mcK">
-                                        <rect key="frame" x="20" y="63" width="374" height="32"/>
+                                        <rect key="frame" x="20" y="52" width="374" height="32"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="31" id="Agz-AY-Am1"/>
+                                        </constraints>
                                         <segments>
                                             <segment title="Followed"/>
                                             <segment title="Filtered"/>
                                             <segment title="All"/>
                                         </segments>
+                                        <connections>
+                                            <action selector="segmentValueChangeWithSender:" destination="6Q1-4r-QbC" eventType="valueChanged" id="YRZ-aB-xXk"/>
+                                        </connections>
                                     </segmentedControl>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description of current page" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7z4-xJ-yxF">
-                                        <rect key="frame" x="123.5" y="106" width="167" height="16"/>
+                                        <rect key="frame" x="123.5" y="91" width="167" height="16"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="16" id="nJ2-vG-gCw"/>
+                                            <constraint firstAttribute="width" constant="167" id="oYc-d6-ZK1"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -42,11 +46,12 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstItem="US7-Bc-mcK" firstAttribute="leading" secondItem="LrO-XP-73G" secondAttribute="leading" constant="20" id="BYs-qa-h2g"/>
-                                    <constraint firstItem="7z4-xJ-yxF" firstAttribute="top" secondItem="US7-Bc-mcK" secondAttribute="bottom" constant="12" id="HsQ-zJ-P9X"/>
-                                    <constraint firstAttribute="trailing" secondItem="US7-Bc-mcK" secondAttribute="trailing" constant="20" id="Vkm-ca-3Po"/>
-                                    <constraint firstAttribute="bottom" secondItem="7z4-xJ-yxF" secondAttribute="bottom" constant="12" id="i2z-Rs-SSl"/>
-                                    <constraint firstItem="7z4-xJ-yxF" firstAttribute="centerX" secondItem="LrO-XP-73G" secondAttribute="centerX" id="jVF-Vo-mbl"/>
+                                    <constraint firstItem="US7-Bc-mcK" firstAttribute="leading" secondItem="LrO-XP-73G" secondAttribute="leading" constant="20" id="MFh-Il-ZVN"/>
+                                    <constraint firstAttribute="trailing" secondItem="US7-Bc-mcK" secondAttribute="trailing" constant="20" id="T12-JI-7dr"/>
+                                    <constraint firstItem="7z4-xJ-yxF" firstAttribute="centerX" secondItem="US7-Bc-mcK" secondAttribute="centerX" id="gIl-zN-ilT"/>
+                                    <constraint firstItem="US7-Bc-mcK" firstAttribute="top" secondItem="LrO-XP-73G" secondAttribute="top" constant="52" id="h7b-Mq-Pp6"/>
+                                    <constraint firstAttribute="height" constant="124" id="w5l-F6-TA7"/>
+                                    <constraint firstItem="7z4-xJ-yxF" firstAttribute="top" secondItem="US7-Bc-mcK" secondAttribute="bottom" constant="8" id="xyf-Da-xZX"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -63,31 +68,52 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bJ8-0y-OrD">
+                                <rect key="frame" x="0.0" y="132" width="414" height="705"/>
+                                <connections>
+                                    <segue destination="wp5-xe-NcL" kind="embed" identifier="PageView" id="stR-0p-bft"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="bJ8-0y-OrD" firstAttribute="leading" secondItem="zyf-Ca-Zq7" secondAttribute="leading" id="2No-G5-2JQ"/>
-                            <constraint firstAttribute="bottom" secondItem="bJ8-0y-OrD" secondAttribute="bottom" id="Sfo-UU-Isk"/>
-                            <constraint firstItem="bJ8-0y-OrD" firstAttribute="top" secondItem="LrO-XP-73G" secondAttribute="bottom" id="TR1-PX-YhY"/>
-                            <constraint firstItem="LrO-XP-73G" firstAttribute="leading" secondItem="U6v-JN-Ar8" secondAttribute="leading" id="TjW-9N-y18"/>
-                            <constraint firstItem="LrO-XP-73G" firstAttribute="top" secondItem="U6v-JN-Ar8" secondAttribute="top" constant="-10" id="iva-CI-jFq"/>
-                            <constraint firstItem="zyf-Ca-Zq7" firstAttribute="trailing" secondItem="LrO-XP-73G" secondAttribute="trailing" id="oK6-dN-6bi"/>
+                            <constraint firstItem="LrO-XP-73G" firstAttribute="trailing" secondItem="zyf-Ca-Zq7" secondAttribute="trailing" id="7Pq-Hk-rTP"/>
+                            <constraint firstItem="bJ8-0y-OrD" firstAttribute="top" secondItem="LrO-XP-73G" secondAttribute="bottom" constant="8" id="K1N-Su-1jJ"/>
+                            <constraint firstItem="LrO-XP-73G" firstAttribute="leading" secondItem="zyf-Ca-Zq7" secondAttribute="leading" id="Ofg-1U-i2M"/>
+                            <constraint firstAttribute="bottom" secondItem="bJ8-0y-OrD" secondAttribute="bottom" constant="59" id="Sfo-UU-Isk"/>
                             <constraint firstItem="zyf-Ca-Zq7" firstAttribute="trailing" secondItem="bJ8-0y-OrD" secondAttribute="trailing" id="onP-eb-hEJ"/>
-                            <constraint firstItem="bJ8-0y-OrD" firstAttribute="top" secondItem="zyf-Ca-Zq7" secondAttribute="top" constant="80" id="uyW-xi-R21"/>
+                            <constraint firstItem="LrO-XP-73G" firstAttribute="top" secondItem="U6v-JN-Ar8" secondAttribute="top" id="xOO-e9-Poi"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zyf-Ca-Zq7"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Offers" image="homa" selectedImage="_highlighted_homa" id="6Cj-my-xdO"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="offerSegmentFilter" destination="US7-Bc-mcK" id="om4-qp-G8M"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U6Y-Rh-2nS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="37.681159420289859" y="94.419642857142847"/>
         </scene>
+        <!--SignUp-->
+        <scene sceneID="ifY-Hp-ZeU">
+            <objects>
+                <viewControllerPlaceholder storyboardName="LoginSetup" referencedIdentifier="SignUp" id="pi6-zK-5vb" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Qvc-vw-8GH"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JtV-iA-faN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1393" y="-167"/>
+        </scene>
         <!--OffersPVC-->
         <scene sceneID="c6I-8Z-WdN">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="wp5-xe-NcL" customClass="OffersPVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController"/>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="wp5-xe-NcL" customClass="OffersPVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <connections>
+                        <segue destination="pi6-zK-5vb" kind="show" identifier="toSignUp" id="ccb-hD-zgO"/>
+                    </connections>
+                </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="68f-fR-jcT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="897" y="113"/>
@@ -95,7 +121,6 @@
         <!--View Controller-->
         <scene sceneID="vL2-4L-R1h">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tsQ-A8-FOd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="allOffers" useStoryboardIdentifierAsRestorationIdentifier="YES" id="8pI-lw-8yE" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="m9I-1g-igz">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
@@ -105,6 +130,7 @@
                     </view>
                     <size key="freeformSize" width="414" height="700"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tsQ-A8-FOd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3213" y="479"/>
         </scene>
