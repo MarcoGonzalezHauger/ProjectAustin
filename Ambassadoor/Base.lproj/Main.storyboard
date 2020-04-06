@@ -278,6 +278,10 @@
                                                 <constraint firstItem="lAZ-uD-bVg" firstAttribute="leading" secondItem="ENJ-qr-BIY" secondAttribute="leading" constant="15" id="dVt-TP-bIf"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="amount" destination="EUQ-qI-xny" id="fjB-pG-Ynp"/>
+                                            <outlet property="cashOut" destination="6rC-RI-cRx" id="r1d-9R-QQd"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="progressBar" rowHeight="75" id="8Qq-6j-QuW" customClass="ProgressBarCell" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="113" width="414" height="75"/>
@@ -576,6 +580,7 @@
                         <segue destination="wgV-be-tWd" kind="presentation" identifier="toZip" modalPresentationStyle="fullScreen" id="fip-zC-P2e"/>
                         <segue destination="JUk-2d-bAm" kind="show" identifier="TierInfoVC" id="thD-GD-UVL"/>
                         <segue destination="f5E-L5-VfQ" kind="presentation" identifier="OfferHistory" modalPresentationStyle="fullScreen" id="NW7-q7-5i1"/>
+                        <segue destination="0jF-nO-T9x" kind="presentation" identifier="MoneySegue" id="xj8-3e-eGF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w1X-rx-SMv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2609,7 +2614,7 @@
         <!--View OfferNC-->
         <scene sceneID="NT4-8Z-dEA">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="Ied-bv-OaF" customClass="ViewOfferNC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ViewOfferReference" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="Ied-bv-OaF" customClass="ViewOfferNC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="YOX-BI-gdV">
                         <autoresizingMask key="autoresizingMask"/>
@@ -4754,11 +4759,11 @@
             <objects>
                 <viewController id="0jF-nO-T9x" customClass="BankListVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tBw-N5-EMj">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eOJ-e9-Btw">
-                                <rect key="frame" x="15" y="61" width="63" height="30"/>
+                                <rect key="frame" x="15" y="17" width="63" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Jw5-3W-8vg"/>
                                     <constraint firstAttribute="width" constant="63" id="WVr-XP-OOG"/>
@@ -4770,7 +4775,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bank" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YxA-xV-qqS">
-                                <rect key="frame" x="177.66666666666666" y="61" width="59" height="25"/>
+                                <rect key="frame" x="177.66666666666666" y="17" width="59" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="ZQ2-8T-3x5"/>
                                 </constraints>
@@ -4778,7 +4783,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="146" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jHf-g5-7pE">
-                                <rect key="frame" x="0.0" y="97" width="414" height="765"/>
+                                <rect key="frame" x="0.0" y="53" width="414" height="755"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="bank" rowHeight="146" id="cAP-Hq-Wwa" customClass="ConnectedPlaidTVCell" customModule="Ambassadoor" customModuleProvider="target">
@@ -4951,7 +4956,7 @@
                                 </prototypes>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You need to enter your bank account in order to get paid." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wOC-pv-uOT">
-                                <rect key="frame" x="20" y="397" width="374" height="102"/>
+                                <rect key="frame" x="20" y="370" width="374" height="102"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="102" id="Le3-WZ-6wX"/>
                                 </constraints>
@@ -4960,7 +4965,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kqS-Ow-QbQ">
-                                <rect key="frame" x="311" y="61" width="90" height="30"/>
+                                <rect key="frame" x="311" y="17" width="90" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="VRP-vo-PzY"/>
                                     <constraint firstAttribute="width" constant="90" id="fzt-Qo-vwl"/>
@@ -5003,7 +5008,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z9P-VO-YTd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3180" y="161"/>
+            <point key="canvasLocation" x="-3233" y="546"/>
         </scene>
         <!--Payment SentVC-->
         <scene sceneID="Uj1-yS-How">
@@ -5449,7 +5454,7 @@ from Ambassadoor</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bza-AD-bQa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3158" y="883"/>
+            <point key="canvasLocation" x="-3116" y="1298"/>
         </scene>
         <!--Web ViewVC-->
         <scene sceneID="Hyj-1H-56S">
@@ -5601,8 +5606,9 @@ from Ambassadoor</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="p2A-bG-co5"/>
+        <segue reference="xj8-3e-eGF"/>
         <segue reference="fip-zC-P2e"/>
         <segue reference="JN2-NJ-HuX"/>
-        <segue reference="YEL-B7-MCy"/>
+        <segue reference="a1a-Gx-isU"/>
     </inferredMetricsTieBreakers>
 </document>

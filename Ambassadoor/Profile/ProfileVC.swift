@@ -15,8 +15,10 @@ class SettingCell: UITableViewCell {
 }
 
 class CashOutCell: UITableViewCell {
-//    @IBOutlet weak var categoryHeader: UILabel!
-//    @IBOutlet weak var categoryLabel: UILabel!
+    
+    @IBOutlet weak var amount: UILabel!
+    @IBOutlet weak var cashOut: UIButton!
+
 }
 
 struct ProfileSetting {
@@ -101,6 +103,8 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.row == 0 {
             let cell = shelf.dequeueReusableCell(withIdentifier: "cashBox", for: indexPath) as! CashOutCell
+            cell.amount.text = NumberToPrice(Value: Yourself.yourMoney)
+            cell.cashOut.addTarget(self, action: #selector(self.cashOutAction(sender:)), for: .touchUpInside)
 			return cell
 		}
 		if indexPath.row == 1 {
@@ -192,6 +196,11 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		}
 		self.dataUpdated()
 	}
+    
+    @IBAction func cashOutAction(sender: UIButton){
+        //MoneySegue
+        self.performSegue(withIdentifier: "MoneySegue", sender: self)
+    }
 	
     // pass some value to another VC
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

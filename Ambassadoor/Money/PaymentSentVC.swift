@@ -37,6 +37,7 @@ class PaymentSentVC: UIViewController {
 		view.bringSubviewToFront(paymentSuccessView)
         self.cancel_btn.isHidden = false
 		let fee: Double = Double(GetFeeFromFollowerCount(FollowerCount: Yourself.followerCount) ?? 0)
+        
 		MoneyAmount = Yourself!.yourMoney - fee
 		feeAmount_lbl.text = "Ambassadoor will take \(NumberToPrice(Value: fee))."
 
