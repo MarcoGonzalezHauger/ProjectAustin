@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6Q1-4r-QbC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6Q1-4r-QbC">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -50,7 +50,6 @@
                                     <constraint firstAttribute="trailing" secondItem="US7-Bc-mcK" secondAttribute="trailing" constant="20" id="T12-JI-7dr"/>
                                     <constraint firstItem="7z4-xJ-yxF" firstAttribute="centerX" secondItem="US7-Bc-mcK" secondAttribute="centerX" id="gIl-zN-ilT"/>
                                     <constraint firstItem="US7-Bc-mcK" firstAttribute="top" secondItem="LrO-XP-73G" secondAttribute="top" constant="52" id="h7b-Mq-Pp6"/>
-                                    <constraint firstAttribute="height" constant="124" id="w5l-F6-TA7"/>
                                     <constraint firstItem="7z4-xJ-yxF" firstAttribute="top" secondItem="US7-Bc-mcK" secondAttribute="bottom" constant="8" id="xyf-Da-xZX"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
@@ -69,7 +68,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bJ8-0y-OrD">
-                                <rect key="frame" x="0.0" y="132" width="414" height="705"/>
+                                <rect key="frame" x="0.0" y="124" width="414" height="772"/>
                                 <connections>
                                     <segue destination="wp5-xe-NcL" kind="embed" identifier="PageView" id="stR-0p-bft"/>
                                 </connections>
@@ -79,11 +78,12 @@
                         <constraints>
                             <constraint firstItem="bJ8-0y-OrD" firstAttribute="leading" secondItem="zyf-Ca-Zq7" secondAttribute="leading" id="2No-G5-2JQ"/>
                             <constraint firstItem="LrO-XP-73G" firstAttribute="trailing" secondItem="zyf-Ca-Zq7" secondAttribute="trailing" id="7Pq-Hk-rTP"/>
-                            <constraint firstItem="bJ8-0y-OrD" firstAttribute="top" secondItem="LrO-XP-73G" secondAttribute="bottom" constant="8" id="K1N-Su-1jJ"/>
+                            <constraint firstItem="bJ8-0y-OrD" firstAttribute="top" secondItem="zyf-Ca-Zq7" secondAttribute="top" constant="80" id="K1N-Su-1jJ"/>
                             <constraint firstItem="LrO-XP-73G" firstAttribute="leading" secondItem="zyf-Ca-Zq7" secondAttribute="leading" id="Ofg-1U-i2M"/>
-                            <constraint firstAttribute="bottom" secondItem="bJ8-0y-OrD" secondAttribute="bottom" constant="59" id="Sfo-UU-Isk"/>
+                            <constraint firstAttribute="bottom" secondItem="bJ8-0y-OrD" secondAttribute="bottom" id="Sfo-UU-Isk"/>
                             <constraint firstItem="zyf-Ca-Zq7" firstAttribute="trailing" secondItem="bJ8-0y-OrD" secondAttribute="trailing" id="onP-eb-hEJ"/>
                             <constraint firstItem="LrO-XP-73G" firstAttribute="top" secondItem="U6v-JN-Ar8" secondAttribute="top" id="xOO-e9-Poi"/>
+                            <constraint firstItem="bJ8-0y-OrD" firstAttribute="top" secondItem="LrO-XP-73G" secondAttribute="bottom" id="xak-1M-lxo"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zyf-Ca-Zq7"/>
                     </view>
@@ -160,7 +160,7 @@
                 <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ViewOfferReference" id="yQE-Iq-zYS" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MyQ-2P-PQf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3789" y="239"/>
+            <point key="canvasLocation" x="3793" y="219"/>
         </scene>
         <!--Filtered OfferVC-->
         <scene sceneID="CSC-Xc-BuZ">
@@ -213,17 +213,17 @@
                                                                                 <constraint firstAttribute="width" constant="50" id="UgZ-Df-j2o"/>
                                                                             </constraints>
                                                                         </imageView>
-                                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="beJ-mn-QzQ">
-                                                                            <rect key="frame" x="66" y="10.5" width="163.5" height="45.5"/>
+                                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="beJ-mn-QzQ">
+                                                                            <rect key="frame" x="66" y="11.5" width="163.5" height="43.5"/>
                                                                             <subviews>
-                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="$20.26" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dZD-Ih-JCs">
+                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$20.26" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dZD-Ih-JCs">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="66.5" height="23"/>
                                                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                                                                     <nil key="textColor"/>
                                                                                     <nil key="highlightedColor"/>
                                                                                 </label>
-                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Company Name Here" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rQD-Bd-4Sw">
-                                                                                    <rect key="frame" x="0.0" y="25" width="163.5" height="20.5"/>
+                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Company Name Here" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rQD-Bd-4Sw">
+                                                                                    <rect key="frame" x="0.0" y="23" width="163.5" height="20.5"/>
                                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                                     <nil key="textColor"/>
                                                                                     <nil key="highlightedColor"/>

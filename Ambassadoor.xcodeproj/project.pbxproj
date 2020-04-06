@@ -46,6 +46,8 @@
 		E8109EEE21AF6BA8008882B1 /* WithdrawVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8109EED21AF6BA8008882B1 /* WithdrawVC.swift */; };
 		E8128C5023F36A1800703195 /* ResetPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8128C4F23F36A1800703195 /* ResetPasswordVC.swift */; };
 		E8164F6222249ACC0084CCF9 /* StatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8164F6122249ACC0084CCF9 /* StatVC.swift */; };
+		E8175951243BD7930040CB0B /* Searcher.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E817594F243BAA4B0040CB0B /* Searcher.storyboard */; };
+		E8175952243BD7A00040CB0B /* SearchPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8175950243BAB290040CB0B /* SearchPVC.swift */; };
 		E81DE121222AF39D00880D41 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E81DE120222AF39D00880D41 /* ProfileVC.swift */; };
 		E82347EE21A1D6BF000A1A62 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82347ED21A1D6BF000A1A62 /* AppDelegate.swift */; };
 		E82347F021A1D6BF000A1A62 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82347EF21A1D6BF000A1A62 /* ViewController.swift */; };
@@ -145,6 +147,8 @@
 		E8109EED21AF6BA8008882B1 /* WithdrawVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawVC.swift; sourceTree = "<group>"; };
 		E8128C4F23F36A1800703195 /* ResetPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordVC.swift; sourceTree = "<group>"; };
 		E8164F6122249ACC0084CCF9 /* StatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatVC.swift; sourceTree = "<group>"; };
+		E817594F243BAA4B0040CB0B /* Searcher.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Searcher.storyboard; sourceTree = "<group>"; };
+		E8175950243BAB290040CB0B /* SearchPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPVC.swift; sourceTree = "<group>"; };
 		E81DE120222AF39D00880D41 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		E82347EA21A1D6BF000A1A62 /* Ambassadoor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ambassadoor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E82347ED21A1D6BF000A1A62 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -242,6 +246,15 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		E817594E243BA8FA0040CB0B /* Simplex Search */ = {
+			isa = PBXGroup;
+			children = (
+				E817594F243BAA4B0040CB0B /* Searcher.storyboard */,
+				E8175950243BAB290040CB0B /* SearchPVC.swift */,
+			);
+			path = "Simplex Search";
+			sourceTree = "<group>";
+		};
 		E82347E121A1D6BF000A1A62 = {
 			isa = PBXGroup;
 			children = (
@@ -277,6 +290,7 @@
 				E866724621FF2C6B00241FB3 /* Signup */,
 				E86B092421DBEF600009C45D /* Social */,
 				E870FE62236CF446002ABE31 /* Profile */,
+				E817594E243BA8FA0040CB0B /* Simplex Search */,
 				E8721D682436E53E0016D2B3 /* Simplex Offer Menu */,
 				E87BA92123EB65E0008D7628 /* Setup */,
 				E82347ED21A1D6BF000A1A62 /* AppDelegate.swift */,
@@ -545,6 +559,7 @@
 				E82347F821A1D6C0000A1A62 /* Assets.xcassets in Resources */,
 				B79CAC3A243B082D009F982D /* StandardOfferCell.xib in Resources */,
 				E82347F321A1D6BF000A1A62 /* Main.storyboard in Resources */,
+				E8175951243BD7930040CB0B /* Searcher.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -650,6 +665,7 @@
 				E87EC2E4236C9A2900690037 /* SocialAlgorithms.swift in Sources */,
 				E80AB86821B0DA0D00D9B546 /* ViewOfferNC.swift in Sources */,
 				B73F098823291DA000CD6B00 /* DwollaUserInformationVC.swift in Sources */,
+				E8175952243BD7A00040CB0B /* SearchPVC.swift in Sources */,
 				E880460723F44BAD00A21ABE /* InstagramConnectedVC.swift in Sources */,
 				E8C369572216270E00AE12D7 /* ViewProfileVC.swift in Sources */,
 				B7FB2886233A1E4700980F17 /* PaymentSentVC.swift in Sources */,

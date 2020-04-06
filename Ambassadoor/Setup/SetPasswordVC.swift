@@ -10,16 +10,13 @@ import UIKit
 
 enum passwordIssue {
     case noConnection //iPhone not connected to the internet
-    case notMatch //Two password field not Matching
     case noPassword //Password empty
-    case noConfirmPassword //Confirm Password Empty
 }
 
 class SetPasswordVC: UIViewController {
     
     @IBOutlet weak var infoLabel: UILabel!
     @IBOutlet weak var newPassword: UITextField!
-    @IBOutlet weak var confirmPassword: UITextField!
     @IBOutlet weak var resetPasswordButton: UIButton!
     @IBOutlet weak var resetPasswordView: ShadowView!
     @IBOutlet weak var closeButton: UIButton!
@@ -37,7 +34,7 @@ class SetPasswordVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             if !self.dontAnimate {
-                self.SetLabelText(text: "Reset Password for Account", animated: true)
+                self.SetLabelText(text: "Reset Password", animated: true)
             }
         }
     }
@@ -61,26 +58,15 @@ class SetPasswordVC: UIViewController {
         //PasswordResetSuccess()
         
         if newPassword.text?.count != 0 {
-            
-            if confirmPassword.text?.count != 0 {
-                
-                if newPassword.text == confirmPassword.text{
-                    let password = newPassword.text!.md5()
-                    var userId = ""
-                    for (key,_) in self.authenticationData {
-                        userId = key
-                    }
-                    updatePassword(userID: userId, password: password!)
-                    self.PasswordResetSuccess()
-                    
-                }else{
-                    PasswordResetFailed(reason: .notMatch)
-                }
-                
-            }else{
-                PasswordResetFailed(reason: .noConfirmPassword)
-            }
-            
+			
+			let password = newPassword.text!.md5()
+			var userId = ""
+			for (key,_) in self.authenticationData {
+				userId = key
+			}
+			updatePassword(userID: userId, password: password!)
+			self.PasswordResetSuccess()
+			
         }else{
             PasswordResetFailed(reason: .noPassword)
         }
@@ -108,7 +94,7 @@ class SetPasswordVC: UIViewController {
         ResetPasswordNow()
     }
     
-    let defaultText = "Reset Password for Account"
+    let defaultText = "Reset Password"
     
     func PasswordResetSuccess() {
         self.dontAnimate = true
@@ -117,7 +103,6 @@ class SetPasswordVC: UIViewController {
             UIView.animate(withDuration: 0.5) {
                     //self.EmailText.alpha = 0
                     self.newPassword.isHidden = true
-                    self.confirmPassword.isHidden = true
                     self.closeButton.alpha = 0
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
@@ -168,14 +153,10 @@ class SetPasswordVC: UIViewController {
     
     func GetLabelTextFromIssue(reason: passwordIssue?) -> String {
         switch reason {
-        case .notMatch:
-            return "Failed: Password & Confirm Password Not Matching"
         case .noConnection:
             return "No Internet Connection"
         case .noPassword:
-            return " Empty New Password"
-        case .noConfirmPassword:
-            return "Empty Confirm Password"
+            return "No Password Entered"
         default:
             return "Failed"
         }
