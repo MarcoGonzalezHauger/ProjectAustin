@@ -27,7 +27,7 @@ class VerifyOTPVC: UIViewController {
     }
     @IBOutlet weak var closeButton: UIButton!
     
-    let defaultText = "Verify the OTP"
+    let defaultText = "Check email for Recovery Code"
     
     var dontAnimate = false
     var verifiedOTP = false
@@ -44,7 +44,7 @@ class VerifyOTPVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
       DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
         if !self.dontAnimate {
-            self.SetLabelText(text: "Verify the OTP", animated: true)
+			self.SetLabelText(text: self.defaultText, animated: true)
         }
     }
     }
@@ -148,7 +148,7 @@ class VerifyOTPVC: UIViewController {
             self.performSegue(withIdentifier: "setpassword", sender: self.authenticationData)
         }
             self.infoLabel.textColor = .systemGreen
-            self.SetLabelText(text: "OTP Verified", animated: true)
+            self.SetLabelText(text: "Recovery Code Verified", animated: true)
             
         //resetPasswordButton.setTitle("Close", for: .normal)
         //resetPasswordButton.isEnabled = true
@@ -157,7 +157,7 @@ class VerifyOTPVC: UIViewController {
     
     func verificationOTPSentSuccess() {
         DispatchQueue.main.async {
-            self.SetLabelText(text: "We have sent OTP to Mail", animated: false)
+            self.SetLabelText(text: "Send Recovery Code", animated: false)
             self.infoLabel.textColor = .systemGreen
          DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
             UIView.transition(with: self.infoLabel, duration: 2, options: .transitionCrossDissolve, animations: {

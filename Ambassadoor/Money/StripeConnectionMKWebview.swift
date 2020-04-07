@@ -87,14 +87,14 @@ class StripeConnectionMKWebview: UIViewController, WKNavigationDelegate {
         
         if let url = navigationAction.request.url {
             print(url.absoluteString)
-            /* Test
-             if url.absoluteString.hasPrefix("https://connect.stripe.com/connect/default_new/oauth/test?") || url.absoluteString.hasPrefix("https://connect.stripe.com/connect/default/oauth/test?"){
+            
+             if url.absoluteString.hasPrefix("https:connect.stripe.com/connect/default_new/oauth/test?") || url.absoluteString.hasPrefix("https://connect.stripe.com/connect/default/oauth/test?"){
              print("SUCCESS")
-             */
+            
+            /*
             if url.absoluteString.hasPrefix("https://www.ambassadoor.co/paid?") || url.absoluteString.hasPrefix("https://www.ambassadoor.co/paid?code="){
                 print("SUCCESS")
-                //                    self.dismiss(animated: true, completion: nil)
-                
+                */
                 if let range = url.absoluteString.range(of: "code=") {
                     let code = url.absoluteString[range.upperBound...]
                     print(code) // prints "123.456.7891"
