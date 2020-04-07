@@ -11,14 +11,24 @@ import UserNotifications
 import NotificationCenter
 
 protocol AutoDimiss {
-	func DismissNow()
+    func DismissNow(sender: String)
 }
 
 class WelcomeVC: UIViewController, AutoDimiss {
 	
-	func DismissNow() {
-		presentingViewController?.dismiss(animated: true, completion: nil)
+    func DismissNow(sender: String) {
+        
+        if sender == "CreateAccount"{
+           presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
+        }else{
+           
+           presentingViewController?.dismiss(animated: true, completion: nil)
+        }
+        
+        self.delegate?.DismissNow(sender: "welcome")
 	}
+    
+    var delegate: AutoDimiss?
 
     override func viewDidLoad() {
         super.viewDidLoad()

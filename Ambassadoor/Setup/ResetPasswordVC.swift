@@ -36,7 +36,7 @@ class ResetPasswordVC: UIViewController {
 	override func viewDidAppear(_ animated: Bool) {
 		DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
 			if !self.dontAnimate {
-				self.SetLabelText(text: "Reset Password for Account", animated: true)
+				self.SetLabelText(text: self.defaultText, animated: true)
 			}
 		}
 	}
@@ -148,7 +148,7 @@ class ResetPasswordVC: UIViewController {
 		ResetPasswordNow()
 	}
 	
-	let defaultText = "Reset Password for Account"
+	let defaultText = "Reset Password"
 	
     func PasswordResetSuccess(otp: Int) {
         
@@ -165,7 +165,7 @@ class ResetPasswordVC: UIViewController {
             }
             
             self.infoLabel.textColor = .systemGreen
-            self.SetLabelText(text: "OTP sent to your Mail", animated: true)
+            self.SetLabelText(text: "Recovery Code Sent", animated: true)
             self.resetPasswordButton.setTitle("Close", for: .normal)
             self.resetPasswordButton.isEnabled = true
         }
