@@ -9,14 +9,32 @@
 
 import UIKit
 
-class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, OfferMenuSegmentDelegate {
+class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, OfferMenuSegmentDelegate,AutoDimiss {
+    func DismissNow(sender: String) {
+        dataSource = self
+        delegate = self
+        
+        
+        //set default VC to Offers Page.
+        let firstViewController : UIViewController = OrderedVC[1]
+        
+        //display that in pages.
+        DispatchQueue.main.async {
+            self.setViewControllers([firstViewController],
+                                    direction: .forward,
+                                    animated: true,
+                                    completion: nil)
+        }
+        
+        let bgView = UIView(frame: UIScreen.main.bounds)
+        bgView.backgroundColor = GetBackColor()
+        view.insertSubview(bgView, at: 0)
+    }
+    
     func segmentIndex(index: Int) {
         let viewController = OrderedVC[index]
         goToPage(index: index, sender: viewController)
     }
-    
-	
-	
 	//Turn page -1
 	func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
 		guard let i : Int = OrderedVC.lastIndex(of: viewController) else { return nil }
@@ -86,8 +104,14 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toSignUp"{
+            let view = segue.destination as! WelcomeVC
+            view.delegate = self
+        }
     }
 	
 }

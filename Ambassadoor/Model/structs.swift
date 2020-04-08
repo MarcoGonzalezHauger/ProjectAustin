@@ -176,6 +176,7 @@ class User: NSObject {
     var authenticationToken: String
     var tokenFIR: String?
     var following: [String]?
+    var businessFollowing: [String]?
     var email: String?
     //followerCount
     init(dictionary: [String: Any]) {
@@ -206,6 +207,7 @@ class User: NSObject {
         self.authenticationToken = dictionary["authenticationToken"] as? String ?? ""
         self.tokenFIR = dictionary["tokenFIR"] as? String ?? ""
         self.following = dictionary["following"] as? [String] ?? []
+        self.businessFollowing = dictionary["businessFollowing"] as? [String] ?? []
         self.email = dictionary["email"] as? String ?? ""
     }
 	
@@ -393,8 +395,33 @@ struct Company {
 	let account_ID: String
 	let instagram_name: String
 	let description: String
+}
+
+class CompanyDetails: NSObject {
+    var name: String
+    var logo: String?
+    var mission: String
+    var website: String?
+    var account_ID: String?
+    var userId: String?
+    var accountBalance: Double?
+    var owner: String?
+    var referralcode: String?
     
     
+    init(dictionary:[String: AnyObject]){
+        
+        self.name  = dictionary["name"] as! String
+        self.logo  = dictionary["logo"] as? String ?? ""
+        self.mission = dictionary["mission"] as! String
+        self.website  = dictionary["website"] as? String ?? ""
+        self.account_ID  = dictionary["account_ID"] as? String ?? ""
+        self.userId  = dictionary["userId"] as? String ?? ""
+        self.accountBalance  = dictionary["accountBalance"] as? Double ?? 0.0
+        self.owner  = dictionary["owner"] as? String ?? ""
+        self.referralcode  = dictionary["referralcode"] as? String ?? ""
+        
+    }
 }
 
 //Carries personal info only avalible to view and edit by the user.

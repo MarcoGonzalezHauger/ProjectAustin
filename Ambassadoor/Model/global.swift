@@ -65,6 +65,10 @@ class CentralVariables {
 	}	
 	var delegates: [GlobalListener] = []
     
+    var BusinessUser = [CompanyDetails]()
+    
+    
+    
     var deviceFIRToken = ""
     var dwollaCustomerInformation = DwollaCustomerInformation()
     //Influencer worked Companies

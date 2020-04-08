@@ -85,9 +85,9 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 	
 	func AccountSuccessfullyCreated() {
 
-//        self.delegate?.DismissNow()
+        self.delegate?.DismissNow(sender: "CreateAccount")
         AverageLikes(userID: Yourself.id, userToken: Yourself.authenticationToken)
-        self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
+        
 //        self.dismiss(animated: true) {
 //
 //        }

@@ -619,6 +619,7 @@ struct API {
             "authenticationToken": details.authenticationToken,
             "tokenFIR":global.deviceFIRToken,
             "following":[],
+            "businessFollowing":[],
             "email":details.email
         ]
         return userData

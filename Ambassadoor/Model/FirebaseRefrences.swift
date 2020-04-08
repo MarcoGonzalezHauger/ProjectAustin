@@ -276,6 +276,34 @@ func GetAllUsers(completion:@escaping (_ result: [User])->())  {
     }, withCancel: nil)
 }
 
+func GetAllBusiness(completion:@escaping (_ result: [CompanyDetails])->()) {
+    let usersRef = Database.database().reference().child("companies")
+    usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let snapDict = snapshot.value as? [String: [String: AnyObject]]{
+            
+            var companyList = [CompanyDetails]()
+            
+            for(key,value) in snapDict{
+                for (_, companyValue) in value {
+                    
+                    let companyDetails = CompanyDetails.init(dictionary: companyValue as! [String : AnyObject])
+                    companyDetails.userId = key
+                    
+                    companyList.append(companyDetails)
+                    
+                }
+            }
+            
+            completion(companyList)
+        }
+        
+    }) { (error) in
+        
+    }
+    
+}
+
 //Added by ram
 
 func getDwollaFundingSource(completion: @escaping([DwollaCustomerFSList]?,String,Error?) -> Void) {
@@ -763,6 +791,11 @@ func updateFollowingList(userID: String, ownUserID: User) {
     usersRef.updateChildValues(["following":ownUserID.following!])
 }
 
+func updateBusinessFollowingList(userID: String, ownUserID: User) {
+    let usersRef = Database.database().reference().child("users").child(ownUserID.id)
+    usersRef.updateChildValues(["businessFollowing":ownUserID.businessFollowing!])
+}
+
 func getFilteredUsers(userIDs: [String], completion: @escaping(_ status: Bool, _ users: [User]?, _ deveiceTokens: [String]?)-> Void) {
     
     let usersRef = Database.database().reference().child("users")
@@ -923,17 +956,17 @@ func getFilteredOffer(completion: @escaping (_ status: Bool, _ offerList: [Offer
     }
 }
 
-func getAllOffer(completion: @escaping (_ status: Bool, _ offerList: [allOfferObject]?)-> Void) {
+func getFollowerCompaniesOffer(completion: @escaping (_ status: Bool, _ offerList: [Offer]?)-> Void) {
     let ref = Database.database().reference().child("OfferPool")
     ref.observeSingleEvent(of: .value, with: { (snapshot) in
         
         if let totalDict = snapshot.value as? [String:[String: AnyObject]] {
             
-            var offerList = [allOfferObject]()
+            var offerList = [Offer]()
             
-            for (key,value) in totalDict {
+            for (_,value) in totalDict {
                 
-                for (offerKey, OfferValue) in value {
+                for (_, OfferValue) in value {
                     
                     let offerFilter = OfferValue["influencerFilter"] as! [String: AnyObject]
                     
@@ -954,7 +987,78 @@ func getAllOffer(completion: @escaping (_ status: Bool, _ offerList: [allOfferOb
                     
                     if !locationMatch && genderMatch {
                         let zips: [String] = offerFilter["zipCode"] as! [String]
-                        if let userZip = Yourself.zipCode as? String {
+                        if let userZip = Yourself.zipCode {
+                            if zips.contains(userZip) {
+                                locationMatch = true
+                            }
+                        }
+                    }
+                    
+                    if !categoryMatch && locationMatch && genderMatch {
+                        let businessCats: [String] = offerFilter["categories"] as! [String]
+                        if let userCats = Yourself.categories {
+                            //cats = Checks if user is a crazy cat person.
+                            //Okay maybe I shouldn't joke when commenting.
+                            for userCat in userCats {
+                                let catExistsInBusinessFilter = businessCats.contains(userCat)
+                                if catExistsInBusinessFilter {
+                                    categoryMatch = true
+                                    break
+                                }
+                            }
+                        }
+                    }
+                    
+                    if categoryMatch && genderMatch && locationMatch {
+                        let offerData = Offer.init(dictionary: OfferValue as! [String : AnyObject])
+                        offerList.append(offerData)
+                    }
+                    
+                }
+                
+            }
+            
+            completion(true,offerList)
+            
+        }
+        
+    }) { (error) in
+        
+    }
+}
+
+func getAllOffer(completion: @escaping (_ status: Bool, _ offerList: [allOfferObject]?)-> Void) {
+    let ref = Database.database().reference().child("OfferPool")
+    ref.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let totalDict = snapshot.value as? [String:[String: AnyObject]] {
+            
+            var offerList = [allOfferObject]()
+            
+            for (_,value) in totalDict {
+                
+                for (_, OfferValue) in value {
+                    
+                    let offerFilter = OfferValue["influencerFilter"] as! [String: AnyObject]
+                    
+                    let offerFilterKeys = offerFilter.keys
+                    
+                    var categoryMatch = !offerFilterKeys.contains("categories")
+                    var genderMatch = !offerFilterKeys.contains("gender")
+                    var locationMatch = !offerFilterKeys.contains("zipCode")
+                    
+                    if !genderMatch {
+                        let gender: [String] = offerFilter["gender"] as! [String]
+                        if let userGender = Yourself.gender!.rawValue as? String {
+                            if gender.contains(userGender) {
+                                genderMatch = true
+                            }
+                        }
+                    }
+                    
+                    if !locationMatch && genderMatch {
+                        let zips: [String] = offerFilter["zipCode"] as! [String]
+                        if let userZip = Yourself.zipCode {
                             if zips.contains(userZip) {
                                 locationMatch = true
                             }
