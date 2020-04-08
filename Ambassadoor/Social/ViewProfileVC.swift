@@ -173,7 +173,7 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                 updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
             }
         }else{
-            self.follow.setTitle("Following", for: .normal)
+            self.follow.setTitle("Unfollow", for: .normal)
             var followingList = Yourself.following
             followingList?.append(ThisUser.id)
             Yourself.following = followingList

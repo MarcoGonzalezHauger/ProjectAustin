@@ -791,6 +791,11 @@ func updateFollowingList(userID: String, ownUserID: User) {
     usersRef.updateChildValues(["following":ownUserID.following!])
 }
 
+func updateBusinessFollowingList(userID: String, ownUserID: User) {
+    let usersRef = Database.database().reference().child("users").child(ownUserID.id)
+    usersRef.updateChildValues(["businessFollowing":ownUserID.businessFollowing!])
+}
+
 func getFilteredUsers(userIDs: [String], completion: @escaping(_ status: Bool, _ users: [User]?, _ deveiceTokens: [String]?)-> Void) {
     
     let usersRef = Database.database().reference().child("users")

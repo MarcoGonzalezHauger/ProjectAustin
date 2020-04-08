@@ -54,6 +54,7 @@ class SearchPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
 		let NewVC = UIStoryboard(name: "Searcher", bundle: nil).instantiateViewController(withIdentifier: VC)
 		return NewVC
 	}
+    
 	
     override func viewDidLoad() {
         super.viewDidLoad()

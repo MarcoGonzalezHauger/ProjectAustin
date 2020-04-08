@@ -36,6 +36,9 @@
                                     <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="mA7-tK-Krh">
                                         <rect key="frame" x="12" y="34.5" width="390" height="56"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="6Q1-4r-QbC" id="VPw-B0-0f5"/>
+                                        </connections>
                                     </searchBar>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -99,7 +102,7 @@
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="wp5-xe-NcL" customClass="SearchPVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="68f-fR-jcT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2807" y="-110"/>
+            <point key="canvasLocation" x="2262" y="-110"/>
         </scene>
         <!--BusinessVC-->
         <scene sceneID="vL2-4L-R1h">
@@ -136,6 +139,14 @@
             </objects>
             <point key="canvasLocation" x="2957.971014492754" y="603.34821428571422"/>
         </scene>
+        <!--ViewProfileReference-->
+        <scene sceneID="Tga-GF-GfU">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ViewProfileReference" id="oFz-iu-DqV" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tt1-fT-Bz3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2776" y="208"/>
+        </scene>
         <!--Influencer ListVC-->
         <scene sceneID="CSC-Xc-BuZ">
             <objects>
@@ -165,6 +176,7 @@
                     <size key="freeformSize" width="414" height="700"/>
                     <connections>
                         <outlet property="influencrTable" destination="HZ0-2X-NSF" id="4HJ-MF-gDQ"/>
+                        <segue destination="oFz-iu-DqV" kind="presentation" identifier="FromInfluencerList" modalPresentationStyle="fullScreen" id="XmN-q9-D3W"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="El4-tU-DE0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -200,6 +212,7 @@
                     <size key="freeformSize" width="414" height="700"/>
                     <connections>
                         <outlet property="UserTable" destination="H5R-oO-MbX" id="eqk-Jd-6Zb"/>
+                        <segue destination="oFz-iu-DqV" kind="presentation" identifier="FromBusinessInfluencer" id="bpw-Kk-df0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iMd-TW-hdt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -207,4 +220,7 @@
             <point key="canvasLocation" x="1582.608695652174" y="603.34821428571422"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="bpw-Kk-df0"/>
+    </inferredMetricsTieBreakers>
 </document>
