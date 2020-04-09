@@ -65,7 +65,11 @@ class StandardOfferCell: UITableViewCell {
     
 }
 
-class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, OfferResponse {
+    func OfferAccepted(offer: Offer) {
+        
+    }
+    
     
     @IBOutlet weak var filteredOfferTable: UITableView!
     
@@ -104,14 +108,26 @@ class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         return 85.0
     }
 
-    /*
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
+        self.performSegue(withIdentifier: "FromFilterOfferSegue", sender: filteredOfferList[indexPath.row])
+    }
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "FromFilterOfferSegue" {
+        //guard let newviewoffer = viewoffer else { return }
+        let destination = segue.destination
+        if let destination = (destination as! UINavigationController).topViewController as? OfferVC {
+            destination.delegate = self
+            destination.ThisOffer = sender as? Offer
+
+
+        }
+        }
     }
-    */
+    
 
 }

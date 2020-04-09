@@ -609,6 +609,7 @@
                         <segue destination="CRF-EE-0B1" kind="relationship" relationship="viewControllers" id="fWC-Qg-5LS"/>
                         <segue destination="Qho-SL-6PY" kind="relationship" relationship="viewControllers" id="Y26-rp-Jft"/>
                         <segue destination="ShI-4F-LrF" kind="relationship" relationship="viewControllers" id="gf9-dD-a48"/>
+                        <segue destination="oLI-Ds-A3p" kind="relationship" relationship="viewControllers" id="flb-EL-bDk"/>
                         <segue destination="3X5-xq-msu" kind="relationship" relationship="viewControllers" id="cvm-eX-bsJ"/>
                     </connections>
                 </tabBarController>
@@ -4064,7 +4065,17 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c4j-7W-p08" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5704" y="-248"/>
+            <point key="canvasLocation" x="-5988" y="-216"/>
+        </scene>
+        <!--inProgress-->
+        <scene sceneID="Aek-K3-mtu">
+            <objects>
+                <viewControllerPlaceholder storyboardName="inProgress" referencedIdentifier="inProgress" id="oLI-Ds-A3p" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="8yQ-JI-FTr"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cnD-g3-eiU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-5679" y="-222"/>
         </scene>
         <!--SimplexOfferHome-->
         <scene sceneID="a8u-Py-DIp">
@@ -4768,11 +4779,11 @@
             <objects>
                 <viewController id="0jF-nO-T9x" customClass="BankListVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tBw-N5-EMj">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eOJ-e9-Btw">
-                                <rect key="frame" x="15" y="17" width="63" height="30"/>
+                                <rect key="frame" x="15" y="61" width="63" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Jw5-3W-8vg"/>
                                     <constraint firstAttribute="width" constant="63" id="WVr-XP-OOG"/>
@@ -4784,7 +4795,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bank" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YxA-xV-qqS">
-                                <rect key="frame" x="177.66666666666666" y="17" width="59" height="25"/>
+                                <rect key="frame" x="177.66666666666666" y="61" width="59" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="ZQ2-8T-3x5"/>
                                 </constraints>
@@ -4792,7 +4803,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="146" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jHf-g5-7pE">
-                                <rect key="frame" x="0.0" y="53" width="414" height="755"/>
+                                <rect key="frame" x="0.0" y="97" width="414" height="765"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="bank" rowHeight="146" id="cAP-Hq-Wwa" customClass="ConnectedPlaidTVCell" customModule="Ambassadoor" customModuleProvider="target">
@@ -4965,7 +4976,7 @@
                                 </prototypes>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You need to enter your bank account in order to get paid." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wOC-pv-uOT">
-                                <rect key="frame" x="20" y="370" width="374" height="102"/>
+                                <rect key="frame" x="20" y="397" width="374" height="102"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="102" id="Le3-WZ-6wX"/>
                                 </constraints>
@@ -4974,7 +4985,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kqS-Ow-QbQ">
-                                <rect key="frame" x="311" y="17" width="90" height="30"/>
+                                <rect key="frame" x="311" y="61" width="90" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="VRP-vo-PzY"/>
                                     <constraint firstAttribute="width" constant="90" id="fzt-Qo-vwl"/>
@@ -5615,7 +5626,7 @@ from Ambassadoor</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="p2A-bG-co5"/>
-        <segue reference="xj8-3e-eGF"/>
+        <segue reference="SEj-8E-yRq"/>
         <segue reference="fip-zC-P2e"/>
         <segue reference="JN2-NJ-HuX"/>
         <segue reference="D65-f0-5KH"/>

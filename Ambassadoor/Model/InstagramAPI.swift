@@ -382,6 +382,23 @@ struct API {
         return userData
     }
     
+    static func serializeCompanyDetails(company: CompanyDetails)-> [String: Any]{
+        
+        let companyData: [String: Any] = [
+            "account_ID": company.account_ID ?? "",
+            "accountBalance": company.accountBalance ?? 0.0,
+            "description": company.description,
+            "logo": company.logo ?? "",
+            "mission": company.mission,
+            "name": company.name,
+            "owner": company.owner ?? "",
+            "referralcode": company.referralcode ?? "",
+            "website": company.website ?? ""
+        ]
+        return companyData
+        
+    }
+    
     // change bank detail class object to json value
     static func serializeBank(bank: Bank) -> [String: Any] {
         let bankData: [String: Any] = [
@@ -625,6 +642,83 @@ struct API {
         return userData
     }
     
+    static func serializeProduct(product: Product) -> [String: Any] {
+        let userData: [String: Any] = [
+            "product_ID": product.product_ID as Any,
+            "image": product.image as Any,
+            "name": product.name,
+            "price": product.price,
+            "buy_url": product.buy_url as Any,
+            "color": product.color
+        ]
+        return userData
+    }
     
+    
+    static func serializePost(post: Post) -> [String: Any] {
+        var product = [[String: Any]]()
+        /*
+        for value in post.products! {
+            product.append(serializeProduct(product: value))
+        }
+         */
+        //DateFormatManager.sharedInstance.getStringFromDateWithFormat(date: post.confirmedSince!, format: "yyyy/MMM/dd HH:mm:ss")
+        let postData: [String: Any] = ["image":post.image!,"instructions":post.instructions,"captionMustInclude":post.captionMustInclude!,"products":[],"post_ID":post.post_ID,"PostType": post.PostType,"confirmedSince":"" ,"isConfirmed":post.isConfirmed,"hashCaption":post.hashCaption,"status": post.status,"hashtags": post.hashtags, "keywords": post.keywords, "isPaid": post.isPaid ?? false, "PayAmount": post.PayAmount ?? 0.0]
+        
+        return postData
+    }
+    
+    static func serializeOffer(offer: Offer) -> [String: Any] {
+        var posts: [[String: Any]] = [[String: Any]]()
+        for post in offer.posts {
+            posts.append(API.serializePost(post: post))
+        }
+        
+        var offerConSin = ""
+        
+        if offer.allPostsConfirmedSince != nil {
+           offerConSin = offer.allPostsConfirmedSince!.toString(dateFormat: "yyyy/MMM/dd HH:mm:ss")
+        }else{
+           offerConSin = ""
+        }
+        
+        let companyDetails = API.serializeCompanyDetails(company: offer.companyDetails!)
+        
+        let offerData: [String: Any] = [
+            "offer_ID": offer.offer_ID,
+            "money": offer.money,
+            "commission": offer.commission ?? 0,
+            "isCommissionPaid": offer.isCommissionPaid ?? false,
+            "company": offer.company?.account_ID as Any,
+            "posts": posts,
+            "offerdate": offer.offerdate.toString(dateFormat: "yyyy/MMM/dd HH:mm:ss"),
+            "user_ID": offer.user_ID as Any,
+            "expiredate": offer.expiredate.toString(dateFormat: "yyyy/MMM/dd HH:mm:ss"),
+            "allPostsConfirmedSince": offerConSin,
+            "allConfirmed": offer.allConfirmed,
+            "isAccepted": offer.isAccepted,
+            "isExpired": offer.isExpired,"ownerUserID": offer.ownerUserID,
+            "isAllPaid":false,
+            "isRefferedByInfluencer": offer.isRefferedByInfluencer as Any,
+            "isReferCommissionPaid":offer.isReferCommissionPaid as Any,
+            "referralAmount":offer.referralAmount as Any,
+            "referralID":offer.referralID as Any,
+            "notify":offer.notify as Any,
+            "cashPower":offer.cashPower as Any,
+            "incresePay":offer.incresePay as Any,
+            "influencerFilter":offer.influencerFilter as Any,
+            "companyDetails":companyDetails as Any,
+            "title": offer.title,
+            "status": offer.status,
+            "accepted": offer.accepted as Any,
+            "shouldRefund": offer.shouldRefund as Any,
+            "didRefund": offer.didRefund as Any,
+            "refundedOn": offer.refundedOn as Any
+            ]
+        return offerData
+        //self.isRefferedByInfluencer = dictionary["isRefferedByInfluencer"] as? Bool ?? false
+        //self.isReferCommissionPaid = dictionary["isReferCommissionPaid"] as? Bool ?? false
+        //self.referralAmount = dictionary["referralAmount"] as? Double ?? 0.0
+    }
     
 }

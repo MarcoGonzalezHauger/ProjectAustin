@@ -55,7 +55,7 @@ class Offer : NSObject {
 	let offerdate: Date
 	let offer_ID: String
 	var expiredate: Date
-	var allPostsConfrimedSince: Date?
+	var allPostsConfirmedSince: Date?
 	var allConfirmed: Bool {
 		get {
 			var areConfirmed = true
@@ -89,7 +89,20 @@ class Offer : NSObject {
     
     var incresePay: Double?
     
-    var companyDetails: [String: Any]?
+    var companyDetails: CompanyDetails?
+    var accepted: [String]?
+    
+    var commission: Double?
+    var isCommissionPaid: Bool?
+    var user_ID: [String]?
+    var notify: Bool
+    var category: [String]
+    var genders: [String]
+    var user_IDs: [String]
+    
+    var shouldRefund: Bool?
+    var didRefund: Bool?
+    var refundedOn: String?
     
     init(dictionary: [String: AnyObject]) {
         
@@ -98,18 +111,24 @@ class Offer : NSObject {
         self.company = nil
         if let companyDetails = dictionary["companyDetails"] as? [String: AnyObject]{
             
-          self.company = Company.init(name: companyDetails["name"] as! String, logo: companyDetails["logo"] as? String, mission: companyDetails["mission"] as! String, website: companyDetails["website"] as! String, account_ID: companyDetails["account_ID"] as! String, instagram_name: "", description: "")
+            self.company = Company.init(name: companyDetails["name"] as! String, logo: companyDetails["logo"] as? String, mission: companyDetails["mission"] as! String, website: companyDetails["website"] as! String, account_ID: companyDetails["account_ID"] as! String, instagram_name: "", description: "", followers: companyDetails["followers"] as? [String] ?? [])
             
         }
         
         
         var postVal = [Post]()
         
+        /*
+         ["image":post.image!,"instructions":post.instructions,"captionMustInclude":post.captionMustInclude!,"products":product,"post_ID":post.post_ID,"PostType": post.PostType,"confirmedSince":"" ,"isConfirmed":post.isConfirmed,"hashCaption":post.hashCaption,"status": post.status,"hashtags": post.hashtags, "keywords": post.keywords, "isPaid": post.isPaid ?? false, "PayAmount": post.PayAmount ?? 0.0]
+         */
+        
         if let posDict = dictionary["posts"] as? [[String: AnyObject]]{
 
         for post in posDict {
 
-        postVal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool,denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? []))
+            //postVal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: "", products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool, hashCaption: post["hashCaption"] as? String ?? "",denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? []))
+            
+            postVal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: "", products: post["products"] as? [Product], post_ID: post["post_ID"] as! String, PostType: post["PostType"] as! String, confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool, hashCaption: post["hashCaption"] as? String ?? "", status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? [], isPaid: post["isPaid"] as? Bool, PayAmount: post["isPaid"] as? Double ?? 0.0, denyMessage: post["denyMessage"] as? String ?? ""))
 
 
         }
@@ -123,7 +142,7 @@ class Offer : NSObject {
         self.expiredate = getESTDateFromString(date: dictionary["expiredate"] as! String)
 //        self.allPostsConfrimedSince = dictionary["allPostsConfirmedSince"] as? Date
 		if dictionary["allPostsConfirmedSince"] as! String != "" {
-			self.allPostsConfrimedSince = getDateFromString(date: dictionary["allPostsConfirmedSince"] as! String)
+			self.allPostsConfirmedSince = getDateFromString(date: dictionary["allPostsConfirmedSince"] as! String)
 		}
 
         self.isAccepted = dictionary["isAccepted"] as! Bool
@@ -139,7 +158,19 @@ class Offer : NSObject {
         self.cashPower = dictionary["cashPower"] as? Double ?? 0.0
         self.influencerFilter = dictionary["influencerFilter"] as? [String: AnyObject] ?? [:]
         self.incresePay = dictionary["incresePay"] as? Double ?? 0.0
-        self.companyDetails = dictionary["companyDetails"] as? [String: Any] ?? [:]
+        self.companyDetails = CompanyDetails.init(dictionary: dictionary["companyDetails"] as? [String: AnyObject] ?? [:]) 
+        self.accepted = dictionary["accepted"] as? [String] ?? []
+        self.commission = dictionary["commission"] as? Double
+        self.isCommissionPaid = dictionary["isCommissionPaid"] as? Bool ?? false
+        self.user_ID = dictionary["user_ID"] as? [String] ?? []
+        self.notify = dictionary["notify"] as? Bool ?? false
+        self.category = dictionary["category"] as? [String] ?? []
+        self.genders = dictionary["genders"] as? [String] ?? []
+        self.user_IDs = dictionary["user_IDs"] as? [String] ?? []
+        self.accepted = dictionary["accepted"] as? [String] ?? []
+        self.shouldRefund = dictionary["shouldRefund"] as? Bool ?? false
+        self.didRefund = dictionary["didRefund"] as? Bool ?? false
+        self.refundedOn = dictionary["refundedOn"] as? String ?? ""
     }
 }
 
@@ -362,9 +393,11 @@ class TransactionInfo: NSObject {
 }
 
 //Structure for post
+/*
 struct Post {
 	let image: String?
 	let instructions: String
+    let captionMustInclude: String?
 	let products: [Product]?
 	let post_ID: String
 	let PostType: TypeofPost
@@ -374,6 +407,71 @@ struct Post {
     var status: String?
 	var hashtags: [String]
 	var keywords: [String]
+}
+*/
+struct Post {
+    let image: String?
+    let instructions: String
+    let captionMustInclude: String?
+    let products: [Product]?
+    var post_ID: String
+    let PostType: String
+    //let PostType: TypeofPost
+    var confirmedSince: Date?
+    var isConfirmed: Bool
+    var hashCaption: String
+    var status: String
+    var hashtags: [String]
+    var keywords: [String]
+    var isPaid: Bool?
+    var PayAmount: Double?
+    var denyMessage: String?
+    
+    func isFinished() -> [String] {
+        var returnValue: [String] = []
+        if instructions == "" {
+            returnValue.append("instructions")
+        }
+        if hashtags == [] && keywords == [] {
+            returnValue.append("hash and keywords")
+        }
+        if hashtags.contains("") {
+            returnValue.append("empty hash")
+        }
+        if keywords.contains("") {
+            returnValue.append("empty keyword")
+        }
+        return returnValue
+    }
+    
+    func GetSummary(maxItems: Int = 5) -> String {
+        var all = /*--->*/ [String](/*GROSS*/) //ew ~Marco Jan 18 2020
+        for p in keywords {
+            all.append("\"\(p)\"")
+        }
+        for h in hashtags {
+            all.append("#\(h)")
+        }
+        
+        if all.count == 0 {
+            if maxItems == 5 {
+                return "Post"
+            } else {
+                return "Incomplete Post"
+            }
+        } else {
+            
+            var str = ""
+            for i in 0...(all.count - 1) {
+                if i < maxItems {
+                    str += all[i] + ", "
+                }
+            }
+            str = String(str.dropLast(2))
+            return str
+        }
+    }
+    
 }
 
 //struct for product
@@ -395,6 +493,7 @@ struct Company {
 	let account_ID: String
 	let instagram_name: String
 	let description: String
+    var followers: [String]?
 }
 
 class CompanyDetails: NSObject {
@@ -407,6 +506,7 @@ class CompanyDetails: NSObject {
     var accountBalance: Double?
     var owner: String?
     var referralcode: String?
+    var followers: [String]?
     
     
     init(dictionary:[String: AnyObject]){
@@ -420,6 +520,7 @@ class CompanyDetails: NSObject {
         self.accountBalance  = dictionary["accountBalance"] as? Double ?? 0.0
         self.owner  = dictionary["owner"] as? String ?? ""
         self.referralcode  = dictionary["referralcode"] as? String ?? ""
+        self.followers  = dictionary["followers"] as? [String] ?? []
         
     }
 }

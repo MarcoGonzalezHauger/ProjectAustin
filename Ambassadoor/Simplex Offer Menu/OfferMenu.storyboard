@@ -69,7 +69,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bJ8-0y-OrD">
-                                <rect key="frame" x="0.0" y="132" width="414" height="764"/>
+                                <rect key="frame" x="0.0" y="124" width="414" height="772"/>
                                 <connections>
                                     <segue destination="wp5-xe-NcL" kind="embed" identifier="PageView" id="stR-0p-bft"/>
                                 </connections>
@@ -79,11 +79,11 @@
                         <constraints>
                             <constraint firstItem="LrO-XP-73G" firstAttribute="trailing" secondItem="zyf-Ca-Zq7" secondAttribute="trailing" id="7Pq-Hk-rTP"/>
                             <constraint firstItem="bJ8-0y-OrD" firstAttribute="leading" secondItem="zyf-Ca-Zq7" secondAttribute="leading" id="DTj-y2-Chs"/>
-                            <constraint firstItem="bJ8-0y-OrD" firstAttribute="top" secondItem="LrO-XP-73G" secondAttribute="bottom" constant="8" id="G1T-NX-gg1"/>
                             <constraint firstItem="bJ8-0y-OrD" firstAttribute="trailing" secondItem="zyf-Ca-Zq7" secondAttribute="trailing" id="Ix4-jv-NYf"/>
                             <constraint firstItem="LrO-XP-73G" firstAttribute="leading" secondItem="zyf-Ca-Zq7" secondAttribute="leading" id="Ofg-1U-i2M"/>
                             <constraint firstAttribute="bottom" secondItem="bJ8-0y-OrD" secondAttribute="bottom" id="smy-si-Ptf"/>
                             <constraint firstItem="LrO-XP-73G" firstAttribute="top" secondItem="U6v-JN-Ar8" secondAttribute="top" id="xOO-e9-Poi"/>
+                            <constraint firstItem="bJ8-0y-OrD" firstAttribute="top" secondItem="LrO-XP-73G" secondAttribute="bottom" id="xak-1M-lxo"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zyf-Ca-Zq7"/>
                     </view>
@@ -161,7 +161,7 @@
                 <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ViewOfferReference" id="yQE-Iq-zYS" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MyQ-2P-PQf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3793" y="219"/>
+            <point key="canvasLocation" x="3111" y="56"/>
         </scene>
         <!--Filtered OfferVC-->
         <scene sceneID="CSC-Xc-BuZ">
@@ -219,6 +219,9 @@
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$20.26" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dZD-Ih-JCs">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="66.5" height="23"/>
+                                                                                    <constraints>
+                                                                                        <constraint firstAttribute="height" constant="23" id="x4v-i0-Nr0"/>
+                                                                                    </constraints>
                                                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                                                                     <nil key="textColor"/>
                                                                                     <nil key="highlightedColor"/>
@@ -331,11 +334,12 @@
                     <size key="freeformSize" width="414" height="700"/>
                     <connections>
                         <outlet property="filteredOfferTable" destination="HZ0-2X-NSF" id="eS7-Ax-qyG"/>
+                        <segue destination="yQE-Iq-zYS" kind="presentation" identifier="FromFilterOfferSegue" id="w8m-WQ-xmS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="El4-tU-DE0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2530.434782608696" y="478.79464285714283"/>
+            <point key="canvasLocation" x="2407" y="479"/>
         </scene>
         <!--Followed OfferVC-->
         <scene sceneID="fud-vc-egf">
@@ -366,6 +370,7 @@
                     <size key="freeformSize" width="414" height="700"/>
                     <connections>
                         <outlet property="offerTable" destination="wnb-wd-1HC" id="ikI-wQ-uzA"/>
+                        <segue destination="yQE-Iq-zYS" kind="presentation" identifier="FromFollowedOfferSegue" id="gnf-rQ-OW9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iMd-TW-hdt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -377,4 +382,7 @@
         <image name="_highlighted_homa" width="30" height="30"/>
         <image name="homa" width="30" height="30"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="w8m-WQ-xmS"/>
+    </inferredMetricsTieBreakers>
 </document>

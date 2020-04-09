@@ -84,8 +84,16 @@ func getOfferList(completion:@escaping (_ result: [Offer])->()) {
                                            }
                                            post["products"] = productfinal as AnyObject
                                        }
+                                    
+                                    /*
+                                     Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: "", products: post["products"] as? [Product], post_ID: post["post_ID"] as! String, PostType: post["PostType"] as! String, confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool, hashCaption: post["hashCaption"] as? String ?? "", status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? [], isPaid: post["isPaid"] as? Bool, PayAmount: post["isPaid"] as? Double ?? 0.0, denyMessage: post["denyMessage"] as? String ?? "")
+                                     */
+                                     /*
                                        
                                     postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool,denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? "",hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? []))
+                                    */
+                                    
+                                    postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: "", products: post["products"] as? [Product], post_ID: post["post_ID"] as! String, PostType: post["PostType"] as! String, confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool, hashCaption: post["hashCaption"] as? String ?? "", status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? [], isPaid: post["isPaid"] as? Bool, PayAmount: post["isPaid"] as? Double ?? 0.0, denyMessage: post["denyMessage"] as? String ?? ""))
                                        
                                    }
                                    offerDictionary!["posts"] = postfinal as AnyObject
@@ -745,6 +753,43 @@ func updateUserDetails(userID: String, userData:[String: Any]){
      ref.updateChildValues(userData)
 }
 
+func updateUserIdOfferPool(offer: Offer) {
+    
+    let userRef = Database.database().reference().child("OfferPool").child(offer.ownerUserID).child(offer.offer_ID)
+    
+    var acceptedList = offer.accepted ?? [String]()
+    acceptedList.append(Yourself.id)
+    
+   userRef.updateChildValues(["accepted": acceptedList])
+    
+}
+
+func updateIsAcceptedOffer(offer: Offer) {
+    
+    let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id)
+    //let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(ThisOffer.offer_ID)
+    let dayCount = offer.posts.count * 2
+    //var expireDateString = Date.getStringFromDate(date: Date().afterDays(day: dayCount))!
+    var expireDate = Date().afterDays(day: dayCount)
+    if offer.offer_ID == "XXXDefault" {
+        let foreverDate = 365 * 1000
+        //expireDateString = Date.getStringFromDate(date: Date().afterDays(day: foreverDate))!
+        expireDate = Date().afterDays(day: foreverDate)
+    }
+    
+    
+    offer.expiredate = expireDate
+    offer.isAccepted = true
+    offer.status = "accepted"
+    
+    let offerDict = API.serializeOffer(offer: offer)
+    
+    //prntRef.updateChildValues(["expiredate":expireDate])
+    //prntRef.updateChildValues(["isAccepted":true])
+    prntRef.updateChildValues([offer.offer_ID : offerDict])
+    
+}
+
 func createNewInfluencerAuthentication(info: NewAccountInfo) {
     // Create New Influencer In InfluencerAuthentication Table
     let ref = Database.database().reference().child("InfluencerAuthentication").child(info.id)
@@ -791,9 +836,14 @@ func updateFollowingList(userID: String, ownUserID: User) {
     usersRef.updateChildValues(["following":ownUserID.following!])
 }
 
-func updateBusinessFollowingList(userID: String, ownUserID: User) {
+func updateBusinessFollowingList(company: CompanyDetails,userID: String, ownUserID: User) {
     let usersRef = Database.database().reference().child("users").child(ownUserID.id)
     usersRef.updateChildValues(["businessFollowing":ownUserID.businessFollowing!])
+    
+    let businessRef = Database.database().reference().child("companies").child(userID).child(company.account_ID!)
+    var followers = company.followers
+    followers?.append(ownUserID.id)
+    businessRef.updateChildValues(["followers":followers!])
 }
 
 func getFilteredUsers(userIDs: [String], completion: @escaping(_ status: Bool, _ users: [User]?, _ deveiceTokens: [String]?)-> Void) {
@@ -956,75 +1006,125 @@ func getFilteredOffer(completion: @escaping (_ status: Bool, _ offerList: [Offer
     }
 }
 
-func getFollowerCompaniesOffer(completion: @escaping (_ status: Bool, _ offerList: [Offer]?)-> Void) {
-    let ref = Database.database().reference().child("OfferPool")
-    ref.observeSingleEvent(of: .value, with: { (snapshot) in
+func getFollowerCompaniesOffer(followers: [String],completion: @escaping (_ status: Bool, _ offerList: [Offer]?)-> Void) {
+    
+    var offerList = [Offer]()
+    
+    for (index, userID) in followers.enumerated() {
         
-        if let totalDict = snapshot.value as? [String:[String: AnyObject]] {
+        
+        let ref = Database.database().reference().child("OfferPool").child(userID)
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if let totalDict = snapshot.value as? [String: AnyObject] {
+                
+                
+                                    
+                    for (_, OfferValue) in totalDict {
+                        
+                        let offerFilter = OfferValue["influencerFilter"] as! [String: AnyObject]
+                        
+//                        let offerFilterKeys = offerFilter.keys
+                        
+//                        var categoryMatch = !offerFilterKeys.contains("categories")
+//                        var genderMatch = !offerFilterKeys.contains("gender")
+//                        var locationMatch = !offerFilterKeys.contains("zipCode")
+                        
+//                        if !genderMatch {
+//                            let gender: [String] = offerFilter["gender"] as! [String]
+//                            if let userGender = Yourself.gender!.rawValue as? String {
+//                                if gender.contains(userGender) {
+//                                    genderMatch = true
+//                                }
+//                            }
+//                        }
+                        
+//                        if !locationMatch && genderMatch {
+//                            let zips: [String] = offerFilter["zipCode"] as! [String]
+//                            if let userZip = Yourself.zipCode {
+//                                if zips.contains(userZip) {
+//                                    locationMatch = true
+//                                }
+//                            }
+//                        }
+                        
+//                        if !categoryMatch && locationMatch && genderMatch {
+//                            let businessCats: [String] = offerFilter["categories"] as! [String]
+//                            if let userCats = Yourself.categories {
+//                                //cats = Checks if user is a crazy cat person.
+//                                //Okay maybe I shouldn't joke when commenting.
+//                                for userCat in userCats {
+//                                    let catExistsInBusinessFilter = businessCats.contains(userCat)
+//                                    if catExistsInBusinessFilter {
+//                                        categoryMatch = true
+//                                        break
+//                                    }
+//                                }
+//                            }
+//                        }
+                        
+//                        if categoryMatch && genderMatch && locationMatch {
+//                            let offerData = Offer.init(dictionary: OfferValue as! [String : AnyObject])
+//                            offerList.append(offerData)
+//                        }
+                        
+                        let offerData = Offer.init(dictionary: OfferValue as! [String : AnyObject])
+                        offerList.append(offerData)
+                        
+                    }
+                    
+                
+                
+                
+                
+            }
+            
+            if index == (followers.count - 1){
+               completion(true,offerList)
+            }
+            
+        }) { (error) in
+            
+        }
+        
+        
+        
+    }
+    
+
+}
+
+func getAcceptedOffers(completion: @escaping(_ status: Bool,_ offer: [Offer])->()) {
+    
+    let userRef = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id)
+    
+    userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let snapDict = snapshot.value as? [String: [String: AnyObject]] {
             
             var offerList = [Offer]()
             
-            for (_,value) in totalDict {
+            for (_, offervalue) in snapDict {
                 
-                for (_, OfferValue) in value {
-                    
-                    let offerFilter = OfferValue["influencerFilter"] as! [String: AnyObject]
-                    
-                    let offerFilterKeys = offerFilter.keys
-                    
-                    var categoryMatch = !offerFilterKeys.contains("categories")
-                    var genderMatch = !offerFilterKeys.contains("gender")
-                    var locationMatch = !offerFilterKeys.contains("zipCode")
-                    
-                    if !genderMatch {
-                        let gender: [String] = offerFilter["gender"] as! [String]
-                        if let userGender = Yourself.gender!.rawValue as? String {
-                            if gender.contains(userGender) {
-                                genderMatch = true
-                            }
-                        }
+                if let isAccepted = offervalue["status"] as? String{
+                    if isAccepted == "accepted" || isAccepted == "posted" {
+                        
+                        let offer = Offer.init(dictionary: offervalue)
+                        
+                        offerList.append(offer)
                     }
-                    
-                    if !locationMatch && genderMatch {
-                        let zips: [String] = offerFilter["zipCode"] as! [String]
-                        if let userZip = Yourself.zipCode {
-                            if zips.contains(userZip) {
-                                locationMatch = true
-                            }
-                        }
-                    }
-                    
-                    if !categoryMatch && locationMatch && genderMatch {
-                        let businessCats: [String] = offerFilter["categories"] as! [String]
-                        if let userCats = Yourself.categories {
-                            //cats = Checks if user is a crazy cat person.
-                            //Okay maybe I shouldn't joke when commenting.
-                            for userCat in userCats {
-                                let catExistsInBusinessFilter = businessCats.contains(userCat)
-                                if catExistsInBusinessFilter {
-                                    categoryMatch = true
-                                    break
-                                }
-                            }
-                        }
-                    }
-                    
-                    if categoryMatch && genderMatch && locationMatch {
-                        let offerData = Offer.init(dictionary: OfferValue as! [String : AnyObject])
-                        offerList.append(offerData)
-                    }
-                    
                 }
                 
             }
             
-            completion(true,offerList)
+            completion(true, offerList)
             
         }
         
     }) { (error) in
         
     }
+    
 }
 
 func getAllOffer(completion: @escaping (_ status: Bool, _ offerList: [allOfferObject]?)-> Void) {

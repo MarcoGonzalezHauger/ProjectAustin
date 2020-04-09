@@ -28,34 +28,27 @@ class OfferAcceptConfirmVC: UIViewController {
     //If user agree and confirm the offer. we need to update offer expire date, offer status and isaccepted status to FIR
     @IBAction func OfferConfirmed(_ sender: Any) {
         
-        let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(ThisOffer.offer_ID)
-		let dayCount = ThisOffer.posts.count * 2
-		var expireDate = Date.getStringFromDate(date: Date().afterDays(day: dayCount))!
-		if ThisOffer.offer_ID == "XXXDefault" {
-			let foreverDate = 365 * 1000
-			expireDate = Date.getStringFromDate(date: Date().afterDays(day: foreverDate))!
-		}
+        updateIsAcceptedOffer(offer: ThisOffer)
         
-        prntRef.updateChildValues(["expiredate":expireDate])
-        prntRef.updateChildValues(["isAccepted":true])
-        prntRef.updateChildValues(["status":"accepted"])
+        updateUserIdOfferPool(offer: ThisOffer)
         
-        self.sendPushNotificationToFollowers()
-        
-        fetchBusinessUserDetails(userID: ThisOffer.ownerUserID) { (status, deviceFIR) in
-            
-            if status {
-                let params = ["token":deviceFIR,"offer":self.ThisOffer.title,"influencer":Yourself.username]
-                
-                self.sendAcceptedOfferPushNotification(params: params as [String : AnyObject])
-            }
-            
-        }
+//        self.sendPushNotificationToFollowers()
+//
+//        fetchBusinessUserDetails(userID: ThisOffer.ownerUserID) { (status, deviceFIR) in
+//
+//            if status {
+//                let params = ["token":deviceFIR,"offer":self.ThisOffer.title,"influencer":Yourself.username]
+//
+//                self.sendAcceptedOfferPushNotification(params: params as [String : AnyObject])
+//            }
+//
+//        }
 
         dismiss(animated: true) {
 			self.Confirmdelegate?.dismissPage()
 		}
     }
+    
     
     func sendPushNotificationToFollowers() {
         

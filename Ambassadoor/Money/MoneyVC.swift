@@ -19,7 +19,7 @@ class IncomingMoneyCell: UITableViewCell, SyncTimerDelegate {
 	
 	func Tick() {
         if self.ThisOffer.allConfirmed {
-			if let date = ThisOffer.allPostsConfrimedSince {
+			if let date = ThisOffer.allPostsConfirmedSince {
 				//User can only collect money after 2 days, or 172800 seconds.
 				TimeLeft.text = DateToCountdown(date: date.addingTimeInterval(172800))
 			} else {
