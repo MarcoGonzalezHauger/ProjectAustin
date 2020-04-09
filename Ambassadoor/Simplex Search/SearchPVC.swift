@@ -9,13 +9,12 @@
 
 import UIKit
 
-class SearchPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, OfferMenuSegmentDelegate {
-    func segmentIndex(index: Int) {
+class SearchPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, SearchSegmentDelegate {
+    func searchSegmentIndex(index: Int) {
         let viewController = OrderedVC[index]
         goToPage(index: index, sender: viewController)
     }
     
-	
 	
 	//Turn page -1
 	func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
@@ -55,6 +54,7 @@ class SearchPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
 		let NewVC = UIStoryboard(name: "Searcher", bundle: nil).instantiateViewController(withIdentifier: VC)
 		return NewVC
 	}
+    
 	
     override func viewDidLoad() {
         super.viewDidLoad()

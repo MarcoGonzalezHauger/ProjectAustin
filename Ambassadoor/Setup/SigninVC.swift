@@ -17,6 +17,8 @@ enum LoginProblem {
     case badEmailFormat //email wasn't valid.
 }
 
+
+
 class SigninVC: UIViewController {
     
     var delegate: AutoDimiss?
@@ -286,7 +288,7 @@ class SigninVC: UIViewController {
         self.authLabel.text = "Welcome Back"
         self.authLabel.textColor = .systemGreen
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.delegate?.DismissNow()
+            self.delegate?.DismissNow(sender: "signin")
         }
     }
     
