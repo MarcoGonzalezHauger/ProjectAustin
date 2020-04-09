@@ -69,7 +69,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bJ8-0y-OrD">
-                                <rect key="frame" x="0.0" y="132" width="414" height="764"/>
+                                <rect key="frame" x="0.0" y="124" width="414" height="772"/>
                                 <connections>
                                     <segue destination="wp5-xe-NcL" kind="embed" identifier="PageView" id="stR-0p-bft"/>
                                 </connections>
@@ -79,7 +79,6 @@
                         <constraints>
                             <constraint firstItem="LrO-XP-73G" firstAttribute="trailing" secondItem="zyf-Ca-Zq7" secondAttribute="trailing" id="7Pq-Hk-rTP"/>
                             <constraint firstItem="bJ8-0y-OrD" firstAttribute="leading" secondItem="zyf-Ca-Zq7" secondAttribute="leading" id="DTj-y2-Chs"/>
-                            <constraint firstItem="bJ8-0y-OrD" firstAttribute="top" secondItem="LrO-XP-73G" secondAttribute="bottom" constant="8" id="G1T-NX-gg1"/>
                             <constraint firstItem="bJ8-0y-OrD" firstAttribute="trailing" secondItem="zyf-Ca-Zq7" secondAttribute="trailing" id="Ix4-jv-NYf"/>
                             <constraint firstItem="LrO-XP-73G" firstAttribute="leading" secondItem="zyf-Ca-Zq7" secondAttribute="leading" id="Ofg-1U-i2M"/>
                             <constraint firstAttribute="bottom" secondItem="bJ8-0y-OrD" secondAttribute="bottom" id="smy-si-Ptf"/>
@@ -220,6 +219,9 @@
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$20.26" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dZD-Ih-JCs">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="66.5" height="23"/>
+                                                                                    <constraints>
+                                                                                        <constraint firstAttribute="height" constant="23" id="x4v-i0-Nr0"/>
+                                                                                    </constraints>
                                                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                                                                     <nil key="textColor"/>
                                                                                     <nil key="highlightedColor"/>
