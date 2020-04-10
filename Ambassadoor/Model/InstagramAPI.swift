@@ -713,7 +713,8 @@ struct API {
             "accepted": offer.accepted as Any,
             "shouldRefund": offer.shouldRefund as Any,
             "didRefund": offer.didRefund as Any,
-            "refundedOn": offer.refundedOn as Any
+            "refundedOn": offer.refundedOn as Any,
+            "updatedDate": Date.getCurrentDate()
             ]
         return offerData
         //self.isRefferedByInfluencer = dictionary["isRefferedByInfluencer"] as? Bool ?? false

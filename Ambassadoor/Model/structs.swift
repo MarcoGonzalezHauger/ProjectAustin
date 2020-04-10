@@ -103,6 +103,7 @@ class Offer : NSObject {
     var shouldRefund: Bool?
     var didRefund: Bool?
     var refundedOn: String?
+    var updatedDate: Date?
     
     init(dictionary: [String: AnyObject]) {
         
@@ -171,6 +172,7 @@ class Offer : NSObject {
         self.shouldRefund = dictionary["shouldRefund"] as? Bool ?? false
         self.didRefund = dictionary["didRefund"] as? Bool ?? false
         self.refundedOn = dictionary["refundedOn"] as? String ?? ""
+        self.updatedDate =  ((dictionary["updatedDate"] as? String) != nil) ? getDateFromString(date: dictionary["updatedDate"] as! String) : nil
     }
 }
 

@@ -134,6 +134,25 @@ func DateToLetterCountdown(date: Date) -> String? {
 	}
 }
 
+func DateToLetterCountdownWithFormat(date: Date, format: String) -> String? {
+    
+    let calendar = Calendar.current
+    let dateCom = calendar.dateComponents([.hour,.minute,.second], from: Date(), to: date)
+    switch dateCom {
+    case _ where dateCom.hour! <= 0 && dateCom.minute! <= 0 && dateCom.second! <= 0:
+        return ""
+    case _ where dateCom.hour! <= 0 && dateCom.minute! <= 0:
+        return "\(dateCom.second!)"
+    case _ where dateCom.hour! <= 0:
+        return "\(dateCom.minute!):\(dateCom.second!)"
+    case _ where dateCom.hour! <= 0:
+        return "\(dateCom.minute!):\(dateCom.second!)"
+    default:
+        return "\(dateCom.hour!):\(dateCom.minute!):\(dateCom.second!)"
+    
+    }
+}
+
 func NumberToStringWithCommas(number: Double) -> String {
 	let numformat = NumberFormatter()
 	numformat.numberStyle = NumberFormatter.Style.decimal

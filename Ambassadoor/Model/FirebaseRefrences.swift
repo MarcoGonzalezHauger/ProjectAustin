@@ -781,12 +781,18 @@ func updateIsAcceptedOffer(offer: Offer) {
     offer.expiredate = expireDate
     offer.isAccepted = true
     offer.status = "accepted"
+    offer.updatedDate = Date()
+    
+    for(index,_) in offer.posts.enumerated() {
+        offer.posts[index].status = "accepted"
+    }
     
     let offerDict = API.serializeOffer(offer: offer)
     
     //prntRef.updateChildValues(["expiredate":expireDate])
     //prntRef.updateChildValues(["isAccepted":true])
     prntRef.updateChildValues([offer.offer_ID : offerDict])
+    NotificationCenter.default.post(name: Notification.Name("updateinprogresscount"), object: nil, userInfo: ["userinfo":"1"])
     
 }
 
@@ -990,7 +996,15 @@ func getFilteredOffer(completion: @escaping (_ status: Bool, _ offerList: [Offer
                     
                     if categoryMatch && genderMatch && locationMatch {
                         let offerData = Offer.init(dictionary: OfferValue as! [String : AnyObject])
+                        //Check If already accepted this offer
+                        if let offer = offerData.accepted {
+                        if !offer.contains(Yourself.id){
                         offerList.append(offerData)
+                        }
+                        }else{
+                        offerList.append(offerData)
+                        }
+                        
                     }
                     
                 }
@@ -1022,55 +1036,15 @@ func getFollowerCompaniesOffer(followers: [String],completion: @escaping (_ stat
                                     
                     for (_, OfferValue) in totalDict {
                         
-                        let offerFilter = OfferValue["influencerFilter"] as! [String: AnyObject]
-                        
-//                        let offerFilterKeys = offerFilter.keys
-                        
-//                        var categoryMatch = !offerFilterKeys.contains("categories")
-//                        var genderMatch = !offerFilterKeys.contains("gender")
-//                        var locationMatch = !offerFilterKeys.contains("zipCode")
-                        
-//                        if !genderMatch {
-//                            let gender: [String] = offerFilter["gender"] as! [String]
-//                            if let userGender = Yourself.gender!.rawValue as? String {
-//                                if gender.contains(userGender) {
-//                                    genderMatch = true
-//                                }
-//                            }
-//                        }
-                        
-//                        if !locationMatch && genderMatch {
-//                            let zips: [String] = offerFilter["zipCode"] as! [String]
-//                            if let userZip = Yourself.zipCode {
-//                                if zips.contains(userZip) {
-//                                    locationMatch = true
-//                                }
-//                            }
-//                        }
-                        
-//                        if !categoryMatch && locationMatch && genderMatch {
-//                            let businessCats: [String] = offerFilter["categories"] as! [String]
-//                            if let userCats = Yourself.categories {
-//                                //cats = Checks if user is a crazy cat person.
-//                                //Okay maybe I shouldn't joke when commenting.
-//                                for userCat in userCats {
-//                                    let catExistsInBusinessFilter = businessCats.contains(userCat)
-//                                    if catExistsInBusinessFilter {
-//                                        categoryMatch = true
-//                                        break
-//                                    }
-//                                }
-//                            }
-//                        }
-                        
-//                        if categoryMatch && genderMatch && locationMatch {
-//                            let offerData = Offer.init(dictionary: OfferValue as! [String : AnyObject])
-//                            offerList.append(offerData)
-//                        }
-                        
                         let offerData = Offer.init(dictionary: OfferValue as! [String : AnyObject])
-                        offerList.append(offerData)
-                        
+                            //Check If already accepted this offer
+                            if let offer = offerData.accepted {
+                            if !offer.contains(Yourself.id){
+                            offerList.append(offerData)
+                            }
+                            }else{
+                            offerList.append(offerData)
+                            }
                     }
                     
                 
@@ -1182,17 +1156,34 @@ func getAllOffer(completion: @escaping (_ status: Bool, _ offerList: [allOfferOb
                     
                     if categoryMatch && genderMatch && locationMatch {
                         let offerData = Offer.init(dictionary: OfferValue as! [String : AnyObject])
-                        
-                        let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: false)
-                        
+                        //Check If already accepted this offer
+                        if let offer = offerData.accepted {
+                        if !offer.contains(Yourself.id){
+                        let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: true)
                         offerList.append(allOfferObj)
+                        }
+                        }else{
+                        let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: true)
+                        offerList.append(allOfferObj)
+                        }
+                        
+                        
                         
                     }else{
                         let offerData = Offer.init(dictionary: OfferValue as! [String : AnyObject])
-                        
+                        //Check If already accepted this offer
+                        if let offer = offerData.accepted {
+                        if !offer.contains(Yourself.id){
                         let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: false)
-                        
                         offerList.append(allOfferObj)
+                        }
+                        }else{
+                        let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: false)
+                        offerList.append(allOfferObj)
+                        }
+                        
+                        //let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: false)
+                        //offerList.append(allOfferObj)
                     }
                     
                 }

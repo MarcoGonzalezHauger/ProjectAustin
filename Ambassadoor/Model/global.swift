@@ -73,6 +73,7 @@ class CentralVariables {
     var dwollaCustomerInformation = DwollaCustomerInformation()
     //Influencer worked Companies
     var influencerWrkCompany = [Comapny]()
+    var inProgressOfferCount = [Int]()
 }
 
 let global = CentralVariables()
