@@ -84,6 +84,10 @@ func DateToAgo(date: Date) -> String {
 	}
 }
 
+func calculateCostForUser(offer: Offer, user: User, increasePayVariable: Double = 1.00) -> Double {
+    return 0.055 * user.averageLikes! * Double(offer.posts.count) * increasePayVariable
+}
+
 func DateToCountdown(date: Date) -> String? {
 	let i : Double = date.timeIntervalSinceNow
 	let pluralSeconds: Bool = Int(i) % 60 != 1
@@ -128,6 +132,25 @@ func DateToLetterCountdown(date: Date) -> String? {
 		formatter.dateFormat = "MM/dd/YYYY"
 		return formatter.string(from: date)
 	}
+}
+
+func DateToLetterCountdownWithFormat(date: Date, format: String) -> String? {
+    
+    let calendar = Calendar.current
+    let dateCom = calendar.dateComponents([.hour,.minute,.second], from: Date(), to: date)
+    switch dateCom {
+    case _ where dateCom.hour! <= 0 && dateCom.minute! <= 0 && dateCom.second! <= 0:
+        return ""
+    case _ where dateCom.hour! <= 0 && dateCom.minute! <= 0:
+        return "\(dateCom.second!)"
+    case _ where dateCom.hour! <= 0:
+        return "\(dateCom.minute!):\(dateCom.second!)"
+    case _ where dateCom.hour! <= 0:
+        return "\(dateCom.minute!):\(dateCom.second!)"
+    default:
+        return "\(dateCom.hour!):\(dateCom.minute!):\(dateCom.second!)"
+    
+    }
 }
 
 func NumberToStringWithCommas(number: Double) -> String {
@@ -261,8 +284,14 @@ func OfferFromID(id: String, completion:@escaping(_ offer:Offer?)->()) {
 									}
 									post["products"] = productfinal as AnyObject
 								}
-								
+								/*
+                                 Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: "", products: post["products"] as? [Product], post_ID: post["post_ID"] as! String, PostType: post["PostType"] as! String, confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool, hashCaption: post["hashCaption"] as? String ?? "", status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? [], isPaid: post["isPaid"] as? Bool, PayAmount: post["isPaid"] as? Double ?? 0.0, denyMessage: post["denyMessage"] as? String ?? "")
+                                 */
+                                /*
 								postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool,denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? []))
+                                */
+                                
+                                postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: "", products: post["products"] as? [Product], post_ID: post["post_ID"] as! String, PostType: post["PostType"] as! String, confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool, hashCaption: post["hashCaption"] as? String ?? "", status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? [], isPaid: post["isPaid"] as? Bool, PayAmount: post["isPaid"] as? Double ?? 0.0, denyMessage: post["denyMessage"] as? String ?? ""))
 							}
 							offerDictionary!["posts"] = postfinal as AnyObject
 							let userInstanceOffer = Offer(dictionary: offerDictionary!)

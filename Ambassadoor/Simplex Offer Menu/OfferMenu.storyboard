@@ -161,7 +161,7 @@
                 <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ViewOfferReference" id="yQE-Iq-zYS" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MyQ-2P-PQf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3793" y="219"/>
+            <point key="canvasLocation" x="3111" y="56"/>
         </scene>
         <!--Filtered OfferVC-->
         <scene sceneID="CSC-Xc-BuZ">
@@ -334,11 +334,12 @@
                     <size key="freeformSize" width="414" height="700"/>
                     <connections>
                         <outlet property="filteredOfferTable" destination="HZ0-2X-NSF" id="eS7-Ax-qyG"/>
+                        <segue destination="yQE-Iq-zYS" kind="presentation" identifier="FromFilterOfferSegue" id="w8m-WQ-xmS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="El4-tU-DE0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2530.434782608696" y="478.79464285714283"/>
+            <point key="canvasLocation" x="2407" y="479"/>
         </scene>
         <!--Followed OfferVC-->
         <scene sceneID="fud-vc-egf">
@@ -369,6 +370,7 @@
                     <size key="freeformSize" width="414" height="700"/>
                     <connections>
                         <outlet property="offerTable" destination="wnb-wd-1HC" id="ikI-wQ-uzA"/>
+                        <segue destination="yQE-Iq-zYS" kind="presentation" identifier="FromFollowedOfferSegue" id="gnf-rQ-OW9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iMd-TW-hdt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -380,4 +382,7 @@
         <image name="_highlighted_homa" width="30" height="30"/>
         <image name="homa" width="30" height="30"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="w8m-WQ-xmS"/>
+    </inferredMetricsTieBreakers>
 </document>

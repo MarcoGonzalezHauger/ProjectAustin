@@ -29,6 +29,22 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
         let bgView = UIView(frame: UIScreen.main.bounds)
         bgView.backgroundColor = GetBackColor()
         view.insertSubview(bgView, at: 0)
+        
+        self.setInprogressBadgeCount()
+        
+    }
+    
+    @objc func setInprogressBadgeCount() {
+        getAcceptedOffers { (status, offers) in
+            
+            if status{
+                if offers.count > 0{
+                    self.tabBarController?.tabBar.items![3].badgeValue = String(offers.count)
+                }
+                
+            }
+            
+        }
     }
     
     func segmentIndex(index: Int) {
@@ -81,7 +97,7 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
 		dataSource = self
 		delegate = self
 		
-		
+		NotificationCenter.default.addObserver(self, selector: #selector(self.setInprogressBadgeCount), name: Notification.Name("updateinprogresscount"), object: nil)
 		//set default VC to Offers Page.
 		let firstViewController : UIViewController = OrderedVC[1]
 		

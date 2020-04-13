@@ -40,7 +40,11 @@ class FollowedCompaniesOffer: UITableViewCell {
     
 }
 
-class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, OfferResponse {
+    func OfferAccepted(offer: Offer) {
+        
+    }
+    
     
     @IBOutlet weak var offerTable: UITableView!
     
@@ -49,7 +53,7 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getFollowerCompaniesOffer { (status, offers) in
+        getFollowerCompaniesOffer(followers: Yourself.businessFollowing!) { (status, offers) in
             
             if status {
                 self.followOfferList = offers!
@@ -62,6 +66,7 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         // Do any additional setup after loading the view.
     }
 
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.followOfferList.count
@@ -86,16 +91,29 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         return 85.0
     }
 
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
+        self.performSegue(withIdentifier: "FromFollowedOfferSegue", sender: followOfferList[indexPath.row])
+    }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "FromFollowedOfferSegue" {
+            //guard let newviewoffer = viewoffer else { return }
+            let destination = segue.destination
+            if let destination = (destination as! UINavigationController).topViewController as? OfferVC {
+                destination.delegate = self
+                destination.ThisOffer = sender as? Offer
+
+
+            }
+            }
+        
     }
-    */
+    
 
 }
