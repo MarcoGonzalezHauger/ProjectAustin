@@ -84,6 +84,8 @@
 		E8721D6C2436E7C60016D2B3 /* OffersPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8721D6B2436E7C60016D2B3 /* OffersPVC.swift */; };
 		E878729823F6353600B4163B /* BasicInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E878729723F6353600B4163B /* BasicInfoVC.swift */; };
 		E8798010243E6A8600F32137 /* inProgress.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E879800F243E6A8600F32137 /* inProgress.storyboard */; };
+		E87980132444087B00F32137 /* simplexSocial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E87980122444087B00F32137 /* simplexSocial.storyboard */; };
+		E8798015244408DF00F32137 /* SocialPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8798014244408DF00F32137 /* SocialPVC.swift */; };
 		E87C01AB23ED8F9A002B1F9A /* CreateAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87C01AA23ED8F9A002B1F9A /* CreateAccountVC.swift */; };
 		E87EC2E2236C998C00690037 /* GeolocationTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EC2E1236C998C00690037 /* GeolocationTools.swift */; };
 		E87EC2E4236C9A2900690037 /* SocialAlgorithms.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EC2E3236C9A2900690037 /* SocialAlgorithms.swift */; };
@@ -197,6 +199,8 @@
 		E8721D6B2436E7C60016D2B3 /* OffersPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffersPVC.swift; sourceTree = "<group>"; };
 		E878729723F6353600B4163B /* BasicInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicInfoVC.swift; sourceTree = "<group>"; };
 		E879800F243E6A8600F32137 /* inProgress.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = inProgress.storyboard; sourceTree = "<group>"; };
+		E87980122444087B00F32137 /* simplexSocial.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = simplexSocial.storyboard; sourceTree = "<group>"; };
+		E8798014244408DF00F32137 /* SocialPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialPVC.swift; sourceTree = "<group>"; };
 		E87C01AA23ED8F9A002B1F9A /* CreateAccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountVC.swift; sourceTree = "<group>"; };
 		E87EC2E1236C998C00690037 /* GeolocationTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeolocationTools.swift; sourceTree = "<group>"; };
 		E87EC2E3236C9A2900690037 /* SocialAlgorithms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialAlgorithms.swift; sourceTree = "<group>"; };
@@ -323,6 +327,7 @@
 				C0963EAF220B838F000380C7 /* Extensions */,
 				E866724621FF2C6B00241FB3 /* Signup */,
 				E86B092421DBEF600009C45D /* Social */,
+				E87980112444084B00F32137 /* Simplex Social */,
 				E870FE62236CF446002ABE31 /* Profile */,
 				E817594E243BA8FA0040CB0B /* Simplex Search */,
 				E8721D682436E53E0016D2B3 /* Simplex Offer Menu */,
@@ -501,6 +506,15 @@
 			path = "Simplex In Progress";
 			sourceTree = "<group>";
 		};
+		E87980112444084B00F32137 /* Simplex Social */ = {
+			isa = PBXGroup;
+			children = (
+				E87980122444087B00F32137 /* simplexSocial.storyboard */,
+				E8798014244408DF00F32137 /* SocialPVC.swift */,
+			);
+			path = "Simplex Social";
+			sourceTree = "<group>";
+		};
 		E87BA92123EB65E0008D7628 /* Setup */ = {
 			isa = PBXGroup;
 			children = (
@@ -608,6 +622,7 @@
 				B7A178FD243C8C48000670C3 /* InfluencerTVC.xib in Resources */,
 				B79CAC3A243B082D009F982D /* StandardOfferCell.xib in Resources */,
 				B7A178FF243C8C67000670C3 /* BusinessUserTVC.xib in Resources */,
+				E87980132444087B00F32137 /* simplexSocial.storyboard in Resources */,
 				E82347F321A1D6BF000A1A62 /* Main.storyboard in Resources */,
 				E8175951243BD7930040CB0B /* Searcher.storyboard in Resources */,
 			);
@@ -699,6 +714,7 @@
 				E8A84AB1222AB40B00D9E2C9 /* CategoryPickerVC.swift in Sources */,
 				C0D73643220676CF00A84EB7 /* InstagramAPI.swift in Sources */,
 				B7A178F5243C5531000670C3 /* FollowedOfferVC.swift in Sources */,
+				E8798015244408DF00F32137 /* SocialPVC.swift in Sources */,
 				E8C02754220F32C000B79D54 /* BoldButton.swift in Sources */,
 				E88A081023EDED24000AD3C7 /* SigninVC.swift in Sources */,
 				B7FA5F352333789F0088C3FE /* TabBarVC.swift in Sources */,
