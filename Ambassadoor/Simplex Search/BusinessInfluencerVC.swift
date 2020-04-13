@@ -201,14 +201,14 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
             if let i = followingList?.firstIndex(of: ThisUser.userId!){
                 followingList?.remove(at: i)
                 Yourself.businessFollowing = followingList
-                updateBusinessFollowingList(userID: ThisUser.userId!, ownUserID: Yourself)
+                updateBusinessFollowingList(company: ThisUser, userID: ThisUser.userId!, ownUserID: Yourself)
             }
         }else{
             sender.setTitle("Unfollow", for: .normal)
             var followingList = Yourself.businessFollowing
             followingList?.append(ThisUser.userId!)
             Yourself.businessFollowing = followingList
-            updateBusinessFollowingList(userID: ThisUser.userId!, ownUserID: Yourself)
+            updateBusinessFollowingList(company: ThisUser, userID: ThisUser.userId!, ownUserID: Yourself)
         }
 
     }

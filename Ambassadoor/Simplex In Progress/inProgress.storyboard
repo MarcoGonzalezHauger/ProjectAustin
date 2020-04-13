@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,7 +11,7 @@
         <!--In Progress-->
         <scene sceneID="nKB-nQ-bkb">
             <objects>
-                <viewController storyboardIdentifier="inProgress" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BoV-Vi-P6L" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="inProgress" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BoV-Vi-P6L" customClass="InProgressVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gmA-0E-RBW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -20,7 +20,7 @@
                                 <rect key="frame" x="0.0" y="85" width="414" height="728"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="200" id="avY-8U-1Ek">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="inprogresscell" rowHeight="200" id="avY-8U-1Ek" customClass="InProgressTVC" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="avY-8U-1Ek" id="X11-07-qzp">
@@ -35,7 +35,7 @@
                                                             <subviews>
                                                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xj2-B6-G5J" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="164" width="200" height="20"/>
-                                                                    <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="200" id="k3u-DV-fgZ"/>
                                                                         <constraint firstAttribute="height" constant="20" id="yaS-tk-HE1"/>
@@ -94,6 +94,9 @@
                                                                         </imageView>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Post 2 (Not Posted)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="XyL-7L-cIp">
                                                                             <rect key="frame" x="68" y="97" width="135" height="18"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="height" constant="18" id="fU2-1M-RgN"/>
+                                                                            </constraints>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
@@ -107,6 +110,9 @@
                                                                         </imageView>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Post 3 (Not Posted)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="nhv-Yg-18c">
                                                                             <rect key="frame" x="68" y="125" width="135.5" height="18"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="height" constant="18" id="4iQ-p3-FGo"/>
+                                                                            </constraints>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
@@ -213,8 +219,30 @@
                                                 <constraint firstItem="X7k-Ti-HrJ" firstAttribute="leading" secondItem="X11-07-qzp" secondAttribute="leading" constant="6" id="muu-ik-i2r"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="amount" destination="C3W-hE-gY8" id="94u-Ej-f85"/>
+                                            <outlet property="companyLogo" destination="MCX-gl-V9g" id="cN4-TE-LQP"/>
+                                            <outlet property="name" destination="eDq-xY-d9H" id="RYu-H7-pUK"/>
+                                            <outlet property="paymentReceiveAt" destination="7dA-fW-WEB" id="zBQ-iM-YHr"/>
+                                            <outlet property="postImgOne" destination="x9p-xR-HRI" id="DG9-gS-SIW"/>
+                                            <outlet property="postImgThree" destination="vg6-n4-LgT" id="a6l-Mf-3kR"/>
+                                            <outlet property="postImgThreeHeight" destination="jbc-qg-i2S" id="RrD-er-Pqj"/>
+                                            <outlet property="postImgTwo" destination="MPl-wv-TnD" id="jFE-JT-cOu"/>
+                                            <outlet property="postImgTwoHeight" destination="q2g-um-djK" id="XiU-ts-vaX"/>
+                                            <outlet property="postOne" destination="YNr-fk-gvP" id="w7S-6V-MGi"/>
+                                            <outlet property="postThree" destination="nhv-Yg-18c" id="8gD-dt-sBf"/>
+                                            <outlet property="postThreeHeight" destination="4iQ-p3-FGo" id="fCV-zK-L7z"/>
+                                            <outlet property="postTwo" destination="XyL-7L-cIp" id="iKY-JS-y1h"/>
+                                            <outlet property="postTwoHeight" destination="fU2-1M-RgN" id="pGz-A7-MDN"/>
+                                            <outlet property="progressWidth" destination="k3u-DV-fgZ" id="Vuw-kX-itY"/>
+                                            <outlet property="progrssView" destination="xj2-B6-G5J" id="gJA-gw-UFN"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BoV-Vi-P6L" id="bFm-7Z-lIi"/>
+                                    <outlet property="delegate" destination="BoV-Vi-P6L" id="Ox4-o7-JYF"/>
+                                </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pp9-8k-99M" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="85"/>
@@ -262,6 +290,9 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="In Progress" image="in progress" id="lDr-8H-HMH"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="inProgressTable" destination="RIo-fv-3bb" id="fHP-YZ-qlR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g2N-2Y-KaY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
