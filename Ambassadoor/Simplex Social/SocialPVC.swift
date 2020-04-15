@@ -8,33 +8,11 @@
 //
 
 import UIKit
-
-class SocialPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, OfferMenuSegmentDelegate,AutoDimiss {
-    func DismissNow(sender: String) {
-        dataSource = self
-        delegate = self
-        
-        
-        //set default VC to Offers Page.
-        let firstViewController : UIViewController = OrderedVC[0]
-        
-        //display that in pages.
-        DispatchQueue.main.async {
-            self.setViewControllers([firstViewController],
-                                    direction: .forward,
-                                    animated: true,
-                                    completion: nil)
-        }
-        
-        let bgView = UIView(frame: UIScreen.main.bounds)
-        bgView.backgroundColor = GetBackColor()
-        view.insertSubview(bgView, at: 0)
-        
-        self.setInprogressBadgeCount()
-        
-    }
+//AutoDimiss
+class SocialPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, SocialSegmentDelegate {
+    
 	
-    func segmentIndex(index: Int) {
+    func socialSegmentIndex(index: Int) {
         let viewController = OrderedVC[index]
         goToPage(index: index, sender: viewController)
     }
@@ -56,7 +34,15 @@ class SocialPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
 		return OrderedVC[i + 1]
 	}
 	
-	
+	func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool){
+        if (!completed)
+        {
+          return
+        }
+        if let index = pageViewController.viewControllers!.first!.view.tag as? Int{
+        self.pageViewDidChange?.pageViewIndexDidChangedelegate(index:index)
+        }
+    }
 	
 	//returns a list of all VCs in Home Tab.
 	lazy var OrderedVC: [UIViewController] = {
@@ -76,6 +62,8 @@ class SocialPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
 		let NewVC = UIStoryboard(name: "simplexSocial", bundle: nil).instantiateViewController(withIdentifier: VC)
 		return NewVC
 	}
+    
+    var pageViewDidChange: PageViewDelegate?
 	
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -9,6 +9,10 @@
 
 import UIKit
 
+protocol PageViewDelegate {
+    func pageViewIndexDidChangedelegate(index: Int)
+}
+
 class SearchPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, SearchSegmentDelegate {
     func searchSegmentIndex(index: Int) {
         let viewController = OrderedVC[index]
@@ -22,6 +26,7 @@ class SearchPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
 		if i - 1 < 0 {
 			return nil
 		}
+       // self.pageViewDidChange?.pageViewIndexDidChangedelegate(index: i)
 		return OrderedVC[i - 1]
 	}
 	
@@ -31,10 +36,19 @@ class SearchPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
 		if i + 1 >= OrderedVC.count {
 			return nil
 		}
+       // self.pageViewDidChange?.pageViewIndexDidChangedelegate(index:i)
 		return OrderedVC[i + 1]
 	}
 	
-	
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool){
+        if (!completed)
+        {
+          return
+        }
+        if let index = pageViewController.viewControllers!.first!.view.tag as? Int{
+        self.pageViewDidChange?.pageViewIndexDidChangedelegate(index:index)
+        }
+    }
 	
 	//returns a list of all VCs in Home Tab.
 	lazy var OrderedVC: [UIViewController] = {
@@ -55,13 +69,14 @@ class SearchPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
 		return NewVC
 	}
     
+    var pageViewDidChange: PageViewDelegate?
+    
 	
     override func viewDidLoad() {
         super.viewDidLoad()
         
 		dataSource = self
 		delegate = self
-		
 		
 		//set default VC to Offers Page.
 		let firstViewController : UIViewController = OrderedVC[1]
