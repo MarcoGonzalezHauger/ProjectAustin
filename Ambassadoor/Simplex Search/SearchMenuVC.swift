@@ -18,7 +18,10 @@ protocol SearchBarDelegate {
     func SearchTextIndex(text: String, segmentIndex: Int)
 }
 
-class SearchMenuVC: UIViewController, UISearchBarDelegate {
+class SearchMenuVC: UIViewController, UISearchBarDelegate,PageViewDelegate {
+    func pageViewIndexDidChangedelegate(index: Int) {
+        self.searchSegment.selectedSegmentIndex = index
+    }
     
     @IBOutlet weak var searchSegment: UISegmentedControl!
     
@@ -68,6 +71,7 @@ class SearchMenuVC: UIViewController, UISearchBarDelegate {
         if segue.identifier == "PageView"{
             let view = segue.destination as! SearchPVC
             self.segmentDelegate = view
+            view.pageViewDidChange = self
         }
     }
     

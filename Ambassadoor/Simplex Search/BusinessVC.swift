@@ -27,7 +27,7 @@ class BusinessUserTVC: UITableViewCell {
                 self.name.text = business.name
                 self.mission.text = business.mission
                 
-                if (Yourself.businessFollowing?.contains(businessDatail!.userId!))!{
+                if (Yourself.businessFollowing?.contains(business.userId!))!{
                     
                     self.followBtn.setTitle("Unfollow", for: .normal)
                     
@@ -129,6 +129,8 @@ class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 followingList?.remove(at: i)
                 Yourself.businessFollowing = followingList
                 updateBusinessFollowingList(company: ThisUser, userID: ThisUser.userId!, ownUserID: Yourself)
+                removeFollowingFollowerBusinessUser(user: ThisUser)
+                
             }
         }else{
             sender.setTitle("Unfollow", for: .normal)
@@ -136,6 +138,7 @@ class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             followingList?.append(ThisUser.userId!)
             Yourself.businessFollowing = followingList
             updateBusinessFollowingList(company: ThisUser, userID: ThisUser.userId!, ownUserID: Yourself)
+            updateFollowingFollowerBusinessUser(user: ThisUser, identifier: "business")
         }
 
     }

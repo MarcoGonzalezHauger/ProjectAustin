@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="s7s-7A-WOJ">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Social-->
+        <scene sceneID="FcC-gw-zOB">
+            <objects>
+                <viewController storyboardIdentifier="SimplexSocialHome" id="s7s-7A-WOJ" customClass="SocialMenuVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="y4Q-4X-AWO">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Men-ji-EQ4" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="124"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="qdA-19-dCg">
+                                        <rect key="frame" x="20" y="52" width="374" height="32"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="31" id="J7k-Qh-bIJ"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="Feed"/>
+                                            <segment title="Following"/>
+                                            <segment title="Followed By"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="segmentValueChangeWithSender:" destination="s7s-7A-WOJ" eventType="valueChanged" id="T9V-Ug-l8E"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description of current page" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LvD-s5-rKa">
+                                        <rect key="frame" x="123.5" y="95" width="167" height="16"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="167" id="3dz-Ha-4Hp"/>
+                                            <constraint firstAttribute="height" constant="16" id="Q0J-td-Gat"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstItem="qdA-19-dCg" firstAttribute="leading" secondItem="Men-ji-EQ4" secondAttribute="leading" constant="20" id="0ww-N4-bVz"/>
+                                    <constraint firstItem="qdA-19-dCg" firstAttribute="top" secondItem="Men-ji-EQ4" secondAttribute="top" constant="52" id="5gf-EU-YGM"/>
+                                    <constraint firstItem="LvD-s5-rKa" firstAttribute="centerX" secondItem="qdA-19-dCg" secondAttribute="centerX" id="6xd-UA-8rd"/>
+                                    <constraint firstAttribute="height" constant="124" id="BWe-hD-fLt"/>
+                                    <constraint firstItem="LvD-s5-rKa" firstAttribute="top" secondItem="qdA-19-dCg" secondAttribute="bottom" constant="12" id="NvB-Qz-Z1q"/>
+                                    <constraint firstAttribute="trailing" secondItem="qdA-19-dCg" secondAttribute="trailing" constant="20" id="RML-X0-YnS"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                        <real key="value" value="0.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="ShadowColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ocv-kP-TIs">
+                                <rect key="frame" x="0.0" y="124" width="414" height="772"/>
+                                <connections>
+                                    <segue destination="l5b-cY-IAL" kind="embed" identifier="PageView" id="4Nx-OT-k4Y"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Men-ji-EQ4" firstAttribute="leading" secondItem="fa9-ac-Cyq" secondAttribute="leading" id="2Jl-Xu-TtS"/>
+                            <constraint firstItem="ocv-kP-TIs" firstAttribute="top" secondItem="Men-ji-EQ4" secondAttribute="bottom" id="6If-5c-Nxd"/>
+                            <constraint firstItem="ocv-kP-TIs" firstAttribute="leading" secondItem="fa9-ac-Cyq" secondAttribute="leading" id="ADD-J8-nOn"/>
+                            <constraint firstItem="ocv-kP-TIs" firstAttribute="trailing" secondItem="fa9-ac-Cyq" secondAttribute="trailing" id="CrY-yP-8Mc"/>
+                            <constraint firstAttribute="bottom" secondItem="ocv-kP-TIs" secondAttribute="bottom" id="JMf-Bc-f7H"/>
+                            <constraint firstItem="Men-ji-EQ4" firstAttribute="trailing" secondItem="fa9-ac-Cyq" secondAttribute="trailing" id="VIy-W7-Q1V"/>
+                            <constraint firstItem="Men-ji-EQ4" firstAttribute="top" secondItem="y4Q-4X-AWO" secondAttribute="top" id="hcr-yt-rXD"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="fa9-ac-Cyq"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Social" image="SocialIcon" id="vfN-sC-KXy"/>
+                    <connections>
+                        <outlet property="desText" destination="LvD-s5-rKa" id="tB9-aS-bez"/>
+                        <outlet property="socialSegmentFilter" destination="qdA-19-dCg" id="E4w-MI-4FN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ce4-Vt-cfF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="37.681159420289859" y="94.419642857142847"/>
+        </scene>
+        <!--SocialPVC-->
+        <scene sceneID="kgO-s7-1mG">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="l5b-cY-IAL" customClass="SocialPVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nIJ-ST-1F8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="861" y="94"/>
+        </scene>
+        <!--Social FollowedVC-->
+        <scene sceneID="MGa-vt-ixC">
+            <objects>
+                <viewController storyboardIdentifier="socialFollowedBy" useStoryboardIdentifierAsRestorationIdentifier="YES" id="JSR-Nf-zZd" customClass="SocialFollowedVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" tag="2" contentMode="scaleToFill" id="Tgr-mb-LSq">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="me6-sG-kkZ">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JSR-Nf-zZd" id="If6-2y-Rn5"/>
+                                    <outlet property="delegate" destination="JSR-Nf-zZd" id="Xsp-IZ-1td"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="me6-sG-kkZ" firstAttribute="top" secondItem="Tgr-mb-LSq" secondAttribute="top" id="BUY-ZO-HGr"/>
+                            <constraint firstItem="me6-sG-kkZ" firstAttribute="bottom" secondItem="TZt-Ch-uJq" secondAttribute="bottom" id="CTc-nz-JWz"/>
+                            <constraint firstItem="me6-sG-kkZ" firstAttribute="leading" secondItem="TZt-Ch-uJq" secondAttribute="leading" id="f93-W3-Uk9"/>
+                            <constraint firstItem="me6-sG-kkZ" firstAttribute="trailing" secondItem="TZt-Ch-uJq" secondAttribute="trailing" id="nlt-us-eVT"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="TZt-Ch-uJq"/>
+                    </view>
+                    <size key="freeformSize" width="414" height="700"/>
+                    <connections>
+                        <outlet property="followingTable" destination="me6-sG-kkZ" id="gPh-oo-0ss"/>
+                        <segue destination="gNY-dt-7YQ" kind="presentation" identifier="FromSocialFollowed" id="PeM-2z-HI4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qxs-bq-ILD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3096" y="479"/>
+        </scene>
+        <!--ViewProfileReference-->
+        <scene sceneID="d0t-pb-RjC">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ViewProfileReference" id="gNY-dt-7YQ" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vMp-lH-2mF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2930" y="52"/>
+        </scene>
+        <!--Social FollowingVC-->
+        <scene sceneID="ZF7-hH-4Xy">
+            <objects>
+                <viewController storyboardIdentifier="socialFollowing" useStoryboardIdentifierAsRestorationIdentifier="YES" id="c5O-fe-7Di" customClass="SocialFollowingVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" tag="1" contentMode="scaleToFill" id="KPv-0I-3gF">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="VkJ-gZ-s0A">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="c5O-fe-7Di" id="9Cd-AE-GHk"/>
+                                    <outlet property="delegate" destination="c5O-fe-7Di" id="T0N-YD-MhL"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="sdK-qO-Qz1" firstAttribute="trailing" secondItem="VkJ-gZ-s0A" secondAttribute="trailing" id="B83-Gn-G4Q"/>
+                            <constraint firstItem="VkJ-gZ-s0A" firstAttribute="leading" secondItem="sdK-qO-Qz1" secondAttribute="leading" id="e9u-UV-riV"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="VkJ-gZ-s0A" secondAttribute="bottom" id="s1y-ZA-ufi"/>
+                            <constraint firstItem="VkJ-gZ-s0A" firstAttribute="top" secondItem="KPv-0I-3gF" secondAttribute="top" id="wb8-Ho-IUl"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="sdK-qO-Qz1"/>
+                    </view>
+                    <size key="freeformSize" width="414" height="700"/>
+                    <connections>
+                        <outlet property="followingTable" destination="VkJ-gZ-s0A" id="rdO-J7-aas"/>
+                        <segue destination="gNY-dt-7YQ" kind="presentation" identifier="FromSocialFollowing" id="NX0-Tg-nyk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DHh-uB-SGH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2407" y="479"/>
+        </scene>
+        <!--Social FeedVC-->
+        <scene sceneID="cJ7-T3-Oso">
+            <objects>
+                <viewController storyboardIdentifier="socialFeed" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ZGh-UD-FkO" customClass="SocialFeedVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dmz-Q0-ljF">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FIo-HI-bhn">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="ZGh-UD-FkO" id="oed-XW-ph6"/>
+                                    <outlet property="delegate" destination="ZGh-UD-FkO" id="7dB-SY-kay"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="FIo-HI-bhn" firstAttribute="trailing" secondItem="gSQ-DU-hQM" secondAttribute="trailing" id="3YQ-g0-X0E"/>
+                            <constraint firstItem="FIo-HI-bhn" firstAttribute="leading" secondItem="gSQ-DU-hQM" secondAttribute="leading" id="47d-ff-J4e"/>
+                            <constraint firstItem="FIo-HI-bhn" firstAttribute="bottom" secondItem="gSQ-DU-hQM" secondAttribute="bottom" id="9En-U8-DGc"/>
+                            <constraint firstItem="FIo-HI-bhn" firstAttribute="leading" secondItem="gSQ-DU-hQM" secondAttribute="leading" id="CNe-kg-eFx"/>
+                            <constraint firstItem="FIo-HI-bhn" firstAttribute="bottom" secondItem="gSQ-DU-hQM" secondAttribute="bottom" id="ISc-c9-mX3"/>
+                            <constraint firstItem="FIo-HI-bhn" firstAttribute="top" secondItem="dmz-Q0-ljF" secondAttribute="top" id="JE3-Yk-JOT"/>
+                            <constraint firstItem="FIo-HI-bhn" firstAttribute="trailing" secondItem="gSQ-DU-hQM" secondAttribute="trailing" id="lIN-54-jnn"/>
+                            <constraint firstItem="FIo-HI-bhn" firstAttribute="top" secondItem="dmz-Q0-ljF" secondAttribute="top" id="uAV-VD-py5"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="gSQ-DU-hQM"/>
+                    </view>
+                    <size key="freeformSize" width="414" height="700"/>
+                    <connections>
+                        <outlet property="socialFeedTable" destination="FIo-HI-bhn" id="9Dw-qA-QWi"/>
+                        <segue destination="gNY-dt-7YQ" kind="presentation" identifier="FromSocialFeed" id="0uG-ka-boa"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cIh-a6-xuv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1702.8985507246377" y="478.79464285714283"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="SocialIcon" width="30" height="30"/>
+    </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="PeM-2z-HI4"/>
+    </inferredMetricsTieBreakers>
+</document>

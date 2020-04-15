@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="socialcell" rowHeight="86" id="OTk-xs-IM6" customClass="SocialCell" customModule="Ambassadoor" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="86"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="OTk-xs-IM6" id="16x-ye-3aR">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="86"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jkr-jk-RzF" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                        <rect key="frame" x="6" y="7.5" width="402" height="70"/>
+                        <subviews>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dxf-SR-38E" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="402" height="70"/>
+                                <subviews>
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AYP-Ta-5n2" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="402" height="20"/>
+                                        <color key="backgroundColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="jUs-Xz-U1X"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qsQ-7j-Bve" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="402" height="65"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="mJh-hd-kNq">
+                                                <rect key="frame" x="16" y="12" width="370" height="47"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@marcogonzalezhauger" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="252-eS-CFV">
+                                                        <rect key="frame" x="0.0" y="0.0" width="221" height="23"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="23" id="0j0-Wl-gle"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="started following you" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lgp-Ge-kvr">
+                                                        <rect key="frame" x="0.0" y="23" width="160" height="24"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jan 24 2020" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4L3-pQ-exE">
+                                                <rect key="frame" x="327.5" y="49.5" width="66.5" height="13.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="4L3-pQ-exE" secondAttribute="trailing" constant="8" id="CUu-A8-9ze"/>
+                                            <constraint firstItem="mJh-hd-kNq" firstAttribute="leading" secondItem="qsQ-7j-Bve" secondAttribute="leading" constant="16" id="miH-5u-3om"/>
+                                            <constraint firstAttribute="bottom" secondItem="mJh-hd-kNq" secondAttribute="bottom" constant="6" id="n3c-UG-7if"/>
+                                            <constraint firstItem="mJh-hd-kNq" firstAttribute="top" secondItem="qsQ-7j-Bve" secondAttribute="top" constant="12" id="qZV-hv-OcR"/>
+                                            <constraint firstAttribute="bottom" secondItem="4L3-pQ-exE" secondAttribute="bottom" constant="2" id="qeq-xd-vQC"/>
+                                            <constraint firstAttribute="trailing" secondItem="mJh-hd-kNq" secondAttribute="trailing" constant="16" id="y5x-d1-muD"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstItem="qsQ-7j-Bve" firstAttribute="top" secondItem="Dxf-SR-38E" secondAttribute="top" id="ELn-FF-9cr"/>
+                                    <constraint firstAttribute="trailing" secondItem="qsQ-7j-Bve" secondAttribute="trailing" id="FTC-ji-Enr"/>
+                                    <constraint firstAttribute="bottom" secondItem="AYP-Ta-5n2" secondAttribute="bottom" id="ZV7-wb-7uK"/>
+                                    <constraint firstAttribute="bottom" secondItem="qsQ-7j-Bve" secondAttribute="bottom" constant="5" id="aXG-AH-UMd"/>
+                                    <constraint firstItem="AYP-Ta-5n2" firstAttribute="leading" secondItem="Dxf-SR-38E" secondAttribute="leading" id="fd2-rl-H08"/>
+                                    <constraint firstItem="qsQ-7j-Bve" firstAttribute="leading" secondItem="Dxf-SR-38E" secondAttribute="leading" id="hbg-wp-EHD"/>
+                                    <constraint firstAttribute="trailing" secondItem="AYP-Ta-5n2" secondAttribute="trailing" id="sHa-ka-xvV"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="Dxf-SR-38E" secondAttribute="bottom" id="0rD-l0-91Z"/>
+                            <constraint firstItem="Dxf-SR-38E" firstAttribute="top" secondItem="Jkr-jk-RzF" secondAttribute="top" id="9HF-Vw-DaY"/>
+                            <constraint firstAttribute="trailing" secondItem="Dxf-SR-38E" secondAttribute="trailing" id="RrX-Fn-fkL"/>
+                            <constraint firstItem="Dxf-SR-38E" firstAttribute="leading" secondItem="Jkr-jk-RzF" secondAttribute="leading" id="jMZ-xm-QfQ"/>
+                            <constraint firstAttribute="height" constant="70" id="jpt-w4-K9Y"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                <real key="value" value="0.20000000000000001"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
+                                <real key="value" value="3"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="ShadowColor">
+                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="0.25"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="Jkr-jk-RzF" secondAttribute="bottom" constant="7.5" id="2q9-Tr-oiM"/>
+                    <constraint firstItem="Jkr-jk-RzF" firstAttribute="leading" secondItem="16x-ye-3aR" secondAttribute="leading" constant="6" id="9CI-HE-dUI"/>
+                    <constraint firstItem="Jkr-jk-RzF" firstAttribute="top" secondItem="16x-ye-3aR" secondAttribute="top" constant="7.5" id="Bjo-7W-CFc"/>
+                    <constraint firstAttribute="trailing" secondItem="Jkr-jk-RzF" secondAttribute="trailing" constant="6" id="F8i-G0-zLU"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="dateText" destination="4L3-pQ-exE" id="UtW-Kd-Kf9"/>
+                <outlet property="socialBar" destination="AYP-Ta-5n2" id="hCU-TJ-Zgs"/>
+                <outlet property="userDes" destination="Lgp-Ge-kvr" id="jyl-23-kyc"/>
+                <outlet property="userName" destination="252-eS-CFV" id="3UN-6X-pkU"/>
+            </connections>
+            <point key="canvasLocation" x="139" y="89"/>
+        </tableViewCell>
+    </objects>
+</document>

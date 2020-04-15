@@ -17,7 +17,11 @@ enum Description: String {
     static var allValues = [Followed,Filtered,All]
 }
 
-class OfferMenuVC: UIViewController {
+class OfferMenuVC: UIViewController,PageViewDelegate {
+    
+    func pageViewIndexDidChangedelegate(index: Int) {
+        self.offerSegmentFilter.selectedSegmentIndex = index
+    }
     
     @IBOutlet weak var desText: UILabel!
     
@@ -52,6 +56,7 @@ class OfferMenuVC: UIViewController {
         if segue.identifier == "PageView"{
             let view = segue.destination as! OffersPVC
             self.offerPVCDelegate = view
+            view.pageViewDidChange = self
         }
     }
    

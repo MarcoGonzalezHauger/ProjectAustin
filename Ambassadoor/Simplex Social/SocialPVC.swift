@@ -8,46 +8,11 @@
 //
 
 import UIKit
-
-class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, OfferMenuSegmentDelegate,AutoDimiss {
-    func DismissNow(sender: String) {
-        dataSource = self
-        delegate = self
-        
-        
-        //set default VC to Offers Page.
-        let firstViewController : UIViewController = OrderedVC[1]
-        
-        //display that in pages.
-        DispatchQueue.main.async {
-            self.setViewControllers([firstViewController],
-                                    direction: .forward,
-                                    animated: true,
-                                    completion: nil)
-        }
-        
-        let bgView = UIView(frame: UIScreen.main.bounds)
-        bgView.backgroundColor = GetBackColor()
-        view.insertSubview(bgView, at: 0)
-        
-        self.setInprogressBadgeCount()
-        
-    }
+//AutoDimiss
+class SocialPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, SocialSegmentDelegate {
     
-    @objc func setInprogressBadgeCount() {
-        getAcceptedOffers { (status, offers) in
-            
-            if status{
-                if offers.count > 0{
-                    self.tabBarController?.tabBar.items![3].badgeValue = String(offers.count)
-                }
-                
-            }
-            
-        }
-    }
-    
-    func segmentIndex(index: Int) {
+	
+    func socialSegmentIndex(index: Int) {
         let viewController = OrderedVC[index]
         goToPage(index: index, sender: viewController)
     }
@@ -81,7 +46,7 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
 	
 	//returns a list of all VCs in Home Tab.
 	lazy var OrderedVC: [UIViewController] = {
-		return [newVC(VC: "followedOffers"), newVC(VC: "filteredOffers"), newVC(VC: "allOffers")]
+		return [newVC(VC: "socialFeed"), newVC(VC: "socialFollowing"), newVC(VC: "socialFollowedBy")]
 	}()
 	
 	//Goes directly to the page specified.
@@ -94,22 +59,19 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
 	
 	//Allows for returning of VC when string is inputted.
 	func newVC(VC: String) -> UIViewController {
-		let NewVC = UIStoryboard(name: "OfferMenu", bundle: nil).instantiateViewController(withIdentifier: VC)
+		let NewVC = UIStoryboard(name: "simplexSocial", bundle: nil).instantiateViewController(withIdentifier: VC)
 		return NewVC
 	}
-	
-    var pageViewDidChange: PageViewDelegate?
     
+    var pageViewDidChange: PageViewDelegate?
+	
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if Yourself != nil{
+		
 		dataSource = self
 		delegate = self
-		
-		NotificationCenter.default.addObserver(self, selector: #selector(self.setInprogressBadgeCount), name: Notification.Name("updateinprogresscount"), object: nil)
-		//set default VC to Offers Page.
-		let firstViewController : UIViewController = OrderedVC[1]
+			
+		let firstViewController : UIViewController = OrderedVC[0]
 		
 		//display that in pages.
         DispatchQueue.main.async {
@@ -122,23 +84,13 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
 		let bgView = UIView(frame: UIScreen.main.bounds)
 		bgView.backgroundColor = GetBackColor()
 		view.insertSubview(bgView, at: 0)
-        }else{
-            DispatchQueue.main.async {
-                self.performSegue(withIdentifier: "toSignUp", sender: self)
-            }
-            
-        }
     }
     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toSignUp"{
-            let view = segue.destination as! WelcomeVC
-            view.delegate = self
-            
-        }
+        
     }
 	
 }
