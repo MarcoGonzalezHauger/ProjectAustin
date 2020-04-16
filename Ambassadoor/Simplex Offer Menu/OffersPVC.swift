@@ -69,7 +69,15 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
 		return OrderedVC[i + 1]
 	}
 	
-	
+	func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool){
+        if (!completed)
+        {
+          return
+        }
+        if let index = pageViewController.viewControllers!.first!.view.tag as? Int{
+        self.pageViewDidChange?.pageViewIndexDidChangedelegate(index:index)
+        }
+    }
 	
 	//returns a list of all VCs in Home Tab.
 	lazy var OrderedVC: [UIViewController] = {
@@ -90,6 +98,8 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
 		return NewVC
 	}
 	
+    var pageViewDidChange: PageViewDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -127,6 +137,7 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
         if segue.identifier == "toSignUp"{
             let view = segue.destination as! WelcomeVC
             view.delegate = self
+            
         }
     }
 	

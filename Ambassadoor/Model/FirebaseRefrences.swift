@@ -852,6 +852,47 @@ func updateBusinessFollowingList(company: CompanyDetails,userID: String, ownUser
     businessRef.updateChildValues(["followers":followers!])
 }
 
+func updateFollowingFollowerUser(user: User, identifier: String) {
+    
+    // update Following & Follower
+    
+    let userFollowingRef = Database.database().reference().child("Following").child(Yourself.id)
+    let userDetails = API.serializeUser(user: user, id: user.id)
+    userFollowingRef.updateChildValues([user.id: ["identifier": identifier,"user":userDetails,"startedAt": Date().toString(dateFormat: "MMM dd YYYY")] ])
+    
+    let userFollowerRef = Database.database().reference().child("Follower").child(user.id)
+    let followerDetails = API.serializeUser(user: user, id: user.id)
+    userFollowerRef.updateChildValues([Yourself.id: ["identifier": "influencer","user":followerDetails, "startedAt": Date().toString(dateFormat: "MMM dd YYYY")]])
+}
+
+func removeFollowingFollowerUser(user: User) {
+    
+    // Remove Following & Follower
+    
+    let userFollowingRef = Database.database().reference().child("Following").child(Yourself.id).child(user.id)
+    userFollowingRef.removeValue()
+    
+    let userFollowerRef = Database.database().reference().child("Follower").child(user.id).child(Yourself.id)
+    userFollowerRef.removeValue()
+    
+}
+
+func updateFollowingFollowerBusinessUser(user: CompanyDetails, identifier: String) {
+
+    let userFollowingRef = Database.database().reference().child("Following").child(Yourself.id)
+    let userDetails = API.serializeCompanyDetails(company: user)
+    userFollowingRef.updateChildValues([user.userId!: ["identifier": identifier,"user":userDetails,"startedAt": Date().toString(dateFormat: "MMM dd YYYY")] ])
+}
+
+func removeFollowingFollowerBusinessUser(user: CompanyDetails) {
+    
+    // Remove Following & Follower
+    
+    let userFollowingRef = Database.database().reference().child("Following").child(Yourself.id).child(user.userId!)
+    userFollowingRef.removeValue()
+    
+}
+
 func getFilteredUsers(userIDs: [String], completion: @escaping(_ status: Bool, _ users: [User]?, _ deveiceTokens: [String]?)-> Void) {
     
     let usersRef = Database.database().reference().child("users")
@@ -1092,6 +1133,166 @@ func getAcceptedOffers(completion: @escaping(_ status: Bool,_ offer: [Offer])->(
             }
             
             completion(true, offerList)
+            
+        }
+        
+    }) { (error) in
+        
+    }
+    
+}
+
+func getFollowerList(completion:@escaping(_ status: Bool,_ users: [FollowingInformation])->()) {
+    
+    let userRef = Database.database().reference().child("Follower").child(Yourself.id)
+    
+    userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let snapDict = snapshot.value as? [String: [String: AnyObject]]{
+            
+            var followers = [FollowingInformation]()
+            
+            for (_, value) in snapDict {
+                var followerDetails = value
+                followerDetails["tag"] = "follow" as AnyObject
+                let follower = FollowingInformation.init(dictionary: followerDetails)
+                followers.append(follower)
+            }
+            
+            completion(true, followers)
+            
+        }
+        
+        
+    }) { (error) in
+        
+    }
+    
+}
+
+func getFollowedByList(completion: @escaping(_ status: Bool, _ users: [User])->()) {
+    
+    let userRef = Database.database().reference().child("Follower").child(Yourself.id)
+    userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let snapDict = snapshot.value as? [String: AnyObject]{
+            
+            let keys = snapDict.keys
+            
+            var usersList = [User]()
+            
+            for (index,key) in keys.enumerated() {
+                let singleUserRef = Database.database().reference().child("users").child(key)
+                
+                singleUserRef.observeSingleEvent(of: .value, with: { (singleSnap) in
+                    
+                    if let singleSnapDict = singleSnap.value as? [String: Any]{
+                        let user = User.init(dictionary: singleSnapDict)
+                        usersList.append(user)
+                    }
+                    
+                    if index == keys.count - 1 {
+                        completion(true, usersList)
+                    }
+                    
+                }) { (error) in
+                    
+                }
+            }
+            
+        }
+        
+    }) { (error) in
+        
+    }
+    
+}
+
+func getFollowingAcceptedOffers(completion: @escaping(_ status: Bool, _ offers: [FollowingInformation])->()) {
+    
+    let userRef = Database.database().reference().child("Following").child(Yourself.id)
+    
+    userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let snapDict = snapshot.value as? [String: AnyObject]{
+            
+            var allOfferList = [FollowingInformation]()
+            let allKeys = snapDict.keys
+            for (index,key) in allKeys.enumerated() {
+                
+                var followingInformation = [String: AnyObject]()
+                
+                let offerPath = Database.database().reference().child("SentOutOffersToUsers").child(key).queryOrdered(byChild: "status").queryEqual(toValue: "accepted")
+                
+                offerPath.observeSingleEvent(of: .value, with: { (snapOffer) in
+                    
+                    if let offerDict = snapOffer.value as? [String: [String:AnyObject]]{
+                        
+                        for (_, offerValue) in offerDict {
+                           
+                            followingInformation = snapDict[key] as! [String : AnyObject]
+                            followingInformation["offer"] = offerValue as AnyObject
+                            followingInformation["tag"] = "offer" as AnyObject
+                            let offer = FollowingInformation.init(dictionary: followingInformation)
+                            allOfferList.append(offer)
+                        }
+                        
+                    }
+                    
+                    if index == allKeys.count - 1{
+                       completion(true,allOfferList)
+                    }
+                    
+                }) { (error) in
+                    
+                }
+                
+                
+            }
+        }
+        
+    }) { (error) in
+        
+    }
+    
+}
+
+func getFollowingList(completion: @escaping(_ status: Bool, _ users: [AnyObject])->()) {
+    
+    let userRef = Database.database().reference().child("Following").child(Yourself.id)
+    userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let snapDict = snapshot.value as? [String: AnyObject]{
+            
+            var usersList = [AnyObject]()
+            
+            for (key,value) in snapDict {
+                
+                if let identifier = value["identifier"] as? String{
+                    
+                    if identifier == "influencer"{
+                        
+                        if let influencer = value["user"] as? [String: Any]{
+                            let user = User.init(dictionary: influencer)
+                            usersList.append(user)
+                        }
+                        
+                    }else{
+                        if let businessUser = value["user"] as? [String: AnyObject]{
+                            var business = businessUser
+                            business["userId"] = key as AnyObject
+                            let company = CompanyDetails.init(dictionary: business)
+                            usersList.append(company)
+                            
+                        }
+                        
+                    }
+                    
+                }
+                
+            }
+            
+            completion(true,usersList)
             
         }
         

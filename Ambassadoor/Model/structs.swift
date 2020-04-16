@@ -159,7 +159,7 @@ class Offer : NSObject {
         self.cashPower = dictionary["cashPower"] as? Double ?? 0.0
         self.influencerFilter = dictionary["influencerFilter"] as? [String: AnyObject] ?? [:]
         self.incresePay = dictionary["incresePay"] as? Double ?? 0.0
-        self.companyDetails = CompanyDetails.init(dictionary: dictionary["companyDetails"] as? [String: AnyObject] ?? [:]) 
+        self.companyDetails = ((dictionary["companyDetails"] as? [String: AnyObject]) != nil) ? CompanyDetails.init(dictionary: dictionary["companyDetails"] as! [String: AnyObject]) : nil
         self.accepted = dictionary["accepted"] as? [String] ?? []
         self.commission = dictionary["commission"] as? Double
         self.isCommissionPaid = dictionary["isCommissionPaid"] as? Bool ?? false
@@ -247,6 +247,48 @@ class User: NSObject {
 	override var description: String {
 		return "NAME: \(name ?? "NIL")\nUSERNAME: \(username)\nFOLLOWER COUNT: \(followerCount)\nPROFILE PIC: \(profilePicURL ?? "NIL")\nCATEGORIES: \(GetCategoryStringFromlist(categories: categories ?? []))\nAVERAGE LIKES: \(averageLikes ?? -404)"
 	}
+}
+
+class Follower: NSObject {
+    
+    var identifier: String?
+    var user: User?
+    var startedAt: String?
+    
+    init(dictionary: [String: AnyObject]){
+        self.identifier = dictionary["identifier"] as? String ?? ""
+        if let userDict = dictionary["user"] as? [String: AnyObject] {
+        self.user = User.init(dictionary: userDict)
+        }
+        self.startedAt = dictionary["startedAt"] as? String ?? ""
+    }
+}
+
+class FollowingInformation: NSObject {
+    
+    var identifier: String?
+    var user: User?
+    var startedAt: Date?
+    var offer: Offer?
+    var tag: String?
+    
+    init(dictionary: [String: AnyObject]){
+        self.identifier = dictionary["identifier"] as? String ?? ""
+        if let userDict = dictionary["user"] as? [String: AnyObject] {
+        self.user = User.init(dictionary: userDict)
+        }
+        if let date = dictionary["startedAt"] as? String {
+            self.startedAt = Date.getDateFromStringWithFormat(date: date, format: "MMM dd YYYY")
+            //getDateFromString(date: date)
+        }else{
+            self.startedAt = Date()
+        }
+        if let offer = dictionary["offer"] as? [String: AnyObject]{
+            self.offer = Offer.init(dictionary: offer)
+        }
+        self.tag = dictionary["tag"] as? String ?? ""
+        
+    }
 }
 
 class Comapny: NSObject {

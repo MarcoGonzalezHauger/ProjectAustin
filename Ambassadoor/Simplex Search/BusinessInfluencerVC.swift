@@ -179,6 +179,7 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
                 followingList?.remove(at: i)
                 Yourself.following = followingList
                 updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
+                removeFollowingFollowerUser(user: ThisUser)
             }
         }else{
             sender.setTitle("Unfollow", for: .normal)
@@ -186,6 +187,7 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
             followingList?.append(ThisUser.id)
             Yourself.following = followingList
             updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
+            updateFollowingFollowerUser(user: ThisUser, identifier: "influencer")
         }
 
     }
@@ -202,6 +204,7 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
                 followingList?.remove(at: i)
                 Yourself.businessFollowing = followingList
                 updateBusinessFollowingList(company: ThisUser, userID: ThisUser.userId!, ownUserID: Yourself)
+                removeFollowingFollowerBusinessUser(user: ThisUser)
             }
         }else{
             sender.setTitle("Unfollow", for: .normal)
@@ -209,6 +212,7 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
             followingList?.append(ThisUser.userId!)
             Yourself.businessFollowing = followingList
             updateBusinessFollowingList(company: ThisUser, userID: ThisUser.userId!, ownUserID: Yourself)
+            updateFollowingFollowerBusinessUser(user: ThisUser, identifier: "business")
         }
 
     }

@@ -41,6 +41,9 @@ class InfluencerTVC: UITableViewCell {
                     
                 }
                 
+                self.followerCount.text = CompressNumber(number: Double(user.followerCount))
+                self.likeCount.text = CompressNumber(number: Double(user.averageLikes ?? 0))
+                
                 if user.isDefaultOfferVerify {
                     verifyLogo_img.image = UIImage(named: "verify_Logo")
                     self.leadingUserName.constant = 34
@@ -136,6 +139,8 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
                 followingList?.remove(at: i)
                 Yourself.following = followingList
                 updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
+                removeFollowingFollowerUser(user: ThisUser)
+                
             }
         }else{
             sender.setTitle("Unfollow", for: .normal)
@@ -143,6 +148,7 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
             followingList?.append(ThisUser.id)
             Yourself.following = followingList
             updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
+            updateFollowingFollowerUser(user: ThisUser, identifier: "influencer")
         }
 
     }

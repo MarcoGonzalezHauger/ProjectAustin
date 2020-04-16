@@ -354,7 +354,29 @@ struct API {
         }.resume()
     */
     }
-    
+    /*
+     "id": details.id,
+     "name": details.instagramName,
+     "username": details.instagramUsername,
+     "followerCount": details.followerCount,
+     "profilePicture": details.profilePicture,
+     "averageLikes": details.averageLikes,
+     "zipCode": details.zipCode,
+     "gender": details.gender,
+     "isBankAdded": false,
+     "yourMoney": 0.0,
+     "joinedDate": Date.getCurrentDate(),
+     "categories": details.categories,
+     "referralcode": details.referralCode,
+     "isDefaultOfferVerify": false,
+     "lastPaidOSCDate": "",
+     "priorityValue": 0,
+     "authenticationToken": details.authenticationToken,
+     "tokenFIR":global.deviceFIRToken,
+     "following":[],
+     "businessFollowing":[],
+     "email":details.email
+     */
     
     // change User detail class object to json value
     static func serializeUser(user: User, id: String) -> [String: Any] {
@@ -377,6 +399,8 @@ struct API {
             "priorityValue": user.priorityValue,
             "authenticationToken": user.authenticationToken,
             "tokenFIR":global.deviceFIRToken,
+            "following":user.following ?? [],
+            "businessFollowing":user.businessFollowing ?? [],
             "email":user.email ?? ""
         ]
         return userData

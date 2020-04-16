@@ -35,9 +35,17 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
     
     @IBOutlet weak var progressWidth: NSLayoutConstraint!
     
+    var timer: Timer?
     var offer: Offer?{
         didSet{
+            
+            
             if let offerValue = offer{
+                
+                if self.timer != nil{
+                   timer!.invalidate()
+                    paymentReceiveAt.text = ""
+                }
                 
                 if let picurl = offerValue.company?.logo {
                     self.companyLogo.downloadAndSetImage(picurl)
@@ -84,7 +92,7 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                         
                         progrssView.backgroundColor = UIColor.systemBlue
                         
-                        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForAccepted(sender:)), userInfo: nil, repeats: true)
+                        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForAccepted(sender:)), userInfo: nil, repeats: true)
                         
                         //Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForTobepaid(sender:)), userInfo: nil, repeats: true)
                         
@@ -106,17 +114,20 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                         
                         progrssView.backgroundColor = UIColor.systemGreen
                         
-                        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForTobepaid(sender:)), userInfo: nil, repeats: true)
+                        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForTobepaid(sender:)), userInfo: nil, repeats: true)
                         
                     }
                     
                 }
+                
+                
                 
             }
         }
     }
     
     @IBAction func startCountDownForAccepted(sender: Timer) {
+        
         
         let offerValue = self.offer!
         
@@ -172,8 +183,20 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                 postImgThreeHeight.constant = 0
                 postThreeHeight.constant = 0
                 
-                self.updateConstraints()
-                self.layoutIfNeeded()
+                postImgThree.updateConstraints()
+                postImgThree.layoutIfNeeded()
+                
+                postThree.updateConstraints()
+                postThree.layoutIfNeeded()
+
+                postImgTwoHeight.constant = 24
+                postTwoHeight.constant = 18
+
+                postImgTwo.updateConstraints()
+                postImgTwo.layoutIfNeeded()
+
+                postTwo.updateConstraints()
+                postTwo.layoutIfNeeded()
                 
                 postImgOne.image = UIImage.init(named: postStatus.returnImageStatus(status: offerValue.posts[0].status).1)
                 postOne.text = " Post 1 (\(postStatus.returnImageStatus(status: offerValue.posts[0].status).0.rawValue))"
@@ -189,14 +212,46 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                 postImgTwoHeight.constant = 0
                 postTwoHeight.constant = 0
                 
-                self.updateConstraints()
-                self.layoutIfNeeded()
+//                .constant = 24
+//                postThreeHeight.constant = 18
+                
+                postImgThree.updateConstraints()
+                postImgThree.layoutIfNeeded()
+                
+                postThree.updateConstraints()
+                postThree.layoutIfNeeded()
+                
+                postImgTwo.updateConstraints()
+                postImgTwo.layoutIfNeeded()
+                
+                postTwo.updateConstraints()
+                postTwo.layoutIfNeeded()
+                
+                
                 
                 postImgOne.image = UIImage.init(named: postStatus.returnImageStatus(status: offerValue.posts[0].status).1)
                 postOne.text = " Post 1 (\(postStatus.returnImageStatus(status: offerValue.posts[0].status).0.rawValue))"
                 
             }
         }else{
+            
+            postImgThreeHeight.constant = 24
+            postThreeHeight.constant = 18
+
+            postImgTwoHeight.constant = 24
+            postTwoHeight.constant = 18
+
+            postImgThree.updateConstraints()
+            postImgThree.layoutIfNeeded()
+
+            postThree.updateConstraints()
+            postThree.layoutIfNeeded()
+
+            postImgTwo.updateConstraints()
+            postImgTwo.layoutIfNeeded()
+
+            postTwo.updateConstraints()
+            postTwo.layoutIfNeeded()
             
             postImgOne.image = UIImage.init(named: postStatus.returnImageStatus(status: offerValue.posts[0].status).1)
             postOne.text = " Post 1 (\(postStatus.returnImageStatus(status: offerValue.posts[0].status).0.rawValue))"
@@ -289,7 +344,8 @@ class InProgressVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         getAcceptedOffers { (status, offers) in
             
             if status{
-                self.allInprogressOffer = offers
+                self.allInprogressOffer.removeAll()
+                self.allInprogressOffer.append(contentsOf: offers)
                 DispatchQueue.main.async {
                     self.inProgressTable.reloadData()
                 }

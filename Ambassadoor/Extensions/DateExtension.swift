@@ -63,6 +63,15 @@ extension Date {
         return dateFormatter.date(from: date) // replace Date String
     }
     
+    static func getDateFromStringWithFormat(date: String, format: String) -> Date?{
+        
+        let dateFormatter = DateFormatter()
+                dateFormatter.timeZone = TimeZone(abbreviation: "EST")
+                dateFormatter.dateFormat = format
+        return dateFormatter.date(from: date) // replace Date String
+        
+    }
+    
     static func getStringFromDate(date:Date) -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy/MMM/dd HH:mm:ss"
