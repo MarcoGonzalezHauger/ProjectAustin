@@ -292,7 +292,7 @@ enum postStatus: String {
     static func returnImageStatus(status: String)->(postStatus, String){
         switch status {
         case "accepted":
-            return(.NotPosted, "notPosted")
+        return(.NotPosted, "notPosted")
         case "posted":
         return(.Posted, "isPosted")
         case "verified":
@@ -302,7 +302,7 @@ enum postStatus: String {
         case "paid":
         return(.Paid, "payment verified")
         default:
-            return(.NotPosted, "")
+            return(.NotPosted, "notPosted")
         }
     }
 }

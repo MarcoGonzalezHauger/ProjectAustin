@@ -105,6 +105,8 @@ class Offer : NSObject {
     var refundedOn: String?
     var updatedDate: Date?
     
+    var reservedUsers: [String: [String: AnyObject]]?
+    
     init(dictionary: [String: AnyObject]) {
         
         self.status = dictionary["status"] as! String
@@ -129,7 +131,7 @@ class Offer : NSObject {
 
             //postVal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: "", products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool, hashCaption: post["hashCaption"] as? String ?? "",denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? []))
             
-            postVal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: "", products: post["products"] as? [Product], post_ID: post["post_ID"] as! String, PostType: post["PostType"] as! String, confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool, hashCaption: post["hashCaption"] as? String ?? "", status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? [], isPaid: post["isPaid"] as? Bool, PayAmount: post["isPaid"] as? Double ?? 0.0, denyMessage: post["denyMessage"] as? String ?? ""))
+            postVal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: "", products: post["products"] as? [Product], post_ID: post["post_ID"] as! String, PostType: post["PostType"] as! String, confirmedSince: Date.getDateFromString(date: post["confirmedSince"] as? String ?? "") ?? nil, isConfirmed: post["isConfirmed"] as! Bool, hashCaption: post["hashCaption"] as? String ?? "", status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? [], isPaid: post["isPaid"] as? Bool, PayAmount: post["isPaid"] as? Double ?? 0.0, denyMessage: post["denyMessage"] as? String ?? ""))
 
 
         }
@@ -173,17 +175,21 @@ class Offer : NSObject {
         self.didRefund = dictionary["didRefund"] as? Bool ?? false
         self.refundedOn = dictionary["refundedOn"] as? String ?? ""
         self.updatedDate =  ((dictionary["updatedDate"] as? String) != nil) ? getDateFromString(date: dictionary["updatedDate"] as! String) : nil
+        self.reservedUsers = dictionary["reservedUsers"] as? [String: [String: AnyObject]] ?? [:]
+        
     }
 }
 
 class allOfferObject: NSObject {
     var offer: Offer
     var isFiltered: Bool
+    var isAccepted: Bool
     
-    init(offer: Offer, isFiltered: Bool) {
+    init(offer: Offer, isFiltered: Bool, isAccepted: Bool) {
         
         self.offer = offer
         self.isFiltered = isFiltered
+        self.isAccepted = isAccepted
     }
     
 }

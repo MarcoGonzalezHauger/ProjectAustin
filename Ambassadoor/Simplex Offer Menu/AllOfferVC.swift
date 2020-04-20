@@ -16,6 +16,7 @@ class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, O
     @IBOutlet weak var allOfferTable: UITableView!
     
     var allOfferList = [allOfferObject]()
+    var offerVariation: OfferVariation?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,23 +60,43 @@ class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, O
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-        self.performSegue(withIdentifier: "ViewOfferSegue", sender: allOfferList[indexPath.row].offer)
+        
+        let allOfferObj = allOfferList[indexPath.row]
+        if allOfferObj.isAccepted{
+            self.offerVariation = .inProgress
+        }else{
+            if allOfferObj.isFiltered{
+            self.offerVariation = .canBeAccepted
+            }else{
+            self.offerVariation = .canNotBeAccepted
+            }
+        }
+        //FromAllToOV
+        //self.performSegue(withIdentifier: "ViewOfferSegue", sender: allOfferList[indexPath.row].offer)
+        self.performSegue(withIdentifier: "FromAllToOV", sender: allOfferList[indexPath.row].offer)
     }
     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ViewOfferSegue" {
-        //guard let newviewoffer = viewoffer else { return }
-        let destination = segue.destination
-        if let destination = (destination as! UINavigationController).topViewController as? OfferVC {
-            destination.delegate = self
-            destination.ThisOffer = sender as? Offer
-
-
-        }
-        }
+//        if segue.identifier == "ViewOfferSegue" {
+//        //guard let newviewoffer = viewoffer else { return }
+//        let destination = segue.destination
+//        if let destination = (destination as! UINavigationController).topViewController as? OfferVC {
+//            destination.delegate = self
+//            destination.ThisOffer = sender as? Offer
+//
+//
+//        }
+//        }
+        if segue.identifier == "FromAllToOV" {
+         //guard let newviewoffer = viewoffer else { return }
+         let destination = segue.destination as! OfferViewerVC
+        
+             destination.offerVariation = offerVariation!
+             destination.offer = sender as? Offer
+         }
     }
     
 
