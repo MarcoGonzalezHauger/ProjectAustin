@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="companyInfo" rowHeight="74" id="I4J-MP-hn4" customClass="CompanyInfo" customModule="Ambassadoor" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="74"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="I4J-MP-hn4" id="IQm-Hp-EGI">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="74"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CLz-HI-25B" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                        <rect key="frame" x="6" y="4" width="402" height="70"/>
+                        <subviews>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hq3-11-c2P" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="402" height="70"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZEM-Bi-d3G">
+                                        <rect key="frame" x="8" y="10" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="B7u-dK-rch"/>
+                                            <constraint firstAttribute="height" constant="50" id="FLt-6r-E0v"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Company Name!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="4EL-Br-5P3">
+                                        <rect key="frame" x="66" y="24.5" width="320" height="21.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="zvzx" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="6h2-yH-t2F">
+                                        <rect key="frame" x="8" y="68" width="386" height="0.0"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.95294117649999999" green="0.69411764710000001" blue="0.25882352939999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstItem="ZEM-Bi-d3G" firstAttribute="leading" secondItem="hq3-11-c2P" secondAttribute="leading" constant="8" id="9aL-tY-ifo"/>
+                                    <constraint firstItem="ZEM-Bi-d3G" firstAttribute="centerY" secondItem="hq3-11-c2P" secondAttribute="centerY" id="BnC-Sz-7gH"/>
+                                    <constraint firstItem="4EL-Br-5P3" firstAttribute="leading" secondItem="ZEM-Bi-d3G" secondAttribute="trailing" constant="8" id="L3o-VQ-NVP"/>
+                                    <constraint firstItem="4EL-Br-5P3" firstAttribute="centerY" secondItem="ZEM-Bi-d3G" secondAttribute="centerY" id="MYN-1l-nZ3"/>
+                                    <constraint firstAttribute="trailing" secondItem="4EL-Br-5P3" secondAttribute="trailing" constant="16" id="qrp-tW-0h7"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="70" id="Gb2-c3-erZ"/>
+                            <constraint firstAttribute="bottom" secondItem="hq3-11-c2P" secondAttribute="bottom" id="MU5-7t-4S2"/>
+                            <constraint firstAttribute="trailing" secondItem="hq3-11-c2P" secondAttribute="trailing" id="NPs-G6-bP7"/>
+                            <constraint firstItem="hq3-11-c2P" firstAttribute="leading" secondItem="CLz-HI-25B" secondAttribute="leading" id="Nw9-Cn-U7i"/>
+                            <constraint firstItem="hq3-11-c2P" firstAttribute="top" secondItem="CLz-HI-25B" secondAttribute="top" id="WIe-vk-52Y"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                <real key="value" value="0.20000000000000001"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
+                                <real key="value" value="3"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="ShadowColor">
+                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="CLz-HI-25B" firstAttribute="leading" secondItem="IQm-Hp-EGI" secondAttribute="leading" constant="6" id="7t8-Ae-id1"/>
+                    <constraint firstAttribute="trailing" secondItem="CLz-HI-25B" secondAttribute="trailing" constant="6" id="CiW-FG-V20"/>
+                    <constraint firstItem="CLz-HI-25B" firstAttribute="top" secondItem="IQm-Hp-EGI" secondAttribute="top" constant="4" id="aaE-yx-OfE"/>
+                    <constraint firstAttribute="bottom" secondItem="CLz-HI-25B" secondAttribute="bottom" constant="4" id="zfG-zo-pOq"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="cmpImage" destination="ZEM-Bi-d3G" id="4fz-ZC-heJ"/>
+                <outlet property="cmpName" destination="4EL-Br-5P3" id="7Oi-4e-zwv"/>
+            </connections>
+            <point key="canvasLocation" x="139" y="125"/>
+        </tableViewCell>
+    </objects>
+</document>

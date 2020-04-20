@@ -73,7 +73,8 @@ class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     @IBOutlet weak var filteredOfferTable: UITableView!
     
-    var filteredOfferList = [Offer]()
+    var filteredOfferList = [allOfferObject]()
+    var offerVariation: OfferVariation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,9 +99,7 @@ class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         
         let cell = filteredOfferTable.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! StandardOfferCell
         
-        cell.offer = filteredOfferList[indexPath.row]
-        
-        
+        cell.offer = filteredOfferList[indexPath.row].offer
         return cell
     }
     
@@ -109,14 +108,21 @@ class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-        self.performSegue(withIdentifier: "FromFilterOfferSegue", sender: filteredOfferList[indexPath.row])
+        let allOfferObj = filteredOfferList[indexPath.row]
+        if allOfferObj.isAccepted{
+        offerVariation = .inProgress
+        }else{
+        offerVariation = .canBeAccepted
+        }
+        //FromFilteredToOV
+        //self.performSegue(withIdentifier: "FromFilterOfferSegue", sender: filteredOfferList[indexPath.row].offer)
+        self.performSegue(withIdentifier: "FromFilteredToOV", sender: filteredOfferList[indexPath.row].offer)
     }
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        /*
         if segue.identifier == "FromFilterOfferSegue" {
         //guard let newviewoffer = viewoffer else { return }
         let destination = segue.destination
@@ -127,6 +133,16 @@ class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 
         }
         }
+        */
+        
+        if segue.identifier == "FromFilteredToOV" {
+            //guard let newviewoffer = viewoffer else { return }
+             let destination = segue.destination as! OfferViewerVC
+            
+                 destination.offerVariation = offerVariation!
+                 destination.offer = sender as? Offer
+             }
+        
     }
     
 

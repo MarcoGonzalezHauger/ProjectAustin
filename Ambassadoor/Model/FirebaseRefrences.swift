@@ -982,13 +982,13 @@ func updatePassword(userID: String,password: String){
     
 }
 
-func getFilteredOffer(completion: @escaping (_ status: Bool, _ offerList: [Offer]?)-> Void) {
+func getFilteredOffer(completion: @escaping (_ status: Bool, _ offerList: [allOfferObject]?)-> Void) {
     let ref = Database.database().reference().child("OfferPool")
     ref.observeSingleEvent(of: .value, with: { (snapshot) in
         
         if let totalDict = snapshot.value as? [String:[String: AnyObject]] {
             
-            var offerList = [Offer]()
+            var offerList = [allOfferObject]()
             
             for (key,value) in totalDict {
                 
@@ -1040,10 +1040,15 @@ func getFilteredOffer(completion: @escaping (_ status: Bool, _ offerList: [Offer
                         //Check If already accepted this offer
                         if let offer = offerData.accepted {
                         if !offer.contains(Yourself.id){
-                        offerList.append(offerData)
+                            let allOfferIns = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
+                            offerList.append(allOfferIns)
+                        }else{
+                           let allOfferIns = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: true)
+                            offerList.append(allOfferIns)
                         }
                         }else{
-                        offerList.append(offerData)
+                        let allOfferIns = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
+                        offerList.append(allOfferIns)
                         }
                         
                     }
@@ -1061,9 +1066,9 @@ func getFilteredOffer(completion: @escaping (_ status: Bool, _ offerList: [Offer
     }
 }
 
-func getFollowerCompaniesOffer(followers: [String],completion: @escaping (_ status: Bool, _ offerList: [Offer]?)-> Void) {
+func getFollowerCompaniesOffer(followers: [String],completion: @escaping (_ status: Bool, _ offerList: [allOfferObject]?)-> Void) {
     
-    var offerList = [Offer]()
+    var offerList = [allOfferObject]()
     
     for (index, userID) in followers.enumerated() {
         
@@ -1073,18 +1078,27 @@ func getFollowerCompaniesOffer(followers: [String],completion: @escaping (_ stat
             
             if let totalDict = snapshot.value as? [String: AnyObject] {
                 
-                
+                //allOfferObject
                                     
                     for (_, OfferValue) in totalDict {
                         
+                        
+                        
                         let offerData = Offer.init(dictionary: OfferValue as! [String : AnyObject])
                             //Check If already accepted this offer
+                            //offerData.companyDetails!.userId = userID
                             if let offer = offerData.accepted {
                             if !offer.contains(Yourself.id){
-                            offerList.append(offerData)
+                            //offerList.append(offerData)
+                            let allObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
+                            offerList.append(allObj)
+                            }else{
+                            let allObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: true)
+                            offerList.append(allObj)
                             }
                             }else{
-                            offerList.append(offerData)
+                            let allObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
+                            offerList.append(allObj)
                             }
                     }
                     
@@ -1167,6 +1181,55 @@ func getFollowerList(completion:@escaping(_ status: Bool,_ users: [FollowingInfo
     }) { (error) in
         
     }
+    
+}
+
+func getAcceptedSimplexOffer(offer: Offer,completion: @escaping(_ status: Bool, _ offer: Offer)->()) {
+    
+    let offerRef = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(offer.offer_ID)
+    
+    offerRef.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let snapOffer = snapshot.value as? [String: AnyObject]{
+            
+            let offer = Offer.init(dictionary: snapOffer)
+            completion(true,offer)
+            
+        }
+        
+    }) { (error) in
+        
+    }
+    
+}
+
+func updateReservedOfferStatus(offer: Offer) {
+    
+    let offerRef = Database.database().reference().child("OfferPool").child(offer.companyDetails!.userId!).child(offer.offer_ID).child("reservedUsers")
+    let reserve = offer.reservedUsers![Yourself.id]
+    let date = reserve!["isReservedUntil"] as AnyObject
+    offerRef.updateChildValues([Yourself.id : ["isReserved":true,"isReservedUntil": date]])
+    
+    let updateReserveOffer = Database.database().reference().child("ReservedOffers").child(offer.companyDetails!.userId!).child(Yourself.id).child(offer.offer_ID)
+    updateReserveOffer.updateChildValues(["offerId":offer.offer_ID])
+    
+}
+
+func updateCashPower(cash: Double, offer: Offer) {
+    
+    let updateCashPower = Database.database().reference().child("OfferPool").child(offer.companyDetails!.userId!).child(offer.offer_ID)
+    updateCashPower.updateChildValues(["cashPower":cash])
+    
+}
+
+func removeReservedOfferStatus(offer: Offer) {
+    
+    let offerRef = Database.database().reference().child("OfferPool").child(offer.companyDetails!.userId!).child(offer.offer_ID).child("reservedUsers").child(Yourself.id)
+    
+    offerRef.removeValue()
+    
+    let updateReserveOffer = Database.database().reference().child("ReservedOffers").child(offer.companyDetails!.userId!).child(Yourself.id).child(offer.offer_ID)
+    updateReserveOffer.removeValue()
     
 }
 
@@ -1360,11 +1423,14 @@ func getAllOffer(completion: @escaping (_ status: Bool, _ offerList: [allOfferOb
                         //Check If already accepted this offer
                         if let offer = offerData.accepted {
                         if !offer.contains(Yourself.id){
-                        let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: true)
+                            let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
+                        offerList.append(allOfferObj)
+                        }else{
+                            let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: true)
                         offerList.append(allOfferObj)
                         }
                         }else{
-                        let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: true)
+                            let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
                         offerList.append(allOfferObj)
                         }
                         
@@ -1375,11 +1441,14 @@ func getAllOffer(completion: @escaping (_ status: Bool, _ offerList: [allOfferOb
                         //Check If already accepted this offer
                         if let offer = offerData.accepted {
                         if !offer.contains(Yourself.id){
-                        let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: false)
+                            let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: false, isAccepted: false)
                         offerList.append(allOfferObj)
+                        }else{
+                            let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: false, isAccepted: true)
+                            offerList.append(allOfferObj)
                         }
                         }else{
-                        let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: false)
+                            let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: false, isAccepted: false)
                         offerList.append(allOfferObj)
                         }
                         

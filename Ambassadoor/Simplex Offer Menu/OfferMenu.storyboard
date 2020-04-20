@@ -69,7 +69,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bJ8-0y-OrD">
-                                <rect key="frame" x="0.0" y="124" width="414" height="772"/>
+                                <rect key="frame" x="0.0" y="124" width="414" height="718"/>
                                 <connections>
                                     <segue destination="wp5-xe-NcL" kind="embed" identifier="PageView" id="stR-0p-bft"/>
                                 </connections>
@@ -81,7 +81,7 @@
                             <constraint firstItem="bJ8-0y-OrD" firstAttribute="leading" secondItem="zyf-Ca-Zq7" secondAttribute="leading" id="DTj-y2-Chs"/>
                             <constraint firstItem="bJ8-0y-OrD" firstAttribute="trailing" secondItem="zyf-Ca-Zq7" secondAttribute="trailing" id="Ix4-jv-NYf"/>
                             <constraint firstItem="LrO-XP-73G" firstAttribute="leading" secondItem="zyf-Ca-Zq7" secondAttribute="leading" id="Ofg-1U-i2M"/>
-                            <constraint firstAttribute="bottom" secondItem="bJ8-0y-OrD" secondAttribute="bottom" id="smy-si-Ptf"/>
+                            <constraint firstAttribute="bottom" secondItem="bJ8-0y-OrD" secondAttribute="bottom" constant="54" id="smy-si-Ptf"/>
                             <constraint firstItem="LrO-XP-73G" firstAttribute="top" secondItem="U6v-JN-Ar8" secondAttribute="top" id="xOO-e9-Poi"/>
                             <constraint firstItem="bJ8-0y-OrD" firstAttribute="top" secondItem="LrO-XP-73G" secondAttribute="bottom" id="xak-1M-lxo"/>
                         </constraints>
@@ -149,6 +149,7 @@
                     <connections>
                         <outlet property="allOfferTable" destination="OBx-eZ-poP" id="x34-I4-4aL"/>
                         <segue destination="yQE-Iq-zYS" kind="presentation" identifier="ViewOfferSegue" id="OHS-aA-yGt"/>
+                        <segue destination="o6V-jT-7Ir" kind="presentation" identifier="FromAllToOV" id="q7c-Oi-xNY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tsQ-A8-FOd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -335,11 +336,20 @@
                     <connections>
                         <outlet property="filteredOfferTable" destination="HZ0-2X-NSF" id="eS7-Ax-qyG"/>
                         <segue destination="yQE-Iq-zYS" kind="presentation" identifier="FromFilterOfferSegue" id="w8m-WQ-xmS"/>
+                        <segue destination="o6V-jT-7Ir" kind="presentation" identifier="FromFilteredToOV" id="lzV-aH-aWn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="El4-tU-DE0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2407" y="479"/>
+        </scene>
+        <!--OfferViewReference-->
+        <scene sceneID="pIk-VR-Xgh">
+            <objects>
+                <viewControllerPlaceholder storyboardName="offerViewer" referencedIdentifier="OfferViewReference" id="o6V-jT-7Ir" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7vJ-Eg-xcA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2254" y="94"/>
         </scene>
         <!--Followed OfferVC-->
         <scene sceneID="fud-vc-egf">
@@ -371,11 +381,12 @@
                     <connections>
                         <outlet property="offerTable" destination="wnb-wd-1HC" id="ikI-wQ-uzA"/>
                         <segue destination="yQE-Iq-zYS" kind="presentation" identifier="FromFollowedOfferSegue" id="gnf-rQ-OW9"/>
+                        <segue destination="o6V-jT-7Ir" kind="presentation" identifier="FromFollowedToOV" id="uwI-Ec-TCC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iMd-TW-hdt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1704" y="479"/>
+            <point key="canvasLocation" x="1570" y="479"/>
         </scene>
     </scenes>
     <resources>
@@ -383,6 +394,7 @@
         <image name="homa" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="w8m-WQ-xmS"/>
+        <segue reference="uwI-Ec-TCC"/>
+        <segue reference="gnf-rQ-OW9"/>
     </inferredMetricsTieBreakers>
 </document>
