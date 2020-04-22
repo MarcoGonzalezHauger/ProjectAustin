@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="postsInfo" rowHeight="215" id="Ubv-23-k5O" userLabel="postsInfo" customClass="PostDetailCell" customModule="Ambassadoor" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="215"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ubv-23-k5O" id="NGY-F5-K8f">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="215"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x9e-Ck-ZZW" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                        <rect key="frame" x="6" y="4" width="402" height="207"/>
+                        <subviews>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bLD-yw-sFZ" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="402" height="207"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You must post the following to Instagram" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Ak0-RI-731">
+                                        <rect key="frame" x="8" y="8" width="329.5" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="22" id="8AD-No-1Iw"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ljP-IN-fOV">
+                                        <rect key="frame" x="0.0" y="38" width="402" height="169"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="169" id="T2S-cw-XIm"/>
+                                        </constraints>
+                                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="Ubv-23-k5O" id="L0n-dY-2zp"/>
+                                            <outlet property="delegate" destination="Ubv-23-k5O" id="Qua-ut-W0D"/>
+                                        </connections>
+                                    </tableView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstItem="ljP-IN-fOV" firstAttribute="leading" secondItem="bLD-yw-sFZ" secondAttribute="leading" id="5zl-fH-fAb"/>
+                                    <constraint firstAttribute="bottom" secondItem="ljP-IN-fOV" secondAttribute="bottom" id="77j-KI-q5z"/>
+                                    <constraint firstAttribute="trailing" secondItem="ljP-IN-fOV" secondAttribute="trailing" id="922-Ql-DoI"/>
+                                    <constraint firstItem="Ak0-RI-731" firstAttribute="leading" secondItem="bLD-yw-sFZ" secondAttribute="leading" constant="8" id="Mac-9t-hXA"/>
+                                    <constraint firstItem="Ak0-RI-731" firstAttribute="top" secondItem="bLD-yw-sFZ" secondAttribute="top" constant="8" id="gEl-pJ-LRJ"/>
+                                    <constraint firstItem="ljP-IN-fOV" firstAttribute="top" secondItem="Ak0-RI-731" secondAttribute="bottom" constant="8" id="wEH-aV-UCJ"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="bLD-yw-sFZ" secondAttribute="trailing" id="3QO-vc-xVU"/>
+                            <constraint firstAttribute="bottom" secondItem="bLD-yw-sFZ" secondAttribute="bottom" id="8gN-3x-8KS"/>
+                            <constraint firstItem="bLD-yw-sFZ" firstAttribute="top" secondItem="x9e-Ck-ZZW" secondAttribute="top" id="NTx-vb-FkO"/>
+                            <constraint firstItem="bLD-yw-sFZ" firstAttribute="leading" secondItem="x9e-Ck-ZZW" secondAttribute="leading" id="XaV-de-zTh"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="10"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                <real key="value" value="0.20000000000000001"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
+                                <real key="value" value="3"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="ShadowColor">
+                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="x9e-Ck-ZZW" secondAttribute="trailing" constant="6" id="MTV-xS-Zdm"/>
+                    <constraint firstItem="x9e-Ck-ZZW" firstAttribute="top" secondItem="NGY-F5-K8f" secondAttribute="top" constant="4" id="NKs-KM-3hm"/>
+                    <constraint firstAttribute="bottom" secondItem="x9e-Ck-ZZW" secondAttribute="bottom" constant="4" id="iVS-Ks-tQ4"/>
+                    <constraint firstItem="x9e-Ck-ZZW" firstAttribute="leading" secondItem="NGY-F5-K8f" secondAttribute="leading" constant="6" id="xWb-TP-wOV"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="postList" destination="ljP-IN-fOV" id="VIH-KO-8nj"/>
+                <outlet property="widthLayout" destination="T2S-cw-XIm" id="pp4-IU-umG"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="124.88839285714285"/>
+        </tableViewCell>
+    </objects>
+</document>

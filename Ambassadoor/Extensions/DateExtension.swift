@@ -74,6 +74,7 @@ extension Date {
     
     static func getStringFromDate(date:Date) -> String? {
         let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(abbreviation: "EST")
         dateFormatter.dateFormat = "yyyy/MMM/dd HH:mm:ss"
         //        dateFormatter.timeZone = TimeZone.current
         //        dateFormatter.locale = Locale.current
@@ -90,7 +91,7 @@ extension Date {
         return dateFormatter.string(from: date) // replace Date String
     }
     
-    static func getDateFromISO8601DateString(ISO8601String: String) -> Date{
+    static func getDateFromISO8601DateString(ISO8601String: String) -> Date {
         
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
@@ -101,6 +102,30 @@ extension Date {
         let finalDate = calendar.date(from:components)
         return finalDate!
         
+    }
+    
+    static func getDateFromISO8601WOString(ISO8601String: String) -> Date? {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        let calendar = Calendar.current
+        dateFormatter.calendar = calendar
+        let date = dateFormatter.date(from:ISO8601String)!
+        //let finalDate = date
+        return date
+        
+    }
+    
+    static func getStringFromIso8601Date(date: Date)-> String{
+        let dateFormatter = DateFormatter()
+        let enUSPosixLocale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.locale = enUSPosixLocale
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        dateFormatter.calendar = Calendar.current
+
+        let iso8601String = dateFormatter.string(from: date)
+        return iso8601String
     }
     
 //    static func getDateISO8601Format() -> Date{

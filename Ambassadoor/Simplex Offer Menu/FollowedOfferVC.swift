@@ -48,7 +48,9 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     @IBOutlet weak var offerTable: UITableView!
     
-    var followOfferList = [Offer]()
+    var followOfferList = [allOfferObject]()
+    
+    var offerVariation: OfferVariation?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,7 +83,7 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             let nib = Bundle.main.loadNibNamed("FollowedCompaniesOffer", owner: self, options: nil)
             cell = nib![0] as? FollowedCompaniesOffer
         }
-        cell!.offer = followOfferList[indexPath.row]
+        cell!.offer = followOfferList[indexPath.row].offer
         
         
         return cell!
@@ -92,7 +94,14 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-        self.performSegue(withIdentifier: "FromFollowedOfferSegue", sender: followOfferList[indexPath.row])
+        //self.performSegue(withIdentifier: "FromFollowedOfferSegue", sender: followOfferList[indexPath.row])
+        let allOfferObj = followOfferList[indexPath.row]
+        if allOfferObj.isAccepted{
+        offerVariation = .inProgress
+        }else{
+        offerVariation = .canBeAccepted
+        }
+        self.performSegue(withIdentifier: "FromFollowedToOV", sender: followOfferList[indexPath.row].offer)
     }
 
     
@@ -102,6 +111,7 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        /*
         if segue.identifier == "FromFollowedOfferSegue" {
             //guard let newviewoffer = viewoffer else { return }
             let destination = segue.destination
@@ -112,6 +122,14 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 
             }
             }
+        */
+        if segue.identifier == "FromFollowedToOV" {
+        //guard let newviewoffer = viewoffer else { return }
+        let destination = segue.destination as! OfferViewerVC
+       
+            destination.offerVariation = offerVariation!
+            destination.offer = sender as? Offer
+        }
         
     }
     
