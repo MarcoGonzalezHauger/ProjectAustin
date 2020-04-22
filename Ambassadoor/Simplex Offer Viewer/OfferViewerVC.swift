@@ -33,19 +33,28 @@ class RejectedMessageCell: UITableViewCell {
         didSet{
             if let offerValue = offer{
                 
-                if offerValue.status == "rejected"{
+                    var detectedCount = 0
                     
-                    if offerValue.posts.count == 1{
-                       
+                    for post in offerValue.posts {
+                        if post.status == "rejected"{
+                           detectedCount += 1
+                        }
+                    }
+                
+                    if detectedCount == offerValue.posts.count{
+                        
+                        if offerValue.posts.count == 1{
+
                         self.rejectMessage.text = "An Ambassadoor Verifier found that your post was not acceptable. Press on the post to view why"
+
+                        }else{
+
+                        self.rejectMessage.text = "An Ambassadoor Verifier found that your posts were not acceptable. Press on one of the posts to view why."
+
+                        }
                         
                     }else{
-                        
                         self.rejectMessage.text = "An Ambassadoor Verifier found that your posts were not acceptable. Press on one of the posts to view why."
-                        
-                    }
-                    
-                    
                 }
             }
         }
@@ -60,14 +69,6 @@ class GoodWorkCell: UITableViewCell{
         didSet{
             if let offerValue = offer{
                 
-                if offerValue.status == "posted"{
-                    if offerValue.posts.count == 1 {
-                        goodWorkDes.text = "Good Work!\nYour post has been detected."
-                    }else{
-                        goodWorkDes.text = "Good Work!\nAll posts have been detected."
-                    }
-                }else{
-                    
                     var detectedCount = 0
                     
                     for post in offerValue.posts {
@@ -75,11 +76,20 @@ class GoodWorkCell: UITableViewCell{
                            detectedCount += 1
                         }
                     }
-                    
-                    goodWorkDes.text = "Good Work!\n\(detectedCount)/\(offerValue.posts.count) posts have been detected."
-                    
-                }
                 
+                    if detectedCount == offerValue.posts.count{
+                        
+                        if offerValue.posts.count == 1 {
+                            goodWorkDes.text = "Good Work!\nYour post has been detected."
+                        }else{
+                            goodWorkDes.text = "Good Work!\nAll posts have been detected."
+                        }
+                        
+                    }else{
+                    
+                            goodWorkDes.text = "Good Work!\n\(detectedCount)/\(offerValue.posts.count) posts have been detected."
+                        
+                    }
             }
         }
     }
@@ -87,14 +97,6 @@ class GoodWorkCell: UITableViewCell{
     var hasBeenPaidOffer: Offer?{
         didSet{
             if let offerValue = hasBeenPaidOffer{
-                if offerValue.status == "paid"{
-                    if offerValue.posts.count == 1 {
-                        goodWorkDes.text = "Good Work!\nYour post has been detected."
-                    }else{
-                        goodWorkDes.text = "Good Work!\nAll posts have been detected."
-                    }
-                }else{
-                    
                     var detectedCount = 0
                     
                     for post in offerValue.posts {
@@ -103,9 +105,15 @@ class GoodWorkCell: UITableViewCell{
                         }
                     }
                     
-                    goodWorkDes.text = "Good Work!\n\(detectedCount)/\(offerValue.posts.count) posts have been detected."
-                    
-                }
+                    if detectedCount == offerValue.posts.count{
+                    if offerValue.posts.count == 1 {
+                        goodWorkDes.text = "Good Work!\nYour post has been detected."
+                    }else{
+                        goodWorkDes.text = "Good Work!\nAll posts have been detected."
+                    }
+                    }else{
+                        goodWorkDes.text = "Good Work!\n\(detectedCount)/\(offerValue.posts.count) posts have been detected."
+                    }
             }
         }
     }
@@ -132,23 +140,11 @@ class WillBePaidCell: UITableViewCell {
                 }
                 
                 self.setInfluencerAmount(offerValue: offerValue)
-                
-                if offerValue.status == "posted"{
-                   
-                    var postedCount = 0
-                    
-                    for post in offerValue.posts {
-                        if post.status == "posted"{
-                           postedCount += 1
-                        }
-                    }
-                    
-                    let addedDate = postedCount * 2
                     
                     if let updatedDate = offerValue.updatedDate{
                         
                         
-                        let date = updatedDate.afterDays(day: addedDate)
+                        let date = updatedDate.afterDays(day: 2)
                         
                         self.updatedDate = date
                         
@@ -157,13 +153,13 @@ class WillBePaidCell: UITableViewCell {
                             
                             if date.timeIntervalSince1970 > currentDate.timeIntervalSince1970{
                                 
-                                //Interval between Offer Acceted Date and Current Date
+                                //Interval between Posted Date and Current Date
                                 let intervalBtnOffActDateToCurDate = (updatedDate.timeIntervalSince1970 - currentDate.timeIntervalSince1970)
                                 
-                                //Interval between Offer Acceted Date and expiring offer after Accepted Offer
+                                //Interval between Posted Date and Added 48 hours
                                 let intervalBtnOffActDateToOfferExpDate = (date.timeIntervalSince1970 - updatedDate.timeIntervalSince1970)
                                 
-                                //Calculate Progress How long days gone after accepting the offer
+                                //Calculate Progress How long days gone after changed offer status
                                 widthConstraint.constant = CGFloat(intervalBtnOffActDateToCurDate/intervalBtnOffActDateToOfferExpDate) * self.frame.size.width
 
                                 progressView.updateConstraints()
@@ -178,77 +174,57 @@ class WillBePaidCell: UITableViewCell {
                         }
                         
                     }
-                    
-                }else{
-                    
-                    var postedCount = 0
-                    
-                    var totalPostedDate = [Date]()
-                    
-                    for post in offerValue.posts {
-                        if post.status == "posted"{
-                        postedCount += 1
-                        totalPostedDate.append(post.confirmedSince!)
-                        }
-                        
-                    }
-                    let addedDate = postedCount * 2
-                    let date = totalPostedDate.sorted { (date1, date2) -> Bool in
-                        return date1.compare(date2) == .orderedAscending
-                    }
-                    
-                    if let filteredDate = date.first{
-                        
-                        let date = filteredDate.afterDays(day: addedDate)
-                        self.updatedDate = date
-                        
-                        let curDateStr = Date.getStringFromDate(date: Date())
-                        if let currentDate = Date.getDateFromString(date: curDateStr!){
-                            
-                            if date.timeIntervalSince1970 > currentDate.timeIntervalSince1970{
-                                
-                                //Interval between Offer Acceted Date and Current Date
-                                let intervalBtnOffActDateToCurDate = (filteredDate.timeIntervalSince1970 - currentDate.timeIntervalSince1970)
-                                
-                                //Interval between Offer Acceted Date and expiring offer after Accepted Offer
-                                let intervalBtnOffActDateToOfferExpDate = (date.timeIntervalSince1970 - filteredDate.timeIntervalSince1970)
-                                
-                                //Calculate Progress How long days gone after accepting the offer
-                                widthConstraint.constant = CGFloat(intervalBtnOffActDateToCurDate/intervalBtnOffActDateToOfferExpDate) * self.frame.size.width
-
-                                progressView.updateConstraints()
-                                progressView.layoutIfNeeded()
-                                
-                                progressView.backgroundColor = UIColor.systemGreen
-                                
-                                self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.timerForWillPaidCell(sender:)), userInfo: nil, repeats: true)
-                                
-                            }
-                            
-                        }
-
-                        
-                    }
-                }
-                
-                
-            
         }
         }
     }
     
     func setInfluencerAmount(offerValue: Offer) {
         
+        var postedCount = 0
+
+        for post in offerValue.posts {
+            if post.status == "posted"{
+               postedCount += 1
+            }
+        }
+        
         if let incresePay = offerValue.incresePay {
             
             let pay = calculateCostForUser(offer: offerValue, user: Yourself, increasePayVariable: incresePay)
-            
-            self.amtText.text = NumberToPrice(Value: pay)
+            let totalAmt = (pay/Double(postedCount))
+            self.amtText.text = NumberToPrice(Value: totalAmt)
             
         }else{
             
             let pay = calculateCostForUser(offer: offerValue, user: Yourself)
-            self.amtText.text = NumberToPrice(Value: pay)
+            let totalAmt = (pay/Double(postedCount))
+            self.amtText.text = NumberToPrice(Value: totalAmt)
+        }
+        
+    }
+    
+    
+    func setPaidAmount(offerValue: Offer) {
+        
+        var postedCount = 0
+
+        for post in offerValue.posts {
+            if post.status == "paid"{
+               postedCount += 1
+            }
+        }
+        
+        if let incresePay = offerValue.incresePay {
+            
+            let pay = calculateCostForUser(offer: offerValue, user: Yourself, increasePayVariable: incresePay)
+            let totalAmt = (pay/Double(postedCount))
+            self.amtText.text = NumberToPrice(Value: totalAmt)
+            
+        }else{
+            
+            let pay = calculateCostForUser(offer: offerValue, user: Yourself)
+            let totalAmt = (pay/Double(postedCount))
+            self.amtText.text = NumberToPrice(Value: totalAmt)
         }
         
     }
@@ -269,16 +245,16 @@ class WillBePaidCell: UITableViewCell {
     var hasBeenPaidOffer: Offer?{
         didSet{
             if let offerValue = hasBeenPaidOffer{
-               self.setInfluencerAmount(offerValue: offerValue)
-                if offerValue.status == "paid"{
-                   leftTimeText.text = "You have been paid."
+               self.setPaidAmount(offerValue: offerValue)
+                
+                    leftTimeText.text = "You have been paid."
                     widthConstraint.constant = self.frame.size.width
 
                     progressView.updateConstraints()
                     progressView.layoutIfNeeded()
                     
                     progressView.backgroundColor = UIColor.systemGreen
-                }
+                
             }
         }
     }
@@ -387,13 +363,13 @@ class ReservedCell: UITableViewCell {
         if let incresePay = self.offer!.incresePay {
             
             let pay = calculateCostForUser(offer: self.offer!, user: Yourself, increasePayVariable: incresePay)
-            let cash = self.offer!.cashPower! + pay
+            let cash = (self.offer!.cashPower! + pay + (self.offer!.commission! * self.offer!.cashPower!))
             updateCashPower(cash: cash, offer: self.offer!)
             
         }else{
             
             let pay = calculateCostForUser(offer: self.offer!, user: Yourself)
-            let cash = self.offer!.cashPower! + pay
+            let cash = (self.offer!.cashPower! + pay + (self.offer!.commission! * self.offer!.cashPower!))
             updateCashPower(cash: cash, offer: self.offer!)
         }
         removeReservedOfferStatus(offer: self.offer!)
@@ -1024,14 +1000,14 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                 if let incresePay = self.offer!.incresePay {
                     
                     let pay = calculateCostForUser(offer: self.offer!, user: Yourself, increasePayVariable: incresePay)
-                    let cash = self.offer!.cashPower! - pay
+                    let cash = (self.offer!.cashPower! - pay - (self.offer!.commission! * self.offer!.cashPower!))
                     self.offer!.cashPower = cash
                     updateCashPower(cash: cash, offer: self.offer!)
                     
                 }else{
                     
                     let pay = calculateCostForUser(offer: self.offer!, user: Yourself)
-                    let cash = self.offer!.cashPower! - pay
+                    let cash = (self.offer!.cashPower! - pay - (self.offer!.commission! * self.offer!.cashPower!))
                     self.offer!.cashPower = cash
                     updateCashPower(cash: cash, offer: self.offer!)
                 }
@@ -1059,36 +1035,36 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                     self.offer = offer
                     self.offerVariation = OfferVariation.getOfferVariation(status: self.offer!.status)
                     
-                    if self.offerVariation! != .willBePaid && self.offerVariation! != .hasBeenPaid && self.offerVariation! != .allPostsDenied {
-                        
-                            var anyPostDetected = false
-                            var anyPostPaid = false
-                            var anyPostrejected = false
-                            
-                            for post in self.offer!.posts {
-                                
-                                if post.status == "posted"{
-                                   anyPostDetected = !anyPostDetected
-                                }
-                                
-                                if post.status == "paid"{
-                                   anyPostPaid = !anyPostPaid
-                                }
-                                if post.status == "reject"{
-                                   anyPostrejected = !anyPostrejected
-                                }
-                            }
-                        
-                            if anyPostPaid{
-                               self.offerVariation = .hasBeenPaid
-                            }else if anyPostDetected{
-                                self.offerVariation = .willBePaid
-                            }else if anyPostrejected{
-                                self.offerVariation = .allPostsDenied
-                            }
-
-                        
-                    }
+//                    if self.offerVariation! != .willBePaid && self.offerVariation! != .hasBeenPaid && self.offerVariation! != .allPostsDenied {
+//
+//                            var anyPostDetected = false
+//                            var anyPostPaid = false
+//                            var anyPostrejected = false
+//
+//                            for post in self.offer!.posts {
+//
+//                                if post.status == "posted"{
+//                                   anyPostDetected = !anyPostDetected
+//                                }
+//
+//                                if post.status == "paid"{
+//                                   anyPostPaid = !anyPostPaid
+//                                }
+//                                if post.status == "reject"{
+//                                   anyPostrejected = !anyPostrejected
+//                                }
+//                            }
+//
+//                            if anyPostPaid{
+//                               self.offerVariation = .hasBeenPaid
+//                            }else if anyPostDetected{
+//                                self.offerVariation = .willBePaid
+//                            }else if anyPostrejected{
+//                                self.offerVariation = .allPostsDenied
+//                            }
+//
+//
+//                    }
                                                                     
                     self.offerViewTable.dataSource = self
                     self.offerViewTable.delegate = self
