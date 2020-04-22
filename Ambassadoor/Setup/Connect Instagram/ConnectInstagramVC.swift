@@ -139,7 +139,7 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
         API.getProfileInfo(userId: userID) { (businessuser: Bool) in
             
             if businessuser{
-                self.showStandardAlertDialog(title: "Business User", msg: "You have verified as business user. login with facebook to fetch your business account details") { (clickAction) in
+                self.showStandardAlertDialog(title: "Instagram Account Valid", msg: "Finally, login with Facebook so we can get information like your Average Likes.") { (clickAction) in
                     //self.loginAct(userIDBusiness: userID)
                     
                     API.facebookLoginAct(userIDBusiness: userID, owner: self) { (userDetail,longLiveToken,error) in

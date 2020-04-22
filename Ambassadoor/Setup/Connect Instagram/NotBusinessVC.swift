@@ -18,6 +18,9 @@ class NotBusinessVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		delegate?.ThatsNotMe()
+		if #available(iOS 13.0, *) {
+			self.isModalInPresentation = true
+		}
 		scrollView.alwaysBounceVertical = false
     }
 	@IBAction func closeButtonPressed(_ sender: Any) {
