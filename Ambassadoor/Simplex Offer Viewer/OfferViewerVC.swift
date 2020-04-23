@@ -384,6 +384,8 @@ class ReservedCell: UITableViewCell {
 }
 
 class AcceptCell: UITableViewCell {
+    
+    @IBOutlet weak var acceptButton: UIButton!
 	
 }
 
@@ -779,6 +781,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 			}else{
 				let identifier = "acceptButton"
 				let cell = offerViewTable.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! AcceptCell
+                cell.acceptButton.addTarget(self, action: #selector(self.acceptAction(sender:)), for: .touchUpInside)
 				return cell
 			}
 			
@@ -1038,6 +1041,18 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		}
 	}
     
+    
+    @IBAction func acceptAction(sender: UIButton){
+        updateIsAcceptedOffer(offer: self.offer!)
+                
+        updateUserIdOfferPool(offer: self.offer!)
+        
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func dismissAction(sender: UIButton){
+        self.dismiss(animated: true, completion: nil)
+    }
     
 	@IBOutlet weak var offerViewTable: UITableView!
 	

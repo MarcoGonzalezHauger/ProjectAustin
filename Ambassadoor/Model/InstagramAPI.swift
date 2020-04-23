@@ -523,12 +523,19 @@ struct API {
         
         let login: LoginManager = LoginManager()
         login.logOut()
-        login.logIn(permissions: ["instagram_basic","pages_show_list"], from: owner) { (result, FBerror) in
+        //"pages_show_list"
+        
+        login.logIn(permissions: ["instagram_basic"], from: owner) { (result, FBerror) in
             if((FBerror) != nil){
-                
+                print(FBerror as Any)
                 completion(nil, nil, FBerror)
                 
-            }else{
+            }else if result!.isCancelled{
+                
+                completion(nil, nil, NSError(domain: "CancelErrorDomain", code: 408, userInfo: nil))
+                
+            }
+            else{
                 
                 
                 GraphRequest(graphPath: "/oauth/access_token", parameters: ["grant_type": "fb_exchange_token","client_id":API.FACEBOOK_CLIENT_ID,"client_secret": FACEBOOK_CLIENTSERCRET,"fb_exchange_token":AccessToken.current!.tokenString]).start(completionHandler: { (connection, userToken, error) -> Void in
@@ -542,7 +549,7 @@ struct API {
                                 
                                 GraphRequest(graphPath: userIDBusiness, parameters: ["fields":"biography,id,followers_count,follows_count,media_count,name,profile_picture_url,username,website"]).start(completionHandler: { (connection, userDetail, tokenError) -> Void in
                                     
-                                    if error == nil{
+                                    if tokenError == nil{
                                         completion(userDetail, liveToken, nil)
                                     }else{
                                         completion(nil, nil, tokenError)

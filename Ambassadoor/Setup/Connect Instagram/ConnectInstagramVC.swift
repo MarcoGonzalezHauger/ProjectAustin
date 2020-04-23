@@ -139,7 +139,7 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
         API.getProfileInfo(userId: userID) { (businessuser: Bool) in
             
             if businessuser{
-                self.showStandardAlertDialog(title: "Business User", msg: "You have verified as business user. login with facebook to fetch your business account details") { (clickAction) in
+                self.showStandardAlertDialog(title: "Instagram Account Valid", msg: "Finally, login with Facebook so we can get information like your Average Likes.") { (clickAction) in
                     //self.loginAct(userIDBusiness: userID)
                     
                     API.facebookLoginAct(userIDBusiness: userID, owner: self) { (userDetail,longLiveToken,error) in
@@ -171,11 +171,48 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                                 }
                                 
                             }else{
-                                self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")
+                                
+                                
+                                if let err = error{
+                                    
+                                    print(err)
+                                    let errorVal = err as NSError
+                                    if let messageDict = errorVal.userInfo as? [String: Any] {
+                                    //com.facebook.sdk:FBSDKErrorDeveloperMessageKey
+                                        
+                                        if let message = messageDict["com.facebook.sdk:FBSDKErrorDeveloperMessageKey"] as? String{
+                                            
+                                            self.showStandardAlertDialog(title: "Alert", msg: message) { (action) in
+                                                DispatchQueue.main.async {
+                                                    self.navigationController?.popViewController(animated: true)
+                                                }
+                                                
+                                            }
+                                            
+                                        }
+                                        
+                                    }
+                                }
                             }
                             
                         }else{
-                            self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")
+//                            self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")
+                            
+                            if let err = error{
+                            
+                            print(err)
+                            let errorVal = err as NSError
+                                
+                                if errorVal.code == 408{
+                                    
+                                    self.showStandardAlertDialog(title: "Alert", msg: "You have cancelled the Facebook login process.") { (action) in
+                                        self.navigationController?.popViewController(animated: true)
+                                    }
+                                    
+                                }
+                                
+                            }
+                            
                         }
                     }
                 }

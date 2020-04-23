@@ -287,7 +287,7 @@ enum rowHeight: CGFloat {
 }
 
 enum postStatus: String {
-    case NotPosted = "Not Posted",Posted = "Posted",Verified = "Verified", Rejected = "Rejected", Paid = "paid"
+    case NotPosted = "Not Posted",Posted = "Posted",Verified = "Verified", Rejected = "Rejected", Paid = "Paid"
     
     static func returnImageStatus(status: String)->(postStatus, String, UIColor){
         switch status {
