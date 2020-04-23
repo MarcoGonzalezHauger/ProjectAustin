@@ -9,7 +9,7 @@
 import UIKit
 
 enum postRowHeight: CGFloat {
-	case one = 133, two = 228, three = 323
+	case one = 93, two = 143, three = 193
 	
 	static func returnRowHeight(count: Int) -> postRowHeight{
 		
@@ -24,6 +24,10 @@ enum postRowHeight: CGFloat {
 		
 	}
 	
+}
+
+protocol postDidSelect {
+    func sendPostObjects(index: Int, offervariation: OfferVariation, offer: Offer)
 }
 
 class RejectedMessageCell: UITableViewCell {
@@ -483,11 +487,14 @@ class CompanyInfo: UITableViewCell {
 class PostInfoCell: UITableViewCell {
 	@IBOutlet weak var postSerial: UILabel!
 	@IBOutlet weak var postName: UILabel!
-	@IBOutlet weak var postDesImg: UIImageView!
-	@IBOutlet weak var postDes: UILabel!
+//	@IBOutlet weak var postDesImg: UIImageView!
+//	@IBOutlet weak var postDes: UILabel!
 	@IBOutlet weak var shadow: ShadowView!
-	
-	
+}
+
+class PostDetailInfoCell: UITableViewCell {
+    @IBOutlet weak var postDesImg: UIImageView!
+    @IBOutlet weak var postDes: UILabel!
 }
 
 class PostDetailCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate {
@@ -496,6 +503,9 @@ class PostDetailCell: UITableViewCell, UITableViewDataSource, UITableViewDelegat
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if self.offerVariation! == .canNotBeAccepted || self.offerVariation! == .canBeAccepted{
+        
 		let identifier = "postsInfo"
 		var cell = postList.dequeueReusableCell(withIdentifier: identifier) as? PostInfoCell
 		
@@ -504,65 +514,108 @@ class PostDetailCell: UITableViewCell, UITableViewDataSource, UITableViewDelegat
 			cell = nib![0] as? PostInfoCell
 		}
 		
-		let post = offer!.posts[indexPath.row]
+		//let post = offer!.posts[indexPath.row]
 		
 		if indexPath.row == 0 {
 			
 			cell!.shadow.backgroundColor = UIColor.systemBlue
-			let postIdentify = postStatus.returnImageStatus(status: post.status)
+//			let postIdentify = postStatus.returnImageStatus(status: post.status)
 			cell!.postSerial.text = "1"
 			cell!.postName.text = "Post 1"
-			cell!.postDes.text = "Post 1" + "(\(postIdentify.0.rawValue))"
-			cell!.postDesImg.image = UIImage.init(named: postIdentify.1)
+//			cell!.postDes.text = "Post 1" + "(\(postIdentify.0.rawValue))"
+//			cell!.postDesImg.image = UIImage.init(named: postIdentify.1)
 			
 		}else if indexPath.row == 1{
 			
 			cell!.shadow.backgroundColor = UIColor.systemRed
-			let postIdentify = postStatus.returnImageStatus(status: post.status)
+//			let postIdentify = postStatus.returnImageStatus(status: post.status)
 			cell!.postSerial.text = "2"
 			cell!.postName.text = "Post 2"
-			cell!.postDes.text = "Post 2" + "(\(postIdentify.0.rawValue))"
-			cell!.postDesImg.image = UIImage.init(named: postIdentify.1)
+//			cell!.postDes.text = "Post 2" + "(\(postIdentify.0.rawValue))"
+//			cell!.postDesImg.image = UIImage.init(named: postIdentify.1)
 			
 		}else{
 			
 			cell!.shadow.backgroundColor = UIColor.systemYellow
-			let postIdentify = postStatus.returnImageStatus(status: post.status)
+//			let postIdentify = postStatus.returnImageStatus(status: post.status)
 			cell!.postSerial.text = "3"
 			cell!.postName.text = "Post 3"
-			cell!.postDes.text = "Post 3" + "(\(postIdentify.0.rawValue))"
-			cell!.postDesImg.image = UIImage.init(named: postIdentify.1)
+//			cell!.postDes.text = "Post 3" + "(\(postIdentify.0.rawValue))"
+//			cell!.postDesImg.image = UIImage.init(named: postIdentify.1)
 			
 		}
 		return cell!
-		
-		
-		
+        }else{
+            let identifier = "postsDetailInfo"
+            var cell = postList.dequeueReusableCell(withIdentifier: identifier) as? PostDetailInfoCell
+            
+            if cell == nil {
+                let nib = Bundle.main.loadNibNamed("PostDetailInfoCell", owner: self, options: nil)
+                cell = nib![0] as? PostDetailInfoCell
+            }
+            let post = offer!.posts[indexPath.row]
+            if indexPath.row == 0 {
+                        
+            let postIdentify = postStatus.returnImageStatus(status: post.status)
+            cell!.postDes.text = "Post 1" + "(\(postIdentify.0.rawValue))"
+            cell!.postDesImg.image = UIImage.init(named: postIdentify.1)
+
+            }else if indexPath.row == 1{
+
+            let postIdentify = postStatus.returnImageStatus(status: post.status)
+
+            cell!.postDes.text = "Post 2" + "(\(postIdentify.0.rawValue))"
+            cell!.postDesImg.image = UIImage.init(named: postIdentify.1)
+
+            }else{
+
+            let postIdentify = postStatus.returnImageStatus(status: post.status)
+
+            cell!.postDes.text = "Post 3" + "(\(postIdentify.0.rawValue))"
+            cell!.postDesImg.image = UIImage.init(named: postIdentify.1)
+
+            }
+            return cell!
+        }
 	}
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 95.0
+		return 50.0
 	}
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
+                    
+            self.postDidSelectDelegate?.sendPostObjects(index: indexPath.row, offervariation: offerVariation!, offer: self.offer!)
+        
+    }
 	
 	@IBOutlet weak var postList: UITableView!
 	@IBOutlet weak var widthLayout: NSLayoutConstraint!
+    
+    var postDidSelectDelegate: postDidSelect?
+    
+    var offerVariation: OfferVariation?{
+        didSet{
+            
+        }
+    }
 	
 	var offer: Offer?{
 		didSet{
 			if let offerDetail = offer{
 				if offerDetail.posts.count == 3 {
-					widthLayout.constant = 285.0
+					widthLayout.constant = 150.0
 					
 					postList.updateConstraints()
 					postList.layoutIfNeeded()
 					
 					
 				}else if offerDetail.posts.count == 2{
-					widthLayout.constant = 190
+					widthLayout.constant = 100
 					postList.updateConstraints()
 					postList.layoutIfNeeded()
 				}else{
-					widthLayout.constant = 90
+					widthLayout.constant = 50
 					postList.updateConstraints()
 					postList.layoutIfNeeded()
 				}
@@ -575,6 +628,7 @@ class PostDetailCell: UITableViewCell, UITableViewDataSource, UITableViewDelegat
 	
 	override func awakeFromNib() {
 		self.postList.register(UINib.init(nibName: "PostInfoCell", bundle: nil), forCellReuseIdentifier: "postcell")
+        self.postList.register(UINib.init(nibName: "PostDetailInfoCell", bundle: nil), forCellReuseIdentifier: "postsDetailInfo")
 	}
 }
 
@@ -622,9 +676,18 @@ enum NumberOfRows: Int {
 	}
 }
 
-class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
-	
-	
+class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSource, postDidSelect {
+    
+    //MARK: Post Did Select
+    
+    func sendPostObjects(index: Int, offervariation: OfferVariation, offer: Offer) {
+        if offervariation == .canNotBeAccepted || offervariation == .canBeAccepted{
+            self.performSegue(withIdentifier: "FromVOtoVC", sender: index)
+        }else{
+            self.performSegue(withIdentifier: "FromVOtoVP", sender: index)
+        }
+    }
+    
 	//MARK: UITableview Delegates
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -654,6 +717,8 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 					let nib = Bundle.main.loadNibNamed("PostDetailCell", owner: self, options: nil)
 					cell = nib![0] as? PostDetailCell
 				}
+                cell!.postDidSelectDelegate = self
+                cell!.offerVariation = offerVariation!
 				cell!.offer = offer!
 				return cell!
 			}else{
@@ -707,6 +772,8 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 					let nib = Bundle.main.loadNibNamed("PostDetailCell", owner: self, options: nil)
 					cell = nib![0] as? PostDetailCell
 				}
+                cell!.postDidSelectDelegate = self
+                cell!.offerVariation = offerVariation!
 				cell!.offer = offer!
 				return cell!
 			}else{
@@ -755,6 +822,8 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 					let nib = Bundle.main.loadNibNamed("PostDetailCell", owner: self, options: nil)
 					cell = nib![0] as? PostDetailCell
 				}
+                cell!.postDidSelectDelegate = self
+                cell!.offerVariation = offerVariation!
 				cell!.offer = offer!
 				return cell!
 			}else{
@@ -796,6 +865,8 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 					let nib = Bundle.main.loadNibNamed("PostDetailCell", owner: self, options: nil)
 					cell = nib![0] as? PostDetailCell
 				}
+                cell!.postDidSelectDelegate = self
+                cell!.offerVariation = offerVariation!
 				cell!.offer = offer!
 				return cell!
 				
@@ -828,6 +899,8 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 					let nib = Bundle.main.loadNibNamed("PostDetailCell", owner: self, options: nil)
 					cell = nib![0] as? PostDetailCell
 				}
+                cell!.postDidSelectDelegate = self
+                cell!.offerVariation = offerVariation!
 				cell!.offer = offer!
 				return cell!
 			}
@@ -858,6 +931,8 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 					let nib = Bundle.main.loadNibNamed("PostDetailCell", owner: self, options: nil)
 					cell = nib![0] as? PostDetailCell
 				}
+                cell!.postDidSelectDelegate = self
+                cell!.offerVariation = offerVariation!
 				cell!.offer = offer!
 				return cell!
 			}
@@ -875,6 +950,8 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 					let nib = Bundle.main.loadNibNamed("PostDetailCell", owner: self, options: nil)
 					cell = nib![0] as? PostDetailCell
 				}
+                cell!.postDidSelectDelegate = self
+                cell!.offerVariation = offerVariation!
 				cell!.offer = offer!
 				return cell!
 			}
@@ -960,7 +1037,8 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 			return 0
 		}
 	}
-	
+    
+    
 	@IBOutlet weak var offerViewTable: UITableView!
 	
 	var offerVariation: OfferVariation?
@@ -1082,14 +1160,24 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	}
 	
 	
-	/*
+	
 	// MARK: - Navigation
 	
 	// In a storyboard-based application, you will often want to do a little preparation before navigation
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 	// Get the new view controller using segue.destination.
 	// Pass the selected object to the new view controller.
+        
+        if segue.identifier == "FromVOtoVC"{
+            let colorView = segue.destination as! ViewPostColorfulVC
+            colorView.index = (sender as! Int)
+            colorView.offer = (self.offer!)
+        }else if segue.identifier == "FromVOtoVP"{
+            let colorView = segue.destination as! ViewPostDetailedVC
+            colorView.index = (sender as! Int)
+            colorView.offer = (self.offer!)
+        }
 	}
-	*/
+	
 	
 }

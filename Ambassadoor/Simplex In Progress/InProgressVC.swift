@@ -287,22 +287,22 @@ enum rowHeight: CGFloat {
 }
 
 enum postStatus: String {
-    case NotPosted = "Not Posted",Posted = "Posted",Verified = "Verified", Rejected = "Rejected", Paid = "paid"
+    case NotPosted = "Not Posted",Posted = "Posted",Verified = "Verified", Rejected = "Rejected", Paid = "Paid"
     
-    static func returnImageStatus(status: String)->(postStatus, String){
+    static func returnImageStatus(status: String)->(postStatus, String, UIColor){
         switch status {
         case "accepted":
-        return(.NotPosted, "notPosted")
+        return(.NotPosted, "notPosted", GetForeColor())
         case "posted":
-        return(.Posted, "isPosted")
+            return(.Posted, "isPosted", .systemGreen)
         case "verified":
-        return(.Verified, "postVerified")
+            return(.Verified, "postVerified", .systemBlue)
         case "rejected":
-        return(.Rejected, "postRejected")
+            return(.Rejected, "postRejected", .systemRed)
         case "paid":
-        return(.Paid, "payment verified")
+        return(.Paid, "payment verified", .systemBlue)
         default:
-            return(.NotPosted, "notPosted")
+            return(.NotPosted, "notPosted", GetForeColor())
         }
     }
 }
