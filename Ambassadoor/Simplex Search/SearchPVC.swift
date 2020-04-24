@@ -77,16 +77,33 @@ class SearchPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
         
 		dataSource = self
 		delegate = self
-		
-		//set default VC to Offers Page.
-		let firstViewController : UIViewController = OrderedVC[1]
-		
-		//display that in pages.
-        DispatchQueue.main.async {
-            self.setViewControllers([firstViewController],
-                                    direction: .forward,
-                                    animated: true,
-                                    completion: nil)
+        
+        if global.identifySegment == "shortcut"{
+            
+            //set default VC to Offers Page.
+            let firstViewController : UIViewController = OrderedVC[2]
+            
+            //display that in pages.
+            DispatchQueue.main.async {
+                self.setViewControllers([firstViewController],
+                                        direction: .forward,
+                                        animated: true,
+                                        completion: nil)
+            }
+            
+        }else{
+            
+            //set default VC to Offers Page.
+            let firstViewController : UIViewController = OrderedVC[1]
+            
+            //display that in pages.
+            DispatchQueue.main.async {
+                self.setViewControllers([firstViewController],
+                                        direction: .forward,
+                                        animated: true,
+                                        completion: nil)
+            }
+            
         }
 		
 		let bgView = UIView(frame: UIScreen.main.bounds)

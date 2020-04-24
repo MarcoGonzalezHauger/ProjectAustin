@@ -102,6 +102,7 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         offerVariation = .canBeAccepted
         }
         self.performSegue(withIdentifier: "FromFollowedToOV", sender: followOfferList[indexPath.row].offer)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
     

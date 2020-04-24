@@ -133,6 +133,9 @@
                                                         </constraints>
                                                     </tableViewCellContentView>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <connections>
+                                                        <outlet property="acceptButton" destination="h2z-XO-I1o" id="TeE-oZ-xf1"/>
+                                                    </connections>
                                                 </tableViewCell>
                                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="abortOfferButton" rowHeight="74" id="N8k-Op-ykt" customClass="AbortOffer" customModule="Ambassadoor" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="102" width="414" height="74"/>
@@ -634,6 +637,9 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                             <state key="normal" title="Close">
                                                 <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                             </state>
+                                            <connections>
+                                                <action selector="dismissActionWithSender:" destination="OV7-gm-eND" eventType="touchUpInside" id="6dT-uT-Mr0"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MKd-95-ik5">
                                             <rect key="frame" x="343" y="6" width="59" height="34"/>

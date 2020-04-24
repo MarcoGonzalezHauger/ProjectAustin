@@ -117,6 +117,7 @@ class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         //FromFilteredToOV
         //self.performSegue(withIdentifier: "FromFilterOfferSegue", sender: filteredOfferList[indexPath.row].offer)
         self.performSegue(withIdentifier: "FromFilteredToOV", sender: filteredOfferList[indexPath.row].offer)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     // MARK: - Navigation
 

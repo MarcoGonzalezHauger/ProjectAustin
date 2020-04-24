@@ -62,6 +62,7 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                             self.AccountCreationFailed(problem: .instaTaken)
                         }else{
                             Yourself = user
+                            UserDefaults.standard.set(NewAccount.id, forKey: "userID")
                             self.AccountSuccessfullyCreated()
                         }
                         

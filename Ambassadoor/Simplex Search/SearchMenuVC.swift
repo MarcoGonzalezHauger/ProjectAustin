@@ -33,8 +33,25 @@ class SearchMenuVC: UIViewController, UISearchBarDelegate,PageViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.searchSegment.selectedSegmentIndex = 1
         // Do any additional setup after loading the view.
+        if global.identifySegment == "shortcut"{
+            self.searchSegment.selectedSegmentIndex = 2
+            global.identifySegment = ""
+        }else{
+           self.searchSegment.selectedSegmentIndex = 1
+        }
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+    }
+    
+    @objc func notificationSegmentValueChange(sender: Notification){
+        self.searchBar.text = ""
+        self.searchBar.resignFirstResponder()
+        self.segmentDelegate?.searchSegmentIndex(index: 2)
     }
     
     @IBAction func segmentValueChanged(sender: UISegmentedControl){

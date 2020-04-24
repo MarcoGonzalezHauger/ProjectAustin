@@ -74,6 +74,7 @@ class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, O
         //FromAllToOV
         //self.performSegue(withIdentifier: "ViewOfferSegue", sender: allOfferList[indexPath.row].offer)
         self.performSegue(withIdentifier: "FromAllToOV", sender: allOfferList[indexPath.row].offer)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     // MARK: - Navigation

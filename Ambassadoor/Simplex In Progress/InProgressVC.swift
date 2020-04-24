@@ -340,7 +340,8 @@ class InProgressVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        self.tabBarController?.tabBar.items![3].badgeValue = nil
         getAcceptedOffers { (status, offers) in
             
             if status{

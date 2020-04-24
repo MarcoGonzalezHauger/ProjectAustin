@@ -39,6 +39,26 @@ func YouShallNotPass(SaveButtonView viewToReject: UIView, returnColor rcolor: UI
 	
 }
 
+func instantiateViewController(storyboard: String, reference: String) -> AnyObject{
+    
+    let mainStoryBoard = UIStoryboard(name: storyboard, bundle: nil)
+    let redViewController = mainStoryBoard.instantiateViewController(withIdentifier: reference) as! TabBarVC
+    return redViewController
+}
+
+func setHapticMenu(user: User) {
+    
+    let amt = NumberToPrice(Value: user.yourMoney)
+    
+    var shortcutItems = UIApplication.shared.shortcutItems ?? []
+    if shortcutItems.count == 0{
+        shortcutItems = [UIApplicationShortcutItem.init(type: "com.ambassadoor.business", localizedTitle: "Search Business", localizedSubtitle:nil, icon: UIApplicationShortcutIcon(type: UIApplicationShortcutIcon.IconType.search), userInfo: nil), UIApplicationShortcutItem.init(type: "com.ambassadoor.influencer", localizedTitle: "Search Influencer", localizedSubtitle:nil, icon: UIApplicationShortcutIcon(type: UIApplicationShortcutIcon.IconType.search), userInfo: nil),UIApplicationShortcutItem.init(type: "com.ambassadoor.profile", localizedTitle: "My Profile", localizedSubtitle: "Balance: \(amt)", icon: nil, userInfo: nil)]
+        UIApplication.shared.shortcutItems = shortcutItems
+    }else{
+        shortcutItems[2] = UIApplicationShortcutItem.init(type: "com.ambassadoor.profile", localizedTitle: "My Profile", localizedSubtitle: "Balance: \(amt)", icon: nil, userInfo: nil)
+         UIApplication.shared.shortcutItems = shortcutItems
+    }
+}
 
 func AnimateLabelText(label: UILabel, text textstring: String) {
 	let animation: CATransition = CATransition()
