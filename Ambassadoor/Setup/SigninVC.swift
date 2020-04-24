@@ -67,8 +67,11 @@ class SigninVC: UIViewController {
                                 
                                 if AccessToken.current != nil {
                                     
+                                    UserDefaults.standard.set(userID, forKey: "userID")
+                                    
                                     fetchSingleUserDetails(userID: userID) { (status, user) in
                                         Yourself = user
+                                        setHapticMenu(user: Yourself)
                                         self.LoginSuccessful()
                                         
                                     }
@@ -171,6 +174,8 @@ class SigninVC: UIViewController {
         
         fetchSingleUserDetails(userID: userID) { (status, user) in
             Yourself = user
+            UserDefaults.standard.set(userID, forKey: "userID")
+            setHapticMenu(user: Yourself)
             AverageLikes(userID: userID, userToken: NewAccount.authenticationToken)
             self.LoginSuccessful()
             

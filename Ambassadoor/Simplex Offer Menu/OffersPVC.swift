@@ -40,6 +40,7 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
             if status{
                 if offers.count > 0{
                     self.tabBarController?.tabBar.items![3].badgeValue = String(offers.count)
+                    UIApplication.shared.applicationIconBadgeNumber = offers.count
                 }
                 
             }

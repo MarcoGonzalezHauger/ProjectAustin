@@ -95,6 +95,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	@IBAction func logOut(_ sender: Any) {
 		signOutofAmbassadoor()
 		attemptedLogOut = true
+        UserDefaults.standard.removeObject(forKey: "userID")
 		let loginVC = self.storyboard?.instantiateInitialViewController()
 		let appDel: AppDelegate = UIApplication.shared.delegate as! AppDelegate
 		appDel.window?.rootViewController = loginVC
@@ -227,6 +228,9 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		shelf.alwaysBounceVertical = false
     }
     override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(true)
+        
         if let profilepic = Yourself.profilePicURL {
             ProfilePicture.downloadAndSetImage(profilepic, isCircle: true)
         } else {
