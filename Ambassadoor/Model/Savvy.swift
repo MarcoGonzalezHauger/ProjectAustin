@@ -48,14 +48,14 @@ func instantiateViewController(storyboard: String, reference: String) -> AnyObje
 
 func setHapticMenu(user: User) {
     
-    let amt = NumberToPrice(Value: user.yourMoney)
+    let amt = NumberToPrice(Value: user.yourMoney, enforceCents: true)
     
     var shortcutItems = UIApplication.shared.shortcutItems ?? []
     if shortcutItems.count == 0{
-        shortcutItems = [UIApplicationShortcutItem.init(type: "com.ambassadoor.business", localizedTitle: "Search Business", localizedSubtitle:nil, icon: UIApplicationShortcutIcon(type: UIApplicationShortcutIcon.IconType.search), userInfo: nil), UIApplicationShortcutItem.init(type: "com.ambassadoor.influencer", localizedTitle: "Search Influencer", localizedSubtitle:nil, icon: UIApplicationShortcutIcon(type: UIApplicationShortcutIcon.IconType.search), userInfo: nil),UIApplicationShortcutItem.init(type: "com.ambassadoor.profile", localizedTitle: "My Profile", localizedSubtitle: "Balance: \(amt)", icon: nil, userInfo: nil)]
+		shortcutItems = [UIApplicationShortcutItem.init(type: "com.ambassadoor.business", localizedTitle: "Search Businesses", localizedSubtitle:nil, icon: UIApplicationShortcutIcon(type: UIApplicationShortcutIcon.IconType.search), userInfo: nil), UIApplicationShortcutItem.init(type: "com.ambassadoor.influencer", localizedTitle: "Search Influencers", localizedSubtitle:nil, icon: UIApplicationShortcutIcon(type: UIApplicationShortcutIcon.IconType.search), userInfo: nil),UIApplicationShortcutItem.init(type: "com.ambassadoor.profile", localizedTitle: "My Profile", localizedSubtitle: "Balance: \(amt)", icon: UIApplicationShortcutIcon(type: UIApplicationShortcutIcon.IconType.contact), userInfo: nil)]
         UIApplication.shared.shortcutItems = shortcutItems
     }else{
-        shortcutItems[2] = UIApplicationShortcutItem.init(type: "com.ambassadoor.profile", localizedTitle: "My Profile", localizedSubtitle: "Balance: \(amt)", icon: nil, userInfo: nil)
+        shortcutItems[2] = UIApplicationShortcutItem.init(type: "com.ambassadoor.profile", localizedTitle: "My Profile", localizedSubtitle: "Balance: \(amt)", icon: UIApplicationShortcutIcon(type: UIApplicationShortcutIcon.IconType.contact), userInfo: nil)
          UIApplication.shared.shortcutItems = shortcutItems
     }
 }

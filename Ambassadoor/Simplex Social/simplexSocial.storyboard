@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="s7s-7A-WOJ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="s7s-7A-WOJ">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,11 +16,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ocv-kP-TIs">
+                                <rect key="frame" x="0.0" y="134" width="414" height="762"/>
+                                <connections>
+                                    <segue destination="l5b-cY-IAL" kind="embed" identifier="PageView" id="4Nx-OT-k4Y"/>
+                                </connections>
+                            </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Men-ji-EQ4" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="124"/>
+                                <rect key="frame" x="0.0" y="-10" width="414" height="144"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="qdA-19-dCg">
-                                        <rect key="frame" x="20" y="52" width="374" height="32"/>
+                                        <rect key="frame" x="20" y="72" width="374" height="32"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="31" id="J7k-Qh-bIJ"/>
                                         </constraints>
@@ -33,8 +39,8 @@
                                             <action selector="segmentValueChangeWithSender:" destination="s7s-7A-WOJ" eventType="valueChanged" id="T9V-Ug-l8E"/>
                                         </connections>
                                     </segmentedControl>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description of current page" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LvD-s5-rKa">
-                                        <rect key="frame" x="123.5" y="95" width="167" height="16"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Social Updates" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LvD-s5-rKa">
+                                        <rect key="frame" x="123.5" y="111" width="167" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="167" id="3dz-Ha-4Hp"/>
                                             <constraint firstAttribute="height" constant="16" id="Q0J-td-Gat"/>
@@ -47,10 +53,9 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstItem="qdA-19-dCg" firstAttribute="leading" secondItem="Men-ji-EQ4" secondAttribute="leading" constant="20" id="0ww-N4-bVz"/>
-                                    <constraint firstItem="qdA-19-dCg" firstAttribute="top" secondItem="Men-ji-EQ4" secondAttribute="top" constant="52" id="5gf-EU-YGM"/>
                                     <constraint firstItem="LvD-s5-rKa" firstAttribute="centerX" secondItem="qdA-19-dCg" secondAttribute="centerX" id="6xd-UA-8rd"/>
-                                    <constraint firstAttribute="height" constant="124" id="BWe-hD-fLt"/>
-                                    <constraint firstItem="LvD-s5-rKa" firstAttribute="top" secondItem="qdA-19-dCg" secondAttribute="bottom" constant="12" id="NvB-Qz-Z1q"/>
+                                    <constraint firstAttribute="bottom" secondItem="LvD-s5-rKa" secondAttribute="bottom" constant="17" id="8Lk-O8-Nav"/>
+                                    <constraint firstItem="LvD-s5-rKa" firstAttribute="top" secondItem="qdA-19-dCg" secondAttribute="bottom" constant="8" id="NvB-Qz-Z1q"/>
                                     <constraint firstAttribute="trailing" secondItem="qdA-19-dCg" secondAttribute="trailing" constant="20" id="RML-X0-YnS"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
@@ -68,22 +73,17 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ocv-kP-TIs">
-                                <rect key="frame" x="0.0" y="124" width="414" height="772"/>
-                                <connections>
-                                    <segue destination="l5b-cY-IAL" kind="embed" identifier="PageView" id="4Nx-OT-k4Y"/>
-                                </connections>
-                            </containerView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="Men-ji-EQ4" firstAttribute="leading" secondItem="fa9-ac-Cyq" secondAttribute="leading" id="2Jl-Xu-TtS"/>
-                            <constraint firstItem="ocv-kP-TIs" firstAttribute="top" secondItem="Men-ji-EQ4" secondAttribute="bottom" id="6If-5c-Nxd"/>
+                            <constraint firstItem="ocv-kP-TIs" firstAttribute="top" secondItem="fa9-ac-Cyq" secondAttribute="top" constant="90" id="6If-5c-Nxd"/>
                             <constraint firstItem="ocv-kP-TIs" firstAttribute="leading" secondItem="fa9-ac-Cyq" secondAttribute="leading" id="ADD-J8-nOn"/>
                             <constraint firstItem="ocv-kP-TIs" firstAttribute="trailing" secondItem="fa9-ac-Cyq" secondAttribute="trailing" id="CrY-yP-8Mc"/>
                             <constraint firstAttribute="bottom" secondItem="ocv-kP-TIs" secondAttribute="bottom" id="JMf-Bc-f7H"/>
                             <constraint firstItem="Men-ji-EQ4" firstAttribute="trailing" secondItem="fa9-ac-Cyq" secondAttribute="trailing" id="VIy-W7-Q1V"/>
-                            <constraint firstItem="Men-ji-EQ4" firstAttribute="top" secondItem="y4Q-4X-AWO" secondAttribute="top" id="hcr-yt-rXD"/>
+                            <constraint firstItem="ocv-kP-TIs" firstAttribute="top" secondItem="Men-ji-EQ4" secondAttribute="bottom" id="duq-2U-1aG"/>
+                            <constraint firstItem="Men-ji-EQ4" firstAttribute="top" secondItem="y4Q-4X-AWO" secondAttribute="top" constant="-10" id="hcr-yt-rXD"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="fa9-ac-Cyq"/>
                     </view>
@@ -113,7 +113,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="me6-sG-kkZ">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="me6-sG-kkZ">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <connections>
@@ -157,7 +157,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="VkJ-gZ-s0A">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="VkJ-gZ-s0A">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <connections>
@@ -193,7 +193,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FIo-HI-bhn">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FIo-HI-bhn">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <connections>

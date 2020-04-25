@@ -70,13 +70,14 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
 		return OrderedVC[i + 1]
 	}
 	
+	
 	func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool){
-        if (!completed)
-        {
-          return
-        }
+//        if (!completed)
+//        {
+//          return
+//        }
         if let index = pageViewController.viewControllers!.first!.view.tag as? Int{
-        self.pageViewDidChange?.pageViewIndexDidChangedelegate(index:index)
+			self.pageViewDidChange?.pageViewIndexDidChangedelegate(index:index)
         }
     }
 	

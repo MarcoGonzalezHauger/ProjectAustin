@@ -8,6 +8,8 @@
 
 import UIKit
 
+let unviersalOfferHeight: CGFloat = 82.5
+
 class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, OfferResponse {
     func OfferAccepted(offer: Offer) {
         
@@ -56,7 +58,7 @@ class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, O
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
-        return 85.0
+		return unviersalOfferHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){

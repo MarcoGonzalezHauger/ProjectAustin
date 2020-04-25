@@ -67,12 +67,13 @@ class SocialFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
-        return 86.0
+        return 82.0
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         let obj = followerList[indexPath.row]
         self.performSegue(withIdentifier: "FromSocialFeed", sender: obj.user)
+		tableView.deselectRow(at: indexPath, animated: true)
     }
     
     @IBOutlet weak var socialFeedTable: UITableView!

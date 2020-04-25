@@ -13,14 +13,15 @@ protocol OfferMenuSegmentDelegate {
 }
 
 enum Description: String {
-    case Followed = "Only view offers from followed business", Filtered = "Only view offers you can accept", All = "View all offers"
-    static var allValues = [Followed,Filtered,All]
+    case Followed = "View Offers from Businesses You Follow", Filtered = "View Offers You Are Able to Accept", All = "View All Offers"
+    static var allValues = [Followed, Filtered, All]
 }
 
 class OfferMenuVC: UIViewController,PageViewDelegate {
     
     func pageViewIndexDidChangedelegate(index: Int) {
         self.offerSegmentFilter.selectedSegmentIndex = index
+        self.desText.text = Description.allValues[index].rawValue
     }
     
     @IBOutlet weak var desText: UILabel!

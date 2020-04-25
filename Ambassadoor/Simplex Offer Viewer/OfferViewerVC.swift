@@ -4,12 +4,13 @@
 //
 //  Created by K Saravana Kumar on 16/04/20.
 //  Copyright © 2020 Tesseract Freelance, LLC. All rights reserved.
+//	Exclusive Property of Tesseract Freelance, LLC.
 //
 
 import UIKit
 
 enum postRowHeight: CGFloat {
-	case one = 93, two = 143, three = 193
+	case one = 100, two = 150, three = 200
 	
 	static func returnRowHeight(count: Int) -> postRowHeight{
 		
@@ -559,21 +560,21 @@ class PostDetailCell: UITableViewCell, UITableViewDataSource, UITableViewDelegat
             if indexPath.row == 0 {
                         
             let postIdentify = postStatus.returnImageStatus(status: post.status)
-            cell!.postDes.text = "Post 1" + "(\(postIdentify.0.rawValue))"
+            cell!.postDes.text = "Post 1 (\(postIdentify.0.rawValue))"
             cell!.postDesImg.image = UIImage.init(named: postIdentify.1)
 
             }else if indexPath.row == 1{
 
             let postIdentify = postStatus.returnImageStatus(status: post.status)
 
-            cell!.postDes.text = "Post 2" + "(\(postIdentify.0.rawValue))"
+            cell!.postDes.text = "Post 2 (\(postIdentify.0.rawValue))"
             cell!.postDesImg.image = UIImage.init(named: postIdentify.1)
 
             }else{
 
             let postIdentify = postStatus.returnImageStatus(status: post.status)
 
-            cell!.postDes.text = "Post 3" + "(\(postIdentify.0.rawValue))"
+            cell!.postDes.text = "Post 3 (\(postIdentify.0.rawValue))"
             cell!.postDesImg.image = UIImage.init(named: postIdentify.1)
 
             }
@@ -587,7 +588,8 @@ class PostDetailCell: UITableViewCell, UITableViewDataSource, UITableViewDelegat
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
                     
-            self.postDidSelectDelegate?.sendPostObjects(index: indexPath.row, offervariation: offerVariation!, offer: self.offer!)
+        self.postDidSelectDelegate?.sendPostObjects(index: indexPath.row, offervariation: offerVariation!, offer: self.offer!)
+		tableView.deselectRow(at: indexPath, animated: true)
         
     }
 	
@@ -708,7 +710,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 					let nib = Bundle.main.loadNibNamed("WarnUser", owner: self, options: nil)
 					cell = nib![0] as? WarnUser
 				}
-				cell!.alertMessage.text = "You cannot accept this offer"
+				cell!.alertMessage.text = "You Cannot Accept this Offer."
 				return cell!
 				
 			}else if indexPath.row == 1{
@@ -965,6 +967,10 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		}
 	}
 	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		tableView.deselectRow(at: indexPath, animated: true)
+	}
+	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
 		if offerVariation! == .canNotBeAccepted{
 			if indexPath.row == 0{
@@ -1063,6 +1069,8 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		offerViewTable.alwaysBounceVertical = false
 		
 		if self.offerVariation == .canBeAccepted {
 			

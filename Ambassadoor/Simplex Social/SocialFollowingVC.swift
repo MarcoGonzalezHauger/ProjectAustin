@@ -81,7 +81,7 @@ class SocialFollowingVC: UIViewController, UITableViewDelegate, UITableViewDataS
         if let ThisUser = self.userList[indexPath.row] as? User{
             self.performSegue(withIdentifier: "FromSocialFollowing", sender: ThisUser)
         }
-        
+		tableView.deselectRow(at: indexPath, animated: true)
     }
     
     @IBAction func followUserAction(_ sender: UIButton){

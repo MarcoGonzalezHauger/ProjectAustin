@@ -104,7 +104,7 @@ class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
-        return 85.0
+		return unviersalOfferHeight
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){

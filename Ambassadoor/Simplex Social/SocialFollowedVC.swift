@@ -60,6 +60,7 @@ class SocialFollowedVC: UIViewController,UITableViewDataSource, UITableViewDeleg
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
             let user = self.influencerList[indexPath.row]
             self.performSegue(withIdentifier: "FromSocialFollowed", sender: user)
+			tableView.deselectRow(at: indexPath, animated: true)
    
         }
         

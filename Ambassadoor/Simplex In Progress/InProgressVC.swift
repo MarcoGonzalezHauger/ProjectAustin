@@ -269,7 +269,7 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
 }
 
 enum rowHeight: CGFloat {
-    case one = 144, two = 172, three = 200
+    case one = 124, two = 152, three = 180
     
     static func returnRowHeight(count: Int) -> rowHeight{
         
@@ -331,7 +331,9 @@ class InProgressVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     var allInprogressOffer = [Offer]()
     
-    
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		tableView.deselectRow(at: indexPath, animated: true)
+	}
 
     override func viewDidLoad() {
         super.viewDidLoad()
