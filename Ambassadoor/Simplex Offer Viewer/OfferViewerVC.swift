@@ -463,7 +463,18 @@ class OfferMoneyTVC: UITableViewCell {
 
 class WarnUser: UITableViewCell {
 	@IBOutlet weak var alertMessage: UILabel!
-	
+	var displayWhyCantAcceptOnClick = false
+	var VCToDisplayOn: UIViewController?
+	@IBAction func wasClicked(_ sender: Any) {
+		if displayWhyCantAcceptOnClick {
+			let alert = UIAlertController(title: "Why You Can't Accept", message: "Your interests, location, etc. doesn't match the business's selected needs.", preferredStyle: .alert)
+			
+			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+			
+			
+			VCToDisplayOn?.present(alert, animated: true)
+		}
+	}
 }
 
 class CompanyInfo: UITableViewCell {
@@ -477,7 +488,7 @@ class CompanyInfo: UITableViewCell {
 				if let profile = company.logo{
 					self.cmpImage.downloadAndSetImage(profile)
 				}else{
-					self.cmpImage.image = defaultImage
+					self.cmpImage.UseDefaultImage()
 				}
 				
 				self.cmpName.text = company.name
@@ -504,6 +515,7 @@ class PostDetailCell: UITableViewCell, UITableViewDataSource, UITableViewDelegat
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return offer!.posts.count
 	}
+	@IBOutlet weak var prompt: UILabel!
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -710,7 +722,9 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 					let nib = Bundle.main.loadNibNamed("WarnUser", owner: self, options: nil)
 					cell = nib![0] as? WarnUser
 				}
-				cell!.alertMessage.text = "You Cannot Accept this Offer."
+				cell!.alertMessage.text = "You cannot accept this offer."
+				cell!.displayWhyCantAcceptOnClick = true
+				cell!.VCToDisplayOn = self
 				return cell!
 				
 			}else if indexPath.row == 1{
@@ -721,6 +735,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 					let nib = Bundle.main.loadNibNamed("PostDetailCell", owner: self, options: nil)
 					cell = nib![0] as? PostDetailCell
 				}
+				cell!.prompt.text = "Posts in this offer"
                 cell!.postDidSelectDelegate = self
                 cell!.offerVariation = offerVariation!
 				cell!.offer = offer!
@@ -776,6 +791,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 					let nib = Bundle.main.loadNibNamed("PostDetailCell", owner: self, options: nil)
 					cell = nib![0] as? PostDetailCell
 				}
+				cell!.prompt.text = "You would post the following to Instagram"
                 cell!.postDidSelectDelegate = self
                 cell!.offerVariation = offerVariation!
 				cell!.offer = offer!
@@ -827,6 +843,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 					let nib = Bundle.main.loadNibNamed("PostDetailCell", owner: self, options: nil)
 					cell = nib![0] as? PostDetailCell
 				}
+				cell!.prompt.text = "Post the following to Instagram"
                 cell!.postDidSelectDelegate = self
                 cell!.offerVariation = offerVariation!
 				cell!.offer = offer!
@@ -863,13 +880,13 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 				cell!.companyDetails = offer!.companyDetails
 				return cell!
 			}else{
-				
 				let identifier = "postsInfo"
 				var cell  = offerViewTable.dequeueReusableCell(withIdentifier: identifier) as? PostDetailCell
 				if cell == nil {
 					let nib = Bundle.main.loadNibNamed("PostDetailCell", owner: self, options: nil)
 					cell = nib![0] as? PostDetailCell
 				}
+				cell!.prompt.text = "What should have been posted"
                 cell!.postDidSelectDelegate = self
                 cell!.offerVariation = offerVariation!
 				cell!.offer = offer!
@@ -904,6 +921,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 					let nib = Bundle.main.loadNibNamed("PostDetailCell", owner: self, options: nil)
 					cell = nib![0] as? PostDetailCell
 				}
+				cell!.prompt.text = "What you have posted"
                 cell!.postDidSelectDelegate = self
                 cell!.offerVariation = offerVariation!
 				cell!.offer = offer!
@@ -936,6 +954,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 					let nib = Bundle.main.loadNibNamed("PostDetailCell", owner: self, options: nil)
 					cell = nib![0] as? PostDetailCell
 				}
+				cell!.prompt.text = "What you have posted"
                 cell!.postDidSelectDelegate = self
                 cell!.offerVariation = offerVariation!
 				cell!.offer = offer!
@@ -955,6 +974,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 					let nib = Bundle.main.loadNibNamed("PostDetailCell", owner: self, options: nil)
 					cell = nib![0] as? PostDetailCell
 				}
+				cell!.prompt.text = "Press on post to see why"
                 cell!.postDidSelectDelegate = self
                 cell!.offerVariation = offerVariation!
 				cell!.offer = offer!
@@ -1070,6 +1090,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		(navigationController as! StandardNC).shouldDismissOnLastSlide = false
 		offerViewTable.alwaysBounceVertical = false
 		
 		if self.offerVariation == .canBeAccepted {

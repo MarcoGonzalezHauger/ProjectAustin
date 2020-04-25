@@ -50,7 +50,7 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                 if let picurl = offerValue.company?.logo {
                     self.companyLogo.downloadAndSetImage(picurl)
                 } else {
-                    self.companyLogo.image = defaultImage
+                    self.companyLogo.UseDefaultImage()
                 }
                 
                 if let incresePay = offerValue.incresePay {

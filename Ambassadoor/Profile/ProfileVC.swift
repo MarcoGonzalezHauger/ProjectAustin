@@ -238,7 +238,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
         if let profilepic = Yourself.profilePicURL {
             ProfilePicture.downloadAndSetImage(profilepic, isCircle: true)
         } else {
-            ProfilePicture.image = defaultImage
+            ProfilePicture.UseDefaultImage()
         }
         tierBox.layer.cornerRadius = tierBox.bounds.height / 2
 //        tierLabel.text = String(GetTierFromFollowerCount(FollowerCount: Yourself.followerCount) ?? 0)

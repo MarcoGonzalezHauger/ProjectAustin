@@ -56,19 +56,19 @@ class ReportOfferVC: UIViewController, UITextViewDelegate {
 			let nowString: String = datef.string(from: Date())
 			
 			ref.updateChildValues(["dateReported": nowString,
-			"reportString": report.report,
-			"offerID": report.OfferID,
-			"userID": report.UserID,
-			"resolved": report.hasBeenResolved])
+								   "reportString": report.report,
+								   "offerID": report.OfferID,
+								   "userID": report.UserID,
+								   "resolved": report.hasBeenResolved])
 			
 			let alert = UIAlertController(title: "Reported", message: "Your report has been filed.", preferredStyle: .alert)
-
+			
 			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (ui) in
 				self.dismiss(animated: true, completion: nil)
-
-		}
-		))
-
+				
+			}
+			))
+			
 			self.present(alert, animated: true)
 			
 			

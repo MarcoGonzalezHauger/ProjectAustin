@@ -30,19 +30,20 @@ class SocialCell: UITableViewCell {
             if let offerDetails = followingOffer{
                 
                 self.userName.text = "@\(offerDetails.user?.username ?? "")"
-                
-                if offerDetails.tag == "offer"{
-                    self.userDes.text = ""
-                if let company = offerDetails.offer?.companyDetails {
-                    self.userDes.text = "accepted an offer from \(company.name)"
-                }
-                    self.socialBar.backgroundColor = UIColor.systemPurple
-                }else if offerDetails.tag == "follow" {
-                    self.userDes.text = "started following you"
-                    self.socialBar.backgroundColor = UIColor.systemBlue
-                }
-                self.dateText.text = offerDetails.startedAt?.toString(dateFormat: "MMM dd YYYY")
-            }
+				
+				if offerDetails.tag == "offer"{
+					if let company = offerDetails.offer?.companyDetails {
+						self.userDes.text = "accepted an offer from \(company.name)"
+					} else {
+						self.userDes.text = "accepted an offer"
+					}
+					self.socialBar.backgroundColor = UIColor.systemPurple
+				}else if offerDetails.tag == "follow" {
+					self.userDes.text = "started following you"
+					self.socialBar.backgroundColor = UIColor.systemBlue
+				}
+				self.dateText.text = offerDetails.startedAt?.toString(dateFormat: "MMM dd YYYY")
+			}
         }
     }
     

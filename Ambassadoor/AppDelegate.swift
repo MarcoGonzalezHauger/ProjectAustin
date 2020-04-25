@@ -242,6 +242,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 InitializeZipCodeAPI(completed: nil)
 		// Define the custom actions.
 		UIApplication.shared.applicationIconBadgeNumber = 0
+		
 		UNUserNotificationCenter.current().delegate = self
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.badge, .alert, .sound]) { (granted, error) in

@@ -206,6 +206,7 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 		NewAccountListeners.append(self)
 		stepShelf.delegate = self
 		stepShelf.dataSource = self
+		SetButtonState(enabled: false)
 		//nextStep
 		stepShelf.alwaysBounceVertical = false
         //wasFailed = true

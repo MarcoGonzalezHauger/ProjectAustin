@@ -95,7 +95,7 @@ class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, O
 //        }
         if segue.identifier == "FromAllToOV" {
          //guard let newviewoffer = viewoffer else { return }
-         let destination = segue.destination as! OfferViewerVC
+         let destination = (segue.destination as! StandardNC).topViewController as! OfferViewerVC
         
              destination.offerVariation = offerVariation!
              destination.offer = sender as? Offer
