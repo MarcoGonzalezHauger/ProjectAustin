@@ -56,6 +56,8 @@ class SigninVC: UIViewController {
                                 if AccessToken.current != nil {
                                     
                                     UserDefaults.standard.set(userID, forKey: "userID")
+                                    UserDefaults.standard.set(self.emailText.text!, forKey: "email")
+                                    UserDefaults.standard.set(self.passwordText.text!, forKey: "password")
                                     
                                     fetchSingleUserDetails(userID: userID) { (status, user) in
                                         Yourself = user

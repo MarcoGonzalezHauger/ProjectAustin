@@ -42,7 +42,7 @@ func YouShallNotPass(SaveButtonView viewToReject: UIView, returnColor rcolor: UI
 func instantiateViewController(storyboard: String, reference: String) -> AnyObject{
     
     let mainStoryBoard = UIStoryboard(name: storyboard, bundle: nil)
-    let redViewController = mainStoryBoard.instantiateViewController(withIdentifier: reference) as! TabBarVC
+    let redViewController = mainStoryBoard.instantiateViewController(withIdentifier: reference)
     return redViewController
 }
 

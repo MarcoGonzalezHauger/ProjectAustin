@@ -32,6 +32,7 @@ class SearchMenuVC: UIViewController, UISearchBarDelegate,PageViewDelegate {
     var segmentDelegate: SearchSegmentDelegate?
     
     static var searchDelegate: SearchBarDelegate?
+    
 
 	func updateSearchPlaceholder(index: Int) {
 		if index == 0 {
@@ -48,6 +49,7 @@ class SearchMenuVC: UIViewController, UISearchBarDelegate,PageViewDelegate {
         // Do any additional setup after loading the view.
         if global.identifySegment == "shortcut" {
             self.searchSegment.selectedSegmentIndex = 2
+            
             global.identifySegment = ""
         }else{
            self.searchSegment.selectedSegmentIndex = 1

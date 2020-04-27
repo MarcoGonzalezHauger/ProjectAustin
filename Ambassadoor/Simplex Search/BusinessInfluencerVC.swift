@@ -37,6 +37,8 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         SearchMenuVC.searchDelegate = self
+        self.totalUserData.removeAll()
+        self.totalUserTempData.removeAll()
         if global.SocialData.count != 0 {
             if global.BusinessUser.count != 0 {
                 

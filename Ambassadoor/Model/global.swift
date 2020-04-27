@@ -74,6 +74,7 @@ class CentralVariables {
     //Influencer worked Companies
     var influencerWrkCompany = [Comapny]()
     var inProgressOfferCount = [Int]()
+    var cachedImageList = [CachedImages]()
     var identifySegment = ""
 }
 

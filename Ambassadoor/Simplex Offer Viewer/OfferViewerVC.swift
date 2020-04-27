@@ -266,12 +266,18 @@ class WillBePaidCell: UITableViewCell {
 	
 }
 
+protocol reservedTimeEndDelegate {
+    func DismissWhenReservedTimeEnd()
+}
+
 class ReservedCell: UITableViewCell {
 	
 	@IBOutlet weak var timeText: UILabel!
 	var timer: Timer?
 	
 	var timerSeconds: Double = 0.0
+    
+    var reservedCellDelegate: reservedTimeEndDelegate?
 	
 	var offer: Offer?{
 		didSet{
@@ -350,8 +356,14 @@ class ReservedCell: UITableViewCell {
 				let answer: String? = DateToLetterCountdownWithFormat(date1: curDate!,date2: date, format: "")
 				
 				if let answer = answer{
-					
+                    
+                    if answer == ""{
+                    //self.updateReservedTime()
+                    self.timer?.invalidate()
+                    self.reservedCellDelegate?.DismissWhenReservedTimeEnd()
+                    }else{
 					timeText.text = answer
+                    }
 					
 				}
 				
@@ -692,7 +704,11 @@ enum NumberOfRows: Int {
 	}
 }
 
-class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSource, postDidSelect {
+class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSource, postDidSelect, reservedTimeEndDelegate {
+    func DismissWhenReservedTimeEnd() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     
     //MARK: Post Did Select
     
@@ -760,6 +776,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 					let nib = Bundle.main.loadNibNamed("ReservedCell", owner: self, options: nil)
 					cell = (nib![0] as? ReservedCell)!
 				}
+                cell!.reservedCellDelegate = self
 				cell!.offer = self.offer!
 				return cell!
 				

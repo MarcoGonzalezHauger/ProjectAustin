@@ -1043,8 +1043,8 @@ func getFilteredOffer(completion: @escaping (_ status: Bool, _ offerList: [allOf
                             let allOfferIns = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
                             offerList.append(allOfferIns)
                         }else{
-                           let allOfferIns = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: true)
-                            offerList.append(allOfferIns)
+//                           let allOfferIns = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: true)
+//                            offerList.append(allOfferIns)
                         }
                         }else{
                         let allOfferIns = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
@@ -1093,8 +1093,8 @@ func getFollowerCompaniesOffer(followers: [String],completion: @escaping (_ stat
                             let allObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
                             offerList.append(allObj)
                             }else{
-                            let allObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: true)
-                            offerList.append(allObj)
+//                            let allObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: true)
+//                            offerList.append(allObj)
                             }
                             }else{
                             let allObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
@@ -1136,12 +1136,12 @@ func getAcceptedOffers(completion: @escaping(_ status: Bool,_ offer: [Offer])->(
             for (_, offervalue) in snapDict {
                 
                 if let isAccepted = offervalue["status"] as? String{
-                    if isAccepted == "accepted" || isAccepted == "posted" {
+                    //if isAccepted == "accepted" || isAccepted == "posted" {
                         
                         let offer = Offer.init(dictionary: offervalue)
                         
                         offerList.append(offer)
-                    }
+                    //}
                 }
                 
             }
@@ -1426,8 +1426,8 @@ func getAllOffer(completion: @escaping (_ status: Bool, _ offerList: [allOfferOb
                             let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
                         offerList.append(allOfferObj)
                         }else{
-                            let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: true)
-                        offerList.append(allOfferObj)
+//                        let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: true)
+//                        offerList.append(allOfferObj)
                         }
                         }else{
                             let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
