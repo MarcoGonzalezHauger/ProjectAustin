@@ -174,6 +174,8 @@ class WillBePaidCell: UITableViewCell {
 							
 							self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.timerForWillPaidCell(sender:)), userInfo: nil, repeats: true)
 							
+							self.timerForWillPaidCell(sender: timer!)
+							
 						}
 						
 					}
@@ -320,6 +322,8 @@ class ReservedCell: UITableViewCell {
 										
 										self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.timerForReservedCell(sender:)), userInfo: nil, repeats: true)
 										
+										self.timerForReservedCell(sender: timer!)
+										
 									}
 									
 								}
@@ -352,18 +356,26 @@ class ReservedCell: UITableViewCell {
 				
 				//let curDate = Date.getDateFromISO8601WOString(ISO8601String: Date.getStringFromIso8601Date(date: Date()))
 				let curDate = Date.getDateFromString(date: Date.getStringFromDate(date: Date())!)
+
+				//this is to make the red flashing with only one minute left.
+				let calendar = Calendar.current
+				let dateCom = calendar.dateComponents([.hour,.minute,.second], from: curDate!, to: date)
 				
-				let answer: String? = DateToLetterCountdownWithFormat(date1: curDate!,date2: date, format: "")
+				if dateCom.minute! == 0 {
+					timeText.textColor = dateCom.second! % 2 == 0 ? .systemRed : GetForeColor()
+				}
+				
+				let answer: String? = DateToLetterCountdownWithFormat(date1: curDate!, date2: date, format: "")
 				
 				if let answer = answer{
-                    
-                    if answer == ""{
-                    //self.updateReservedTime()
-                    self.timer?.invalidate()
-                    self.reservedCellDelegate?.DismissWhenReservedTimeEnd()
-                    }else{
-					timeText.text = answer
-                    }
+					
+					if answer == "0:00"{
+						//self.updateReservedTime()
+						self.timer?.invalidate()
+						self.reservedCellDelegate?.DismissWhenReservedTimeEnd()
+					} else {
+						timeText.text = answer
+					}
 					
 				}
 				
@@ -1109,6 +1121,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		
 		(navigationController as! StandardNC).shouldDismissOnLastSlide = false
 		offerViewTable.alwaysBounceVertical = false
+		offerViewTable.contentInset = UIEdgeInsets(top: 2, left: 0, bottom: 0, right: 0)
 		
 		if self.offerVariation == .canBeAccepted {
 			

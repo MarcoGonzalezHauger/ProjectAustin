@@ -158,17 +158,28 @@ func DateToLetterCountdownWithFormat(date: Date, format: String) -> String? {
     
     let calendar = Calendar.current
     let dateCom = calendar.dateComponents([.hour,.minute,.second], from: Date(), to: date)
+	
+	//MARCO
+	//Added in order to make sure "3:1:1" is displayed as "3:01:01" instead.
+	var minute: String = String(dateCom.minute!)
+	var second: String = String(dateCom.second!)
+	
+	if dateCom.minute! < 10 {
+		minute = "0" + minute
+	}
+	if dateCom.second! < 10 {
+		second = "0" + second
+	}
+	
     switch dateCom {
     case _ where dateCom.hour! <= 0 && dateCom.minute! <= 0 && dateCom.second! <= 0:
-        return ""
+        return "0:00"
     case _ where dateCom.hour! <= 0 && dateCom.minute! <= 0:
-        return "\(dateCom.second!)"
+        return "0:\(second)"
     case _ where dateCom.hour! <= 0:
-        return "\(dateCom.minute!):\(dateCom.second!)"
-    case _ where dateCom.hour! <= 0:
-        return "\(dateCom.minute!):\(dateCom.second!)"
+		return "\(dateCom.minute!):\(second)"
     default:
-        return "\(dateCom.hour!):\(dateCom.minute!):\(dateCom.second!)"
+        return "\(dateCom.hour!):\(minute):\(second)"
     
     }
 }
@@ -177,17 +188,28 @@ func DateToLetterCountdownWithFormat(date1: Date, date2: Date, format: String) -
     
     let calendar = Calendar.current
     let dateCom = calendar.dateComponents([.hour,.minute,.second], from: date1, to: date2)
+    
+	//MARCO
+	//Added in order to make sure "3:1:1" is displayed as "3:01:01" instead.
+	var minute: String = String(dateCom.minute!)
+	var second: String = String(dateCom.second!)
+	
+	if dateCom.minute! < 10 {
+		minute = "0" + minute
+	}
+	if dateCom.second! < 10 {
+		second = "0" + second
+	}
+	
     switch dateCom {
     case _ where dateCom.hour! <= 0 && dateCom.minute! <= 0 && dateCom.second! <= 0:
-        return ""
+        return "0:00"
     case _ where dateCom.hour! <= 0 && dateCom.minute! <= 0:
-        return "\(dateCom.second!)"
+        return "0:\(second)"
     case _ where dateCom.hour! <= 0:
-        return "\(dateCom.minute!):\(dateCom.second!)"
-    case _ where dateCom.hour! <= 0:
-        return "\(dateCom.minute!):\(dateCom.second!)"
+		return "\(dateCom.minute!):\(second)"
     default:
-        return "\(dateCom.hour!):\(dateCom.minute!):\(dateCom.second!)"
+        return "\(dateCom.hour!):\(minute):\(second)"
     
     }
 }

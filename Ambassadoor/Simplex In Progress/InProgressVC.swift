@@ -94,6 +94,8 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                         
                         self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForAccepted(sender:)), userInfo: nil, repeats: true)
                         
+						self.startCountDownForAccepted(sender: timer!)
+						
                         //Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForTobepaid(sender:)), userInfo: nil, repeats: true)
                         
                     }
@@ -119,6 +121,8 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                             progrssView.backgroundColor = UIColor.systemGreen
                             
                             self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForTobepaid(sender:)), userInfo: nil, repeats: true)
+
+							self.startCountDownForTobepaid(sender: timer!)
                             
                         }
                         
@@ -275,7 +279,7 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
 }
 
 enum rowHeight: CGFloat {
-    case one = 124, two = 152, three = 180
+    case one = 132, two = 160, three = 188
     
     static func returnRowHeight(count: Int) -> rowHeight{
         
