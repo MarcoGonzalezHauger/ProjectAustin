@@ -8,6 +8,8 @@
 
 import UIKit
 
+let unviersalOfferHeight: CGFloat = 82.5
+
 class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, OfferResponse {
     func OfferAccepted(offer: Offer) {
         
@@ -56,7 +58,7 @@ class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, O
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
-        return 85.0
+		return unviersalOfferHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
@@ -74,6 +76,7 @@ class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, O
         //FromAllToOV
         //self.performSegue(withIdentifier: "ViewOfferSegue", sender: allOfferList[indexPath.row].offer)
         self.performSegue(withIdentifier: "FromAllToOV", sender: allOfferList[indexPath.row].offer)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     // MARK: - Navigation
@@ -92,7 +95,7 @@ class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, O
 //        }
         if segue.identifier == "FromAllToOV" {
          //guard let newviewoffer = viewoffer else { return }
-         let destination = segue.destination as! OfferViewerVC
+         let destination = (segue.destination as! StandardNC).topViewController as! OfferViewerVC
         
              destination.offerVariation = offerVariation!
              destination.offer = sender as? Offer

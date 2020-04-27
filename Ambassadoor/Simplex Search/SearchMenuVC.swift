@@ -19,8 +19,10 @@ protocol SearchBarDelegate {
 }
 
 class SearchMenuVC: UIViewController, UISearchBarDelegate,PageViewDelegate {
+	
     func pageViewIndexDidChangedelegate(index: Int) {
         self.searchSegment.selectedSegmentIndex = index
+		updateSearchPlaceholder(index: index)
     }
     
     @IBOutlet weak var searchSegment: UISegmentedControl!
@@ -31,10 +33,37 @@ class SearchMenuVC: UIViewController, UISearchBarDelegate,PageViewDelegate {
     
     static var searchDelegate: SearchBarDelegate?
 
+	func updateSearchPlaceholder(index: Int) {
+		if index == 0 {
+			searchBar.placeholder = "Search"
+		} else if index == 1 {
+			searchBar.placeholder = "Search Businesses"
+		} else {
+			searchBar.placeholder = "Search Influencers"
+		}
+	}
+	
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.searchSegment.selectedSegmentIndex = 1
         // Do any additional setup after loading the view.
+        if global.identifySegment == "shortcut" {
+            self.searchSegment.selectedSegmentIndex = 2
+            global.identifySegment = ""
+        }else{
+           self.searchSegment.selectedSegmentIndex = 1
+        }
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+    }
+    
+    @objc func notificationSegmentValueChange(sender: Notification){
+        self.searchBar.text = ""
+        self.searchBar.resignFirstResponder()
+        self.segmentDelegate?.searchSegmentIndex(index: 2)
     }
     
     @IBAction func segmentValueChanged(sender: UISegmentedControl){
@@ -42,6 +71,7 @@ class SearchMenuVC: UIViewController, UISearchBarDelegate,PageViewDelegate {
         self.searchBar.text = ""
         self.searchBar.resignFirstResponder()
         self.segmentDelegate?.searchSegmentIndex(index: sender.selectedSegmentIndex)
+		updateSearchPlaceholder(index: sender.selectedSegmentIndex)
         
     }
     

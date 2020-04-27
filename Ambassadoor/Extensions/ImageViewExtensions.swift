@@ -10,7 +10,7 @@
 import Foundation
 import UIKit
 
-let imageCache = NSCache<NSString, AnyObject>()
+var imageCache = NSCache<NSString, AnyObject>()
 
 //This extension allows UIImageViews to download images from the web and have them saved in cache.
 
@@ -28,6 +28,11 @@ public extension UIImageView {
         static var activityIndicatorProperty: UIActivityIndicatorView = GetUIActivityIndicator()
     }
     
+	func UseDefaultImage() {
+		self.layer.cornerRadius = [self.bounds.width, self.bounds.height].min()! / 2
+		self.image = defaultImage
+	}
+	
     var activityIndicator: UIActivityIndicatorView {
         get {
 			return GetUIActivityIndicator()
@@ -75,7 +80,10 @@ public extension UIImageView {
 					return
 				}
 				if isCircle {
-					image = makeImageCircular(image: image!)
+					DispatchQueue.main.async {
+						self.layer.cornerRadius = [self.bounds.width, self.bounds.height].min()! / 2
+						image = makeImageCircular(image: image!)
+					}
 				}
             DispatchQueue.main.async() {
                 self.image = image
@@ -91,6 +99,7 @@ public extension UIImageView {
 		downloadImage(urlLink) { (returnImage) in
 			guard let returnImage = returnImage else { return }
 			if isCircle {
+				self.layer.cornerRadius = [self.bounds.width, self.bounds.height].min()! / 2
 				self.image = makeImageCircular(image: returnImage)
 			} else {
 				self.image = returnImage
@@ -106,6 +115,7 @@ func downloadImage(_ urlLink: String, completed: @escaping (_ image: UIImage?) -
 	}
 	// check cache first
 	if let cachedImage = imageCache.object(forKey: urlLink as NSString) as? UIImage {
+		print("CHACHED  : \(urlLink)")
 		completed(cachedImage)
 		return
 	}
@@ -113,6 +123,7 @@ func downloadImage(_ urlLink: String, completed: @escaping (_ image: UIImage?) -
 	// otherwise, download
 	let url = URL(string: urlLink)
 	URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
+		print("DOWNLOAD : \(urlLink)")
 		if let err = error {
 			print(err)
 			completed(nil)

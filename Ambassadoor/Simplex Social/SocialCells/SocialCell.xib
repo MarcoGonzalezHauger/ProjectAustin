@@ -12,19 +12,19 @@
         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="socialcell" rowHeight="86" id="OTk-xs-IM6" customClass="SocialCell" customModule="Ambassadoor" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="414" height="86"/>
             <autoresizingMask key="autoresizingMask"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="OTk-xs-IM6" id="16x-ye-3aR">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="OTk-xs-IM6" id="16x-ye-3aR">
                 <rect key="frame" x="0.0" y="0.0" width="414" height="86"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jkr-jk-RzF" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                        <rect key="frame" x="6" y="7.5" width="402" height="70"/>
+                        <rect key="frame" x="6" y="8" width="402" height="70"/>
                         <subviews>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dxf-SR-38E" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="402" height="70"/>
                                 <subviews>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AYP-Ta-5n2" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="402" height="20"/>
-                                        <color key="backgroundColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="jUs-Xz-U1X"/>
                                         </constraints>
@@ -61,7 +61,7 @@
                                                 </subviews>
                                             </stackView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jan 24 2020" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4L3-pQ-exE">
-                                                <rect key="frame" x="327.5" y="49.5" width="66.5" height="13.5"/>
+                                                <rect key="frame" x="327.5" y="5" width="66.5" height="13.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -70,10 +70,10 @@
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="4L3-pQ-exE" secondAttribute="trailing" constant="8" id="CUu-A8-9ze"/>
+                                            <constraint firstItem="4L3-pQ-exE" firstAttribute="top" secondItem="qsQ-7j-Bve" secondAttribute="top" constant="5" id="jlC-F1-9Zy"/>
                                             <constraint firstItem="mJh-hd-kNq" firstAttribute="leading" secondItem="qsQ-7j-Bve" secondAttribute="leading" constant="16" id="miH-5u-3om"/>
                                             <constraint firstAttribute="bottom" secondItem="mJh-hd-kNq" secondAttribute="bottom" constant="6" id="n3c-UG-7if"/>
                                             <constraint firstItem="mJh-hd-kNq" firstAttribute="top" secondItem="qsQ-7j-Bve" secondAttribute="top" constant="12" id="qZV-hv-OcR"/>
-                                            <constraint firstAttribute="bottom" secondItem="4L3-pQ-exE" secondAttribute="bottom" constant="2" id="qeq-xd-vQC"/>
                                             <constraint firstAttribute="trailing" secondItem="mJh-hd-kNq" secondAttribute="trailing" constant="16" id="y5x-d1-muD"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
@@ -137,10 +137,9 @@
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="Jkr-jk-RzF" secondAttribute="bottom" constant="7.5" id="2q9-Tr-oiM"/>
                     <constraint firstItem="Jkr-jk-RzF" firstAttribute="leading" secondItem="16x-ye-3aR" secondAttribute="leading" constant="6" id="9CI-HE-dUI"/>
-                    <constraint firstItem="Jkr-jk-RzF" firstAttribute="top" secondItem="16x-ye-3aR" secondAttribute="top" constant="7.5" id="Bjo-7W-CFc"/>
                     <constraint firstAttribute="trailing" secondItem="Jkr-jk-RzF" secondAttribute="trailing" constant="6" id="F8i-G0-zLU"/>
+                    <constraint firstItem="Jkr-jk-RzF" firstAttribute="centerY" secondItem="16x-ye-3aR" secondAttribute="centerY" id="rtC-qH-dsv"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -149,7 +148,7 @@
                 <outlet property="userDes" destination="Lgp-Ge-kvr" id="jyl-23-kyc"/>
                 <outlet property="userName" destination="252-eS-CFV" id="3UN-6X-pkU"/>
             </connections>
-            <point key="canvasLocation" x="139" y="89"/>
+            <point key="canvasLocation" x="137.68115942028987" y="88.392857142857139"/>
         </tableViewCell>
     </objects>
 </document>

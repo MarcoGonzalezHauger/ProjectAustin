@@ -40,6 +40,7 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
             if status{
                 if offers.count > 0{
                     self.tabBarController?.tabBar.items![3].badgeValue = String(offers.count)
+                    UIApplication.shared.applicationIconBadgeNumber = offers.count
                 }
                 
             }
@@ -69,13 +70,14 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
 		return OrderedVC[i + 1]
 	}
 	
+	
 	func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool){
-        if (!completed)
-        {
-          return
-        }
+//        if (!completed)
+//        {
+//          return
+//        }
         if let index = pageViewController.viewControllers!.first!.view.tag as? Int{
-        self.pageViewDidChange?.pageViewIndexDidChangedelegate(index:index)
+			self.pageViewDidChange?.pageViewIndexDidChangedelegate(index:index)
         }
     }
 	

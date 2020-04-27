@@ -29,7 +29,7 @@ class ShadowView: UIView {
     @IBInspectable var ShadowRadius: Float = 1.75 { didSet { DrawShadows() } }
     @IBInspectable var ShadowColor: UIColor = UIColor.black { didSet { DrawShadows() } }
     @IBInspectable var borderWidth: Float = 0.0 { didSet { DrawShadows() }}
-    @IBInspectable var borderColor: UIColor = UIColor.black { didSet { DrawShadows() }}
+    @IBInspectable var borderColor: UIColor = GetForeColor() { didSet { DrawShadows() }}
     
     func DrawShadows() {
         //draw shadow & rounded corners for offer cell

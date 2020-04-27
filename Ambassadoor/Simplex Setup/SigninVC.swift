@@ -34,18 +34,6 @@ class SigninVC: UIViewController {
     }
     
     func SignInNow() {
-        //LoginFailed(reason: .passwordInvalid) //[RAM] THIS IS FOR TESTING PURPOSES, REMOVE THIS.
-        
-        //if false {
-        //[RAM]
-        
-        
-        //LoginSuccessful() //If the login is valid, use this function to go to HomeVC.
-        //LoginFailed(reason: .badEmailFormat) //If login failed, use this function which will tell the user why their login failed
-        //Please program cases for all possible problems found in "LoginProblem"
-        //For example, if the user didn't have an email use:
-        //LoginFailed(reason: .noEmail)
-        //}
         
         if emailText.text?.count != 0 {
             
@@ -67,8 +55,11 @@ class SigninVC: UIViewController {
                                 
                                 if AccessToken.current != nil {
                                     
+                                    UserDefaults.standard.set(userID, forKey: "userID")
+                                    
                                     fetchSingleUserDetails(userID: userID) { (status, user) in
                                         Yourself = user
+                                        setHapticMenu(user: Yourself)
                                         self.LoginSuccessful()
                                         
                                     }
@@ -171,6 +162,8 @@ class SigninVC: UIViewController {
         
         fetchSingleUserDetails(userID: userID) { (status, user) in
             Yourself = user
+            UserDefaults.standard.set(userID, forKey: "userID")
+            setHapticMenu(user: Yourself)
             AverageLikes(userID: userID, userToken: NewAccount.authenticationToken)
             self.LoginSuccessful()
             

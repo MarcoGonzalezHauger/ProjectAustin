@@ -19,7 +19,7 @@ class TabBarVC: UITabBarController {
     
     override func viewWillAppear(_ animated: Bool) {
 //        self.versionUpdateValidation()
-
+        super.viewWillAppear(true)
     }
     
     

@@ -171,11 +171,48 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                                 }
                                 
                             }else{
-                                self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")
+                                
+                                
+                                if let err = error{
+                                    
+                                    print(err)
+                                    let errorVal = err as NSError
+                                    if let messageDict = errorVal.userInfo as? [String: Any] {
+                                    //com.facebook.sdk:FBSDKErrorDeveloperMessageKey
+                                        
+                                        if let message = messageDict["com.facebook.sdk:FBSDKErrorDeveloperMessageKey"] as? String{
+                                            
+                                            self.showStandardAlertDialog(title: "Alert", msg: message) { (action) in
+                                                DispatchQueue.main.async {
+                                                    self.navigationController?.popViewController(animated: true)
+                                                }
+                                                
+                                            }
+                                            
+                                        }
+                                        
+                                    }
+                                }
                             }
                             
                         }else{
-                            self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")
+//                            self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")
+                            
+                            if let err = error{
+                            
+                            print(err)
+                            let errorVal = err as NSError
+                                
+                                if errorVal.code == 408{
+                                    
+                                    self.showStandardAlertDialog(title: "Alert", msg: "You have cancelled the Facebook login process.") { (action) in
+                                        self.navigationController?.popViewController(animated: true)
+                                    }
+                                    
+                                }
+                                
+                            }
+                            
                         }
                     }
                 }

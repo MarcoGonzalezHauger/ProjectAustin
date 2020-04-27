@@ -9,7 +9,7 @@
 
 import UIKit
 
-let defaultImage : UIImage = makeImageCircular(image: UIImage.init(named: "defaultuser")!)
+let defaultImage : UIImage = UIImage.init(named: "defaultuser")!
 
 let blackIcons: [String] = ["marcogonzalezhauger", "brunogonzalezhauger"]
 
@@ -68,7 +68,7 @@ class SocialUserCell: UITableViewCell {
 					if let picurl = thisUser.profilePicURL {
                         self.profilepicture.downloadAndSetImage(picurl)
                     } else {
-                        self.profilepicture.image = defaultImage
+                        self.profilepicture.UseDefaultImage()
                     }
 					self.SetColors(isYourself: thisUser.username == Yourself.username)
 			}

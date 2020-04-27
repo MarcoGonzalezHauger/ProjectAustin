@@ -20,6 +20,12 @@ import FBSDKCoreKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
+    enum ShortcutIdentifier: String {
+        case Business = "com.ambassadoor.business"
+        case Influencer = "com.ambassadoor.influencer"
+        case Profile = "com.ambassadoor.profile"
+    }
+    
     var timer: DispatchSourceTimer?
 
 	func AskForNotificationPermission() {
@@ -31,6 +37,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		pageDelegate?.selectedIndex = 2
 		delegate?.SendOffer(OfferID: id)
 	}
+    
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void){
+        print(shortcutItem.type)
+
+        if let userID = UserDefaults.standard.value(forKey: "userID") as? String{
+            fetchSingleUserDetails(userID: userID) { (status, user) in
+                Yourself = user
+               let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
+                self.handleHapticActions(shortcutItem, user: Yourself, tabController: viewReference)
+                self.window?.rootViewController = viewReference
+            }
+        }
+
+    }
 	
     // received user notification here
 	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
@@ -183,10 +203,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     override init() {
         
     }
+    
+    private func handleHapticActions(_ shortcutItem: UIApplicationShortcutItem, user: User, tabController: TabBarVC) {
+        
+        let shortcutType = shortcutItem.type
+        
+        let checkIfIdentifier = ShortcutIdentifier.init(rawValue: shortcutType)
+        
+        switch checkIfIdentifier {
+        case .Business:
+            tabController.selectedIndex = 0
+        case .Influencer:
+            global.identifySegment = "shortcut"
+            tabController.selectedIndex = 0
+        case .Profile:
+            tabController.selectedIndex = 1
+        default:
+            tabController.selectedIndex = 2
+        }
+        
+    }
+    
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
 //        SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+
         
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
@@ -199,6 +242,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 InitializeZipCodeAPI(completed: nil)
 		// Define the custom actions.
 		UIApplication.shared.applicationIconBadgeNumber = 0
+		
 		UNUserNotificationCenter.current().delegate = self
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.badge, .alert, .sound]) { (granted, error) in
@@ -212,6 +256,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Fetch data once an hour.
 //        UIApplication.shared.setMinimumBackgroundFetchInterval(600)
         //self.startTimer()
+        
+        if let shortcutItem = launchOptions?[UIApplication.LaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
+            
+            if let userID = UserDefaults.standard.value(forKey: "userID") as? String{
+                fetchSingleUserDetails(userID: userID) { (status, user) in
+                    Yourself = user
+                   let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
+                    self.handleHapticActions(shortcutItem, user: Yourself, tabController: viewReference)
+                    self.window?.rootViewController = viewReference
+
+                }
+            }
+            
+            return true
+        }
         
 		return true
 	}

@@ -83,7 +83,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	let cashHeight: CGFloat = 85
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		if indexPath.row == 0 {
+		if indexPath.row == 3 {
 			return cashHeight
 		} else {
 			return 75
@@ -95,6 +95,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	@IBAction func logOut(_ sender: Any) {
 		signOutofAmbassadoor()
 		attemptedLogOut = true
+        UserDefaults.standard.removeObject(forKey: "userID")
 		let loginVC = self.storyboard?.instantiateInitialViewController()
 		let appDel: AppDelegate = UIApplication.shared.delegate as! AppDelegate
 		appDel.window?.rootViewController = loginVC
@@ -102,12 +103,6 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.row == 0 {
-            let cell = shelf.dequeueReusableCell(withIdentifier: "cashBox", for: indexPath) as! CashOutCell
-            cell.amount.text = NumberToPrice(Value: Yourself.yourMoney)
-            cell.cashOut.addTarget(self, action: #selector(self.cashOutAction(sender:)), for: .touchUpInside)
-			return cell
-		}
-		if indexPath.row == 1 {
 			let cell = shelf.dequeueReusableCell(withIdentifier: "progressBar") as! ProgressBarCell
 			if Yourself.followerCount > TierThreshholds.last! {
 				cell.percentage = 1
@@ -134,8 +129,14 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 			}
 			return cell
 		}
+		if indexPath.row == 3 {
+            let cell = shelf.dequeueReusableCell(withIdentifier: "cashBox", for: indexPath) as! CashOutCell
+            cell.amount.text = NumberToPrice(Value: Yourself.yourMoney)
+            cell.cashOut.addTarget(self, action: #selector(self.cashOutAction(sender:)), for: .touchUpInside)
+			return cell
+		}
 		let cell = shelf.dequeueReusableCell(withIdentifier: "menuItem") as! SettingCell
-		let settings = userSettings[indexPath.row - 2]
+		let settings = userSettings[indexPath.row - 1]
 		switch settings.identifier {
 		case "main_cat":
 			cell.categoryHeader.text = settings.Header
@@ -166,6 +167,10 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		if indexPath.row == 3 {
+			shelf.deselectRow(at: indexPath, animated: false)
+			return
+		}
 		if indexPath.row == 0 {
 			performSegue(withIdentifier: "TierInfoVC", sender: self)
 			shelf.deselectRow(at: indexPath, animated: false)
@@ -227,10 +232,13 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		shelf.alwaysBounceVertical = false
     }
     override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(true)
+        
         if let profilepic = Yourself.profilePicURL {
             ProfilePicture.downloadAndSetImage(profilepic, isCircle: true)
         } else {
-            ProfilePicture.image = defaultImage
+            ProfilePicture.UseDefaultImage()
         }
         tierBox.layer.cornerRadius = tierBox.bounds.height / 2
 //        tierLabel.text = String(GetTierFromFollowerCount(FollowerCount: Yourself.followerCount) ?? 0)
