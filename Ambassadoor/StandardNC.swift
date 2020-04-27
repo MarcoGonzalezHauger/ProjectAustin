@@ -16,6 +16,7 @@ protocol NCDelegate {
 class StandardNC: UINavigationController, UIGestureRecognizerDelegate {
 	
 	var tempDelegate: NCDelegate?
+	var shouldDismissOnLastSlide = true
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -29,7 +30,9 @@ class StandardNC: UINavigationController, UIGestureRecognizerDelegate {
 			}
 			return true
 		} else {
-			self.dismiss(animated: true, completion: nil)
+			if shouldDismissOnLastSlide {
+				self.dismiss(animated: true, completion: nil)
+			}
 			return false
 		}
 	}

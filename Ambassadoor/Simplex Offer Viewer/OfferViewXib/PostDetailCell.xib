@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -23,7 +23,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="402" height="207"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You must post the following to Instagram" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Ak0-RI-731">
-                                        <rect key="frame" x="8" y="8" width="329.5" height="22"/>
+                                        <rect key="frame" x="8" y="8" width="386" height="22"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="22" id="8AD-No-1Iw"/>
                                         </constraints>
@@ -31,7 +31,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ljP-IN-fOV">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ljP-IN-fOV">
                                         <rect key="frame" x="0.0" y="38" width="402" height="169"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
@@ -48,6 +48,7 @@
                                 <constraints>
                                     <constraint firstItem="ljP-IN-fOV" firstAttribute="leading" secondItem="bLD-yw-sFZ" secondAttribute="leading" id="5zl-fH-fAb"/>
                                     <constraint firstAttribute="bottom" secondItem="ljP-IN-fOV" secondAttribute="bottom" id="77j-KI-q5z"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ak0-RI-731" secondAttribute="trailing" constant="8" id="82d-SG-Xdz"/>
                                     <constraint firstAttribute="trailing" secondItem="ljP-IN-fOV" secondAttribute="trailing" id="922-Ql-DoI"/>
                                     <constraint firstItem="Ak0-RI-731" firstAttribute="leading" secondItem="bLD-yw-sFZ" secondAttribute="leading" constant="8" id="Mac-9t-hXA"/>
                                     <constraint firstItem="Ak0-RI-731" firstAttribute="top" secondItem="bLD-yw-sFZ" secondAttribute="top" constant="8" id="gEl-pJ-LRJ"/>
@@ -102,6 +103,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="postList" destination="ljP-IN-fOV" id="VIH-KO-8nj"/>
+                <outlet property="prompt" destination="Ak0-RI-731" id="VGY-gm-WvI"/>
                 <outlet property="widthLayout" destination="T2S-cw-XIm" id="pp4-IU-umG"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="124.88839285714285"/>

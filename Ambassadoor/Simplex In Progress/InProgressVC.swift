@@ -50,7 +50,7 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                 if let picurl = offerValue.company?.logo {
                     self.companyLogo.downloadAndSetImage(picurl)
                 } else {
-                    self.companyLogo.image = defaultImage
+                    self.companyLogo.UseDefaultImage()
                 }
                 
                 if let incresePay = offerValue.incresePay {
@@ -103,18 +103,24 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                         
                         let expireDateAftPosted = offerAcceptedDate.afterDays(day: 2)
                         
-                        let intBtnNowandPosted = (expireDateAftPosted.timeIntervalSince1970 - Date().timeIntervalSince1970)
+                        let curDateStr = Date.getStringFromDate(date: Date())
                         
-                        let intAftTwoDays = (expireDateAftPosted.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
-                        
-                        progressWidth.constant = CGFloat(intBtnNowandPosted/intAftTwoDays) * self.frame.size.width
+                        if let currentDate = Date.getDateFromString(date: curDateStr!){
+                         
+                            let intBtnNowandPosted = (offerAcceptedDate.timeIntervalSince1970 - currentDate.timeIntervalSince1970)
+                            
+                            let intAftTwoDays = (expireDateAftPosted.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
+                            
+                            progressWidth.constant = CGFloat(intBtnNowandPosted/intAftTwoDays) * self.frame.size.width
 
-                        progrssView.updateConstraints()
-                        progrssView.layoutIfNeeded()
-                        
-                        progrssView.backgroundColor = UIColor.systemGreen
-                        
-                        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForTobepaid(sender:)), userInfo: nil, repeats: true)
+                            progrssView.updateConstraints()
+                            progrssView.layoutIfNeeded()
+                            
+                            progrssView.backgroundColor = UIColor.systemGreen
+                            
+                            self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForTobepaid(sender:)), userInfo: nil, repeats: true)
+                            
+                        }
                         
                     }
                     
@@ -269,7 +275,7 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
 }
 
 enum rowHeight: CGFloat {
-    case one = 144, two = 172, three = 200
+    case one = 124, two = 152, three = 180
     
     static func returnRowHeight(count: Int) -> rowHeight{
         
@@ -323,6 +329,12 @@ class InProgressVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
+        let offer = allInprogressOffer[indexPath.row]
+        self.performSegue(withIdentifier: "FromInprogressToOV", sender: offer)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
         return rowHeight.returnRowHeight(count: allInprogressOffer[indexPath.row].posts.count).rawValue
     }
@@ -331,8 +343,8 @@ class InProgressVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     var allInprogressOffer = [Offer]()
     
+    var offervariation: OfferVariation?
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -356,14 +368,23 @@ class InProgressVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "FromInprogressToOV" {
+        //guard let newviewoffer = viewoffer else { return }
+        let destination = (segue.destination as! StandardNC).topViewController as! OfferViewerVC
+        
+            destination.offerVariation = .inProgress
+            destination.offer = sender as? Offer
+         }
+        
     }
-    */
+    
 
 }

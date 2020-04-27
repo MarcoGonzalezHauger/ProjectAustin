@@ -9,6 +9,7 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 //Protocol for ACCEPTING offers.
 protocol OfferResponse {
@@ -29,7 +30,7 @@ class ShadowView: UIView {
     @IBInspectable var ShadowRadius: Float = 1.75 { didSet { DrawShadows() } }
     @IBInspectable var ShadowColor: UIColor = UIColor.black { didSet { DrawShadows() } }
     @IBInspectable var borderWidth: Float = 0.0 { didSet { DrawShadows() }}
-    @IBInspectable var borderColor: UIColor = UIColor.black { didSet { DrawShadows() }}
+    @IBInspectable var borderColor: UIColor = GetForeColor() { didSet { DrawShadows() }}
     
     func DrawShadows() {
         //draw shadow & rounded corners for offer cell
@@ -662,6 +663,16 @@ class TransactionDetails: NSObject {
         self.offerName = dictionary["offerName"] as? String
     }
     
+}
+
+class CachedImages: NSObject {
+    var link: String?
+    var imagedata: Data?
+    
+    init(object: NSManagedObject) {
+        self.link = (object.value(forKey: "url") as! NSString) as String
+        self.imagedata = (object.value(forKey: "imagedata") as! Data)
+    }
 }
 
 var FreePass = false //If user has a newer app version; Not beta code required.

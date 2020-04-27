@@ -9,8 +9,9 @@
 
 import Foundation
 import UIKit
+import CoreData
 
-let imageCache = NSCache<NSString, AnyObject>()
+var imageCache = NSCache<NSString, AnyObject>()
 
 //This extension allows UIImageViews to download images from the web and have them saved in cache.
 
@@ -28,6 +29,11 @@ public extension UIImageView {
         static var activityIndicatorProperty: UIActivityIndicatorView = GetUIActivityIndicator()
     }
     
+	func UseDefaultImage() {
+		self.layer.cornerRadius = [self.bounds.width, self.bounds.height].min()! / 2
+		self.image = defaultImage
+	}
+	
     var activityIndicator: UIActivityIndicatorView {
         get {
 			return GetUIActivityIndicator()
@@ -75,7 +81,10 @@ public extension UIImageView {
 					return
 				}
 				if isCircle {
-					image = makeImageCircular(image: image!)
+					DispatchQueue.main.async {
+						self.layer.cornerRadius = [self.bounds.width, self.bounds.height].min()! / 2
+						image = makeImageCircular(image: image!)
+					}
 				}
             DispatchQueue.main.async() {
                 self.image = image
@@ -91,6 +100,7 @@ public extension UIImageView {
 		downloadImage(urlLink) { (returnImage) in
 			guard let returnImage = returnImage else { return }
 			if isCircle {
+				self.layer.cornerRadius = [self.bounds.width, self.bounds.height].min()! / 2
 				self.image = makeImageCircular(image: returnImage)
 			} else {
 				self.image = returnImage
@@ -99,26 +109,70 @@ public extension UIImageView {
     }
 }
 
+func saveCoreData(link: String, data: Data) {
+        
+                
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+
+        let imageDataEntity = NSEntityDescription.entity(forEntityName: "AppImageData", in: context)
+        let imageData = NSManagedObject(entity: imageDataEntity!, insertInto: context)
+        imageData.setValue(data, forKey: "imagedata")
+        imageData.setValue(link, forKey: "url")
+        let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
+        print(paths[0])
+        do {
+            try imageData.managedObjectContext?.save()
+          } catch {
+           print("Failed saving")
+        }
+
+        
+    }
+
 func downloadImage(_ urlLink: String, completed: @escaping (_ image: UIImage?) -> ()){
 	if urlLink.isEmpty {
 		completed(nil)
 		return
 	}
 	// check cache first
+    /*
 	if let cachedImage = imageCache.object(forKey: urlLink as NSString) as? UIImage {
+		print("CHACHED  : \(urlLink)")
 		completed(cachedImage)
 		return
 	}
+   */
+    
+    let cachedImage = global.cachedImageList.filter { (cache) -> Bool in
+        return cache.link! == urlLink
+    }
+    
+    if cachedImage.count != 0{
+    
+    if let image = UIImage(data: cachedImage.first!.imagedata!){
+        
+        print("CHACHED  : \(urlLink)")
+        completed(image)
+        return
+        
+    }
+    }
+    
 	
 	// otherwise, download
 	let url = URL(string: urlLink)
 	URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
+		print("DOWNLOAD : \(urlLink)")
 		if let err = error {
 			print(err)
 			completed(nil)
 			return
 		}
 		DispatchQueue.main.async {
+            
+            saveCoreData(link: urlLink, data: data!)
+            
 			if let newImage = UIImage(data: data!) {
 				imageCache.setObject(newImage, forKey: urlLink as NSString)
 				completed(newImage)

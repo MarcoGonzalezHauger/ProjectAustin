@@ -22,7 +22,7 @@ class FollowedCompaniesOffer: UITableViewCell {
                 if let picurl = offerDetail.company?.logo {
                     self.logo.downloadAndSetImage(picurl)
                 } else {
-                    self.logo.image = defaultImage
+                    self.logo.UseDefaultImage()
                 }
                 
                 self.cashOut.text = NumberToPrice(Value: offerDetail.cashPower!)
@@ -126,7 +126,7 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         */
         if segue.identifier == "FromFollowedToOV" {
         //guard let newviewoffer = viewoffer else { return }
-        let destination = segue.destination as! OfferViewerVC
+        let destination = (segue.destination as! StandardNC).topViewController as! OfferViewerVC
        
             destination.offerVariation = offerVariation!
             destination.offer = sender as? Offer

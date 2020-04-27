@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6Q1-4r-QbC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6Q1-4r-QbC">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,11 +16,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bJ8-0y-OrD">
+                                <rect key="frame" x="0.0" y="134" width="414" height="708"/>
+                                <connections>
+                                    <segue destination="wp5-xe-NcL" kind="embed" identifier="PageView" id="stR-0p-bft"/>
+                                </connections>
+                            </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LrO-XP-73G" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="124"/>
+                                <rect key="frame" x="0.0" y="-10" width="414" height="144"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="US7-Bc-mcK">
-                                        <rect key="frame" x="20" y="52" width="374" height="32"/>
+                                        <rect key="frame" x="20" y="72" width="374" height="32"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="31" id="Agz-AY-Am1"/>
                                         </constraints>
@@ -34,7 +40,7 @@
                                         </connections>
                                     </segmentedControl>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description of current page" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7z4-xJ-yxF">
-                                        <rect key="frame" x="123.5" y="91" width="167" height="16"/>
+                                        <rect key="frame" x="123.5" y="111" width="167" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16" id="nJ2-vG-gCw"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="167" id="oYc-d6-ZK1"/>
@@ -48,9 +54,8 @@
                                 <constraints>
                                     <constraint firstItem="US7-Bc-mcK" firstAttribute="leading" secondItem="LrO-XP-73G" secondAttribute="leading" constant="20" id="MFh-Il-ZVN"/>
                                     <constraint firstAttribute="trailing" secondItem="US7-Bc-mcK" secondAttribute="trailing" constant="20" id="T12-JI-7dr"/>
+                                    <constraint firstAttribute="bottom" secondItem="7z4-xJ-yxF" secondAttribute="bottom" constant="17" id="cmJ-SR-ecs"/>
                                     <constraint firstItem="7z4-xJ-yxF" firstAttribute="centerX" secondItem="US7-Bc-mcK" secondAttribute="centerX" id="gIl-zN-ilT"/>
-                                    <constraint firstItem="US7-Bc-mcK" firstAttribute="top" secondItem="LrO-XP-73G" secondAttribute="top" constant="52" id="h7b-Mq-Pp6"/>
-                                    <constraint firstAttribute="height" constant="124" id="qQ2-Xs-U4t"/>
                                     <constraint firstItem="7z4-xJ-yxF" firstAttribute="top" secondItem="US7-Bc-mcK" secondAttribute="bottom" constant="8" id="xyf-Da-xZX"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
@@ -68,12 +73,6 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bJ8-0y-OrD">
-                                <rect key="frame" x="0.0" y="124" width="414" height="718"/>
-                                <connections>
-                                    <segue destination="wp5-xe-NcL" kind="embed" identifier="PageView" id="stR-0p-bft"/>
-                                </connections>
-                            </containerView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -81,13 +80,14 @@
                             <constraint firstItem="bJ8-0y-OrD" firstAttribute="leading" secondItem="zyf-Ca-Zq7" secondAttribute="leading" id="DTj-y2-Chs"/>
                             <constraint firstItem="bJ8-0y-OrD" firstAttribute="trailing" secondItem="zyf-Ca-Zq7" secondAttribute="trailing" id="Ix4-jv-NYf"/>
                             <constraint firstItem="LrO-XP-73G" firstAttribute="leading" secondItem="zyf-Ca-Zq7" secondAttribute="leading" id="Ofg-1U-i2M"/>
+                            <constraint firstItem="bJ8-0y-OrD" firstAttribute="top" secondItem="LrO-XP-73G" secondAttribute="bottom" id="euW-hb-Mir"/>
                             <constraint firstAttribute="bottom" secondItem="bJ8-0y-OrD" secondAttribute="bottom" constant="54" id="smy-si-Ptf"/>
-                            <constraint firstItem="LrO-XP-73G" firstAttribute="top" secondItem="U6v-JN-Ar8" secondAttribute="top" id="xOO-e9-Poi"/>
-                            <constraint firstItem="bJ8-0y-OrD" firstAttribute="top" secondItem="LrO-XP-73G" secondAttribute="bottom" id="xak-1M-lxo"/>
+                            <constraint firstItem="LrO-XP-73G" firstAttribute="top" secondItem="U6v-JN-Ar8" secondAttribute="top" constant="-10" id="xOO-e9-Poi"/>
+                            <constraint firstItem="bJ8-0y-OrD" firstAttribute="top" secondItem="zyf-Ca-Zq7" secondAttribute="top" constant="90" id="xak-1M-lxo"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zyf-Ca-Zq7"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Offers" image="homa" selectedImage="_highlighted_homa" id="6Cj-my-xdO"/>
+                    <tabBarItem key="tabBarItem" title="Offers" image="homa" id="6Cj-my-xdO"/>
                     <connections>
                         <outlet property="desText" destination="7z4-xJ-yxF" id="dzV-1d-Lxk"/>
                         <outlet property="offerSegmentFilter" destination="US7-Bc-mcK" id="om4-qp-G8M"/>
@@ -127,7 +127,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OBx-eZ-poP">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OBx-eZ-poP">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <connections>
@@ -172,7 +172,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HZ0-2X-NSF">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HZ0-2X-NSF">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
@@ -349,7 +349,7 @@
                 <viewControllerPlaceholder storyboardName="offerViewer" referencedIdentifier="OfferViewReference" id="o6V-jT-7Ir" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7vJ-Eg-xcA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2254" y="94"/>
+            <point key="canvasLocation" x="2218" y="-218"/>
         </scene>
         <!--Followed OfferVC-->
         <scene sceneID="fud-vc-egf">
@@ -359,7 +359,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wnb-wd-1HC">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wnb-wd-1HC">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <connections>
@@ -390,11 +390,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="_highlighted_homa" width="30" height="30"/>
         <image name="homa" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="uwI-Ec-TCC"/>
-        <segue reference="gnf-rQ-OW9"/>
+        <segue reference="q7c-Oi-xNY"/>
+        <segue reference="OHS-aA-yGt"/>
     </inferredMetricsTieBreakers>
 </document>

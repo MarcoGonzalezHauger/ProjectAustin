@@ -30,19 +30,20 @@ class SocialCell: UITableViewCell {
             if let offerDetails = followingOffer{
                 
                 self.userName.text = "@\(offerDetails.user?.username ?? "")"
-                
-                if offerDetails.tag == "offer"{
-                    self.userDes.text = ""
-                if let company = offerDetails.offer?.companyDetails {
-                    self.userDes.text = "accepted an offer from \(company.name)"
-                }
-                    self.socialBar.backgroundColor = UIColor.systemPurple
-                }else if offerDetails.tag == "follow" {
-                    self.userDes.text = "started following you"
-                    self.socialBar.backgroundColor = UIColor.systemBlue
-                }
-                self.dateText.text = offerDetails.startedAt?.toString(dateFormat: "MMM dd YYYY")
-            }
+				
+				if offerDetails.tag == "offer"{
+					if let company = offerDetails.offer?.companyDetails {
+						self.userDes.text = "accepted an offer from \(company.name)"
+					} else {
+						self.userDes.text = "accepted an offer"
+					}
+					self.socialBar.backgroundColor = UIColor.systemPurple
+				}else if offerDetails.tag == "follow" {
+					self.userDes.text = "started following you"
+					self.socialBar.backgroundColor = UIColor.systemBlue
+				}
+				self.dateText.text = offerDetails.startedAt?.toString(dateFormat: "MMM dd YYYY")
+			}
         }
     }
     
@@ -67,12 +68,13 @@ class SocialFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
-        return 86.0
+        return 82.0
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         let obj = followerList[indexPath.row]
         self.performSegue(withIdentifier: "FromSocialFeed", sender: obj.user)
+		tableView.deselectRow(at: indexPath, animated: true)
     }
     
     @IBOutlet weak var socialFeedTable: UITableView!

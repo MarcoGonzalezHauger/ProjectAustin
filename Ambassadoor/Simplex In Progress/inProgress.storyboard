@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,8 +16,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="RIo-fv-3bb">
-                                <rect key="frame" x="0.0" y="85" width="414" height="728"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="RIo-fv-3bb">
+                                <rect key="frame" x="0.0" y="94" width="414" height="719"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="inprogresscell" rowHeight="200" id="avY-8U-1Ek" customClass="InProgressTVC" customModule="Ambassadoor" customModuleProvider="target">
@@ -245,10 +245,10 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pp9-8k-99M" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="85"/>
+                                <rect key="frame" x="0.0" y="-10" width="414" height="104"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="In Progress Offers" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y5k-ez-grV">
-                                        <rect key="frame" x="124.5" y="53" width="165" height="24"/>
+                                        <rect key="frame" x="124.5" y="68" width="165" height="24"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -257,8 +257,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstItem="y5k-ez-grV" firstAttribute="centerX" secondItem="pp9-8k-99M" secondAttribute="centerX" id="X9L-RR-41c"/>
-                                    <constraint firstAttribute="bottom" secondItem="y5k-ez-grV" secondAttribute="bottom" constant="8" id="r5c-tm-uIM"/>
-                                    <constraint firstAttribute="height" constant="85" id="xOz-fF-C9x"/>
+                                    <constraint firstAttribute="bottom" secondItem="y5k-ez-grV" secondAttribute="bottom" constant="12" id="r5c-tm-uIM"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -279,10 +278,11 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="7AZ-dB-7R7" firstAttribute="trailing" secondItem="RIo-fv-3bb" secondAttribute="trailing" id="0go-lw-XEJ"/>
-                            <constraint firstItem="pp9-8k-99M" firstAttribute="top" secondItem="gmA-0E-RBW" secondAttribute="top" id="2pJ-b8-WO6"/>
+                            <constraint firstItem="pp9-8k-99M" firstAttribute="top" secondItem="gmA-0E-RBW" secondAttribute="top" constant="-10" id="2pJ-b8-WO6"/>
+                            <constraint firstItem="RIo-fv-3bb" firstAttribute="top" secondItem="pp9-8k-99M" secondAttribute="bottom" id="3iV-uT-8ml"/>
                             <constraint firstItem="pp9-8k-99M" firstAttribute="leading" secondItem="7AZ-dB-7R7" secondAttribute="leading" id="8QJ-qt-H1S"/>
                             <constraint firstItem="7AZ-dB-7R7" firstAttribute="bottom" secondItem="RIo-fv-3bb" secondAttribute="bottom" id="AeL-NU-8eg"/>
-                            <constraint firstItem="RIo-fv-3bb" firstAttribute="top" secondItem="pp9-8k-99M" secondAttribute="bottom" id="D8S-21-j7V"/>
+                            <constraint firstItem="RIo-fv-3bb" firstAttribute="top" secondItem="7AZ-dB-7R7" secondAttribute="top" constant="50" id="D8S-21-j7V"/>
                             <constraint firstItem="RIo-fv-3bb" firstAttribute="leading" secondItem="7AZ-dB-7R7" secondAttribute="leading" id="ivl-ho-5RH"/>
                             <constraint firstItem="pp9-8k-99M" firstAttribute="trailing" secondItem="7AZ-dB-7R7" secondAttribute="trailing" id="lCD-bs-hgI"/>
                         </constraints>
@@ -292,11 +292,20 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="inProgressTable" destination="RIo-fv-3bb" id="fHP-YZ-qlR"/>
+                        <segue destination="JjQ-cf-5xF" kind="presentation" identifier="FromInprogressToOV" id="J2f-qM-dS5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g2N-2Y-KaY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-78.260869565217391" y="136.60714285714286"/>
+        </scene>
+        <!--OfferViewReference-->
+        <scene sceneID="fgx-4n-yLz">
+            <objects>
+                <viewControllerPlaceholder storyboardName="offerViewer" referencedIdentifier="OfferViewReference" id="JjQ-cf-5xF" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dpu-NM-99I" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="737" y="63"/>
         </scene>
     </scenes>
     <resources>

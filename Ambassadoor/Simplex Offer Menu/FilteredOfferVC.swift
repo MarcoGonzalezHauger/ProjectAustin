@@ -15,52 +15,52 @@ class StandardOfferCell: UITableViewCell {
     @IBOutlet weak var companyName: UILabel!
     @IBOutlet weak var progressView: ShadowView!
     
-    @IBOutlet weak var progressViewWidth: NSLayoutConstraint!
-    var offer: Offer?{
-        didSet{
-            if let offerDetail = offer{
-            if let picurl = offerDetail.company?.logo {
-                self.logo.downloadAndSetImage(picurl)
-            } else {
-                self.logo.image = defaultImage
-            }
-            
-            self.cashOut.text = NumberToPrice(Value: offerDetail.cashPower!)
-            
-            self.companyName.text = offerDetail.company?.name
-            
-//            self.progressView.frame.size.width = self.frame.size.width * CGFloat((offerDetail.cashPower!/offerDetail.money))
-                self.progressViewWidth.constant = self.frame.size.width * CGFloat((offerDetail.cashPower!/offerDetail.money))
-                self.progressView.backgroundColor = .yellow
-                self.updateConstraints()
-                self.layoutIfNeeded()
-                
-        }
-            
-        }
-    }
-    
+	@IBOutlet weak var progressViewWidth: NSLayoutConstraint!
+	var offer: Offer?{
+		didSet{
+			UpdateOfferCell()
+		}
+	}
+	
     var isFiltered: allOfferObject? {
         didSet{
-            if let filter = isFiltered {
-                if filter.isFiltered{
-                    
-                    self.progressViewWidth.constant = self.frame.size.width * CGFloat((filter.offer.cashPower!/filter.offer.money))
-                    self.progressView.backgroundColor = .yellow
-                    self.updateConstraints()
-                    self.layoutIfNeeded()
-                    
-                }else{
-                    
-                    self.progressViewWidth.constant = self.frame.size.width
-                    self.progressView.backgroundColor = .red
-                    self.updateConstraints()
-                    self.layoutIfNeeded()
-                    
-                }
-            }
+			UpdateOfferCell()
         }
     }
+	
+	func UpdateOfferCell() {
+		if let offerDetail = offer {
+			if let picurl = offerDetail.company?.logo {
+				self.logo.downloadAndSetImage(picurl)
+			} else {
+				self.logo.UseDefaultImage()
+			}
+			self.companyName.text = offerDetail.company?.name
+			if GetIsFiltered() {
+				let pay = calculateCostForUser(offer: offerDetail, user: Yourself)
+				self.cashOut.isHidden = false
+				self.cashOut.text = NumberToPrice(Value: pay)
+				self.progressViewWidth.constant = self.frame.size.width * CGFloat((offerDetail.cashPower!/offerDetail.money))
+				self.progressView.backgroundColor = UIColor.init(red: 1, green: 227/255, blue: 35/255, alpha: 1)
+				self.updateConstraints()
+				self.layoutIfNeeded()
+			}else{
+				self.cashOut.isHidden = true
+				self.progressViewWidth.constant = self.frame.size.width
+				self.progressView.backgroundColor = .red
+				self.updateConstraints()
+				self.layoutIfNeeded()
+			}
+		}
+	}
+	
+	func GetIsFiltered() -> Bool {
+		if let filter = isFiltered {
+			return filter.isFiltered
+		} else {
+			return true
+		}
+	}
     
     
 }
@@ -104,7 +104,7 @@ class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
-        return 85.0
+		return unviersalOfferHeight
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
@@ -138,7 +138,7 @@ class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         
         if segue.identifier == "FromFilteredToOV" {
             //guard let newviewoffer = viewoffer else { return }
-             let destination = segue.destination as! OfferViewerVC
+			let destination = (segue.destination as! StandardNC).topViewController as! OfferViewerVC
             
                  destination.offerVariation = offerVariation!
                  destination.offer = sender as? Offer

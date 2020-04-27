@@ -228,8 +228,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
 //        SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
-        
-
+        global.cachedImageList.removeAll()
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "AppImageData")
+        request.returnsObjectsAsFaults = false
+        let context = self.persistentContainer.viewContext
+        do {
+            let result = try context.fetch(request)
+            for data in result as! [NSManagedObject] {
+                
+                let cachedData = CachedImages.init(object: data)
+                global.cachedImageList.append(cachedData)
+                
+            }
+        }catch {
+            
+            print("Failed")
+        }
         
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
@@ -242,6 +256,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 InitializeZipCodeAPI(completed: nil)
 		// Define the custom actions.
 		UIApplication.shared.applicationIconBadgeNumber = 0
+		
 		UNUserNotificationCenter.current().delegate = self
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.badge, .alert, .sound]) { (granted, error) in
@@ -271,9 +286,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             return true
         }
         
+        self.signInAction()
+        
+        
 		return true
 	}
     
+    
+    func signInAction() {
+
+        if let email = UserDefaults.standard.object(forKey: "email") as? String{
+            if let password = UserDefaults.standard.object(forKey: "password") as? String{
+                
+                filterQueryByField(email: email) { (success, data) in
+                    if success{
+                        
+                        var passwordEncrpted = ""
+                        var userID = ""
+                        for (key,value) in data! {
+                            userID = key
+                            passwordEncrpted = value["password"] as! String
+                        }
+                        
+                        if password.md5() == passwordEncrpted {
+                            
+                            fetchSingleUserDetails(userID: userID) { (status, user) in
+                                Yourself = user
+                                setHapticMenu(user: Yourself)
+                                let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
+                                self.window?.rootViewController = viewReference
+                            }
+                            
+                        }
+                    }
+                }
+                
+                
+            }
+        }
+
+
+    }
     
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool{

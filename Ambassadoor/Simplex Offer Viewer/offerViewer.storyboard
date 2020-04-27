@@ -9,53 +9,22 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="fD3-ZO-Ul4">
-            <objects>
-                <viewController id="jah-Lu-3Pq" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="23q-4c-gwy">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="THIS VC WILL NEVER APPEAR WHEN USING THE APP." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zdR-AN-Zob">
-                                <rect key="frame" x="32" y="421.5" width="350" height="53"/>
-                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="22"/>
-                                <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="zdR-AN-Zob" secondAttribute="trailing" constant="32" id="378-Kh-vIy"/>
-                            <constraint firstItem="zdR-AN-Zob" firstAttribute="centerY" secondItem="23q-4c-gwy" secondAttribute="centerY" id="gA3-2E-EVn"/>
-                            <constraint firstItem="zdR-AN-Zob" firstAttribute="leading" secondItem="Ngu-Hm-lFH" secondAttribute="leading" constant="32" id="pCZ-C5-1EC"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="Ngu-Hm-lFH"/>
-                    </view>
-                    <connections>
-                        <segue destination="OV7-gm-eND" kind="presentation" id="6P5-vM-zwf"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="47u-ap-Gky" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1763" y="29"/>
-        </scene>
         <!--Offer ViewerVC-->
         <scene sceneID="1qm-Hc-BJy">
             <objects>
-                <viewController storyboardIdentifier="OfferViewReference" id="OV7-gm-eND" customClass="OfferViewerVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="OV7-gm-eND" customClass="OfferViewerVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aKn-3p-qBL">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="1646"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="1700"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nJB-Bv-JkD">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="1646"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="1700"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="U93-mj-d7Z">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="1646"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="1700"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Azr-E4-JI4">
-                                            <rect key="frame" x="0.0" y="46" width="414" height="1600"/>
+                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Azr-E4-JI4">
+                                            <rect key="frame" x="0.0" y="50" width="414" height="1650"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <prototypes>
                                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="acceptButton" rowHeight="74" id="nIp-Yu-0DJ" customClass="AcceptCell" customModule="Ambassadoor" customModuleProvider="target">
@@ -632,8 +601,8 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                             </prototypes>
                                         </tableView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rj0-dT-94O">
-                                            <rect key="frame" x="12" y="6" width="46" height="34"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <rect key="frame" x="16" y="9" width="49" height="35"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                             <state key="normal" title="Close">
                                                 <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                             </state>
@@ -642,12 +611,19 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MKd-95-ik5">
-                                            <rect key="frame" x="343" y="6" width="59" height="34"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                            <rect key="frame" x="335" y="9" width="63" height="35"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                             <state key="normal" title="Report">
                                                 <color key="titleColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                         </button>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="offerHeading" translatesAutoresizingMaskIntoConstraints="NO" id="Keo-qd-ImE">
+                                            <rect key="frame" x="102" y="9.5" width="200" height="34"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="200" id="4WX-iT-jRw"/>
+                                                <constraint firstAttribute="height" constant="34" id="jQ5-b8-C1J"/>
+                                            </constraints>
+                                        </imageView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="Azr-E4-JI4" secondAttribute="trailing" id="4Re-TK-zh5"/>
@@ -655,12 +631,14 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                         <constraint firstAttribute="bottom" secondItem="Azr-E4-JI4" secondAttribute="bottom" id="Gid-W5-DFL"/>
                                         <constraint firstItem="Azr-E4-JI4" firstAttribute="top" secondItem="Rj0-dT-94O" secondAttribute="bottom" constant="6" id="Rjs-ZZ-7fH"/>
                                         <constraint firstItem="MKd-95-ik5" firstAttribute="centerY" secondItem="Rj0-dT-94O" secondAttribute="centerY" id="SQ8-Xj-EPo"/>
-                                        <constraint firstItem="Rj0-dT-94O" firstAttribute="top" secondItem="U93-mj-d7Z" secondAttribute="top" constant="6" id="j1v-SJ-WUX"/>
-                                        <constraint firstAttribute="trailing" secondItem="MKd-95-ik5" secondAttribute="trailing" constant="12" id="q3U-Hb-ylX"/>
-                                        <constraint firstItem="Rj0-dT-94O" firstAttribute="leading" secondItem="U93-mj-d7Z" secondAttribute="leading" constant="12" id="yo1-wa-pM4"/>
+                                        <constraint firstItem="Keo-qd-ImE" firstAttribute="centerX" secondItem="U93-mj-d7Z" secondAttribute="centerX" constant="-5" id="gVz-Ho-jK7"/>
+                                        <constraint firstItem="Rj0-dT-94O" firstAttribute="top" secondItem="U93-mj-d7Z" secondAttribute="top" constant="9" id="j1v-SJ-WUX"/>
+                                        <constraint firstAttribute="trailing" secondItem="MKd-95-ik5" secondAttribute="trailing" constant="16" id="q3U-Hb-ylX"/>
+                                        <constraint firstItem="Keo-qd-ImE" firstAttribute="top" secondItem="U93-mj-d7Z" secondAttribute="top" constant="9.5" id="ufc-Rd-rbP"/>
+                                        <constraint firstItem="Rj0-dT-94O" firstAttribute="leading" secondItem="U93-mj-d7Z" secondAttribute="leading" constant="16" id="yo1-wa-pM4"/>
                                     </constraints>
                                 </view>
-                                <blurEffect style="regular"/>
+                                <blurEffect style="prominent"/>
                             </visualEffectView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -672,27 +650,28 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="kXv-4G-jhH"/>
                     </view>
+                    <navigationItem key="navigationItem" id="XtI-9S-RRn"/>
                     <size key="freeformSize" width="414" height="1700"/>
                     <connections>
                         <outlet property="offerViewTable" destination="Azr-E4-JI4" id="uDm-Ot-HiM"/>
-                        <segue destination="Ca5-oN-bLH" kind="presentation" identifier="FromVOtoVC" id="fdX-h8-EZF"/>
-                        <segue destination="gid-3e-ZnW" kind="presentation" identifier="FromVOtoVP" id="cXv-Tw-b2N"/>
+                        <segue destination="Ca5-oN-bLH" kind="show" identifier="FromVOtoVC" id="fdX-h8-EZF"/>
+                        <segue destination="gid-3e-ZnW" kind="show" identifier="FromVOtoVP" id="cXv-Tw-b2N"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fY0-73-vUg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-804.34782608695662" y="78.348214285714278"/>
+            <point key="canvasLocation" x="105.79710144927537" y="78.348214285714278"/>
         </scene>
         <!--View Post ColorfulVC-->
         <scene sceneID="0iN-Ml-QUT">
             <objects>
                 <viewController id="Ca5-oN-bLH" customClass="ViewPostColorfulVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Tth-Y5-LQW">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dIx-2R-Fsy" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="175" y="32" width="64" height="64"/>
+                                <rect key="frame" x="175" y="76" width="64" height="64"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JTB-zI-g7Q">
                                         <rect key="frame" x="19" y="8" width="26.5" height="48"/>
@@ -724,13 +703,13 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Post 3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="NUW-iT-l4L">
-                                <rect key="frame" x="178" y="104" width="58" height="24"/>
+                                <rect key="frame" x="178" y="148" width="58" height="24"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z7d-1S-CQP">
-                                <rect key="frame" x="16" y="10" width="43" height="35"/>
+                                <rect key="frame" x="16" y="54" width="43" height="35"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <state key="normal" title="Back"/>
                                 <connections>
@@ -738,13 +717,13 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Upon accepting this Offer, you must post a picture to Instagram following these instructions." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wmb-7Z-79P">
-                                <rect key="frame" x="16" y="152" width="382" height="72"/>
+                                <rect key="frame" x="16" y="196" width="382" height="72"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2da-LU-fer" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="16" y="240" width="382" height="60.5"/>
+                                <rect key="frame" x="16" y="284" width="382" height="60.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="What Should Be in The Picture" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h2x-qx-Dn7">
                                         <rect key="frame" x="76.5" y="8" width="229" height="19.5"/>
@@ -777,7 +756,7 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                         <real key="value" value="8"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
-                                        <real key="value" value="0.59999999999999998"/>
+                                        <real key="value" value="0.29999999999999999"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
                                         <real key="value" value="3"/>
@@ -788,7 +767,7 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qxe-6y-lX2" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="16" y="312.5" width="382" height="120"/>
+                                <rect key="frame" x="16" y="356.5" width="382" height="120"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What the Post Caption Should Say" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XcL-Kw-6Hv">
                                         <rect key="frame" x="61.5" y="8" width="259" height="20"/>
@@ -839,7 +818,7 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                         <real key="value" value="8"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
-                                        <real key="value" value="0.59999999999999998"/>
+                                        <real key="value" value="0.29999999999999999"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
                                         <real key="value" value="3"/>
@@ -870,6 +849,7 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="O3b-Uv-c7o"/>
                     </view>
+                    <navigationItem key="navigationItem" id="jVx-6u-cE0"/>
                     <connections>
                         <outlet property="postInstructions" destination="2tv-qW-33F" id="yhB-aq-xzF"/>
                         <outlet property="postName" destination="NUW-iT-l4L" id="9EX-AJ-8fI"/>
@@ -880,18 +860,18 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hup-JV-PTj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="242.0289855072464" y="-348.21428571428572"/>
+            <point key="canvasLocation" x="1152.1739130434783" y="-348.21428571428572"/>
         </scene>
         <!--View Post DetailedVC-->
         <scene sceneID="ZYL-tU-IHT">
             <objects>
                 <viewController id="gid-3e-ZnW" customClass="ViewPostDetailedVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MVe-ec-vbE">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w25-hu-A57" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="175" y="32" width="64" height="64"/>
+                                <rect key="frame" x="175" y="76" width="64" height="64"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="postVerified" translatesAutoresizingMaskIntoConstraints="NO" id="ArW-mY-qB2">
                                         <rect key="frame" x="8" y="8" width="48" height="48"/>
@@ -924,13 +904,13 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Post 3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="y8c-4k-FaF">
-                                <rect key="frame" x="178" y="104" width="58" height="24"/>
+                                <rect key="frame" x="178" y="148" width="58" height="24"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yTe-of-B7B">
-                                <rect key="frame" x="16" y="10" width="43" height="35"/>
+                                <rect key="frame" x="16" y="54" width="43" height="35"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <state key="normal" title="Back"/>
                                 <connections>
@@ -938,13 +918,13 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Post a picture to INSTAGRAM following these instructions:" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hkb-EK-dhj">
-                                <rect key="frame" x="16" y="172" width="382" height="41"/>
+                                <rect key="frame" x="16" y="216" width="382" height="41"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HMd-Qs-iIw" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="16" y="229" width="382" height="60.5"/>
+                                <rect key="frame" x="16" y="273" width="382" height="60.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What Should Be in The Picture" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M8h-SF-Htb">
                                         <rect key="frame" x="76.5" y="8" width="229" height="19.5"/>
@@ -973,7 +953,7 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                         <real key="value" value="8"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
-                                        <real key="value" value="0.59999999999999998"/>
+                                        <real key="value" value="0.29999999999999999"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
                                         <real key="value" value="3"/>
@@ -984,7 +964,7 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="69N-eU-6tZ" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="16" y="301.5" width="382" height="152"/>
+                                <rect key="frame" x="16" y="345.5" width="382" height="152"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What the Post Caption Should Say" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4mc-jB-oIG">
                                         <rect key="frame" x="61.5" y="8" width="259" height="20"/>
@@ -1036,7 +1016,7 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                         <real key="value" value="8"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
-                                        <real key="value" value="0.59999999999999998"/>
+                                        <real key="value" value="0.29999999999999999"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
                                         <real key="value" value="3"/>
@@ -1047,7 +1027,7 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Verified" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="LHg-Uk-b5q">
-                                <rect key="frame" x="180.5" y="130" width="53.5" height="18"/>
+                                <rect key="frame" x="180.5" y="174" width="53.5" height="18"/>
                                 <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
                                 <color key="textColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -1075,6 +1055,7 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Cil-b8-flN"/>
                     </view>
+                    <navigationItem key="navigationItem" id="OAa-GP-bas"/>
                     <connections>
                         <outlet property="insTitle" destination="M8h-SF-Htb" id="hIL-KV-AKl"/>
                         <outlet property="instruction" destination="FaA-QG-tHK" id="5Hn-hU-J0D"/>
@@ -1087,11 +1068,31 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Waw-Rz-ySy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="240.57971014492756" y="346.875"/>
+            <point key="canvasLocation" x="1150.7246376811595" y="346.875"/>
+        </scene>
+        <!--StandardNC-->
+        <scene sceneID="SrR-k2-9dO">
+            <objects>
+                <navigationController storyboardIdentifier="OfferViewReference" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="hGn-l6-82n" customClass="StandardNC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="2eI-qb-LW8">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="OV7-gm-eND" kind="relationship" relationship="rootViewController" id="Nji-Ny-jGR"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0eL-Ka-RbW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-804.34782608695662" y="78.348214285714278"/>
         </scene>
     </scenes>
     <resources>
         <image name="check_fill" width="84" height="84"/>
+        <image name="offerHeading" width="303" height="80"/>
         <image name="postVerified" width="84" height="84"/>
         <namedColor name="Main_ambassa">
             <color red="1" green="0.47499999403953552" blue="0.030999999493360519" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

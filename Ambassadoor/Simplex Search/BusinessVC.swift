@@ -21,7 +21,7 @@ class BusinessUserTVC: UITableViewCell {
                 if let picurl = business.logo {
                     self.businessLogo.downloadAndSetImage(picurl)
                 } else {
-                    self.businessLogo.image = defaultImage
+                    self.businessLogo.UseDefaultImage()
                 }
                 
                 self.name.text = business.name

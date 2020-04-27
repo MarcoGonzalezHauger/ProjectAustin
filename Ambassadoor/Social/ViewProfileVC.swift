@@ -94,7 +94,7 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		} else {
 //			print(defaultImage)
 //			print(profilePic)
-			profilePic.image = defaultImage
+			profilePic.UseDefaultImage()
 		}
         if (Yourself.following?.contains(ThisUser.id))!{
             

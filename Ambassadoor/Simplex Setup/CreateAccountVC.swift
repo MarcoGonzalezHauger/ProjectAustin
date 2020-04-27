@@ -63,6 +63,8 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                         }else{
                             Yourself = user
                             UserDefaults.standard.set(NewAccount.id, forKey: "userID")
+                            UserDefaults.standard.set(NewAccount.email, forKey: "email")
+                            UserDefaults.standard.set(NewAccount.password, forKey: "password")
                             self.AccountSuccessfullyCreated()
                         }
                         
@@ -206,6 +208,7 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 		NewAccountListeners.append(self)
 		stepShelf.delegate = self
 		stepShelf.dataSource = self
+		SetButtonState(enabled: false)
 		//nextStep
 		stepShelf.alwaysBounceVertical = false
         //wasFailed = true

@@ -13,14 +13,16 @@ protocol SocialSegmentDelegate {
 }
 
 enum SocialDescription: String {
-    case Feed = "Social Updates", Following = "Who’s You Follow", FollowedBy = "Who’s Following You"
-    static var allValues = [Feed,Following,FollowedBy]
+    case Feed = "Social Updates", Following = "Who You're Follow", FollowedBy = "Who’s Following You"
+    static var allValues = [Feed, Following, FollowedBy]
 }
 
 class SocialMenuVC: UIViewController,PageViewDelegate {
     
     func pageViewIndexDidChangedelegate(index: Int) {
         self.socialSegmentFilter.selectedSegmentIndex = index
+        self.desText.text = SocialDescription.allValues[index].rawValue
+		
     }
     
     @IBOutlet weak var desText: UILabel!
