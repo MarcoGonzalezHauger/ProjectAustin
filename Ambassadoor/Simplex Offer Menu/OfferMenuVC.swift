@@ -13,7 +13,7 @@ protocol OfferMenuSegmentDelegate {
 }
 
 enum Description: String {
-    case Followed = "View Offers from Businesses You Follow", Filtered = "View Offers You Are Able to Accept", All = "View All Offers"
+    case Followed = "View Offers from Businesses You Follow", Filtered = "View Offers You Are Able to Accept", All = "View All Offers on Ambassadoor"
     static var allValues = [Followed, Filtered, All]
 }
 
