@@ -358,16 +358,25 @@ class InProgressVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         super.viewWillAppear(true)
         UIApplication.shared.applicationIconBadgeNumber = 0
         self.tabBarController?.tabBar.items![3].badgeValue = nil
+        if global.allInprogressOffer.count == 0{
         getAcceptedOffers { (status, offers) in
             
             if status{
                 self.allInprogressOffer.removeAll()
                 self.allInprogressOffer.append(contentsOf: offers)
+                global.allInprogressOffer = offers
                 DispatchQueue.main.async {
                     self.inProgressTable.reloadData()
                 }
             }
             
+        }
+        }else{
+            self.allInprogressOffer.removeAll()
+            self.allInprogressOffer = global.allInprogressOffer
+            DispatchQueue.main.async {
+                self.inProgressTable.reloadData()
+            }
         }
     }
     

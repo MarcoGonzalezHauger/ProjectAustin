@@ -23,16 +23,24 @@ class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, O
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getAllOffer { (status, allOffer) in
-            
-            if status{
-                self.allOfferList = allOffer!
-                DispatchQueue.main.async {
-                    self.allOfferTable.reloadData()
+        if global.allOfferList.count == 0{
+            getAllOffer { (status, allOffer) in
+                
+                if status{
+                    self.allOfferList = allOffer!
+                    DispatchQueue.main.async {
+                        self.allOfferTable.reloadData()
+                    }
                 }
+                
             }
-            
+        }else{
+            self.allOfferList = global.allOfferList
+            DispatchQueue.main.async {
+                self.allOfferTable.reloadData()
+            }
         }
+        
 
         // Do any additional setup after loading the view.
     }
