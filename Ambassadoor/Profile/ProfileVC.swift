@@ -257,7 +257,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
         followerCount.text = CompressNumber(number: Yourself.followerCount)
         averageLikes.text = Yourself.averageLikes == nil ? "0" : CompressNumber(number: Yourself.averageLikes!)
         //joinedOn_lbl.text = Yourself.joinedDate != nil ? "Joined On : " + Yourself.joinedDate! : ""
-        referralCode_btn.setTitle("Referral Code: " + Yourself.referralcode, for: .normal)
+        referralCode_btn.setTitle("Business Referral Code: " + Yourself.referralcode, for: .normal)
         
         tierBox.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "tiergrad")!)
         

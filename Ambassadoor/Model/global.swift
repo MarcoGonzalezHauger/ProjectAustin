@@ -76,6 +76,12 @@ class CentralVariables {
     var inProgressOfferCount = [Int]()
     var cachedImageList = [CachedImages]()
     var identifySegment = ""
+    var allInprogressOffer = [Offer]()
+    var userList = [AnyObject]()
+    var followerList = [FollowingInformation]()
+    var influencerList = [User]()
+    var followOfferList = [allOfferObject]()
+    var allOfferList = [allOfferObject]()
 }
 
 let global = CentralVariables()

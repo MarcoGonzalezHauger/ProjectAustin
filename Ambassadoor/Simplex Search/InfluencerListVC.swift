@@ -29,7 +29,8 @@ class InfluencerTVC: UITableViewCell {
                     self.userImage.UseDefaultImage()
                 }
                 
-                self.userName.text = "@\(user.username)"
+                //self.userName.text = "@\(user.username)"
+				self.userName.text = user.name
                 
                 self.tier.text = String(GetTierForInfluencer(influencer: user))
                 

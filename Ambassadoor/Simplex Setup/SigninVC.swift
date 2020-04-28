@@ -62,6 +62,7 @@ class SigninVC: UIViewController {
                                     fetchSingleUserDetails(userID: userID) { (status, user) in
                                         Yourself = user
                                         setHapticMenu(user: Yourself)
+                                        downloadDataBeforePageLoad()
                                         self.LoginSuccessful()
                                         
                                     }
@@ -285,6 +286,7 @@ class SigninVC: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.delegate?.DismissNow(sender: "signin")
         }
+        
     }
     
     @IBAction func textChanged(_ sender: Any) {

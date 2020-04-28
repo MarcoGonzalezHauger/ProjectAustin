@@ -9,35 +9,36 @@
 import UIKit
 
 class FollowedCompaniesOffer: UITableViewCell {
-    
-        @IBOutlet weak var logo: UIImageView!
-        @IBOutlet weak var cashOut: UILabel!
-        @IBOutlet weak var companyName: UILabel!
-        @IBOutlet weak var progressView: ShadowView!
-        
-        @IBOutlet weak var progressViewWidth: NSLayoutConstraint!
-        var offer: Offer?{
-            didSet{
-                if let offerDetail = offer{
-                if let picurl = offerDetail.company?.logo {
-                    self.logo.downloadAndSetImage(picurl)
-                } else {
-                    self.logo.UseDefaultImage()
-                }
-                
-                self.cashOut.text = NumberToPrice(Value: offerDetail.cashPower!)
-                
-                self.companyName.text = offerDetail.company?.name
-                    self.progressViewWidth.constant = self.frame.size.width * CGFloat((offerDetail.cashPower!/offerDetail.money))
-                    self.progressView.backgroundColor = .yellow
-                    self.updateConstraints()
-                    self.layoutIfNeeded()
-                    
-            }
-                
-            }
-        }
-    
+	
+	@IBOutlet weak var logo: UIImageView!
+	@IBOutlet weak var cashOut: UILabel!
+	@IBOutlet weak var companyName: UILabel!
+	@IBOutlet weak var progressView: ShadowView!
+	
+	@IBOutlet weak var progressViewWidth: NSLayoutConstraint!
+	var offer: Offer?{
+		didSet{
+			if let offerDetail = offer{
+				if let picurl = offerDetail.company?.logo {
+					self.logo.downloadAndSetImage(picurl)
+				} else {
+					self.logo.UseDefaultImage()
+				}
+				
+				
+				let pay = calculateCostForUser(offer: offerDetail, user: Yourself)
+				self.cashOut.text = NumberToPrice(Value: pay)
+				self.progressViewWidth.constant = self.frame.size.width * CGFloat((offerDetail.cashPower!/offerDetail.money))
+				self.progressView.backgroundColor = UIColor.init(red: 1, green: 227/255, blue: 35/255, alpha: 1)
+				self.companyName.text = offerDetail.company?.name
+				self.updateConstraints()
+				self.layoutIfNeeded()
+				
+			}
+			
+		}
+	}
+	
 }
 
 class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, OfferResponse {
@@ -55,6 +56,8 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if global.followOfferList.count == 0 {
+        
         getFollowerCompaniesOffer(followers: Yourself.businessFollowing!) { (status, offers) in
             
             if status {
@@ -65,9 +68,14 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             }
             
         }
+        }else{
+            self.followOfferList = global.followOfferList
+            DispatchQueue.main.async {
+                self.offerTable.reloadData()
+        }
         // Do any additional setup after loading the view.
     }
-
+    }
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -90,7 +98,7 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
-        return 85.0
+        return 110
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){

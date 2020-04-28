@@ -158,17 +158,28 @@ func DateToLetterCountdownWithFormat(date: Date, format: String) -> String? {
     
     let calendar = Calendar.current
     let dateCom = calendar.dateComponents([.hour,.minute,.second], from: Date(), to: date)
+	
+	//MARCO
+	//Added in order to make sure "3:1:1" is displayed as "3:01:01" instead.
+	var minute: String = String(dateCom.minute!)
+	var second: String = String(dateCom.second!)
+	
+	if dateCom.minute! < 10 {
+		minute = "0" + minute
+	}
+	if dateCom.second! < 10 {
+		second = "0" + second
+	}
+	
     switch dateCom {
     case _ where dateCom.hour! <= 0 && dateCom.minute! <= 0 && dateCom.second! <= 0:
-        return ""
+        return "0:00"
     case _ where dateCom.hour! <= 0 && dateCom.minute! <= 0:
-        return "\(dateCom.second!)"
+        return "0:\(second)"
     case _ where dateCom.hour! <= 0:
-        return "\(dateCom.minute!):\(dateCom.second!)"
-    case _ where dateCom.hour! <= 0:
-        return "\(dateCom.minute!):\(dateCom.second!)"
+		return "\(dateCom.minute!):\(second)"
     default:
-        return "\(dateCom.hour!):\(dateCom.minute!):\(dateCom.second!)"
+        return "\(dateCom.hour!):\(minute):\(second)"
     
     }
 }
@@ -177,17 +188,28 @@ func DateToLetterCountdownWithFormat(date1: Date, date2: Date, format: String) -
     
     let calendar = Calendar.current
     let dateCom = calendar.dateComponents([.hour,.minute,.second], from: date1, to: date2)
+    
+	//MARCO
+	//Added in order to make sure "3:1:1" is displayed as "3:01:01" instead.
+	var minute: String = String(dateCom.minute!)
+	var second: String = String(dateCom.second!)
+	
+	if dateCom.minute! < 10 {
+		minute = "0" + minute
+	}
+	if dateCom.second! < 10 {
+		second = "0" + second
+	}
+	
     switch dateCom {
     case _ where dateCom.hour! <= 0 && dateCom.minute! <= 0 && dateCom.second! <= 0:
-        return ""
+        return "0:00"
     case _ where dateCom.hour! <= 0 && dateCom.minute! <= 0:
-        return "\(dateCom.second!)"
+        return "0:\(second)"
     case _ where dateCom.hour! <= 0:
-        return "\(dateCom.minute!):\(dateCom.second!)"
-    case _ where dateCom.hour! <= 0:
-        return "\(dateCom.minute!):\(dateCom.second!)"
+		return "\(dateCom.minute!):\(second)"
     default:
-        return "\(dateCom.hour!):\(dateCom.minute!):\(dateCom.second!)"
+        return "\(dateCom.hour!):\(minute):\(second)"
     
     }
 }
@@ -471,6 +493,9 @@ func getESTDateFromString(date: String) -> Date {
 func signOutofAmbassadoor() {
     UserDefaults.standard.set(nil, forKey: "token")
     UserDefaults.standard.set(nil, forKey: "userid")
+    UserDefaults.standard.set(nil, forKey: "userID")
+    UserDefaults.standard.set(nil, forKey: "email")
+    UserDefaults.standard.set(nil, forKey: "password")
     API.instaLogout()
     Yourself = nil
 }
@@ -752,6 +777,98 @@ func AverageLikes(userID: String, userToken: String) {
 //        GraphRequest(graphPath: NewAccount.id + "/media", parameters: [:]).start(completionHandler: { (connection, recentMedia, error) -> Void in
 //        })
     
+}
+
+func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
+    
+    getFollowerCompaniesOffer(followers: Yourself.businessFollowing!) { (status, offers) in
+        
+        if status {
+            if offers != nil {
+            global.followOfferList = offers!
+            }
+        }
+        
+    }
+    
+    getAllOffer { (status, allOffer) in
+        
+        if status{
+            
+            if allOffer != nil {
+                global.allOfferList = allOffer!
+            }
+        }
+        
+    }
+    
+    global.BusinessUser.removeAll()
+    _ = GetAllBusiness(completion: { (business) in
+        global.BusinessUser = business
+    })
+    global.SocialData.removeAll()
+    _ = GetAllUsers(completion: { (users) in
+        global.SocialData = users
+    })
+    
+    if reference != nil {
+        getAcceptedOffers { (status, offers) in
+            
+            if status{
+                if offers.count > 0{
+                    global.allInprogressOffer.removeAll()
+                    global.allInprogressOffer.append(contentsOf: offers)
+                    reference!.tabBar.items![3].badgeValue = String(offers.count)
+                    UIApplication.shared.applicationIconBadgeNumber = offers.count
+                }
+                
+            }
+            
+        }
+    }
+
+    getFollowingList { (status, usersList) in
+        
+        if status{
+            //self.userList = usersList
+            global.userList.removeAll()
+            global.userList = usersList
+        }
+        
+    }
+    
+    getFollowerList { (statusFollower, followerList) in
+        
+        
+        
+        getFollowingAcceptedOffers { (status, offers) in
+            global.followerList.removeAll()
+            if statusFollower{
+                global.followerList.append(contentsOf: followerList)
+                
+            }
+            
+            if status{
+                
+                global.followerList.append(contentsOf: offers)
+                let sorted = global.followerList.sorted { (objOne, objTwo) -> Bool in
+                return (objOne.startedAt!.compare(objTwo.startedAt!) == .orderedDescending)
+                }
+                global.followerList = sorted
+            }
+            
+        }
+    }
+    
+    getFollowedByList { (status, users) in
+        
+        if status{
+            
+            global.influencerList = users
+            
+        }
+        
+    }
 }
 
 

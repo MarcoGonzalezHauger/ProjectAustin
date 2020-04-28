@@ -17,7 +17,8 @@ class SocialCell: UITableViewCell {
     var follower: Follower?{
         didSet{
             if let followerDetails = follower{
-                self.userName.text = "@\(followerDetails.user?.username ?? "")"
+				self.userName.text = followerDetails.user?.name
+                //self.userName.text = "@\(followerDetails.user?.username ?? "")"
                 self.userDes.text = "started following you"
                 self.dateText.text = followerDetails.startedAt
                 self.socialBar.backgroundColor = UIColor.systemBlue
@@ -29,7 +30,8 @@ class SocialCell: UITableViewCell {
         didSet{
             if let offerDetails = followingOffer{
                 
-                self.userName.text = "@\(offerDetails.user?.username ?? "")"
+				self.userName.text = offerDetails.user?.name ?? ""
+                //self.userName.text = "@\(offerDetails.user?.username ?? "")"
 				
 				if offerDetails.tag == "offer"{
 					if let company = offerDetails.offer?.companyDetails {
@@ -87,6 +89,13 @@ class SocialFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 
         // Do any additional setup after loading the view.
         
+        if global.followerList.count != 0 {
+            self.followerList = global.followerList
+            DispatchQueue.main.async {
+                self.socialFeedTable.reloadData()
+            }
+        }
+        else{
         getFollowerList { (status, followerList) in
             if status{
                 self.followerList.append(contentsOf: followerList)
@@ -102,6 +111,8 @@ class SocialFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                     return (objOne.startedAt!.compare(objTwo.startedAt!) == .orderedDescending)
                     }
                     self.followerList = sorted
+                    global.followerList.removeAll()
+                    global.followerList = sorted
                     DispatchQueue.main.async {
                         self.socialFeedTable.reloadData()
                     }
@@ -109,7 +120,7 @@ class SocialFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 
             }
         }
-        
+    }
         
     }
     

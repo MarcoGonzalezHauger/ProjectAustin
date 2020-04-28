@@ -48,7 +48,7 @@ class SearchPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
           return
         }
         if let index = pageViewController.viewControllers!.first!.view.tag as? Int{
-        self.pageViewDidChange?.pageViewIndexDidChangedelegate(index:index)
+			self.pageViewDidChange?.pageViewIndexDidChangedelegate(index:index)
         }
     }
 	
