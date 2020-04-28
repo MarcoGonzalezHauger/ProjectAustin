@@ -614,10 +614,10 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                             <rect key="frame" x="335" y="9" width="63" height="35"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                             <state key="normal" title="Report">
-                                                <color key="titleColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                         </button>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="offerHeading" translatesAutoresizingMaskIntoConstraints="NO" id="Keo-qd-ImE">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OfferTopImage" translatesAutoresizingMaskIntoConstraints="NO" id="Keo-qd-ImE">
                                             <rect key="frame" x="102" y="9.5" width="200" height="34"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="200" id="4WX-iT-jRw"/>
@@ -964,7 +964,7 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="69N-eU-6tZ" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="16" y="345.5" width="382" height="152"/>
+                                <rect key="frame" x="16" y="345.5" width="382" height="161.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What the Post Caption Should Say" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4mc-jB-oIG">
                                         <rect key="frame" x="61.5" y="8" width="259" height="20"/>
@@ -972,14 +972,15 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                         <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The phrasing of the caption is up to you, as long as it contains all of the following phrases/hashtags in it." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pfF-IA-7ew">
-                                        <rect key="frame" x="12" y="33" width="358" height="33.5"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pfF-IA-7ew">
+                                        <rect key="frame" x="12" y="33" width="358" height="43"/>
+                                        <string key="text">The phrasing of the caption is up to you, as long as it contains all of the following phrases/hashtags in it. Entering hashtags in as a comment does NOT work.</string>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XUb-18-JHK">
-                                        <rect key="frame" x="12" y="71.5" width="358" height="38.5"/>
+                                        <rect key="frame" x="12" y="81" width="358" height="38.5"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="38.5" id="Kck-M7-jQ3"/>
                                         </constraints>
@@ -990,9 +991,9 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DYU-p1-hcP">
-                                        <rect key="frame" x="12" y="114" width="108" height="30"/>
+                                        <rect key="frame" x="12" y="123.5" width="173" height="30"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Check Caption"/>
+                                        <state key="normal" title="Check if caption is valid"/>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -1091,8 +1092,8 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
         </scene>
     </scenes>
     <resources>
+        <image name="OfferTopImage" width="80" height="80"/>
         <image name="check_fill" width="84" height="84"/>
-        <image name="offerHeading" width="303" height="80"/>
         <image name="postVerified" width="84" height="84"/>
         <namedColor name="Main_ambassa">
             <color red="1" green="0.47499999403953552" blue="0.030999999493360519" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
