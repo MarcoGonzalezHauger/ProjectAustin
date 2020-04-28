@@ -17,7 +17,8 @@ class SocialCell: UITableViewCell {
     var follower: Follower?{
         didSet{
             if let followerDetails = follower{
-                self.userName.text = "@\(followerDetails.user?.username ?? "")"
+				self.userName.text = followerDetails.user?.name
+                //self.userName.text = "@\(followerDetails.user?.username ?? "")"
                 self.userDes.text = "started following you"
                 self.dateText.text = followerDetails.startedAt
                 self.socialBar.backgroundColor = UIColor.systemBlue
@@ -29,7 +30,8 @@ class SocialCell: UITableViewCell {
         didSet{
             if let offerDetails = followingOffer{
                 
-                self.userName.text = "@\(offerDetails.user?.username ?? "")"
+				self.userName.text = offerDetails.user?.name ?? ""
+                //self.userName.text = "@\(offerDetails.user?.username ?? "")"
 				
 				if offerDetails.tag == "offer"{
 					if let company = offerDetails.offer?.companyDetails {
