@@ -78,6 +78,9 @@ class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     override func viewDidLoad() {
         super.viewDidLoad()
+		
+		filteredOfferTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
+		
         getFilteredOffer { (status, offers) in
             
             self.filteredOfferList = offers!
@@ -95,10 +98,16 @@ class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let identifier = "standardoffer"
+        //let identifier = "standardoffer"
         
-        let cell = filteredOfferTable.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! StandardOfferCell
+        //let cell = filteredOfferTable.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! StandardOfferCell
+		var cell: StandardOfferCell!
         
+        if cell == nil {
+            let nib = Bundle.main.loadNibNamed("StandardOfferCell", owner: self, options: nil)
+            cell = nib![0] as? StandardOfferCell
+        }
+		
         cell.offer = filteredOfferList[indexPath.row].offer
         return cell
     }

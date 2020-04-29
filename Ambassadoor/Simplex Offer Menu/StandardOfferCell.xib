@@ -17,13 +17,13 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0gy-nr-yCb" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                        <rect key="frame" x="6" y="7.5" width="402" height="70"/>
+                        <rect key="frame" x="6" y="4" width="402" height="77"/>
                         <subviews>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Gt-sX-9Bg" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="402" height="70"/>
+                                <rect key="frame" x="0.0" y="0.0" width="402" height="77"/>
                                 <subviews>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9ac-i6-6jp" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="200" height="20"/>
+                                        <rect key="frame" x="0.0" y="57" width="200" height="20"/>
                                         <color key="backgroundColor" red="1" green="0.89051556980000002" blue="0.1373122323" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="N0W-tV-2p2"/>
@@ -39,17 +39,17 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1pH-0w-KfW" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="402" height="65"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="402" height="72"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KbY-dx-eai">
-                                                <rect key="frame" x="8" y="8" width="50" height="50"/>
+                                                <rect key="frame" x="8" y="11" width="50" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="50" id="g04-sn-aHQ"/>
                                                     <constraint firstAttribute="height" constant="50" id="oV4-26-ble"/>
                                                 </constraints>
                                             </imageView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="tRN-Yb-q4q">
-                                                <rect key="frame" x="66" y="10.5" width="163.5" height="45.5"/>
+                                                <rect key="frame" x="66" y="13.5" width="163.5" height="45.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$20.26" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pHg-Ip-M7T">
                                                         <rect key="frame" x="0.0" y="0.0" width="66.5" height="23"/>
@@ -70,7 +70,7 @@
                                         <constraints>
                                             <constraint firstItem="KbY-dx-eai" firstAttribute="leading" secondItem="1pH-0w-KfW" secondAttribute="leading" constant="8" id="Qlt-3B-Fug"/>
                                             <constraint firstItem="tRN-Yb-q4q" firstAttribute="leading" secondItem="KbY-dx-eai" secondAttribute="trailing" constant="8" id="ekR-2o-aZR"/>
-                                            <constraint firstItem="KbY-dx-eai" firstAttribute="top" secondItem="1pH-0w-KfW" secondAttribute="top" constant="8" id="mw2-ZS-T1U"/>
+                                            <constraint firstItem="KbY-dx-eai" firstAttribute="centerY" secondItem="1pH-0w-KfW" secondAttribute="centerY" id="nNo-GY-2aG"/>
                                             <constraint firstItem="tRN-Yb-q4q" firstAttribute="centerY" secondItem="KbY-dx-eai" secondAttribute="centerY" id="xx7-0y-ptQ"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
@@ -107,7 +107,6 @@
                             <constraint firstItem="3Gt-sX-9Bg" firstAttribute="top" secondItem="0gy-nr-yCb" secondAttribute="top" id="3ew-mJ-ouU"/>
                             <constraint firstAttribute="bottom" secondItem="3Gt-sX-9Bg" secondAttribute="bottom" id="NuO-Fm-b4y"/>
                             <constraint firstAttribute="trailing" secondItem="3Gt-sX-9Bg" secondAttribute="trailing" id="Z1B-rl-VpT"/>
-                            <constraint firstAttribute="height" constant="70" id="ZjV-xO-bUt"/>
                             <constraint firstItem="3Gt-sX-9Bg" firstAttribute="leading" secondItem="0gy-nr-yCb" secondAttribute="leading" id="haW-rF-0fJ"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
@@ -133,9 +132,11 @@
                     </view>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="0gy-nr-yCb" firstAttribute="top" secondItem="wZo-Th-fcS" secondAttribute="top" constant="4" id="8IX-UU-BcZ"/>
                     <constraint firstItem="0gy-nr-yCb" firstAttribute="leading" secondItem="wZo-Th-fcS" secondAttribute="leading" constant="6" id="GbG-bf-Nrg"/>
                     <constraint firstItem="0gy-nr-yCb" firstAttribute="centerY" secondItem="wZo-Th-fcS" secondAttribute="centerY" id="rgj-ET-gTi"/>
                     <constraint firstAttribute="trailing" secondItem="0gy-nr-yCb" secondAttribute="trailing" constant="6" id="rmB-gC-LFN"/>
+                    <constraint firstAttribute="bottom" secondItem="0gy-nr-yCb" secondAttribute="bottom" constant="4" id="tId-d0-Myd"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

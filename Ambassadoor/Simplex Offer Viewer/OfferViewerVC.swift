@@ -176,7 +176,16 @@ class WillBePaidCell: UITableViewCell {
 							
 							self.timerForWillPaidCell(sender: timer!)
 							
-						}
+                        }else{
+                            leftTimeText.text = "\(offerValue.title) has expired to be paid"
+                            
+                            progressView.updateConstraints()
+                            progressView.layoutIfNeeded()
+                            
+                            widthConstraint.constant = self.frame.size.width
+                            
+                            progressView.backgroundColor = UIColor.systemRed
+                        }
 						
 					}
 					
@@ -1016,8 +1025,20 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		}
 	}
 	
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		tableView.deselectRow(at: indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
+        //tableView.deselectRow(at: indexPath, animated: true)
+        if self.offerVariation! == .didNotPostInTime{
+          if indexPath.row == 1{
+            
+            self.performSegue(withIdentifier: "FromOVtoVB", sender: self.offer!.companyDetails)
+            
+         }
+        }else if self.offerVariation! != .allPostsDenied {
+            if indexPath.row == 2{
+             self.performSegue(withIdentifier: "FromOVtoVB", sender: self.offer!.companyDetails)
+            }
+        }
+		//tableView.deselectRow(at: indexPath, animated: true)
 	}
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
@@ -1250,6 +1271,10 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
             let colorView = segue.destination as! ViewPostDetailedVC
             colorView.index = (sender as! Int)
             colorView.offer = (self.offer!)
+        }else if segue.identifier == "FromOVtoVB"{
+            let view = segue.destination as! ViewBusinessVC
+            view.fromSearch = false
+            view.businessDatail = (sender as! CompanyDetails)
         }
 	}
 	

@@ -70,7 +70,8 @@ class SocialPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
 		
 		dataSource = self
 		delegate = self
-			
+		
+		
 		let firstViewController : UIViewController = OrderedVC[0]
 		
 		//display that in pages.

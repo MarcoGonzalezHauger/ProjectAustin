@@ -89,6 +89,9 @@ class SocialFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 
         // Do any additional setup after loading the view.
         
+		socialFeedTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
+		
+		
         if global.followerList.count != 0 {
             self.followerList = global.followerList
             DispatchQueue.main.async {

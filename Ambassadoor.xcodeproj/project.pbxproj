@@ -37,6 +37,7 @@
 		B7CAD15923FE8019005CD144 /* VerifyOTPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CAD15823FE8019005CD144 /* VerifyOTPVC.swift */; };
 		B7CAD15B23FEA634005CD144 /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CAD15A23FEA634005CD144 /* UITextFieldExtension.swift */; };
 		B7CAD15D23FEAB5D005CD144 /* SetPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CAD15C23FEAB5D005CD144 /* SetPasswordVC.swift */; };
+		B7CD174F2459643D00D1F63A /* ViewBusinessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CD174E2459643D00D1F63A /* ViewBusinessVC.swift */; };
 		B7CE99BB244897C400517330 /* OfferViewerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CE99BA244897C400517330 /* OfferViewerVC.swift */; };
 		B7CE99BD2448A25D00517330 /* WarnUser.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7CE99BC2448A25D00517330 /* WarnUser.xib */; };
 		B7CE99C02448A2AD00517330 /* PostDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7CE99BF2448A2AD00517330 /* PostDetailCell.xib */; };
@@ -69,6 +70,7 @@
 		E80FD4FF21A4F1E4003AF50B /* PageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80FD4FE21A4F1E4003AF50B /* PageVC.swift */; };
 		E8109EEC21AEE818008882B1 /* MoneyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8109EEB21AEE818008882B1 /* MoneyVC.swift */; };
 		E8109EEE21AF6BA8008882B1 /* WithdrawVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8109EED21AF6BA8008882B1 /* WithdrawVC.swift */; };
+		E811B7D524588DCD00A58B30 /* businessViewer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E811B7D424588DCD00A58B30 /* businessViewer.storyboard */; };
 		E8128C5023F36A1800703195 /* ResetPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8128C4F23F36A1800703195 /* ResetPasswordVC.swift */; };
 		E8164F6222249ACC0084CCF9 /* StatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8164F6122249ACC0084CCF9 /* StatVC.swift */; };
 		E8175951243BD7930040CB0B /* Searcher.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E817594F243BAA4B0040CB0B /* Searcher.storyboard */; };
@@ -166,6 +168,7 @@
 		B7CAD15823FE8019005CD144 /* VerifyOTPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyOTPVC.swift; sourceTree = "<group>"; };
 		B7CAD15A23FEA634005CD144 /* UITextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtension.swift; sourceTree = "<group>"; };
 		B7CAD15C23FEAB5D005CD144 /* SetPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPasswordVC.swift; sourceTree = "<group>"; };
+		B7CD174E2459643D00D1F63A /* ViewBusinessVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBusinessVC.swift; sourceTree = "<group>"; };
 		B7CE99BA244897C400517330 /* OfferViewerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferViewerVC.swift; sourceTree = "<group>"; };
 		B7CE99BC2448A25D00517330 /* WarnUser.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WarnUser.xib; sourceTree = "<group>"; };
 		B7CE99BF2448A2AD00517330 /* PostDetailCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostDetailCell.xib; sourceTree = "<group>"; };
@@ -199,6 +202,7 @@
 		E80FD4FE21A4F1E4003AF50B /* PageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageVC.swift; sourceTree = "<group>"; };
 		E8109EEB21AEE818008882B1 /* MoneyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyVC.swift; sourceTree = "<group>"; };
 		E8109EED21AF6BA8008882B1 /* WithdrawVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawVC.swift; sourceTree = "<group>"; };
+		E811B7D424588DCD00A58B30 /* businessViewer.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = businessViewer.storyboard; sourceTree = "<group>"; };
 		E8128C4F23F36A1800703195 /* ResetPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordVC.swift; sourceTree = "<group>"; };
 		E8164F6122249ACC0084CCF9 /* StatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatVC.swift; sourceTree = "<group>"; };
 		E817594F243BAA4B0040CB0B /* Searcher.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Searcher.storyboard; sourceTree = "<group>"; };
@@ -336,6 +340,15 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		E811B7D324588DAB00A58B30 /* Simplex Business Viewer */ = {
+			isa = PBXGroup;
+			children = (
+				E811B7D424588DCD00A58B30 /* businessViewer.storyboard */,
+				B7CD174E2459643D00D1F63A /* ViewBusinessVC.swift */,
+			);
+			path = "Simplex Business Viewer";
+			sourceTree = "<group>";
+		};
 		E817594E243BA8FA0040CB0B /* Simplex Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -388,6 +401,7 @@
 				E87980112444084B00F32137 /* Simplex Social */,
 				E817594E243BA8FA0040CB0B /* Simplex Search */,
 				E8721D682436E53E0016D2B3 /* Simplex Offer Menu */,
+				E811B7D324588DAB00A58B30 /* Simplex Business Viewer */,
 				E8B75E96244804F6004BD810 /* Simplex Offer Viewer */,
 				E879800E243E6A5500F32137 /* Simplex In Progress */,
 				E87BA92123EB65E0008D7628 /* Simplex Setup */,
@@ -693,6 +707,7 @@
 				B7CE99C02448A2AD00517330 /* PostDetailCell.xib in Resources */,
 				B7EA07352382C4740009870E /* GoogleService-Info.plist in Resources */,
 				B7CE99BD2448A25D00517330 /* WarnUser.xib in Resources */,
+				E811B7D524588DCD00A58B30 /* businessViewer.storyboard in Resources */,
 				E8721D6A2436E5580016D2B3 /* OfferMenu.storyboard in Resources */,
 				B7A178F7243C57BE000670C3 /* FollowedCompaniesOffer.xib in Resources */,
 				E8AAE63B23EC3D7300EC28D4 /* LoginSetup.storyboard in Resources */,
@@ -829,6 +844,7 @@
 				E880460723F44BAD00A21ABE /* InstagramConnectedVC.swift in Sources */,
 				E8C369572216270E00AE12D7 /* ViewProfileVC.swift in Sources */,
 				B7D2390C24445EF100CD9F65 /* SocialMenuVC.swift in Sources */,
+				B7CD174F2459643D00D1F63A /* ViewBusinessVC.swift in Sources */,
 				B7FB2886233A1E4700980F17 /* PaymentSentVC.swift in Sources */,
 				B7263285243F16D000202DFB /* InProgressVC.swift in Sources */,
 				E86A1E4F21A86CE900DCB0D0 /* RejectedOffersVC.swift in Sources */,
