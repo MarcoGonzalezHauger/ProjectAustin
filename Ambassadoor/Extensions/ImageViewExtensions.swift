@@ -174,7 +174,7 @@ func downloadImage(_ urlLink: String, completed: @escaping (_ image: UIImage?) -
             saveCoreData(link: urlLink, data: data!)
             
 			if let newImage = UIImage(data: data!) {
-				imageCache.setObject(newImage, forKey: urlLink as NSString)
+				//imageCache.setObject(newImage, forKey: urlLink as NSString)
 				completed(newImage)
 				return
 			}

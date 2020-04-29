@@ -313,7 +313,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                             fetchSingleUserDetails(userID: userID) { (status, user) in
                                 Yourself = user
                                 setHapticMenu(user: Yourself)
+                                
                                 let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
+                                downloadDataBeforePageLoad(reference: viewReference)
                                 self.window?.rootViewController = viewReference
                             }
                             

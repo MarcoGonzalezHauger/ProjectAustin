@@ -15,17 +15,27 @@ class SocialFollowedVC: UIViewController,UITableViewDataSource, UITableViewDeleg
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        getFollowedByList { (status, users) in
-            
-            if status{
+        
+		followingTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
+		
+        if global.influencerList.count != 0 {
+            self.influencerList = global.influencerList
+            DispatchQueue.main.async {
+                self.followingTable.reloadData()
+            }
+        }else{
+            getFollowedByList { (status, users) in
                 
-                self.influencerList = users
-                DispatchQueue.main.async {
-                    self.followingTable.reloadData()
+                if status{
+                    
+                    self.influencerList = users
+                    DispatchQueue.main.async {
+                        self.followingTable.reloadData()
+                    }
+                    
                 }
                 
             }
-            
         }
         // Do any additional setup after loading the view.
     }

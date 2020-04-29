@@ -8,7 +8,7 @@
 
 import UIKit
 
-let unviersalOfferHeight: CGFloat = 82.5
+let unviersalOfferHeight: CGFloat = 77.5
 
 class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, OfferResponse {
     func OfferAccepted(offer: Offer) {
@@ -23,16 +23,26 @@ class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, O
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getAllOffer { (status, allOffer) in
-            
-            if status{
-                self.allOfferList = allOffer!
-                DispatchQueue.main.async {
-                    self.allOfferTable.reloadData()
+		allOfferTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
+		
+        if global.allOfferList.count == 0{
+            getAllOffer { (status, allOffer) in
+                
+                if status{
+                    self.allOfferList = allOffer!
+                    DispatchQueue.main.async {
+                        self.allOfferTable.reloadData()
+                    }
                 }
+                
             }
-            
+        }else{
+            self.allOfferList = global.allOfferList
+            DispatchQueue.main.async {
+                self.allOfferTable.reloadData()
+            }
         }
+        
 
         // Do any additional setup after loading the view.
     }

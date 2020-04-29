@@ -279,7 +279,7 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
 }
 
 enum rowHeight: CGFloat {
-    case one = 132, two = 160, three = 188
+    case one = 140, two = 168, three = 196
     
     static func returnRowHeight(count: Int) -> rowHeight{
         
@@ -351,23 +351,32 @@ class InProgressVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+		inProgressTable.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         UIApplication.shared.applicationIconBadgeNumber = 0
         self.tabBarController?.tabBar.items![3].badgeValue = nil
+        if global.allInprogressOffer.count == 0{
         getAcceptedOffers { (status, offers) in
             
             if status{
                 self.allInprogressOffer.removeAll()
                 self.allInprogressOffer.append(contentsOf: offers)
+                global.allInprogressOffer = offers
                 DispatchQueue.main.async {
                     self.inProgressTable.reloadData()
                 }
             }
             
+        }
+        }else{
+            self.allInprogressOffer.removeAll()
+            self.allInprogressOffer = global.allInprogressOffer
+            DispatchQueue.main.async {
+                self.inProgressTable.reloadData()
+            }
         }
     }
     

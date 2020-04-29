@@ -89,6 +89,16 @@ class SocialFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 
         // Do any additional setup after loading the view.
         
+		socialFeedTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
+		
+		
+        if global.followerList.count != 0 {
+            self.followerList = global.followerList
+            DispatchQueue.main.async {
+                self.socialFeedTable.reloadData()
+            }
+        }
+        else{
         getFollowerList { (status, followerList) in
             if status{
                 self.followerList.append(contentsOf: followerList)
@@ -104,6 +114,8 @@ class SocialFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                     return (objOne.startedAt!.compare(objTwo.startedAt!) == .orderedDescending)
                     }
                     self.followerList = sorted
+                    global.followerList.removeAll()
+                    global.followerList = sorted
                     DispatchQueue.main.async {
                         self.socialFeedTable.reloadData()
                     }
@@ -111,7 +123,7 @@ class SocialFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 
             }
         }
-        
+    }
         
     }
     

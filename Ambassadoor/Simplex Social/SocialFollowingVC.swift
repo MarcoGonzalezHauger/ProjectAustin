@@ -15,11 +15,23 @@ class SocialFollowingVC: UIViewController, UITableViewDelegate, UITableViewDataS
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+		followingTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
+		
+        if global.userList.count != 0 {
+            self.userList = global.userList
+            DispatchQueue.main.async {
+                self.followingTable.reloadData()
+            }
+        }
+        else{
         getFollowingList { (status, usersList) in
             
             if status{
                 
                 self.userList = usersList
+                global.userList.removeAll()
+                global.userList = usersList
                 DispatchQueue.main.async {
                     self.followingTable.reloadData()
                 }
@@ -27,6 +39,7 @@ class SocialFollowingVC: UIViewController, UITableViewDelegate, UITableViewDataS
             }
             
         }
+    }
         // Do any additional setup after loading the view.
     }
     

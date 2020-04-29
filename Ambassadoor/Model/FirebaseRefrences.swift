@@ -1127,7 +1127,7 @@ func getAcceptedOffers(completion: @escaping(_ status: Bool,_ offer: [Offer])->(
     
     let userRef = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id)
     
-    userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+    userRef.observe(.value) { (snapshot) in
         
         if let snapDict = snapshot.value as? [String: [String: AnyObject]] {
             
@@ -1150,9 +1150,34 @@ func getAcceptedOffers(completion: @escaping(_ status: Bool,_ offer: [Offer])->(
             
         }
         
-    }) { (error) in
-        
     }
+    
+//    userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+//
+//        if let snapDict = snapshot.value as? [String: [String: AnyObject]] {
+//
+//            var offerList = [Offer]()
+//
+//            for (_, offervalue) in snapDict {
+//
+//                if let isAccepted = offervalue["status"] as? String{
+//                    //if isAccepted == "accepted" || isAccepted == "posted" {
+//
+//                        let offer = Offer.init(dictionary: offervalue)
+//
+//                        offerList.append(offer)
+//                    //}
+//                }
+//
+//            }
+//
+//            completion(true, offerList)
+//
+//        }
+//
+//    }) { (error) in
+//
+//    }
     
 }
 
