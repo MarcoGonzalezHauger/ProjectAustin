@@ -1123,6 +1123,55 @@ func getFollowerCompaniesOffer(followers: [String],completion: @escaping (_ stat
 
 }
 
+func getOfferByBusiness(userId: String, completion:@escaping(_ status: Bool,_ offers: [allOfferObject])->()) {
+    
+    var offerList = [allOfferObject]()
+    let ref = Database.database().reference().child("OfferPool").child(userId)
+    ref.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let totalDict = snapshot.value as? [String: AnyObject] {
+            
+            //allOfferObject
+                                
+                for (_, OfferValue) in totalDict {
+                    
+                    
+                    
+                    let offerData = Offer.init(dictionary: OfferValue as! [String : AnyObject])
+                        //Check If already accepted this offer
+                        //offerData.companyDetails!.userId = userID
+                    let pay = calculateCostForUser(offer: offerData, user: Yourself)
+                        if let offer = offerData.accepted {
+                        if !offer.contains(Yourself.id){
+                        //offerList.append(offerData)
+                        
+                        if pay <= offerData.money{
+                        let allObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
+                        offerList.append(allObj)
+                        }
+                        }else{
+//                            let allObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: true)
+//                            offerList.append(allObj)
+                        }
+                        }else{
+                        if pay <= offerData.money{
+                        let allObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
+                        offerList.append(allObj)
+                        }
+                        }
+                }
+            completion(true,offerList)
+            
+        }else{
+            completion(false,offerList)
+        }
+        
+        
+    }) { (error) in
+        
+    }
+}
+
 func getAcceptedOffers(completion: @escaping(_ status: Bool,_ offer: [Offer])->()) {
     
     let userRef = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id)
