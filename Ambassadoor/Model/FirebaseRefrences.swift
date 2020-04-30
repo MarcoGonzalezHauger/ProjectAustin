@@ -1282,7 +1282,8 @@ func updateReservedOfferStatus(offer: Offer) {
     let offerRef = Database.database().reference().child("OfferPool").child(offer.companyDetails!.userId!).child(offer.offer_ID).child("reservedUsers")
     let reserve = offer.reservedUsers![Yourself.id]
     let date = reserve!["isReservedUntil"] as AnyObject
-    offerRef.updateChildValues([Yourself.id : ["isReserved":true,"isReservedUntil": date]])
+    let cash = reserve!["cashPower"] as AnyObject
+    offerRef.updateChildValues([Yourself.id : ["isReserved":true,"isReservedUntil": date, "cashPower":cash]])
     
     let updateReserveOffer = Database.database().reference().child("ReservedOffers").child(offer.companyDetails!.userId!).child(Yourself.id).child(offer.offer_ID)
     updateReserveOffer.updateChildValues(["offerId":offer.offer_ID])

@@ -132,6 +132,8 @@ class WillBePaidCell: UITableViewCell {
 	
 	var timer: Timer?
 	var updatedDate: Date?
+    
+    var offerVariation: OfferVariation?
 	
 	@IBOutlet weak var widthConstraint: NSLayoutConstraint!
 	
@@ -247,6 +249,7 @@ class WillBePaidCell: UITableViewCell {
 	
 	@objc func timerForWillPaidCell(sender: Timer){
 		
+        if self.offerVariation! == .willBePaid{
 		
 		let answer: String? = DateToLetterCountdownWithFormat(date: self.updatedDate!, format: "")
 		
@@ -255,7 +258,17 @@ class WillBePaidCell: UITableViewCell {
 			leftTimeText.text = "You will be paid in \(answer)"
 			
 		}
-		
+        }else{
+            
+            let answer: String? = DateToLetterCountdownWithFormat(date: self.updatedDate!, format: "")
+            
+            if let answer = answer{
+                
+                leftTimeText.text = "You will be approved in \(answer)"
+                
+            }
+            
+        }
 	}
 	
 	var hasBeenPaidOffer: Offer?{
@@ -682,7 +695,7 @@ class PostDetailCell: UITableViewCell, UITableViewDataSource, UITableViewDelegat
 }
 
 enum OfferVariation {
-	case canBeAccepted, canNotBeAccepted, inProgress, didNotPostInTime, willBePaid, hasBeenPaid, allPostsDenied
+	case canBeAccepted, canNotBeAccepted, inProgress, didNotPostInTime, willBePaid, willBeApproved , hasBeenPaid, allPostsDenied
 	
 	static func getOfferVariation(status: String) -> OfferVariation{
 		switch status {
@@ -691,7 +704,9 @@ enum OfferVariation {
 		case "expired":
 			return .didNotPostInTime
 		case "posted":
-			return .willBePaid
+			return .willBeApproved
+        case "verified":
+            return .willBePaid
 		case "paid":
 			return .hasBeenPaid
 		case "rejected":
@@ -713,6 +728,8 @@ enum NumberOfRows: Int {
 			return .canNotBeAcceptedRows
 		case .inProgress:
 			return .canBeAcceptedRows
+        case .willBeApproved:
+            return .inProgressRows
 		case .willBePaid:
 			return .inProgressRows
 		case .hasBeenPaid:
@@ -932,7 +949,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 				
 			}
 			
-		}else if self.offerVariation! == .willBePaid {
+		}else if self.offerVariation! == .willBePaid || self.offerVariation! == .willBeApproved {
 			if indexPath.row == 0{
 				let identifier = "goodWorkInfo"
 				let cell = offerViewTable.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! GoodWorkCell
@@ -941,6 +958,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 			}else if indexPath.row == 1{
 				let identifier = "youWillBePaid"
 				let cell = offerViewTable.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! WillBePaidCell
+                cell.offerVariation = self.offerVariation!
 				cell.offer = self.offer
 				return cell
 			}else if indexPath.row == 2{
@@ -1086,7 +1104,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 			}else{
 				return postRowHeight.returnRowHeight(count: offer!.posts.count).rawValue
 			}
-		}else if self.offerVariation! == .willBePaid {
+		}else if self.offerVariation! == .willBePaid || self.offerVariation! == .willBeApproved {
 			if indexPath.row == 0{
 				return 69.0
 			}else if indexPath.row == 1{
@@ -1167,23 +1185,33 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 				//                    print("vvv1=",Date.getDateFromISO8601WOString(ISO8601String: cd))
 				//                    print(dateOne)
 				
-				self.offer!.reservedUsers![Yourself.id] = ["isReserved":true as AnyObject,"isReservedUntil":dateString as AnyObject]
-				updateReservedOfferStatus(offer: self.offer!)
+				
 				
 				if let incresePay = self.offer!.incresePay {
 					
 					let pay = calculateCostForUser(offer: self.offer!, user: Yourself, increasePayVariable: incresePay)
-					let cash = (self.offer!.cashPower! - pay - (self.offer!.commission! * self.offer!.cashPower!))
+                    let deductedAmount = pay + (self.offer!.commission! * self.offer!.cashPower!)
+					let cash = (self.offer!.cashPower! - deductedAmount)
 					self.offer!.cashPower = cash
 					updateCashPower(cash: cash, offer: self.offer!)
+                    
+                    self.offer!.reservedUsers![Yourself.id] = ["isReserved":true as AnyObject,"isReservedUntil":dateString as AnyObject,"cashPower":deductedAmount as AnyObject]
+                    updateReservedOfferStatus(offer: self.offer!)
 					
 				}else{
 					
 					let pay = calculateCostForUser(offer: self.offer!, user: Yourself)
-					let cash = (self.offer!.cashPower! - pay - (self.offer!.commission! * self.offer!.cashPower!))
+                    let deductedAmount = pay + (self.offer!.commission! * self.offer!.cashPower!)
+					let cash = (self.offer!.cashPower! - deductedAmount)
+                    
 					self.offer!.cashPower = cash
 					updateCashPower(cash: cash, offer: self.offer!)
+                    
+                    self.offer!.reservedUsers![Yourself.id] = ["isReserved":true as AnyObject,"isReservedUntil":dateString as AnyObject,"cashPower":deductedAmount as AnyObject]
+                    updateReservedOfferStatus(offer: self.offer!)
 				}
+                
+                
 				
 			}
 			
