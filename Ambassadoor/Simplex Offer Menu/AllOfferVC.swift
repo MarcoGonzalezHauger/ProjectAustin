@@ -43,8 +43,21 @@ class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, O
             }
         }
         
-
+        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.allOfferAction(timer:)), userInfo: nil, repeats: false)
         // Do any additional setup after loading the view.
+    }
+    
+    @objc func allOfferAction(timer: Timer?) {
+        getObserveAllOffer { (status, allOffer) in
+            
+            if status{
+                self.allOfferList = allOffer!
+                DispatchQueue.main.async {
+                    self.allOfferTable.reloadData()
+                }
+            }
+            
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

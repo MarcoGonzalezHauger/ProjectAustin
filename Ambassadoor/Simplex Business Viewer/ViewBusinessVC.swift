@@ -24,6 +24,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
     var fromSearch: Bool?
     
     var followOfferList = [allOfferObject]()
+    var offerVariation: OfferVariation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -145,7 +146,10 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-//        //self.performSegue(withIdentifier: "FromFollowedOfferSegue", sender: followOfferList[indexPath.row])
+        
+        self.offerVariation = .canBeAccepted
+        self.performSegue(withIdentifier: "FromOBtoVO", sender: followOfferList[indexPath.row].offer)
+        tableView.deselectRow(at: indexPath, animated: true)
 //        let allOfferObj = followOfferList[indexPath.row]
 //        if allOfferObj.isAccepted{
 //        offerVariation = .inProgress
@@ -156,14 +160,21 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
 //        tableView.deselectRow(at: indexPath, animated: true)
     }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "FromOBtoVO" {
+         //guard let newviewoffer = viewoffer else { return }
+         let destination = (segue.destination as! StandardNC).topViewController as! OfferViewerVC
+        
+             destination.offerVariation = offerVariation!
+             destination.offer = sender as? Offer
+         }
     }
-    */
+    
 
 }

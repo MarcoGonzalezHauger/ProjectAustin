@@ -53,17 +53,19 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                     self.companyLogo.UseDefaultImage()
                 }
                 
-                if let incresePay = offerValue.incresePay {
-                    
-                    let pay = calculateCostForUser(offer: offerValue, user: Yourself, increasePayVariable: incresePay)
-                    
-                    self.amount.text = NumberToPrice(Value: pay)
-                    
-                }else{
-                    
-                    let pay = calculateCostForUser(offer: offerValue, user: Yourself)
-                    self.amount.text = NumberToPrice(Value: pay)
-                }
+                self.amount.text = NumberToPrice(Value: offerValue.money)
+                
+//                if let incresePay = offerValue.incresePay {
+//
+//                    let pay = calculateCostForUser(offer: offerValue, user: Yourself, increasePayVariable: incresePay)
+//
+//                    self.amount.text = NumberToPrice(Value: pay)
+//
+//                }else{
+//
+//                    let pay = calculateCostForUser(offer: offerValue, user: Yourself)
+//                    self.amount.text = NumberToPrice(Value: pay)
+//                }
                 
                 self.name.text = offerValue.company!.name
                 self.setTextandConstraints(offerValue: offerValue)
@@ -132,7 +134,7 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                             
                             if currentDate.timeIntervalSince1970 < expireDateAftPosted.timeIntervalSince1970{
                          
-                            let intBtnNowandPosted = (offerAcceptedDate.timeIntervalSince1970 - currentDate.timeIntervalSince1970)
+                            let intBtnNowandPosted = (currentDate.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
                             
                             let intAftTwoDays = (expireDateAftPosted.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
                             
@@ -175,7 +177,7 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                             
                             if currentDate.timeIntervalSince1970 < expireDateAftPosted.timeIntervalSince1970{
                          
-                            let intBtnNowandPosted = (offerAcceptedDate.timeIntervalSince1970 - currentDate.timeIntervalSince1970)
+                            let intBtnNowandPosted = (currentDate.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
                             
                             let intAftTwoDays = (expireDateAftPosted.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
                             

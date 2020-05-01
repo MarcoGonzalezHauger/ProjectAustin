@@ -199,25 +199,28 @@ class WillBePaidCell: UITableViewCell {
 	func setInfluencerAmount(offerValue: Offer) {
 		
 		var postedCount = 0
-		
+        var totalAmt = 0.0
 		for post in offerValue.posts {
 			if post.status == "posted"{
+                totalAmt += post.PayAmount!
 				postedCount += 1
 			}
 		}
+        
+        self.amtText.text = NumberToPrice(Value: totalAmt)
 		
-		if let incresePay = offerValue.incresePay {
-			
-			let pay = calculateCostForUser(offer: offerValue, user: Yourself, increasePayVariable: incresePay)
-			let totalAmt = (pay/Double(postedCount))
-			self.amtText.text = NumberToPrice(Value: totalAmt)
-			
-		}else{
-			
-			let pay = calculateCostForUser(offer: offerValue, user: Yourself)
-			let totalAmt = (pay/Double(postedCount))
-			self.amtText.text = NumberToPrice(Value: totalAmt)
-		}
+//		if let incresePay = offerValue.incresePay {
+//
+//			let pay = calculateCostForUser(offer: offerValue, user: Yourself, increasePayVariable: incresePay)
+//			let totalAmt = (pay/Double(postedCount))
+//			self.amtText.text = NumberToPrice(Value: totalAmt)
+//
+//		}else{
+//
+//			let pay = calculateCostForUser(offer: offerValue, user: Yourself)
+//			let totalAmt = (pay/Double(postedCount))
+//			self.amtText.text = NumberToPrice(Value: totalAmt)
+//		}
 		
 	}
 	
@@ -225,25 +228,26 @@ class WillBePaidCell: UITableViewCell {
 	func setPaidAmount(offerValue: Offer) {
 		
 		var postedCount = 0
-		
+		var totalAmt = 0.0
 		for post in offerValue.posts {
 			if post.status == "paid"{
+                totalAmt += post.PayAmount!
 				postedCount += 1
 			}
 		}
-		
-		if let incresePay = offerValue.incresePay {
-			
-			let pay = calculateCostForUser(offer: offerValue, user: Yourself, increasePayVariable: incresePay)
-			let totalAmt = (pay/Double(postedCount))
-			self.amtText.text = NumberToPrice(Value: totalAmt)
-			
-		}else{
-			
-			let pay = calculateCostForUser(offer: offerValue, user: Yourself)
-			let totalAmt = (pay/Double(postedCount))
-			self.amtText.text = NumberToPrice(Value: totalAmt)
-		}
+		self.amtText.text = NumberToPrice(Value: totalAmt)
+//		if let incresePay = offerValue.incresePay {
+//
+//			let pay = calculateCostForUser(offer: offerValue, user: Yourself, increasePayVariable: incresePay)
+//			let totalAmt = (pay/Double(postedCount))
+//			self.amtText.text = NumberToPrice(Value: totalAmt)
+//
+//		}else{
+//
+//			let pay = calculateCostForUser(offer: offerValue, user: Yourself)
+//			let totalAmt = (pay/Double(postedCount))
+//			self.amtText.text = NumberToPrice(Value: totalAmt)
+//		}
 		
 	}
 	
@@ -487,21 +491,30 @@ class NextStepCell: UITableViewCell {
 
 class OfferMoneyTVC: UITableViewCell {
 	@IBOutlet weak var moneyText: UILabel!
+    var offerVariation: OfferVariation?
 	
 	var offer: Offer?{
 		didSet{
 			if let offerValue = offer{
-				if let incresePay = offerValue.incresePay {
-					
-					let pay = calculateCostForUser(offer: offerValue, user: Yourself, increasePayVariable: incresePay)
-					
-					self.moneyText.text = NumberToPrice(Value: pay)
-					
-				}else{
-					
-					let pay = calculateCostForUser(offer: offerValue, user: Yourself)
-					self.moneyText.text = NumberToPrice(Value: pay)
-				}
+                
+                if self.offerVariation! == .inProgress{
+                    
+                    self.moneyText.text = NumberToPrice(Value: offerValue.money)
+                    
+                }else{
+                    if let incresePay = offerValue.incresePay {
+                        
+                        let pay = calculateCostForUser(offer: offerValue, user: Yourself, increasePayVariable: incresePay)
+                        
+                        self.moneyText.text = NumberToPrice(Value: pay)
+                        
+                    }else{
+                        
+                        let pay = calculateCostForUser(offer: offerValue, user: Yourself)
+                        self.moneyText.text = NumberToPrice(Value: pay)
+                    }
+                }
+                
 			}
 		}
 	}
@@ -826,7 +839,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 					let nib = Bundle.main.loadNibNamed("OfferMoneyTVC", owner: self, options: nil)
 					cell = (nib![0] as? OfferMoneyTVC)!
 				}
-				
+				cell!.offerVariation = self.offerVariation
 				cell!.offer = offer!
 				return cell!
 				
@@ -878,7 +891,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 					let nib = Bundle.main.loadNibNamed("OfferMoneyTVC", owner: self, options: nil)
 					cell = (nib![0] as? OfferMoneyTVC)!
 				}
-				
+                cell!.offerVariation = self.offerVariation
 				cell!.offer = offer!
 				return cell!
 				
@@ -1137,8 +1150,14 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     
     @IBAction func acceptAction(sender: UIButton){
-        updateIsAcceptedOffer(offer: self.offer!)
-                
+        if let incresePay = self.offer!.incresePay {
+        let pay = calculateCostForUser(offer: self.offer!, user: Yourself, increasePayVariable: incresePay)
+        updateIsAcceptedOffer(offer: self.offer!, money: pay)
+        }else{
+        let pay = calculateCostForUser(offer: self.offer!, user: Yourself)
+        updateIsAcceptedOffer(offer: self.offer!, money: pay)
+        }
+        
         updateUserIdOfferPool(offer: self.offer!)
         
         self.dismiss(animated: true, completion: nil)
@@ -1163,6 +1182,10 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		offerViewTable.contentInset = UIEdgeInsets(top: 2, left: 0, bottom: 0, right: 0)
 		
 		if self.offerVariation == .canBeAccepted {
+            
+           let pay = calculateCostForUser(offer: self.offer!, user: Yourself, increasePayVariable: self.offer!.incresePay!)
+            
+            if pay <= self.offer!.cashPower!{
 			
 			self.offerViewTable.dataSource = self
 			self.offerViewTable.delegate = self
@@ -1176,20 +1199,6 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 					print(dateOne)
 				}
 				
-				//                let dateString = Date.getStringFromIso8601Date(date: Date().addMinutes(minute: 5))
-				//                let dateOne = Date.getDateFromISO8601WOString(ISO8601String: dateString)
-				//
-				//                let cd = Date.getStringFromIso8601Date(date: Date())
-				//                    print("vvv=",Date.getStringFromIso8601Date(date: Date()))
-				//
-				//                    print("vvv1=",Date.getDateFromISO8601WOString(ISO8601String: cd))
-				//                    print(dateOne)
-				
-				
-				
-				if let incresePay = self.offer!.incresePay {
-					
-					let pay = calculateCostForUser(offer: self.offer!, user: Yourself, increasePayVariable: incresePay)
                     let deductedAmount = pay + (self.offer!.commission! * self.offer!.cashPower!)
 					let cash = (self.offer!.cashPower! - deductedAmount)
 					self.offer!.cashPower = cash
@@ -1198,29 +1207,13 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                     self.offer!.reservedUsers![Yourself.id] = ["isReserved":true as AnyObject,"isReservedUntil":dateString as AnyObject,"cashPower":deductedAmount as AnyObject]
                     updateReservedOfferStatus(offer: self.offer!)
 					
-				}else{
-					
-					let pay = calculateCostForUser(offer: self.offer!, user: Yourself)
-                    let deductedAmount = pay + (self.offer!.commission! * self.offer!.cashPower!)
-					let cash = (self.offer!.cashPower! - deductedAmount)
-                    
-					self.offer!.cashPower = cash
-					updateCashPower(cash: cash, offer: self.offer!)
-                    
-                    self.offer!.reservedUsers![Yourself.id] = ["isReserved":true as AnyObject,"isReservedUntil":dateString as AnyObject,"cashPower":deductedAmount as AnyObject]
-                    updateReservedOfferStatus(offer: self.offer!)
-				}
-                
-                
-				
 			}
 			
-			//            if self.offer?.isReserved == false{
-			//                self.offer!.isReserved = true
-			//                self.offer!.isReservedUntil = Date.getStringFromDate(date: Date().addMinutes(minute: 5))
-			//                updateReservedOfferStatus(offer: self.offer!)
-			//            }
 			self.offerViewTable.reloadData()
+            
+            }else{
+                self.dismiss(animated: true, completion: nil)
+            }
 			
 		}else if self.offerVariation == .canNotBeAccepted {
 			

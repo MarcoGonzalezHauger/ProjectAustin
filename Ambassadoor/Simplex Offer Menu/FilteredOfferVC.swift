@@ -80,8 +80,13 @@ class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         super.viewDidLoad()
 		
 		filteredOfferTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
-		
-        getFilteredOffer { (status, offers) in
+        self.filteredOfferAction(timer: nil)
+        
+        // Do any additional setup after loading the view.
+    }
+    
+    @objc func filteredOfferAction(timer: Timer?) {
+        getObserveFilteredOffer { (status, offers) in
             
             self.filteredOfferList = offers!
             
@@ -90,7 +95,6 @@ class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             }
             
         }
-        // Do any additional setup after loading the view.
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

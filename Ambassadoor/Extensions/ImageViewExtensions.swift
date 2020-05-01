@@ -165,7 +165,7 @@ func downloadImage(_ urlLink: String, completed: @escaping (_ image: UIImage?) -
 	URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
 		print("DOWNLOAD : \(urlLink)")
 		if let err = error {
-			print(err)
+			print("abc=",err)
 			completed(nil)
 			return
 		}

@@ -27,8 +27,15 @@ class OfferAcceptConfirmVC: UIViewController {
 	
     //If user agree and confirm the offer. we need to update offer expire date, offer status and isaccepted status to FIR
     @IBAction func OfferConfirmed(_ sender: Any) {
+        if let incresePay = ThisOffer.incresePay {
+        let pay = calculateCostForUser(offer: ThisOffer, user: Yourself, increasePayVariable: incresePay)
+        updateIsAcceptedOffer(offer: ThisOffer, money: pay)
+        }else{
+        let pay = calculateCostForUser(offer: ThisOffer, user: Yourself)
+        updateIsAcceptedOffer(offer: ThisOffer, money: pay)
+        }
         
-        updateIsAcceptedOffer(offer: ThisOffer)
+        //updateIsAcceptedOffer(offer: ThisOffer, money: )
         
         updateUserIdOfferPool(offer: ThisOffer)
         

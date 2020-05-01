@@ -451,7 +451,7 @@ func OpenAppStoreID(id: String) {
 //String To Date conversion
 func getDateFromString(date: String) -> Date {
 	let dateFormatterGet = DateFormatter()
-	dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss"
+	dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ssZ"
     dateFormatterGet.timeZone = TimeZone(abbreviation: "EST")
 	
 	let dateFormatterPrint = DateFormatter()
@@ -472,7 +472,7 @@ func getDateFromString(date: String) -> Date {
 func getESTDateFromString(date: String) -> Date {
     let dateFormatterGet = DateFormatter()
     dateFormatterGet.timeZone = TimeZone(abbreviation: "EST")
-    dateFormatterGet.dateFormat = "yyyy/MMM/dd HH:mm:ss"
+    dateFormatterGet.dateFormat = "yyyy/MMM/dd HH:mm:ssZ"
     print("currentDate =",Date())
 //    let dateFormatterPrint = DateFormatter()
 //    dateFormatterPrint.timeZone = TimeZone(abbreviation: "IST")
@@ -785,7 +785,9 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
         
         if status {
             if offers != nil {
-            global.followOfferList = offers!
+                global.followOfferList = offers!.sorted(by: { (objectOne, objectTwo) -> Bool in
+                    return objectOne.offer.offerdate.compare(objectTwo.offer.offerdate) == .orderedAscending
+                })
             }
         }
         
@@ -796,7 +798,9 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
         if status{
             
             if allOffer != nil {
-                global.allOfferList = allOffer!
+                global.allOfferList = allOffer!.sorted(by: { (objectOne, objectTwo) -> Bool in
+                    return objectOne.offer.offerdate.compare(objectTwo.offer.offerdate) == .orderedAscending
+                })
             }
         }
         
@@ -805,10 +809,57 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
     global.BusinessUser.removeAll()
     _ = GetAllBusiness(completion: { (business) in
         global.BusinessUser = business
+        
+        if global.BusinessUser.count > 20 {
+            for i in 0...19{
+                
+                let business = global.BusinessUser[i]
+                
+                if let logo = business.logo{
+                    downloadImage(logo) { (image) in
+                        
+                    }
+                }
+                
+            }
+        }else{
+            for business in global.BusinessUser{
+                                
+                if let logo = business.logo{
+                    downloadImage(logo) { (image) in
+                        
+                    }
+                }
+                
+            }
+        }
+        
     })
     global.SocialData.removeAll()
     _ = GetAllUsers(completion: { (users) in
         global.SocialData = users
+        if global.SocialData.count > 20 {
+            for i in 0...19{
+                
+                let user = global.SocialData[i]
+                
+                if let profile = user.profilePicURL{
+                    downloadImage(profile) { (profileImage) in
+                        
+                    }
+                }
+                
+            }
+        }else{
+            for user in global.SocialData{
+                if let profile = user.profilePicURL{
+                    downloadImage(profile) { (profileImage) in
+                        
+                    }
+                }
+                
+            }
+        }
     })
     
     if reference != nil {
