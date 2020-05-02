@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qc7-uh-lhg">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -188,11 +188,20 @@
                         <outlet property="offerTable" destination="Bta-6R-4K1" id="udy-DE-Ksk"/>
                         <outlet property="tableviewHeight" destination="dwc-C7-eqJ" id="C9y-cj-eW6"/>
                         <outlet property="website" destination="qwT-P9-1gZ" id="PUI-n5-ryA"/>
+                        <segue destination="TEw-HP-O5f" kind="presentation" identifier="FromOBtoVO" id="L1G-Bd-IpS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qba-iM-yqP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="11.594202898550726" y="-219.64285714285714"/>
+        </scene>
+        <!--OfferViewReference-->
+        <scene sceneID="hKD-HU-KQV">
+            <objects>
+                <viewControllerPlaceholder storyboardName="offerViewer" referencedIdentifier="OfferViewReference" id="TEw-HP-O5f" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wzh-sT-eax" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="569" y="-545"/>
         </scene>
     </scenes>
 </document>
