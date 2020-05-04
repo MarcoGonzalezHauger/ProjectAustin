@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6Q1-4r-QbC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6Q1-4r-QbC">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -133,11 +133,20 @@
                     <size key="freeformSize" width="414" height="700"/>
                     <connections>
                         <outlet property="businessUserTable" destination="v4q-6d-Fu9" id="hPF-j9-Jkq"/>
+                        <segue destination="cjS-H4-kv5" kind="presentation" identifier="FromBusinessSearchToBV" id="YcO-Mp-2xo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tsQ-A8-FOd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2957.971014492754" y="603.34821428571422"/>
+            <point key="canvasLocation" x="3038" y="690"/>
+        </scene>
+        <!--BusinessDetailReference-->
+        <scene sceneID="7qT-9A-YOJ">
+            <objects>
+                <viewControllerPlaceholder storyboardName="businessViewer" referencedIdentifier="BusinessDetailReference" id="cjS-H4-kv5" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EGc-J4-W8Y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2150" y="244"/>
         </scene>
         <!--ViewProfileReference-->
         <scene sceneID="Tga-GF-GfU">
@@ -181,7 +190,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="El4-tU-DE0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2275.36231884058" y="603.34821428571422"/>
+            <point key="canvasLocation" x="2316" y="603"/>
         </scene>
         <!--Business InfluencerVC-->
         <scene sceneID="fud-vc-egf">
@@ -213,6 +222,7 @@
                     <connections>
                         <outlet property="UserTable" destination="H5R-oO-MbX" id="eqk-Jd-6Zb"/>
                         <segue destination="oFz-iu-DqV" kind="presentation" identifier="FromBusinessInfluencer" id="bpw-Kk-df0"/>
+                        <segue destination="cjS-H4-kv5" kind="presentation" identifier="FromSearchToBV" id="PUc-V5-SaT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iMd-TW-hdt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -221,6 +231,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="bpw-Kk-df0"/>
+        <segue reference="XmN-q9-D3W"/>
+        <segue reference="YcO-Mp-2xo"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -294,7 +294,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     
     func signInAction() {
-
         if let email = UserDefaults.standard.object(forKey: "email") as? String{
             if let password = UserDefaults.standard.object(forKey: "password") as? String{
                 
@@ -319,12 +318,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                                 self.window?.rootViewController = viewReference
                             }
                             
+                        }else{
+                            let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
+                            self.window?.rootViewController = viewReference
                         }
+                    }else{
+                         let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
+                         self.window?.rootViewController = viewReference
                     }
                 }
                 
                 
+            }else{
+                let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
+                self.window?.rootViewController = viewReference
             }
+        }else{
+            let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
+            self.window?.rootViewController = viewReference
         }
 
 

@@ -56,7 +56,7 @@ extension Date {
     static func getDateFromString(date:String) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(abbreviation: "EST")
-        dateFormatter.dateFormat = "yyyy/MMM/dd HH:mm:ss"
+        dateFormatter.dateFormat = "yyyy/MMM/dd HH:mm:ssZ"
 //        dateFormatter.timeZone = TimeZone.current
 //        dateFormatter.locale = Locale.current
         
@@ -75,7 +75,7 @@ extension Date {
     static func getStringFromDate(date:Date) -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(abbreviation: "EST")
-        dateFormatter.dateFormat = "yyyy/MMM/dd HH:mm:ss"
+        dateFormatter.dateFormat = "yyyy/MMM/dd HH:mm:ssZ"
         //        dateFormatter.timeZone = TimeZone.current
         //        dateFormatter.locale = Locale.current
         return dateFormatter.string(from: date) // replace Date String

@@ -53,53 +53,119 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                     self.companyLogo.UseDefaultImage()
                 }
                 
-                if let incresePay = offerValue.incresePay {
-                    
-                    let pay = calculateCostForUser(offer: offerValue, user: Yourself, increasePayVariable: incresePay)
-                    
-                    self.amount.text = NumberToPrice(Value: pay)
-                    
-                }else{
-                    
-                    let pay = calculateCostForUser(offer: offerValue, user: Yourself)
-                    self.amount.text = NumberToPrice(Value: pay)
-                }
+                self.amount.text = NumberToPrice(Value: offerValue.money)
+                
+//                if let incresePay = offerValue.incresePay {
+//
+//                    let pay = calculateCostForUser(offer: offerValue, user: Yourself, increasePayVariable: incresePay)
+//
+//                    self.amount.text = NumberToPrice(Value: pay)
+//
+//                }else{
+//
+//                    let pay = calculateCostForUser(offer: offerValue, user: Yourself)
+//                    self.amount.text = NumberToPrice(Value: pay)
+//                }
                 
                 self.name.text = offerValue.company!.name
                 self.setTextandConstraints(offerValue: offerValue)
                 
-                if offerValue.status == "accepted"{
+                //if offerValue.status == "accepted"{
+                if OfferVariation.getOfferVariation(status: offerValue.status) == .inProgress {
+                    
                     if let offerAcceptedDate = offerValue.updatedDate{
                         
                         let dayCount = offerValue.posts.count * 2
                         let expireDateAftAcpt = offerAcceptedDate.afterDays(day: dayCount)
                         
+                        let curDateStr = Date.getStringFromDate(date: Date())
+                        
+                        if let currentDate = Date.getDateFromString(date: curDateStr!){
+                            
+                            if currentDate.timeIntervalSince1970 < expireDateAftAcpt.timeIntervalSince1970{
+                        
                         //Interval between Offer Acceted Date and Current Date
-                        let intervalBtnOffActDateToCurDate = (Date().timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
+                        let intervalBtnOffActDateToCurDate = (currentDate.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
                         
                         //Interval between Offer Acceted Date and expiring offer after Accepted Offer
                         let intervalBtnOffActDateToOfferExpDate = (expireDateAftAcpt.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
-                        
-                        print("after=",intervalBtnOffActDateToOfferExpDate)
-                        print("before",intervalBtnOffActDateToCurDate)
-                        
-                        
-                       //Calculate Progress How long days gone after accepting the offer
-                        progressWidth.constant = CGFloat(intervalBtnOffActDateToCurDate/intervalBtnOffActDateToOfferExpDate) * self.frame.size.width
+                                                    
+                            print("after=",intervalBtnOffActDateToOfferExpDate)
+                             print("before",intervalBtnOffActDateToCurDate)
+                             
+                             
+                            //Calculate Progress How long days gone after accepting the offer
+                             progressWidth.constant = CGFloat(intervalBtnOffActDateToCurDate/intervalBtnOffActDateToOfferExpDate) * self.frame.size.width
 
-                        progrssView.updateConstraints()
-                        progrssView.layoutIfNeeded()
-                        
-                        progrssView.backgroundColor = UIColor.systemBlue
-                        
-                        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForAccepted(sender:)), userInfo: nil, repeats: true)
-                        
-						self.startCountDownForAccepted(sender: timer!)
+                             progrssView.updateConstraints()
+                             progrssView.layoutIfNeeded()
+                             
+                             progrssView.backgroundColor = UIColor.systemBlue
+                             
+                             self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForAccepted(sender:)), userInfo: nil, repeats: true)
+                             
+                             self.startCountDownForAccepted(sender: timer!)
+                            
+                        }else{
+                            progressWidth.constant = self.frame.size.width
+
+                            progrssView.updateConstraints()
+                            progrssView.layoutIfNeeded()
+                            
+                            progrssView.backgroundColor = UIColor.systemRed
+                            
+                            self.paymentReceiveAt.text = "You ran out of time to post."
+                            
+                        }
+                    }
 						
                         //Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForTobepaid(sender:)), userInfo: nil, repeats: true)
                         
                     }
-                }else if offerValue.status == "posted" {
+                //}else if offerValue.status == "posted" {
+                }else if OfferVariation.getOfferVariation(status: offerValue.status) == .willBeApproved{
+                    if let offerAcceptedDate = offerValue.updatedDate{
+                        
+                        let expireDateAftPosted = offerAcceptedDate.afterDays(day: 2)
+                        
+                        let curDateStr = Date.getStringFromDate(date: Date())
+                        
+                        if let currentDate = Date.getDateFromString(date: curDateStr!){
+                            
+                            if currentDate.timeIntervalSince1970 < expireDateAftPosted.timeIntervalSince1970{
+                         
+                            let intBtnNowandPosted = (currentDate.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
+                            
+                            let intAftTwoDays = (expireDateAftPosted.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
+                            
+                                
+                                progressWidth.constant = CGFloat(intBtnNowandPosted/intAftTwoDays) * self.frame.size.width
+
+                                progrssView.updateConstraints()
+                                progrssView.layoutIfNeeded()
+                                
+                                progrssView.backgroundColor = UIColor.systemGreen
+                                
+                                self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForTobeapproved(sender:)), userInfo: nil, repeats: true)
+
+                                self.startCountDownForTobeapproved(sender: timer!)
+                                
+                            }else{
+                                //paymentReceiveAt.text = "\(offerValue.title) has expired to be paid"
+                                paymentReceiveAt.text = ""
+                                progressWidth.constant = self.frame.size.width
+
+                                progrssView.updateConstraints()
+                                progrssView.layoutIfNeeded()
+                                
+                                progrssView.backgroundColor = UIColor.systemRed
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                }else if OfferVariation.getOfferVariation(status: offerValue.status) == .willBePaid{
                     
                     if let offerAcceptedDate = offerValue.updatedDate{
                         
@@ -108,30 +174,61 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                         let curDateStr = Date.getStringFromDate(date: Date())
                         
                         if let currentDate = Date.getDateFromString(date: curDateStr!){
+                            
+                            if currentDate.timeIntervalSince1970 < expireDateAftPosted.timeIntervalSince1970{
                          
-                            let intBtnNowandPosted = (offerAcceptedDate.timeIntervalSince1970 - currentDate.timeIntervalSince1970)
+                            let intBtnNowandPosted = (currentDate.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
                             
                             let intAftTwoDays = (expireDateAftPosted.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
                             
-                            progressWidth.constant = CGFloat(intBtnNowandPosted/intAftTwoDays) * self.frame.size.width
+                                
+                                progressWidth.constant = CGFloat(intBtnNowandPosted/intAftTwoDays) * self.frame.size.width
 
-                            progrssView.updateConstraints()
-                            progrssView.layoutIfNeeded()
-                            
-                            progrssView.backgroundColor = UIColor.systemGreen
-                            
-                            self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForTobepaid(sender:)), userInfo: nil, repeats: true)
+                                progrssView.updateConstraints()
+                                progrssView.layoutIfNeeded()
+                                
+                                progrssView.backgroundColor = UIColor.systemGreen
+                                
+                                self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForTobepaid(sender:)), userInfo: nil, repeats: true)
 
-							self.startCountDownForTobepaid(sender: timer!)
+                                self.startCountDownForTobepaid(sender: timer!)
+                                
+                            }else{
+                                //paymentReceiveAt.text = "\(offerValue.title) has expired to be paid"
+                                paymentReceiveAt.text = ""
+                                progressWidth.constant = self.frame.size.width
+
+                                progrssView.updateConstraints()
+                                progrssView.layoutIfNeeded()
+                                
+                                progrssView.backgroundColor = UIColor.systemRed
+                            }
                             
                         }
                         
                     }
                     
+                }else if OfferVariation.getOfferVariation(status: offerValue.status) == .hasBeenPaid{
+                    
+                    paymentReceiveAt.text = ""
+                    progressWidth.constant = self.frame.size.width
+
+                    progrssView.updateConstraints()
+                    progrssView.layoutIfNeeded()
+                    
+                    progrssView.backgroundColor = UIColor.systemGreen
+                    
+                }else if OfferVariation.getOfferVariation(status: offerValue.status) == .allPostsDenied{
+                    
+                    paymentReceiveAt.text = ""
+                    progressWidth.constant = self.frame.size.width
+
+                    progrssView.updateConstraints()
+                    progrssView.layoutIfNeeded()
+                    
+                    progrssView.backgroundColor = UIColor.systemRed
+                    
                 }
-                
-                
-                
             }
         }
     }
@@ -154,6 +251,9 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                     
                     paymentReceiveAt.text = "\(answer) hours left to post all to Instagram"
                     
+                }else{
+                    paymentReceiveAt.text = ""
+                    self.timer?.invalidate()
                 }
                 
             }
@@ -165,7 +265,7 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
         
         let offerValue = self.offer!
         
-        if offerValue.status == "accepted"{
+        if offerValue.status == "verified"{
             
             if let offerPostedDate = offerValue.updatedDate{
                 
@@ -173,10 +273,38 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                 
                 let answer: String? = DateToLetterCountdownWithFormat(date: expireDateAftPosted, format: "hh:mm:ss")
                 
-                if let answer = answer{
+                if  answer == "0:00"{
+                    paymentReceiveAt.text = ""
+                    self.timer?.invalidate()
                     
-                    paymentReceiveAt.text = "Payment in \(answer)"
+                }else{
+                    paymentReceiveAt.text = "Payment in \(answer!)"
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+    @IBAction func startCountDownForTobeapproved(sender: Timer){
+        
+        let offerValue = self.offer!
+        
+        if offerValue.status == "posted"{
+            
+            if let offerPostedDate = offerValue.updatedDate{
+                
+                let expireDateAftPosted = offerPostedDate.afterDays(day: 2)
+                
+                let answer: String? = DateToLetterCountdownWithFormat(date: expireDateAftPosted, format: "hh:mm:ss")
+                
+                if  answer == "0:00"{
+                    paymentReceiveAt.text = ""
+                    self.timer?.invalidate()
                     
+                }else{
+                    paymentReceiveAt.text = "Post will be verified in \(answer!)"
                 }
                 
             }

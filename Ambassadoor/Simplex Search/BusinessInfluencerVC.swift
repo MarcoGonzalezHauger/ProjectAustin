@@ -147,7 +147,8 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
             self.performSegue(withIdentifier: "FromBusinessInfluencer", sender: user)
             UserTable.deselectRow(at: indexPath, animated: true)
         }else{
-            
+            self.performSegue(withIdentifier: "FromSearchToBV", sender: user)
+            UserTable.deselectRow(at: indexPath, animated: true)
         }
         
     }
@@ -230,6 +231,11 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
         if segue.identifier == "FromBusinessInfluencer"{
             let view = segue.destination as! ViewProfileVC
             view.ThisUser = (sender as! User)
+        }else if segue.identifier == "FromSearchToBV"{
+            let view = segue.destination as! ViewBusinessVC
+            view.fromSearch = true
+            view.businessDatail = (sender as! CompanyDetails)
+            view.getFollowing(businessData: (sender as! CompanyDetails))
         }
     }
     

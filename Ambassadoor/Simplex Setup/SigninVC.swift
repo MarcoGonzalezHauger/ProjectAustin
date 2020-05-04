@@ -166,6 +166,8 @@ class SigninVC: UIViewController {
         fetchSingleUserDetails(userID: userID) { (status, user) in
             Yourself = user
             UserDefaults.standard.set(userID, forKey: "userID")
+            UserDefaults.standard.set(self.emailText.text!, forKey: "email")
+            UserDefaults.standard.set(self.passwordText.text!, forKey: "password")
             setHapticMenu(user: Yourself)
             AverageLikes(userID: userID, userToken: NewAccount.authenticationToken)
             self.LoginSuccessful()
@@ -284,7 +286,11 @@ class SigninVC: UIViewController {
         self.authLabel.text = "Welcome Back"
         self.authLabel.textColor = .systemGreen
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.delegate?.DismissNow(sender: "signin")
+            //self.delegate?.DismissNow(sender: "signin")
+            let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
+            downloadDataBeforePageLoad(reference: viewReference)
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.window?.rootViewController = viewReference
         }
         
     }

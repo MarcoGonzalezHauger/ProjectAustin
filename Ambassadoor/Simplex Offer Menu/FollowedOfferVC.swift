@@ -77,8 +77,20 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         }
         // Do any additional setup after loading the view.
     }
+        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.followerCompaniesAction(timer:)), userInfo: nil, repeats: false)
     }
     
+    @objc func followerCompaniesAction(timer: Timer?) {
+        getObserveFollowerCompaniesOffer(followers: Yourself.businessFollowing!) { (status, offers) in
+        
+        if status {
+            self.followOfferList = offers!
+            DispatchQueue.main.async {
+                self.offerTable.reloadData()
+            }
+        }
+        }
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.followOfferList.count

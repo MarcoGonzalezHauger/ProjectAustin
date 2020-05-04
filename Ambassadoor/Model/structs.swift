@@ -50,7 +50,7 @@ class ShadowView: UIView {
 class Offer : NSObject {
     
     var status: String
-	let money: Double
+	var money: Double
     var company: Company?
 	var posts: [Post]
 	let offerdate: Date
@@ -132,7 +132,7 @@ class Offer : NSObject {
 
             //postVal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: "", products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool, hashCaption: post["hashCaption"] as? String ?? "",denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? []))
             
-            postVal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: "", products: post["products"] as? [Product], post_ID: post["post_ID"] as! String, PostType: post["PostType"] as! String, confirmedSince: Date.getDateFromString(date: post["confirmedSince"] as? String ?? "") ?? nil, isConfirmed: post["isConfirmed"] as! Bool, hashCaption: post["hashCaption"] as? String ?? "", status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? [], isPaid: post["isPaid"] as? Bool, PayAmount: post["isPaid"] as? Double ?? 0.0, denyMessage: post["denyMessage"] as? String ?? ""))
+            postVal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: "", products: post["products"] as? [Product], post_ID: post["post_ID"] as! String, PostType: post["PostType"] as! String, confirmedSince: Date.getDateFromString(date: post["confirmedSince"] as? String ?? "") ?? nil, isConfirmed: post["isConfirmed"] as! Bool, hashCaption: post["hashCaption"] as? String ?? "", status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? [], isPaid: post["isPaid"] as? Bool, PayAmount: post["PayAmount"] as? Double ?? 0.0, denyMessage: post["denyMessage"] as? String ?? ""))
 
 
         }
@@ -161,7 +161,7 @@ class Offer : NSObject {
         
         self.cashPower = dictionary["cashPower"] as? Double ?? 0.0
         self.influencerFilter = dictionary["influencerFilter"] as? [String: AnyObject] ?? [:]
-        self.incresePay = dictionary["incresePay"] as? Double ?? 0.0
+        self.incresePay = dictionary["incresePay"] as? Double ?? 1.0
         self.companyDetails = ((dictionary["companyDetails"] as? [String: AnyObject]) != nil) ? CompanyDetails.init(dictionary: dictionary["companyDetails"] as! [String: AnyObject]) : nil
         self.accepted = dictionary["accepted"] as? [String] ?? []
         self.commission = dictionary["commission"] as? Double

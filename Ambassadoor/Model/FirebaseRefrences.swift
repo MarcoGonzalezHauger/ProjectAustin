@@ -764,11 +764,14 @@ func updateUserIdOfferPool(offer: Offer) {
     
 }
 
-func updateIsAcceptedOffer(offer: Offer) {
+func updateIsAcceptedOffer(offer: Offer, money: Double) {
     
     let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id)
     //let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(ThisOffer.offer_ID)
     let dayCount = offer.posts.count * 2
+    
+    let payEachPost = (money/Double(offer.posts.count))
+    
     //var expireDateString = Date.getStringFromDate(date: Date().afterDays(day: dayCount))!
     var expireDate = Date().afterDays(day: dayCount)
     if offer.offer_ID == "XXXDefault" {
@@ -781,10 +784,16 @@ func updateIsAcceptedOffer(offer: Offer) {
     offer.expiredate = expireDate
     offer.isAccepted = true
     offer.status = "accepted"
-    offer.updatedDate = Date()
+    
+    let curDateStr = Date.getStringFromDate(date: Date())
+    if let currentDate = Date.getDateFromString(date: curDateStr!){
+    offer.updatedDate = currentDate
+    }
+    offer.money = money
     
     for(index,_) in offer.posts.enumerated() {
         offer.posts[index].status = "accepted"
+        offer.posts[index].PayAmount = payEachPost
     }
     
     let offerDict = API.serializeOffer(offer: offer)
@@ -1066,6 +1075,98 @@ func getFilteredOffer(completion: @escaping (_ status: Bool, _ offerList: [allOf
     }
 }
 
+
+func getObserveFilteredOffer(completion: @escaping (_ status: Bool, _ offerList: [allOfferObject]?)-> Void) {
+    let ref = Database.database().reference().child("OfferPool")
+    ref.observe(.value, with: { (snapshot) in
+        
+        if let totalDict = snapshot.value as? [String:[String: AnyObject]] {
+            
+            var offerList = [allOfferObject]()
+            
+            for (key,value) in totalDict {
+                
+                for (offerKey, OfferValue) in value {
+                    
+                    let offerFilter = OfferValue["influencerFilter"] as! [String: AnyObject]
+                    
+                    let offerFilterKeys = offerFilter.keys
+                    
+                    var categoryMatch = !offerFilterKeys.contains("categories")
+                    var genderMatch = !offerFilterKeys.contains("gender")
+                    var locationMatch = !offerFilterKeys.contains("zipCode")
+                    
+                    if !genderMatch {
+                        let gender: [String] = offerFilter["gender"] as! [String]
+                        if let userGender = Yourself.gender!.rawValue as? String {
+                            if gender.contains(userGender) {
+                                genderMatch = true
+                            }
+                        }
+                    }
+                    
+                    if !locationMatch && genderMatch {
+                        let zips: [String] = offerFilter["zipCode"] as! [String]
+                        if let userZip = Yourself.zipCode as? String {
+                            if zips.contains(userZip) {
+                                locationMatch = true
+                            }
+                        }
+                    }
+                    
+                    if !categoryMatch && locationMatch && genderMatch {
+                        let businessCats: [String] = offerFilter["categories"] as! [String]
+                        if let userCats = Yourself.categories as? [String] {
+                            //cats = Checks if user is a crazy cat person.
+                            //Okay maybe I shouldn't joke when commenting.
+                            for userCat in userCats {
+                                let catExistsInBusinessFilter = businessCats.contains(userCat)
+                                if catExistsInBusinessFilter {
+                                    categoryMatch = true
+                                    break
+                                }
+                            }
+                        }
+                    }
+                    
+                    if categoryMatch && genderMatch && locationMatch {
+                        let offerData = Offer.init(dictionary: OfferValue as! [String : AnyObject])
+                        //Check If already accepted this offer
+                        let pay = calculateCostForUser(offer: offerData, user: Yourself, increasePayVariable: offerData.incresePay!)
+                        if let offer = offerData.accepted {
+                        if !offer.contains(Yourself.id){
+                            if pay <= offerData.cashPower!{
+                            let allOfferIns = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
+                            offerList.append(allOfferIns)
+                            }
+                        }else{
+//                           let allOfferIns = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: true)
+//                            offerList.append(allOfferIns)
+                        }
+                        }else{
+                        if pay <= offerData.cashPower!{
+                        let allOfferIns = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
+                        offerList.append(allOfferIns)
+                        }
+                        }
+                        
+                    }
+                    
+                }
+                
+            }
+            
+            completion(true,offerList)
+            
+        }
+        
+    }) { (error) in
+        
+    }
+}
+
+
+
 func getFollowerCompaniesOffer(followers: [String],completion: @escaping (_ status: Bool, _ offerList: [allOfferObject]?)-> Void) {
     
     var offerList = [allOfferObject]()
@@ -1087,18 +1188,23 @@ func getFollowerCompaniesOffer(followers: [String],completion: @escaping (_ stat
                         let offerData = Offer.init(dictionary: OfferValue as! [String : AnyObject])
                             //Check If already accepted this offer
                             //offerData.companyDetails!.userId = userID
+                        let pay = calculateCostForUser(offer: offerData, user: Yourself, increasePayVariable: offerData.incresePay!)
                             if let offer = offerData.accepted {
                             if !offer.contains(Yourself.id){
                             //offerList.append(offerData)
+                            if pay <= offerData.cashPower!{
                             let allObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
                             offerList.append(allObj)
+                            }
                             }else{
 //                            let allObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: true)
 //                            offerList.append(allObj)
                             }
                             }else{
+                            if pay <= offerData.cashPower!{
                             let allObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
                             offerList.append(allObj)
+                            }
                             }
                     }
                     
@@ -1121,6 +1227,118 @@ func getFollowerCompaniesOffer(followers: [String],completion: @escaping (_ stat
     }
     
 
+}
+
+func getObserveFollowerCompaniesOffer(followers: [String],completion: @escaping (_ status: Bool, _ offerList: [allOfferObject]?)-> Void) {
+    
+    var offerList = [allOfferObject]()
+    
+    for (index, userID) in followers.enumerated() {
+        
+        
+        let ref = Database.database().reference().child("OfferPool").child(userID)
+        
+        ref.observe( .value, with: { (snapshot) in
+            
+            if let totalDict = snapshot.value as? [String: AnyObject] {
+                
+                //allOfferObject
+                                    
+                    for (_, OfferValue) in totalDict {
+                        
+                        
+                        
+                        let offerData = Offer.init(dictionary: OfferValue as! [String : AnyObject])
+                            //Check If already accepted this offer
+                            //offerData.companyDetails!.userId = userID
+                        let pay = calculateCostForUser(offer: offerData, user: Yourself, increasePayVariable: offerData.incresePay!)
+                            if let offer = offerData.accepted {
+                            if !offer.contains(Yourself.id){
+                            //offerList.append(offerData)
+                                if pay <= offerData.cashPower!{
+                                    let allObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
+                                    offerList.append(allObj)
+                                }
+                            }else{
+//                            let allObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: true)
+//                            offerList.append(allObj)
+                            }
+                            }else{
+                            if pay <= offerData.cashPower!{
+                            let allObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
+                            offerList.append(allObj)
+                                }
+                            }
+                    }
+                    
+                
+                
+                
+                
+            }
+            
+            if index == (followers.count - 1){
+               completion(true,offerList)
+            }
+            
+        }) { (error) in
+            
+        }
+        
+        
+        
+    }
+    
+
+}
+
+func getOfferByBusiness(userId: String, completion:@escaping(_ status: Bool,_ offers: [allOfferObject])->()) {
+    
+    var offerList = [allOfferObject]()
+    let ref = Database.database().reference().child("OfferPool").child(userId)
+    ref.observe(.value, with: { (snapshot) in
+        
+        if let totalDict = snapshot.value as? [String: AnyObject] {
+            
+            //allOfferObject
+                                
+                for (_, OfferValue) in totalDict {
+                    
+                    
+                    
+                    let offerData = Offer.init(dictionary: OfferValue as! [String : AnyObject])
+                        //Check If already accepted this offer
+                        //offerData.companyDetails!.userId = userID
+                    let pay = calculateCostForUser(offer: offerData, user: Yourself, increasePayVariable: offerData.cashPower!)
+                        if let offer = offerData.accepted {
+                        if !offer.contains(Yourself.id){
+                        //offerList.append(offerData)
+                        
+                        if pay <= offerData.cashPower!{
+                        let allObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
+                        offerList.append(allObj)
+                        }
+                        }else{
+//                            let allObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: true)
+//                            offerList.append(allObj)
+                        }
+                        }else{
+                        if pay <= offerData.cashPower!{
+                        let allObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
+                        offerList.append(allObj)
+                        }
+                        }
+                }
+            completion(true,offerList)
+            
+        }else{
+            completion(false,offerList)
+        }
+        
+        
+    }) { (error) in
+        
+    }
 }
 
 func getAcceptedOffers(completion: @escaping(_ status: Bool,_ offer: [Offer])->()) {
@@ -1233,7 +1451,8 @@ func updateReservedOfferStatus(offer: Offer) {
     let offerRef = Database.database().reference().child("OfferPool").child(offer.companyDetails!.userId!).child(offer.offer_ID).child("reservedUsers")
     let reserve = offer.reservedUsers![Yourself.id]
     let date = reserve!["isReservedUntil"] as AnyObject
-    offerRef.updateChildValues([Yourself.id : ["isReserved":true,"isReservedUntil": date]])
+    let cash = reserve!["cashPower"] as AnyObject
+    offerRef.updateChildValues([Yourself.id : ["isReserved":true,"isReservedUntil": date, "cashPower":cash]])
     
     let updateReserveOffer = Database.database().reference().child("ReservedOffers").child(offer.companyDetails!.userId!).child(Yourself.id).child(offer.offer_ID)
     updateReserveOffer.updateChildValues(["offerId":offer.offer_ID])
@@ -1443,20 +1662,28 @@ func getAllOffer(completion: @escaping (_ status: Bool, _ offerList: [allOfferOb
                         }
                     }
                     
+                    
+                    
                     if categoryMatch && genderMatch && locationMatch {
                         let offerData = Offer.init(dictionary: OfferValue as! [String : AnyObject])
                         //Check If already accepted this offer
+                        let pay = calculateCostForUser(offer: offerData, user: Yourself, increasePayVariable: offerData.incresePay!)
                         if let offer = offerData.accepted {
                         if !offer.contains(Yourself.id){
-                            let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
+                            
+                        if pay <= offerData.cashPower!{
+                        let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
                         offerList.append(allOfferObj)
+                        }
                         }else{
 //                        let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: true)
 //                        offerList.append(allOfferObj)
                         }
                         }else{
-                            let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
+                        if pay <= offerData.cashPower!{
+                        let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
                         offerList.append(allOfferObj)
+                        }
                         }
                         
                         
@@ -1464,17 +1691,25 @@ func getAllOffer(completion: @escaping (_ status: Bool, _ offerList: [allOfferOb
                     }else{
                         let offerData = Offer.init(dictionary: OfferValue as! [String : AnyObject])
                         //Check If already accepted this offer
+                        let pay = calculateCostForUser(offer: offerData, user: Yourself, increasePayVariable: offerData.incresePay!)
                         if let offer = offerData.accepted {
                         if !offer.contains(Yourself.id){
-                            let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: false, isAccepted: false)
+                            
+                        if pay <= offerData.cashPower!{
+                        let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: false, isAccepted: false)
                         offerList.append(allOfferObj)
-                        }else{
-                            let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: false, isAccepted: true)
-                            offerList.append(allOfferObj)
                         }
                         }else{
+                            if pay <= offerData.cashPower!{
+                            let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: false, isAccepted: true)
+                            offerList.append(allOfferObj)
+                            }
+                        }
+                        }else{
+                            if pay <= offerData.cashPower!{
                             let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: false, isAccepted: false)
                         offerList.append(allOfferObj)
+                            }
                         }
                         
                         //let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: false)
@@ -1494,7 +1729,121 @@ func getAllOffer(completion: @escaping (_ status: Bool, _ offerList: [allOfferOb
     }
 }
 
-
+func getObserveAllOffer(completion: @escaping (_ status: Bool, _ offerList: [allOfferObject]?)-> Void) {
+    let ref = Database.database().reference().child("OfferPool")
+    ref.observe(.value, with: { (snapshot) in
+        
+        if let totalDict = snapshot.value as? [String:[String: AnyObject]] {
+            
+            var offerList = [allOfferObject]()
+            
+            for (_,value) in totalDict {
+                
+                for (_, OfferValue) in value {
+                    
+                    let offerFilter = OfferValue["influencerFilter"] as! [String: AnyObject]
+                    
+                    let offerFilterKeys = offerFilter.keys
+                    
+                    var categoryMatch = !offerFilterKeys.contains("categories")
+                    var genderMatch = !offerFilterKeys.contains("gender")
+                    var locationMatch = !offerFilterKeys.contains("zipCode")
+                    
+                    if !genderMatch {
+                        let gender: [String] = offerFilter["gender"] as! [String]
+                        if let userGender = Yourself.gender!.rawValue as? String {
+                            if gender.contains(userGender) {
+                                genderMatch = true
+                            }
+                        }
+                    }
+                    
+                    if !locationMatch && genderMatch {
+                        let zips: [String] = offerFilter["zipCode"] as! [String]
+                        if let userZip = Yourself.zipCode {
+                            if zips.contains(userZip) {
+                                locationMatch = true
+                            }
+                        }
+                    }
+                    
+                    if !categoryMatch && locationMatch && genderMatch {
+                        let businessCats: [String] = offerFilter["categories"] as! [String]
+                        if let userCats = Yourself.categories as? [String] {
+                            //cats = Checks if user is a crazy cat person.
+                            //Okay maybe I shouldn't joke when commenting.
+                            for userCat in userCats {
+                                let catExistsInBusinessFilter = businessCats.contains(userCat)
+                                if catExistsInBusinessFilter {
+                                    categoryMatch = true
+                                    break
+                                }
+                            }
+                        }
+                    }
+                    
+                    if categoryMatch && genderMatch && locationMatch {
+                        let offerData = Offer.init(dictionary: OfferValue as! [String : AnyObject])
+                        //Check If already accepted this offer
+                        let pay = calculateCostForUser(offer: offerData, user: Yourself, increasePayVariable: offerData.incresePay!)
+                        if let offer = offerData.accepted {
+                        if !offer.contains(Yourself.id){
+                            if pay <= offerData.cashPower!{
+                            let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
+                        offerList.append(allOfferObj)
+                            }
+                        }else{
+//                        let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: true)
+//                        offerList.append(allOfferObj)
+                        }
+                        }else{
+                            if pay <= offerData.cashPower!{
+                            let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: true, isAccepted: false)
+                        offerList.append(allOfferObj)
+                            }
+                        }
+                        
+                        
+                        
+                    }else{
+                        let offerData = Offer.init(dictionary: OfferValue as! [String : AnyObject])
+                        //Check If already accepted this offer
+                        let pay = calculateCostForUser(offer: offerData, user: Yourself, increasePayVariable: offerData.incresePay!)
+                        if let offer = offerData.accepted {
+                        if !offer.contains(Yourself.id){
+                            if pay <= offerData.cashPower!{
+                            let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: false, isAccepted: false)
+                        offerList.append(allOfferObj)
+                            }
+                        }else{
+                            if pay <= offerData.cashPower!{
+                            let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: false, isAccepted: true)
+                            offerList.append(allOfferObj)
+                            }
+                        }
+                        }else{
+                            if pay <= offerData.cashPower!{
+                            let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: false, isAccepted: false)
+                        offerList.append(allOfferObj)
+                            }
+                        }
+                        
+                        //let allOfferObj = allOfferObject.init(offer: offerData, isFiltered: false)
+                        //offerList.append(allOfferObj)
+                    }
+                    
+                }
+                
+            }
+            
+            completion(true,offerList)
+            
+        }
+        
+    }) { (error) in
+        
+    }
+}
 
 //func authenticateUser(email: String, password: String, completion: @escaping(_ success: Bool)-> Void) {
 //
