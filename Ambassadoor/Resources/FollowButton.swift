@@ -8,24 +8,39 @@
 
 import Foundation
 
-enum followState {
-	case notFollowed, Followed
-}
-
-enum accountType {
-	case business, influencer
+protocol FollowerButtonDelegete {
+	func isFollowingChanged(sender: AnyObject, newValue: Bool)
 }
 
 @IBDesignable class FollowButtonRegular: UIControl {
 	
-	var FollowState: followState = .notFollowed {
+	var changedByPress = false
+	var delegate: FollowerButtonDelegete?
+	
+	var isFollowing = false {
 		didSet {
-			updateFollowState()
+			if !changedByPress {
+				if isFollowing {
+					isFollowingLabel.text = "Following"
+				} else {
+					isFollowingLabel.text = "Follow"
+				}
+			}
 		}
 	}
 	
 	@IBAction func ButtonPressed(_ sender: Any) {
+		UseTapticEngine()
+		changedByPress = true
+		isFollowing = !isFollowing
+		delegate?.isFollowingChanged(sender: self, newValue: isFollowing)
+		changedByPress = false
 		
+		if isFollowing {
+			isFollowingLabel.text = "Followed"
+		} else {
+			isFollowingLabel.text = "Follow"
+		}
 	}
 	
 	@IBInspectable var isBusiness = false {
@@ -34,6 +49,7 @@ enum accountType {
 		}
 	}
 	
+	@IBOutlet weak var isFollowingLabel: UILabel!
 	@IBOutlet weak var shadowView: ShadowView!
 	
 	func LoadColorScheme() {
@@ -42,10 +58,6 @@ enum accountType {
 		} else {
 			shadowView.backgroundColor = .systemBlue
 		}
-	}
-	
-	func updateFollowState() {
-		
 	}
 	
 }

@@ -39,7 +39,9 @@
                         <constraint firstItem="J4a-W4-eRL" firstAttribute="leading" secondItem="sMy-c3-wWw" secondAttribute="trailing" constant="3" id="COY-j2-dGz"/>
                         <constraint firstItem="sMy-c3-wWw" firstAttribute="leading" secondItem="gfD-rq-QaL" secondAttribute="leading" constant="6" id="IMO-5n-TMq"/>
                         <constraint firstItem="J4a-W4-eRL" firstAttribute="centerY" secondItem="gfD-rq-QaL" secondAttribute="centerY" id="Ku8-3J-WPy"/>
+                        <constraint firstAttribute="width" constant="118" id="oxr-n7-XtC"/>
                         <constraint firstItem="sMy-c3-wWw" firstAttribute="centerY" secondItem="gfD-rq-QaL" secondAttribute="centerY" constant="1" id="r7k-dc-n7y"/>
+                        <constraint firstAttribute="height" constant="36" id="u84-gb-dOF"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -53,16 +55,15 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="gfD-rq-QaL" secondAttribute="trailing" id="10v-px-QeX"/>
-                <constraint firstItem="gfD-rq-QaL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="kmY-2m-kOf"/>
-                <constraint firstItem="gfD-rq-QaL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="mVZ-9Q-QLn"/>
-                <constraint firstAttribute="bottom" secondItem="gfD-rq-QaL" secondAttribute="bottom" id="qeK-X8-jNF"/>
+                <constraint firstItem="gfD-rq-QaL" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="lAW-T1-jFh"/>
+                <constraint firstItem="gfD-rq-QaL" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="wve-fA-Cyc"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
+                <outlet property="isFollowingLabel" destination="J4a-W4-eRL" id="LE7-gg-Vgw"/>
                 <outlet property="shadowView" destination="gfD-rq-QaL" id="APE-tu-RCT"/>
             </connections>
             <point key="canvasLocation" x="-259.4202898550725" y="150.66964285714286"/>

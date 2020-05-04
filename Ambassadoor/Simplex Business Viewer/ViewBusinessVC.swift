@@ -8,7 +8,8 @@
 
 import UIKit
 
-class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelegate { // FollowerButtonDelegete
+	
     
     @IBOutlet weak var companyLogo: UIImageView!
     @IBOutlet weak var companyName: UILabel!
@@ -29,11 +30,17 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
         self.setData()
         
+//		followButton.delegate = self
+//		followButton.isBusiness = true
+//		followButton.isFollowing = true
     }
+	
+//	func isFollowingChanged(sender: AnyObject, newValue: Bool) {
+//		print("State is now: \(newValue)")
+//	}
     
     func setData() {
         
