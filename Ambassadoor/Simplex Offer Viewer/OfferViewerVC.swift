@@ -268,7 +268,7 @@ class WillBePaidCell: UITableViewCell {
             
             if let answer = answer{
                 
-                leftTimeText.text = "You will be approved in \(answer)"
+                leftTimeText.text = "You will be paid in \(answer)"
                 
             }
             
