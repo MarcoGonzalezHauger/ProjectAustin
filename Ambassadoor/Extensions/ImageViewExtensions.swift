@@ -130,6 +130,31 @@ func saveCoreData(link: String, data: Data) {
         
     }
 
+func downloadProfileImage(_ urlLink: String, completed: @escaping (_ image: UIImage?) -> ()) {
+    if urlLink.isEmpty {
+         completed(nil)
+         return
+     }
+
+    let url = URL(string: urlLink)
+     URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
+         print("DOWNLOAD : \(urlLink)")
+         if let err = error {
+             print("abc=",err)
+             completed(nil)
+             return
+         }
+         DispatchQueue.main.async {
+             if let newImage = UIImage(data: data!) {
+                 //imageCache.setObject(newImage, forKey: urlLink as NSString)
+                 completed(newImage)
+                 return
+             }
+         }
+     }).resume()
+     
+}
+
 func downloadImage(_ urlLink: String, completed: @escaping (_ image: UIImage?) -> ()){
 	if urlLink.isEmpty {
 		completed(nil)

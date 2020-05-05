@@ -165,10 +165,30 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                                 }
                                 NewAccount.authenticationToken = longLiveToken!
                                 
-                                DispatchQueue.main.async {
-                                    self.performSegue(withIdentifier: "toConnected", sender: self)
-                                    //self.NotBusinessAccount()
+                                if NewAccount.profilePicture != ""{
+                                    
+                                    downloadImage(NewAccount.profilePicture) { (image) in
+                                        
+                                        uploadImageToFIR(image: image!, childName: "profile", path: NewAccount.id) { (url, errorStatus) in
+                                            if !errorStatus{
+                                             NewAccount.profilePicture = url
+                                            }
+                                            
+                                            DispatchQueue.main.async {
+                                                self.performSegue(withIdentifier: "toConnected", sender: self)
+                                                //self.NotBusinessAccount()
+                                            }
+                                    }
+                                    
                                 }
+                                    
+                                }else{
+                                     DispatchQueue.main.async {
+                                         self.performSegue(withIdentifier: "toConnected", sender: self)
+                                         //self.NotBusinessAccount()
+                                     }
+                                }
+                                
                                 
                             }else{
                                 

@@ -286,7 +286,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             return true
         }
         
+        //getDownloadedLink()
+        
         self.signInAction()
+        
         
         
 		return true

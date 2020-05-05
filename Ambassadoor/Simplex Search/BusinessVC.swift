@@ -108,6 +108,7 @@ class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         let business = self.businessTempArray[indexPath.row]
         self.performSegue(withIdentifier: "FromBusinessSearchToBV", sender: business)
+		businessUserTable.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{

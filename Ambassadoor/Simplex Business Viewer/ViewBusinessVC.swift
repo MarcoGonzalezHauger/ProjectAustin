@@ -8,14 +8,16 @@
 
 import UIKit
 
-class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelegate { // FollowerButtonDelegete
+	
     
     @IBOutlet weak var companyLogo: UIImageView!
     @IBOutlet weak var companyName: UILabel!
     @IBOutlet weak var mission: UILabel!
     @IBOutlet weak var website: UIButton!
     @IBOutlet weak var offerTable: UITableView!
-    
+	@IBOutlet weak var webShadowView: ShadowView!
+	
     @IBOutlet weak var offerStatus: UILabel!
     
     @IBOutlet weak var tableviewHeight: NSLayoutConstraint!
@@ -28,11 +30,17 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
         self.setData()
         
+//		followButton.delegate = self
+//		followButton.isBusiness = true
+//		followButton.isFollowing = true
     }
+	
+//	func isFollowingChanged(sender: AnyObject, newValue: Bool) {
+//		print("State is now: \(newValue)")
+//	}
     
     func setData() {
         
@@ -55,7 +63,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
             if let url = URL.init(string: businessData.website!){
                 
                 if let host = url.host{
-                   self.website.setTitle(host, for: .normal)
+                   self.website.setTitle(" " + host, for: .normal)
                 }else{
                     self.getDomainFromUnFormatedUrl(businessData: businessData)
                 }
@@ -64,7 +72,23 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
             }
         }
     }
-    
+	
+	@IBAction func websiteClicked(_ sender: Any) {
+		if let urlString = businessDatail?.website {
+			if let url = URL(string: urlString) {
+				if #available(iOS 10.0, *) {
+					UIApplication.shared.open(url, options: [:], completionHandler: nil)
+				} else {
+					UIApplication.shared.openURL(url)
+				}
+			} else {
+				MakeShake(viewToShake: webShadowView)
+			}
+		} else {
+			MakeShake(viewToShake: webShadowView)
+		}
+	}
+	
     func getDomainFromUnFormatedUrl(businessData: CompanyDetails) {
         if businessData.website!.starts(with: "https://"){
             let websiteString = businessData.website!
@@ -73,7 +97,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
 
             let stringPool = removedString.components(separatedBy: "/")
 
-            self.website.setTitle(stringPool.first!, for: .normal)
+            self.website.setTitle(" " + stringPool.first!, for: .normal)
         }else if businessData.website!.starts(with: "http://"){
             let websiteString = businessData.website!
 
@@ -81,10 +105,13 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
 
             let stringPool = removedString.components(separatedBy: "/")
 
-            self.website.setTitle(stringPool.first!, for: .normal)
+            self.website.setTitle(" " + stringPool.first!, for: .normal)
+		} else if businessData.website! == "" {
+			self.website.setTitle(" No Website", for: .normal)
+			self.website.isEnabled = false
         }else{
             let stringPool = businessData.website!.components(separatedBy: "/")
-             self.website.setTitle(stringPool.first!, for: .normal)
+             self.website.setTitle(" " + stringPool.first!, for: .normal)
         }
     }
     
@@ -96,7 +123,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
                 
                 self.followOfferList = offers
                 
-                self.offerStatus.text = "Availabe Offers"
+                self.offerStatus.text = "Avaliable Offers"
                 self.offerTable.isHidden = false
                 
                 self.tableviewHeight.constant = CGFloat(((offers.count) * 110) + 25)
@@ -111,7 +138,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
                     self.offerTable.reloadData()
                 }
             }else{
-                self.offerStatus.text = "No availabe offers"
+				self.offerStatus.text = "No avaliable offers."
                 self.offerTable.isHidden = true
             }
             

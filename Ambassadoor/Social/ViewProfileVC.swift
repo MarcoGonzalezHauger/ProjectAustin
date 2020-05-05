@@ -90,7 +90,8 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		nameLabel.text = ThisUser.name ?? ThisUser.username
 		usernameLabel.text = "@\(ThisUser.username)"
 		if let picurl = ThisUser.profilePicURL {
-			profilePic.downloadedFrom(url: URL.init(string: picurl)!, makeImageCircular: true)
+			//profilePic.downloadedFrom(url: URL.init(string: picurl)!, makeImageCircular: true)
+            profilePic.downloadAndSetImage(picurl, isCircle: true)
 		} else {
 //			print(defaultImage)
 //			print(profilePic)
