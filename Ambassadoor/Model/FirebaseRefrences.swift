@@ -1845,6 +1845,48 @@ func getObserveAllOffer(completion: @escaping (_ status: Bool, _ offerList: [all
     }
 }
 
+func uploadImageToFIR(image: UIImage, childName: String, path: String, completion: @escaping (String,Bool) -> ()) {
+    let data = image.jpegData(compressionQuality: 0.2)
+    let fileName = path + ".png"
+    let ref = Storage.storage().reference().child(childName).child(fileName)
+    ref.putData(data!, metadata: nil, completion: { (metadata, error) in
+        if error != nil {
+            debugPrint(error!)
+            completion("", true)
+            return
+        }else {
+            guard let metadata = metadata else {
+                // Uh-oh, an error occurred!
+                completion("", true)
+                return
+            }
+            // You can also access to download URL after upload.
+            ref.downloadURL { (url, error) in
+                guard let downloadURL = url else {
+                    // Uh-oh, an error occurred!
+                    completion("", true)
+                    return
+                }
+                completion(downloadURL.absoluteString, false)
+            }
+        }
+        debugPrint(metadata!)
+    })
+    //return id
+}
+
+func getDownloadedLink() {
+    
+    let ref = Storage.storage().reference().child("profile").child("17841430066849401.jpeg")
+    ref.downloadURL { (url, error) in
+        guard let downloadURL = url else {
+            // Uh-oh, an error occurred!
+            return
+        }
+        print("aaaaa",downloadURL)
+    }
+}
+
 //func authenticateUser(email: String, password: String, completion: @escaping(_ success: Bool)-> Void) {
 //
 //}

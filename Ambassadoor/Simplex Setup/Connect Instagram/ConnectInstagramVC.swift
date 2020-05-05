@@ -165,10 +165,26 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                                 }
                                 NewAccount.authenticationToken = longLiveToken!
                                 
-                                DispatchQueue.main.async {
-                                    self.performSegue(withIdentifier: "toConnected", sender: self)
-                                    //self.NotBusinessAccount()
+                                if NewAccount.profilePicture != ""{
+                                    
+                                    updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
+                                        
+                                        if status{
+                                            NewAccount.profilePicture = url!
+                                        }
+                                        DispatchQueue.main.async {
+                                        self.performSegue(withIdentifier: "toConnected", sender: self)
+                                        }
+                                        
+                                    }
+                                                                        
+                                }else{
+                                     DispatchQueue.main.async {
+                                         self.performSegue(withIdentifier: "toConnected", sender: self)
+                                         //self.NotBusinessAccount()
+                                     }
                                 }
+                                
                                 
                             }else{
                                 
