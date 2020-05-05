@@ -12,7 +12,7 @@ protocol FollowerButtonDelegete {
 	func isFollowingChanged(sender: AnyObject, newValue: Bool)
 }
 
-@IBDesignable class FollowButtonRegular: UIControl {
+class FollowButtonRegular: UIView {
 	
 	var changedByPress = false
 	var delegate: FollowerButtonDelegete?
@@ -21,29 +21,98 @@ protocol FollowerButtonDelegete {
 		didSet {
 			if !changedByPress {
 				if isFollowing {
-					isFollowingLabel.text = "Following"
+					SetLabelText(text: "Following", animated: false)
+					self.width.constant = 115
 				} else {
-					isFollowingLabel.text = "Follow"
+					SetLabelText(text: "Follow", animated: false)
+					self.width.constant = 92
 				}
 			}
 		}
 	}
 	
-	@IBAction func ButtonPressed(_ sender: Any) {
+	func ButtonPressed() {
 		UseTapticEngine()
 		changedByPress = true
 		isFollowing = !isFollowing
-		delegate?.isFollowingChanged(sender: self, newValue: isFollowing)
 		changedByPress = false
+		delegate?.isFollowingChanged(sender: self, newValue: isFollowing)
 		
 		if isFollowing {
-			isFollowingLabel.text = "Followed"
+			CreateFollowEffect()
 		} else {
-			isFollowingLabel.text = "Follow"
+			CreateUnfollowEffect()
 		}
 	}
 	
-	@IBInspectable var isBusiness = false {
+	func CreateUnfollowEffect() {
+		shadowView.backgroundColor = .systemRed
+		UIView.animate(withDuration: 1, delay: 0.0, options: [.allowUserInteraction], animations: {
+			self.shadowView.backgroundColor = self.getColorForBool(bool: self.isBusiness)
+		})
+		self.SetLabelText(text: "Unfollowed", animated: false)
+		self.width.constant = 125
+		UIView.animate(withDuration: 0.25) {
+			self.layoutIfNeeded()
+		}
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+			if !self.isFollowing {
+				self.SetLabelText(text: "Follow", animated: true, fromTop: false)
+				self.width.constant = 92
+				UIView.animate(withDuration: 0.25) {
+					self.layoutIfNeeded()
+				}
+			}
+		}
+	}
+	
+	func CreateFollowEffect() {
+		shadowView.backgroundColor = .systemTeal
+		UIView.animate(withDuration: 1, delay: 0.0, options: [.allowUserInteraction], animations: {
+			self.shadowView.backgroundColor = self.getColorForBool(bool: self.isBusiness)
+		})
+		
+		self.width.constant = 110
+		UIView.animate(withDuration: 0.25) {
+			self.layoutIfNeeded()
+		}
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+			self.SetLabelText(text: "Followed", animated: true)
+		}
+	}
+	
+	@IBOutlet weak var width: NSLayoutConstraint!
+	
+	func SetLabelText(text textstring: String, animated: Bool, fromTop: Bool = true) {
+        if animated {
+            let animation: CATransition = CATransition()
+            animation.timingFunction = CAMediaTimingFunction(name:
+                CAMediaTimingFunctionName.easeInEaseOut)
+            animation.type = CATransitionType.push
+			animation.subtype = fromTop ? CATransitionSubtype.fromTop : CATransitionSubtype.fromBottom
+            self.isFollowingLabel.text = textstring
+            animation.duration = 0.25
+            self.isFollowingLabel.layer.add(animation, forKey: CATransitionType.push.rawValue)
+        } else {
+            isFollowingLabel.text = textstring
+        }
+    }
+	
+	var touchDown: UILongPressGestureRecognizer?
+	
+	func setupTap() {
+		touchDown = UILongPressGestureRecognizer(target:self, action: #selector(didTouchDown))
+		touchDown!.minimumPressDuration = 0
+		self.addGestureRecognizer(touchDown!)
+	}
+
+	@objc func didTouchDown(gesture: UILongPressGestureRecognizer) {
+		if gesture.state == .began {
+			ButtonPressed()
+		}
+	}
+	
+	var isBusiness = false {
 		didSet {
 			LoadColorScheme()
 		}
@@ -53,11 +122,27 @@ protocol FollowerButtonDelegete {
 	@IBOutlet weak var shadowView: ShadowView!
 	
 	func LoadColorScheme() {
-		if !isBusiness {
-			shadowView.backgroundColor = UIColor.init(named: "Main_amassa")
-		} else {
-			shadowView.backgroundColor = .systemBlue
-		}
+		shadowView.backgroundColor = getColorForBool(bool: isBusiness)
+	}
+	
+	func getColorForBool(bool: Bool) -> UIColor {
+		return bool ? .systemBlue : UIColor.init(named: "Main_amassa")!
+	}
+	
+	required init?(coder: NSCoder) {
+		super.init(coder: coder)
+		LoadViewFromNib()
+		setupTap()
+	}
+	
+	func LoadViewFromNib() {
+		let bundle = Bundle.init(for: type(of: self))
+		let nib = UINib(nibName: "FollowButtonRegular", bundle: bundle)
+		let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
+		view.frame = bounds
+		view.autoresizingMask = [UIView.AutoresizingMask.flexibleWidth, UIView.AutoresizingMask.flexibleHeight]
+		addSubview(view)
+		//return view
 	}
 	
 }

@@ -110,25 +110,25 @@ public extension UIImageView {
 }
 
 func saveCoreData(link: String, data: Data) {
-        
-                
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-
-        let imageDataEntity = NSEntityDescription.entity(forEntityName: "AppImageData", in: context)
-        let imageData = NSManagedObject(entity: imageDataEntity!, insertInto: context)
-        imageData.setValue(data, forKey: "imagedata")
-        imageData.setValue(link, forKey: "url")
-        let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
-        print(paths[0])
-        do {
-            try imageData.managedObjectContext?.save()
-          } catch {
-           print("Failed saving")
-        }
-
-        
-    }
+	
+	
+	let appDelegate = UIApplication.shared.delegate as! AppDelegate
+	let context = appDelegate.persistentContainer.viewContext
+	
+	let imageDataEntity = NSEntityDescription.entity(forEntityName: "AppImageData", in: context)
+	let imageData = NSManagedObject(entity: imageDataEntity!, insertInto: context)
+	imageData.setValue(data, forKey: "imagedata")
+	imageData.setValue(link, forKey: "url")
+	let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
+	print(paths[0])
+	do {
+		try imageData.managedObjectContext?.save()
+	} catch {
+		print("Failed saving")
+	}
+	
+	
+}
 
 func downloadImage(_ urlLink: String, completed: @escaping (_ image: UIImage?) -> ()){
 	if urlLink.isEmpty {
@@ -136,28 +136,28 @@ func downloadImage(_ urlLink: String, completed: @escaping (_ image: UIImage?) -
 		return
 	}
 	// check cache first
-    /*
+	/*
 	if let cachedImage = imageCache.object(forKey: urlLink as NSString) as? UIImage {
-		print("CHACHED  : \(urlLink)")
-		completed(cachedImage)
-		return
+	print("CHACHED  : \(urlLink)")
+	completed(cachedImage)
+	return
 	}
-   */
-    
-    let cachedImage = global.cachedImageList.filter { (cache) -> Bool in
-        return cache.link! == urlLink
-    }
-    
-    if cachedImage.count != 0{
-    
-    if let image = UIImage(data: cachedImage.first!.imagedata!){
-        
-        print("CHACHED  : \(urlLink)")
-        completed(image)
-        return
-        
-    }
-    }
+	*/
+	
+	let cachedImage = global.cachedImageList.filter { (cache) -> Bool in
+		return cache.link! == urlLink
+	}
+	
+	if cachedImage.count != 0{
+		
+		if let image = UIImage(data: cachedImage.first!.imagedata!){
+			
+			print("CHACHED  : \(urlLink)")
+			completed(image)
+			return
+			
+		}
+	}
     
 	
 	// otherwise, download

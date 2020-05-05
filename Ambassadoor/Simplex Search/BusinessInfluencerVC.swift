@@ -142,7 +142,7 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
         
         let user = self.totalUserTempData[indexPath.row]
         
-        if ((user as? User) != nil){
+        if ((user as? User) != nil) {
             
             self.performSegue(withIdentifier: "FromBusinessInfluencer", sender: user)
             UserTable.deselectRow(at: indexPath, animated: true)

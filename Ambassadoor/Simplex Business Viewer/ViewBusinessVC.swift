@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelegate { // FollowerButtonDelegete
+class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelegate, FollowerButtonDelegete {
 	
     
     @IBOutlet weak var companyLogo: UIImageView!
@@ -27,20 +27,21 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
     
     var followOfferList = [allOfferObject]()
     var offerVariation: OfferVariation?
-    
+	@IBOutlet weak var followButton: FollowButtonRegular!
+	
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.setData()
         
-//		followButton.delegate = self
-//		followButton.isBusiness = true
-//		followButton.isFollowing = true
+		followButton.delegate = self
+		followButton.isBusiness = true
+		followButton.isFollowing = true
     }
 	
-//	func isFollowingChanged(sender: AnyObject, newValue: Bool) {
-//		print("State is now: \(newValue)")
-//	}
+	func isFollowingChanged(sender: AnyObject, newValue: Bool) {
+		print("State is now: \(newValue)")
+	}
     
     func setData() {
         
@@ -126,7 +127,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
                 self.offerStatus.text = "Avaliable Offers"
                 self.offerTable.isHidden = false
                 
-                self.tableviewHeight.constant = CGFloat(((offers.count) * 110) + 25)
+                self.tableviewHeight.constant = CGFloat((CGFloat(offers.count) * unviersalOfferHeight) + 10)
                 
                 self.offerTable.updateConstraints()
                 self.offerTable.layoutIfNeeded()
@@ -169,7 +170,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
-        return 110
+        return unviersalOfferHeight
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
