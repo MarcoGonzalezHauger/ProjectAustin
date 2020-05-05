@@ -17,12 +17,13 @@ class InfluencerTVC: UITableViewCell {
     @IBOutlet weak var likeCount: UILabel!
     @IBOutlet weak var followBtn: UIButton!
     @IBOutlet weak var verifyLogo_img: UIImageView!
-    
+	@IBOutlet weak var tierBox: ShadowView!
+	
     @IBOutlet weak var leadingUserName: NSLayoutConstraint!
     var userData: User?{
         didSet{
             if let user = userData{
-                
+                tierBox.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "Instagrad")!)
                 if let picurl = user.profilePicURL {
                     self.userImage.downloadAndSetImage(picurl)
                 } else {

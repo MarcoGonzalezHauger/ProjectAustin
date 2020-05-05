@@ -8,11 +8,7 @@
 
 import Foundation
 
-protocol FollowerButtonDelegete {
-	func isFollowingChanged(sender: AnyObject, newValue: Bool)
-}
-
-class FollowButtonRegular: UIView {
+class FollowButtonSmall: UIView {
 	
 	var changedByPress = false
 	var delegate: FollowerButtonDelegete?

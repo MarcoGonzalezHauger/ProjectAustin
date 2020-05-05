@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -27,7 +27,7 @@
                                             <rect key="frame" x="0.0" y="50" width="414" height="1650"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <prototypes>
-                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="acceptButton" rowHeight="74" id="nIp-Yu-0DJ" customClass="AcceptCell" customModule="Ambassadoor" customModuleProvider="target">
+                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="acceptButton" rowHeight="74" id="nIp-Yu-0DJ" customClass="AcceptCell" customModule="Ambassadoor" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="28" width="414" height="74"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nIp-Yu-0DJ" id="5Eg-V9-n5X">
@@ -106,7 +106,7 @@
                                                         <outlet property="acceptButton" destination="h2z-XO-I1o" id="TeE-oZ-xf1"/>
                                                     </connections>
                                                 </tableViewCell>
-                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="abortOfferButton" rowHeight="74" id="N8k-Op-ykt" customClass="AbortOffer" customModule="Ambassadoor" customModuleProvider="target">
+                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="abortOfferButton" rowHeight="74" id="N8k-Op-ykt" customClass="AbortOffer" customModule="Ambassadoor" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="102" width="414" height="74"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="N8k-Op-ykt" id="VnQ-Bw-FoR">
@@ -123,7 +123,7 @@
                                                                                 <rect key="frame" x="4" y="4" width="394" height="60"/>
                                                                                 <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="28"/>
                                                                                 <state key="normal" title="CANCEL OFFER">
-                                                                                    <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                                    <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                 </state>
                                                                             </button>
                                                                         </subviews>
@@ -182,7 +182,7 @@
                                                     </tableViewCellContentView>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </tableViewCell>
-                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="youWillBePaid" rowHeight="80" id="BYd-28-rtv" customClass="WillBePaidCell" customModule="Ambassadoor" customModuleProvider="target">
+                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="youWillBePaid" rowHeight="80" id="BYd-28-rtv" customClass="WillBePaidCell" customModule="Ambassadoor" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="176" width="414" height="80"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="BYd-28-rtv" id="lLw-Vr-k5w">
@@ -197,7 +197,7 @@
                                                                         <subviews>
                                                                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Ye-MJ-qZt" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                                                                 <rect key="frame" x="0.0" y="52" width="200" height="20"/>
-                                                                                <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                                <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="height" constant="20" id="C0T-YW-sg6"/>
                                                                                     <constraint firstAttribute="width" constant="200" id="f0p-pM-Cun"/>
@@ -314,7 +314,7 @@
                                                         <outlet property="widthConstraint" destination="f0p-pM-Cun" id="V4w-yP-iFd"/>
                                                     </connections>
                                                 </tableViewCell>
-                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="goodWorkInfo" id="g1f-gJ-Gei" customClass="GoodWorkCell" customModule="Ambassadoor" customModuleProvider="target">
+                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="goodWorkInfo" id="g1f-gJ-Gei" customClass="GoodWorkCell" customModule="Ambassadoor" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="256" width="414" height="69"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="g1f-gJ-Gei" id="lIq-QC-aaw">
@@ -383,7 +383,7 @@
                                                         <outlet property="goodWorkDes" destination="VKI-og-Vot" id="UNh-fJ-ZhE"/>
                                                     </connections>
                                                 </tableViewCell>
-                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="leftToPostTime" rowHeight="80" id="nIf-ZZ-hU4" userLabel="timeRemaining" customClass="InProgressTVC" customModule="Ambassadoor" customModuleProvider="target">
+                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="leftToPostTime" rowHeight="80" id="nIf-ZZ-hU4" userLabel="timeRemaining" customClass="InProgressTVC" customModule="Ambassadoor" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="325" width="414" height="80"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nIf-ZZ-hU4" id="RuL-wx-C8L">
@@ -398,7 +398,7 @@
                                                                         <subviews>
                                                                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kav-hm-M7n" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                                                                 <rect key="frame" x="0.0" y="52" width="200" height="20"/>
-                                                                                <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                                <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="width" constant="200" id="V3q-0i-tDM"/>
                                                                                     <constraint firstAttribute="height" constant="20" id="gq3-Ph-ofj"/>
@@ -525,7 +525,7 @@
                                                         <outlet property="progrssView" destination="kav-hm-M7n" id="Eda-VQ-AHp"/>
                                                     </connections>
                                                 </tableViewCell>
-                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="allPostsDenied" id="Gln-I0-v7P" customClass="RejectedMessageCell" customModule="Ambassadoor" customModuleProvider="target">
+                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="allPostsDenied" id="Gln-I0-v7P" customClass="RejectedMessageCell" customModule="Ambassadoor" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="405" width="414" height="220"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Gln-I0-v7P" id="qMd-sb-aYi">
@@ -565,7 +565,7 @@
                                                                             <constraint firstAttribute="height" constant="25" id="snh-Ib-WmV"/>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
-                                                                        <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="so2-CF-uoa">
@@ -614,7 +614,7 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                             <rect key="frame" x="335" y="9" width="63" height="35"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                             <state key="normal" title="Report">
-                                                <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                         </button>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OfferTopImage" translatesAutoresizingMaskIntoConstraints="NO" id="Keo-qd-ImE">
@@ -661,7 +661,7 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fY0-73-vUg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="105.79710144927537" y="78.348214285714278"/>
+            <point key="canvasLocation" x="77" y="87"/>
         </scene>
         <!--BusinessDetailReference-->
         <scene sceneID="8Ek-9J-FvM">
@@ -689,7 +689,7 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="JTB-zI-g7Q" firstAttribute="centerX" secondItem="dIx-2R-Fsy" secondAttribute="centerX" id="GdC-vl-aKb"/>
                                     <constraint firstAttribute="width" constant="64" id="eRZ-4e-ff7"/>
@@ -784,7 +784,7 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                             <constraint firstAttribute="height" constant="20" id="GIP-1i-1gd"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                        <color key="textColor" systemColor="systemBlueColor" red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The phrasing of the caption is up to you, as long as it contains all of the following phrases/hashtags in it." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="LBI-Wd-a3F">
@@ -978,7 +978,7 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What the Post Caption Should Say" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4mc-jB-oIG">
                                         <rect key="frame" x="61.5" y="8" width="259" height="20"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                        <color key="textColor" systemColor="systemGrayColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pfF-IA-7ew">
@@ -1039,7 +1039,7 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Verified" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="LHg-Uk-b5q">
                                 <rect key="frame" x="180.5" y="174" width="53.5" height="18"/>
                                 <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
-                                <color key="textColor" systemColor="systemBlueColor" red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>

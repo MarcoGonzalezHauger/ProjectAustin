@@ -3247,6 +3247,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j7u-Mj-kbK">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="uGH-MC-RCL">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="prominent"/>
+                            </visualEffectView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DUN-q5-K02" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="15" y="265" width="384" height="96"/>
                                 <subviews>
@@ -3373,17 +3381,21 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="3xD-EB-P8o" firstAttribute="leading" secondItem="xox-Cb-Kz3" secondAttribute="leading" constant="10" id="1oG-j1-fTk"/>
                             <constraint firstItem="DUN-q5-K02" firstAttribute="leading" secondItem="xox-Cb-Kz3" secondAttribute="leading" constant="15" id="4vS-od-I3Q"/>
                             <constraint firstItem="Jk1-Jf-JcX" firstAttribute="centerX" secondItem="hA8-1d-lQC" secondAttribute="centerX" id="9uX-tk-AGQ"/>
+                            <constraint firstItem="j7u-Mj-kbK" firstAttribute="trailing" secondItem="xox-Cb-Kz3" secondAttribute="trailing" id="C8C-9p-nC0"/>
+                            <constraint firstAttribute="bottom" secondItem="j7u-Mj-kbK" secondAttribute="bottom" id="JCH-gr-2kG"/>
                             <constraint firstItem="Jk1-Jf-JcX" firstAttribute="top" secondItem="xox-Cb-Kz3" secondAttribute="top" constant="10" id="QHT-R6-QfL"/>
                             <constraint firstItem="3xD-EB-P8o" firstAttribute="top" secondItem="Jk1-Jf-JcX" secondAttribute="bottom" constant="70" id="b1L-hg-oPQ"/>
                             <constraint firstItem="xox-Cb-Kz3" firstAttribute="trailing" secondItem="3xD-EB-P8o" secondAttribute="trailing" constant="10" id="gT1-4g-BeN"/>
+                            <constraint firstItem="j7u-Mj-kbK" firstAttribute="top" secondItem="xox-Cb-Kz3" secondAttribute="top" id="k5H-LU-p6v"/>
                             <constraint firstItem="DUN-q5-K02" firstAttribute="top" secondItem="3xD-EB-P8o" secondAttribute="bottom" constant="50" id="mPP-rW-GbS"/>
                             <constraint firstItem="Aoi-7l-0vC" firstAttribute="leading" secondItem="xox-Cb-Kz3" secondAttribute="leading" constant="8" id="occ-k7-QNJ"/>
                             <constraint firstItem="Aoi-7l-0vC" firstAttribute="top" secondItem="xox-Cb-Kz3" secondAttribute="top" constant="10" id="qJO-dR-vcd"/>
+                            <constraint firstItem="j7u-Mj-kbK" firstAttribute="leading" secondItem="xox-Cb-Kz3" secondAttribute="leading" id="s8v-UB-lIg"/>
                             <constraint firstItem="xox-Cb-Kz3" firstAttribute="trailing" secondItem="DUN-q5-K02" secondAttribute="trailing" constant="15" id="t6I-r3-xX5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="xox-Cb-Kz3"/>
@@ -3409,6 +3421,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HSh-ur-o6F">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="yXF-dN-sub">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="prominent"/>
+                            </visualEffectView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="leG-Y4-jqr">
                                 <rect key="frame" x="6" y="10" width="60" height="35"/>
                                 <constraints>
@@ -3581,7 +3601,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="vmG-6X-IGK" firstAttribute="top" secondItem="bNV-Wq-oZb" secondAttribute="top" id="79v-Qe-WTz"/>
                                     <constraint firstAttribute="width" constant="250" id="BCF-nA-GTX"/>
@@ -3656,7 +3676,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="WSj-Gh-Afk" firstAttribute="top" secondItem="YQR-kg-RTd" secondAttribute="bottom" constant="6" id="3Od-Up-6bE"/>
                             <constraint firstItem="z8k-Tu-gRM" firstAttribute="leading" secondItem="5Or-GM-VQb" secondAttribute="leading" constant="16" id="6aO-cf-EQI"/>
@@ -3665,6 +3685,8 @@
                             <constraint firstItem="WSj-Gh-Afk" firstAttribute="trailing" secondItem="LgY-G8-igj" secondAttribute="trailing" id="8dH-pe-7wY"/>
                             <constraint firstItem="YQR-kg-RTd" firstAttribute="top" secondItem="BRF-Ug-LwC" secondAttribute="bottom" constant="37" id="9mJ-qk-XRw"/>
                             <constraint firstItem="5Or-GM-VQb" firstAttribute="trailing" secondItem="LgY-G8-igj" secondAttribute="trailing" constant="16" id="BDN-bL-5BN"/>
+                            <constraint firstItem="HSh-ur-o6F" firstAttribute="leading" secondItem="5Or-GM-VQb" secondAttribute="leading" id="Cuk-UE-BCG"/>
+                            <constraint firstItem="5Or-GM-VQb" firstAttribute="trailing" secondItem="HSh-ur-o6F" secondAttribute="trailing" id="G12-Dj-gH8"/>
                             <constraint firstItem="BRF-Ug-LwC" firstAttribute="top" secondItem="leG-Y4-jqr" secondAttribute="bottom" constant="8" id="KIV-d8-6dJ"/>
                             <constraint firstItem="w0p-CE-W8o" firstAttribute="leading" secondItem="5Or-GM-VQb" secondAttribute="leading" constant="16" id="KaZ-We-uPs"/>
                             <constraint firstItem="9rA-cf-CGT" firstAttribute="centerY" secondItem="Ccw-oA-4f8" secondAttribute="centerY" id="MNq-Wg-BCe"/>
@@ -3672,8 +3694,10 @@
                             <constraint firstItem="5Or-GM-VQb" firstAttribute="trailing" secondItem="IXN-ET-cF2" secondAttribute="trailing" constant="16" id="Mv5-Hi-jmu"/>
                             <constraint firstItem="5Or-GM-VQb" firstAttribute="trailing" secondItem="MZE-WH-aeK" secondAttribute="trailing" constant="16" id="NL7-hW-IGY"/>
                             <constraint firstItem="YQR-kg-RTd" firstAttribute="leading" secondItem="5Or-GM-VQb" secondAttribute="leading" constant="16" id="Ok1-gn-0sE"/>
+                            <constraint firstItem="HSh-ur-o6F" firstAttribute="top" secondItem="5Or-GM-VQb" secondAttribute="top" id="Ph2-26-xSq"/>
                             <constraint firstItem="Ccw-oA-4f8" firstAttribute="top" secondItem="5Or-GM-VQb" secondAttribute="top" constant="16" id="adK-CO-DCP"/>
                             <constraint firstItem="bNV-Wq-oZb" firstAttribute="top" secondItem="LgY-G8-igj" secondAttribute="bottom" constant="1" id="cNs-7i-sj2"/>
+                            <constraint firstAttribute="bottom" secondItem="HSh-ur-o6F" secondAttribute="bottom" id="cnq-fG-XbC"/>
                             <constraint firstItem="leG-Y4-jqr" firstAttribute="top" secondItem="5Or-GM-VQb" secondAttribute="top" constant="10" id="cog-wt-eMD"/>
                             <constraint firstItem="IXN-ET-cF2" firstAttribute="leading" secondItem="5Or-GM-VQb" secondAttribute="leading" constant="16" id="dEI-f8-k96"/>
                             <constraint firstItem="Ccw-oA-4f8" firstAttribute="leading" secondItem="9rA-cf-CGT" secondAttribute="trailing" constant="4" id="fQy-ep-AT2"/>

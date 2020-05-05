@@ -76,7 +76,7 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 			shelf.reloadData()
 		}
 //		catLabel.text = ThisUser.primaryCategory.
-		catLabel.text = GetCategoryStringFromlist(categories: (ThisUser.categories) ?? [])
+		catLabel.text = ThisUser.categories?.joined(separator: "\n")
         
 		if let joinedDate = ThisUser.joinedDate {
 			sinceLabel.text = "Ambassador Since \(String(joinedDate.prefix(4)))"
