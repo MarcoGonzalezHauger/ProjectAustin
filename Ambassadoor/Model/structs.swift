@@ -200,7 +200,7 @@ class User: NSObject {
 	let name: String?
 	let username: String
 	let followerCount: Double
-	let profilePicURL: String?
+	var profilePicURL: String?
 	var averageLikes: Double?
 	var zipCode: String?
     let id: String

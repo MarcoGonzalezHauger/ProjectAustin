@@ -24,6 +24,10 @@ func NumberToPrice(Value: Double, enforceCents isBig: Bool = false) -> String {
 	return ""
 }
 
+enum errorType: String {
+    case noUserData, facebookError
+}
+
 func YouShallNotPass(SaveButtonView viewToReject: UIView, returnColor rcolor: UIColor = .systemBlue) {
 	
 	UseTapticEngine()
@@ -776,6 +780,25 @@ func AverageLikes(userID: String, userToken: String) {
     
 //        GraphRequest(graphPath: NewAccount.id + "/media", parameters: [:]).start(completionHandler: { (connection, recentMedia, error) -> Void in
 //        })
+    
+}
+
+func updateFirebaseProfileURL(profileUrl: String, id: String, completion: @escaping(_ url: String?,_ status: Bool)-> ()) {
+        downloadImage(profileUrl) { (image) in
+            if image != nil{
+            uploadImageToFIR(image: image!, childName: "profile", path: id) { (url, errorStatus) in
+                if !errorStatus{
+                   completion(url,true)
+                }else{
+                   completion(nil,false)
+                }
+        }
+            }else{
+                completion(nil,false)
+            }
+        
+    }
+        
     
 }
 
