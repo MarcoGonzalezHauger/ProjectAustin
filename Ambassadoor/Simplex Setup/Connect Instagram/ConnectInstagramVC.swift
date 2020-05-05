@@ -167,21 +167,17 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                                 
                                 if NewAccount.profilePicture != ""{
                                     
-                                    downloadImage(NewAccount.profilePicture) { (image) in
+                                    updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
                                         
-                                        uploadImageToFIR(image: image!, childName: "profile", path: NewAccount.id) { (url, errorStatus) in
-                                            if !errorStatus{
-                                             NewAccount.profilePicture = url
-                                            }
-                                            
-                                            DispatchQueue.main.async {
-                                                self.performSegue(withIdentifier: "toConnected", sender: self)
-                                                //self.NotBusinessAccount()
-                                            }
+                                        if status{
+                                            NewAccount.profilePicture = url!
+                                        }
+                                        DispatchQueue.main.async {
+                                        self.performSegue(withIdentifier: "toConnected", sender: self)
+                                        }
+                                        
                                     }
-                                    
-                                }
-                                    
+                                                                        
                                 }else{
                                      DispatchQueue.main.async {
                                          self.performSegue(withIdentifier: "toConnected", sender: self)
