@@ -16,13 +16,12 @@ class FollowButtonSmall: UIView {
 	var isFollowing = false {
 		didSet {
 			if !changedByPress {
-				if isFollowing {
-					SetLabelText(text: "Following", animated: false)
-					self.width.constant = 115
-				} else {
-					SetLabelText(text: "Follow", animated: false)
-					self.width.constant = 92
-				}
+				changeIcon(isFollowing: isFollowing)
+//				if isFollowing {
+//					self.width.constant = 115
+//				} else {
+//					self.width.constant = 92
+//				}
 			}
 		}
 	}
@@ -51,20 +50,21 @@ class FollowButtonSmall: UIView {
 				})
 			}
 		}
-		self.SetLabelText(text: "Unfollowed", animated: false)
-		self.width.constant = 125
-		UIView.animate(withDuration: 0.25) {
-			self.layoutIfNeeded()
-		}
-		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-			if !self.isFollowing {
-				self.SetLabelText(text: "Follow", animated: true, fromTop: false)
-				self.width.constant = 92
-				UIView.animate(withDuration: 0.25) {
-					self.layoutIfNeeded()
-				}
-			}
-		}
+		changeIcon(isFollowing: false)
+//		self.SetLabelText(text: "Unfollowed", animated: false)
+////		self.width.constant = 125
+////		UIView.animate(withDuration: 0.25) {
+////			self.layoutIfNeeded()
+////		}
+//		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//			if !self.isFollowing {
+//				self.SetLabelText(text: "Follow", animated: true, fromTop: false)
+//				self.width.constant = 92
+//				UIView.animate(withDuration: 0.25) {
+//					self.layoutIfNeeded()
+//				}
+//			}
+//		}
 	}
 	
 	func CreateFollowEffect() {
@@ -74,31 +74,33 @@ class FollowButtonSmall: UIView {
 			self.gradientView.alpha = 1
 		})
 		
-		self.width.constant = 110
-		UIView.animate(withDuration: 0.25) {
-			self.layoutIfNeeded()
-		}
-		DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-			self.SetLabelText(text: "Followed", animated: true)
-		}
+		changeIcon(isFollowing: true)
+		
+//		self.width.constant = 110
+//		UIView.animate(withDuration: 0.25) {
+//			self.layoutIfNeeded()
+//		}
+//		DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+//			self.SetLabelText(text: "Followed", animated: true)
+//		}
 	}
 	
 	@IBOutlet weak var width: NSLayoutConstraint!
 	
-	func SetLabelText(text textstring: String, animated: Bool, fromTop: Bool = true) {
-        if animated {
-            let animation: CATransition = CATransition()
-            animation.timingFunction = CAMediaTimingFunction(name:
-                CAMediaTimingFunctionName.easeInEaseOut)
-            animation.type = CATransitionType.push
-			animation.subtype = fromTop ? CATransitionSubtype.fromTop : CATransitionSubtype.fromBottom
-            self.isFollowingLabel.text = textstring
-            animation.duration = 0.25
-            self.isFollowingLabel.layer.add(animation, forKey: CATransitionType.push.rawValue)
-        } else {
-            isFollowingLabel.text = textstring
-        }
-    }
+//	func SetLabelText(text textstring: String, animated: Bool, fromTop: Bool = true) {
+//        if animated {
+//            let animation: CATransition = CATransition()
+//            animation.timingFunction = CAMediaTimingFunction(name:
+//                CAMediaTimingFunctionName.easeInEaseOut)
+//            animation.type = CATransitionType.push
+//			animation.subtype = fromTop ? CATransitionSubtype.fromTop : CATransitionSubtype.fromBottom
+//            self.isFollowingLabel.text = textstring
+//            animation.duration = 0.25
+//            self.isFollowingLabel.layer.add(animation, forKey: CATransitionType.push.rawValue)
+//        } else {
+//            isFollowingLabel.text = textstring
+//        }
+//    }
 	
 	var touchDown: UILongPressGestureRecognizer?
 	
@@ -120,7 +122,11 @@ class FollowButtonSmall: UIView {
 		}
 	}
 	
-	@IBOutlet weak var isFollowingLabel: UILabel!
+	func changeIcon(isFollowing: Bool) {
+		isFollowingIcon.image = isFollowing ? UIImage.init(named: "followedUser") : UIImage.init(named: "followUser")
+	}
+	
+	@IBOutlet weak var isFollowingIcon: UIImageView!
 	@IBOutlet weak var shadowView: ShadowView!
 	@IBOutlet weak var gradientView: UIView!
 	
@@ -140,7 +146,7 @@ class FollowButtonSmall: UIView {
 	
 	func LoadViewFromNib() {
 		let bundle = Bundle.init(for: type(of: self))
-		let nib = UINib(nibName: "FollowButtonRegular", bundle: bundle)
+		let nib = UINib(nibName: "FollowButtonSmall", bundle: bundle)
 		let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
 		view.frame = bounds
 		view.autoresizingMask = [UIView.AutoresizingMask.flexibleWidth, UIView.AutoresizingMask.flexibleHeight]

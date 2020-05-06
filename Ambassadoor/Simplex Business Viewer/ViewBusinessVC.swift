@@ -10,6 +10,7 @@ import UIKit
 
 class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelegate, FollowerButtonDelegete {
 	
+	var delegate: followUpdateDelegate?
     
     @IBOutlet weak var companyLogo: UIImageView!
     @IBOutlet weak var companyName: UILabel!
@@ -36,11 +37,31 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
         
 		followButton.delegate = self
 		followButton.isBusiness = true
-		followButton.isFollowing = true
     }
 	
 	func isFollowingChanged(sender: AnyObject, newValue: Bool) {
-		print("State is now: \(newValue)")
+		guard let ThisUser = self.businessDatail else {return}
+		if newValue {
+			//FOLLOW
+            var followingList = Yourself.businessFollowing!
+			if !(followingList.contains(ThisUser.userId!)) {
+				followingList.append(ThisUser.userId!)
+			}
+            Yourself.businessFollowing = followingList
+            updateBusinessFollowingList(company: ThisUser, userID: ThisUser.userId!, ownUserID: Yourself)
+            updateFollowingFollowerBusinessUser(user: ThisUser, identifier: "business")
+		} else {
+			//UNFOLLOW
+            var followingList = Yourself.businessFollowing
+            if let i = followingList?.firstIndex(of: ThisUser.userId!){
+                followingList?.remove(at: i)
+                Yourself.businessFollowing = followingList
+                updateBusinessFollowingList(company: ThisUser, userID: ThisUser.userId!, ownUserID: Yourself)
+                removeFollowingFollowerBusinessUser(user: ThisUser)
+                
+            }
+		}
+		delegate?.followingUpdated()
 	}
     
     func setData() {
@@ -51,6 +72,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         
         if let businessData = businessDatail{
+			followButton.isFollowing = (Yourself.businessFollowing?.contains(businessData.userId!))!
             if let picurl = businessData.logo {
                 self.companyLogo.downloadAndSetImage(picurl)
             } else {
@@ -69,7 +91,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
                     self.getDomainFromUnFormatedUrl(businessData: businessData)
                 }
             }else{
-                    self.getDomainFromUnFormatedUrl(businessData: businessData)
+				self.getDomainFromUnFormatedUrl(businessData: businessData)
             }
         }
     }

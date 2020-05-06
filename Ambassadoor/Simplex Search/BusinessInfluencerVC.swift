@@ -10,7 +10,12 @@ import UIKit
 
 
 
-class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SearchBarDelegate {
+class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SearchBarDelegate, followUpdateDelegate {
+	
+	func followingUpdated() {
+		UserTable.reloadData()
+	}
+	
     func SearchTextIndex(text: String, segmentIndex: Int) {
         
         self.GetSearchedTotalItems(query: text) { (users) in
@@ -99,17 +104,15 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
         
         if ((self.totalUserTempData[indexPath.row] as? User) != nil){
             let identifier = "InfluencerResult"
-            
-            var cell = UserTable.dequeueReusableCell(withIdentifier: identifier) as? InfluencerTVC
+			
+			var cell = UserTable.dequeueReusableCell(withIdentifier: identifier) as? InfluencerTVC
 
-            if cell == nil {
-                let nib = Bundle.main.loadNibNamed("InfluencerTVC", owner: self, options: nil)
-                cell = nib![0] as? InfluencerTVC
-            }
-            cell!.userData = (self.totalUserTempData[indexPath.row] as! User)
-            cell!.followBtn.tag = indexPath.row
-            cell!.followBtn.addTarget(self, action: #selector(self.followUserAction(_:)), for: .touchUpInside)
-            return cell!
+			if cell == nil {
+				let nib = Bundle.main.loadNibNamed("InfluencerTVC", owner: self, options: nil)
+				cell = nib![0] as? InfluencerTVC
+			}
+			cell!.userData = (self.totalUserTempData[indexPath.row] as! User)
+			return cell!
         }else{
         
         let identifier = "BusinessResult"
@@ -121,8 +124,6 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
             cell = nib![0] as? BusinessUserTVC
         }
         cell!.businessDatail = (self.totalUserTempData[indexPath.row] as! CompanyDetails)
-        cell!.followBtn.tag = indexPath.row
-        cell!.followBtn.addTarget(self, action: #selector(self.followBusinessAction(_:)), for: .touchUpInside)
         return cell!
         }
     }
@@ -131,10 +132,10 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
         
         let user = self.totalUserTempData[indexPath.row]
         
-        if ((user as? User) != nil){
-        return 80.0
-        }else{
-        return 150.0
+        if ((user as? User) != nil) {
+			return 80.0
+        } else {
+			return 150.0
         }
     }
     
@@ -169,32 +170,7 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
         completed(userSearchedList)
         
     }
-    
-    @IBAction func followUserAction(_ sender: UIButton){
-        
-        let ThisUser = self.totalUserTempData[sender.tag] as! User
-
-        if (Yourself.following?.contains(ThisUser.id))!{
-
-            sender.setTitle("Follow", for: .normal)
-            var followingList = Yourself.following
-            if let i = followingList?.firstIndex(of: ThisUser.id){
-                followingList?.remove(at: i)
-                Yourself.following = followingList
-                updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
-                removeFollowingFollowerUser(user: ThisUser)
-            }
-        }else{
-            sender.setTitle("Unfollow", for: .normal)
-            var followingList = Yourself.following
-            followingList?.append(ThisUser.id)
-            Yourself.following = followingList
-            updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
-            updateFollowingFollowerUser(user: ThisUser, identifier: "influencer")
-        }
-
-    }
-    
+	
     @IBAction func followBusinessAction(_ sender: UIButton){
         
         let ThisUser = self.totalUserTempData[sender.tag] as! CompanyDetails
@@ -231,11 +207,13 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
         if segue.identifier == "FromBusinessInfluencer"{
             let view = segue.destination as! ViewProfileVC
             view.ThisUser = (sender as! User)
+			view.delegate = self
         }else if segue.identifier == "FromSearchToBV"{
             let view = segue.destination as! ViewBusinessVC
             view.fromSearch = true
             view.businessDatail = (sender as! CompanyDetails)
             view.getFollowing(businessData: (sender as! CompanyDetails))
+			view.delegate = self
         }
     }
     

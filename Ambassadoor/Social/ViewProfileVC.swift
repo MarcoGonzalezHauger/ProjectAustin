@@ -37,14 +37,41 @@ struct Stat {
 	let value2: Double
 }
 
-class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FollowerButtonDelegete {
 	
+	var delegate: followUpdateDelegate?
+	
+	func isFollowingChanged(sender: AnyObject, newValue: Bool) {
+		if !newValue {
+            //UNFOLLOW
+            var followingList = Yourself.following
+            if let i = followingList?.firstIndex(of: ThisUser.id){
+                followingList?.remove(at: i)
+                Yourself.following = followingList
+                updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
+            }
+        }else{
+			//FOLLOW
+            var followingList = Yourself.following
+            followingList?.append(ThisUser.id)
+            Yourself.following = followingList
+            updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
+        }
+		delegate?.followingUpdated()
+	}
+	
+	@IBAction func tierinfoClicked(_ sender: Any) {
+		UseTapticEngine()
+		performSegue(withIdentifier: "showTierInfo", sender: self)
+	}
+	
+	@IBOutlet weak var verifyOffset: NSLayoutConstraint! //-13 if isVerified
 	@IBOutlet var swdView: UIView!
 	@IBOutlet weak var verifiedView: UIView!
 	@IBOutlet weak var infLogo: UIImageView!
 	@IBOutlet weak var infLabel: UILabel!
 	@IBOutlet weak var tierBubble: ShadowView!
-    @IBOutlet weak var follow: UIButton!
+	@IBOutlet weak var FollowButton: FollowButtonRegular!
 	
 	var ThisUser: User! {
 		didSet {
@@ -60,12 +87,14 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 //		print("THISUSER=")
 //		print(ThisUser)
 		
+		
 		if blackIcons.contains(ThisUser.username) {
 			infLogo.image = UIImage.init(named: "verified_black")
 			infLabel.text = "Ambassadoor Executive"
 			infLabel.textColor = GetForeColor()
 		} else {
 			verifiedView.isHidden = !ThisUser.isDefaultOfferVerify
+			verifyOffset.constant = ThisUser.isDefaultOfferVerify ? -13 : 0
 		}
 		
 		stats = [Stat.init(name: "Follower Count", value1: Yourself!.followerCount, value2: ThisUser.followerCount)]
@@ -84,8 +113,12 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 			sinceLabel.text = ""
 		}
 		
-		followerLabel.text = NumberToStringWithCommas(number: ThisUser.followerCount) + " followers"
-        var tier: Int? = GetTierForInfluencer(influencer: ThisUser)
+		averageLikeLabel.text = CompressNumber(number: ThisUser.averageLikes ?? 0)
+		followerCountLabel.text = CompressNumber(number: ThisUser.followerCount)
+		
+		//followerLabel.text = NumberToStringWithCommas(number: ThisUser.followerCount) + " followers"
+		
+        let tier: Int? = GetTierForInfluencer(influencer: ThisUser)
 		tierNum.text = String(tier ?? 0)
 		nameLabel.text = ThisUser.name ?? ThisUser.username
 		usernameLabel.text = "@\(ThisUser.username)"
@@ -97,16 +130,21 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 //			print(profilePic)
 			profilePic.UseDefaultImage()
 		}
-        if (Yourself.following?.contains(ThisUser.id))!{
+		
+        /*if (Yourself.following?.contains(ThisUser.id))!{
             
             self.follow.setTitle("Following", for: .normal)
         }else{
             self.follow.setTitle("Follow", for: .normal)
-        }
+        }*/
+		
+		FollowButton.isFollowing = (Yourself.following?.contains(ThisUser.id))!
 	}
 	
 	@IBOutlet weak var profilePic: UIImageView!
 	@IBOutlet weak var tierNum: UILabel!
+	@IBOutlet weak var followerCountLabel: UILabel!
+	@IBOutlet weak var averageLikeLabel: UILabel!
 	
 	var stats: [Stat] = []
 	
@@ -123,6 +161,18 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	}
 	
 	var statToPass: Stat?
+	
+	@IBAction func followerButtonPressed(_ sender: Any) {
+		UseTapticEngine()
+		statToPass = stats[0]
+		performSegue(withIdentifier: "ToStatisticView", sender: self)
+	}
+	
+	@IBAction func likeButtonPressed(_ sender: Any) {
+		UseTapticEngine()
+		statToPass = stats[1]
+		performSegue(withIdentifier: "ToStatisticView", sender: self)
+	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		statToPass = stats[indexPath.row]
@@ -161,34 +211,12 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 			sharedApps.open(URL(string: "https://instagram.com/\(user)")!)
 		}
 	}
-    
-    @IBAction func followAction(_ sender: Any){
-        
-        if (Yourself.following?.contains(ThisUser.id))!{
-            
-            self.follow.setTitle("Follow", for: .normal)
-            var followingList = Yourself.following
-            if let i = followingList?.firstIndex(of: ThisUser.id){
-                followingList?.remove(at: i)
-                Yourself.following = followingList
-                updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
-            }
-        }else{
-            self.follow.setTitle("Unfollow", for: .normal)
-            var followingList = Yourself.following
-            followingList?.append(ThisUser.id)
-            Yourself.following = followingList
-            updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
-        }
-        
-    }
 	
 	@IBOutlet weak var shelf: UITableView!
 	@IBOutlet weak var catLabel: UILabel!
 	@IBOutlet weak var sinceLabel: UILabel!
 	@IBOutlet weak var nameLabel: UILabel!
 	@IBOutlet weak var usernameLabel: UILabel!
-	@IBOutlet weak var followerLabel: UILabel!
 	@IBOutlet weak var tierLabel: UILabel!
 	
 	override func viewDidLoad() {
@@ -197,6 +225,10 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		shelf.delegate = self
 		shelf.reloadData()
 		shelf.layer.cornerRadius = 10
+		
+		FollowButton.delegate = self
+		FollowButton.isBusiness = false
+		
 		swdView.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "Instagrad")!)
 		tierBubble.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "tiergrad")!)
 		ShowUser()

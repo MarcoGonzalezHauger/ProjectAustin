@@ -8,12 +8,39 @@
 
 import UIKit
 
-class BusinessUserTVC: UITableViewCell {
+class BusinessUserTVC: UITableViewCell, FollowerButtonDelegete {
+	
+	func isFollowingChanged(sender: AnyObject, newValue: Bool) {
+		
+		if let ThisUser = businessDatail {
+			if !newValue {
+				//UNFOLLOWING
+				var followingList = Yourself.businessFollowing
+				if let i = followingList?.firstIndex(of: ThisUser.userId!){
+					followingList?.remove(at: i)
+					Yourself.businessFollowing = followingList
+					updateBusinessFollowingList(company: ThisUser, userID: ThisUser.userId!, ownUserID: Yourself)
+					removeFollowingFollowerBusinessUser(user: ThisUser)
+					
+				}
+			}else{
+				//FOLLOWING
+				var followingList = Yourself.businessFollowing ?? []
+				if !followingList.contains(ThisUser.userId!) {
+					followingList.append(ThisUser.userId!)
+				}
+				Yourself.businessFollowing = followingList
+				updateBusinessFollowingList(company: ThisUser, userID: ThisUser.userId!, ownUserID: Yourself)
+				updateFollowingFollowerBusinessUser(user: ThisUser, identifier: "business")
+			}
+		}
+	}
+	
     @IBOutlet weak var businessLogo: UIImageView!
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var mission: UILabel!
-    @IBOutlet weak var followBtn: UIButton!
-    
+	@IBOutlet weak var BusinessButton: FollowButtonSmall!
+	
     var businessDatail: CompanyDetails? {
         didSet{
             if let business = businessDatail{
@@ -27,22 +54,21 @@ class BusinessUserTVC: UITableViewCell {
                 self.name.text = business.name
                 self.mission.text = business.mission
                 
-                if (Yourself.businessFollowing?.contains(business.userId!))!{
-                    
-                    self.followBtn.setTitle("Unfollow", for: .normal)
-                    
-                }else{
-                    
-                    self.followBtn.setTitle("Follow", for: .normal)
-                    
-                }
+				BusinessButton.isFollowing = (Yourself.businessFollowing?.contains(business.userId!))!
+				BusinessButton.isBusiness = true
+				BusinessButton.delegate = self
                 
             }
         }
     }
 }
 
-class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SearchBarDelegate {
+class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SearchBarDelegate, followUpdateDelegate {
+	
+	func followingUpdated() {
+		businessUserTable.reloadData()
+	}
+	
     func SearchTextIndex(text: String, segmentIndex: Int) {
         
         self.GetSearchedBusinessItems(query: text) { (businessusers) in
@@ -75,8 +101,6 @@ class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             DispatchQueue.main.async {
                 self.businessUserTable.reloadData()
             }
-            
-            
         })
         }else{
             self.businessTempArray = global.BusinessUser
@@ -100,8 +124,6 @@ class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             cell = nib![0] as? BusinessUserTVC
         }
         cell!.businessDatail = self.businessTempArray[indexPath.row]
-        cell!.followBtn.tag = indexPath.row
-        cell!.followBtn.addTarget(self, action: #selector(self.followBusinessAction(_:)), for: .touchUpInside)
         return cell!
     }
     
@@ -122,33 +144,6 @@ class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             }
             completed(userSearchedList)
     }
-
-    @IBAction func followBusinessAction(_ sender: UIButton){
-        
-        let ThisUser = self.businessTempArray[sender.tag]
-
-        if (Yourself.businessFollowing?.contains(ThisUser.userId!))!{
-
-            sender.setTitle("Follow", for: .normal)
-            var followingList = Yourself.businessFollowing
-            if let i = followingList?.firstIndex(of: ThisUser.userId!){
-                followingList?.remove(at: i)
-                Yourself.businessFollowing = followingList
-                updateBusinessFollowingList(company: ThisUser, userID: ThisUser.userId!, ownUserID: Yourself)
-                removeFollowingFollowerBusinessUser(user: ThisUser)
-                
-            }
-        }else{
-            sender.setTitle("Unfollow", for: .normal)
-            var followingList = Yourself.businessFollowing
-            followingList?.append(ThisUser.userId!)
-            Yourself.businessFollowing = followingList
-            updateBusinessFollowingList(company: ThisUser, userID: ThisUser.userId!, ownUserID: Yourself)
-            updateFollowingFollowerBusinessUser(user: ThisUser, identifier: "business")
-        }
-
-    }
-    
     
     // MARK: - Navigation
 
@@ -161,6 +156,7 @@ class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             view.fromSearch = true
             view.businessDatail = (sender as! CompanyDetails)
             view.getFollowing(businessData: (sender as! CompanyDetails))
+			view.delegate = self
         }
     }
     

@@ -12,32 +12,32 @@
         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="InfluencerResult" rowHeight="80" id="xL6-qe-NRB" customClass="InfluencerTVC" customModule="Ambassadoor" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
             <autoresizingMask key="autoresizingMask"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xL6-qe-NRB" id="f12-9K-LLI">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xL6-qe-NRB" id="f12-9K-LLI">
                 <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wx2-Ye-IF1" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                        <rect key="frame" x="6" y="6" width="402" height="70"/>
+                        <rect key="frame" x="6" y="6" width="402" height="68"/>
                         <subviews>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pfg-Gg-lGh" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="402" height="70"/>
+                                <rect key="frame" x="0.0" y="0.0" width="402" height="68"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WMj-9M-pKV">
-                                        <rect key="frame" x="6" y="5" width="60" height="60"/>
+                                        <rect key="frame" x="6" y="4" width="60" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="M9T-1X-hYo"/>
                                             <constraint firstAttribute="width" constant="60" id="hgC-MQ-cx6"/>
                                         </constraints>
                                     </imageView>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="verify_Logo" translatesAutoresizingMaskIntoConstraints="NO" id="lef-0l-Dj5">
-                                        <rect key="frame" x="74" y="8" width="25" height="25"/>
+                                        <rect key="frame" x="74" y="7" width="25" height="25"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="25" id="r49-1X-1Pa"/>
                                             <constraint firstAttribute="height" constant="25" id="vhx-Ki-hHL"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@MARCO" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="9PG-OJ-5U1">
-                                        <rect key="frame" x="100" y="8" width="294" height="24"/>
+                                        <rect key="frame" x="100" y="7" width="219.5" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="ubM-s6-TWC"/>
                                         </constraints>
@@ -46,7 +46,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I9l-0q-nxh">
-                                        <rect key="frame" x="79" y="37" width="143" height="28"/>
+                                        <rect key="frame" x="79" y="36" width="143" height="28"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="followers" translatesAutoresizingMaskIntoConstraints="NO" id="FZV-Ib-WrJ">
                                                 <rect key="frame" x="-6" y="0.0" width="40" height="28"/>
@@ -89,15 +89,13 @@
                                             <constraint firstItem="OL1-RZ-kYH" firstAttribute="centerY" secondItem="I9l-0q-nxh" secondAttribute="centerY" id="zvC-tq-NGc"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IHG-My-NNr">
-                                        <rect key="frame" x="347" y="44" width="47" height="20"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C7a-Kq-zSq" customClass="FollowButtonSmall" customModule="Ambassadoor" customModuleProvider="target">
+                                        <rect key="frame" x="323.5" y="0.0" width="62.5" height="68"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="47" id="2eJ-Cs-HEn"/>
-                                            <constraint firstAttribute="height" constant="20" id="bkc-a6-ecN"/>
+                                            <constraint firstAttribute="width" constant="62.5" id="LnQ-IE-Ecy"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
-                                        <state key="normal" title="Follow"/>
-                                    </button>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
@@ -106,11 +104,12 @@
                                     <constraint firstItem="I9l-0q-nxh" firstAttribute="bottom" secondItem="WMj-9M-pKV" secondAttribute="bottom" id="BDl-lD-qyg"/>
                                     <constraint firstItem="I9l-0q-nxh" firstAttribute="leading" secondItem="WMj-9M-pKV" secondAttribute="trailing" constant="13" id="HuF-Qa-zcT"/>
                                     <constraint firstItem="9PG-OJ-5U1" firstAttribute="top" secondItem="lef-0l-Dj5" secondAttribute="top" id="hF0-qf-hIx"/>
-                                    <constraint firstAttribute="trailing" secondItem="9PG-OJ-5U1" secondAttribute="trailing" constant="8" id="jZD-zE-Ikf"/>
+                                    <constraint firstItem="C7a-Kq-zSq" firstAttribute="leading" secondItem="9PG-OJ-5U1" secondAttribute="trailing" constant="4" id="k58-q8-gT6"/>
+                                    <constraint firstAttribute="bottom" secondItem="C7a-Kq-zSq" secondAttribute="bottom" id="lL5-OU-wva"/>
+                                    <constraint firstAttribute="trailing" secondItem="C7a-Kq-zSq" secondAttribute="trailing" constant="16" id="pyO-JJ-UFE"/>
+                                    <constraint firstItem="C7a-Kq-zSq" firstAttribute="top" secondItem="pfg-Gg-lGh" secondAttribute="top" id="qRh-yR-abK"/>
                                     <constraint firstItem="9PG-OJ-5U1" firstAttribute="leading" secondItem="WMj-9M-pKV" secondAttribute="trailing" constant="34" id="rGV-5u-que"/>
                                     <constraint firstItem="WMj-9M-pKV" firstAttribute="leading" secondItem="pfg-Gg-lGh" secondAttribute="leading" constant="6" id="rGi-NA-0Ej"/>
-                                    <constraint firstAttribute="trailing" secondItem="IHG-My-NNr" secondAttribute="trailing" constant="8" id="u9f-DR-er4"/>
-                                    <constraint firstAttribute="bottom" secondItem="IHG-My-NNr" secondAttribute="bottom" constant="6" id="xuv-tS-uMw"/>
                                     <constraint firstItem="lef-0l-Dj5" firstAttribute="top" secondItem="WMj-9M-pKV" secondAttribute="top" constant="3" id="yG7-GL-bUR"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
@@ -123,7 +122,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e57-VL-Fug" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="42" y="41" width="24" height="24"/>
+                                <rect key="frame" x="42" y="40" width="24" height="24"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="yXu-MN-BDc">
                                         <rect key="frame" x="6.5" y="3" width="11" height="18"/>
@@ -151,7 +150,6 @@
                             <constraint firstItem="e57-VL-Fug" firstAttribute="width" secondItem="e57-VL-Fug" secondAttribute="height" id="ACf-yM-uB9"/>
                             <constraint firstItem="e57-VL-Fug" firstAttribute="trailing" secondItem="WMj-9M-pKV" secondAttribute="trailing" id="Ctd-l6-AVB"/>
                             <constraint firstItem="pfg-Gg-lGh" firstAttribute="leading" secondItem="wx2-Ye-IF1" secondAttribute="leading" id="MJi-JB-7HC"/>
-                            <constraint firstAttribute="height" constant="70" id="RWm-7G-9Y8"/>
                             <constraint firstAttribute="trailing" secondItem="pfg-Gg-lGh" secondAttribute="trailing" id="Yc3-nV-OIf"/>
                             <constraint firstItem="pfg-Gg-lGh" firstAttribute="top" secondItem="wx2-Ye-IF1" secondAttribute="top" id="dzg-lf-QdT"/>
                             <constraint firstItem="e57-VL-Fug" firstAttribute="bottom" secondItem="WMj-9M-pKV" secondAttribute="bottom" id="u9q-f8-OH8"/>
@@ -186,7 +184,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="followBtn" destination="IHG-My-NNr" id="FzT-6J-Bqa"/>
+                <outlet property="followButton" destination="C7a-Kq-zSq" id="qi8-4g-IOB"/>
                 <outlet property="followerCount" destination="OpH-nt-0lN" id="b6u-i3-VmU"/>
                 <outlet property="leadingUserName" destination="rGV-5u-que" id="4fZ-at-L1Y"/>
                 <outlet property="likeCount" destination="fkp-5F-f1V" id="3ep-mO-abs"/>
@@ -196,7 +194,7 @@
                 <outlet property="userName" destination="9PG-OJ-5U1" id="GOe-YU-55K"/>
                 <outlet property="verifyLogo_img" destination="lef-0l-Dj5" id="b5e-qA-ItU"/>
             </connections>
-            <point key="canvasLocation" x="141" y="87"/>
+            <point key="canvasLocation" x="140.57971014492756" y="86.383928571428569"/>
         </tableViewCell>
     </objects>
     <resources>

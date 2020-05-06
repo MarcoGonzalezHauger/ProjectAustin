@@ -161,18 +161,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
 	
     // create offer Accepted notification here
-    func CreateOfferAcceptNotification(accepteddOffer: Offer) {
+    func CreateOfferAcceptNotification(acceptedOffer: Offer) {
         let content = UNMutableNotificationContent()
         content.title = "Offer Accepted"
         content.badge = 1
-        content.body = "An offer by \(accepteddOffer.company?.name) for \(NumberToPrice(Value: accepteddOffer.money)) is Accepted."
-        downloadImage(accepteddOffer.company?.logo ?? "") { (logo) in
+        content.body = "An offer by \(acceptedOffer.company?.name) for \(NumberToPrice(Value: acceptedOffer.money)) is Accepted."
+        downloadImage(acceptedOffer.company?.logo ?? "") { (logo) in
             if let logo = logo {
                 if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
                     content.attachments = [attachment]
                 }
             }
-            let request = UNNotificationRequest.init(identifier: "accept\(accepteddOffer.offer_ID)", content: content, trigger: UNTimeIntervalNotificationTrigger.init(timeInterval: 15, repeats: false))
+            let request = UNNotificationRequest.init(identifier: "accept\(acceptedOffer.offer_ID)", content: content, trigger: UNTimeIntervalNotificationTrigger.init(timeInterval: 15, repeats: false))
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
         }
         
@@ -212,6 +212,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         switch checkIfIdentifier {
         case .Business:
+            global.identifySegment = "shortcut_business"
             tabController.selectedIndex = 0
         case .Influencer:
             global.identifySegment = "shortcut"

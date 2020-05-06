@@ -8,75 +8,96 @@
 
 import UIKit
 
-class SocialFollowingVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
+class SocialFollowingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, followUpdateDelegate {
+	
+	func followingUpdated() {
+		getFollowingList { (status, usersList) in
+			
+			if status{
+				
+				self.userList = usersList
+				global.userList.removeAll()
+				global.userList = usersList
+				DispatchQueue.main.async {
+					self.followingTable.reloadData()
+				}
+				
+			}
+			
+		}
+	}
+	
     var userList = [AnyObject]()
     @IBOutlet weak var followingTable: UITableView!
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		
 		followingTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
 		
-        if global.userList.count != 0 {
-            self.userList = global.userList
-            DispatchQueue.main.async {
-                self.followingTable.reloadData()
-            }
-        }
-        else{
-        getFollowingList { (status, usersList) in
-            
-            if status{
-                
-                self.userList = usersList
-                global.userList.removeAll()
-                global.userList = usersList
-                DispatchQueue.main.async {
-                    self.followingTable.reloadData()
-                }
-                
-            }
-            
-        }
-    }
-        // Do any additional setup after loading the view.
-    }
-    
+		if global.userList.count != 0 {
+			self.userList = global.userList
+			DispatchQueue.main.async {
+				self.followingTable.reloadData()
+			}
+		} else {
+			getFollowingList { (status, usersList) in
+				
+				if status{
+					
+					self.userList = usersList
+					global.userList.removeAll()
+					global.userList = usersList
+					DispatchQueue.main.async {
+						self.followingTable.reloadData()
+					}
+					
+				}
+				
+			}
+		}
+		// Do any additional setup after loading the view.
+	}
+	
+	override func viewDidAppear(_ animated: Bool) {
+		followingUpdated()
+	}
+	
+	override func viewDidDisappear(_ animated: Bool) {
+		followingUpdated()
+	}
+	
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.userList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if ((self.userList[indexPath.row] as? User) != nil){
-            let identifier = "InfluencerResult"
-            
-            var cell = followingTable.dequeueReusableCell(withIdentifier: identifier) as? InfluencerTVC
-
-            if cell == nil {
-                let nib = Bundle.main.loadNibNamed("InfluencerTVC", owner: self, options: nil)
-                cell = nib![0] as? InfluencerTVC
-            }
-            cell!.userData = (self.userList[indexPath.row] as! User)
-            cell!.followBtn.tag = indexPath.row
-            cell!.followBtn.addTarget(self, action: #selector(self.followUserAction(_:)), for: .touchUpInside)
-            return cell!
-        }else{
-        
-        let identifier = "BusinessResult"
-        
-        var cell = followingTable.dequeueReusableCell(withIdentifier: identifier) as? BusinessUserTVC
-
-        if cell == nil {
-            let nib = Bundle.main.loadNibNamed("BusinessUserTVC", owner: self, options: nil)
-            cell = nib![0] as? BusinessUserTVC
-        }
-        cell!.businessDatail = (self.userList[indexPath.row] as! CompanyDetails)
-        cell!.followBtn.tag = indexPath.row
-        cell!.followBtn.addTarget(self, action: #selector(self.followBusinessAction(_:)), for: .touchUpInside)
-        return cell!
-        }
+		if ((self.userList[indexPath.row] as? User) != nil){
+			let identifier = "InfluencerResult"
+			
+			var cell = followingTable.dequeueReusableCell(withIdentifier: identifier) as? InfluencerTVC
+			
+			if cell == nil {
+				let nib = Bundle.main.loadNibNamed("InfluencerTVC", owner: self, options: nil)
+				cell = nib![0] as? InfluencerTVC
+			}
+			cell!.userData = (self.userList[indexPath.row] as! User)
+			cell!.followButton.tag = indexPath.row
+			return cell!
+		}else{
+			
+			let identifier = "BusinessResult"
+			
+			var cell = followingTable.dequeueReusableCell(withIdentifier: identifier) as? BusinessUserTVC
+			
+			if cell == nil {
+				let nib = Bundle.main.loadNibNamed("BusinessUserTVC", owner: self, options: nil)
+				cell = nib![0] as? BusinessUserTVC
+			}
+			cell!.businessDatail = (self.userList[indexPath.row] as! CompanyDetails)
+			return cell!
+		}
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
@@ -84,45 +105,21 @@ class SocialFollowingVC: UIViewController, UITableViewDelegate, UITableViewDataS
         let user = self.userList[indexPath.row]
         
         if ((user as? User) != nil){
-        return 80.0
+			return 80.0
         }else{
-        return 150.0
+			return 150.0
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         if let ThisUser = self.userList[indexPath.row] as? User{
             self.performSegue(withIdentifier: "FromSocialFollowing", sender: ThisUser)
+		} else if let ThisUser = self.userList[indexPath.row] as? CompanyDetails {
+            self.performSegue(withIdentifier: "FromSearchToBV", sender: ThisUser)
 		}
 		
 		tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    @IBAction func followUserAction(_ sender: UIButton){
-        
-        let ThisUser = self.userList[sender.tag] as! User
-
-        if (Yourself.following?.contains(ThisUser.id))!{
-
-            sender.setTitle("Follow", for: .normal)
-            var followingList = Yourself.following
-            if let i = followingList?.firstIndex(of: ThisUser.id){
-                followingList?.remove(at: i)
-                Yourself.following = followingList
-                updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
-                removeFollowingFollowerUser(user: ThisUser)
-                self.userList.remove(at: sender.tag)
-                self.followingTable.reloadData()
-            }
-        }else{
-            sender.setTitle("Unfollow", for: .normal)
-            var followingList = Yourself.following
-            followingList?.append(ThisUser.id)
-            Yourself.following = followingList
-            updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
-            updateFollowingFollowerUser(user: ThisUser, identifier: "influencer")
-        }
-
     }
     
     @IBAction func followBusinessAction(_ sender: UIButton){
@@ -162,6 +159,13 @@ class SocialFollowingVC: UIViewController, UITableViewDelegate, UITableViewDataS
         if segue.identifier == "FromSocialFollowing"{
             let view = segue.destination as! ViewProfileVC
             view.ThisUser = (sender as! User)
+			view.delegate = self
+        }else if segue.identifier == "FromSearchToBV"{
+            let view = segue.destination as! ViewBusinessVC
+            view.fromSearch = true
+            view.businessDatail = (sender as! CompanyDetails)
+            view.getFollowing(businessData: (sender as! CompanyDetails))
+			view.delegate = self
         }
     }
     
