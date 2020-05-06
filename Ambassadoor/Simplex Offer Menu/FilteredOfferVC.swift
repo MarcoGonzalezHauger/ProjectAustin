@@ -123,9 +123,9 @@ class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         let allOfferObj = filteredOfferList[indexPath.row]
         if allOfferObj.isAccepted{
-        offerVariation = .inProgress
+			offerVariation = .inProgress
         }else{
-        offerVariation = .canBeAccepted
+			offerVariation = .canBeAccepted
         }
         //FromFilteredToOV
         //self.performSegue(withIdentifier: "FromFilterOfferSegue", sender: filteredOfferList[indexPath.row].offer)

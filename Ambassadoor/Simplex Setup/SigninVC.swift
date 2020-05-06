@@ -123,7 +123,15 @@ class SigninVC: UIViewController {
                     //AccessToken.current!.tokenString
                     NewAccount.authenticationToken = longliveToken!
                     
-                    self.updateLoginDetailsToServer(userID: userID)
+                    updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
+                        
+                        if status{
+                            NewAccount.profilePicture = url!
+                            self.updateLoginDetailsToServer(userID: userID)
+                        }else{
+                        self.updateLoginDetailsToServer(userID: userID)
+                        }
+                    }
                     
 //                    API.calculateAverageLikes(userID: userID, longLiveToken: NewAccount.authenticationToken) { (recentMedia, error) in
 //
@@ -165,6 +173,7 @@ class SigninVC: UIViewController {
         
         fetchSingleUserDetails(userID: userID) { (status, user) in
             Yourself = user
+            //updateFirebaseProfileURL()
             UserDefaults.standard.set(userID, forKey: "userID")
             UserDefaults.standard.set(self.emailText.text!, forKey: "email")
             UserDefaults.standard.set(self.passwordText.text!, forKey: "password")
@@ -174,6 +183,7 @@ class SigninVC: UIViewController {
             
         }
     }
+    
     
 //    func averageLikes(recentMedia: Any, userID: String) {
 //

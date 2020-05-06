@@ -8,7 +8,12 @@
 
 import UIKit
 
-class SocialFollowedVC: UIViewController,UITableViewDataSource, UITableViewDelegate {
+class SocialFollowedVC: UIViewController,UITableViewDataSource, UITableViewDelegate, followUpdateDelegate {
+	
+	func followingUpdated() {
+		followingTable.reloadData()
+	}
+	
     
     var influencerList = [User]()
     @IBOutlet weak var followingTable: UITableView!
@@ -39,66 +44,42 @@ class SocialFollowedVC: UIViewController,UITableViewDataSource, UITableViewDeleg
         }
         // Do any additional setup after loading the view.
     }
+	
+	override func viewDidAppear(_ animated: Bool) {
+		followingTable.reloadData()
+	}
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             
-            return self.influencerList.count
-            
-        }
+		return self.influencerList.count
+		
+	}
         
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            
-            let identifier = "InfluencerResult"
-            
-            var cell = followingTable.dequeueReusableCell(withIdentifier: identifier) as? InfluencerTVC
-
-            if cell == nil {
-                let nib = Bundle.main.loadNibNamed("InfluencerTVC", owner: self, options: nil)
-                cell = nib![0] as? InfluencerTVC
-            }
-            cell!.userData = self.influencerList[indexPath.row]
-            cell!.followBtn.tag = indexPath.row
-            cell!.followBtn.addTarget(self, action: #selector(self.followAction(_:)), for: .touchUpInside)
-            return cell!
-            
-        }
-        
-        func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
-            return 80.0
-        }
-        
-        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-            let user = self.influencerList[indexPath.row]
-            self.performSegue(withIdentifier: "FromSocialFollowed", sender: user)
-			tableView.deselectRow(at: indexPath, animated: true)
-   
-        }
-        
-        @IBAction func followAction(_ sender: UIButton){
-            
-            let ThisUser = self.influencerList[sender.tag]
-
-            if (Yourself.following?.contains(ThisUser.id))!{
-
-                sender.setTitle("Follow", for: .normal)
-                var followingList = Yourself.following
-                if let i = followingList?.firstIndex(of: ThisUser.id){
-                    followingList?.remove(at: i)
-                    Yourself.following = followingList
-                    updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
-                    removeFollowingFollowerUser(user: ThisUser)
-                    
-                }
-            }else{
-                sender.setTitle("Unfollow", for: .normal)
-                var followingList = Yourself.following
-                followingList?.append(ThisUser.id)
-                Yourself.following = followingList
-                updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
-                updateFollowingFollowerUser(user: ThisUser, identifier: "influencer")
-            }
-
-        }
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		
+		let identifier = "InfluencerResult"
+		
+		var cell = followingTable.dequeueReusableCell(withIdentifier: identifier) as? InfluencerTVC
+		
+		if cell == nil {
+			let nib = Bundle.main.loadNibNamed("InfluencerTVC", owner: self, options: nil)
+			cell = nib![0] as? InfluencerTVC
+		}
+		cell!.userData = self.influencerList[indexPath.row]
+		return cell!
+		
+	}
+	
+	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
+		return 80.0
+	}
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
+		let user = self.influencerList[indexPath.row]
+		self.performSegue(withIdentifier: "FromSocialFollowed", sender: user)
+		tableView.deselectRow(at: indexPath, animated: true)
+		
+	}
 
     
     // MARK: - Navigation
@@ -110,6 +91,7 @@ class SocialFollowedVC: UIViewController,UITableViewDataSource, UITableViewDeleg
         if segue.identifier == "FromSocialFollowed"{
             let view = segue.destination as! ViewProfileVC
             view.ThisUser = (sender as! User)
+			view.delegate = self
         }
     }
     

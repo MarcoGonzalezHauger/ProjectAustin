@@ -47,9 +47,8 @@ class SearchPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
         {
           return
         }
-        if let index = pageViewController.viewControllers!.first!.view.tag as? Int{
-			self.pageViewDidChange?.pageViewIndexDidChangedelegate(index:index)
-        }
+        let index = pageViewController.viewControllers!.first!.view.tag
+		self.pageViewDidChange?.pageViewIndexDidChangedelegate(index:index)
     }
 	
 	//returns a list of all VCs in Home Tab.
@@ -74,7 +73,7 @@ class SearchPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
     
     var pageViewDidChange: PageViewDelegate?
     
-    var lastIndex: Int = 1
+    var lastIndex: Int = 0
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,33 +81,26 @@ class SearchPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
 		dataSource = self
 		delegate = self
         
-        if global.identifySegment == "shortcut"{
-            
-            //set default VC to Offers Page.
-            let firstViewController : UIViewController = OrderedVC[2]
-            
-            //display that in pages.
-            DispatchQueue.main.async {
-                self.setViewControllers([firstViewController],
-                                        direction: .forward,
-                                        animated: true,
-                                        completion: nil)
-            }
-            
-        }else{
-            
-            //set default VC to Offers Page.
-            let firstViewController : UIViewController = OrderedVC[1]
-            
-            //display that in pages.
-            DispatchQueue.main.async {
-                self.setViewControllers([firstViewController],
-                                        direction: .forward,
-                                        animated: true,
-                                        completion: nil)
-            }
-            
-        }
+        if global.identifySegment == "shortcut" {
+            lastIndex = 2
+        } else if global.identifySegment == "shortcut_business" {
+            lastIndex = 1
+		} else {
+			lastIndex = 0
+		}
+		
+		print(lastIndex)
+		
+		let firstViewController : UIViewController = OrderedVC[lastIndex]
+		
+
+		//display that in pages.
+		DispatchQueue.main.async {
+			self.setViewControllers([firstViewController],
+									direction: .forward,
+									animated: true,
+									completion: nil)
+		}
 		
 		let bgView = UIView(frame: UIScreen.main.bounds)
 		bgView.backgroundColor = GetBackColor()

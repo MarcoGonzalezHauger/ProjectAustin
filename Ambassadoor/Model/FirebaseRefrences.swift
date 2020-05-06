@@ -1581,7 +1581,9 @@ func getFollowingList(completion: @escaping(_ status: Bool, _ users: [AnyObject]
                         
                         if let influencer = value["user"] as? [String: Any]{
                             let user = User.init(dictionary: influencer)
-                            usersList.append(user)
+							if (Yourself.following?.contains(user.id))! {
+								usersList.append(user)
+							}
                         }
                         
                     }else{
@@ -1598,8 +1600,26 @@ func getFollowingList(completion: @escaping(_ status: Bool, _ users: [AnyObject]
                 }
                 
             }
+			
+			usersList.sort { (item1, item2) -> Bool in
+				let isOneBusiness = (item1 as? User) == nil
+				let isTwoBusiness = (item2 as? User) == nil
+				if isOneBusiness != isTwoBusiness {
+					return isOneBusiness
+				}
+				
+				if isOneBusiness == true {
+					let business1 = item1 as! CompanyDetails
+					let business2 = item2 as! CompanyDetails
+					return business1.name > business2.name
+				} else {
+					let influencer1 = item1 as! User
+					let influencer2 = item2 as! User
+					return influencer1.averageLikes ?? 0 > influencer2.averageLikes ?? 0
+				}
+			}
             
-            completion(true,usersList)
+            completion(true, usersList)
             
         }
         
@@ -1842,6 +1862,48 @@ func getObserveAllOffer(completion: @escaping (_ status: Bool, _ offerList: [all
         
     }) { (error) in
         
+    }
+}
+
+func uploadImageToFIR(image: UIImage, childName: String, path: String, completion: @escaping (String,Bool) -> ()) {
+    let data = image.jpegData(compressionQuality: 0.2)
+    let fileName = path + ".png"
+    let ref = Storage.storage().reference().child(childName).child(fileName)
+    ref.putData(data!, metadata: nil, completion: { (metadata, error) in
+        if error != nil {
+            debugPrint(error!)
+            completion("", true)
+            return
+        }else {
+            guard let metadata = metadata else {
+                // Uh-oh, an error occurred!
+                completion("", true)
+                return
+            }
+            // You can also access to download URL after upload.
+            ref.downloadURL { (url, error) in
+                guard let downloadURL = url else {
+                    // Uh-oh, an error occurred!
+                    completion("", true)
+                    return
+                }
+                completion(downloadURL.absoluteString, false)
+            }
+        }
+        debugPrint(metadata!)
+    })
+    //return id
+}
+
+func getDownloadedLink() {
+    
+    let ref = Storage.storage().reference().child("profile").child("17841430066849401.jpeg")
+    ref.downloadURL { (url, error) in
+        guard let downloadURL = url else {
+            // Uh-oh, an error occurred!
+            return
+        }
+        print("aaaaa",downloadURL)
     }
 }
 

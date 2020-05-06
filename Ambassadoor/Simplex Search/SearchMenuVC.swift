@@ -49,10 +49,12 @@ class SearchMenuVC: UIViewController, UISearchBarDelegate,PageViewDelegate {
         // Do any additional setup after loading the view.
         if global.identifySegment == "shortcut" {
             self.searchSegment.selectedSegmentIndex = 2
-            
+            global.identifySegment = ""
+		} else if global.identifySegment == "shortcut_business" {
+            self.searchSegment.selectedSegmentIndex = 1
             global.identifySegment = ""
         }else{
-           self.searchSegment.selectedSegmentIndex = 1
+           self.searchSegment.selectedSegmentIndex = 0
         }
         
     }

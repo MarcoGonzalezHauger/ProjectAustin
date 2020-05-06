@@ -30,7 +30,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nike" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hXd-RI-8Cp">
-                                        <rect key="frame" x="82" y="29.5" width="312" height="23"/>
+                                        <rect key="frame" x="82" y="29.5" width="237.5" height="23"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -46,30 +46,29 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="18z-P4-rYH">
-                                        <rect key="frame" x="347" y="112" width="47" height="20"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adH-af-Gip" customClass="FollowButtonSmall" customModule="Ambassadoor" customModuleProvider="target">
+                                        <rect key="frame" x="323.5" y="2" width="62.5" height="68"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="20" id="RZo-qK-MMH"/>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="47" id="Zl3-FM-Qxs"/>
+                                            <constraint firstAttribute="height" constant="68" id="923-g4-mts"/>
+                                            <constraint firstAttribute="width" constant="62.5" id="FbB-Y0-YqA"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <state key="normal" title="Follow"/>
-                                    </button>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
+                                    <constraint firstItem="adH-af-Gip" firstAttribute="leading" secondItem="hXd-RI-8Cp" secondAttribute="trailing" constant="4" id="7Ld-SZ-vew"/>
                                     <constraint firstItem="Sfe-zr-Nkq" firstAttribute="top" secondItem="Nu9-v6-7Sg" secondAttribute="top" constant="6" id="9mM-oa-bFG"/>
-                                    <constraint firstAttribute="bottom" secondItem="18z-P4-rYH" secondAttribute="bottom" constant="6" id="9ni-QU-XLC"/>
+                                    <constraint firstItem="adH-af-Gip" firstAttribute="centerY" secondItem="Sfe-zr-Nkq" secondAttribute="centerY" id="BpI-yL-bg0"/>
                                     <constraint firstItem="hXd-RI-8Cp" firstAttribute="leading" secondItem="Sfe-zr-Nkq" secondAttribute="trailing" constant="16" id="HBp-F4-R7n"/>
                                     <constraint firstItem="hXd-RI-8Cp" firstAttribute="top" secondItem="Ju7-dR-AAl" secondAttribute="bottom" id="OIb-Ux-oBz"/>
                                     <constraint firstItem="Ju7-dR-AAl" firstAttribute="leading" secondItem="hXd-RI-8Cp" secondAttribute="leading" id="QUy-5H-pWD"/>
                                     <constraint firstItem="hXd-RI-8Cp" firstAttribute="centerY" secondItem="Sfe-zr-Nkq" secondAttribute="centerY" constant="5" id="W4h-Zh-6yG"/>
                                     <constraint firstItem="pnC-jI-e2k" firstAttribute="top" secondItem="Sfe-zr-Nkq" secondAttribute="bottom" constant="8" id="XRT-gm-k7L"/>
                                     <constraint firstItem="pnC-jI-e2k" firstAttribute="leading" secondItem="Sfe-zr-Nkq" secondAttribute="leading" id="d4c-0R-77d"/>
-                                    <constraint firstAttribute="trailing" secondItem="hXd-RI-8Cp" secondAttribute="trailing" constant="8" id="fTm-bB-6XS"/>
                                     <constraint firstItem="Sfe-zr-Nkq" firstAttribute="leading" secondItem="Nu9-v6-7Sg" secondAttribute="leading" constant="6" id="ivI-er-jQI"/>
                                     <constraint firstAttribute="trailing" secondItem="pnC-jI-e2k" secondAttribute="trailing" constant="8" id="lcq-Xo-XI7"/>
-                                    <constraint firstAttribute="trailing" secondItem="18z-P4-rYH" secondAttribute="trailing" constant="8" id="lu0-m3-Szj"/>
+                                    <constraint firstAttribute="trailing" secondItem="adH-af-Gip" secondAttribute="trailing" constant="16" id="urQ-7Y-7m5"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -119,8 +118,8 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="BusinessButton" destination="adH-af-Gip" id="6wm-RO-hrU"/>
                 <outlet property="businessLogo" destination="Sfe-zr-Nkq" id="TtV-WN-MOO"/>
-                <outlet property="followBtn" destination="18z-P4-rYH" id="xQI-fX-vkN"/>
                 <outlet property="mission" destination="pnC-jI-e2k" id="I2c-PQ-v3q"/>
                 <outlet property="name" destination="hXd-RI-8Cp" id="W8j-yh-22u"/>
             </connections>
