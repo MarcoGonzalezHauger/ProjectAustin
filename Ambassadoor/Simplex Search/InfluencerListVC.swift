@@ -8,22 +8,53 @@
 
 import UIKit
 
-class InfluencerTVC: UITableViewCell {
+protocol followUpdateDelegate {
+	func followingUpdated()
+}
+
+class InfluencerTVC: UITableViewCell, FollowerButtonDelegete {
     
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var tier: UILabel!
     @IBOutlet weak var followerCount: UILabel!
     @IBOutlet weak var likeCount: UILabel!
-    @IBOutlet weak var followBtn: UIButton!
     @IBOutlet weak var verifyLogo_img: UIImageView!
-    
+	@IBOutlet weak var tierBox: ShadowView!
+	@IBOutlet weak var followButton: FollowButtonSmall!
+	
     @IBOutlet weak var leadingUserName: NSLayoutConstraint!
+	
+	func isFollowingChanged(sender: AnyObject, newValue: Bool) {
+		if let ThisUser = userData {
+			if newValue {
+				//FOLLOW
+				var followingList = Yourself.following
+				if !followingList!.contains(ThisUser.id) {
+					followingList?.append(ThisUser.id)
+				}
+				Yourself.following = followingList
+				updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
+				updateFollowingFollowerUser(user: ThisUser, identifier: "influencer")
+			} else {
+				//UNFOLLOW
+				var followingList = Yourself.following
+				if let i = followingList?.firstIndex(of: ThisUser.id){
+					followingList?.remove(at: i)
+					Yourself.following = followingList
+					updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
+					removeFollowingFollowerUser(user: ThisUser)
+					
+				}
+			}
+		}
+	}
+	
     var userData: User?{
         didSet{
             if let user = userData{
-                
-                if let picurl = user.profilePicURL {
+                tierBox.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "tiergrad")!)
+                if let picurl = user.FIRProfilePicture {
                     self.userImage.downloadAndSetImage(picurl)
                 } else {
                     self.userImage.UseDefaultImage()
@@ -34,13 +65,9 @@ class InfluencerTVC: UITableViewCell {
                 
                 self.tier.text = String(GetTierForInfluencer(influencer: user))
                 
-                if (Yourself.following?.contains(user.id))!{
-                    self.followBtn.setTitle("Unfollow", for: .normal)
-                }else{
-                    
-                    self.followBtn.setTitle("Follow", for: .normal)
-                    
-                }
+				followButton.isFollowing = (Yourself.following?.contains(user.id))!
+				followButton.isBusiness = false
+				followButton.delegate = self
                 
                 self.followerCount.text = CompressNumber(number: Double(user.followerCount))
                 self.likeCount.text = CompressNumber(number: Double(user.averageLikes ?? 0))
@@ -71,7 +98,12 @@ class InfluencerTVC: UITableViewCell {
     
 }
 
-class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SearchBarDelegate {
+class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SearchBarDelegate, followUpdateDelegate {
+	
+	func followingUpdated() {
+		influencrTable.reloadRows(at: [IndexPath.init(row: activeView!, section: 0)], with: .none)
+	}
+		
     func SearchTextIndex(text: String, segmentIndex: Int) {
         
         self.GetSearchedInfluencerItems(query: text) { (users) in
@@ -83,7 +115,7 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
         
     }
     
-    
+	var activeView: Int?
     @IBOutlet weak var influencrTable: UITableView!
     
     var influencerTempArray = [User]()
@@ -112,8 +144,6 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
             cell = nib![0] as? InfluencerTVC
         }
         cell!.userData = self.influencerTempArray[indexPath.row]
-        cell!.followBtn.tag = indexPath.row
-        cell!.followBtn.addTarget(self, action: #selector(self.followAction(_:)), for: .touchUpInside)
         return cell!
         
     }
@@ -125,33 +155,8 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         let user = self.influencerTempArray[indexPath.row]
         self.performSegue(withIdentifier: "FromInfluencerList", sender: user)
+		activeView = indexPath.row
         influencrTable.deselectRow(at: indexPath, animated: true)
-    }
-    
-    @IBAction func followAction(_ sender: UIButton){
-        
-        let ThisUser = self.influencerTempArray[sender.tag]
-
-        if (Yourself.following?.contains(ThisUser.id))!{
-
-            sender.setTitle("Follow", for: .normal)
-            var followingList = Yourself.following
-            if let i = followingList?.firstIndex(of: ThisUser.id){
-                followingList?.remove(at: i)
-                Yourself.following = followingList
-                updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
-                removeFollowingFollowerUser(user: ThisUser)
-                
-            }
-        }else{
-            sender.setTitle("Unfollow", for: .normal)
-            var followingList = Yourself.following
-            followingList?.append(ThisUser.id)
-            Yourself.following = followingList
-            updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
-            updateFollowingFollowerUser(user: ThisUser, identifier: "influencer")
-        }
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -174,9 +179,9 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
             }
         }
     }
-    
-    
-    
+	
+	
+	
     func GetSearchedInfluencerItems(query: String?, completed: @escaping (_ Results: [User]) -> ()) {
         guard let query = query else { return }
         var metusers: [User] = []
@@ -226,6 +231,7 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
         if segue.identifier == "FromInfluencerList"{
             let view = segue.destination as! ViewProfileVC
             view.ThisUser = (sender as! User)
+			view.delegate = self
         }
     }
     

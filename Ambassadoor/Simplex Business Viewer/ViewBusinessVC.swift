@@ -8,8 +8,9 @@
 
 import UIKit
 
-class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelegate { // FollowerButtonDelegete
+class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelegate, FollowerButtonDelegete {
 	
+	var delegate: followUpdateDelegate?
     
     @IBOutlet weak var companyLogo: UIImageView!
     @IBOutlet weak var companyName: UILabel!
@@ -27,20 +28,41 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
     
     var followOfferList = [allOfferObject]()
     var offerVariation: OfferVariation?
-    
+	@IBOutlet weak var followButton: FollowButtonRegular!
+	
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.setData()
         
-//		followButton.delegate = self
-//		followButton.isBusiness = true
-//		followButton.isFollowing = true
+		followButton.delegate = self
+		followButton.isBusiness = true
     }
 	
-//	func isFollowingChanged(sender: AnyObject, newValue: Bool) {
-//		print("State is now: \(newValue)")
-//	}
+	func isFollowingChanged(sender: AnyObject, newValue: Bool) {
+		guard let ThisUser = self.businessDatail else {return}
+		if newValue {
+			//FOLLOW
+            var followingList = Yourself.businessFollowing!
+			if !(followingList.contains(ThisUser.userId!)) {
+				followingList.append(ThisUser.userId!)
+			}
+            Yourself.businessFollowing = followingList
+            updateBusinessFollowingList(company: ThisUser, userID: ThisUser.userId!, ownUserID: Yourself)
+            updateFollowingFollowerBusinessUser(user: ThisUser, identifier: "business")
+		} else {
+			//UNFOLLOW
+            var followingList = Yourself.businessFollowing
+            if let i = followingList?.firstIndex(of: ThisUser.userId!){
+                followingList?.remove(at: i)
+                Yourself.businessFollowing = followingList
+                updateBusinessFollowingList(company: ThisUser, userID: ThisUser.userId!, ownUserID: Yourself)
+                removeFollowingFollowerBusinessUser(user: ThisUser)
+                
+            }
+		}
+		delegate?.followingUpdated()
+	}
     
     func setData() {
         
@@ -50,6 +72,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         
         if let businessData = businessDatail{
+			followButton.isFollowing = (Yourself.businessFollowing?.contains(businessData.userId!))!
             if let picurl = businessData.logo {
                 self.companyLogo.downloadAndSetImage(picurl)
             } else {
@@ -68,7 +91,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
                     self.getDomainFromUnFormatedUrl(businessData: businessData)
                 }
             }else{
-                    self.getDomainFromUnFormatedUrl(businessData: businessData)
+				self.getDomainFromUnFormatedUrl(businessData: businessData)
             }
         }
     }
@@ -126,7 +149,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
                 self.offerStatus.text = "Avaliable Offers"
                 self.offerTable.isHidden = false
                 
-                self.tableviewHeight.constant = CGFloat(((offers.count) * 110) + 25)
+                self.tableviewHeight.constant = CGFloat((CGFloat(offers.count) * unviersalOfferHeight) + 10)
                 
                 self.offerTable.updateConstraints()
                 self.offerTable.layoutIfNeeded()
@@ -169,7 +192,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
-        return 110
+        return unviersalOfferHeight
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
@@ -200,7 +223,10 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
         
              destination.offerVariation = offerVariation!
              destination.offer = sender as? Offer
-         }
+		} else if segue.identifier == "toReporterFromBV" {
+			let destination	= segue.destination as! ReporterFeature
+			destination.TargetCompany = businessDatail
+		}
     }
     
 

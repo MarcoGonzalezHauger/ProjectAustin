@@ -27,7 +27,7 @@
                                             <rect key="frame" x="0.0" y="50" width="414" height="1650"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <prototypes>
-                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="acceptButton" rowHeight="74" id="nIp-Yu-0DJ" customClass="AcceptCell" customModule="Ambassadoor" customModuleProvider="target">
+                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="acceptButton" rowHeight="74" id="nIp-Yu-0DJ" customClass="AcceptCell" customModule="Ambassadoor" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="28" width="414" height="74"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nIp-Yu-0DJ" id="5Eg-V9-n5X">
@@ -46,6 +46,9 @@
                                                                                 <state key="normal" title="ACCEPT">
                                                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                 </state>
+                                                                                <connections>
+                                                                                    <action selector="acceptButtonPressed:" destination="nIp-Yu-0DJ" eventType="touchUpInside" id="wnu-t8-Sim"/>
+                                                                                </connections>
                                                                             </button>
                                                                         </subviews>
                                                                         <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -104,9 +107,10 @@
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <connections>
                                                         <outlet property="acceptButton" destination="h2z-XO-I1o" id="TeE-oZ-xf1"/>
+                                                        <outlet property="acceptView" destination="fBQ-QM-mzR" id="B7G-Ag-b9t"/>
                                                     </connections>
                                                 </tableViewCell>
-                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="abortOfferButton" rowHeight="74" id="N8k-Op-ykt" customClass="AbortOffer" customModule="Ambassadoor" customModuleProvider="target">
+                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="abortOfferButton" rowHeight="74" id="N8k-Op-ykt" customClass="AbortOffer" customModule="Ambassadoor" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="102" width="414" height="74"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="N8k-Op-ykt" id="VnQ-Bw-FoR">
@@ -182,7 +186,7 @@
                                                     </tableViewCellContentView>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </tableViewCell>
-                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="youWillBePaid" rowHeight="80" id="BYd-28-rtv" customClass="WillBePaidCell" customModule="Ambassadoor" customModuleProvider="target">
+                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="youWillBePaid" rowHeight="80" id="BYd-28-rtv" customClass="WillBePaidCell" customModule="Ambassadoor" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="176" width="414" height="80"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="BYd-28-rtv" id="lLw-Vr-k5w">
@@ -314,7 +318,7 @@
                                                         <outlet property="widthConstraint" destination="f0p-pM-Cun" id="V4w-yP-iFd"/>
                                                     </connections>
                                                 </tableViewCell>
-                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="goodWorkInfo" id="g1f-gJ-Gei" customClass="GoodWorkCell" customModule="Ambassadoor" customModuleProvider="target">
+                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="goodWorkInfo" id="g1f-gJ-Gei" customClass="GoodWorkCell" customModule="Ambassadoor" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="256" width="414" height="69"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="g1f-gJ-Gei" id="lIq-QC-aaw">
@@ -383,7 +387,7 @@
                                                         <outlet property="goodWorkDes" destination="VKI-og-Vot" id="UNh-fJ-ZhE"/>
                                                     </connections>
                                                 </tableViewCell>
-                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="leftToPostTime" rowHeight="80" id="nIf-ZZ-hU4" userLabel="timeRemaining" customClass="InProgressTVC" customModule="Ambassadoor" customModuleProvider="target">
+                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="leftToPostTime" rowHeight="80" id="nIf-ZZ-hU4" userLabel="timeRemaining" customClass="InProgressTVC" customModule="Ambassadoor" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="325" width="414" height="80"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nIf-ZZ-hU4" id="RuL-wx-C8L">
@@ -525,7 +529,7 @@
                                                         <outlet property="progrssView" destination="kav-hm-M7n" id="Eda-VQ-AHp"/>
                                                     </connections>
                                                 </tableViewCell>
-                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="allPostsDenied" id="Gln-I0-v7P" customClass="RejectedMessageCell" customModule="Ambassadoor" customModuleProvider="target">
+                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="allPostsDenied" id="Gln-I0-v7P" customClass="RejectedMessageCell" customModule="Ambassadoor" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="405" width="414" height="220"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Gln-I0-v7P" id="qMd-sb-aYi">
@@ -616,6 +620,10 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                             <state key="normal" title="Report">
                                                 <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
+                                            <connections>
+                                                <action selector="reportClicked:" destination="OV7-gm-eND" eventType="touchUpInside" id="cfV-x6-cmf"/>
+                                                <segue destination="GOu-EU-naX" kind="presentation" identifier="toReportFromOV" id="1QZ-KZ-rSH"/>
+                                            </connections>
                                         </button>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OfferTopImage" translatesAutoresizingMaskIntoConstraints="NO" id="Keo-qd-ImE">
                                             <rect key="frame" x="102" y="9.5" width="200" height="34"/>
@@ -661,7 +669,7 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fY0-73-vUg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="105.79710144927537" y="78.348214285714278"/>
+            <point key="canvasLocation" x="77" y="87"/>
         </scene>
         <!--BusinessDetailReference-->
         <scene sceneID="8Ek-9J-FvM">
@@ -670,6 +678,16 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SXV-Kb-U3W" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="183" y="-709"/>
+        </scene>
+        <!--reporterFeatureID-->
+        <scene sceneID="4mc-YB-1K9">
+            <objects>
+                <viewControllerPlaceholder storyboardName="businessViewer" referencedIdentifier="reporterFeatureID" id="GOu-EU-naX" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="zK7-tq-67T"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qG7-W8-7kT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="625" y="-546"/>
         </scene>
         <!--View Post ColorfulVC-->
         <scene sceneID="0iN-Ml-QUT">

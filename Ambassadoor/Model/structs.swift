@@ -218,6 +218,7 @@ class User: NSObject {
     var following: [String]?
     var businessFollowing: [String]?
     var email: String?
+    var FIRProfilePicture: String?
     //followerCount
     init(dictionary: [String: Any]) {
         self.name = dictionary["name"] as? String
@@ -249,6 +250,7 @@ class User: NSObject {
         self.following = dictionary["following"] as? [String] ?? []
         self.businessFollowing = dictionary["businessFollowing"] as? [String] ?? []
         self.email = dictionary["email"] as? String ?? ""
+        self.FIRProfilePicture = dictionary["FIRProfilePicture"] as? String ?? dictionary["profilePicture"] as? String ?? ""
     }
 	
 	override var description: String {

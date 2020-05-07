@@ -109,26 +109,51 @@ public extension UIImageView {
     }
 }
 
-func saveCoreData(link: String, data: Data) {
-        
-                
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
+public extension UIImage{
+    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+        let size = image.size
 
-        let imageDataEntity = NSEntityDescription.entity(forEntityName: "AppImageData", in: context)
-        let imageData = NSManagedObject(entity: imageDataEntity!, insertInto: context)
-        imageData.setValue(data, forKey: "imagedata")
-        imageData.setValue(link, forKey: "url")
-        let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
-        print(paths[0])
-        do {
-            try imageData.managedObjectContext?.save()
-          } catch {
-           print("Failed saving")
-        }
+        let widthRatio  = targetSize.width  / size.width
+        let heightRatio = targetSize.height / size.height
 
-        
+        // Figure out what our orientation is, and use that to form the rectangle
+        let newSize: CGSize = CGSize(width: size.width * widthRatio,  height: size.height * heightRatio)
+
+        // This is the rect that we've calculated out and this is what is actually used below
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+
+        // Actually do the resizing to the rect using the ImageContext stuff
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return newImage!
     }
+}
+
+func saveCoreData(link: String, data: Data) {
+	
+	
+	let appDelegate = UIApplication.shared.delegate as! AppDelegate
+	let context = appDelegate.persistentContainer.viewContext
+	
+	let imageDataEntity = NSEntityDescription.entity(forEntityName: "AppImageData", in: context)
+	let imageData = NSManagedObject(entity: imageDataEntity!, insertInto: context)
+	imageData.setValue(data, forKey: "imagedata")
+	imageData.setValue(link, forKey: "url")
+    let newCache = CachedImages(object: imageData)
+    global.cachedImageList.append(newCache)
+	let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
+	print(paths[0])
+	do {
+		try imageData.managedObjectContext?.save()
+	} catch {
+		print("Failed saving")
+	}
+	
+	
+}
 
 func downloadProfileImage(_ urlLink: String, completed: @escaping (_ image: UIImage?) -> ()) {
     if urlLink.isEmpty {
@@ -161,28 +186,28 @@ func downloadImage(_ urlLink: String, completed: @escaping (_ image: UIImage?) -
 		return
 	}
 	// check cache first
-    /*
+	/*
 	if let cachedImage = imageCache.object(forKey: urlLink as NSString) as? UIImage {
-		print("CHACHED  : \(urlLink)")
-		completed(cachedImage)
-		return
+	print("CHACHED  : \(urlLink)")
+	completed(cachedImage)
+	return
 	}
-   */
-    
-    let cachedImage = global.cachedImageList.filter { (cache) -> Bool in
-        return cache.link! == urlLink
-    }
-    
-    if cachedImage.count != 0{
-    
-    if let image = UIImage(data: cachedImage.first!.imagedata!){
-        
-        print("CHACHED  : \(urlLink)")
-        completed(image)
-        return
-        
-    }
-    }
+	*/
+	
+	let cachedImage = global.cachedImageList.filter { (cache) -> Bool in
+		return cache.link! == urlLink
+	}
+	
+	if cachedImage.count != 0{
+		
+		if let image = UIImage(data: cachedImage.first!.imagedata!){
+			
+			print("CHACHED  : \(urlLink)")
+			completed(image)
+			return
+			
+		}
+	}
     
 	
 	// otherwise, download
@@ -197,6 +222,7 @@ func downloadImage(_ urlLink: String, completed: @escaping (_ image: UIImage?) -
 		DispatchQueue.main.async {
             
             saveCoreData(link: urlLink, data: data!)
+
             
 			if let newImage = UIImage(data: data!) {
 				//imageCache.setObject(newImage, forKey: urlLink as NSString)

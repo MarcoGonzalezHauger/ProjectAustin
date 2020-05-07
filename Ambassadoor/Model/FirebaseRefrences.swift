@@ -1031,7 +1031,7 @@ func getFilteredOffer(completion: @escaping (_ status: Bool, _ offerList: [allOf
                     
                     if !categoryMatch && locationMatch && genderMatch {
                         let businessCats: [String] = offerFilter["categories"] as! [String]
-                        if let userCats = Yourself.categories as? [String] {
+                        if let userCats = Yourself.categories {
                             //cats = Checks if user is a crazy cat person.
                             //Okay maybe I shouldn't joke when commenting.
                             for userCat in userCats {
@@ -1065,6 +1065,10 @@ func getFilteredOffer(completion: @escaping (_ status: Bool, _ offerList: [allOf
                 }
                 
             }
+			
+			offerList.sort { (offer1, offer2) -> Bool in
+				return offer1.offer.offerdate > offer2.offer.offerdate
+			}
             
             completion(true,offerList)
             
@@ -1107,7 +1111,7 @@ func getObserveFilteredOffer(completion: @escaping (_ status: Bool, _ offerList:
                     
                     if !locationMatch && genderMatch {
                         let zips: [String] = offerFilter["zipCode"] as! [String]
-                        if let userZip = Yourself.zipCode as? String {
+                        if let userZip = Yourself.zipCode {
                             if zips.contains(userZip) {
                                 locationMatch = true
                             }
@@ -1116,7 +1120,7 @@ func getObserveFilteredOffer(completion: @escaping (_ status: Bool, _ offerList:
                     
                     if !categoryMatch && locationMatch && genderMatch {
                         let businessCats: [String] = offerFilter["categories"] as! [String]
-                        if let userCats = Yourself.categories as? [String] {
+                        if let userCats = Yourself.categories {
                             //cats = Checks if user is a crazy cat person.
                             //Okay maybe I shouldn't joke when commenting.
                             for userCat in userCats {
@@ -1155,6 +1159,11 @@ func getObserveFilteredOffer(completion: @escaping (_ status: Bool, _ offerList:
                 }
                 
             }
+			
+			
+			offerList.sort { (offer1, offer2) -> Bool in
+				return offer1.offer.offerdate > offer2.offer.offerdate
+			}
             
             completion(true,offerList)
             
@@ -1353,7 +1362,7 @@ func getAcceptedOffers(completion: @escaping(_ status: Bool,_ offer: [Offer])->(
             
             for (_, offervalue) in snapDict {
                 
-                if let isAccepted = offervalue["status"] as? String{
+                if let isAccepted = offervalue["status"] {
                     //if isAccepted == "accepted" || isAccepted == "posted" {
                         
                         let offer = Offer.init(dictionary: offervalue)
@@ -1581,7 +1590,9 @@ func getFollowingList(completion: @escaping(_ status: Bool, _ users: [AnyObject]
                         
                         if let influencer = value["user"] as? [String: Any]{
                             let user = User.init(dictionary: influencer)
-                            usersList.append(user)
+							if (Yourself.following?.contains(user.id))! {
+								usersList.append(user)
+							}
                         }
                         
                     }else{
@@ -1598,8 +1609,26 @@ func getFollowingList(completion: @escaping(_ status: Bool, _ users: [AnyObject]
                 }
                 
             }
+			
+			usersList.sort { (item1, item2) -> Bool in
+				let isOneBusiness = (item1 as? User) == nil
+				let isTwoBusiness = (item2 as? User) == nil
+				if isOneBusiness != isTwoBusiness {
+					return isOneBusiness
+				}
+				
+				if isOneBusiness == true {
+					let business1 = item1 as! CompanyDetails
+					let business2 = item2 as! CompanyDetails
+					return business1.name > business2.name
+				} else {
+					let influencer1 = item1 as! User
+					let influencer2 = item2 as! User
+					return influencer1.averageLikes ?? 0 > influencer2.averageLikes ?? 0
+				}
+			}
             
-            completion(true,usersList)
+            completion(true, usersList)
             
         }
         
@@ -1649,7 +1678,7 @@ func getAllOffer(completion: @escaping (_ status: Bool, _ offerList: [allOfferOb
                     
                     if !categoryMatch && locationMatch && genderMatch {
                         let businessCats: [String] = offerFilter["categories"] as! [String]
-                        if let userCats = Yourself.categories as? [String] {
+                        if let userCats = Yourself.categories {
                             //cats = Checks if user is a crazy cat person.
                             //Okay maybe I shouldn't joke when commenting.
                             for userCat in userCats {
@@ -1720,6 +1749,10 @@ func getAllOffer(completion: @escaping (_ status: Bool, _ offerList: [allOfferOb
                 
             }
             
+			offerList.sort { (offer1, offer2) -> Bool in
+				return offer1.offer.offerdate > offer2.offer.offerdate
+			}
+			
             completion(true,offerList)
             
         }
@@ -1835,6 +1868,11 @@ func getObserveAllOffer(completion: @escaping (_ status: Bool, _ offerList: [all
                 }
                 
             }
+			
+			
+			offerList.sort { (offer1, offer2) -> Bool in
+				return offer1.offer.offerdate > offer2.offer.offerdate
+			}
             
             completion(true,offerList)
             
@@ -1846,7 +1884,7 @@ func getObserveAllOffer(completion: @escaping (_ status: Bool, _ offerList: [all
 }
 
 func uploadImageToFIR(image: UIImage, childName: String, path: String, completion: @escaping (String,Bool) -> ()) {
-    let data = image.jpegData(compressionQuality: 0.2)
+    let data = image.resizeImage(image: image, targetSize: CGSize.init(width: 128.0, height: 128.0)).jpegData(compressionQuality: 0.2)
     let fileName = path + ".png"
     let ref = Storage.storage().reference().child(childName).child(fileName)
     ref.putData(data!, metadata: nil, completion: { (metadata, error) in

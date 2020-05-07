@@ -301,7 +301,8 @@ protocol reservedTimeEndDelegate {
 class ReservedCell: UITableViewCell {
 	
 	@IBOutlet weak var timeText: UILabel!
-	var timer: Timer?
+
+	var reservedTimer: Timer?
 	
 	var timerSeconds: Double = 0.0
     
@@ -311,8 +312,8 @@ class ReservedCell: UITableViewCell {
 		didSet{
 			if let offerValue = offer{
 				
-				if self.timer != nil{
-					timer!.invalidate()
+				if reservedTimer != nil{
+					reservedTimer!.invalidate()
 					timeText.text = ""
 				}
 				
@@ -346,22 +347,17 @@ class ReservedCell: UITableViewCell {
 											self.updateReservedTime()
 										}
 										
-										self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.timerForReservedCell(sender:)), userInfo: nil, repeats: true)
 										
-										self.timerForReservedCell(sender: timer!)
+										reservedTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(self.timerForReservedCell(sender:)), userInfo: nil, repeats: true)
+										//RunLoop.current.add(self.reservedTimer!, forMode: RunLoop.Mode.common)
+										self.timerForReservedCell(sender: reservedTimer!)
 										
 									}
-									
 								}
-								
-								
 							}
 						}
-						
 					}
-					
 				}
-				
 			}
 		}
 	}
@@ -397,7 +393,7 @@ class ReservedCell: UITableViewCell {
 					
 					if answer == "0:00"{
 						//self.updateReservedTime()
-						self.timer?.invalidate()
+						reservedTimer!.invalidate()
 						self.reservedCellDelegate?.DismissWhenReservedTimeEnd()
 					} else {
 						timeText.text = answer
@@ -408,7 +404,7 @@ class ReservedCell: UITableViewCell {
 			}
 			
 		}else{
-			self.timer?.invalidate()
+			reservedTimer?.invalidate()
 		}
 		
 	}
@@ -436,7 +432,38 @@ class ReservedCell: UITableViewCell {
 
 class AcceptCell: UITableViewCell {
     
-    @IBOutlet weak var acceptButton: UIButton!
+	@IBOutlet weak var acceptView: ShadowView!
+	@IBOutlet weak var acceptButton: UIButton!
+	var delegate: AcceptButtonDelegate?
+	@IBAction func acceptButtonPressed(_ sender: Any) {
+		delegate?.AcceptWasPressed()
+	}
+	func CreateAnimation() {
+		self.acceptView.backgroundColor = .systemBlue
+		print("animation has been created for accept button")
+		if !alreadyTeal {
+			FadeToTeal()
+			alreadyTeal = true
+		}
+	}
+	
+	var alreadyTeal = false
+	
+	func FadeToBlue() {
+		UIView.animate(withDuration: 2, delay: 0.0, options: [.allowUserInteraction], animations: { () -> Void in
+			self.acceptView.backgroundColor = .systemBlue
+		}, completion: { (bl) in
+			self.FadeToTeal()
+		})
+	}
+	
+	func FadeToTeal() {
+		UIView.animate(withDuration: 2, delay: 0.0, options: [.allowUserInteraction], animations: { () -> Void in
+			self.acceptView.backgroundColor = .systemTeal
+		}, completion: { (bl) in
+			self.FadeToBlue()
+		})
+	}
 	
 }
 
@@ -755,12 +782,25 @@ enum NumberOfRows: Int {
 	}
 }
 
-class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSource, postDidSelect, reservedTimeEndDelegate {
+protocol AcceptButtonDelegate{
+	func AcceptWasPressed()
+}
+
+class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSource, postDidSelect, reservedTimeEndDelegate, AcceptButtonDelegate {
+	
+	func AcceptWasPressed() {
+		acceptAction()
+	}
+
+	
     func DismissWhenReservedTimeEnd() {
         self.dismiss(animated: true, completion: nil)
     }
     
-    
+	@IBAction func reportClicked(_ sender: Any) {
+		
+	}
+	
     //MARK: Post Did Select
     
     func sendPostObjects(index: Int, offervariation: OfferVariation, offer: Offer) {
@@ -865,9 +905,12 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 				cell!.offer = offer!
 				return cell!
 			}else{
+				print("creating accept button")
 				let identifier = "acceptButton"
 				let cell = offerViewTable.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! AcceptCell
-                cell.acceptButton.addTarget(self, action: #selector(self.acceptAction(sender:)), for: .touchUpInside)
+				cell.delegate = self
+				cell.acceptView.backgroundColor = .systemBlue
+				cell.CreateAnimation()
 				return cell
 			}
 			
@@ -1149,7 +1192,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	}
     
     
-    @IBAction func acceptAction(sender: UIButton){
+    func acceptAction() {
         if let incresePay = self.offer!.incresePay {
         let pay = calculateCostForUser(offer: self.offer!, user: Yourself, increasePayVariable: incresePay)
         updateIsAcceptedOffer(offer: self.offer!, money: pay)
@@ -1296,7 +1339,10 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
             let view = segue.destination as! ViewBusinessVC
             view.fromSearch = false
             view.businessDatail = (sender as! CompanyDetails)
-        }
+		}else if segue.identifier == "toReportFromOV" {
+			let view = segue.destination as! ReporterFeature
+			view.TargetOffer = offer
+		}
 	}
 	
 	

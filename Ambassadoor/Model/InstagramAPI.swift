@@ -668,7 +668,8 @@ struct API {
             "tokenFIR":global.deviceFIRToken,
             "following":[],
             "businessFollowing":[],
-            "email":details.email
+            "email":details.email,
+            "FIRProfilePicture": details.FIRProfilePicture
         ]
         return userData
     }
