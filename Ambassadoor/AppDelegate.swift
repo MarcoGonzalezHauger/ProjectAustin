@@ -132,7 +132,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let content = UNMutableNotificationContent()
         content.title = NSString.localizedUserNotificationString(forKey:
             "Offer Will Expire in 1h", arguments: nil)
-        content.body = NSString.localizedUserNotificationString(forKey: "An offer by \(expiringOffer.company?.name ?? nil) for \(NumberToPrice(Value: expiringOffer.money)) is about to expire.", arguments: nil)
+		content.body = NSString.localizedUserNotificationString(forKey: "An offer by \(expiringOffer.company?.name ?? "a business") for \(NumberToPrice(Value: expiringOffer.money)) is about to expire.", arguments: nil)
         content.categoryIdentifier = "\(expiringOffer.offer_ID)"
         content.sound = UNNotificationSound.default
         content.badge = 1
@@ -165,7 +165,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let content = UNMutableNotificationContent()
         content.title = "Offer Accepted"
         content.badge = 1
-        content.body = "An offer by \(acceptedOffer.company?.name) for \(NumberToPrice(Value: acceptedOffer.money)) is Accepted."
+        content.body = "An offer by \(acceptedOffer.company?.name ?? "a business") for \(NumberToPrice(Value: acceptedOffer.money)) is Accepted."
         downloadImage(acceptedOffer.company?.logo ?? "") { (logo) in
             if let logo = logo {
                 if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
@@ -183,7 +183,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		let content = UNMutableNotificationContent()
 		content.title = "New Offer"
         content.badge = 1
-		content.body = "\(newOffer.company?.name) will pay you \(NumberToPrice(Value: newOffer.money)) for \(newOffer.posts.count) posts."
+		content.body = "\(newOffer.company?.name ?? "a business") will pay you \(NumberToPrice(Value: newOffer.money)) for \(newOffer.posts.count) posts."
 		downloadImage(newOffer.company?.logo ?? "") { (logo) in
 			if let logo = logo {
 				if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
@@ -549,7 +549,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return URLSession(configuration: newConfiguration)
     }()
     
-    // Update User details, OfferList and completed offer verification for every 10 sec
+    // Update User details, OfferList and completed offer verification for every 4 secs
     private func startTimer() {
         let queue = DispatchQueue(label: "com.firm.app.timer", attributes: .concurrent)
         
@@ -557,7 +557,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         timer = DispatchSource.makeTimerSource(queue: queue)
         
-        timer?.schedule(deadline: .now(), repeating: .seconds(10), leeway: .milliseconds(100))
+        timer?.schedule(deadline: .now(), repeating: .seconds(4), leeway: .milliseconds(100))
         
         timer?.setEventHandler { [weak self] in // `[weak self]` only needed if you reference `self` in this closure and you want to prevent strong reference cycle
             
@@ -630,7 +630,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             if let dictionary = snapshot.value as? [String: AnyObject] {
                 let userInstance = User(dictionary: dictionary )
                 Yourself = userInstance
-                print("Appdelegate gender = \(Yourself.gender)")
+				print("Appdelegate gender = \(String(describing: Yourself.gender))")
 
             }
         }, withCancel: nil)

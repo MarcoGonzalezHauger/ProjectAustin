@@ -1031,7 +1031,7 @@ func getFilteredOffer(completion: @escaping (_ status: Bool, _ offerList: [allOf
                     
                     if !categoryMatch && locationMatch && genderMatch {
                         let businessCats: [String] = offerFilter["categories"] as! [String]
-                        if let userCats = Yourself.categories as? [String] {
+                        if let userCats = Yourself.categories {
                             //cats = Checks if user is a crazy cat person.
                             //Okay maybe I shouldn't joke when commenting.
                             for userCat in userCats {
@@ -1065,6 +1065,10 @@ func getFilteredOffer(completion: @escaping (_ status: Bool, _ offerList: [allOf
                 }
                 
             }
+			
+			offerList.sort { (offer1, offer2) -> Bool in
+				return offer1.offer.offerdate > offer2.offer.offerdate
+			}
             
             completion(true,offerList)
             
@@ -1107,7 +1111,7 @@ func getObserveFilteredOffer(completion: @escaping (_ status: Bool, _ offerList:
                     
                     if !locationMatch && genderMatch {
                         let zips: [String] = offerFilter["zipCode"] as! [String]
-                        if let userZip = Yourself.zipCode as? String {
+                        if let userZip = Yourself.zipCode {
                             if zips.contains(userZip) {
                                 locationMatch = true
                             }
@@ -1116,7 +1120,7 @@ func getObserveFilteredOffer(completion: @escaping (_ status: Bool, _ offerList:
                     
                     if !categoryMatch && locationMatch && genderMatch {
                         let businessCats: [String] = offerFilter["categories"] as! [String]
-                        if let userCats = Yourself.categories as? [String] {
+                        if let userCats = Yourself.categories {
                             //cats = Checks if user is a crazy cat person.
                             //Okay maybe I shouldn't joke when commenting.
                             for userCat in userCats {
@@ -1155,6 +1159,11 @@ func getObserveFilteredOffer(completion: @escaping (_ status: Bool, _ offerList:
                 }
                 
             }
+			
+			
+			offerList.sort { (offer1, offer2) -> Bool in
+				return offer1.offer.offerdate > offer2.offer.offerdate
+			}
             
             completion(true,offerList)
             
@@ -1353,7 +1362,7 @@ func getAcceptedOffers(completion: @escaping(_ status: Bool,_ offer: [Offer])->(
             
             for (_, offervalue) in snapDict {
                 
-                if let isAccepted = offervalue["status"] as? String{
+                if let isAccepted = offervalue["status"] {
                     //if isAccepted == "accepted" || isAccepted == "posted" {
                         
                         let offer = Offer.init(dictionary: offervalue)
@@ -1669,7 +1678,7 @@ func getAllOffer(completion: @escaping (_ status: Bool, _ offerList: [allOfferOb
                     
                     if !categoryMatch && locationMatch && genderMatch {
                         let businessCats: [String] = offerFilter["categories"] as! [String]
-                        if let userCats = Yourself.categories as? [String] {
+                        if let userCats = Yourself.categories {
                             //cats = Checks if user is a crazy cat person.
                             //Okay maybe I shouldn't joke when commenting.
                             for userCat in userCats {
@@ -1740,6 +1749,10 @@ func getAllOffer(completion: @escaping (_ status: Bool, _ offerList: [allOfferOb
                 
             }
             
+			offerList.sort { (offer1, offer2) -> Bool in
+				return offer1.offer.offerdate > offer2.offer.offerdate
+			}
+			
             completion(true,offerList)
             
         }
@@ -1855,6 +1868,11 @@ func getObserveAllOffer(completion: @escaping (_ status: Bool, _ offerList: [all
                 }
                 
             }
+			
+			
+			offerList.sort { (offer1, offer2) -> Bool in
+				return offer1.offer.offerdate > offer2.offer.offerdate
+			}
             
             completion(true,offerList)
             
