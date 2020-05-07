@@ -110,9 +110,7 @@ class InstagramConnectedVC: UIViewController {
                                 })
                                 
                                 if index == mediaObject.count - 1{
-                                    if Double(numberOfLikes/numberOfPost) != nil{
-                                        NewAccount.averageLikes = Double(numberOfLikes/numberOfPost)
-                                    }
+									NewAccount.averageLikes = Double(numberOfLikes/numberOfPost)
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 4.8) {
                                         self.slider.backgroundColor = UIColor.clear
                                         self.proceed.setTitle("Proceed", for: .normal)

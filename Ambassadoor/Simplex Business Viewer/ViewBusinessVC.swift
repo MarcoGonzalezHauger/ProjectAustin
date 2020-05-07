@@ -223,7 +223,10 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
         
              destination.offerVariation = offerVariation!
              destination.offer = sender as? Offer
-         }
+		} else if segue.identifier == "toReporterFromBV" {
+			let destination	= segue.destination as! ReporterFeature
+			destination.TargetCompany = businessDatail
+		}
     }
     
 
