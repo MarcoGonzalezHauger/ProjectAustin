@@ -126,7 +126,7 @@ class SigninVC: UIViewController {
                     updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
                         
                         if status{
-                            NewAccount.FIRProfilePicture = url!
+                            NewAccount.profilePicture = url!
                             self.updateLoginDetailsToServer(userID: userID)
                         }else{
                         self.updateLoginDetailsToServer(userID: userID)
@@ -165,7 +165,6 @@ class SigninVC: UIViewController {
             "username": NewAccount.instagramUsername,
             "followerCount": NewAccount.followerCount,
             "profilePicture": NewAccount.profilePicture,
-            "FIRProfilePicture": NewAccount.FIRProfilePicture,
             "authenticationToken": NewAccount.authenticationToken,
             "tokenFIR":global.deviceFIRToken
         ]

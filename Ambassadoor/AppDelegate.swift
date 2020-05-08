@@ -382,7 +382,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
                             
                             if status{
-                                NewAccount.FIRProfilePicture = url!
+                                NewAccount.profilePicture = url!
                                 self.updateLoginDetailsToServer(userID: userID)
                             }else{
                             self.updateLoginDetailsToServer(userID: userID)
@@ -407,8 +407,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             "username": NewAccount.instagramUsername,
             "followerCount": NewAccount.followerCount,
             "authenticationToken": NewAccount.authenticationToken,
-            "profilePicture": NewAccount.profilePicture,
-            "FIRProfilePicture": NewAccount.FIRProfilePicture,
             "tokenFIR":global.deviceFIRToken
         ]
         

@@ -54,7 +54,7 @@ class InfluencerTVC: UITableViewCell, FollowerButtonDelegete {
         didSet{
             if let user = userData{
                 tierBox.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "tiergrad")!)
-                if let picurl = user.FIRProfilePicture {
+                if let picurl = user.profilePicURL {
                     self.userImage.downloadAndSetImage(picurl)
                 } else {
                     self.userImage.UseDefaultImage()

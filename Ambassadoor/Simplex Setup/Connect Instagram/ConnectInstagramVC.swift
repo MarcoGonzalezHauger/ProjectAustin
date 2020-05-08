@@ -170,7 +170,7 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                                     updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
                                         
                                         if status{
-                                            NewAccount.FIRProfilePicture = url!
+                                            NewAccount.profilePicture = url!
                                         }
                                         DispatchQueue.main.async {
                                         self.performSegue(withIdentifier: "toConnected", sender: self)

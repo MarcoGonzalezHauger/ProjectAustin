@@ -1224,6 +1224,10 @@ func getFollowerCompaniesOffer(followers: [String],completion: @escaping (_ stat
             }
             
             if index == (followers.count - 1){
+                
+                offerList.sort { (offer1, offer2) -> Bool in
+                    return offer1.offer.offerdate.compare(offer2.offer.offerdate) == .orderedDescending
+                }
                completion(true,offerList)
             }
             
@@ -1287,6 +1291,9 @@ func getObserveFollowerCompaniesOffer(followers: [String],completion: @escaping 
             }
             
             if index == (followers.count - 1){
+                offerList.sort { (offer1, offer2) -> Bool in
+                    return offer1.offer.offerdate.compare(offer2.offer.offerdate) == .orderedDescending
+                }
                completion(true,offerList)
             }
             
@@ -1372,7 +1379,9 @@ func getAcceptedOffers(completion: @escaping(_ status: Bool,_ offer: [Offer])->(
                 }
                 
             }
-            
+            offerList.sort { (offer1, offer2) -> Bool in
+                return offer1.updatedDate!.compare(offer2.updatedDate!) == .orderedDescending
+            }
             completion(true, offerList)
             
         }
@@ -1750,8 +1759,8 @@ func getAllOffer(completion: @escaping (_ status: Bool, _ offerList: [allOfferOb
             }
             
 			offerList.sort { (offer1, offer2) -> Bool in
-				return offer1.offer.offerdate > offer2.offer.offerdate
-			}
+                return offer1.offer.offerdate.compare(offer2.offer.offerdate) == .orderedDescending
+            }
 			
             completion(true,offerList)
             
@@ -1871,7 +1880,7 @@ func getObserveAllOffer(completion: @escaping (_ status: Bool, _ offerList: [all
 			
 			
 			offerList.sort { (offer1, offer2) -> Bool in
-				return offer1.offer.offerdate > offer2.offer.offerdate
+                return offer1.offer.offerdate.compare(offer2.offer.offerdate) == .orderedDescending
 			}
             
             completion(true,offerList)
@@ -1884,7 +1893,7 @@ func getObserveAllOffer(completion: @escaping (_ status: Bool, _ offerList: [all
 }
 
 func uploadImageToFIR(image: UIImage, childName: String, path: String, completion: @escaping (String,Bool) -> ()) {
-    let data = image.resizeImage(image: image, targetSize: CGSize.init(width: 128.0, height: 128.0)).jpegData(compressionQuality: 0.2)
+    let data = image.jpegData(compressionQuality: 0.2)
     let fileName = path + ".png"
     let ref = Storage.storage().reference().child(childName).child(fileName)
     ref.putData(data!, metadata: nil, completion: { (metadata, error) in

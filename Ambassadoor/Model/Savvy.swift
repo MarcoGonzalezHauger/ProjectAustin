@@ -149,6 +149,7 @@ func DateToLetterCountdown(date: Date) -> String? {
 	case i < 86400:
 		return "\(Int(floor(i/3600)))h \(Int(floor(Double((Int(i) % 3600) / 60))))m \(Int(i) % 60)s"
 	case i < 604800:
+        
 		return "\(Int(floor(i/86400)))d \(Int(floor(Double((Int(i) % 86400) / 3600))))h \(Int(floor(Double((Int(i) % 3600) / 60))))m \(Int(i) % 60)s"
 	default:
 		let formatter = DateFormatter()
@@ -808,9 +809,7 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
         
         if status {
             if offers != nil {
-                global.followOfferList = offers!.sorted(by: { (objectOne, objectTwo) -> Bool in
-                    return objectOne.offer.offerdate.compare(objectTwo.offer.offerdate) == .orderedAscending
-                })
+                global.followOfferList = offers!
             }
         }
         
@@ -821,9 +820,7 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
         if status{
             
             if allOffer != nil {
-                global.allOfferList = allOffer!.sorted(by: { (objectOne, objectTwo) -> Bool in
-                    return objectOne.offer.offerdate.compare(objectTwo.offer.offerdate) == .orderedAscending
-                })
+                global.allOfferList = allOffer!
             }
         }
         
