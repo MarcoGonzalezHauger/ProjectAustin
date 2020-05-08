@@ -1190,9 +1190,12 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 			return 0
 		}
 	}
-    
+	
     
     func acceptAction() {
+        
+        if self.offerCount < 2{
+        
         if let incresePay = self.offer!.incresePay {
         let pay = calculateCostForUser(offer: self.offer!, user: Yourself, increasePayVariable: incresePay)
         updateIsAcceptedOffer(offer: self.offer!, money: pay)
@@ -1204,6 +1207,18 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         updateUserIdOfferPool(offer: self.offer!)
         
         self.dismiss(animated: true, completion: nil)
+        }else{
+            
+            let alertController = UIAlertController.init(title: "Accept Failed", message: "You must finish you offers before accepting a new one", preferredStyle: .alert)
+            
+            let action = UIAlertAction.init(title: "Ok", style: .default) { (action) in
+                
+            }
+            alertController.addAction(action)
+            
+            self.present(alertController, animated: true, completion: nil)
+            
+        }
     }
     
     @IBAction func dismissAction(sender: UIButton){
@@ -1215,6 +1230,9 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	var offerVariation: OfferVariation?
 	
 	var offer: Offer?
+    
+    var offerCount: Int = 0
+    
 	
 	
 	override func viewDidLoad() {
@@ -1229,6 +1247,8 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
            let pay = calculateCostForUser(offer: self.offer!, user: Yourself, increasePayVariable: self.offer!.incresePay!)
             
             if pay <= self.offer!.cashPower!{
+                
+            
 			
 			self.offerViewTable.dataSource = self
 			self.offerViewTable.delegate = self
@@ -1251,8 +1271,19 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                     updateReservedOfferStatus(offer: self.offer!)
 					
 			}
+                
+            getAcceptedOffers { (status, offers) in
+                
+                if status{
+                    self.offerCount = offers.count
+                }
+                DispatchQueue.main.async {
+                    self.offerViewTable.reloadData()
+                }
+                
+            }
 			
-			self.offerViewTable.reloadData()
+			
             
             }else{
                 self.dismiss(animated: true, completion: nil)

@@ -75,36 +75,21 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                     
                     if let offerAcceptedDate = offerValue.updatedDate{
                         
-                        let dayCount = offerValue.posts.count * 2
-                        let expireDateAftAcpt = offerAcceptedDate.afterDays(day: dayCount)
+                        print("abc1=",offerAcceptedDate)
+                        //let dayCount = offerValue.posts.count * 2
+                        let expireDateAftAcpt = offerAcceptedDate.afterDays(day: 2)
                         
                         let curDateStr = Date.getStringFromDate(date: Date())
                         
                         if let currentDate = Date.getDateFromString(date: curDateStr!){
                             
                             if currentDate.timeIntervalSince1970 < expireDateAftAcpt.timeIntervalSince1970{
+                                
+                                self.setInprogressValue(currentDate: currentDate, expireDateAftAcpt: expireDateAftAcpt, offerAcceptedDate: offerAcceptedDate)
                         
-                        //Interval between Offer Acceted Date and Current Date
-                        let intervalBtnOffActDateToCurDate = (currentDate.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
-                        
-                        //Interval between Offer Acceted Date and expiring offer after Accepted Offer
-                        let intervalBtnOffActDateToOfferExpDate = (expireDateAftAcpt.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
-                                                    
-                            print("after=",intervalBtnOffActDateToOfferExpDate)
-                             print("before",intervalBtnOffActDateToCurDate)
-                             
-                             
-                            //Calculate Progress How long days gone after accepting the offer
-                             progressWidth.constant = CGFloat(intervalBtnOffActDateToCurDate/intervalBtnOffActDateToOfferExpDate) * self.frame.size.width
-
-                             progrssView.updateConstraints()
-                             progrssView.layoutIfNeeded()
-                             
-                             progrssView.backgroundColor = UIColor.systemBlue
-                             
-                             self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForAccepted(sender:)), userInfo: nil, repeats: true)
-                             
-                             self.startCountDownForAccepted(sender: timer!)
+                                self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForAccepted(sender:)), userInfo: nil, repeats: true)
+                                
+                                self.startCountDownForAccepted(sender: timer!)
                             
                         }else{
                             progressWidth.constant = self.frame.size.width
@@ -242,8 +227,15 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
             
             if let offerAcceptedDate = offerValue.updatedDate{
                 
-                let dayCount = offerValue.posts.count * 2
-                let expireDateAftAcpt = offerAcceptedDate.afterDays(day: dayCount)
+                //let dayCount = offerValue.posts.count * 2
+                let expireDateAftAcpt = offerAcceptedDate.afterDays(day: 2)
+                
+                let curDateStr = Date.getStringFromDate(date: Date())
+                
+                let currentDate = Date.getDateFromString(date: curDateStr!)!
+                
+                self.setInprogressValue(currentDate: currentDate, expireDateAftAcpt: expireDateAftAcpt, offerAcceptedDate: offerAcceptedDate)
+                
                 
                 let answer: String? = DateToLetterCountdown(date: expireDateAftAcpt)
                 
@@ -258,6 +250,34 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                 
             }
         }
+        
+    }
+    
+    func setInprogressValue(currentDate: Date, expireDateAftAcpt: Date, offerAcceptedDate: Date) {
+        
+        //Interval between Offer Acceted Date and Current Date
+        let intervalBtnOffActDateToCurDate = (currentDate.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
+        
+        //Interval between Offer Acceted Date and expiring offer after Accepted Offer
+        let intervalBtnOffActDateToOfferExpDate = (expireDateAftAcpt.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
+                                    
+            print("after=",intervalBtnOffActDateToOfferExpDate)
+             print("before",intervalBtnOffActDateToCurDate)
+             
+             
+            //Calculate Progress How long days gone after accepting the offer
+            // progressWidth.constant = CGFloat(intervalBtnOffActDateToCurDate/intervalBtnOffActDateToOfferExpDate) * self.frame.size.width
+                
+            print(CGFloat(intervalBtnOffActDateToOfferExpDate/intervalBtnOffActDateToCurDate))
+                print(self.frame.size.width)
+            progressWidth.constant = (CGFloat(intervalBtnOffActDateToOfferExpDate/intervalBtnOffActDateToCurDate) * self.frame.size.width) - self.frame.size.width
+
+             progrssView.updateConstraints()
+             progrssView.layoutIfNeeded()
+             
+             progrssView.backgroundColor = UIColor.systemBlue
+             
+             
         
     }
     
