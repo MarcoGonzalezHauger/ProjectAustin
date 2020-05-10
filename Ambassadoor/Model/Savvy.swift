@@ -59,6 +59,7 @@ func setHapticMenu(user: User) {
 		shortcutItems = [UIApplicationShortcutItem.init(type: "com.ambassadoor.business", localizedTitle: "Search Businesses", localizedSubtitle:nil, icon: UIApplicationShortcutIcon(type: UIApplicationShortcutIcon.IconType.search), userInfo: nil), UIApplicationShortcutItem.init(type: "com.ambassadoor.influencer", localizedTitle: "Search Influencers", localizedSubtitle:nil, icon: UIApplicationShortcutIcon(type: UIApplicationShortcutIcon.IconType.search), userInfo: nil),UIApplicationShortcutItem.init(type: "com.ambassadoor.profile", localizedTitle: "My Profile", localizedSubtitle: "Balance: \(amt)", icon: UIApplicationShortcutIcon(type: UIApplicationShortcutIcon.IconType.contact), userInfo: nil)]
         UIApplication.shared.shortcutItems = shortcutItems
     }else{
+		shortcutItems = [UIApplicationShortcutItem.init(type: "com.ambassadoor.business", localizedTitle: "Search Businesses", localizedSubtitle:nil, icon: UIApplicationShortcutIcon(type: UIApplicationShortcutIcon.IconType.search), userInfo: nil), UIApplicationShortcutItem.init(type: "com.ambassadoor.influencer", localizedTitle: "Search Influencers", localizedSubtitle:nil, icon: UIApplicationShortcutIcon(type: UIApplicationShortcutIcon.IconType.search), userInfo: nil),UIApplicationShortcutItem.init(type: "com.ambassadoor.profile", localizedTitle: "My Profile", localizedSubtitle: "Balance: \(amt)", icon: UIApplicationShortcutIcon(type: UIApplicationShortcutIcon.IconType.contact), userInfo: nil)]
         shortcutItems[2] = UIApplicationShortcutItem.init(type: "com.ambassadoor.profile", localizedTitle: "My Profile", localizedSubtitle: "Balance: \(amt)", icon: UIApplicationShortcutIcon(type: UIApplicationShortcutIcon.IconType.contact), userInfo: nil)
          UIApplication.shared.shortcutItems = shortcutItems
     }
@@ -139,6 +140,7 @@ func DateToCountdown(date: Date) -> String? {
 
 func DateToLetterCountdown(date: Date) -> String? {
 	let i : Double = date.timeIntervalSinceNow
+	
 	switch true {
 	case Int(i) <= 0:
 		return nil
@@ -458,16 +460,19 @@ func getDateFromString(date: String) -> Date {
 	let dateFormatterGet = DateFormatter()
 	dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ssZ"
     dateFormatterGet.timeZone = TimeZone(abbreviation: "EST")
-	
-	let dateFormatterPrint = DateFormatter()
-	dateFormatterPrint.dateFormat = "MMM dd,yyyy"
-	
+		
 	if let date = dateFormatterGet.date(from: date) {
-		//print(dateFormatterPrint.string(from: date))
 		return date
 	} else {
-		print("There was an error decoding the string")
-		return Date()
+		
+		//if the first format didn't work, it will try this one:
+		dateFormatterGet.dateFormat = "yyyy/MMM/dd HH:mm:ss"
+		if let date = dateFormatterGet.date(from: date) {
+			return date
+		} else {
+			print("There was an error decoding the string")
+			return Date()
+		}
 		
 	}
 	
@@ -886,11 +891,13 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
         getAcceptedOffers { (status, offers) in
             
             if status{
-                if offers.count > 0{
-                    global.allInprogressOffer.removeAll()
-                    global.allInprogressOffer.append(contentsOf: offers)
-                    reference!.tabBar.items![3].badgeValue = String(offers.count)
-                    UIApplication.shared.applicationIconBadgeNumber = offers.count
+                if offers.count > 0 {
+					
+					global.allInprogressOffer = offers
+					
+					let badge = offers.filter{CheckIfOferIsActive(offer: $0)}.count
+                    reference!.tabBar.items![3].badgeValue = String(badge)
+                    UIApplication.shared.applicationIconBadgeNumber = badge
                 }
                 
             }
@@ -942,5 +949,45 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
     }
 }
 
+func offerIsFiliteredForUser(offer: Offer) -> Bool {
+	guard let offerFilter = offer.influencerFilter else {return false}
+	
+	let offerFilterKeys = offerFilter.keys
+	
+	var categoryMatch = !offerFilterKeys.contains("categories")
+	var genderMatch = !offerFilterKeys.contains("gender")
+	var locationMatch = !offerFilterKeys.contains("zipCode")
+	
+	if !genderMatch {
+		let gender: [String] = offerFilter["gender"] as! [String]
+		if gender.contains(Yourself.gender!.rawValue) {
+			genderMatch = true
+		}
+	}
+	
+	if !locationMatch && genderMatch {
+		let zips: [String] = offerFilter["zipCode"] as! [String]
+		if let userZip = Yourself.zipCode {
+			if zips.contains(userZip) {
+				locationMatch = true
+			}
+		}
+	}
+	
+	if !categoryMatch && locationMatch && genderMatch {
+		let businessCats: [String] = offerFilter["categories"] as! [String]
+		if let userCats = Yourself.categories {
+			for userCat in userCats {
+				let catExistsInBusinessFilter = businessCats.contains(userCat)
+				if catExistsInBusinessFilter {
+					categoryMatch = true
+					break
+				}
+			}
+		}
+	}
+	
+	return categoryMatch && genderMatch && locationMatch
+}
 
 

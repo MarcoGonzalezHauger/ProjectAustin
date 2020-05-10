@@ -14,8 +14,8 @@ extension Date {
     static var tomorrow:  Date { return Date().dayAfter }
     
     //add days
-    func afterDays(day:Int) -> Date {
-        return Calendar.current.date(byAdding: .day, value: day, to: noon)!
+    func afterDays(numberOfDays: Int) -> Date {
+		return Calendar.current.date(byAdding: .day, value: numberOfDays, to: self)!
     }
     
     //add 60 minutes

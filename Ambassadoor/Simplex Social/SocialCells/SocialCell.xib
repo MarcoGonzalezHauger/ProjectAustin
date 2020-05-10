@@ -40,27 +40,19 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qsQ-7j-Bve" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="402" height="65"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="mJh-hd-kNq">
-                                                <rect key="frame" x="16" y="12" width="370" height="47"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@marcogonzalezhauger" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="252-eS-CFV">
-                                                        <rect key="frame" x="0.0" y="0.0" width="221" height="23"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="23" id="0j0-Wl-gle"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="started following you" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lgp-Ge-kvr">
-                                                        <rect key="frame" x="0.0" y="23" width="160" height="24"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                            </stackView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jan 24 2020" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4L3-pQ-exE">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="@marcogonzalezhauger" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="252-eS-CFV">
+                                                <rect key="frame" x="16" y="12" width="306.5" height="23"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="started following you" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lgp-Ge-kvr">
+                                                <rect key="frame" x="16" y="35" width="160" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Jan 24 2020" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4L3-pQ-exE">
                                                 <rect key="frame" x="327.5" y="5" width="66.5" height="13.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -69,12 +61,13 @@
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
+                                            <constraint firstItem="252-eS-CFV" firstAttribute="leading" secondItem="qsQ-7j-Bve" secondAttribute="leading" constant="16" id="808-yh-CEC"/>
                                             <constraint firstAttribute="trailing" secondItem="4L3-pQ-exE" secondAttribute="trailing" constant="8" id="CUu-A8-9ze"/>
+                                            <constraint firstItem="Lgp-Ge-kvr" firstAttribute="leading" secondItem="qsQ-7j-Bve" secondAttribute="leading" constant="16" id="IBl-ey-sTU"/>
+                                            <constraint firstItem="Lgp-Ge-kvr" firstAttribute="top" secondItem="252-eS-CFV" secondAttribute="bottom" id="WKJ-Ej-IL4"/>
+                                            <constraint firstItem="4L3-pQ-exE" firstAttribute="leading" secondItem="252-eS-CFV" secondAttribute="trailing" constant="5" id="daP-yu-sud"/>
                                             <constraint firstItem="4L3-pQ-exE" firstAttribute="top" secondItem="qsQ-7j-Bve" secondAttribute="top" constant="5" id="jlC-F1-9Zy"/>
-                                            <constraint firstItem="mJh-hd-kNq" firstAttribute="leading" secondItem="qsQ-7j-Bve" secondAttribute="leading" constant="16" id="miH-5u-3om"/>
-                                            <constraint firstAttribute="bottom" secondItem="mJh-hd-kNq" secondAttribute="bottom" constant="6" id="n3c-UG-7if"/>
-                                            <constraint firstItem="mJh-hd-kNq" firstAttribute="top" secondItem="qsQ-7j-Bve" secondAttribute="top" constant="12" id="qZV-hv-OcR"/>
-                                            <constraint firstAttribute="trailing" secondItem="mJh-hd-kNq" secondAttribute="trailing" constant="16" id="y5x-d1-muD"/>
+                                            <constraint firstItem="252-eS-CFV" firstAttribute="top" secondItem="qsQ-7j-Bve" secondAttribute="top" constant="12" id="zVo-X7-sU3"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">

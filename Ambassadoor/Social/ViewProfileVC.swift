@@ -108,7 +108,9 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		catLabel.text = ThisUser.categories?.joined(separator: "\n")
         
 		if let joinedDate = ThisUser.joinedDate {
-			sinceLabel.text = "Ambassador Since \(String(joinedDate.prefix(4)))"
+			print(ThisUser.joinedDate)
+			let dateString = getDateFromString(date: joinedDate).toString(dateFormat: "MMMM YYYY")
+			sinceLabel.text = "Ambassador Since \(dateString)"
 		} else {
 			sinceLabel.text = ""
 		}

@@ -36,7 +36,7 @@ class StandardOfferCell: UITableViewCell {
 				self.logo.UseDefaultImage()
 			}
 			self.companyName.text = offerDetail.company?.name
-			if GetIsFiltered() {
+			if offerDetail.isFiltered {
 				let pay = calculateCostForUser(offer: offerDetail, user: Yourself)
 				self.cashOut.isHidden = false
 				self.cashOut.text = NumberToPrice(Value: pay)

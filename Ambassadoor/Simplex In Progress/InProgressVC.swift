@@ -34,189 +34,100 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
     @IBOutlet weak var progrssView: ShadowView!
     
     @IBOutlet weak var progressWidth: NSLayoutConstraint!
-    
+	@IBOutlet weak var progTemplate: ShadowView!
+	
     var timer: Timer?
     var offer: Offer?{
         didSet{
-            
-            
-            if let offerValue = offer{
-                
-                if self.timer != nil{
-                   timer!.invalidate()
-                    paymentReceiveAt.text = ""
-                }
-                
-                if let picurl = offerValue.company?.logo {
-                    self.companyLogo.downloadAndSetImage(picurl)
-                } else {
-                    self.companyLogo.UseDefaultImage()
-                }
-                
-                self.amount.text = NumberToPrice(Value: offerValue.money)
-                
-//                if let incresePay = offerValue.incresePay {
-//
-//                    let pay = calculateCostForUser(offer: offerValue, user: Yourself, increasePayVariable: incresePay)
-//
-//                    self.amount.text = NumberToPrice(Value: pay)
-//
-//                }else{
-//
-//                    let pay = calculateCostForUser(offer: offerValue, user: Yourself)
-//                    self.amount.text = NumberToPrice(Value: pay)
-//                }
-                
-                self.name.text = offerValue.company!.name
-                self.setTextandConstraints(offerValue: offerValue)
-                
-                //if offerValue.status == "accepted"{
-                if OfferVariation.getOfferVariation(status: offerValue.status) == .inProgress {
-                    
-                    if let offerAcceptedDate = offerValue.updatedDate{
-                        
-                        print("abc1=",offerAcceptedDate)
-                        //let dayCount = offerValue.posts.count * 2
-                        let expireDateAftAcpt = offerAcceptedDate.afterDays(day: 2)
-                        
-                        let curDateStr = Date.getStringFromDate(date: Date())
-                        
-                        if let currentDate = Date.getDateFromString(date: curDateStr!){
-                            
-                            if currentDate.timeIntervalSince1970 < expireDateAftAcpt.timeIntervalSince1970{
-                                
-                                self.setInprogressValue(currentDate: currentDate, expireDateAftAcpt: expireDateAftAcpt, offerAcceptedDate: offerAcceptedDate)
-                        
-                                self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForAccepted(sender:)), userInfo: nil, repeats: true)
-                                
-                                self.startCountDownForAccepted(sender: timer!)
-                            
-                        }else{
-                            progressWidth.constant = self.frame.size.width
-
-                            progrssView.updateConstraints()
-                            progrssView.layoutIfNeeded()
-                            
-                            progrssView.backgroundColor = UIColor.systemRed
-                            
-                            self.paymentReceiveAt.text = "You ran out of time to post."
-                            
-                        }
-                    }
+			if let offerValue = offer {
+				if self.timer != nil{
+					timer!.invalidate()
+					paymentReceiveAt.text = ""
+				}
+				if let picurl = offerValue.company?.logo {
+					self.companyLogo.downloadAndSetImage(picurl)
+				} else {
+					self.companyLogo.UseDefaultImage()
+				}
+				self.amount.text = NumberToPrice(Value: offerValue.money)
+				self.name.text = offerValue.company!.name
+				self.setTextandConstraints(offerValue: offerValue)
+				
+				if offerValue.variation == .inProgress {
+					if let offerAcceptedDate = offerValue.acceptedDate{
+						let expireDateAftAcpt = offerAcceptedDate.addingTimeInterval(TimeInterval(60 * 60 * 48 * offerValue.posts.count))
+						let curDateStr = Date.getStringFromDate(date: Date())
+						if let currentDate = Date.getDateFromString(date: curDateStr!){
+							if currentDate.timeIntervalSince1970 < expireDateAftAcpt.timeIntervalSince1970{
+								self.setInprogressValue(currentDate: currentDate, expireDateAftAcpt: expireDateAftAcpt, offerAcceptedDate: offerAcceptedDate)
+								self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForAccepted(sender:)), userInfo: nil, repeats: true)
+								self.startCountDownForAccepted(sender: timer!)
+							}else{
+								progressWidth.constant = self.frame.size.width
+								progrssView.updateConstraints()
+								progrssView.layoutIfNeeded()
+								progrssView.backgroundColor = UIColor.systemRed
+								self.paymentReceiveAt.text = "You ran out of time to post."
+							}
+						}
+					}
+				}else if offerValue.variation == .willBePaid {
+					if let offerAcceptedDate = offerValue.acceptedDate{
+						let expireDateAftPosted = offerAcceptedDate.afterDays(numberOfDays: 2)
+						let curDateStr = Date.getStringFromDate(date: Date())
+						if let currentDate = Date.getDateFromString(date: curDateStr!){
+							if currentDate.timeIntervalSince1970 < expireDateAftPosted.timeIntervalSince1970{
+								let intBtnNowandPosted = (currentDate.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
+								let intAftTwoDays = (expireDateAftPosted.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
+								progressWidth.constant = CGFloat(intBtnNowandPosted/intAftTwoDays) * self.frame.size.width
+								
+								progrssView.updateConstraints()
+								progrssView.layoutIfNeeded()
+								
+								progrssView.backgroundColor = UIColor.systemGreen
+								self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForTobepaid(sender:)), userInfo: nil, repeats: true)
+								self.startCountDownForTobepaid(sender: timer!)
+								
+							}else{
+								paymentReceiveAt.text = "ERROR_406"
+								progressWidth.constant = self.frame.size.width
+								progrssView.updateConstraints()
+								progrssView.layoutIfNeeded()
+								progrssView.backgroundColor = UIColor.systemRed
+							}
+							
+						}
 						
-                        //Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForTobepaid(sender:)), userInfo: nil, repeats: true)
-                        
-                    }
-                //}else if offerValue.status == "posted" {
-                }else if OfferVariation.getOfferVariation(status: offerValue.status) == .willBeApproved{
-                    if let offerAcceptedDate = offerValue.updatedDate{
-                        
-                        let expireDateAftPosted = offerAcceptedDate.afterDays(day: 2)
-                        
-                        let curDateStr = Date.getStringFromDate(date: Date())
-                        
-                        if let currentDate = Date.getDateFromString(date: curDateStr!){
-                            
-                            if currentDate.timeIntervalSince1970 < expireDateAftPosted.timeIntervalSince1970{
-                         
-                            let intBtnNowandPosted = (currentDate.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
-                            
-                            let intAftTwoDays = (expireDateAftPosted.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
-                            
-                                
-                                progressWidth.constant = CGFloat(intBtnNowandPosted/intAftTwoDays) * self.frame.size.width
-
-                                progrssView.updateConstraints()
-                                progrssView.layoutIfNeeded()
-                                
-                                progrssView.backgroundColor = UIColor.systemGreen
-                                
-                                self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForTobeapproved(sender:)), userInfo: nil, repeats: true)
-
-                                self.startCountDownForTobeapproved(sender: timer!)
-                                
-                            }else{
-                                //paymentReceiveAt.text = "\(offerValue.title) has expired to be paid"
-                                paymentReceiveAt.text = ""
-                                progressWidth.constant = self.frame.size.width
-
-                                progrssView.updateConstraints()
-                                progrssView.layoutIfNeeded()
-                                
-                                progrssView.backgroundColor = UIColor.systemRed
-                            }
-                            
-                        }
-                        
-                    }
-                    
-                }else if OfferVariation.getOfferVariation(status: offerValue.status) == .willBePaid{
-                    
-                    if let offerAcceptedDate = offerValue.updatedDate{
-                        
-                        let expireDateAftPosted = offerAcceptedDate.afterDays(day: 2)
-                        
-                        let curDateStr = Date.getStringFromDate(date: Date())
-                        
-                        if let currentDate = Date.getDateFromString(date: curDateStr!){
-                            
-                            if currentDate.timeIntervalSince1970 < expireDateAftPosted.timeIntervalSince1970{
-                         
-                            let intBtnNowandPosted = (currentDate.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
-                            
-                            let intAftTwoDays = (expireDateAftPosted.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
-                            
-                                
-                                progressWidth.constant = CGFloat(intBtnNowandPosted/intAftTwoDays) * self.frame.size.width
-
-                                progrssView.updateConstraints()
-                                progrssView.layoutIfNeeded()
-                                
-                                progrssView.backgroundColor = UIColor.systemGreen
-                                
-                                self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForTobepaid(sender:)), userInfo: nil, repeats: true)
-
-                                self.startCountDownForTobepaid(sender: timer!)
-                                
-                            }else{
-                                //paymentReceiveAt.text = "\(offerValue.title) has expired to be paid"
-                                paymentReceiveAt.text = ""
-                                progressWidth.constant = self.frame.size.width
-
-                                progrssView.updateConstraints()
-                                progrssView.layoutIfNeeded()
-                                
-                                progrssView.backgroundColor = UIColor.systemRed
-                            }
-                            
-                        }
-                        
-                    }
-                    
-                }else if OfferVariation.getOfferVariation(status: offerValue.status) == .hasBeenPaid{
-                    
-                    paymentReceiveAt.text = ""
-                    progressWidth.constant = self.frame.size.width
-
-                    progrssView.updateConstraints()
-                    progrssView.layoutIfNeeded()
-                    
-                    progrssView.backgroundColor = UIColor.systemGreen
-                    
-                }else if OfferVariation.getOfferVariation(status: offerValue.status) == .allPostsDenied{
-                    
-                    paymentReceiveAt.text = ""
-                    progressWidth.constant = self.frame.size.width
-
-                    progrssView.updateConstraints()
-                    progrssView.layoutIfNeeded()
-                    
-                    progrssView.backgroundColor = UIColor.systemRed
-                    
-                }
-            }
-        }
-    }
+					}
+					
+				}else if offerValue.variation == .hasBeenPaid {
+					
+					paymentReceiveAt.text = "You have been paid for this offer."
+					progressWidth.constant = self.frame.size.width
+					progrssView.updateConstraints()
+					progrssView.layoutIfNeeded()
+					progrssView.backgroundColor = UIColor.systemGreen
+					
+				}else if offerValue.variation == .allPostsDenied {
+					
+					paymentReceiveAt.text = "All posts were rejected by a verifier."
+					progressWidth.constant = self.frame.size.width
+					progrssView.updateConstraints()
+					progrssView.layoutIfNeeded()
+					progrssView.backgroundColor = UIColor.systemRed
+					
+				} else if offerValue.variation == .didNotPostInTime {
+					
+					paymentReceiveAt.text = "You didn't post in time."
+					progressWidth.constant = self.frame.size.width
+					progrssView.updateConstraints()
+					progrssView.layoutIfNeeded()
+					progrssView.backgroundColor = UIColor.systemRed
+					
+				}
+			}
+		}
+	}
     
     @IBAction func startCountDownForAccepted(sender: Timer) {
         
@@ -225,10 +136,10 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
         
         if offerValue.status == "accepted"{
             
-            if let offerAcceptedDate = offerValue.updatedDate{
+            if let offerAcceptedDate = offerValue.acceptedDate {
                 
                 //let dayCount = offerValue.posts.count * 2
-                let expireDateAftAcpt = offerAcceptedDate.afterDays(day: 2)
+				let expireDateAftAcpt = offerAcceptedDate.addingTimeInterval(TimeInterval(60*60*48*offerValue.posts.count))
                 
                 let curDateStr = Date.getStringFromDate(date: Date())
                 
@@ -239,12 +150,14 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                 
                 let answer: String? = DateToLetterCountdown(date: expireDateAftAcpt)
                 
+							
+				
                 if let answer = answer{
                     
-                    paymentReceiveAt.text = "\(answer) hours left to post all to Instagram"
+                    paymentReceiveAt.text = "\(answer) left to post all to Instagram."
                     
                 }else{
-                    paymentReceiveAt.text = ""
+                    paymentReceiveAt.text = "Time's up."
                     self.timer?.invalidate()
                 }
                 
@@ -261,16 +174,16 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
         //Interval between Offer Acceted Date and expiring offer after Accepted Offer
         let intervalBtnOffActDateToOfferExpDate = (expireDateAftAcpt.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
                                     
-            print("after=",intervalBtnOffActDateToOfferExpDate)
-             print("before",intervalBtnOffActDateToCurDate)
+//            print("after=",intervalBtnOffActDateToOfferExpDate)
+//             print("before",intervalBtnOffActDateToCurDate)
              
              
             //Calculate Progress How long days gone after accepting the offer
             // progressWidth.constant = CGFloat(intervalBtnOffActDateToCurDate/intervalBtnOffActDateToOfferExpDate) * self.frame.size.width
                 
-            print(CGFloat(intervalBtnOffActDateToOfferExpDate/intervalBtnOffActDateToCurDate))
-                print(self.frame.size.width)
-            progressWidth.constant = (CGFloat(intervalBtnOffActDateToOfferExpDate/intervalBtnOffActDateToCurDate) * self.frame.size.width) - self.frame.size.width
+//            print(CGFloat(intervalBtnOffActDateToCurDate/intervalBtnOffActDateToOfferExpDate))
+//            print(self.progTemplate.frame.size.width)
+		progressWidth.constant = self.progTemplate.frame.size.width * (1.0 - CGFloat(intervalBtnOffActDateToCurDate/intervalBtnOffActDateToOfferExpDate))
 
              progrssView.updateConstraints()
              progrssView.layoutIfNeeded()
@@ -287,9 +200,9 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
         
         if offerValue.status == "verified"{
             
-            if let offerPostedDate = offerValue.updatedDate{
+            if let offerPostedDate = offerValue.acceptedDate{
                 
-                let expireDateAftPosted = offerPostedDate.afterDays(day: 2)
+                let expireDateAftPosted = offerPostedDate.afterDays(numberOfDays: 2)
                 
                 let answer: String? = DateToLetterCountdownWithFormat(date: expireDateAftPosted, format: "hh:mm:ss")
                 
@@ -299,32 +212,6 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                     
                 }else{
                     paymentReceiveAt.text = "Payment in \(answer!)"
-                }
-                
-            }
-            
-        }
-        
-    }
-    
-    @IBAction func startCountDownForTobeapproved(sender: Timer){
-        
-        let offerValue = self.offer!
-        
-        if offerValue.status == "posted"{
-            
-            if let offerPostedDate = offerValue.updatedDate{
-                
-                let expireDateAftPosted = offerPostedDate.afterDays(day: 2)
-                
-                let answer: String? = DateToLetterCountdownWithFormat(date: expireDateAftPosted, format: "hh:mm:ss")
-                
-                if  answer == "0:00"{
-                    paymentReceiveAt.text = ""
-                    self.timer?.invalidate()
-                    
-                }else{
-                    paymentReceiveAt.text = "Post will be verified in \(answer!)"
                 }
                 
             }
@@ -465,30 +352,67 @@ enum postStatus: String {
     }
 }
 
-
+func CheckIfOferIsActive(offer: Offer) -> Bool {
+	return offer.variation == .inProgress || offer.variation == .willBePaid
+}
 
 class InProgressVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allInprogressOffer.count
+		return allInprogressOffer.count + (shouldHaveHeader() ? 1 : 0)
     }
+	
+	func shouldHaveHeader() -> Bool {
+		if currentItems != allInprogressOffer.count {
+			if allInprogressOffer.count - currentItems > 0 {
+				if currentItems > 0 {
+					return true
+				}
+			}
+		}
+		return false
+	}
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let identifier = "inprogresscell"
-        let cell = inProgressTable.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! InProgressTVC
-        cell.offer = allInprogressOffer[indexPath.row]
-        return cell
+		if let offer = GetOfferForIndex(index: indexPath.row) {
+			let cell = inProgressTable.dequeueReusableCell(withIdentifier: "inprogresscell", for: indexPath) as! InProgressTVC
+			cell.offer = offer
+			return cell
+		} else {
+			return inProgressTable.dequeueReusableCell(withIdentifier: "prevOffer", for: indexPath)
+		}
     }
     
+	func GetOfferForIndex(index: Int) -> Offer? {
+		if shouldHaveHeader() {
+			if index < currentItems {
+				return allInprogressOffer[index]
+			} else if index == currentItems {
+				return nil
+			} else {
+				return allInprogressOffer[index - 1]
+			}
+		} else {
+			return allInprogressOffer[index]
+		}
+	}
+	
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-        let offer = allInprogressOffer[indexPath.row]
+		guard let offer = GetOfferForIndex(index: indexPath.row) else {
+			tableView.deselectRow(at: indexPath, animated: true)
+			return
+		}
         self.performSegue(withIdentifier: "FromInprogressToOV", sender: offer)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
-        return rowHeight.returnRowHeight(count: allInprogressOffer[indexPath.row].posts.count).rawValue
+		if let thisOffer = GetOfferForIndex(index: indexPath.row) {
+			return rowHeight.returnRowHeight(count: thisOffer.posts.count).rawValue
+		} else {
+			return 45
+		}
     }
     
     @IBOutlet weak var inProgressTable: UITableView!
@@ -501,32 +425,35 @@ class InProgressVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         super.viewDidLoad()
 		inProgressTable.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
     }
-    
+	
+	var currentItems = 0
+	
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        UIApplication.shared.applicationIconBadgeNumber = 0
-        self.tabBarController?.tabBar.items![3].badgeValue = nil
-        if global.allInprogressOffer.count == 0{
-        getAcceptedOffers { (status, offers) in
-            
-            if status{
-                self.allInprogressOffer.removeAll()
-                self.allInprogressOffer.append(contentsOf: offers)
-                global.allInprogressOffer = offers
-                DispatchQueue.main.async {
-                    self.inProgressTable.reloadData()
-                }
-            }
-            
-        }
-        }else{
-            self.allInprogressOffer.removeAll()
-            self.allInprogressOffer = global.allInprogressOffer
-            DispatchQueue.main.async {
-                self.inProgressTable.reloadData()
-            }
-        }
-    }
+		super.viewWillAppear(true)
+//		UIApplication.shared.applicationIconBadgeNumber = 0
+//		self.tabBarController?.tabBar.items![3].badgeValue = nil
+		if global.allInprogressOffer.count == 0 {
+			getAcceptedOffers { (status, offers) in
+				if status{
+					
+					self.currentItems = offers.filter{CheckIfOferIsActive(offer: $0)}.count
+					
+					self.allInprogressOffer = offers
+					global.allInprogressOffer = offers
+					DispatchQueue.main.async {
+						self.inProgressTable.reloadData()
+					}
+				}
+				
+			}
+		}else{
+			self.allInprogressOffer = global.allInprogressOffer
+			self.currentItems = global.allInprogressOffer.filter{CheckIfOferIsActive(offer: $0)}.count
+			DispatchQueue.main.async {
+				self.inProgressTable.reloadData()
+			}
+		}
+	}
     
 
     

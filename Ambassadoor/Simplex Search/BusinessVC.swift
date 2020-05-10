@@ -70,11 +70,13 @@ class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
 	}
 	
     func SearchTextIndex(text: String, segmentIndex: Int) {
-        
         self.GetSearchedBusinessItems(query: text) { (businessusers) in
             self.businessTempArray = businessusers
             DispatchQueue.main.async {
                 self.businessUserTable.reloadData()
+				if businessusers.count != 0 {
+					self.businessUserTable.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: false)
+				}
             }
         }
         
@@ -138,12 +140,38 @@ class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     func GetSearchedBusinessItems(query: String?, completed: @escaping (_ Results: [CompanyDetails]) -> ()) {
-            //let predicate = NSPredicate(format: "SELF.username contains[c] %@", searchBar.text!)
-            let userSearchedList = global.BusinessUser.filter { (businessuser) -> Bool in
-                return businessuser.name.lowercased().hasPrefix(query!.lowercased())
-            }
-            completed(userSearchedList)
-    }
+		//let predicate = NSPredicate(format: "SELF.username contains[c] %@", searchBar.text!)
+		
+		if query == "" {
+			completed(global.BusinessUser)
+			return
+		}
+		
+		var strengthDic: [CompanyDetails:Int] = [:]
+		var allowed: [CompanyDetails] = []
+		
+		if let query = query?.lowercased() {
+			for co in global.BusinessUser {
+				if co.name.lowercased().starts(with: query) {
+					allowed.append(co)
+					strengthDic[co] = 100
+				} else if co.name.contains(query) {
+					allowed.append(co)
+					strengthDic[co] = 90
+				}
+			}
+		}
+		
+		allowed.sort { (co1, co2) -> Bool in
+			if strengthDic[co1] == strengthDic[co2] {
+				return co1.name > co2.name
+			} else {
+				return strengthDic[co1] ?? 0 > strengthDic[co2] ?? 0
+			}
+		}
+		
+		completed(allowed)
+	}
     
     // MARK: - Navigation
 

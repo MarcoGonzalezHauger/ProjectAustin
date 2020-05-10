@@ -39,9 +39,8 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
             
             if status{
                 if offers.count > 0{
-                    global.allInprogressOffer.removeAll()
-                    global.allInprogressOffer.append(contentsOf: offers)
-                    self.tabBarController?.tabBar.items![3].badgeValue = String(offers.count)
+                    global.allInprogressOffer = offers
+					self.tabBarController?.tabBar.items![3].badgeValue = String(offers.filter{CheckIfOferIsActive(offer: $0)}.count)
                     UIApplication.shared.applicationIconBadgeNumber = offers.count
                 }
                 
@@ -128,9 +127,9 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
                                     completion: nil)
         }
 		
-		let bgView = UIView(frame: UIScreen.main.bounds)
-		bgView.backgroundColor = GetBackColor()
-		view.insertSubview(bgView, at: 0)
+		//let bgView = UIView(frame: UIScreen.main.bounds)
+		//bgView.backgroundColor = GetBackColor()
+		//view.insertSubview(bgView, at: 0)
         }else{
             DispatchQueue.main.async {
                 self.performSegue(withIdentifier: "toSignUp", sender: self)

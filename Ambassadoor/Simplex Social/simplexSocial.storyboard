@@ -149,6 +149,16 @@
             </objects>
             <point key="canvasLocation" x="2930" y="52"/>
         </scene>
+        <!--BusinessDetailReference-->
+        <scene sceneID="Gzn-eA-EXy">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="BusinessDetailReference" storyboardName="businessViewer" referencedIdentifier="BusinessDetailReference" id="gRQ-7z-0MS" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="YJH-Bv-gXk"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bQH-2i-TFE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3728" y="150"/>
+        </scene>
         <!--Social FollowingVC-->
         <scene sceneID="ZF7-hH-4Xy">
             <objects>
@@ -179,6 +189,7 @@
                     <connections>
                         <outlet property="followingTable" destination="VkJ-gZ-s0A" id="rdO-J7-aas"/>
                         <segue destination="gNY-dt-7YQ" kind="presentation" identifier="FromSocialFollowing" id="NX0-Tg-nyk"/>
+                        <segue destination="gRQ-7z-0MS" kind="presentation" identifier="FromSearchToBV" id="Rto-Jd-EbJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DHh-uB-SGH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -230,6 +241,6 @@
         <image name="SocialIcon" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="PeM-2z-HI4"/>
+        <segue reference="NX0-Tg-nyk"/>
     </inferredMetricsTieBreakers>
 </document>

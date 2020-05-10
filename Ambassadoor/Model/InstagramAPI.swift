@@ -615,7 +615,7 @@ struct API {
             "allPostsConfirmedSince": "",
             "category":[],
             "company": "company1",
-            "expiredate": Date.getStringFromDate(date: Date().afterDays(day: 365*1000)) as Any ,
+            "expiredate": Date.getStringFromDate(date: Date().afterDays(numberOfDays: 365*1000)) as Any ,
             "genders":["All"] as Any,
             "isAccepted": false,
             "isExpired": false,
@@ -745,7 +745,7 @@ struct API {
             "shouldRefund": offer.shouldRefund as Any,
             "didRefund": offer.didRefund as Any,
             "refundedOn": offer.refundedOn as Any,
-            "updatedDate": Date.getStringFromDate(date: offer.updatedDate!) as Any
+            "updatedDate": Date.getStringFromDate(date: offer.acceptedDate!) as Any
             ]
         return offerData
         //self.isRefferedByInfluencer = dictionary["isRefferedByInfluencer"] as? Bool ?? false

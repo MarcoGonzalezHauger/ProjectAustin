@@ -113,29 +113,42 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
 	}
 	
     func getDomainFromUnFormatedUrl(businessData: CompanyDetails) {
-        if businessData.website!.starts(with: "https://"){
-            let websiteString = businessData.website!
+		var websiteString = businessData.website!.lowercased()
+		var result = ""
+		while(websiteString.contains("///")) {
+			websiteString = websiteString.replacingOccurrences(of: "///", with: "//")
+		}
+        if websiteString.starts(with: "https://"){
 
             let removedString = websiteString.replacingOccurrences(of: "https://", with: "")
 
             let stringPool = removedString.components(separatedBy: "/")
 
-            self.website.setTitle(" " + stringPool.first!, for: .normal)
-        }else if businessData.website!.starts(with: "http://"){
-            let websiteString = businessData.website!
+            result = stringPool.first!
+        }else if websiteString.starts(with: "http://"){
 
             let removedString = websiteString.replacingOccurrences(of: "http://", with: "")
 
             let stringPool = removedString.components(separatedBy: "/")
-
-            self.website.setTitle(" " + stringPool.first!, for: .normal)
-		} else if businessData.website! == "" {
+			
+            result = stringPool.first!
+		} else if websiteString == "" {
 			self.website.setTitle(" No Website", for: .normal)
 			self.website.isEnabled = false
+			return
         }else{
-            let stringPool = businessData.website!.components(separatedBy: "/")
-             self.website.setTitle(" " + stringPool.first!, for: .normal)
+			print(websiteString)
+			let stringPool = websiteString.components(separatedBy: "/")
+            result = stringPool.first!
         }
+		
+		switch result.split(separator: ".").count {
+		case 1: result = "www.\(result).com"
+		case 2: result = "www.\(result)"
+		default: break
+		}
+		
+		self.website.setTitle(" " + result, for: .normal)
     }
     
     func getFollowing(businessData: CompanyDetails) {

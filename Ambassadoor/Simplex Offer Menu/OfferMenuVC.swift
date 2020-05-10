@@ -29,15 +29,17 @@ class OfferMenuVC: UIViewController,PageViewDelegate {
     @IBOutlet weak var offerSegmentFilter: UISegmentedControl!
     
     var offerPVCDelegate: OfferMenuSegmentDelegate?
-    
-
+	
     override func viewDidLoad() {
         super.viewDidLoad()
         offerSegmentFilter.selectedSegmentIndex = 1
         self.desText.text = Description.allValues[1].rawValue
         // Do any additional setup after loading the view.
+		
+		
+		
     }
-    
+	
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
     }
