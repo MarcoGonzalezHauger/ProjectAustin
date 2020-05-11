@@ -76,7 +76,8 @@ class SearchMenuVC: UIViewController, UISearchBarDelegate,PageViewDelegate {
         self.searchBar.resignFirstResponder()
         self.segmentDelegate?.searchSegmentIndex(index: sender.selectedSegmentIndex)
 		updateSearchPlaceholder(index: sender.selectedSegmentIndex)
-        
+		
+		       
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)    {

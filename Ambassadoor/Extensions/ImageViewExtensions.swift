@@ -177,7 +177,7 @@ func downloadImage(_ urlLink: String, completed: @escaping (_ image: UIImage?) -
 		
 		if let image = UIImage(data: cachedImage.first!.imagedata!){
 			
-			print("CHACHED  : \(urlLink)")
+			//print("CHACHED  : \(urlLink)")
 			completed(image)
 			return
 			
@@ -188,7 +188,7 @@ func downloadImage(_ urlLink: String, completed: @escaping (_ image: UIImage?) -
 	// otherwise, download
 	let url = URL(string: urlLink)
 	URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
-		print("DOWNLOAD : \(urlLink)")
+		//print("DOWNLOAD : \(urlLink)")
 		if let err = error {
 			print("abc=",err)
 			completed(nil)

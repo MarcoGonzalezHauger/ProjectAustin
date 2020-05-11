@@ -16,12 +16,6 @@ class BankDetalCell: UITableViewCell {
     @IBOutlet weak var companyName: UILabel!
     @IBOutlet weak var TimeLeft: UILabel!
     
-    override func awakeFromNib() {
-        shadowview.cornerRadius = 15
-        shadowview.ShadowOpacity = 0.2
-        shadowview.ShadowRadius = 3
-    }
-    
 }
 
 
@@ -50,35 +44,21 @@ class BankListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = shelf.dequeueReusableCell(withIdentifier: "bank") as! ConnectedPlaidTVCell
-//        let obj = self.dwollaFSList[indexPath.row]
-//        cell.nameText.text = obj.name
-//        cell.acctIDText.text = "****" + obj.mask
-//        cell.withdrawButton.tag = indexPath.row
-//        cell.withdrawButton.addTarget(self, action: #selector(self.withDrawAction(sender:)), for: .touchUpInside)
-//        cell.transactionButton.tag = indexPath.row
-//        cell.transactionButton.addTarget(self, action: #selector(self.transactionAction(sender:)), for: .touchUpInside)
-//
-//        cell.withdrawButton.layer.cornerRadius = 5
-//        cell.withdrawButton.clipsToBounds = true
-//
-//        cell.transactionButton.layer.cornerRadius = 5
-//        cell.transactionButton.clipsToBounds = true
-        
         //stripe
         let obj = self.StripeFSList[indexPath.row]
         cell.nameText.text = obj.access_token
-//        cell.acctIDText.text = "****" + obj.stripe_user_id
+//		cell.acctIDText.text = "****" + obj.stripe_user_id
         cell.acctIDText.text = "*************"
         cell.withdrawButton.tag = indexPath.row
         cell.withdrawButton.addTarget(self, action: #selector(self.withDrawAction(sender:)), for: .touchUpInside)
-        cell.transactionButton.tag = indexPath.row
-        cell.transactionButton.addTarget(self, action: #selector(self.transactionAction(sender:)), for: .touchUpInside)
+//        cell.transactionButton.tag = indexPath.row
+//        cell.transactionButton.addTarget(self, action: #selector(self.transactionAction(sender:)), for: .touchUpInside)
        
         cell.withdrawButton.layer.cornerRadius = 5
         cell.withdrawButton.clipsToBounds = true
        
-        cell.transactionButton.layer.cornerRadius = 5
-        cell.transactionButton.clipsToBounds = true
+//        cell.transactionButton.layer.cornerRadius = 5
+//        cell.transactionButton.clipsToBounds = true
         
         
         return cell
@@ -108,11 +88,19 @@ class BankListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     @IBAction func withDrawAction(sender: UIButton){
         
-        let index = sender.tag
+		let fee = GetFeeFromFollowerCount(FollowerCount: Yourself.followerCount)
         
-        let object = self.StripeFSList[index]
+		let MoneyAmount = Yourself!.yourMoney - fee
+		
+		if MoneyAmount > 0 {
+			let index = sender.tag
+			
+			let object = self.StripeFSList[index]
+			
+			self.performSegue(withIdentifier: "segueWithdraw", sender: object)
+		}
+		
         
-        self.performSegue(withIdentifier: "segueWithdraw", sender: object)
 
        
 //        self.createDwollaAccessTokenForFundTransfer(fundSource: object.customerFSURL, acctID: object.acctID, object: object)

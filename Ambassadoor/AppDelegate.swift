@@ -256,7 +256,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         //        InitializeFormAPI(completed: nil)
                 InitializeZipCodeAPI(completed: nil)
 		// Define the custom actions.
-		UIApplication.shared.applicationIconBadgeNumber = 0
+//		UIApplication.shared.applicationIconBadgeNumber = 0
 		
 		UNUserNotificationCenter.current().delegate = self
         let center = UNUserNotificationCenter.current()

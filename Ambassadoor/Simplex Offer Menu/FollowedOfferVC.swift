@@ -25,7 +25,6 @@ class FollowedCompaniesOffer: UITableViewCell {
 					self.logo.UseDefaultImage()
 				}
 				
-				
 				let pay = calculateCostForUser(offer: offerDetail, user: Yourself)
 				self.cashOut.text = NumberToPrice(Value: pay)
 				self.progressViewWidth.constant = self.frame.size.width * CGFloat((offerDetail.cashPower!/offerDetail.money))
@@ -118,7 +117,7 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         //self.performSegue(withIdentifier: "FromFollowedOfferSegue", sender: followOfferList[indexPath.row])
         let allOfferObj = followOfferList[indexPath.row]
-        if allOfferObj.isAccepted{
+        if allOfferObj.isAccepted {
         offerVariation = .inProgress
         }else{
         offerVariation = .canBeAccepted

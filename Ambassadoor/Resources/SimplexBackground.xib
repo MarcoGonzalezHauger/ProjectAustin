@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SimplexBackground" customModule="Ambassadoor" customModuleProvider="target">
+            <connections>
+                <outlet property="backDrop" destination="N7p-UH-sGx" id="Ajw-HJ-GhN"/>
+                <outlet property="backDrop2" destination="SvG-d0-Bbx" id="iSs-7N-DHq"/>
+                <outlet property="bd1_left" destination="mwz-Hr-mrL" id="nKp-jE-076"/>
+                <outlet property="bd2_left" destination="jTB-Dk-b4f" id="7J2-hr-jmh"/>
+                <outlet property="blur" destination="1YF-S6-ZtS" id="Ebu-Va-XzU"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="307" height="402"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="N7p-UH-sGx">
+                    <rect key="frame" x="0.0" y="0.0" width="307" height="402"/>
+                </imageView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clouds" translatesAutoresizingMaskIntoConstraints="NO" id="SvG-d0-Bbx">
+                    <rect key="frame" x="0.0" y="0.0" width="307" height="402"/>
+                </imageView>
+                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1YF-S6-ZtS">
+                    <rect key="frame" x="0.0" y="0.0" width="307" height="402"/>
+                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="spD-q7-bJz">
+                        <rect key="frame" x="0.0" y="0.0" width="307" height="402"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    </view>
+                    <blurEffect style="prominent"/>
+                </visualEffectView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="1YF-S6-ZtS" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="6em-R7-39k"/>
+                <constraint firstItem="1YF-S6-ZtS" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="9fR-61-ypq"/>
+                <constraint firstAttribute="bottom" secondItem="1YF-S6-ZtS" secondAttribute="bottom" id="Apg-j1-KHR"/>
+                <constraint firstItem="N7p-UH-sGx" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="B81-1A-AiW"/>
+                <constraint firstItem="SvG-d0-Bbx" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="GN3-gB-vX7"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="1YF-S6-ZtS" secondAttribute="trailing" id="Kjv-rN-Olu"/>
+                <constraint firstItem="SvG-d0-Bbx" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="VFk-4q-KZd"/>
+                <constraint firstItem="SvG-d0-Bbx" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="X8o-yE-tnT"/>
+                <constraint firstItem="SvG-d0-Bbx" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="jTB-Dk-b4f"/>
+                <constraint firstItem="N7p-UH-sGx" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="lnG-7z-zhw"/>
+                <constraint firstItem="N7p-UH-sGx" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="mwz-Hr-mrL"/>
+                <constraint firstItem="N7p-UH-sGx" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="wi0-tA-1LB"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="60.14492753623189" y="18.75"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="clouds" width="512" height="860"/>
+    </resources>
+</document>

@@ -21,18 +21,54 @@ class CaptionCrafterVC: UIViewController, UITextViewDelegate {
 	@IBOutlet weak var bottomOffset: NSLayoutConstraint!
 	
 	func updateList() {
+		
+		var extraquotes = false
+		var notCaseSensitive = false
+		
 		var newString: [String] = []
 		var goods = 0
 		for l in requiredStrings {
 			if captionCanvas.text.contains(l) {
-				newString.append("✅: \"\(l)\"")
 				goods += 1
+				if captionCanvas.text.contains("\"\(l)\"") {
+					extraquotes = true
+					newString.append("⚠️: \"\(l)\"")
+				} else {
+					newString.append("✅: \"\(l)\"")
+				}
 			} else {
-				newString.append("NEEDS: \"\(l)\"")
+				if captionCanvas.text.lowercased().contains(l.lowercased()) {
+					newString.append("⚠️: \"\(l)\"")
+					notCaseSensitive = true
+				} else {
+					newString.append("❌: \"\(l)\"")
+				}
 			}
 		}
 		
-		perfectGoodJob.text = (goods == requiredStrings.count) ? "Perfect!\nJust Copy & Paste this caption to the Instagram Post you made and you're done!" : ""
+		let hasWarning = extraquotes || notCaseSensitive
+		
+		if (goods == requiredStrings.count) {
+			perfectGoodJob.textColor = .systemGreen
+			if hasWarning {
+				perfectGoodJob.text = "This will work, but you shouldn't add the quotes around the items.\nJust Copy & Paste this caption to the Instagram Post you made and you're done!"
+			} else {
+				perfectGoodJob.text = "Perfect!\nJust Copy & Paste this caption to the Instagram Post you made and you're done!"
+			}
+		} else {
+			if hasWarning {
+				perfectGoodJob.textColor = .systemRed
+				if notCaseSensitive {
+					perfectGoodJob.text = "The caption is case sensitive."
+				} else if extraquotes {
+					perfectGoodJob.text = "Don't add quotes around the items in your caption."
+				}
+			} else {
+				perfectGoodJob.text = "Write a caption including all items above."
+				perfectGoodJob.textColor = .systemGray
+			}
+		}
+		
 		copyCaptionButton.isHidden = !(goods == requiredStrings.count)
 		
 		listLabel.text = newString.joined(separator: "\n")
@@ -53,8 +89,8 @@ class CaptionCrafterVC: UIViewController, UITextViewDelegate {
 			firstTime = false
 		}
 		let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height)
-		scrollView.setContentOffset(bottomOffset, animated: true)
-		
+		scrollView.setContentOffset(bottomOffset, animated: false)
+		scrollView.scrollRectToVisible(captionView.frame, animated: false)
 	}
 	
 	override func viewDidLoad() {

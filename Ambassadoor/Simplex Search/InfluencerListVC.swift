@@ -101,28 +101,30 @@ class InfluencerTVC: UITableViewCell, FollowerButtonDelegete {
 class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SearchBarDelegate, followUpdateDelegate {
 	
 	func followingUpdated() {
-		influencrTable.reloadRows(at: [IndexPath.init(row: activeView!, section: 0)], with: .none)
+		influencerTable.reloadRows(at: [IndexPath.init(row: activeView!, section: 0)], with: .none)
 	}
 		
     func SearchTextIndex(text: String, segmentIndex: Int) {
-        
         self.GetSearchedInfluencerItems(query: text) { (users) in
             self.influencerTempArray = users
             DispatchQueue.main.async {
-                self.influencrTable.reloadData()
+                self.influencerTable.reloadData()
+				if users.count != 0 {
+					self.influencerTable.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: false)
+				}
             }
         }
         
     }
     
 	var activeView: Int?
-    @IBOutlet weak var influencrTable: UITableView!
+    @IBOutlet weak var influencerTable: UITableView!
     
     var influencerTempArray = [User]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        influencrTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
+        influencerTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
         // Do any additional setup after loading the view.
     }
 
@@ -137,7 +139,7 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
         
         let identifier = "InfluencerResult"
         
-        var cell = influencrTable.dequeueReusableCell(withIdentifier: identifier) as? InfluencerTVC
+        var cell = influencerTable.dequeueReusableCell(withIdentifier: identifier) as? InfluencerTVC
 
         if cell == nil {
             let nib = Bundle.main.loadNibNamed("InfluencerTVC", owner: self, options: nil)
@@ -156,7 +158,7 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
         let user = self.influencerTempArray[indexPath.row]
         self.performSegue(withIdentifier: "FromInfluencerList", sender: user)
 		activeView = indexPath.row
-        influencrTable.deselectRow(at: indexPath, animated: true)
+        influencerTable.deselectRow(at: indexPath, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -167,7 +169,7 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
             global.SocialData = users
             self.influencerTempArray = users
             DispatchQueue.main.async {
-                self.influencrTable.reloadData()
+                self.influencerTable.reloadData()
             }
             
             
@@ -175,7 +177,7 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
         }else{
             self.influencerTempArray = global.SocialData
             DispatchQueue.main.async {
-                self.influencrTable.reloadData()
+                self.influencerTable.reloadData()
             }
         }
     }

@@ -59,6 +59,7 @@ func setHapticMenu(user: User) {
 		shortcutItems = [UIApplicationShortcutItem.init(type: "com.ambassadoor.business", localizedTitle: "Search Businesses", localizedSubtitle:nil, icon: UIApplicationShortcutIcon(type: UIApplicationShortcutIcon.IconType.search), userInfo: nil), UIApplicationShortcutItem.init(type: "com.ambassadoor.influencer", localizedTitle: "Search Influencers", localizedSubtitle:nil, icon: UIApplicationShortcutIcon(type: UIApplicationShortcutIcon.IconType.search), userInfo: nil),UIApplicationShortcutItem.init(type: "com.ambassadoor.profile", localizedTitle: "My Profile", localizedSubtitle: "Balance: \(amt)", icon: UIApplicationShortcutIcon(type: UIApplicationShortcutIcon.IconType.contact), userInfo: nil)]
         UIApplication.shared.shortcutItems = shortcutItems
     }else{
+		shortcutItems = [UIApplicationShortcutItem.init(type: "com.ambassadoor.business", localizedTitle: "Search Businesses", localizedSubtitle:nil, icon: UIApplicationShortcutIcon(type: UIApplicationShortcutIcon.IconType.search), userInfo: nil), UIApplicationShortcutItem.init(type: "com.ambassadoor.influencer", localizedTitle: "Search Influencers", localizedSubtitle:nil, icon: UIApplicationShortcutIcon(type: UIApplicationShortcutIcon.IconType.search), userInfo: nil),UIApplicationShortcutItem.init(type: "com.ambassadoor.profile", localizedTitle: "My Profile", localizedSubtitle: "Balance: \(amt)", icon: UIApplicationShortcutIcon(type: UIApplicationShortcutIcon.IconType.contact), userInfo: nil)]
         shortcutItems[2] = UIApplicationShortcutItem.init(type: "com.ambassadoor.profile", localizedTitle: "My Profile", localizedSubtitle: "Balance: \(amt)", icon: UIApplicationShortcutIcon(type: UIApplicationShortcutIcon.IconType.contact), userInfo: nil)
          UIApplication.shared.shortcutItems = shortcutItems
     }
@@ -139,6 +140,7 @@ func DateToCountdown(date: Date) -> String? {
 
 func DateToLetterCountdown(date: Date) -> String? {
 	let i : Double = date.timeIntervalSinceNow
+	
 	switch true {
 	case Int(i) <= 0:
 		return nil
@@ -149,6 +151,7 @@ func DateToLetterCountdown(date: Date) -> String? {
 	case i < 86400:
 		return "\(Int(floor(i/3600)))h \(Int(floor(Double((Int(i) % 3600) / 60))))m \(Int(i) % 60)s"
 	case i < 604800:
+        
 		return "\(Int(floor(i/86400)))d \(Int(floor(Double((Int(i) % 86400) / 3600))))h \(Int(floor(Double((Int(i) % 3600) / 60))))m \(Int(i) % 60)s"
 	default:
 		let formatter = DateFormatter()
@@ -244,16 +247,18 @@ func GetTierFromFollowerCount(FollowerCount: Double) -> Int? {
 }
 
 // get organic subscription fee amount based on instagram followers count
-func GetFeeFromFollowerCount(FollowerCount: Double) -> Int? {
+func GetFeeFromFollowerCount(FollowerCount: Double) -> Double {
     
-    //Tier is grouping people of similar follower count to encourage competition between users.
-    
+	//The money faucet
+	
     switch FollowerCount {
-    case 0...749: return 2
-    case 750...1249: return 3
-    case 1250...2999: return 4
-    case 3000...: return 5
-    default: return nil
+    case 0...749: return 4
+	case 750...1249: return 5
+    case 1250...2999: return 6
+    case 3000...4999: return 7
+    case 5000...9999: return 12
+	case 10000...: return ((FollowerCount) / 10000) * 12
+    default: return ((FollowerCount) / 10000) * 12
     }
 }
 
@@ -307,17 +312,6 @@ func GetCategoryStringFromlist(categories: [String]) -> String {
 // get offer information using offerID
 func OfferFromID(id: String, completion:@escaping(_ offer:Offer?)->()) {
 	print("attempting to find offer with ID \(id)")
-	
-	////    return global.AvaliableOffers.filter { (ThisOffer) -> Bool in
-	////        return ThisOffer.offer_ID == id
-	////    }[0]
-	//
-	//    //naveen added
-	//    let val =  global.AvaliableOffers.filter { (ThisOffer) -> Bool in
-	//        return ThisOffer.offer_ID == id
-	//    }
-	//    return val.count > 0 ? val[0] : global.AvaliableOffers[0];
-	
 	print(UserDefaults.standard.object(forKey: "userid") as! String)
 	print(UserDefaults.standard.object(forKey: "token") as! String)
 	//naveen added
@@ -457,16 +451,19 @@ func getDateFromString(date: String) -> Date {
 	let dateFormatterGet = DateFormatter()
 	dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ssZ"
     dateFormatterGet.timeZone = TimeZone(abbreviation: "EST")
-	
-	let dateFormatterPrint = DateFormatter()
-	dateFormatterPrint.dateFormat = "MMM dd,yyyy"
-	
+		
 	if let date = dateFormatterGet.date(from: date) {
-		//print(dateFormatterPrint.string(from: date))
 		return date
 	} else {
-		print("There was an error decoding the string")
-		return Date()
+		
+		//if the first format didn't work, it will try this one:
+		dateFormatterGet.dateFormat = "yyyy/MMM/dd HH:mm:ss"
+		if let date = dateFormatterGet.date(from: date) {
+			return date
+		} else {
+			print("There was an error decoding the string")
+			return Date()
+		}
 		
 	}
 	
@@ -477,7 +474,7 @@ func getESTDateFromString(date: String) -> Date {
     let dateFormatterGet = DateFormatter()
     dateFormatterGet.timeZone = TimeZone(abbreviation: "EST")
     dateFormatterGet.dateFormat = "yyyy/MMM/dd HH:mm:ssZ"
-    print("currentDate =",Date())
+    //print("currentDate =",Date())
 //    let dateFormatterPrint = DateFormatter()
 //    dateFormatterPrint.timeZone = TimeZone(abbreviation: "IST")
 //    dateFormatterPrint.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -487,9 +484,14 @@ func getESTDateFromString(date: String) -> Date {
         //print(dateFormatterPrint.string(from: date))
         return date
     } else {
-        print("There was an error decoding the string")
-        return Date()
-        
+		dateFormatterGet.dateFormat = "yyyy/MMM/dd HH:mm:ss"
+		if let date = dateFormatterGet.date(from: date) {
+			return date
+		} else {
+			print("There was an error decoding the string")
+			print(date)
+			return Date()
+		}
     }
     
 }
@@ -803,14 +805,20 @@ func updateFirebaseProfileURL(profileUrl: String, id: String, completion: @escap
 }
 
 func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
+	
+	if reference != nil {
+		if Yourself.yourMoney > GetFeeFromFollowerCount(FollowerCount: Yourself.followerCount) {
+			reference!.tabBar.items![1].badgeValue = "$"
+		} else {
+			reference!.tabBar.items![1].badgeValue = nil
+		}
+	}
     
-    getFollowerCompaniesOffer(followers: Yourself.businessFollowing!) { (status, offers) in
+	getFollowerCompaniesOffer(followers: Yourself.businessFollowing!) { (status, offers) in
         
         if status {
             if offers != nil {
-                global.followOfferList = offers!.sorted(by: { (objectOne, objectTwo) -> Bool in
-                    return objectOne.offer.offerdate.compare(objectTwo.offer.offerdate) == .orderedAscending
-                })
+                global.followOfferList = offers!
             }
         }
         
@@ -821,9 +829,7 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
         if status{
             
             if allOffer != nil {
-                global.allOfferList = allOffer!.sorted(by: { (objectOne, objectTwo) -> Bool in
-                    return objectOne.offer.offerdate.compare(objectTwo.offer.offerdate) == .orderedAscending
-                })
+                global.allOfferList = allOffer!
             }
         }
         
@@ -889,11 +895,13 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
         getAcceptedOffers { (status, offers) in
             
             if status{
-                if offers.count > 0{
-                    global.allInprogressOffer.removeAll()
-                    global.allInprogressOffer.append(contentsOf: offers)
-                    reference!.tabBar.items![3].badgeValue = String(offers.count)
-                    UIApplication.shared.applicationIconBadgeNumber = offers.count
+                if offers.count > 0 {
+					
+					global.allInprogressOffer = offers
+					
+					let badge = offers.filter{CheckIfOferIsActive(offer: $0)}.count
+                    reference!.tabBar.items![3].badgeValue = String(badge)
+                    UIApplication.shared.applicationIconBadgeNumber = offers.filter{$0.variation == .inProgress}.count
                 }
                 
             }
@@ -945,5 +953,45 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
     }
 }
 
+func offerIsFiliteredForUser(offer: Offer) -> Bool {
+	guard let offerFilter = offer.influencerFilter else {return false}
+	
+	let offerFilterKeys = offerFilter.keys
+	
+	var categoryMatch = !offerFilterKeys.contains("categories")
+	var genderMatch = !offerFilterKeys.contains("gender")
+	var locationMatch = !offerFilterKeys.contains("zipCode")
+	
+	if !genderMatch {
+		let gender: [String] = offerFilter["gender"] as! [String]
+		if gender.contains(Yourself.gender!.rawValue) {
+			genderMatch = true
+		}
+	}
+	
+	if !locationMatch && genderMatch {
+		let zips: [String] = offerFilter["zipCode"] as! [String]
+		if let userZip = Yourself.zipCode {
+			if zips.contains(userZip) {
+				locationMatch = true
+			}
+		}
+	}
+	
+	if !categoryMatch && locationMatch && genderMatch {
+		let businessCats: [String] = offerFilter["categories"] as! [String]
+		if let userCats = Yourself.categories {
+			for userCat in userCats {
+				let catExistsInBusinessFilter = businessCats.contains(userCat)
+				if catExistsInBusinessFilter {
+					categoryMatch = true
+					break
+				}
+			}
+		}
+	}
+	
+	return categoryMatch && genderMatch && locationMatch
+}
 
 

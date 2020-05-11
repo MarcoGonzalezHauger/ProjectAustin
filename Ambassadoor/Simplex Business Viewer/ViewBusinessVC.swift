@@ -86,7 +86,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
             if let url = URL.init(string: businessData.website!){
                 
                 if let host = url.host{
-                   self.website.setTitle(" " + host, for: .normal)
+                   self.getDomainFromUnFormatedUrl(businessData: businessData)
                 }else{
                     self.getDomainFromUnFormatedUrl(businessData: businessData)
                 }
@@ -113,29 +113,45 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
 	}
 	
     func getDomainFromUnFormatedUrl(businessData: CompanyDetails) {
-        if businessData.website!.starts(with: "https://"){
-            let websiteString = businessData.website!
+		var websiteString = businessData.website!.lowercased()
+		var result = ""
+		while(websiteString.contains("///")) {
+			websiteString = websiteString.replacingOccurrences(of: "///", with: "//")
+		}
+        if websiteString.starts(with: "https://"){
 
             let removedString = websiteString.replacingOccurrences(of: "https://", with: "")
 
             let stringPool = removedString.components(separatedBy: "/")
 
-            self.website.setTitle(" " + stringPool.first!, for: .normal)
-        }else if businessData.website!.starts(with: "http://"){
-            let websiteString = businessData.website!
+            result = stringPool.first!
+        }else if websiteString.starts(with: "http://"){
 
             let removedString = websiteString.replacingOccurrences(of: "http://", with: "")
 
             let stringPool = removedString.components(separatedBy: "/")
-
-            self.website.setTitle(" " + stringPool.first!, for: .normal)
-		} else if businessData.website! == "" {
+			
+            result = stringPool.first!
+		} else if websiteString == "" {
 			self.website.setTitle(" No Website", for: .normal)
 			self.website.isEnabled = false
+			return
         }else{
-            let stringPool = businessData.website!.components(separatedBy: "/")
-             self.website.setTitle(" " + stringPool.first!, for: .normal)
+			print(websiteString)
+			let stringPool = websiteString.components(separatedBy: "/")
+            result = stringPool.first!
         }
+		
+		print("before: \(result)")
+		
+		switch result.split(separator: ".").count {
+		case 1: result = "www.\(result).com"
+		case 2: result = "www.\(result)"
+		default: break
+		}
+		
+		
+		self.website.setTitle(" " + result, for: .normal)
     }
     
     func getFollowing(businessData: CompanyDetails) {
@@ -148,8 +164,12 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
                 
                 self.offerStatus.text = "Avaliable Offers"
                 self.offerTable.isHidden = false
+				
+				for o in offers {
+					print(o.offer.offer_ID + " + " + (o.offer.accepted ?? []).joined(separator: ", "))
+				}
                 
-                self.tableviewHeight.constant = CGFloat((CGFloat(offers.count) * unviersalOfferHeight) + 10)
+				self.tableviewHeight.constant = CGFloat((CGFloat(offers.count) * unviersalOfferHeight) + 10)
                 
                 self.offerTable.updateConstraints()
                 self.offerTable.layoutIfNeeded()

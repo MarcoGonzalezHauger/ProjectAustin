@@ -9,7 +9,7 @@
 
 import UIKit
 
-let maximumCategories: Int = 5
+let maximumCategories: Int = 7
 
 protocol SubCategoryResultDelegate {
 	func CategoryAdded(newCategory: String) -> Bool
