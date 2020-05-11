@@ -247,16 +247,18 @@ func GetTierFromFollowerCount(FollowerCount: Double) -> Int? {
 }
 
 // get organic subscription fee amount based on instagram followers count
-func GetFeeFromFollowerCount(FollowerCount: Double) -> Int? {
+func GetFeeFromFollowerCount(FollowerCount: Double) -> Double {
     
-    //Tier is grouping people of similar follower count to encourage competition between users.
-    
+	//The money faucet
+	
     switch FollowerCount {
-    case 0...749: return 2
-    case 750...1249: return 3
-    case 1250...2999: return 4
-    case 3000...: return 5
-    default: return nil
+    case 0...749: return 4
+	case 750...1249: return 5
+    case 1250...2999: return 6
+    case 3000...4999: return 7
+    case 5000...9999: return 12
+	case 10000...: return ((FollowerCount) / 10000) * 12
+    default: return ((FollowerCount) / 10000) * 12
     }
 }
 
@@ -310,17 +312,6 @@ func GetCategoryStringFromlist(categories: [String]) -> String {
 // get offer information using offerID
 func OfferFromID(id: String, completion:@escaping(_ offer:Offer?)->()) {
 	print("attempting to find offer with ID \(id)")
-	
-	////    return global.AvaliableOffers.filter { (ThisOffer) -> Bool in
-	////        return ThisOffer.offer_ID == id
-	////    }[0]
-	//
-	//    //naveen added
-	//    let val =  global.AvaliableOffers.filter { (ThisOffer) -> Bool in
-	//        return ThisOffer.offer_ID == id
-	//    }
-	//    return val.count > 0 ? val[0] : global.AvaliableOffers[0];
-	
 	print(UserDefaults.standard.object(forKey: "userid") as! String)
 	print(UserDefaults.standard.object(forKey: "token") as! String)
 	//naveen added
@@ -483,7 +474,7 @@ func getESTDateFromString(date: String) -> Date {
     let dateFormatterGet = DateFormatter()
     dateFormatterGet.timeZone = TimeZone(abbreviation: "EST")
     dateFormatterGet.dateFormat = "yyyy/MMM/dd HH:mm:ssZ"
-    print("currentDate =",Date())
+    //print("currentDate =",Date())
 //    let dateFormatterPrint = DateFormatter()
 //    dateFormatterPrint.timeZone = TimeZone(abbreviation: "IST")
 //    dateFormatterPrint.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -493,9 +484,14 @@ func getESTDateFromString(date: String) -> Date {
         //print(dateFormatterPrint.string(from: date))
         return date
     } else {
-        print("There was an error decoding the string")
-        return Date()
-        
+		dateFormatterGet.dateFormat = "yyyy/MMM/dd HH:mm:ss"
+		if let date = dateFormatterGet.date(from: date) {
+			return date
+		} else {
+			print("There was an error decoding the string")
+			print(date)
+			return Date()
+		}
     }
     
 }
@@ -809,8 +805,16 @@ func updateFirebaseProfileURL(profileUrl: String, id: String, completion: @escap
 }
 
 func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
+	
+	if reference != nil {
+		if Yourself.yourMoney > GetFeeFromFollowerCount(FollowerCount: Yourself.followerCount) {
+			reference!.tabBar.items![1].badgeValue = "$"
+		} else {
+			reference!.tabBar.items![1].badgeValue = nil
+		}
+	}
     
-    getFollowerCompaniesOffer(followers: Yourself.businessFollowing!) { (status, offers) in
+	getFollowerCompaniesOffer(followers: Yourself.businessFollowing!) { (status, offers) in
         
         if status {
             if offers != nil {
@@ -897,7 +901,7 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
 					
 					let badge = offers.filter{CheckIfOferIsActive(offer: $0)}.count
                     reference!.tabBar.items![3].badgeValue = String(badge)
-                    UIApplication.shared.applicationIconBadgeNumber = badge
+                    UIApplication.shared.applicationIconBadgeNumber = offers.filter{$0.variation == .inProgress}.count
                 }
                 
             }

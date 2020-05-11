@@ -11,7 +11,6 @@ import UIKit
 class BusinessUserTVC: UITableViewCell, FollowerButtonDelegete {
 	
 	func isFollowingChanged(sender: AnyObject, newValue: Bool) {
-		
 		if let ThisUser = businessDatail {
 			if !newValue {
 				//UNFOLLOWING

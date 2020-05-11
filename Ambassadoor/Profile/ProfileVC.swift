@@ -9,12 +9,20 @@
 import UIKit
 import Firebase
 
+protocol makeCashBoxShake {
+	func doItNow()
+}
+
 class SettingCell: UITableViewCell {
 	@IBOutlet weak var categoryHeader: UILabel!
 	@IBOutlet weak var categoryLabel: UILabel!
 }
 
-class CashOutCell: UITableViewCell {
+class CashOutCell: UITableViewCell, makeCashBoxShake {
+	
+	func doItNow() {
+		MakeShake(viewToShake: cashOut, coefficient: 0.5)
+	}
     
     @IBOutlet weak var amount: UILabel!
     @IBOutlet weak var cashOut: UIButton!
@@ -80,6 +88,8 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		return userSettings.count + 2
 	}
 	
+	var shakerDelegate: makeCashBoxShake?
+	
 	let cashHeight: CGFloat = 85
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -133,6 +143,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
             let cell = shelf.dequeueReusableCell(withIdentifier: "cashBox", for: indexPath) as! CashOutCell
             cell.amount.text = NumberToPrice(Value: Yourself.yourMoney)
             cell.cashOut.addTarget(self, action: #selector(self.cashOutAction(sender:)), for: .touchUpInside)
+			shakerDelegate = cell
 			return cell
 		}
 		let cell = shelf.dequeueReusableCell(withIdentifier: "menuItem") as! SettingCell
@@ -204,6 +215,18 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
     
     @IBAction func cashOutAction(sender: UIButton){
         //MoneySegue
+		let fee = GetFeeFromFollowerCount(FollowerCount: Yourself.followerCount)
+		if Yourself.yourMoney < fee {
+			shakerDelegate?.doItNow()
+			let alert = UIAlertController(title: "You Can't Withdraw", message: "You need more than \(NumberToPrice(Value: fee, enforceCents: true)) to cash out.", preferredStyle: .alert)
+			
+			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (ui) in
+				self.dismiss(animated: true, completion: nil)
+			}
+			))
+			
+			self.present(alert, animated: true)
+		}
         self.performSegue(withIdentifier: "MoneySegue", sender: self)
     }
 	
@@ -229,43 +252,46 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+		if let profilepic = Yourself.profilePicURL {
+			ProfilePicture.downloadAndSetImage(profilepic, isCircle: true)
+		} else {
+			ProfilePicture.UseDefaultImage()
+		}
+		tierBox.layer.cornerRadius = tierBox.bounds.height / 2
+		//        tierLabel.text = String(GetTierFromFollowerCount(FollowerCount: Yourself.followerCount) ?? 0)
+		
+		if Yourself.isDefaultOfferVerify {
+			if GetTierFromFollowerCount(FollowerCount: Yourself.followerCount) != nil {
+				tierLabel.text = String(GetTierFromFollowerCount(FollowerCount: Yourself.followerCount)! + 1)
+			}else{
+				tierLabel.text = String(GetTierFromFollowerCount(FollowerCount: Yourself.followerCount) ?? 1)
+			}
+		}else{
+			tierLabel.text = String(GetTierFromFollowerCount(FollowerCount: Yourself.followerCount) ?? 0)
+		}
+		
+		
+		followerCount.text = CompressNumber(number: Yourself.followerCount)
+		averageLikes.text = Yourself.averageLikes == nil ? "0" : CompressNumber(number: Yourself.averageLikes!)
+		//joinedOn_lbl.text = Yourself.joinedDate != nil ? "Joined On : " + Yourself.joinedDate! : ""
+		referralCode_btn.setTitle("Business Referral Code: " + Yourself.referralcode, for: .normal)
+		
+		tierBox.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "tiergrad")!)
 		shelf.alwaysBounceVertical = false
+		userSettings = reloadUserSettings()
+		shelf.dataSource = self
+        shelf.delegate = self
+		
+		
     }
     override func viewWillAppear(_ animated: Bool) {
-        
         super.viewWillAppear(true)
-        
-        if let profilepic = Yourself.profilePicURL {
-            ProfilePicture.downloadAndSetImage(profilepic, isCircle: true)
-        } else {
-            ProfilePicture.UseDefaultImage()
-        }
-        tierBox.layer.cornerRadius = tierBox.bounds.height / 2
-//        tierLabel.text = String(GetTierFromFollowerCount(FollowerCount: Yourself.followerCount) ?? 0)
-        
-        if Yourself.isDefaultOfferVerify {
-            if GetTierFromFollowerCount(FollowerCount: Yourself.followerCount) != nil {
-                tierLabel.text = String(GetTierFromFollowerCount(FollowerCount: Yourself.followerCount)! + 1)
-            }else{
-                tierLabel.text = String(GetTierFromFollowerCount(FollowerCount: Yourself.followerCount) ?? 1)
-            }
-        }else{
-            tierLabel.text = String(GetTierFromFollowerCount(FollowerCount: Yourself.followerCount) ?? 0)
-        }
-
-        
-        followerCount.text = CompressNumber(number: Yourself.followerCount)
-        averageLikes.text = Yourself.averageLikes == nil ? "0" : CompressNumber(number: Yourself.averageLikes!)
-        //joinedOn_lbl.text = Yourself.joinedDate != nil ? "Joined On : " + Yourself.joinedDate! : ""
-        referralCode_btn.setTitle("Business Referral Code: " + Yourself.referralcode, for: .normal)
-        
-        tierBox.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "tiergrad")!)
-        
-        userSettings = reloadUserSettings()
-        
-        shelf.dataSource = self
-        shelf.delegate = self
-        
+		shelf.reloadData()
+		if Yourself.yourMoney > GetFeeFromFollowerCount(FollowerCount: Yourself.followerCount) {
+			self.tabBarController!.tabBar.items![1].badgeValue = "$"
+		} else {
+			self.tabBarController!.tabBar.items![1].badgeValue = nil
+		}
     }
 	
 	@IBOutlet weak var shelf: UITableView!

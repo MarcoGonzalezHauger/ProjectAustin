@@ -29,7 +29,11 @@ class ShadowView: UIView {
     @IBInspectable var ShadowOpacity: Float = 0.2 { didSet { DrawShadows() } }
     @IBInspectable var ShadowRadius: Float = 1.75 { didSet { DrawShadows() } }
     @IBInspectable var ShadowColor: UIColor = UIColor.black { didSet { DrawShadows() } }
-    @IBInspectable var borderWidth: Float = 0.0 { didSet { DrawShadows() }}
+    @IBInspectable var borderWidth: Float = 0.0 { didSet {
+		
+		DrawShadows()
+				
+		}}
     @IBInspectable var borderColor: UIColor = GetForeColor() { didSet { DrawShadows() }}
     
     func DrawShadows() {
@@ -95,7 +99,14 @@ class Offer : NSObject {
     
     var incresePay: Double?
     
-    var companyDetails: CompanyDetails?
+	var companyDetails: CompanyDetails? {
+		get {
+			return global.BusinessUser.filter({ (co1) -> Bool in
+				return co1.account_ID ?? "" == self.businessAccountID
+				}).first
+		}
+	}
+	var businessAccountID: String
     var accepted: [String]?
     
     var commission: Double?
@@ -219,7 +230,24 @@ class Offer : NSObject {
         self.cashPower = dictionary["cashPower"] as? Double ?? 0.0
         self.influencerFilter = dictionary["influencerFilter"] as? [String: AnyObject] ?? [:]
         self.incresePay = dictionary["incresePay"] as? Double ?? 1.0
-        self.companyDetails = ((dictionary["companyDetails"] as? [String: AnyObject]) != nil) ? CompanyDetails.init(dictionary: dictionary["companyDetails"] as! [String: AnyObject]) : nil
+		
+//		print(dictionary)
+//		print("\nGoing To Fail Now\n")
+		
+		if let coId = dictionary["company"] as? String {
+			self.businessAccountID = coId
+		} else {
+			if let companyDeets = dictionary["companyDetails"] as? [String: AnyObject] {
+				self.businessAccountID = companyDeets["account_ID"] as! String
+			} else {
+				print(dictionary)
+				self.businessAccountID = "BRUV"
+				fatalError("No Business ID account")
+			}
+		}
+		
+		
+	
         self.accepted = dictionary["accepted"] as? [String] ?? []
         self.commission = dictionary["commission"] as? Double
         self.isCommissionPaid = dictionary["isCommissionPaid"] as? Bool ?? false
@@ -305,6 +333,9 @@ class User: NSObject {
         self.tokenFIR = dictionary["tokenFIR"] as? String ?? ""
         self.following = dictionary["following"] as? [String] ?? []
         self.businessFollowing = dictionary["businessFollowing"] as? [String] ?? []
+		if self.businessFollowing!.contains("") {
+			self.businessFollowing = self.businessFollowing!.filter{$0 != ""}
+		}
         self.email = dictionary["email"] as? String ?? ""
     }
 	
@@ -624,7 +655,7 @@ class CompanyDetails: NSObject {
         self.mission = dictionary["mission"] as! String
         self.website  = dictionary["website"] as? String ?? ""
         self.account_ID  = dictionary["account_ID"] as? String ?? ""
-        self.userId  = dictionary["userId"] as? String ?? ""
+		self.userId  = dictionary["userId"] as? String ?? ""
         self.accountBalance  = dictionary["accountBalance"] as? Double ?? 0.0
         self.owner  = dictionary["owner"] as? String ?? ""
         self.referralcode  = dictionary["referralcode"] as? String ?? ""

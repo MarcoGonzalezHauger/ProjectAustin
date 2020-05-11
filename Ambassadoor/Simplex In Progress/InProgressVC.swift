@@ -129,12 +129,12 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
 		}
 	}
     
-    @IBAction func startCountDownForAccepted(sender: Timer) {
+    @IBAction func startCountDownForAccepted(sender: Timer!) {
         
         
         let offerValue = self.offer!
         
-        if offerValue.status == "accepted"{
+		if offerValue.variation == .inProgress {
             
             if let offerAcceptedDate = offerValue.acceptedDate {
                 
@@ -163,37 +163,39 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                 
             }
         }
-        
-    }
-    
-    func setInprogressValue(currentDate: Date, expireDateAftAcpt: Date, offerAcceptedDate: Date) {
-        
-        //Interval between Offer Acceted Date and Current Date
-        let intervalBtnOffActDateToCurDate = (currentDate.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
-        
-        //Interval between Offer Acceted Date and expiring offer after Accepted Offer
-        let intervalBtnOffActDateToOfferExpDate = (expireDateAftAcpt.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
-                                    
-//            print("after=",intervalBtnOffActDateToOfferExpDate)
-//             print("before",intervalBtnOffActDateToCurDate)
-             
-             
-            //Calculate Progress How long days gone after accepting the offer
-            // progressWidth.constant = CGFloat(intervalBtnOffActDateToCurDate/intervalBtnOffActDateToOfferExpDate) * self.frame.size.width
-                
-//            print(CGFloat(intervalBtnOffActDateToCurDate/intervalBtnOffActDateToOfferExpDate))
-//            print(self.progTemplate.frame.size.width)
+		
+	}
+	
+	func setInprogressValue(currentDate: Date, expireDateAftAcpt: Date, offerAcceptedDate: Date) {
+		
+		//Interval between Offer Acceted Date and Current Date
+		let intervalBtnOffActDateToCurDate = (currentDate.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
+		
+		//Interval between Offer Acceted Date and expiring offer after Accepted Offer
+		let intervalBtnOffActDateToOfferExpDate = (expireDateAftAcpt.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
+		
+		//            print("after=",intervalBtnOffActDateToOfferExpDate)
+		//             print("before",intervalBtnOffActDateToCurDate)
+		
+		
+		//Calculate Progress How long days gone after accepting the offer
+		// progressWidth.constant = CGFloat(intervalBtnOffActDateToCurDate/intervalBtnOffActDateToOfferExpDate) * self.frame.size.width
+		
+//		print(1.0 - CGFloat(intervalBtnOffActDateToCurDate/intervalBtnOffActDateToOfferExpDate))
+//		print(self.progTemplate.frame.size.width)
 		progressWidth.constant = self.progTemplate.frame.size.width * (1.0 - CGFloat(intervalBtnOffActDateToCurDate/intervalBtnOffActDateToOfferExpDate))
-
-             progrssView.updateConstraints()
-             progrssView.layoutIfNeeded()
-             
-             progrssView.backgroundColor = UIColor.systemBlue
-             
-             
-        
-    }
-    
+		
+//		UIView.animate(withDuration: 1) {
+//			self.progrssView.layoutIfNeeded()
+//		}
+		progrssView.updateConstraints()
+		
+		progrssView.backgroundColor = UIColor.systemBlue
+		
+		
+		
+	}
+	
     @IBAction func startCountDownForTobepaid(sender: Timer){
         
         let offerValue = self.offer!
@@ -378,6 +380,7 @@ class InProgressVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 		if let offer = GetOfferForIndex(index: indexPath.row) {
 			let cell = inProgressTable.dequeueReusableCell(withIdentifier: "inprogresscell", for: indexPath) as! InProgressTVC
 			cell.offer = offer
+			cell.startCountDownForAccepted(sender: nil)
 			return cell
 		} else {
 			return inProgressTable.dequeueReusableCell(withIdentifier: "prevOffer", for: indexPath)

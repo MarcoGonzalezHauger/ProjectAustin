@@ -41,7 +41,7 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
                 if offers.count > 0{
                     global.allInprogressOffer = offers
 					self.tabBarController?.tabBar.items![3].badgeValue = String(offers.filter{CheckIfOferIsActive(offer: $0)}.count)
-                    UIApplication.shared.applicationIconBadgeNumber = offers.count
+					UIApplication.shared.applicationIconBadgeNumber = offers.filter{$0.variation == .inProgress}.count
                 }
                 
             }

@@ -86,7 +86,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
             if let url = URL.init(string: businessData.website!){
                 
                 if let host = url.host{
-                   self.website.setTitle(" " + host, for: .normal)
+                   self.getDomainFromUnFormatedUrl(businessData: businessData)
                 }else{
                     self.getDomainFromUnFormatedUrl(businessData: businessData)
                 }
@@ -142,11 +142,14 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
             result = stringPool.first!
         }
 		
+		print("before: \(result)")
+		
 		switch result.split(separator: ".").count {
 		case 1: result = "www.\(result).com"
 		case 2: result = "www.\(result)"
 		default: break
 		}
+		
 		
 		self.website.setTitle(" " + result, for: .normal)
     }
@@ -161,8 +164,12 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
                 
                 self.offerStatus.text = "Avaliable Offers"
                 self.offerTable.isHidden = false
+				
+				for o in offers {
+					print(o.offer.offer_ID + " + " + (o.offer.accepted ?? []).joined(separator: ", "))
+				}
                 
-                self.tableviewHeight.constant = CGFloat((CGFloat(offers.count) * unviersalOfferHeight) + 10)
+				self.tableviewHeight.constant = CGFloat((CGFloat(offers.count) * unviersalOfferHeight) + 10)
                 
                 self.offerTable.updateConstraints()
                 self.offerTable.layoutIfNeeded()

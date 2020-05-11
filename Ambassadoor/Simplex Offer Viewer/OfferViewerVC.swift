@@ -235,7 +235,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		}else if self.offerVariation! == .didNotPostInTime {
 			
 			switch indexPath.row {
-				case 0: return CreateWarnCell(message: "You did not post to Instagram in time. Your offer hase been aborted.")
+				case 0: return CreateWarnCell(message: "You did not post to Instagram in time. The offer has expired.")
 				case 1: return CreateCompanyInfoCell()
 				default: return CreatePostInfoCell(prompt: "What should have been posted")
 			}
@@ -369,7 +369,9 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 			
 			updateUserIdOfferPool(offer: self.offer!)
 			
-			self.dismiss(animated: true, completion: nil)
+			self.dismiss(animated: true) {
+				self.tabBarController?.selectedIndex = 3
+			}
 		
 		}else{
 			
