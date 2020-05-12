@@ -360,7 +360,8 @@ func CheckIfOferIsActive(offer: Offer) -> Bool {
 
 class InProgressVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    
+	@IBOutlet weak var noneView: UIView!
+	
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return allInprogressOffer.count + (shouldHaveHeader() ? 1 : 0)
     }
@@ -420,11 +421,19 @@ class InProgressVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     @IBOutlet weak var inProgressTable: UITableView!
     
-    var allInprogressOffer = [Offer]()
+	var allInprogressOffer = [Offer]() {
+		didSet {
+			noneView.isHidden = allInprogressOffer.count != 0
+		}
+	}
     
     var offervariation: OfferVariation?
     
-    override func viewDidLoad() {
+	@IBAction func goToOffers(_ sender: Any) {
+		self.tabBarController?.selectedIndex = 2
+	}
+	
+	override func viewDidLoad() {
         super.viewDidLoad()
 		inProgressTable.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
     }
@@ -458,8 +467,7 @@ class InProgressVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 		}
 	}
     
-
-    
+	    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -470,9 +478,7 @@ class InProgressVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         if segue.identifier == "FromInprogressToOV" {
         //guard let newviewoffer = viewoffer else { return }
         let destination = (segue.destination as! StandardNC).topViewController as! OfferViewerVC
-        
-            destination.offerVariation = .inProgress
-            destination.offer = sender as? Offer
+			destination.offer = sender as? Offer
          }
         
     }

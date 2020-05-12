@@ -16,10 +16,17 @@ class acceptVerifierVC: UIViewController {
 
 	var delegate: didAcceptDeleagte?
 	@IBOutlet weak var acceptView: ShadowView!
+	@IBOutlet weak var view21: ShadowView!
+	@IBOutlet weak var acceptButton: UIButton!
+	
+	var isOver21 = true
 	
     override func viewDidLoad() {
         super.viewDidLoad()
 		CreateAnimation()
+		view21.backgroundColor = tewntyOneColor
+		view21.isHidden = !isOver21
+		acceptButton.setTitle(isOver21 ? "ACCEPT (21+)" : "ACCEPT", for: .normal)
         // Do any additional setup after loading the view.
     }
 	@IBAction func dismissButtonPressed(_ sender: Any) {
@@ -30,6 +37,10 @@ class acceptVerifierVC: UIViewController {
 		dismiss(animated: true) {
 			self.delegate?.didAccept()
 		}
+	}
+	
+	func set21(is21andOver: Bool) {
+		isOver21 = is21andOver
 	}
 	
 	

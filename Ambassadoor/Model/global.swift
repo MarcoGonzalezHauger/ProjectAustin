@@ -80,8 +80,8 @@ class CentralVariables {
     var userList = [AnyObject]()
     var followerList = [FollowingInformation]()
     var influencerList = [User]()
-    var followOfferList = [allOfferObject]()
-    var allOfferList = [allOfferObject]()
+    var followOfferList = [Offer]()
+    var allOfferList = [Offer]()
 }
 
 let global = CentralVariables()

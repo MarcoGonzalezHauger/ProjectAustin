@@ -251,15 +251,21 @@ func GetFeeFromFollowerCount(FollowerCount: Double) -> Double {
     
 	//The money faucet
 	
-    switch FollowerCount {
-    case 0...749: return 4
-	case 750...1249: return 5
-    case 1250...2999: return 6
-    case 3000...4999: return 7
-    case 5000...9999: return 12
-	case 10000...: return ((FollowerCount) / 10000) * 12
-    default: return ((FollowerCount) / 10000) * 12
-    }
+	var fee = floor(FollowerCount * 0.003 * 2) / 2
+	if fee < 4 {
+		fee = 4
+	}
+	return fee
+	
+//    switch FollowerCount {
+//    case 0...749: return 4
+//	case 750...1249: return 5
+//    case 1250...2999: return 6
+//    case 3000...4999: return 7
+//    case 5000...9999: return 12
+//	case 10000...: return ((FollowerCount) / 1000) * 12
+//    default: return ((FollowerCount) / 1000) * 12
+//    }
 }
 
 func makeImageCircular(image: UIImage) -> UIImage {
@@ -294,18 +300,8 @@ func PostTypeToIcon(posttype: TypeofPost) -> UIImage {
 }
 
 func GetCategoryStringFromlist(categories: [String]) -> String {
-	var finalCategories = ""
-	for category in categories {
-		if AllCategories.contains(category) {
-			finalCategories.append(category + ", ")
-		}
-	}
-
-	if finalCategories != "" {
-		finalCategories = String(finalCategories.dropLast(2))
-	}
 	
-	return finalCategories
+	return categories.joined(separator: "\n")
 }
 
 
@@ -814,23 +810,17 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
 		}
 	}
     
-	getFollowerCompaniesOffer(followers: Yourself.businessFollowing!) { (status, offers) in
+	getObserveFollowerCompaniesOffer() { (status, offers) in
         
         if status {
-            if offers != nil {
-                global.followOfferList = offers!
-            }
+			global.followOfferList = offers
         }
         
     }
     
-    getAllOffer { (status, allOffer) in
-        
+    getObserveAllOffer() { (status, allOffer) in
         if status{
-            
-            if allOffer != nil {
-                global.allOfferList = allOffer!
-            }
+			global.allOfferList = allOffer
         }
         
     }
@@ -895,14 +885,10 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
         getAcceptedOffers { (status, offers) in
             
             if status{
-                if offers.count > 0 {
-					
-					global.allInprogressOffer = offers
-					
-					let badge = offers.filter{CheckIfOferIsActive(offer: $0)}.count
-                    reference!.tabBar.items![3].badgeValue = String(badge)
-                    UIApplication.shared.applicationIconBadgeNumber = offers.filter{$0.variation == .inProgress}.count
-                }
+				global.allInprogressOffer = offers
+				let badge = offers.filter{CheckIfOferIsActive(offer: $0)}.count
+				reference!.tabBar.items![3].badgeValue = badge == 0 ? nil : String(badge)
+				UIApplication.shared.applicationIconBadgeNumber = offers.filter{$0.variation == .inProgress}.count
                 
             }
             

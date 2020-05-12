@@ -65,12 +65,37 @@
                                                     </label>
                                                 </subviews>
                                             </stackView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vOF-p1-M2s" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                                <rect key="frame" x="359.5" y="5" width="37.5" height="24.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="21+" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SFM-qt-0NV">
+                                                        <rect key="frame" x="4" y="2" width="29.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstItem="SFM-qt-0NV" firstAttribute="leading" secondItem="vOF-p1-M2s" secondAttribute="leading" constant="4" id="5dT-en-j1t"/>
+                                                    <constraint firstAttribute="bottom" secondItem="SFM-qt-0NV" secondAttribute="bottom" constant="2" id="6K1-7Z-TXb"/>
+                                                    <constraint firstItem="SFM-qt-0NV" firstAttribute="top" secondItem="vOF-p1-M2s" secondAttribute="top" constant="2" id="hTE-fa-qeE"/>
+                                                    <constraint firstAttribute="trailing" secondItem="SFM-qt-0NV" secondAttribute="trailing" constant="4" id="tBg-dG-UEB"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <real key="value" value="6"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
+                                            <constraint firstItem="vOF-p1-M2s" firstAttribute="top" secondItem="65O-qg-EzG" secondAttribute="top" constant="5" id="4xm-Ah-vGO"/>
                                             <constraint firstItem="24y-iT-UG1" firstAttribute="leading" secondItem="GDA-rc-pB5" secondAttribute="trailing" constant="8" id="CBD-Kk-geK"/>
                                             <constraint firstItem="24y-iT-UG1" firstAttribute="centerY" secondItem="GDA-rc-pB5" secondAttribute="centerY" id="QBp-zN-C5x"/>
                                             <constraint firstItem="GDA-rc-pB5" firstAttribute="top" secondItem="65O-qg-EzG" secondAttribute="top" constant="8" id="mzc-UU-avu"/>
+                                            <constraint firstAttribute="trailing" secondItem="vOF-p1-M2s" secondAttribute="trailing" constant="5" id="vUJ-OH-eKP"/>
                                             <constraint firstItem="GDA-rc-pB5" firstAttribute="leading" secondItem="65O-qg-EzG" secondAttribute="leading" constant="8" id="wxP-PA-RiA"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
@@ -146,6 +171,7 @@
             <connections>
                 <outlet property="cashOut" destination="NTT-el-Kae" id="9De-Wk-pNi"/>
                 <outlet property="companyName" destination="hVt-07-snb" id="QYt-B0-VFF"/>
+                <outlet property="is21view" destination="vOF-p1-M2s" id="k0a-cG-4a4"/>
                 <outlet property="logo" destination="GDA-rc-pB5" id="gbr-bH-3ff"/>
                 <outlet property="progressView" destination="eIA-Ky-2Xr" id="uof-6R-0ws"/>
                 <outlet property="progressViewWidth" destination="Ubh-5Q-r4h" id="dqd-rN-nLw"/>
