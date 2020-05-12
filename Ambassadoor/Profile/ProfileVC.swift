@@ -93,8 +93,10 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	let cashHeight: CGFloat = 85
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		if indexPath.row == 3 {
+		if indexPath.row == 1 {
 			return cashHeight
+		} else if indexPath.row == 2 {
+			return CGFloat(50 + ((Yourself.categories ?? ["default"]).count * 25))
 		} else {
 			return 75
 		}
@@ -139,7 +141,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 			}
 			return cell
 		}
-		if indexPath.row == 3 {
+		if indexPath.row == 1 {
             let cell = shelf.dequeueReusableCell(withIdentifier: "cashBox", for: indexPath) as! CashOutCell
             cell.amount.text = NumberToPrice(Value: Yourself.yourMoney)
             cell.cashOut.addTarget(self, action: #selector(self.cashOutAction(sender:)), for: .touchUpInside)
@@ -147,7 +149,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 			return cell
 		}
 		let cell = shelf.dequeueReusableCell(withIdentifier: "menuItem") as! SettingCell
-		let settings = userSettings[indexPath.row - 1]
+		let settings = userSettings[indexPath.row - 2]
 		switch settings.identifier {
 		case "main_cat":
 			cell.categoryHeader.text = settings.Header
@@ -178,7 +180,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		if indexPath.row == 3 {
+		if indexPath.row == 1 {
 			shelf.deselectRow(at: indexPath, animated: false)
 			return
 		}
@@ -187,7 +189,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 			shelf.deselectRow(at: indexPath, animated: false)
 			return
 		}
-		let setting = userSettings[indexPath.row - 1]
+		let setting = userSettings[indexPath.row - 2]
 		selectedID = setting.identifier
 		switch setting.identifier {
 		case "main_cat":
@@ -252,6 +254,9 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+		
+		shelf.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 60, right: 0)
+		
 		if let profilepic = Yourself.profilePicURL {
 			ProfilePicture.downloadAndSetImage(profilepic, isCircle: true)
 		} else {

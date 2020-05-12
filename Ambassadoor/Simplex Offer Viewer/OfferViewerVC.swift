@@ -78,7 +78,9 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 
 	
     func DismissWhenReservedTimeEnd() {
-        self.dismiss(animated: true, completion: nil)
+		self.dismiss(animated: true) {
+			self.navigationController?.dismiss(animated: true, completion: nil)
+		}
     }
     
 	@IBAction func reportClicked(_ sender: Any) {
@@ -190,6 +192,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		cell.delegate = self
 		cell.acceptView.backgroundColor = acceptColorOne
 		cell.CreateAnimation()
+		cell.set21(mustBeTwentyOne: offer?.mustBe21 ?? true)
 		return cell
 	}
 	
@@ -393,7 +396,11 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     
 	@IBOutlet weak var offerViewTable: UITableView!
 	
-	var offerVariation: OfferVariation?
+	var offerVariation: OfferVariation? {
+		get {
+			return offer?.variation
+		}
+	}
 	
 	var offer: Offer?
     
@@ -465,7 +472,6 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 				
 				if status{
 					self.offer = offer
-					self.offerVariation = offer.variation
 					self.offerViewTable.dataSource = self
 					self.offerViewTable.delegate = self
 					DispatchQueue.main.async {
@@ -499,6 +505,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 			view.TargetOffer = offer
 		}else if segue.identifier == "toAcceptVerifier" {
 			let view = segue.destination as! acceptVerifierVC
+			view.set21(is21andOver: offer?.mustBe21 ?? true)
 			view.delegate = self
 		}
 	}

@@ -381,6 +381,10 @@ class AcceptCell: UITableViewCell {
 		}
 	}
 	
+	func set21(mustBeTwentyOne: Bool) {
+		acceptButton.setTitle(mustBeTwentyOne ? "ACCEPT (21+)" : "ACCEPT", for: .normal)
+	}
+	
 	var alreadyTeal = false
 	
 	func FadeToBlue() {

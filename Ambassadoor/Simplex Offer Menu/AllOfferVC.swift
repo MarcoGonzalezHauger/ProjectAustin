@@ -17,26 +17,14 @@ class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, O
     
     @IBOutlet weak var allOfferTable: UITableView!
     
-    var allOfferList = [allOfferObject]()
-    var offerVariation: OfferVariation?
+    var allOfferList = [Offer]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
 		allOfferTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
 		
-        if global.allOfferList.count == 0{
-            getAllOffer { (status, allOffer) in
-                
-                if status{
-                    self.allOfferList = allOffer!
-                    DispatchQueue.main.async {
-                        self.allOfferTable.reloadData()
-                    }
-                }
-                
-            }
-        }else{
+        if global.allOfferList.count != 0{
             self.allOfferList = global.allOfferList
             DispatchQueue.main.async {
                 self.allOfferTable.reloadData()
@@ -44,6 +32,7 @@ class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, O
         }
         
         Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.allOfferAction(timer:)), userInfo: nil, repeats: false)
+		self.allOfferAction(timer: nil)
         // Do any additional setup after loading the view.
     }
     
@@ -51,7 +40,7 @@ class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, O
         getObserveAllOffer { (status, allOffer) in
             
             if status{
-                self.allOfferList = allOffer!
+                self.allOfferList = allOffer
                 DispatchQueue.main.async {
                     self.allOfferTable.reloadData()
                 }
@@ -74,8 +63,7 @@ class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, O
             cell = nib![0] as? StandardOfferCell
         }
         
-        cell!.offer = allOfferList[indexPath.row].offer
-        cell!.isFiltered = allOfferList[indexPath.row]
+        cell!.offer = allOfferList[indexPath.row]
         
         return cell!
     }
@@ -86,19 +74,9 @@ class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, O
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         
-        let allOfferObj = allOfferList[indexPath.row]
-        if allOfferObj.isAccepted{
-            self.offerVariation = .inProgress
-        }else{
-            if allOfferObj.isFiltered{
-            self.offerVariation = .canBeAccepted
-            }else{
-            self.offerVariation = .canNotBeAccepted
-            }
-        }
         //FromAllToOV
         //self.performSegue(withIdentifier: "ViewOfferSegue", sender: allOfferList[indexPath.row].offer)
-        self.performSegue(withIdentifier: "FromAllToOV", sender: allOfferList[indexPath.row].offer)
+        self.performSegue(withIdentifier: "FromAllToOV", sender: allOfferList[indexPath.row])
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -120,7 +98,6 @@ class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, O
          //guard let newviewoffer = viewoffer else { return }
          let destination = (segue.destination as! StandardNC).topViewController as! OfferViewerVC
         
-             destination.offerVariation = offerVariation!
              destination.offer = sender as? Offer
          }
     }

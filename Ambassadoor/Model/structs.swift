@@ -51,7 +51,7 @@ class ShadowView: UIView {
 }
 
 //Structure for an offer that comes into username's inbox
-class Offer : NSObject {
+class Offer: NSObject {
     
     var status: String
 	var money: Double
@@ -92,6 +92,16 @@ class Offer : NSObject {
     var referralAmount: Double?
     var referralCommission: Double?
     var referralID: String?
+	var enoughCashForInfluencer: Bool {
+		get {
+			let pay = calculateCostForUser(offer: self, user: Yourself, increasePayVariable: self.incresePay ?? 1)
+			if let cashPower = self.cashPower {
+				return pay <= cashPower
+			} else {
+				return false
+			}
+		}
+	}
     
     var cashPower: Double?
     
@@ -102,13 +112,18 @@ class Offer : NSObject {
 	var companyDetails: CompanyDetails? {
 		get {
 			return global.BusinessUser.filter({ (co1) -> Bool in
-				return co1.account_ID ?? "" == self.businessAccountID
+				return co1.userId ?? "" == self.businessAccountID
 				}).first
 		}
 	}
 	var businessAccountID: String
     var accepted: [String]?
     
+	var notAccepted: Bool {
+		get {
+			return self.variation == .canBeAccepted || self.variation == .canNotBeAccepted
+		}
+	}
     var commission: Double?
     var isCommissionPaid: Bool?
     var user_ID: [String]?
@@ -121,6 +136,12 @@ class Offer : NSObject {
     var didRefund: Bool?
     var refundedOn: String?
     var acceptedDate: Date?
+	
+	
+	
+	//added for bars (for example)
+	var mustBe21: Bool
+	var verifiedDate: Date?
     
     var reservedUsers: [String: [String: AnyObject]]?
 	
@@ -132,8 +153,9 @@ class Offer : NSObject {
 	
 	var variation: OfferVariation {
 		get {
-			let isFollowed: Bool = Yourself.businessFollowing!.contains(companyDetails!.account_ID!)
-			if !isAccepted {
+			let isFollowed: Bool = Yourself.businessFollowing!.contains(self.businessAccountID)
+			let isAccepted2 = self.accepted?.contains(Yourself.id) ?? false
+			if !(isAccepted || isAccepted2) {
 				if isFollowed {
 					return .canBeAccepted
 				}
@@ -232,22 +254,23 @@ class Offer : NSObject {
         self.incresePay = dictionary["incresePay"] as? Double ?? 1.0
 		
 //		print(dictionary)
-//		print("\nGoing To Fail Now\n")
+		//		print("\nGoing To Fail Now\n")
 		
-		if let coId = dictionary["company"] as? String {
-			self.businessAccountID = coId
+		if let companyDeets = dictionary["companyDetails"] as? [String: AnyObject] {
+			self.businessAccountID = companyDeets["userId"] as! String
 		} else {
-			if let companyDeets = dictionary["companyDetails"] as? [String: AnyObject] {
-				self.businessAccountID = companyDeets["account_ID"] as! String
+			if let coId = dictionary["company"] as? String {
+				self.businessAccountID = coId
 			} else {
 				print(dictionary)
 				self.businessAccountID = "BRUV"
 				fatalError("No Business ID account")
 			}
 		}
-		
-		
-	
+			
+		//in case it doesn't have this information, we want to be safe legally.
+		self.mustBe21 = dictionary["mustBeTwentyOne"] as? Bool ?? true
+		self.verifiedDate = dictionary["verifiedDate"] as? Date
         self.accepted = dictionary["accepted"] as? [String] ?? []
         self.commission = dictionary["commission"] as? Double
         self.isCommissionPaid = dictionary["isCommissionPaid"] as? Bool ?? false
@@ -264,20 +287,6 @@ class Offer : NSObject {
         self.reservedUsers = dictionary["reservedUsers"] as? [String: [String: AnyObject]] ?? [:]
         
     }
-}
-
-class allOfferObject: NSObject {
-    var offer: Offer
-    var isFiltered: Bool
-    var isAccepted: Bool
-    
-    init(offer: Offer, isFiltered: Bool, isAccepted: Bool) {
-        
-        self.offer = offer
-        self.isFiltered = isFiltered
-        self.isAccepted = isAccepted
-    }
-    
 }
 
 //Strcuture for users

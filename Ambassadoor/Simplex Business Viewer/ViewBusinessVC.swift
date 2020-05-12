@@ -26,7 +26,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
     var businessDatail: CompanyDetails?
     var fromSearch: Bool?
     
-    var followOfferList = [allOfferObject]()
+    var followOfferList = [Offer]()
     var offerVariation: OfferVariation?
 	@IBOutlet weak var followButton: FollowButtonRegular!
 	
@@ -158,16 +158,16 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
         
         getOfferByBusiness(userId: businessData.userId!) { (status, offers) in
             
-            if status{
+			if offers.count != 0 {
                 
                 self.followOfferList = offers
                 
                 self.offerStatus.text = "Avaliable Offers"
                 self.offerTable.isHidden = false
 				
-				for o in offers {
-					print(o.offer.offer_ID + " + " + (o.offer.accepted ?? []).joined(separator: ", "))
-				}
+//				for o in offers {
+//					print(o.offer_ID + " + " + (o.accepted ?? []).joined(separator: ", "))
+//				}
                 
 				self.tableviewHeight.constant = CGFloat((CGFloat(offers.count) * unviersalOfferHeight) + 10)
                 
@@ -205,7 +205,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
             let nib = Bundle.main.loadNibNamed("FollowedCompaniesOffer", owner: self, options: nil)
             cell = nib![0] as? FollowedCompaniesOffer
         }
-        cell!.offer = followOfferList[indexPath.row].offer
+        cell!.offer = followOfferList[indexPath.row]
         
         
         return cell!
@@ -218,7 +218,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         
         self.offerVariation = .canBeAccepted
-        self.performSegue(withIdentifier: "FromOBtoVO", sender: followOfferList[indexPath.row].offer)
+        self.performSegue(withIdentifier: "FromOBtoVO", sender: followOfferList[indexPath.row])
         tableView.deselectRow(at: indexPath, animated: true)
 //        let allOfferObj = followOfferList[indexPath.row]
 //        if allOfferObj.isAccepted{
@@ -241,7 +241,6 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
          //guard let newviewoffer = viewoffer else { return }
          let destination = (segue.destination as! StandardNC).topViewController as! OfferViewerVC
         
-             destination.offerVariation = offerVariation!
              destination.offer = sender as? Offer
 		} else if segue.identifier == "toReporterFromBV" {
 			let destination	= segue.destination as! ReporterFeature
