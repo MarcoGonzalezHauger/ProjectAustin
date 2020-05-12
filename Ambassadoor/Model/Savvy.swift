@@ -920,7 +920,7 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
                 
                 global.followerList.append(contentsOf: offers)
                 let sorted = global.followerList.sorted { (objOne, objTwo) -> Bool in
-                return (objOne.startedAt!.compare(objTwo.startedAt!) == .orderedDescending)
+                return (objOne.startedAt.compare(objTwo.startedAt) == .orderedDescending)
                 }
                 global.followerList = sorted
             }

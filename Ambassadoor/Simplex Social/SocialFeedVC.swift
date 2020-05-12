@@ -50,7 +50,7 @@ class SocialCell: UITableViewCell {
 					self.userDes.text = "started following you"
 					self.socialBar.backgroundColor = UIColor.systemBlue
 				}
-				self.dateText.text = offerDetails.startedAt?.toString(dateFormat: "MMM dd YYYY")
+				self.dateText.text = offerDetails.startedAtString!
 			}
         }
     }
@@ -88,9 +88,9 @@ class SocialFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     @IBOutlet weak var socialFeedTable: UITableView!
     
     var followerList = [FollowingInformation]()
-    
+               
 
-	func reloadSocialData() {
+    @objc func reloadSocialData() {
 		var templist = [FollowingInformation]()
 		getFollowerList { (status, followerList) in
             if status{
@@ -102,14 +102,10 @@ class SocialFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 if status{
                     
                     templist.append(contentsOf: offers)
-                    templist.sort { (objOne, objTwo) -> Bool in
-						if objOne.startedAt ?? Date() == objTwo.startedAt ?? Date() {
-							return objOne.identifier ?? "" > objTwo.identifier ?? ""
-						} else {
-							return objOne.startedAt ?? Date() > objTwo.startedAt ?? Date()
-						}
-                    }
 					self.followerList = templist
+                    self.followerList.sort { (objOne, objTwo) -> Bool in
+                        return objOne.startedAt.compare(objTwo.startedAt) == .orderedDescending
+                    }
                     global.followerList = templist
                     DispatchQueue.main.async {
                         self.socialFeedTable.reloadData()
@@ -129,7 +125,7 @@ class SocialFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 		
 		
 		if global.followerList.count != 0 {
-			self.followerList = global.followerList
+            self.followerList = global.followerList
 			DispatchQueue.main.async {
 				self.socialFeedTable.reloadData()
 			}
@@ -139,8 +135,11 @@ class SocialFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     }
 	
 	override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadSocialData), name: Notification.Name("followaction"), object: nil)
 		reloadSocialData()
 	}
+    
     
 
     

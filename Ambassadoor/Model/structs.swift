@@ -372,7 +372,8 @@ class FollowingInformation: NSObject {
     
     var identifier: String?
     var user: User?
-    var startedAt: Date?
+    var startedAt: Date
+    var startedAtString: String?
     var offer: Offer?
     var tag: String?
     
@@ -382,11 +383,14 @@ class FollowingInformation: NSObject {
         self.user = User.init(dictionary: userDict)
         }
         if let date = dictionary["startedAt"] as? String {
-            self.startedAt = Date.getDateFromStringWithFormat(date: date, format: "MMM dd YYYY")
-            //getDateFromString(date: date)
+            self.startedAt = getDateFromString(date: date)
         }else{
-            self.startedAt = Date()
+            let curDateStr = Date.getStringFromDate(date: Date())
+            let currentDate = Date.getDateFromString(date: curDateStr!)!
+            self.startedAt = currentDate
         }
+        //self.startedAtString = dictionary["startedAt"] as? String ?? ""
+        self.startedAtString = Date.getDateFromStringWithConvertedFormatFormat(date: dictionary["startedAt"] as? String ?? "", format: "MMM dd YYYY")
         if let offer = dictionary["offer"] as? [String: AnyObject]{
             self.offer = Offer.init(dictionary: offer)
         }

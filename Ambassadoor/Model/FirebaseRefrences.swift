@@ -871,11 +871,11 @@ func updateFollowingFollowerUser(user: User, identifier: String) {
     
     let userFollowingRef = Database.database().reference().child("Following").child(Yourself.id)
     let userDetails = API.serializeUser(user: user, id: user.id)
-    userFollowingRef.updateChildValues([user.id: ["identifier": identifier,"user":userDetails,"startedAt": Date().toString(dateFormat: "MMM dd YYYY")] ])
+    userFollowingRef.updateChildValues([user.id: ["identifier": identifier,"user":userDetails,"startedAt": Date.getStringFromDate(date: Date()) as Any] ])
     
     let userFollowerRef = Database.database().reference().child("Follower").child(user.id)
     let followerDetails = API.serializeUser(user: user, id: user.id)
-    userFollowerRef.updateChildValues([Yourself.id: ["identifier": "influencer","user":followerDetails, "startedAt": Date().toString(dateFormat: "MMM dd YYYY")]])
+    userFollowerRef.updateChildValues([Yourself.id: ["identifier": "influencer","user":followerDetails, "startedAt": Date.getStringFromDate(date: Date()) as Any]])
 }
 
 func removeFollowingFollowerUser(user: User) {
@@ -894,7 +894,7 @@ func updateFollowingFollowerBusinessUser(user: CompanyDetails, identifier: Strin
 
     let userFollowingRef = Database.database().reference().child("Following").child(Yourself.id)
     let userDetails = API.serializeCompanyDetails(company: user)
-    userFollowingRef.updateChildValues([user.userId!: ["identifier": identifier,"user":userDetails,"startedAt": Date().toString(dateFormat: "MMM dd YYYY")] ])
+    userFollowingRef.updateChildValues([user.userId!: ["identifier": identifier,"user":userDetails,"startedAt":Date.getStringFromDate(date: Date()) as Any] ])
 }
 
 func removeFollowingFollowerBusinessUser(user: CompanyDetails) {

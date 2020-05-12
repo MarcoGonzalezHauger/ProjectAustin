@@ -467,17 +467,12 @@ class OfferMoneyTVC: UITableViewCell {
                     self.moneyText.text = NumberToPrice(Value: offerValue.money)
                     
                 }else{
-                    if let incresePay = offerValue.incresePay {
-                        
-                        let pay = calculateCostForUser(offer: offerValue, user: Yourself, increasePayVariable: incresePay)
+                    
+                    let pay = calculateCostForUser(offer: offerValue, user: Yourself, increasePayVariable: offerValue.incresePay!)
                         
                         self.moneyText.text = NumberToPrice(Value: pay)
                         
-                    }else{
-                        
-                        let pay = calculateCostForUser(offer: offerValue, user: Yourself)
-                        self.moneyText.text = NumberToPrice(Value: pay)
-                    }
+                    
                 }
                 
 			}

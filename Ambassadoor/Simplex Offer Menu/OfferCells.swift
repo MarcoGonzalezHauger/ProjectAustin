@@ -72,7 +72,7 @@ class StandardOfferCell: UITableViewCell {
 			}
 			self.companyName.text = offerDetail.company?.name
 			if offerDetail.isFiltered {
-				let pay = calculateCostForUser(offer: offerDetail, user: Yourself)
+                let pay = calculateCostForUser(offer: offerDetail, user: Yourself, increasePayVariable: offerDetail.incresePay!)
 				self.cashOut.isHidden = false
 				self.cashOut.text = NumberToPrice(Value: pay)
 				self.progressViewWidth.constant = self.frame.size.width * CGFloat((offerDetail.cashPower!/offerDetail.money))
