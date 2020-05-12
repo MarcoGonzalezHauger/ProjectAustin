@@ -36,15 +36,21 @@ class SocialCell: UITableViewCell {
 				if offerDetails.tag == "offer"{
 					if let company = offerDetails.offer?.companyDetails {
 						self.userDes.text = "accepted an offer from \(company.name)"
+						self.socialBar.backgroundColor = UIColor.systemPurple
 					} else {
-						self.userDes.text = "accepted an offer"
+						if offerDetails.offer?.offer_ID == "XXXDefault" {
+							self.userDes.text = "is getting verified"
+							self.socialBar.backgroundColor = UIColor.systemOrange
+						} else {
+							self.userDes.text = "accepted an offer"
+							self.socialBar.backgroundColor = UIColor.systemPurple
+						}
 					}
-					self.socialBar.backgroundColor = UIColor.systemPurple
 				}else if offerDetails.tag == "follow" {
 					self.userDes.text = "started following you"
 					self.socialBar.backgroundColor = UIColor.systemBlue
 				}
-				self.dateText.text = offerDetails.startedAt?.toString(dateFormat: "MMM dd YYYY")
+				self.dateText.text = offerDetails.startedAtString!
 			}
         }
     }
@@ -82,8 +88,34 @@ class SocialFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     @IBOutlet weak var socialFeedTable: UITableView!
     
     var followerList = [FollowingInformation]()
-    
+               
 
+    @objc func reloadSocialData() {
+		var templist = [FollowingInformation]()
+		getFollowerList { (status, followerList) in
+            if status{
+                templist.append(contentsOf: followerList)
+            }
+            
+            getFollowingAcceptedOffers { (status, offers) in
+                
+                if status{
+                    
+                    templist.append(contentsOf: offers)
+					self.followerList = templist
+                    self.followerList.sort { (objOne, objTwo) -> Bool in
+                        return objOne.startedAt.compare(objTwo.startedAt) == .orderedDescending
+                    }
+                    global.followerList = templist
+                    DispatchQueue.main.async {
+                        self.socialFeedTable.reloadData()
+                    }
+                }
+                
+            }
+        }
+	}
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -92,40 +124,22 @@ class SocialFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 		socialFeedTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
 		
 		
-        if global.followerList.count != 0 {
+		if global.followerList.count != 0 {
             self.followerList = global.followerList
-            DispatchQueue.main.async {
-                self.socialFeedTable.reloadData()
-            }
-        }
-        else{
-        getFollowerList { (status, followerList) in
-            if status{
-                self.followerList.append(contentsOf: followerList)
-                
-            }
-            
-            getFollowingAcceptedOffers { (status, offers) in
-                
-                if status{
-                    
-                    self.followerList.append(contentsOf: offers)
-                    let sorted = self.followerList.sorted { (objOne, objTwo) -> Bool in
-                    return (objOne.startedAt!.compare(objTwo.startedAt!) == .orderedDescending)
-                    }
-                    self.followerList = sorted
-                    global.followerList.removeAll()
-                    global.followerList = sorted
-                    DispatchQueue.main.async {
-                        self.socialFeedTable.reloadData()
-                    }
-                }
-                
-            }
-        }
+			DispatchQueue.main.async {
+				self.socialFeedTable.reloadData()
+			}
+		}
+		reloadSocialData()
+		
     }
-        
-    }
+	
+	override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadSocialData), name: Notification.Name("followaction"), object: nil)
+		reloadSocialData()
+	}
+    
     
 
     

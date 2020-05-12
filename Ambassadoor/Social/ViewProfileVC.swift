@@ -49,13 +49,18 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                 followingList?.remove(at: i)
                 Yourself.following = followingList
                 updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
+                removeFollowingFollowerUser(user: ThisUser)
+                NotificationCenter.default.post(name: Notification.Name("followaction"), object: nil, userInfo: ["userinfo":"1"])
             }
+            
         }else{
 			//FOLLOW
             var followingList = Yourself.following
             followingList?.append(ThisUser.id)
             Yourself.following = followingList
             updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
+            updateFollowingFollowerUser(user: ThisUser, identifier: "influencer")
+            NotificationCenter.default.post(name: Notification.Name("followaction"), object: nil, userInfo: ["userinfo":"1"])
         }
 		delegate?.followingUpdated()
 	}
@@ -108,7 +113,9 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		catLabel.text = ThisUser.categories?.joined(separator: "\n")
         
 		if let joinedDate = ThisUser.joinedDate {
-			sinceLabel.text = "Ambassador Since \(String(joinedDate.prefix(4)))"
+			print(ThisUser.joinedDate)
+			let dateString = getDateFromString(date: joinedDate).toString(dateFormat: "MMMM YYYY")
+			sinceLabel.text = "Ambassador Since \(dateString)"
 		} else {
 			sinceLabel.text = ""
 		}

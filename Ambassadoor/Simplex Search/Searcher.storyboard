@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6Q1-4r-QbC">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6Q1-4r-QbC">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,20 +11,20 @@
             <objects>
                 <viewController storyboardIdentifier="SimplexSearch" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6Q1-4r-QbC" customClass="SearchMenuVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="U6v-JN-Ar8">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bJ8-0y-OrD">
-                                <rect key="frame" x="0.0" y="139" width="414" height="757"/>
+                                <rect key="frame" x="0.0" y="95" width="600" height="505"/>
                                 <connections>
                                     <segue destination="wp5-xe-NcL" kind="embed" identifier="PageView" id="stR-0p-bft"/>
                                 </connections>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LrO-XP-73G" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="-10" width="414" height="149"/>
+                                <rect key="frame" x="0.0" y="-10" width="600" height="105"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="US7-Bc-mcK">
-                                        <rect key="frame" x="20" y="110.5" width="374" height="32"/>
+                                        <rect key="frame" x="20" y="66.5" width="560" height="32"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="31" id="Agz-AY-Am1"/>
                                         </constraints>
@@ -40,7 +38,7 @@
                                         </connections>
                                     </segmentedControl>
                                     <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="mA7-tK-Krh">
-                                        <rect key="frame" x="12" y="54.5" width="390" height="56"/>
+                                        <rect key="frame" x="12" y="10.5" width="576" height="56"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
                                             <outlet property="delegate" destination="6Q1-4r-QbC" id="VPw-B0-0f5"/>
@@ -184,7 +182,7 @@
                     </view>
                     <size key="freeformSize" width="414" height="700"/>
                     <connections>
-                        <outlet property="influencrTable" destination="HZ0-2X-NSF" id="4HJ-MF-gDQ"/>
+                        <outlet property="influencerTable" destination="HZ0-2X-NSF" id="4HJ-MF-gDQ"/>
                         <segue destination="oFz-iu-DqV" kind="presentation" identifier="FromInfluencerList" id="XmN-q9-D3W"/>
                     </connections>
                 </viewController>

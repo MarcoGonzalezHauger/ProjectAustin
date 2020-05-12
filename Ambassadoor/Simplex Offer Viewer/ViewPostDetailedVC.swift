@@ -43,7 +43,6 @@ class ViewPostDetailedVC: UIViewController {
         
         let colorValue = ViewPostColorfulVC.getColor(index: self.index!)
         self.postName.text = "Post \(colorValue.1)"
-        self.shadow.isHidden = true
         
         if postValue.0 == .Rejected{
             
@@ -51,6 +50,7 @@ class ViewPostDetailedVC: UIViewController {
             self.insTitle.textColor = .systemRed
             
             self.instruction.text = post.denyMessage!
+			self.shadow.isHidden = true
             
         }else if postValue.0 == .NotPosted{
             
@@ -77,6 +77,27 @@ class ViewPostDetailedVC: UIViewController {
             
         }else{
             self.instruction.text = post.instructions
+            
+            self.shadow.isHidden = false
+            
+            if self.offer!.posts[index!].keywords.count != 0 {
+                self.captionItems.append(contentsOf: self.offer!.posts[index!].keywords)
+            }
+            
+            if self.offer!.posts[index!].hashtags.count != 0 {
+                
+                let hashes = self.offer!.posts[index!].hashtags.map { (hash) -> String in
+                    return "#\(hash)"
+                }
+                self.captionItems.append(contentsOf: hashes)
+            }
+            
+            if self.captionItems.count != 0{
+                let caption = self.captionItems.reduce("") { (final, next) -> String in
+                        return final + next + "\n"
+                }
+                self.tagData.text = caption
+            }
         }
         
     }

@@ -234,9 +234,30 @@
                                             <outlet property="postThreeHeight" destination="4iQ-p3-FGo" id="fCV-zK-L7z"/>
                                             <outlet property="postTwo" destination="XyL-7L-cIp" id="iKY-JS-y1h"/>
                                             <outlet property="postTwoHeight" destination="fU2-1M-RgN" id="pGz-A7-MDN"/>
+                                            <outlet property="progTemplate" destination="wjZ-Pw-X2b" id="9mQ-Hl-Unh"/>
                                             <outlet property="progressWidth" destination="k3u-DV-fgZ" id="Vuw-kX-itY"/>
                                             <outlet property="progrssView" destination="xj2-B6-G5J" id="gJA-gw-UFN"/>
                                         </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="prevOffer" rowHeight="45" id="21X-TS-ETc">
+                                        <rect key="frame" x="0.0" y="228" width="414" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="21X-TS-ETc" id="XZE-jd-Yc8">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Previous Offers" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nJs-mD-DoU">
+                                                    <rect key="frame" x="148" y="12.5" width="118" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="nJs-mD-DoU" firstAttribute="centerX" secondItem="XZE-jd-Yc8" secondAttribute="centerX" id="20B-Ck-36g"/>
+                                                <constraint firstItem="nJs-mD-DoU" firstAttribute="centerY" secondItem="XZE-jd-Yc8" secondAttribute="centerY" id="NSZ-dF-wVM"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -274,6 +295,33 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PIk-Kc-AGE">
+                                <rect key="frame" x="5" y="384" width="404" height="128"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="33s-V4-JoC">
+                                        <rect key="frame" x="117" y="63" width="170" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <state key="normal" title="View Avaliable Offers"/>
+                                        <connections>
+                                            <action selector="goToOffers:" destination="BoV-Vi-P6L" eventType="touchUpInside" id="naf-5Y-dbm"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You haven't accepted any offers yet." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r0p-up-Kjc">
+                                        <rect key="frame" x="63.5" y="22" width="277.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstItem="33s-V4-JoC" firstAttribute="top" secondItem="r0p-up-Kjc" secondAttribute="bottom" constant="20.5" id="bED-Jf-IZR"/>
+                                    <constraint firstItem="r0p-up-Kjc" firstAttribute="centerX" secondItem="PIk-Kc-AGE" secondAttribute="centerX" id="hRV-PY-YS2"/>
+                                    <constraint firstItem="r0p-up-Kjc" firstAttribute="top" secondItem="PIk-Kc-AGE" secondAttribute="top" constant="22" id="iy9-5X-E3o"/>
+                                    <constraint firstItem="33s-V4-JoC" firstAttribute="centerX" secondItem="PIk-Kc-AGE" secondAttribute="centerX" id="tdS-90-fSd"/>
+                                    <constraint firstAttribute="height" constant="128" id="yga-oH-So6"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -283,15 +331,21 @@
                             <constraint firstItem="pp9-8k-99M" firstAttribute="leading" secondItem="7AZ-dB-7R7" secondAttribute="leading" id="8QJ-qt-H1S"/>
                             <constraint firstItem="7AZ-dB-7R7" firstAttribute="bottom" secondItem="RIo-fv-3bb" secondAttribute="bottom" id="AeL-NU-8eg"/>
                             <constraint firstItem="RIo-fv-3bb" firstAttribute="top" secondItem="7AZ-dB-7R7" secondAttribute="top" constant="50" id="D8S-21-j7V"/>
+                            <constraint firstItem="7AZ-dB-7R7" firstAttribute="trailing" secondItem="PIk-Kc-AGE" secondAttribute="trailing" constant="5" id="Yak-Xx-Imr"/>
                             <constraint firstItem="RIo-fv-3bb" firstAttribute="leading" secondItem="7AZ-dB-7R7" secondAttribute="leading" id="ivl-ho-5RH"/>
+                            <constraint firstItem="PIk-Kc-AGE" firstAttribute="leading" secondItem="7AZ-dB-7R7" secondAttribute="leading" constant="5" id="j8a-mO-X3h"/>
                             <constraint firstItem="pp9-8k-99M" firstAttribute="trailing" secondItem="7AZ-dB-7R7" secondAttribute="trailing" id="lCD-bs-hgI"/>
+                            <constraint firstItem="PIk-Kc-AGE" firstAttribute="centerY" secondItem="gmA-0E-RBW" secondAttribute="centerY" id="o8S-Tc-nbB"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="7AZ-dB-7R7"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="In Progress" image="in progress" id="lDr-8H-HMH"/>
+                    <tabBarItem key="tabBarItem" title="In Progress" image="in progress" id="lDr-8H-HMH">
+                        <color key="badgeColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </tabBarItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="inProgressTable" destination="RIo-fv-3bb" id="fHP-YZ-qlR"/>
+                        <outlet property="noneView" destination="PIk-Kc-AGE" id="dxO-ru-b7T"/>
                         <segue destination="JjQ-cf-5xF" kind="presentation" identifier="FromInprogressToOV" id="J2f-qM-dS5"/>
                     </connections>
                 </viewController>

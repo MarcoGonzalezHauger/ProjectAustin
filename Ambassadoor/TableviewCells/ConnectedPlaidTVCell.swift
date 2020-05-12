@@ -13,7 +13,7 @@ class ConnectedPlaidTVCell: UITableViewCell {
     @IBOutlet weak var nameText: UILabel!
     @IBOutlet weak var acctIDText: UILabel!
     @IBOutlet weak var withdrawButton: UIButton!
-    @IBOutlet weak var transactionButton: UIButton!
+    //@IBOutlet weak var transactionButton: UIButton!
 
 
     override func awakeFromNib() {

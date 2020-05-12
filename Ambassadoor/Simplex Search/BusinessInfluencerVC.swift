@@ -17,11 +17,13 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
 	}
 	
     func SearchTextIndex(text: String, segmentIndex: Int) {
-        
         self.GetSearchedTotalItems(query: text) { (users) in
             self.totalUserTempData = users
             DispatchQueue.main.async {
                 self.UserTable.reloadData()
+				if users.count != 0 {
+					self.UserTable.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: false)
+				}
             }
         }
         
@@ -155,21 +157,83 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func GetSearchedTotalItems(query: String?, completed: @escaping (_ Results: [AnyObject]) -> ()) {
-            //let predicate = NSPredicate(format: "SELF.username contains[c] %@", searchBar.text!)
-        let userSearchedList = self.totalUserData.filter { (user) -> Bool in
-            
-            if let inflencer = user as? User{
-                return inflencer.name!.lowercased().hasPrefix(query!.lowercased())
-            }else{
-                let businessUser = user as! CompanyDetails
-                return businessUser.name.lowercased().hasPrefix(query!.lowercased())
-            }
-            
-        
-    }
-        completed(userSearchedList)
-        
-    }
+		//let predicate = NSPredicate(format: "SELF.username contains[c] %@", searchBar.text!)
+		
+		//let predicate = NSPredicate(format: "SELF.username contains[c] %@", searchBar.text!)
+		
+		if query == "" {
+			completed(totalUserData)
+			return
+		}
+		
+		var strengthDic: [String:Int] = [:]
+		var allowed: [AnyObject] = []
+		
+		if let query = query?.lowercased() {
+			for item in totalUserData {
+				if let co = item as? CompanyDetails {
+					if co.name.lowercased().starts(with: query) {
+						allowed.append(co)
+						strengthDic[co.account_ID ?? "business"] = 100
+					} else if co.name.contains(query) {
+						allowed.append(co)
+						strengthDic[co.account_ID ?? "business"] = 70
+					}
+				} else if let x = item as? User {
+					var isDone = false
+					if let urname = x.name {
+						if urname.lowercased().hasPrefix(query.lowercased()) {
+							allowed.append(x)
+							strengthDic[x.id] = 90
+							isDone = true
+						} else if urname.lowercased().contains(query.lowercased()) {
+							allowed.append(x)
+							strengthDic[x.id] = 60
+							isDone = true
+						}
+					}
+					if isDone == false {
+						if x.username.lowercased().hasPrefix(query.lowercased()) {
+							allowed.append(x)
+							strengthDic[x.id] = 80
+						} else if x.username.lowercased().contains(query.lowercased()) {
+							allowed.append(x)
+							strengthDic[x.id] = 50
+						}
+					}
+				}
+			}
+		}
+		
+		allowed.sort { (item1, item2) -> Bool in
+			var i1 = 0
+			var name1 = ""
+			var i2 = 0
+			var name2 = ""
+			if let item1 = item1 as? CompanyDetails {
+				name1 = item1.name
+				i1 = strengthDic[item1.account_ID ?? "business"]!
+			} else if let item1 = item1 as? User {
+				name1 = item1.name!
+				i1 = strengthDic[item1.id]!
+			}
+			if let item2 = item2 as? CompanyDetails {
+				name2 = item2.name
+				i2 = strengthDic[item2.account_ID ?? "business"]!
+			} else if let item2 = item2 as? User {
+				name2 = item2.name!
+				i2 = strengthDic[item2.id]!
+			}
+			if i1 == i2 {
+				return name1 > name2
+			} else {
+				return i1 > i2
+			}
+		}
+		
+		completed(allowed)
+		
+	}
 	
     @IBAction func followBusinessAction(_ sender: UIButton){
         

@@ -8,39 +8,6 @@
 
 import UIKit
 
-class FollowedCompaniesOffer: UITableViewCell {
-	
-	@IBOutlet weak var logo: UIImageView!
-	@IBOutlet weak var cashOut: UILabel!
-	@IBOutlet weak var companyName: UILabel!
-	@IBOutlet weak var progressView: ShadowView!
-	
-	@IBOutlet weak var progressViewWidth: NSLayoutConstraint!
-	var offer: Offer?{
-		didSet{
-			if let offerDetail = offer{
-				if let picurl = offerDetail.company?.logo {
-					self.logo.downloadAndSetImage(picurl)
-				} else {
-					self.logo.UseDefaultImage()
-				}
-				
-				
-				let pay = calculateCostForUser(offer: offerDetail, user: Yourself)
-				self.cashOut.text = NumberToPrice(Value: pay)
-				self.progressViewWidth.constant = self.frame.size.width * CGFloat((offerDetail.cashPower!/offerDetail.money))
-				self.progressView.backgroundColor = UIColor.init(red: 1, green: 227/255, blue: 35/255, alpha: 1)
-				self.companyName.text = offerDetail.company?.name
-				self.updateConstraints()
-				self.layoutIfNeeded()
-				
-			}
-			
-		}
-	}
-	
-}
-
 class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, OfferResponse {
     func OfferAccepted(offer: Offer) {
         
@@ -49,47 +16,34 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     @IBOutlet weak var offerTable: UITableView!
     
-    var followOfferList = [allOfferObject]()
-    
-    var offerVariation: OfferVariation?
+    var followOfferList = [Offer]()
 
     override func viewDidLoad() {
-        super.viewDidLoad()
+		super.viewDidLoad()
 		
 		offerTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
-        
-        if global.followOfferList.count == 0 {
-        
-        getFollowerCompaniesOffer(followers: Yourself.businessFollowing!) { (status, offers) in
-            
-            if status {
-                self.followOfferList = offers!
-                DispatchQueue.main.async {
-                    self.offerTable.reloadData()
-                }
-            }
-            
-        }
-        }else{
-            self.followOfferList = global.followOfferList
-            DispatchQueue.main.async {
-                self.offerTable.reloadData()
-        }
-        // Do any additional setup after loading the view.
-    }
-        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.followerCompaniesAction(timer:)), userInfo: nil, repeats: false)
-    }
+		
+		if global.followOfferList.count != 0 {
+			self.followOfferList = global.followOfferList
+			DispatchQueue.main.async {
+				self.offerTable.reloadData()
+			}
+			// Do any additional setup after loading the view.
+		}
+		Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.followerCompaniesAction(timer:)), userInfo: nil, repeats: false)
+		self.followerCompaniesAction(timer: nil)
+	}
     
-    @objc func followerCompaniesAction(timer: Timer?) {
-        getObserveFollowerCompaniesOffer(followers: Yourself.businessFollowing!) { (status, offers) in
-        
-        if status {
-            self.followOfferList = offers!
-            DispatchQueue.main.async {
-                self.offerTable.reloadData()
-            }
-        }
-        }
+	@objc func followerCompaniesAction(timer: Timer?) {
+		getObserveFollowerCompaniesOffer() { (status, offers) in
+			
+			if status {
+				self.followOfferList = offers
+				DispatchQueue.main.async {
+					self.offerTable.reloadData()
+				}
+			}
+		}
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -105,7 +59,7 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             let nib = Bundle.main.loadNibNamed("FollowedCompaniesOffer", owner: self, options: nil)
             cell = nib![0] as? FollowedCompaniesOffer
         }
-        cell!.offer = followOfferList[indexPath.row].offer
+        cell!.offer = followOfferList[indexPath.row]
         
         
         return cell!
@@ -117,13 +71,7 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         //self.performSegue(withIdentifier: "FromFollowedOfferSegue", sender: followOfferList[indexPath.row])
-        let allOfferObj = followOfferList[indexPath.row]
-        if allOfferObj.isAccepted{
-        offerVariation = .inProgress
-        }else{
-        offerVariation = .canBeAccepted
-        }
-        self.performSegue(withIdentifier: "FromFollowedToOV", sender: followOfferList[indexPath.row].offer)
+        self.performSegue(withIdentifier: "FromFollowedToOV", sender: followOfferList[indexPath.row])
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
@@ -150,7 +98,6 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         //guard let newviewoffer = viewoffer else { return }
         let destination = (segue.destination as! StandardNC).topViewController as! OfferViewerVC
        
-            destination.offerVariation = offerVariation!
             destination.offer = sender as? Offer
         }
         

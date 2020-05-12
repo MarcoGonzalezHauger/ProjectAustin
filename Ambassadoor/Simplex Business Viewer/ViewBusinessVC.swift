@@ -26,7 +26,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
     var businessDatail: CompanyDetails?
     var fromSearch: Bool?
     
-    var followOfferList = [allOfferObject]()
+    var followOfferList = [Offer]()
     var offerVariation: OfferVariation?
 	@IBOutlet weak var followButton: FollowButtonRegular!
 	
@@ -86,7 +86,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
             if let url = URL.init(string: businessData.website!){
                 
                 if let host = url.host{
-                   self.website.setTitle(" " + host, for: .normal)
+                   self.getDomainFromUnFormatedUrl(businessData: businessData)
                 }else{
                     self.getDomainFromUnFormatedUrl(businessData: businessData)
                 }
@@ -113,43 +113,63 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
 	}
 	
     func getDomainFromUnFormatedUrl(businessData: CompanyDetails) {
-        if businessData.website!.starts(with: "https://"){
-            let websiteString = businessData.website!
+		var websiteString = businessData.website!.lowercased()
+		var result = ""
+		while(websiteString.contains("///")) {
+			websiteString = websiteString.replacingOccurrences(of: "///", with: "//")
+		}
+        if websiteString.starts(with: "https://"){
 
             let removedString = websiteString.replacingOccurrences(of: "https://", with: "")
 
             let stringPool = removedString.components(separatedBy: "/")
 
-            self.website.setTitle(" " + stringPool.first!, for: .normal)
-        }else if businessData.website!.starts(with: "http://"){
-            let websiteString = businessData.website!
+            result = stringPool.first!
+        }else if websiteString.starts(with: "http://"){
 
             let removedString = websiteString.replacingOccurrences(of: "http://", with: "")
 
             let stringPool = removedString.components(separatedBy: "/")
-
-            self.website.setTitle(" " + stringPool.first!, for: .normal)
-		} else if businessData.website! == "" {
+			
+            result = stringPool.first!
+		} else if websiteString == "" {
 			self.website.setTitle(" No Website", for: .normal)
 			self.website.isEnabled = false
+			return
         }else{
-            let stringPool = businessData.website!.components(separatedBy: "/")
-             self.website.setTitle(" " + stringPool.first!, for: .normal)
+			print(websiteString)
+			let stringPool = websiteString.components(separatedBy: "/")
+            result = stringPool.first!
         }
+		
+		print("before: \(result)")
+		
+		switch result.split(separator: ".").count {
+		case 1: result = "www.\(result).com"
+		case 2: result = "www.\(result)"
+		default: break
+		}
+		
+		
+		self.website.setTitle(" " + result, for: .normal)
     }
     
     func getFollowing(businessData: CompanyDetails) {
         
         getOfferByBusiness(userId: businessData.userId!) { (status, offers) in
             
-            if status{
+			if offers.count != 0 {
                 
                 self.followOfferList = offers
                 
                 self.offerStatus.text = "Avaliable Offers"
                 self.offerTable.isHidden = false
+				
+//				for o in offers {
+//					print(o.offer_ID + " + " + (o.accepted ?? []).joined(separator: ", "))
+//				}
                 
-                self.tableviewHeight.constant = CGFloat((CGFloat(offers.count) * unviersalOfferHeight) + 10)
+				self.tableviewHeight.constant = CGFloat((CGFloat(offers.count) * unviersalOfferHeight) + 10)
                 
                 self.offerTable.updateConstraints()
                 self.offerTable.layoutIfNeeded()
@@ -185,7 +205,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
             let nib = Bundle.main.loadNibNamed("FollowedCompaniesOffer", owner: self, options: nil)
             cell = nib![0] as? FollowedCompaniesOffer
         }
-        cell!.offer = followOfferList[indexPath.row].offer
+        cell!.offer = followOfferList[indexPath.row]
         
         
         return cell!
@@ -198,7 +218,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         
         self.offerVariation = .canBeAccepted
-        self.performSegue(withIdentifier: "FromOBtoVO", sender: followOfferList[indexPath.row].offer)
+        self.performSegue(withIdentifier: "FromOBtoVO", sender: followOfferList[indexPath.row])
         tableView.deselectRow(at: indexPath, animated: true)
 //        let allOfferObj = followOfferList[indexPath.row]
 //        if allOfferObj.isAccepted{
@@ -221,7 +241,6 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
          //guard let newviewoffer = viewoffer else { return }
          let destination = (segue.destination as! StandardNC).topViewController as! OfferViewerVC
         
-             destination.offerVariation = offerVariation!
              destination.offer = sender as? Offer
 		} else if segue.identifier == "toReporterFromBV" {
 			let destination	= segue.destination as! ReporterFeature

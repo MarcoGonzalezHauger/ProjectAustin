@@ -10,6 +10,13 @@ import Foundation
 import UIKit
 
 public let AllCategories: [String] = [
+	"Vegan", //Diet Preferences
+	"Vegetarian",
+	"Over 21",
+	"Pescaterian",
+	"Gluten-Free",
+	"Lactose Intolerant",
+	"Paleo Diet",
 	"Animal Photography", //Animals
 	"Pets",
 	"Pet Product Reviewer",
@@ -23,7 +30,7 @@ public let AllCategories: [String] = [
 	"Diet Reviewer",
 	"Meme Account", //Commedy
 	"Comedian",
-	"Stand up Comedy",
+	"Stand up Comedian",
 	"Family", //Lifestlye
 	"Adventurer",
 	"Mother",
@@ -164,14 +171,22 @@ enum categoryClass: String, CaseIterable {
 	case artist = "Artist"
 	case memes = "Memes"
 	case organization = "Organization"
+	case dietPreferences = "Diet Preferences"
 }
 
 let selectedBoxColor = UIColor(red: 255/255, green: 121/255, blue: 8/255, alpha: 1)
 
-let allCategoryClasses: [categoryClass] = [.petsAnimals, .food, .comedy, .lifestyle, .sports, .athletics, .photography, .automotive, .crafts, .technology, .gaming, .fashion, .music, .literature, .entertainment, .moviesandtv, .political, .realestate, .professional, .artist, .memes, .organization]
+let allCategoryClasses: [categoryClass] = [.dietPreferences, .petsAnimals, .food, .comedy, .lifestyle, .sports, .athletics, .photography, .automotive, .crafts, .technology, .gaming, .fashion, .music, .literature, .entertainment, .moviesandtv, .political, .realestate, .professional, .artist, .memes, .organization]
 
-let ClassToCategories: [categoryClass: [String]] = [.petsAnimals: animals, .food: food, .comedy: comedy, .lifestyle: lifestyle, .sports: sports, .athletics: athletics, .photography: photography, .automotive: automotive, .crafts: crafts, .technology: technology, .gaming: gaming, .fashion: fashion, .music: music, .literature: literature, .entertainment: entertainment, .moviesandtv: moviesandshows, .political: political, .realestate: realestate, .professional: professional, .artist: aritst, .memes: meme, .organization: organization]
+let ClassToCategories: [categoryClass: [String]] = [.petsAnimals: animals, .food: food, .comedy: comedy, .lifestyle: lifestyle, .sports: sports, .athletics: athletics, .photography: photography, .automotive: automotive, .crafts: crafts, .technology: technology, .gaming: gaming, .fashion: fashion, .music: music, .literature: literature, .entertainment: entertainment, .moviesandtv: moviesandshows, .political: political, .realestate: realestate, .professional: professional, .artist: aritst, .memes: meme, .organization: organization, .dietPreferences: dietPreferences]
 
+let dietPreferences = ["Vegan", //Diet Preferences
+"Vegetarian",
+"Over 21",
+"Pescaterian",
+"Gluten-Free",
+"Lactose Intolerant",
+"Paleo Diet"]
 let animals = ["Animal Photography", //Animals
 "Pets",
 "Pet Product Reviewer"]
@@ -185,7 +200,7 @@ let food = ["Foodie", //Food
 "Diet Reviewer"]
 let comedy = ["Meme Account", //Commedy
 "Comedian",
-"Stand up Comedy"]
+"Stand up Comedian"]
 let lifestyle = ["Family", //Lifestlye
 "Adventurer",
 "Mother",

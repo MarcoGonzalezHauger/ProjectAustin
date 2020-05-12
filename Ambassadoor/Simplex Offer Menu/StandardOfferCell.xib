@@ -65,10 +65,35 @@
                                                     </label>
                                                 </subviews>
                                             </stackView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D0z-od-nLz" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                                <rect key="frame" x="359.5" y="5" width="37.5" height="24.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="21+" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JDe-6b-MYS">
+                                                        <rect key="frame" x="4" y="2" width="29.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="JDe-6b-MYS" secondAttribute="trailing" constant="4" id="87C-hu-atU"/>
+                                                    <constraint firstItem="JDe-6b-MYS" firstAttribute="leading" secondItem="D0z-od-nLz" secondAttribute="leading" constant="4" id="AuX-zI-WsI"/>
+                                                    <constraint firstAttribute="bottom" secondItem="JDe-6b-MYS" secondAttribute="bottom" constant="2" id="Wlq-6d-gos"/>
+                                                    <constraint firstItem="JDe-6b-MYS" firstAttribute="top" secondItem="D0z-od-nLz" secondAttribute="top" constant="2" id="Wx9-Dc-3FB"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <real key="value" value="6"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
+                                            <constraint firstItem="D0z-od-nLz" firstAttribute="top" secondItem="1pH-0w-KfW" secondAttribute="top" constant="5" id="30U-nM-On9"/>
                                             <constraint firstItem="KbY-dx-eai" firstAttribute="leading" secondItem="1pH-0w-KfW" secondAttribute="leading" constant="8" id="Qlt-3B-Fug"/>
+                                            <constraint firstAttribute="trailing" secondItem="D0z-od-nLz" secondAttribute="trailing" constant="5" id="aHi-dy-trI"/>
                                             <constraint firstItem="tRN-Yb-q4q" firstAttribute="leading" secondItem="KbY-dx-eai" secondAttribute="trailing" constant="8" id="ekR-2o-aZR"/>
                                             <constraint firstItem="KbY-dx-eai" firstAttribute="centerY" secondItem="1pH-0w-KfW" secondAttribute="centerY" id="nNo-GY-2aG"/>
                                             <constraint firstItem="tRN-Yb-q4q" firstAttribute="centerY" secondItem="KbY-dx-eai" secondAttribute="centerY" id="xx7-0y-ptQ"/>
@@ -144,6 +169,7 @@
             <connections>
                 <outlet property="cashOut" destination="pHg-Ip-M7T" id="MUR-9h-Acu"/>
                 <outlet property="companyName" destination="314-9a-4Cv" id="Q7L-fo-ffD"/>
+                <outlet property="is21view" destination="D0z-od-nLz" id="NR3-RE-YKc"/>
                 <outlet property="logo" destination="KbY-dx-eai" id="zRL-C6-p0g"/>
                 <outlet property="progressView" destination="9ac-i6-6jp" id="A1e-fo-d3d"/>
                 <outlet property="progressViewWidth" destination="zMg-06-6L2" id="zcT-o2-Cat"/>

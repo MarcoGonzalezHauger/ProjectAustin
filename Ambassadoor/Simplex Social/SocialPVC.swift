@@ -13,15 +13,20 @@ class SocialPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
     
 	
     func socialSegmentIndex(index: Int) {
-        let viewController = OrderedVC[index]
+        let viewController = OrderedVC[self.lastIndex]
         goToPage(index: index, sender: viewController)
+        self.lastIndex = index
     }
+	
+	var lastIndex = 0
+	
 	//Turn page -1
 	func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
 		guard let i : Int = OrderedVC.lastIndex(of: viewController) else { return nil }
 		if i - 1 < 0 {
 			return nil
 		}
+        self.lastIndex = i
 		return OrderedVC[i - 1]
 	}
 	
@@ -31,6 +36,7 @@ class SocialPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
 		if i + 1 >= OrderedVC.count {
 			return nil
 		}
+        self.lastIndex = i
 		return OrderedVC[i + 1]
 	}
 	

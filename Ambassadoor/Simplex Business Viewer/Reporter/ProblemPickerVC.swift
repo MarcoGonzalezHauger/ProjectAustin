@@ -59,7 +59,7 @@ class ProblemPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 		if let destination = segue.destination as? ReportWriterVC {
 			destination.option = optionToPass
 			destination.isBusiness = isBusiness
-			destination.id = isBusiness ? (object as! CompanyDetails).account_ID : (object as! Offer).offer_ID
+			destination.id = isBusiness ? (object as! CompanyDetails).userId : (object as! Offer).offer_ID
 		}
 	}
 	

@@ -29,7 +29,11 @@ class ShadowView: UIView {
     @IBInspectable var ShadowOpacity: Float = 0.2 { didSet { DrawShadows() } }
     @IBInspectable var ShadowRadius: Float = 1.75 { didSet { DrawShadows() } }
     @IBInspectable var ShadowColor: UIColor = UIColor.black { didSet { DrawShadows() } }
-    @IBInspectable var borderWidth: Float = 0.0 { didSet { DrawShadows() }}
+    @IBInspectable var borderWidth: Float = 0.0 { didSet {
+		
+		DrawShadows()
+				
+		}}
     @IBInspectable var borderColor: UIColor = GetForeColor() { didSet { DrawShadows() }}
     
     func DrawShadows() {
@@ -47,7 +51,7 @@ class ShadowView: UIView {
 }
 
 //Structure for an offer that comes into username's inbox
-class Offer : NSObject {
+class Offer: NSObject {
     
     var status: String
 	var money: Double
@@ -70,10 +74,15 @@ class Offer : NSObject {
 	}
 	var isAccepted: Bool
 	var isExpired: Bool {
-		return self.expiredate.timeIntervalSinceNow <= 0
+		if let ad = acceptedDate {
+			//hour * 48
+			return ad.addingTimeInterval(TimeInterval(3600 * 48 * self.posts.count)).timeIntervalSinceNow <= 0
+		} else {
+			return false
+		}
 	}
 	var debugInfo: String {
-		return "Offer by \(company?.name) for $\(String(money)) that is \(isExpired ? "" : "not ") expired."
+		return "Offer by \(String(describing: company?.name)) for $\(String(money)) that is \(isExpired ? "" : "not ") expired."
 	}
     var ownerUserID: String
     var title: String
@@ -83,6 +92,16 @@ class Offer : NSObject {
     var referralAmount: Double?
     var referralCommission: Double?
     var referralID: String?
+	var enoughCashForInfluencer: Bool {
+		get {
+			let pay = calculateCostForUser(offer: self, user: Yourself, increasePayVariable: self.incresePay ?? 1)
+			if let cashPower = self.cashPower {
+				return pay <= cashPower
+			} else {
+				return false
+			}
+		}
+	}
     
     var cashPower: Double?
     
@@ -90,9 +109,21 @@ class Offer : NSObject {
     
     var incresePay: Double?
     
-    var companyDetails: CompanyDetails?
+	var companyDetails: CompanyDetails? {
+		get {
+			return global.BusinessUser.filter({ (co1) -> Bool in
+				return co1.userId ?? "" == self.businessAccountID
+				}).first
+		}
+	}
+	var businessAccountID: String
     var accepted: [String]?
     
+	var notAccepted: Bool {
+		get {
+			return self.variation == .canBeAccepted || self.variation == .canNotBeAccepted
+		}
+	}
     var commission: Double?
     var isCommissionPaid: Bool?
     var user_ID: [String]?
@@ -104,9 +135,68 @@ class Offer : NSObject {
     var shouldRefund: Bool?
     var didRefund: Bool?
     var refundedOn: String?
-    var updatedDate: Date?
+    var acceptedDate: Date?
+	
+	
+	
+	//added for bars (for example)
+	var mustBe21: Bool
+	var verifiedDate: Date?
     
     var reservedUsers: [String: [String: AnyObject]]?
+	
+	var isFiltered: Bool {
+		get {
+			return offerIsFiliteredForUser(offer: self)
+		}
+	}
+	
+	var variation: OfferVariation {
+		get {
+			let isFollowed: Bool = Yourself.businessFollowing!.contains(self.businessAccountID)
+			let isAccepted2 = self.accepted?.contains(Yourself.id) ?? false
+			if !(isAccepted || isAccepted2) {
+				if isFollowed {
+					return .canBeAccepted
+				}
+				if let diff = Calendar.current.dateComponents([.hour], from: offerdate, to: Date()).hour, diff > 36 {
+					return .canBeAccepted
+				}
+				
+				return isFiltered ? .canBeAccepted : .canNotBeAccepted
+			} else {
+				let total = posts.count
+				let postedCount = (posts.filter {$0.status == "posted"}).count
+				let verifiedCount = (posts.filter {$0.status == "verified"}).count
+				let rejectedCount = (posts.filter {$0.status == "rejected"}).count
+				let paidCount = (posts.filter {$0.status == "paid"}).count
+				let missing = total - (postedCount + verifiedCount + rejectedCount + paidCount)
+				let notPostedCount = isExpired ? 0 : missing
+				let expiredCount = isExpired ? missing : 0
+				
+				if notPostedCount == 0 {
+					if rejectedCount == total {
+						return .allPostsDenied
+					} else {
+						if expiredCount == total {
+							return .didNotPostInTime
+						}
+						if paidCount == verifiedCount + postedCount {
+							return .hasBeenPaid
+						}
+						return .hasBeenPaid
+					}
+				} else {
+					return .inProgress
+				}
+			}
+		}
+	}
+	
+	
+	
+	
+	
     
     init(dictionary: [String: AnyObject]) {
         
@@ -125,18 +215,18 @@ class Offer : NSObject {
         /*
          ["image":post.image!,"instructions":post.instructions,"captionMustInclude":post.captionMustInclude!,"products":product,"post_ID":post.post_ID,"PostType": post.PostType,"confirmedSince":"" ,"isConfirmed":post.isConfirmed,"hashCaption":post.hashCaption,"status": post.status,"hashtags": post.hashtags, "keywords": post.keywords, "isPaid": post.isPaid ?? false, "PayAmount": post.PayAmount ?? 0.0]
          */
-        
-        if let posDict = dictionary["posts"] as? [[String: AnyObject]]{
-
-        for post in posDict {
-
-            //postVal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: "", products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool, hashCaption: post["hashCaption"] as? String ?? "",denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? []))
-            
-            postVal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: "", products: post["products"] as? [Product], post_ID: post["post_ID"] as! String, PostType: post["PostType"] as! String, confirmedSince: Date.getDateFromString(date: post["confirmedSince"] as? String ?? "") ?? nil, isConfirmed: post["isConfirmed"] as! Bool, hashCaption: post["hashCaption"] as? String ?? "", status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? [], isPaid: post["isPaid"] as? Bool, PayAmount: post["PayAmount"] as? Double ?? 0.0, denyMessage: post["denyMessage"] as? String ?? ""))
-
-
-        }
-        
+		
+		if let posDict = dictionary["posts"] as? [[String: AnyObject]]{
+			
+			for post in posDict {
+				
+				var thisPost = Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: "", products: post["products"] as? [Product], post_ID: post["post_ID"] as! String, PostType: post["PostType"] as! String, confirmedSince: Date.getDateFromString(date: post["confirmedSince"] as? String ?? "") ?? nil, isConfirmed: post["isConfirmed"] as! Bool, hashCaption: post["hashCaption"] as? String ?? "", status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? [], isPaid: post["isPaid"] as? Bool, PayAmount: post["PayAmount"] as? Double ?? 0.0, denyMessage: post["denyMessage"] as? String ?? "")
+				
+				if !thisPost.hashtags.contains("ad") {
+					thisPost.hashtags.append("ad")
+				}
+				postVal.append(thisPost)
+			}
         }
         
         self.posts = postVal
@@ -162,7 +252,25 @@ class Offer : NSObject {
         self.cashPower = dictionary["cashPower"] as? Double ?? 0.0
         self.influencerFilter = dictionary["influencerFilter"] as? [String: AnyObject] ?? [:]
         self.incresePay = dictionary["incresePay"] as? Double ?? 1.0
-        self.companyDetails = ((dictionary["companyDetails"] as? [String: AnyObject]) != nil) ? CompanyDetails.init(dictionary: dictionary["companyDetails"] as! [String: AnyObject]) : nil
+		
+//		print(dictionary)
+		//		print("\nGoing To Fail Now\n")
+		
+		if let companyDeets = dictionary["companyDetails"] as? [String: AnyObject] {
+			self.businessAccountID = companyDeets["userId"] as! String
+		} else {
+			if let coId = dictionary["company"] as? String {
+				self.businessAccountID = coId
+			} else {
+				print(dictionary)
+				self.businessAccountID = "BRUV"
+				fatalError("No Business ID account")
+			}
+		}
+			
+		//in case it doesn't have this information, we want to be safe legally.
+		self.mustBe21 = dictionary["mustBeTwentyOne"] as? Bool ?? true
+		self.verifiedDate = dictionary["verifiedDate"] as? Date
         self.accepted = dictionary["accepted"] as? [String] ?? []
         self.commission = dictionary["commission"] as? Double
         self.isCommissionPaid = dictionary["isCommissionPaid"] as? Bool ?? false
@@ -175,24 +283,10 @@ class Offer : NSObject {
         self.shouldRefund = dictionary["shouldRefund"] as? Bool ?? false
         self.didRefund = dictionary["didRefund"] as? Bool ?? false
         self.refundedOn = dictionary["refundedOn"] as? String ?? ""
-        self.updatedDate =  ((dictionary["updatedDate"] as? String) != nil) ? getDateFromString(date: dictionary["updatedDate"] as! String) : nil
+        self.acceptedDate =  ((dictionary["updatedDate"] as? String) != nil) ? getDateFromString(date: dictionary["updatedDate"] as! String) : nil
         self.reservedUsers = dictionary["reservedUsers"] as? [String: [String: AnyObject]] ?? [:]
         
     }
-}
-
-class allOfferObject: NSObject {
-    var offer: Offer
-    var isFiltered: Bool
-    var isAccepted: Bool
-    
-    init(offer: Offer, isFiltered: Bool, isAccepted: Bool) {
-        
-        self.offer = offer
-        self.isFiltered = isFiltered
-        self.isAccepted = isAccepted
-    }
-    
 }
 
 //Strcuture for users
@@ -248,6 +342,9 @@ class User: NSObject {
         self.tokenFIR = dictionary["tokenFIR"] as? String ?? ""
         self.following = dictionary["following"] as? [String] ?? []
         self.businessFollowing = dictionary["businessFollowing"] as? [String] ?? []
+		if self.businessFollowing!.contains("") {
+			self.businessFollowing = self.businessFollowing!.filter{$0 != ""}
+		}
         self.email = dictionary["email"] as? String ?? ""
     }
 	
@@ -275,7 +372,8 @@ class FollowingInformation: NSObject {
     
     var identifier: String?
     var user: User?
-    var startedAt: Date?
+    var startedAt: Date
+    var startedAtString: String?
     var offer: Offer?
     var tag: String?
     
@@ -285,11 +383,14 @@ class FollowingInformation: NSObject {
         self.user = User.init(dictionary: userDict)
         }
         if let date = dictionary["startedAt"] as? String {
-            self.startedAt = Date.getDateFromStringWithFormat(date: date, format: "MMM dd YYYY")
-            //getDateFromString(date: date)
+            self.startedAt = getDateFromString(date: date)
         }else{
-            self.startedAt = Date()
+            let curDateStr = Date.getStringFromDate(date: Date())
+            let currentDate = Date.getDateFromString(date: curDateStr!)!
+            self.startedAt = currentDate
         }
+        //self.startedAtString = dictionary["startedAt"] as? String ?? ""
+        self.startedAtString = Date.getDateFromStringWithConvertedFormatFormat(date: dictionary["startedAt"] as? String ?? "", format: "MMM dd YYYY")
         if let offer = dictionary["offer"] as? [String: AnyObject]{
             self.offer = Offer.init(dictionary: offer)
         }
@@ -567,7 +668,7 @@ class CompanyDetails: NSObject {
         self.mission = dictionary["mission"] as! String
         self.website  = dictionary["website"] as? String ?? ""
         self.account_ID  = dictionary["account_ID"] as? String ?? ""
-        self.userId  = dictionary["userId"] as? String ?? ""
+		self.userId  = dictionary["userId"] as? String ?? ""
         self.accountBalance  = dictionary["accountBalance"] as? Double ?? 0.0
         self.owner  = dictionary["owner"] as? String ?? ""
         self.referralcode  = dictionary["referralcode"] as? String ?? ""
