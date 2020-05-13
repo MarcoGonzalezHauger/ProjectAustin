@@ -661,7 +661,7 @@ class CompanyDetails: NSObject {
     var followers: [String]?
     
     
-    init(dictionary:[String: AnyObject]){
+    init(dictionary:[String: AnyObject]) {
         
         self.name  = dictionary["name"] as! String
         self.logo  = dictionary["logo"] as? String ?? ""
