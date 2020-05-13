@@ -8,59 +8,7 @@
 
 import UIKit
 
-class BusinessUserTVC: UITableViewCell, FollowerButtonDelegete {
-	
-	func isFollowingChanged(sender: AnyObject, newValue: Bool) {
-		if let ThisUser = businessDatail {
-			if !newValue {
-				//UNFOLLOWING
-				var followingList = Yourself.businessFollowing
-				if let i = followingList?.firstIndex(of: ThisUser.userId!){
-					followingList?.remove(at: i)
-					Yourself.businessFollowing = followingList
-					updateBusinessFollowingList(company: ThisUser, userID: ThisUser.userId!, ownUserID: Yourself)
-					removeFollowingFollowerBusinessUser(user: ThisUser)
-					
-				}
-			}else{
-				//FOLLOWING
-				var followingList = Yourself.businessFollowing ?? []
-				if !followingList.contains(ThisUser.userId!) {
-					followingList.append(ThisUser.userId!)
-				}
-				Yourself.businessFollowing = followingList
-				updateBusinessFollowingList(company: ThisUser, userID: ThisUser.userId!, ownUserID: Yourself)
-				updateFollowingFollowerBusinessUser(user: ThisUser, identifier: "business")
-			}
-		}
-	}
-	
-    @IBOutlet weak var businessLogo: UIImageView!
-    @IBOutlet weak var name: UILabel!
-    @IBOutlet weak var mission: UILabel!
-	@IBOutlet weak var BusinessButton: FollowButtonSmall!
-	
-    var businessDatail: CompanyDetails? {
-        didSet{
-            if let business = businessDatail{
-                
-                if let picurl = business.logo {
-                    self.businessLogo.downloadAndSetImage(picurl)
-                } else {
-                    self.businessLogo.UseDefaultImage()
-                }
-                
-                self.name.text = business.name
-                self.mission.text = business.mission
-                
-				BusinessButton.isFollowing = (Yourself.businessFollowing?.contains(business.userId!))!
-				BusinessButton.isBusiness = true
-				BusinessButton.delegate = self
-                
-            }
-        }
-    }
-}
+
 
 class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SearchBarDelegate, followUpdateDelegate {
 	
