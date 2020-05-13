@@ -297,7 +297,6 @@ func GetAllBusiness(completion:@escaping (_ result: [CompanyDetails])->()) {
 					do {
 						let companyDetails = CompanyDetails.init(dictionary: companyValue as! [String : AnyObject])
 						companyDetails.userId = key
-						
 						companyList.append(companyDetails)
 					} catch {
 						print(companyValue)
