@@ -37,6 +37,10 @@ class SocialMenuVC: UIViewController,PageViewDelegate {
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+    }
+    
     @IBAction func segmentValueChange(sender: UISegmentedControl){
         self.socialPVCDelegate?.socialSegmentIndex(index: socialSegmentFilter.selectedSegmentIndex)
         self.desText.text = SocialDescription.allValues[socialSegmentFilter.selectedSegmentIndex].rawValue

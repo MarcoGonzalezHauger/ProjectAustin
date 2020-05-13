@@ -63,13 +63,48 @@ extension Date {
         return dateFormatter.date(from: date) // replace Date String
     }
     
-    static func getDateFromStringWithFormat(date: String, format: String) -> Date?{
+    static func getDateFromStringWithFormat(date: String) -> Date{
         
         let dateFormatter = DateFormatter()
-                dateFormatter.timeZone = TimeZone(abbreviation: "EST")
-                dateFormatter.dateFormat = format
-        return dateFormatter.date(from: date) // replace Date String
+        dateFormatter.dateFormat = "yyyy/MMM/dd HH:mm:ssZ"
+        dateFormatter.timeZone = TimeZone(abbreviation: "EST")
+        //let calendar = Calendar.current
+        //dateFormatter.calendar = calendar
+        //dateFormatter.dateFormat = format
+        if let date = dateFormatter.date(from: date){
+        //dateFormatter.dateFormat = format
+        return date
+        }else{
+        return Date()
+        }
+         // replace Date String
         
+    }
+    
+    static func getDateFromStringWithConvertedFormatFormat(date: String, format: String) -> String{
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy/MMM/dd HH:mm:ssZ"
+        dateFormatter.timeZone = TimeZone(abbreviation: "EST")
+        //let calendar = Calendar.current
+        //dateFormatter.calendar = calendar
+        //dateFormatter.dateFormat = format
+        if let dateValue = dateFormatter.date(from: date){
+        dateFormatter.dateFormat = format
+            return dateFormatter.string(from: dateValue)
+        }else{
+            //if the first format didn't work, it will try this one:
+            dateFormatter.dateFormat = "yyyy/MMM/dd HH:mm:ss"
+            if let dateValue = dateFormatter.date(from: date) {
+                dateFormatter.dateFormat = format
+                return dateFormatter.string(from: dateValue)
+            } else {
+                print("There was an error decoding the string")
+                return ""
+            }
+        
+         // replace Date String
+        }
     }
     
     static func getStringFromDate(date:Date) -> String? {
