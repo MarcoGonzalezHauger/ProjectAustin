@@ -8,7 +8,22 @@
 
 import UIKit
 
-class SocialFollowedVC: UIViewController,UITableViewDataSource, UITableViewDelegate, followUpdateDelegate {
+class SocialFollowedVC: UIViewController,UITableViewDataSource, UITableViewDelegate, followUpdateDelegate, EasyRefreshDelegate {
+	
+	func wantsReload(stopRefreshing: @escaping () -> Void) {
+		getFollowedByList { (status, users) in
+			if status{
+				self.influencerList = users
+				DispatchQueue.main.async {
+					self.followingTable.reloadData()
+					self.refreshControl.endRefreshing()
+				}
+			}
+			stopRefreshing()
+		}
+	}
+	
+	
 	
 	func followingUpdated() {
 		followingTable.reloadData()
@@ -16,11 +31,27 @@ class SocialFollowedVC: UIViewController,UITableViewDataSource, UITableViewDeleg
 	
     
     var influencerList = [User]()
-    @IBOutlet weak var followingTable: UITableView!
-
+    @IBOutlet weak var followingTable: EasyRefreshTV!
+	
+	private let refreshControl = UIRefreshControl()
+	
+	@objc private func refreshFollowed(_ sender: Any) {
+		getFollowedByList { (status, users) in
+			if status{
+				self.influencerList = users
+				DispatchQueue.main.async {
+					self.followingTable.reloadData()
+					self.refreshControl.endRefreshing()
+				}
+			}
+		}
+	}
+	
     override func viewDidLoad() {
         super.viewDidLoad()
         
+		followingTable.easyRefreshDelegate = self
+		
 		followingTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
 		
         if global.influencerList.count != 0 {

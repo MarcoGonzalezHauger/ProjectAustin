@@ -10,7 +10,12 @@ import UIKit
 
 let unviersalOfferHeight: CGFloat = 77.5
 
-class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, OfferResponse {
+class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, OfferResponse, refreshDelegate {
+	
+	func refreshOfferDate() {
+		allOfferAction(timer: nil)
+	}	
+	
     func OfferAccepted(offer: Offer) {
         
     }
@@ -31,8 +36,9 @@ class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, O
             }
         }
         
-        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.allOfferAction(timer:)), userInfo: nil, repeats: false)
+//        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.allOfferAction(timer:)), userInfo: nil, repeats: false)
 		self.allOfferAction(timer: nil)
+		refreshDelegates.append(self)
         // Do any additional setup after loading the view.
     }
     

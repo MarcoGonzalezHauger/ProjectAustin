@@ -120,6 +120,12 @@
                                                         <segue destination="IF1-J8-HFa" kind="presentation" identifier="toReporterFromBV" id="62u-a3-tHM"/>
                                                     </connections>
                                                 </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Official" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Um3-ZB-vOT">
+                                                    <rect key="frame" x="133" y="85.5" width="47.5" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                                    <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
@@ -135,6 +141,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="WMA-kx-itw" secondAttribute="trailing" constant="16" id="Zgs-kP-8e1"/>
                                                 <constraint firstItem="pKy-CG-vdM" firstAttribute="leading" secondItem="cYK-jy-cn7" secondAttribute="leading" constant="20" id="adJ-Ml-O1V"/>
                                                 <constraint firstAttribute="trailing" secondItem="Bta-6R-4K1" secondAttribute="trailing" id="b80-y4-oAp"/>
+                                                <constraint firstItem="Um3-ZB-vOT" firstAttribute="leading" secondItem="hW9-Lg-iVA" secondAttribute="leading" id="cRJ-6j-hsz"/>
                                                 <constraint firstItem="n3M-T8-1z2" firstAttribute="trailing" secondItem="70b-VH-LeQ" secondAttribute="trailing" constant="-6" id="cs7-2g-L78"/>
                                                 <constraint firstItem="WMA-kx-itw" firstAttribute="centerX" secondItem="cYK-jy-cn7" secondAttribute="centerX" id="e55-R7-5XK"/>
                                                 <constraint firstAttribute="trailing" secondItem="GkD-VO-XtB" secondAttribute="trailing" constant="20" id="hfJ-MO-DQJ"/>
@@ -142,6 +149,7 @@
                                                 <constraint firstItem="0OV-cy-Zaa" firstAttribute="leading" secondItem="cYK-jy-cn7" secondAttribute="leading" constant="20" id="j1e-j2-44l"/>
                                                 <constraint firstItem="n3M-T8-1z2" firstAttribute="top" secondItem="70b-VH-LeQ" secondAttribute="top" constant="54" id="mV9-FS-V2F"/>
                                                 <constraint firstAttribute="trailing" secondItem="0OV-cy-Zaa" secondAttribute="trailing" constant="19" id="p7L-ef-C6O"/>
+                                                <constraint firstItem="hW9-Lg-iVA" firstAttribute="top" secondItem="Um3-ZB-vOT" secondAttribute="bottom" id="qDS-Na-oh6"/>
                                                 <constraint firstItem="xCO-fK-cMk" firstAttribute="trailing" secondItem="hW9-Lg-iVA" secondAttribute="trailing" constant="19" id="vKs-Um-fRq"/>
                                                 <constraint firstItem="Bta-6R-4K1" firstAttribute="leading" secondItem="cYK-jy-cn7" secondAttribute="leading" id="zFX-Vy-xYi"/>
                                             </constraints>
@@ -218,6 +226,8 @@
                         <outlet property="mission" destination="0OV-cy-Zaa" id="Gjq-1n-Ye4"/>
                         <outlet property="offerStatus" destination="GkD-VO-XtB" id="pKV-nE-Ioo"/>
                         <outlet property="offerTable" destination="Bta-6R-4K1" id="udy-DE-Ksk"/>
+                        <outlet property="officialLabel" destination="Um3-ZB-vOT" id="O4B-wt-anX"/>
+                        <outlet property="reportButton" destination="n3M-T8-1z2" id="EJs-bH-4jb"/>
                         <outlet property="tableviewHeight" destination="dwc-C7-eqJ" id="C9y-cj-eW6"/>
                         <outlet property="webShadowView" destination="WMA-kx-itw" id="KBi-HC-60E"/>
                         <outlet property="website" destination="qwT-P9-1gZ" id="PUI-n5-ryA"/>

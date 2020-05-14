@@ -8,11 +8,16 @@
 
 import UIKit
 
-class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, OfferResponse {
+class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, OfferResponse, refreshDelegate {
+	
+	func refreshOfferDate() {
+		followerCompaniesAction(timer: nil)
+	}
+	
+	
     func OfferAccepted(offer: Offer) {
         
     }
-    
     
     @IBOutlet weak var offerTable: UITableView!
     
@@ -30,8 +35,9 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 			}
 			// Do any additional setup after loading the view.
 		}
-		Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.followerCompaniesAction(timer:)), userInfo: nil, repeats: false)
+//		Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.followerCompaniesAction(timer:)), userInfo: nil, repeats: false)
 		self.followerCompaniesAction(timer: nil)
+		refreshDelegates.append(self)
 	}
     
 	@objc func followerCompaniesAction(timer: Timer?) {

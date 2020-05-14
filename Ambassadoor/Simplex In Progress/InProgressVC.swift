@@ -44,13 +44,13 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
 					timer!.invalidate()
 					paymentReceiveAt.text = ""
 				}
-				if let picurl = offerValue.company?.logo {
+				if let picurl = offerValue.companyDetails?.logo {
 					self.companyLogo.downloadAndSetImage(picurl)
 				} else {
 					self.companyLogo.UseDefaultImage()
 				}
-				self.amount.text = NumberToPrice(Value: offerValue.money)
-				self.name.text = offerValue.company!.name
+				self.amount.text = offerValue.isDefaultOffer ? "Get Verified" : NumberToPrice(Value: offerValue.money)
+				self.name.text = offerValue.companyDetails!.name
 				self.setTextandConstraints(offerValue: offerValue)
 				
 				if offerValue.variation == .inProgress {
@@ -72,41 +72,21 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
 						}
 					}
 				}else if offerValue.variation == .willBePaid {
-					if let offerAcceptedDate = offerValue.acceptedDate{
-						let expireDateAftPosted = offerAcceptedDate.afterDays(numberOfDays: 2)
-						let curDateStr = Date.getStringFromDate(date: Date())
-						if let currentDate = Date.getDateFromString(date: curDateStr!){
-							if currentDate.timeIntervalSince1970 < expireDateAftPosted.timeIntervalSince1970{
-								let intBtnNowandPosted = (currentDate.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
-								let intAftTwoDays = (expireDateAftPosted.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
-								progressWidth.constant = CGFloat(intBtnNowandPosted/intAftTwoDays) * self.frame.size.width
-								
-								progrssView.updateConstraints()
-								progrssView.layoutIfNeeded()
-								
-								progrssView.backgroundColor = UIColor.systemGreen
-								self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForTobepaid(sender:)), userInfo: nil, repeats: true)
-								self.startCountDownForTobepaid(sender: timer!)
-								
-							}else{
-								paymentReceiveAt.text = "ERROR_406"
-								progressWidth.constant = self.frame.size.width
-								progrssView.updateConstraints()
-								progrssView.layoutIfNeeded()
-								progrssView.backgroundColor = UIColor.systemRed
-							}
-							
-						}
-						
-					}
+					
+					self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForTobepaid(sender:)), userInfo: nil, repeats: true)
+					self.startCountDownForTobepaid(sender: timer!)
 					
 				}else if offerValue.variation == .hasBeenPaid {
-					
-					paymentReceiveAt.text = "You have been paid for this offer."
+					if offerValue.isDefaultOffer {
+						paymentReceiveAt.text = "You have been verified."
+						progrssView.backgroundColor = .systemOrange
+					} else {
+						paymentReceiveAt.text = "You have been paid for this offer."
+						progrssView.backgroundColor = UIColor.systemGreen
+					}
 					progressWidth.constant = self.frame.size.width
 					progrssView.updateConstraints()
 					progrssView.layoutIfNeeded()
-					progrssView.backgroundColor = UIColor.systemGreen
 					
 				}else if offerValue.variation == .allPostsDenied {
 					
@@ -133,6 +113,13 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
         
         
         let offerValue = self.offer!
+		
+		if offerValue.isDefaultOffer {
+			paymentReceiveAt.text = "Waiting for you to post to Instagram."
+			progressWidth.constant = (self.frame.size.width - 12)
+			progrssView.backgroundColor = .systemBlue
+			return
+		}
         
 		if offerValue.variation == .inProgress {
             
@@ -166,6 +153,9 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
 		
 	}
 	
+	func setProgressToVerification() {
+	}
+	
 	func setInprogressValue(currentDate: Date, expireDateAftAcpt: Date, offerAcceptedDate: Date) {
 		
 		//Interval between Offer Acceted Date and Current Date
@@ -183,7 +173,7 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
 		
 //		print(1.0 - CGFloat(intervalBtnOffActDateToCurDate/intervalBtnOffActDateToOfferExpDate))
 //		print(self.progTemplate.frame.size.width)
-		progressWidth.constant = self.progTemplate.frame.size.width * (1.0 - CGFloat(intervalBtnOffActDateToCurDate/intervalBtnOffActDateToOfferExpDate))
+		progressWidth.constant = (self.frame.size.width - 12) * (1.0 - CGFloat(intervalBtnOffActDateToCurDate/intervalBtnOffActDateToOfferExpDate))
 		
 //		UIView.animate(withDuration: 1) {
 //			self.progrssView.layoutIfNeeded()
@@ -197,8 +187,31 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
 	}
 	
     @IBAction func startCountDownForTobepaid(sender: Timer){
-        
+		
         let offerValue = self.offer!
+
+		if let offerAcceptedDate = offerValue.acceptedDate{
+			
+			let currentDate = Date()
+			let expireDateAftPosted = offerAcceptedDate.afterDays(numberOfDays: 2)
+			
+			if currentDate.timeIntervalSince1970 < expireDateAftPosted.timeIntervalSince1970{
+				let intBtnNowandPosted = (currentDate.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
+				let intAftTwoDays = (expireDateAftPosted.timeIntervalSince1970 - offerAcceptedDate.timeIntervalSince1970)
+				progressWidth.constant = CGFloat(intBtnNowandPosted/intAftTwoDays) * (self.frame.size.width - 12)
+				
+				progrssView.updateConstraints()
+				progrssView.layoutIfNeeded()
+				progrssView.backgroundColor = offerValue.isDefaultOffer ? .systemOrange : .systemGreen
+				
+			}else{
+				paymentReceiveAt.text = "ERROR_406"
+				progressWidth.constant = self.frame.size.width
+				progrssView.updateConstraints()
+				progrssView.layoutIfNeeded()
+				progrssView.backgroundColor = UIColor.systemRed
+			}
+		}
         
         if offerValue.status == "verified"{
             
@@ -213,7 +226,11 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                     self.timer?.invalidate()
                     
                 }else{
-                    paymentReceiveAt.text = "Payment in \(answer!)"
+					if offerValue.isDefaultOffer {
+						paymentReceiveAt.text = "You will be verified in \(answer!)"
+					} else {
+						paymentReceiveAt.text = "Payment in \(answer!)"
+					}
                 }
                 
             }
@@ -223,10 +240,10 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
     }
     
     func setTextandConstraints(offerValue: Offer) {
-        
         if offerValue.posts.count < 3 {
+			
             if offerValue.posts.count == 2 {
-                
+				
                 postImgThreeHeight.constant = 0
                 postThreeHeight.constant = 0
                 

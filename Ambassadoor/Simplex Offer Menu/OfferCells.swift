@@ -24,20 +24,27 @@ class FollowedCompaniesOffer: UITableViewCell {
 		didSet{
 			self.is21view.backgroundColor = tewntyOneColor
 			if let offerDetail = offer{
-				if let picurl = offerDetail.company?.logo {
+				if let picurl = offerDetail.companyDetails?.logo {
 					self.logo.downloadAndSetImage(picurl)
 				} else {
 					self.logo.UseDefaultImage()
 				}
 				
-				let pay = calculateCostForUser(offer: offerDetail, user: Yourself, increasePayVariable: offerDetail.incresePay ?? 1)
-				self.cashOut.text = NumberToPrice(Value: pay)
-				self.progressViewWidth.constant = self.frame.size.width * CGFloat((offerDetail.cashPower!/offerDetail.money))
-				self.progressView.backgroundColor = UIColor.init(red: 1, green: 227/255, blue: 35/255, alpha: 1)
-				self.companyName.text = offerDetail.company?.name
+				self.companyName.text = offerDetail.companyDetails?.name
 				self.updateConstraints()
 				self.layoutIfNeeded()
 				self.is21view.isHidden = !offerDetail.mustBe21
+				
+				if !offerDetail.isDefaultOffer {
+					let pay = calculateCostForUser(offer: offerDetail, user: Yourself, increasePayVariable: offerDetail.incresePay ?? 1)
+					self.cashOut.text = NumberToPrice(Value: pay)
+					self.progressViewWidth.constant = (self.frame.size.width - 12) * CGFloat((offerDetail.cashPower!/offerDetail.money))
+					self.progressView.backgroundColor = UIColor.init(red: 1, green: 227/255, blue: 35/255, alpha: 1)
+				} else {
+					self.cashOut.text = "Get Verified"
+					self.progressViewWidth.constant = (self.frame.size.width - 12)
+					self.progressView.backgroundColor = .systemOrange
+				}
 			}
 			
 		}
@@ -65,27 +72,34 @@ class StandardOfferCell: UITableViewCell {
 			self.is21view.backgroundColor = tewntyOneColor
 
 			self.is21view.isHidden = !offerDetail.mustBe21
-			if let picurl = offerDetail.company?.logo {
+			if let picurl = offerDetail.companyDetails?.logo {
 				self.logo.downloadAndSetImage(picurl)
 			} else {
 				self.logo.UseDefaultImage()
 			}
-			self.companyName.text = offerDetail.company?.name
-			if offerDetail.isFiltered {
-				let pay = calculateCostForUser(offer: offerDetail, user: Yourself, increasePayVariable: offerDetail.incresePay ?? 1)
+			self.companyName.text = offerDetail.companyDetails?.name
+			
+			if offerDetail.isDefaultOffer {
 				self.cashOut.isHidden = false
-				self.cashOut.text = NumberToPrice(Value: pay)
-				self.progressViewWidth.constant = self.frame.size.width * CGFloat((offerDetail.cashPower!/offerDetail.money))
-				self.progressView.backgroundColor = UIColor.init(red: 1, green: 227/255, blue: 35/255, alpha: 1)
-				self.updateConstraints()
-				self.layoutIfNeeded()
-			}else{
-				self.cashOut.isHidden = true
-				self.progressViewWidth.constant = self.frame.size.width
-				self.progressView.backgroundColor = .red
-				self.updateConstraints()
-				self.layoutIfNeeded()
+				self.cashOut.text = "Get Verified"
+				self.progressViewWidth.constant = (self.frame.size.width - 12)
+				self.progressView.backgroundColor = .systemOrange
+			} else {
+				if offerDetail.isFiltered {
+					let pay = calculateCostForUser(offer: offerDetail, user: Yourself, increasePayVariable: offerDetail.incresePay ?? 1)
+					self.cashOut.isHidden = false
+					self.cashOut.text = NumberToPrice(Value: pay)
+					self.progressViewWidth.constant = (self.frame.size.width - 12) * CGFloat((offerDetail.cashPower!/offerDetail.money))
+					self.progressView.backgroundColor = UIColor.init(red: 1, green: 227/255, blue: 35/255, alpha: 1)
+				}else{
+					self.cashOut.isHidden = true
+					self.progressViewWidth.constant = self.frame.size.width
+					self.progressView.backgroundColor = .red
+				}
 			}
+			self.updateConstraints()
+			self.layoutIfNeeded()
+			
 		}
 		
 	}

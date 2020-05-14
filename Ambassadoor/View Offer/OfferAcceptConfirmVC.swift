@@ -102,6 +102,7 @@ class OfferAcceptConfirmVC: UIViewController {
         
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+            
         } catch let error {
             print(error.localizedDescription)
         }

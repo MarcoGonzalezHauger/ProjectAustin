@@ -74,6 +74,9 @@ class Offer: NSObject {
 	}
 	var isAccepted: Bool
 	var isExpired: Bool {
+		if self.isDefaultOffer {
+			return false
+		}
 		if let ad = acceptedDate {
 			//hour * 48
 			return ad.addingTimeInterval(TimeInterval(3600 * 48 * self.posts.count)).timeIntervalSinceNow <= 0
@@ -94,6 +97,9 @@ class Offer: NSObject {
     var referralID: String?
 	var enoughCashForInfluencer: Bool {
 		get {
+			if self.isDefaultOffer {
+				return true
+			}
 			let pay = calculateCostForUser(offer: self, user: Yourself, increasePayVariable: self.incresePay ?? 1)
 			if let cashPower = self.cashPower {
 				return pay <= cashPower
@@ -142,11 +148,20 @@ class Offer: NSObject {
 	//added for bars (for example)
 	var mustBe21: Bool
 	var verifiedDate: Date?
-    
+	
+	var isDefaultOffer: Bool {
+		get {
+			return self.offer_ID == "XXXDefault"
+		}
+	}
+	
     var reservedUsers: [String: [String: AnyObject]]?
 	
 	var isFiltered: Bool {
 		get {
+			if self.isDefaultOffer {
+				return true
+			}
 			return offerIsFiliteredForUser(offer: self)
 		}
 	}
@@ -156,6 +171,9 @@ class Offer: NSObject {
 			let isFollowed: Bool = Yourself.businessFollowing!.contains(self.businessAccountID)
 			let isAccepted2 = self.accepted?.contains(Yourself.id) ?? false
 			if !(isAccepted || isAccepted2) {
+				if self.isDefaultOffer {
+					return .canBeAccepted
+				}
 				if isFollowed {
 					return .canBeAccepted
 				}
@@ -255,16 +273,13 @@ class Offer: NSObject {
 		
 //		print(dictionary)
 		//		print("\nGoing To Fail Now\n")
-		
-		if let companyDeets = dictionary["companyDetails"] as? [String: AnyObject] {
-			self.businessAccountID = companyDeets["userId"] as! String
+		if let coId = dictionary["ownerUserID"] as? String {
+			self.businessAccountID = coId
 		} else {
-			if let coId = dictionary["company"] as? String {
-				self.businessAccountID = coId
+			if let companyDeets = dictionary["companyDetails"] as? [String: AnyObject] {
+				self.businessAccountID = companyDeets["userId"] as? String ?? ((dictionary["company"] as? String) ?? "BRUV")
 			} else {
-				print(dictionary)
-				self.businessAccountID = "BRUV"
-				fatalError("No Business ID account")
+				self.businessAccountID = (dictionary["company"] as? String) ?? "BRUV"
 			}
 		}
 			
@@ -659,9 +674,15 @@ class CompanyDetails: NSObject {
     var owner: String?
     var referralcode: String?
     var followers: [String]?
+	
+	var isOfficialAmbassadoorAccount: Bool {
+		get {
+			return self.userId ?? "" == "C2bxiVNW58UxcPiBe2rihN81e302"
+		}
+	}
     
     
-    init(dictionary:[String: AnyObject]){
+    init(dictionary:[String: AnyObject]) {
         
         self.name  = dictionary["name"] as! String
         self.logo  = dictionary["logo"] as? String ?? ""

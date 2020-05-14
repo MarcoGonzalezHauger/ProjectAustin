@@ -8,97 +8,14 @@
 
 import UIKit
 
-protocol followUpdateDelegate {
-	func followingUpdated()
-}
-
-class InfluencerTVC: UITableViewCell, FollowerButtonDelegete {
-    
-    @IBOutlet weak var userImage: UIImageView!
-    @IBOutlet weak var userName: UILabel!
-    @IBOutlet weak var tier: UILabel!
-    @IBOutlet weak var followerCount: UILabel!
-    @IBOutlet weak var likeCount: UILabel!
-    @IBOutlet weak var verifyLogo_img: UIImageView!
-	@IBOutlet weak var tierBox: ShadowView!
-	@IBOutlet weak var followButton: FollowButtonSmall!
+class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SearchBarDelegate, followUpdateDelegate, EasyRefreshDelegate {
 	
-    @IBOutlet weak var leadingUserName: NSLayoutConstraint!
-	
-	func isFollowingChanged(sender: AnyObject, newValue: Bool) {
-		if let ThisUser = userData {
-			if newValue {
-				//FOLLOW
-				var followingList = Yourself.following
-				if !followingList!.contains(ThisUser.id) {
-					followingList?.append(ThisUser.id)
-				}
-				Yourself.following = followingList
-				updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
-				updateFollowingFollowerUser(user: ThisUser, identifier: "influencer")
-			} else {
-				//UNFOLLOW
-				var followingList = Yourself.following
-				if let i = followingList?.firstIndex(of: ThisUser.id){
-					followingList?.remove(at: i)
-					Yourself.following = followingList
-					updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
-					removeFollowingFollowerUser(user: ThisUser)
-					
-				}
-			}
-		}
+	func wantsReload(stopRefreshing: @escaping () -> Void) {
+		influencerTempArray.shuffle()
+		influencerTable.reloadData()
+		stopRefreshing()
 	}
 	
-    var userData: User?{
-        didSet{
-            if let user = userData{
-                tierBox.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "tiergrad")!)
-                if let picurl = user.profilePicURL {
-                    self.userImage.downloadAndSetImage(picurl)
-                } else {
-                    self.userImage.UseDefaultImage()
-                }
-                
-                //self.userName.text = "@\(user.username)"
-				self.userName.text = user.name
-                
-                self.tier.text = String(GetTierForInfluencer(influencer: user))
-                
-				followButton.isFollowing = (Yourself.following?.contains(user.id))!
-				followButton.isBusiness = false
-				followButton.delegate = self
-                
-                self.followerCount.text = CompressNumber(number: Double(user.followerCount))
-                self.likeCount.text = CompressNumber(number: Double(user.averageLikes ?? 0))
-                
-                if user.isDefaultOfferVerify {
-                    verifyLogo_img.image = UIImage(named: "verify_Logo")
-                    self.leadingUserName.constant = 34
-                    self.updateConstraints()
-                    self.layoutIfNeeded()
-                } else {
-                    verifyLogo_img.image = nil
-                    self.leadingUserName.constant = 8
-                    self.updateConstraints()
-                    self.layoutIfNeeded()
-                }
-                
-                if blackIcons.contains(user.username) {
-                      verifyLogo_img.image = UIImage.init(named: "verified_black")
-                    self.leadingUserName.constant = 34
-                    self.updateConstraints()
-                    self.layoutIfNeeded()
-                }
-                
-            }
-        }
-    }
-    
-    
-}
-
-class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SearchBarDelegate, followUpdateDelegate {
 	
 	func followingUpdated() {
 		influencerTable.reloadRows(at: [IndexPath.init(row: activeView!, section: 0)], with: .none)
@@ -118,14 +35,33 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     
 	var activeView: Int?
-    @IBOutlet weak var influencerTable: UITableView!
+    @IBOutlet weak var influencerTable: EasyRefreshTV!
     
     var influencerTempArray = [User]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         influencerTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
-        // Do any additional setup after loading the view.
+		influencerTable.easyRefreshDelegate = self
+        
+		if global.SocialData.count == 0{
+			_ = GetAllUsers(completion: { (users) in
+				global.SocialData = users
+				self.influencerTempArray = users
+				self.influencerTempArray.shuffle()
+				DispatchQueue.main.async {
+					self.influencerTable.reloadData()
+				}
+				
+				
+			})
+		}else{
+			self.influencerTempArray = global.SocialData
+			self.influencerTempArray.shuffle()
+			DispatchQueue.main.async {
+				self.influencerTable.reloadData()
+			}
+		}
     }
 
     
@@ -163,24 +99,8 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        SearchMenuVC.searchDelegate = self
-        if global.SocialData.count == 0{
-        _ = GetAllUsers(completion: { (users) in
-            global.SocialData = users
-            self.influencerTempArray = users
-            DispatchQueue.main.async {
-                self.influencerTable.reloadData()
-            }
-            
-            
-        })
-        }else{
-            self.influencerTempArray = global.SocialData
-            DispatchQueue.main.async {
-                self.influencerTable.reloadData()
-            }
-        }
-    }
+		SearchMenuVC.searchDelegate = self
+	}
 	
 	
 	

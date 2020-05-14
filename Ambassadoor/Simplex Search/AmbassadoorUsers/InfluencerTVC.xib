@@ -22,13 +22,36 @@
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pfg-Gg-lGh" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="402" height="68"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WMj-9M-pKV">
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wbH-bt-yho" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="6" y="4" width="60" height="60"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WMj-9M-pKV">
+                                                <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="60" id="M9T-1X-hYo"/>
+                                                    <constraint firstAttribute="width" constant="60" id="hgC-MQ-cx6"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="60" id="M9T-1X-hYo"/>
-                                            <constraint firstAttribute="width" constant="60" id="hgC-MQ-cx6"/>
+                                            <constraint firstItem="WMj-9M-pKV" firstAttribute="centerY" secondItem="wbH-bt-yho" secondAttribute="centerY" id="Kck-58-gKB"/>
+                                            <constraint firstItem="WMj-9M-pKV" firstAttribute="leading" secondItem="wbH-bt-yho" secondAttribute="leading" id="kUI-LM-oqd"/>
+                                            <constraint firstAttribute="height" constant="60" id="sf5-Kb-jgx"/>
+                                            <constraint firstAttribute="width" constant="60" id="vju-EA-6YV"/>
                                         </constraints>
-                                    </imageView>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="30"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="verify_Logo" translatesAutoresizingMaskIntoConstraints="NO" id="lef-0l-Dj5">
                                         <rect key="frame" x="74" y="7" width="25" height="25"/>
                                         <constraints>
@@ -99,18 +122,19 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstItem="WMj-9M-pKV" firstAttribute="centerY" secondItem="pfg-Gg-lGh" secondAttribute="centerY" id="4Pg-gT-dfw"/>
-                                    <constraint firstItem="lef-0l-Dj5" firstAttribute="leading" secondItem="WMj-9M-pKV" secondAttribute="trailing" constant="8" id="Ajr-WO-EZf"/>
-                                    <constraint firstItem="I9l-0q-nxh" firstAttribute="bottom" secondItem="WMj-9M-pKV" secondAttribute="bottom" id="BDl-lD-qyg"/>
-                                    <constraint firstItem="I9l-0q-nxh" firstAttribute="leading" secondItem="WMj-9M-pKV" secondAttribute="trailing" constant="13" id="HuF-Qa-zcT"/>
+                                    <constraint firstItem="9PG-OJ-5U1" firstAttribute="leading" secondItem="wbH-bt-yho" secondAttribute="trailing" constant="34" id="U5B-JT-b5O"/>
+                                    <constraint firstItem="wbH-bt-yho" firstAttribute="top" secondItem="lef-0l-Dj5" secondAttribute="bottom" constant="-28" id="cCP-hz-af7"/>
+                                    <constraint firstItem="I9l-0q-nxh" firstAttribute="top" secondItem="9PG-OJ-5U1" secondAttribute="bottom" constant="5" id="d78-Q8-pzT"/>
+                                    <constraint firstItem="lef-0l-Dj5" firstAttribute="leading" secondItem="wbH-bt-yho" secondAttribute="trailing" constant="8" id="esn-qu-lLT"/>
+                                    <constraint firstItem="I9l-0q-nxh" firstAttribute="leading" secondItem="wbH-bt-yho" secondAttribute="trailing" constant="13" id="fhF-c5-QPF"/>
                                     <constraint firstItem="9PG-OJ-5U1" firstAttribute="top" secondItem="lef-0l-Dj5" secondAttribute="top" id="hF0-qf-hIx"/>
                                     <constraint firstItem="C7a-Kq-zSq" firstAttribute="leading" secondItem="9PG-OJ-5U1" secondAttribute="trailing" constant="4" id="k58-q8-gT6"/>
                                     <constraint firstAttribute="bottom" secondItem="C7a-Kq-zSq" secondAttribute="bottom" id="lL5-OU-wva"/>
+                                    <constraint firstItem="wbH-bt-yho" firstAttribute="top" secondItem="9PG-OJ-5U1" secondAttribute="bottom" constant="-27" id="oSA-HC-Ldy"/>
                                     <constraint firstAttribute="trailing" secondItem="C7a-Kq-zSq" secondAttribute="trailing" constant="16" id="pyO-JJ-UFE"/>
                                     <constraint firstItem="C7a-Kq-zSq" firstAttribute="top" secondItem="pfg-Gg-lGh" secondAttribute="top" id="qRh-yR-abK"/>
-                                    <constraint firstItem="9PG-OJ-5U1" firstAttribute="leading" secondItem="WMj-9M-pKV" secondAttribute="trailing" constant="34" id="rGV-5u-que"/>
-                                    <constraint firstItem="WMj-9M-pKV" firstAttribute="leading" secondItem="pfg-Gg-lGh" secondAttribute="leading" constant="6" id="rGi-NA-0Ej"/>
-                                    <constraint firstItem="lef-0l-Dj5" firstAttribute="top" secondItem="WMj-9M-pKV" secondAttribute="top" constant="3" id="yG7-GL-bUR"/>
+                                    <constraint firstItem="wbH-bt-yho" firstAttribute="centerY" secondItem="pfg-Gg-lGh" secondAttribute="centerY" id="wo7-Ze-qMU"/>
+                                    <constraint firstItem="wbH-bt-yho" firstAttribute="leading" secondItem="pfg-Gg-lGh" secondAttribute="leading" constant="6" id="x3q-wP-ra4"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -147,12 +171,12 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="pfg-Gg-lGh" secondAttribute="bottom" id="0ak-Se-ye5"/>
+                            <constraint firstItem="e57-VL-Fug" firstAttribute="top" secondItem="wbH-bt-yho" secondAttribute="bottom" constant="-24" id="6qd-IN-T0O"/>
                             <constraint firstItem="e57-VL-Fug" firstAttribute="width" secondItem="e57-VL-Fug" secondAttribute="height" id="ACf-yM-uB9"/>
-                            <constraint firstItem="e57-VL-Fug" firstAttribute="trailing" secondItem="WMj-9M-pKV" secondAttribute="trailing" id="Ctd-l6-AVB"/>
                             <constraint firstItem="pfg-Gg-lGh" firstAttribute="leading" secondItem="wx2-Ye-IF1" secondAttribute="leading" id="MJi-JB-7HC"/>
+                            <constraint firstItem="e57-VL-Fug" firstAttribute="leading" secondItem="wbH-bt-yho" secondAttribute="trailing" constant="-24" id="YTV-VW-NXd"/>
                             <constraint firstAttribute="trailing" secondItem="pfg-Gg-lGh" secondAttribute="trailing" id="Yc3-nV-OIf"/>
                             <constraint firstItem="pfg-Gg-lGh" firstAttribute="top" secondItem="wx2-Ye-IF1" secondAttribute="top" id="dzg-lf-QdT"/>
-                            <constraint firstItem="e57-VL-Fug" firstAttribute="bottom" secondItem="WMj-9M-pKV" secondAttribute="bottom" id="u9q-f8-OH8"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -186,7 +210,7 @@
             <connections>
                 <outlet property="followButton" destination="C7a-Kq-zSq" id="qi8-4g-IOB"/>
                 <outlet property="followerCount" destination="OpH-nt-0lN" id="b6u-i3-VmU"/>
-                <outlet property="leadingUserName" destination="rGV-5u-que" id="4fZ-at-L1Y"/>
+                <outlet property="leadingUserName" destination="U5B-JT-b5O" id="L5I-wj-S6p"/>
                 <outlet property="likeCount" destination="fkp-5F-f1V" id="3ep-mO-abs"/>
                 <outlet property="tier" destination="yXu-MN-BDc" id="gPH-qv-ur3"/>
                 <outlet property="tierBox" destination="e57-VL-Fug" id="qSh-pQ-9Ag"/>
