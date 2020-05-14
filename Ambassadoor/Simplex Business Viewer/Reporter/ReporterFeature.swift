@@ -60,7 +60,7 @@ class ReporterFeature: StandardNC {
 			options.append(ReportType.init(itemName: "Illegal References", writerTitle: "Illegal References", writerSubtitle: "What seems illigal about this offer?", priority: 20, defaultText: ""))
 			
 			//Location Doesn't exist
-			options.append(ReportType.init(itemName: "Business Location Doesn't Exist", writerTitle: "Location Not Real", writerSubtitle: "Describe the issue.", priority: 12, defaultText: "The location listed on a psot in this offer does not exist."))
+			options.append(ReportType.init(itemName: "Business Location Doesn't Exist", writerTitle: "Location Not Real", writerSubtitle: "Describe the issue.", priority: 12, defaultText: "The location listed on a post in this offer does not exist."))
 			
 			//trolling
 			options.append(ReportType.init(itemName: "Trolling", writerTitle: "Trolling", writerSubtitle: "How does this offer seem to be trolling?", priority: 3, defaultText: ""))

@@ -17,20 +17,22 @@ class SimplexBackground: UIView {
 	@IBOutlet weak var bd1_left: NSLayoutConstraint!
 	@IBOutlet weak var bd2_left: NSLayoutConstraint!
 	
-	let bgImage = UIImage.init(named: "clouds")
-	let bgImage2 = UIImage.init(named: "clouds")
-	
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		LoadViewFromNib()
 	}
 	
+	@IBInspectable var backgroundTint: UIColor = .black
+	
 	override func awakeFromNib() {
-		self.backDrop.image = bgImage
-		self.backDrop2.image = bgImage2
-		self.bd2_left.constant = backDrop.bounds.width
-		self.bd1_left.constant = 0
-		self.layoutIfNeeded()
+		let templateImage = UIImage.init(named: "clouds")!
+		backDrop.image = templateImage
+		backDrop2.image = templateImage
+		backDrop2.tintColor = backgroundTint
+		backDrop.tintColor = backgroundTint
+		bd2_left.constant = backDrop.bounds.width
+		bd1_left.constant = 0
+		layoutIfNeeded()
 		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 			self.Forever()
 		}

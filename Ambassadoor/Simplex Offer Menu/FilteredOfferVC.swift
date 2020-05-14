@@ -10,11 +10,15 @@ import UIKit
 
 
 
-class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, OfferResponse {
+class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, OfferResponse, refreshDelegate {
+	
+	func refreshOfferDate() {
+		filteredOfferAction(timer: nil)
+	}
+	
     func OfferAccepted(offer: Offer) {
         
     }
-    
     
     @IBOutlet weak var filteredOfferTable: UITableView!
     
@@ -26,6 +30,8 @@ class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 		filteredOfferTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
         self.filteredOfferAction(timer: nil)
         
+		refreshDelegates.append(self)
+		
         // Do any additional setup after loading the view.
     }
     

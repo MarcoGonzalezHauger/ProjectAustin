@@ -10,6 +10,7 @@
 import Foundation
 import UIKit
 import Firebase
+import CoreData
 
 func NumberToPrice(Value: Double, enforceCents isBig: Bool = false) -> String {
 	if floor(Value) == Value && isBig == false {
@@ -110,6 +111,9 @@ func DateToAgo(date: Date) -> String {
 }
 
 func calculateCostForUser(offer: Offer, user: User, increasePayVariable: Double = 1.00) -> Double {
+	if offer.isDefaultOffer {
+		return 0
+	}
     return 0.055 * user.averageLikes! * Double(offer.posts.count) * increasePayVariable
 }
 
@@ -236,7 +240,7 @@ func GetTierFromFollowerCount(FollowerCount: Double) -> Int? {
 	var index: Int = 0
 	var max: Int = 0
 	while index < TierThreshholds.count {
-		if FollowerCount > TierThreshholds[index] {
+		if FollowerCount >= TierThreshholds[index] {
 			max = index
 		} else {
 			return max
@@ -800,6 +804,12 @@ func updateFirebaseProfileURL(profileUrl: String, id: String, completion: @escap
     
 }
 
+protocol refreshDelegate {
+	func refreshOfferDate()
+}
+
+var refreshDelegates: [refreshDelegate] = []
+
 func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
 	
 	if reference != nil {
@@ -809,23 +819,8 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
 			reference!.tabBar.items![1].badgeValue = nil
 		}
 	}
-    
-	getObserveFollowerCompaniesOffer() { (status, offers) in
-        
-        if status {
-			global.followOfferList = offers
-        }
-        
-    }
-    
-    getObserveAllOffer() { (status, allOffer) in
-        if status{
-			global.allOfferList = allOffer
-        }
-        
-    }
-    
-    global.BusinessUser.removeAll()
+	
+	global.BusinessUser.removeAll()
     _ = GetAllBusiness(completion: { (business) in
         global.BusinessUser = business
         
@@ -854,6 +849,23 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
         }
         
     })
+    
+	getObserveFollowerCompaniesOffer() { (status, offers) in
+        
+        if status {
+			global.followOfferList = offers
+        }
+        
+    }
+    
+    getObserveAllOffer() { (status, allOffer) in
+        if status{
+			global.allOfferList = allOffer
+        }
+        
+    }
+    
+    
     global.SocialData.removeAll()
     _ = GetAllUsers(completion: { (users) in
         global.SocialData = users
@@ -937,6 +949,35 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
         }
         
     }
+}
+
+func saveCoreDataUpdate(object: NSManagedObject) {
+    
+    let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
+    print(paths[0])
+    do {
+        try object.managedObjectContext?.save()
+    } catch {
+        print("Failed saving")
+    }
+    
+}
+
+func removeCoreDataObject(object: NSManagedObject) {
+    
+    let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
+    
+    print(paths[0])
+    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    do {
+        context.delete(object)
+        try context.save()
+    } catch {
+        print("Failed saving")
+    }
+    
 }
 
 func offerIsFiliteredForUser(offer: Offer) -> Bool {

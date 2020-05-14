@@ -1,30 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6Q1-4r-QbC">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Search MenuVC-->
+        <!--Search-->
         <scene sceneID="tkj-ap-9eR">
             <objects>
                 <viewController storyboardIdentifier="SimplexSearch" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6Q1-4r-QbC" customClass="SearchMenuVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="U6v-JN-Ar8">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bJ8-0y-OrD">
-                                <rect key="frame" x="0.0" y="95" width="600" height="505"/>
+                                <rect key="frame" x="0.0" y="139" width="414" height="757"/>
                                 <connections>
                                     <segue destination="wp5-xe-NcL" kind="embed" identifier="PageView" id="stR-0p-bft"/>
                                 </connections>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LrO-XP-73G" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="-10" width="600" height="105"/>
+                                <rect key="frame" x="0.0" y="-10" width="414" height="149"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="US7-Bc-mcK">
-                                        <rect key="frame" x="20" y="66.5" width="560" height="32"/>
+                                        <rect key="frame" x="20" y="110.5" width="374" height="32"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="31" id="Agz-AY-Am1"/>
                                         </constraints>
@@ -38,7 +40,7 @@
                                         </connections>
                                     </segmentedControl>
                                     <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="mA7-tK-Krh">
-                                        <rect key="frame" x="12" y="10.5" width="576" height="56"/>
+                                        <rect key="frame" x="12" y="54.5" width="390" height="56"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
                                             <outlet property="delegate" destination="6Q1-4r-QbC" id="VPw-B0-0f5"/>
@@ -83,7 +85,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zyf-Ca-Zq7"/>
                     </view>
-                    <tabBarItem key="tabBarItem" systemItem="search" id="LgH-DX-kMq"/>
+                    <tabBarItem key="tabBarItem" title="Search" image="searchIcon" id="LgH-DX-kMq"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="searchBar" destination="mA7-tK-Krh" id="I9u-zb-qhk"/>
@@ -110,7 +112,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="v4q-6d-Fu9">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="v4q-6d-Fu9" customClass="EasyRefreshTV" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <connections>
@@ -162,7 +164,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HZ0-2X-NSF">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HZ0-2X-NSF" customClass="EasyRefreshTV" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <connections>
@@ -198,7 +200,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="H5R-oO-MbX">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="H5R-oO-MbX" customClass="EasyRefreshTV" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <connections>
@@ -228,6 +230,9 @@
             <point key="canvasLocation" x="1582.608695652174" y="603.34821428571422"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="searchIcon" width="25" height="25"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="XmN-q9-D3W"/>
         <segue reference="YcO-Mp-2xo"/>

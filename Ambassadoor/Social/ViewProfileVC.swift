@@ -138,6 +138,8 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 			profilePic.UseDefaultImage()
 		}
 		
+		FollowButton.isHidden = ThisUser.id == Yourself.id
+		
         /*if (Yourself.following?.contains(ThisUser.id))!{
             
             self.follow.setTitle("Following", for: .normal)

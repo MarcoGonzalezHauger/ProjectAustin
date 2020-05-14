@@ -35,9 +35,11 @@ class BankListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
 //        return global.AcceptedOffers.count + 1
         
         if self.StripeFSList.count > 0{
-            addBank_btn.isHidden = true
+            addBank_btn.setTitle("Add Bank", for: .normal)
+            //addBank_btn.isHidden = true
         }else{
-            addBank_btn.isHidden = false
+            addBank_btn.setTitle("Change Bank", for: .normal)
+            //addBank_btn.isHidden = false
         }
         return self.StripeFSList.count
     }

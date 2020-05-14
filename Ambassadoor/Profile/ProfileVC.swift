@@ -105,6 +105,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	
 	
 	@IBAction func logOut(_ sender: Any) {
+        refreshDelegates.removeAll()
 		signOutofAmbassadoor()
 		attemptedLogOut = true
         UserDefaults.standard.removeObject(forKey: "userID")
@@ -125,7 +126,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 				var goal = 0.0
 				var index = 0
 				while index < TierThreshholds.count {
-					if Yourself.followerCount > TierThreshholds[index] {
+					if Yourself.followerCount >= TierThreshholds[index] {
 						//found goal (tier + 1)
 						goal = TierThreshholds[index + 1]
 						//minimim goal
@@ -143,7 +144,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		}
 		if indexPath.row == 1 {
             let cell = shelf.dequeueReusableCell(withIdentifier: "cashBox", for: indexPath) as! CashOutCell
-            cell.amount.text = NumberToPrice(Value: Yourself.yourMoney)
+            cell.amount.text = NumberToPrice(Value: Yourself.yourMoney, enforceCents: true)
             cell.cashOut.addTarget(self, action: #selector(self.cashOutAction(sender:)), for: .touchUpInside)
 			shakerDelegate = cell
 			return cell
@@ -218,7 +219,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
     @IBAction func cashOutAction(sender: UIButton){
         //MoneySegue
 		let fee = GetFeeFromFollowerCount(FollowerCount: Yourself.followerCount)
-		if Yourself.yourMoney < fee {
+		if Yourself.yourMoney <= fee {
 			shakerDelegate?.doItNow()
 			let alert = UIAlertController(title: "You Can't Withdraw", message: "You need more than \(NumberToPrice(Value: fee, enforceCents: true)) to cash out.", preferredStyle: .alert)
 			
@@ -228,8 +229,9 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 			))
 			
 			self.present(alert, animated: true)
+		} else {
+			self.performSegue(withIdentifier: "MoneySegue", sender: self)
 		}
-        self.performSegue(withIdentifier: "MoneySegue", sender: self)
     }
 	
     // pass some value to another VC
@@ -289,8 +291,16 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		
 		
     }
+	
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+		fetchSingleUserDetails(userID: Yourself.id) { (status, user) in
+			if status {
+				Yourself = user
+				setHapticMenu(user: user)
+				self.shelf.reloadData()
+			}
+		}
 		shelf.reloadData()
 		if Yourself.yourMoney > GetFeeFromFollowerCount(FollowerCount: Yourself.followerCount) {
 			self.tabBarController!.tabBar.items![1].badgeValue = "$"

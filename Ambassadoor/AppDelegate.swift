@@ -238,9 +238,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             for data in result as! [NSManagedObject] {
                 
                 let cachedData = CachedImages.init(object: data)
+                let afterSevenDays = cachedData.date!.afterDays(numberOfDays: 7)
+                if Date.getcurrentESTdate().timeIntervalSince1970 > afterSevenDays.timeIntervalSince1970{
+                removeCoreDataObject(object:cachedData.object!)
+                }else{
                 global.cachedImageList.append(cachedData)
+                }
+                //global.cachedImageList.append(cachedData)
                 
             }
+            print("coredatecount=",global.cachedImageList.count)
         }catch {
             
             print("Failed")

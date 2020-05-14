@@ -1290,7 +1290,7 @@ func getFollowingList(completion: @escaping(_ status: Bool, _ users: [AnyObject]
                         
                     }else{
                         if let businessUser = value["user"] as? [String: AnyObject]{
-                            var business = businessUser
+                            let business = businessUser
                             let company = CompanyDetails.init(dictionary: business)
 							company.userId = key
                             usersList.append(company)
@@ -1331,7 +1331,25 @@ func getFollowingList(completion: @escaping(_ status: Bool, _ users: [AnyObject]
     
 }
 
+var currentOfferPool: [Offer] = []
+var latestPull: Date?
+var rememberOfferPoolFor: Double = 5
+
+
 func GetOfferPool(completion: @escaping (_ offerList: [Offer])-> Void) {
+	if let latest = latestPull {
+		
+		//if offerpool was gotten in the last 10 seconds, just use the one from the last 10 seconds.
+		
+		if latest.timeIntervalSinceNow > -(rememberOfferPoolFor - 0.1) {
+//			print("OFFERPOOL : grabbed from existing")
+			completion(currentOfferPool)
+			return
+		}
+//		print("OFFERPOOL : needs refresh")
+	} else {
+//		print("OFFERPOOL : first time")
+	}
 	let ref = Database.database().reference().child("OfferPool")
     ref.observeSingleEvent(of: .value, with: { (snapshot) in
         if let totalDict = snapshot.value as? [String:[String: AnyObject]] {
@@ -1343,8 +1361,14 @@ func GetOfferPool(completion: @escaping (_ offerList: [Offer])-> Void) {
                 }
             }
 			offerList.sort { (offer1, offer2) -> Bool in
-				return offer1.offerdate > offer2.offerdate
+				if offer1.isDefaultOffer == offer2.isDefaultOffer {
+					return offer1.offerdate > offer2.offerdate
+				} else {
+					return offer1.isDefaultOffer
+				}
             }
+			currentOfferPool = offerList
+			latestPull = Date()
             completion(offerList)
         }
     }) { (error) in

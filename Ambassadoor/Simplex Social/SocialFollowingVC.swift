@@ -122,34 +122,6 @@ class SocialFollowingVC: UIViewController, UITableViewDelegate, UITableViewDataS
 		tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    @IBAction func followBusinessAction(_ sender: UIButton){
-        
-        let ThisUser = self.userList[sender.tag] as! CompanyDetails
-
-        if (Yourself.businessFollowing?.contains(ThisUser.userId!))!{
-
-            sender.setTitle("Follow", for: .normal)
-            var followingList = Yourself.businessFollowing
-            if let i = followingList?.firstIndex(of: ThisUser.userId!){
-                followingList?.remove(at: i)
-                Yourself.businessFollowing = followingList
-                updateBusinessFollowingList(company: ThisUser, userID: ThisUser.userId!, ownUserID: Yourself)
-                removeFollowingFollowerBusinessUser(user: ThisUser)
-                self.userList.remove(at: sender.tag)
-                self.followingTable.reloadData()
-            }
-        }else{
-            sender.setTitle("Unfollow", for: .normal)
-            var followingList = Yourself.businessFollowing
-            followingList?.append(ThisUser.userId!)
-            Yourself.businessFollowing = followingList
-            updateBusinessFollowingList(company: ThisUser, userID: ThisUser.userId!, ownUserID: Yourself)
-            updateFollowingFollowerBusinessUser(user: ThisUser, identifier: "business")
-        }
-
-    }
-
-    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -163,8 +135,7 @@ class SocialFollowingVC: UIViewController, UITableViewDelegate, UITableViewDataS
         }else if segue.identifier == "FromSearchToBV"{
             let view = segue.destination as! ViewBusinessVC
             view.fromSearch = true
-            view.businessDatail = (sender as! CompanyDetails)
-            view.getFollowing(businessData: (sender as! CompanyDetails))
+			view.businessDatail = (sender as! CompanyDetails)
 			view.delegate = self
         }
     }

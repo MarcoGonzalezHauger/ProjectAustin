@@ -8,61 +8,15 @@
 
 import UIKit
 
-class BusinessUserTVC: UITableViewCell, FollowerButtonDelegete {
-	
-	func isFollowingChanged(sender: AnyObject, newValue: Bool) {
-		if let ThisUser = businessDatail {
-			if !newValue {
-				//UNFOLLOWING
-				var followingList = Yourself.businessFollowing
-				if let i = followingList?.firstIndex(of: ThisUser.userId!){
-					followingList?.remove(at: i)
-					Yourself.businessFollowing = followingList
-					updateBusinessFollowingList(company: ThisUser, userID: ThisUser.userId!, ownUserID: Yourself)
-					removeFollowingFollowerBusinessUser(user: ThisUser)
-					
-				}
-			}else{
-				//FOLLOWING
-				var followingList = Yourself.businessFollowing ?? []
-				if !followingList.contains(ThisUser.userId!) {
-					followingList.append(ThisUser.userId!)
-				}
-				Yourself.businessFollowing = followingList
-				updateBusinessFollowingList(company: ThisUser, userID: ThisUser.userId!, ownUserID: Yourself)
-				updateFollowingFollowerBusinessUser(user: ThisUser, identifier: "business")
-			}
-		}
+
+
+class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SearchBarDelegate, followUpdateDelegate, EasyRefreshDelegate {
+	func wantsReload(stopRefreshing: @escaping () -> Void) {
+		self.businessTempArray.shuffle()
+		self.businessUserTable.reloadData()
+		stopRefreshing()
 	}
 	
-    @IBOutlet weak var businessLogo: UIImageView!
-    @IBOutlet weak var name: UILabel!
-    @IBOutlet weak var mission: UILabel!
-	@IBOutlet weak var BusinessButton: FollowButtonSmall!
-	
-    var businessDatail: CompanyDetails? {
-        didSet{
-            if let business = businessDatail{
-                
-                if let picurl = business.logo {
-                    self.businessLogo.downloadAndSetImage(picurl)
-                } else {
-                    self.businessLogo.UseDefaultImage()
-                }
-                
-                self.name.text = business.name
-                self.mission.text = business.mission
-                
-				BusinessButton.isFollowing = (Yourself.businessFollowing?.contains(business.userId!))!
-				BusinessButton.isBusiness = true
-				BusinessButton.delegate = self
-                
-            }
-        }
-    }
-}
-
-class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SearchBarDelegate, followUpdateDelegate {
 	
 	func followingUpdated() {
 		businessUserTable.reloadData()
@@ -81,36 +35,38 @@ class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
     }
     
-    @IBOutlet weak var businessUserTable: UITableView!
+    @IBOutlet weak var businessUserTable: EasyRefreshTV!
     
     var businessTempArray = [CompanyDetails]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         businessUserTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
-        // Do any additional setup after loading the view.
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        SearchMenuVC.searchDelegate = self
+		businessUserTable.easyRefreshDelegate = self
+        
         if global.BusinessUser.count == 0 {
         _ = GetAllBusiness(completion: { (business) in
             
             global.BusinessUser = business
             self.businessTempArray = business
+			self.businessTempArray.shuffle()
             DispatchQueue.main.async {
                 self.businessUserTable.reloadData()
             }
         })
         }else{
             self.businessTempArray = global.BusinessUser
+			self.businessTempArray.shuffle()
             DispatchQueue.main.async {
                 self.businessUserTable.reloadData()
             }
         }
     }
     
+	override func viewWillAppear(_ animated: Bool) {
+		        SearchMenuVC.searchDelegate = self
+	}
+	
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.businessTempArray.count
     }
@@ -181,8 +137,7 @@ class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         if segue.identifier == "FromBusinessSearchToBV"{
             let view = segue.destination as! ViewBusinessVC
             view.fromSearch = true
-            view.businessDatail = (sender as! CompanyDetails)
-            view.getFollowing(businessData: (sender as! CompanyDetails))
+			view.businessDatail = (sender as! CompanyDetails)
 			view.delegate = self
         }
     }
