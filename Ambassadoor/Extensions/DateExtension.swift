@@ -115,6 +115,12 @@ extension Date {
         //        dateFormatter.locale = Locale.current
         return dateFormatter.string(from: date) // replace Date String
     }
+    
+    static func getcurrentESTdate()-> Date{
+        let curDateStr = Date.getStringFromDate(date: Date())
+        let currentDate = Date.getDateFromString(date: curDateStr!)
+        return currentDate!
+    }
     //"yyyy/MMM/dd HH:mm:ss"
     static func getStringFromSecondDate(date:Date) -> String? {
         let dateFormatter = DateFormatter()

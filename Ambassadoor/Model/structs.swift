@@ -790,10 +790,14 @@ class TransactionDetails: NSObject {
 class CachedImages: NSObject {
     var link: String?
     var imagedata: Data?
+    var object: NSManagedObject?
+    var date: Date?
     
     init(object: NSManagedObject) {
         self.link = (object.value(forKey: "url") as! NSString) as String
         self.imagedata = (object.value(forKey: "imagedata") as! Data)
+        self.date = (object.value(forKey: "updatedDate") as? Date ?? Date.getcurrentESTdate())
+        self.object = object
     }
 }
 

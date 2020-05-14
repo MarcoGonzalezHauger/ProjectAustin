@@ -93,8 +93,14 @@ class ResetPasswordVC: UIViewController {
                                         self.PasswordResetSuccess(otp: otpCode)
                                          
                                      }else{
+                                        
+                                        
                                      }
-                                 }
+                                 }else{
+                                    self.showStandardAlertDialog(title: "Alert", msg: "Server Error") { (action) in
+                                        
+                                    }
+                                }
                                  
                              }catch _ {
                                  

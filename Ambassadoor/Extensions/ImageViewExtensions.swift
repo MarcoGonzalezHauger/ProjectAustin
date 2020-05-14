@@ -119,13 +119,11 @@ func saveCoreData(link: String, data: Data) {
 	let imageData = NSManagedObject(entity: imageDataEntity!, insertInto: context)
 	imageData.setValue(data, forKey: "imagedata")
 	imageData.setValue(link, forKey: "url")
-	let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
-	print(paths[0])
-	do {
-		try imageData.managedObjectContext?.save()
-	} catch {
-		print("Failed saving")
-	}
+    imageData.setValue(Date.getcurrentESTdate(), forKey: "updatedDate")
+    let cacheData = CachedImages.init(object: imageData)
+    global.cachedImageList.append(cacheData)
+    saveCoreDataUpdate(object: imageData)
+	
 	
 	
 }
@@ -178,6 +176,11 @@ func downloadImage(_ urlLink: String, completed: @escaping (_ image: UIImage?) -
 		if let image = UIImage(data: cachedImage.first!.imagedata!){
 			
 			//print("CHACHED  : \(urlLink)")
+            
+            if let imageData = cachedImage.first!.object {
+                imageData.setValue(Date.getcurrentESTdate(), forKey: "updatedDate")
+                saveCoreDataUpdate(object: imageData)
+            }
 			completed(image)
 			return
 			

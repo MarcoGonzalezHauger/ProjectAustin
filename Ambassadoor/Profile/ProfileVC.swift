@@ -105,6 +105,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	
 	
 	@IBAction func logOut(_ sender: Any) {
+        refreshDelegates.removeAll()
 		signOutofAmbassadoor()
 		attemptedLogOut = true
         UserDefaults.standard.removeObject(forKey: "userID")

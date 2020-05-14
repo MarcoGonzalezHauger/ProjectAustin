@@ -10,6 +10,7 @@
 import Foundation
 import UIKit
 import Firebase
+import CoreData
 
 func NumberToPrice(Value: Double, enforceCents isBig: Bool = false) -> String {
 	if floor(Value) == Value && isBig == false {
@@ -948,6 +949,35 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
         }
         
     }
+}
+
+func saveCoreDataUpdate(object: NSManagedObject) {
+    
+    let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
+    print(paths[0])
+    do {
+        try object.managedObjectContext?.save()
+    } catch {
+        print("Failed saving")
+    }
+    
+}
+
+func removeCoreDataObject(object: NSManagedObject) {
+    
+    let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
+    
+    print(paths[0])
+    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    do {
+        context.delete(object)
+        try context.save()
+    } catch {
+        print("Failed saving")
+    }
+    
 }
 
 func offerIsFiliteredForUser(offer: Offer) -> Bool {
