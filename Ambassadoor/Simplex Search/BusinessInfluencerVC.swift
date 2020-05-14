@@ -10,7 +10,16 @@ import UIKit
 
 
 
-class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SearchBarDelegate, followUpdateDelegate {
+class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SearchBarDelegate, followUpdateDelegate, EasyRefreshDelegate {
+	
+	func wantsReload(stopRefreshing: @escaping () -> Void) {
+		self.totalUserTempData.shuffle()
+		DispatchQueue.main.async {
+			self.UserTable.reloadData()
+		}
+		stopRefreshing()
+	}
+	
 	
 	func followingUpdated() {
 		UserTable.reloadData()
@@ -30,7 +39,7 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     
-    @IBOutlet weak var UserTable: UITableView!
+    @IBOutlet weak var UserTable: EasyRefreshTV!
     
     var totalUserData = [AnyObject]()
     var totalUserTempData = [AnyObject]()
@@ -38,21 +47,16 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         UserTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
-        // Do any additional setup after loading the view.
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        SearchMenuVC.searchDelegate = self
-        self.totalUserData.removeAll()
+		UserTable.easyRefreshDelegate = self
+                self.totalUserData.removeAll()
         self.totalUserTempData.removeAll()
         if global.SocialData.count != 0 {
             if global.BusinessUser.count != 0 {
                 
                 self.totalUserData.append(contentsOf: global.BusinessUser)
                 self.totalUserData.append(contentsOf: global.SocialData)
-                self.totalUserData.shuffle()
                 self.totalUserTempData = self.totalUserData
+				self.totalUserTempData.shuffle()
                 DispatchQueue.main.async {
                     self.UserTable.reloadData()
                 }
@@ -63,8 +67,8 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
                     
                     self.totalUserData.append(contentsOf: global.BusinessUser)
                     self.totalUserData.append(contentsOf: global.SocialData)
-                    self.totalUserData.shuffle()
                     self.totalUserTempData = self.totalUserData
+					self.totalUserTempData.shuffle()
                     DispatchQueue.main.async {
                         self.UserTable.reloadData()
                     }
@@ -83,8 +87,8 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
                     
                     self.totalUserData.append(contentsOf: global.BusinessUser)
                     self.totalUserData.append(contentsOf: global.SocialData)
-                    self.totalUserData.shuffle()
                     self.totalUserTempData = self.totalUserData
+					self.totalUserTempData.shuffle()
                     DispatchQueue.main.async {
                         self.UserTable.reloadData()
                     }
@@ -95,6 +99,12 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
             })
             
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        SearchMenuVC.searchDelegate = self
+
     }
     
     
@@ -275,8 +285,7 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
         }else if segue.identifier == "FromSearchToBV"{
             let view = segue.destination as! ViewBusinessVC
             view.fromSearch = true
-            view.businessDatail = (sender as! CompanyDetails)
-            view.getFollowing(businessData: (sender as! CompanyDetails))
+			view.businessDatail = (sender as! CompanyDetails)
 			view.delegate = self
         }
     }

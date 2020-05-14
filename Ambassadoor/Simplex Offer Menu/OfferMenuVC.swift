@@ -36,9 +36,19 @@ class OfferMenuVC: UIViewController,PageViewDelegate {
         self.desText.text = Description.allValues[1].rawValue
         // Do any additional setup after loading the view.
 		
-		
-		
+		timer = Timer.scheduledTimer(timeInterval: rememberOfferPoolFor, target: self, selector: #selector(self.getPoolThenRefresh(timer:)), userInfo: nil, repeats: true)
+		timer.fire()
     }
+	
+	var timer: Timer!
+
+	@objc func getPoolThenRefresh(timer: Timer?) {
+		GetOfferPool { (offers) in
+			for del in refreshDelegates {
+				del.refreshOfferDate()
+			}
+		}
+	}
 	
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)

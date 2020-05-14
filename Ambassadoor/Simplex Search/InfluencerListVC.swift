@@ -8,7 +8,14 @@
 
 import UIKit
 
-class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SearchBarDelegate, followUpdateDelegate {
+class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SearchBarDelegate, followUpdateDelegate, EasyRefreshDelegate {
+	
+	func wantsReload(stopRefreshing: @escaping () -> Void) {
+		influencerTempArray.shuffle()
+		influencerTable.reloadData()
+		stopRefreshing()
+	}
+	
 	
 	func followingUpdated() {
 		influencerTable.reloadRows(at: [IndexPath.init(row: activeView!, section: 0)], with: .none)
@@ -28,14 +35,33 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     
 	var activeView: Int?
-    @IBOutlet weak var influencerTable: UITableView!
+    @IBOutlet weak var influencerTable: EasyRefreshTV!
     
     var influencerTempArray = [User]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         influencerTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
-        // Do any additional setup after loading the view.
+		influencerTable.easyRefreshDelegate = self
+        
+		if global.SocialData.count == 0{
+			_ = GetAllUsers(completion: { (users) in
+				global.SocialData = users
+				self.influencerTempArray = users
+				self.influencerTempArray.shuffle()
+				DispatchQueue.main.async {
+					self.influencerTable.reloadData()
+				}
+				
+				
+			})
+		}else{
+			self.influencerTempArray = global.SocialData
+			self.influencerTempArray.shuffle()
+			DispatchQueue.main.async {
+				self.influencerTable.reloadData()
+			}
+		}
     }
 
     
@@ -73,24 +99,8 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        SearchMenuVC.searchDelegate = self
-        if global.SocialData.count == 0{
-        _ = GetAllUsers(completion: { (users) in
-            global.SocialData = users
-            self.influencerTempArray = users
-            DispatchQueue.main.async {
-                self.influencerTable.reloadData()
-            }
-            
-            
-        })
-        }else{
-            self.influencerTempArray = global.SocialData
-            DispatchQueue.main.async {
-                self.influencerTable.reloadData()
-            }
-        }
-    }
+		SearchMenuVC.searchDelegate = self
+	}
 	
 	
 	

@@ -34,6 +34,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.setData()
+		
         
 		followButton.delegate = self
 		followButton.isBusiness = true
@@ -63,15 +64,24 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
 		}
 		delegate?.followingUpdated()
 	}
-    
+	
+	@IBOutlet weak var officialLabel: UILabel!
+	@IBOutlet weak var reportButton: UIButton!
+	
     func setData() {
-        
-        if !fromSearch!{
+		if !fromSearch!{
             self.offerTable.isHidden = true
             self.offerStatus.isHidden = true
-        }
+		}
         
         if let businessData = businessDatail{
+			if fromSearch!{
+				getFollowing(businessData: businessData)
+			}
+			
+			reportButton.isHidden = businessData.isOfficialAmbassadoorAccount
+			officialLabel.isHidden = !businessData.isOfficialAmbassadoorAccount
+			
 			followButton.isFollowing = (Yourself.businessFollowing?.contains(businessData.userId!))!
             if let picurl = businessData.logo {
                 self.companyLogo.downloadAndSetImage(picurl)

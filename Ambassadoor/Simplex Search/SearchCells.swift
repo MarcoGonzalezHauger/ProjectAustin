@@ -112,7 +112,7 @@ class InfluencerTVC: UITableViewCell, FollowerButtonDelegete {
                 if let picurl = user.profilePicURL {
                     self.userImage.downloadAndSetImage(picurl)
                 } else {
-                    self.userImage.UseDefaultImage()
+					self.userImage.UseDefaultImage()
                 }
                 
                 //self.userName.text = "@\(user.username)"

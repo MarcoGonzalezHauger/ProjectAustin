@@ -103,9 +103,9 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		if offerVariation! == .canNotBeAccepted {
 			return 3
 		}else if offerVariation! == .canBeAccepted {
-			return 5
+			return offer!.isDefaultOffer ? 4 : 5
 		}else if offerVariation! == .inProgress {
-			return 5
+			return offer!.isDefaultOffer ? 4 : 5
 		}else if self.offerVariation! == .didNotPostInTime {
 			return 3
 		}else if self.offerVariation! == .willBePaid {
@@ -177,6 +177,9 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	}
 	
 	func CreateOfferMoneyCell() -> UITableViewCell {
+		if offer!.isDefaultOffer {
+			return offerViewTable.dequeueReusableCell(withIdentifier: "verifyInfo")!
+		}
 		var cell  = offerViewTable.dequeueReusableCell(withIdentifier: "moneyInfo") as? OfferMoneyTVC
 		if cell == nil {
 			let nib = Bundle.main.loadNibNamed("OfferMoneyTVC", owner: self, options: nil)
@@ -216,15 +219,22 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 			}
 			
 		}else if offerVariation! == .canBeAccepted {
-			
-			switch indexPath.row {
-			case 0: return CreateReservedCell()
-			case 1: return CreateOfferMoneyCell()
-			case 2: return CreateCompanyInfoCell()
-			case 3: return CreatePostInfoCell(prompt: "You would post the following to Instagram")
-			default: return CreateAcceptButtonCell(indexPath: indexPath)
+			if offer!.isDefaultOffer {
+				switch indexPath.row {
+				case 0: return CreateOfferMoneyCell()
+				case 1: return CreateCompanyInfoCell()
+				case 2: return CreatePostInfoCell(prompt: "You would post the following to Instagram")
+				default: return CreateAcceptButtonCell(indexPath: indexPath)
+				}
+			} else {
+				switch indexPath.row {
+				case 0: return CreateReservedCell()
+				case 1: return CreateOfferMoneyCell()
+				case 2: return CreateCompanyInfoCell()
+				case 3: return CreatePostInfoCell(prompt: "You would post the following to Instagram")
+				default: return CreateAcceptButtonCell(indexPath: indexPath)
+				}
 			}
-			
 		}else if offerVariation! == .inProgress {
 			
 			switch indexPath.row {
@@ -314,12 +324,21 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 			default: return 74.0
 			}
 		} else if offerVariation! == .canBeAccepted {
-			switch indexPath.row {
-			case 0: return 69.0
-			case 1: return 222.0
-			case 2: return 74.0
-			case 3: return postRowHeight.returnRowHeight(count: offer!.posts.count).rawValue
-			default: return 74.0
+			if offer!.isDefaultOffer {
+				switch indexPath.row {
+				case 0: return 222.0
+				case 1: return 74.0
+				case 2: return postRowHeight.returnRowHeight(count: offer!.posts.count).rawValue
+				default: return 74.0
+				}
+			} else {
+				switch indexPath.row {
+				case 0: return 69.0
+				case 1: return 222.0
+				case 2: return 74.0
+				case 3: return postRowHeight.returnRowHeight(count: offer!.posts.count).rawValue
+				default: return 74.0
+				}
 			}
 		} else if offerVariation! == .inProgress {
 			switch indexPath.row {
@@ -359,8 +378,16 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	
     
 	func acceptAction() {
+		if self.offer!.isDefaultOffer {
+			updateIsAcceptedOffer(offer: self.offer!, money: 0)
+			updateUserIdOfferPool(offer: self.offer!)
+			self.dismiss(animated: true) {
+				self.tabBarController?.selectedIndex = 3
+			}
+			return
+		}
 		
-		if self.offerCount < 2{
+		if self.offerCount < 2  {
 			
 			if let incresePay = self.offer!.incresePay {
 				let pay = calculateCostForUser(offer: self.offer!, user: Yourself, increasePayVariable: incresePay)
@@ -380,7 +407,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 			
 			let alertController = UIAlertController.init(title: "Accept Failed", message: "You can only have a maximum of 2 active offers at a time.", preferredStyle: .alert)
 			
-			let action = UIAlertAction.init(title: "Ok", style: .default) { (action) in
+			let action = UIAlertAction.init(title: "OK", style: .default) { (action) in
 				
 			}
 			alertController.addAction(action)
@@ -407,58 +434,52 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     var offerCount: Int = 0
     
 	
+	@IBOutlet weak var reportButton: UIButton!
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		reportButton.isHidden = offer!.isDefaultOffer
 		
 		(navigationController as! StandardNC).shouldDismissOnLastSlide = false
 		offerViewTable.alwaysBounceVertical = false
 		offerViewTable.contentInset = UIEdgeInsets(top: 2, left: 0, bottom: 0, right: 0)
 		
 		if self.offerVariation == .canBeAccepted {
-            
-           let pay = calculateCostForUser(offer: self.offer!, user: Yourself, increasePayVariable: self.offer!.incresePay!)
-            
-            if pay <= self.offer!.cashPower!{
-                
-			self.offerViewTable.dataSource = self
-			self.offerViewTable.delegate = self
-			
-			if !(self.offer!.reservedUsers!.keys.contains(Yourself.id)){
-				
-				let dateString = Date.getStringFromDate(date: Date().addMinutes(minute: 5))
-				if let dateOne = Date.getDateFromString(date: dateString!){
-					print("vvv=",Date.getStringFromDate(date: Date()) as Any)
-					print("vvv1=",Date.getDateFromString(date: Date.getStringFromDate(date: Date())!) as Any)
-					print(dateOne)
+			if offer!.enoughCashForInfluencer {
+				self.offerViewTable.dataSource = self
+				self.offerViewTable.delegate = self
+				if !(self.offer!.reservedUsers!.keys.contains(Yourself.id)){
+					if !offer!.isDefaultOffer {
+						let dateString = Date.getStringFromDate(date: Date().addMinutes(minute: 5))
+						if let dateOne = Date.getDateFromString(date: dateString!){
+							print("vvv=",Date.getStringFromDate(date: Date()) as Any)
+							print("vvv1=",Date.getDateFromString(date: Date.getStringFromDate(date: Date())!) as Any)
+							print(dateOne)
+						}
+						let pay = calculateCostForUser(offer: self.offer!, user: Yourself, increasePayVariable: self.offer!.incresePay!)
+						let deductedAmount = pay + (self.offer!.commission! * self.offer!.cashPower!)
+						let cash = (self.offer!.cashPower! - deductedAmount)
+						self.offer!.cashPower = cash
+						updateCashPower(cash: cash, offer: self.offer!)
+						
+						self.offer!.reservedUsers![Yourself.id] = ["isReserved":true as AnyObject,"isReservedUntil":dateString as AnyObject,"cashPower":deductedAmount as AnyObject]
+						updateReservedOfferStatus(offer: self.offer!)
+					}
 				}
-				
-                    let deductedAmount = pay + (self.offer!.commission! * self.offer!.cashPower!)
-					let cash = (self.offer!.cashPower! - deductedAmount)
-					self.offer!.cashPower = cash
-					updateCashPower(cash: cash, offer: self.offer!)
-                    
-                    self.offer!.reservedUsers![Yourself.id] = ["isReserved":true as AnyObject,"isReservedUntil":dateString as AnyObject,"cashPower":deductedAmount as AnyObject]
-                    updateReservedOfferStatus(offer: self.offer!)
+				getAcceptedOffers { (status, offers) in
 					
+					if status{
+						self.offerCount = offers.filter{CheckIfOferIsActive(offer: $0) && $0.isDefaultOffer == false}.count
+					}
+					DispatchQueue.main.async {
+						self.offerViewTable.reloadData()
+					}
+					
+				}
+			}else{
+				self.dismiss(animated: true, completion: nil)
 			}
-                
-            getAcceptedOffers { (status, offers) in
-                
-                if status{
-					self.offerCount = offers.filter{CheckIfOferIsActive(offer: $0)}.count
-                }
-                DispatchQueue.main.async {
-                    self.offerViewTable.reloadData()
-                }
-                
-            }
-			
-			
-            
-            }else{
-                self.dismiss(animated: true, completion: nil)
-            }
 			
 		}else if self.offerVariation == .canNotBeAccepted {
 			
@@ -482,6 +503,9 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 				
 			}
 			
+		} else {
+			self.offerViewTable.dataSource = self
+			self.offerViewTable.delegate = self
 		}
 		
 	}
