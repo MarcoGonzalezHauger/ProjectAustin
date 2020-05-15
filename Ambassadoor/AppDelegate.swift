@@ -635,10 +635,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let usersRef = Database.database().reference().child("users").child(Yourself.id)
         usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let dictionary = snapshot.value as? [String: AnyObject] {
-                let userInstance = User(dictionary: dictionary )
-                Yourself = userInstance
-				print("Appdelegate gender = \(String(describing: Yourself.gender))")
-
+                
+                do {
+                    let userInstance = try User(dictionary: dictionary )
+                    Yourself = userInstance
+                    print("Appdelegate gender = \(String(describing: Yourself.gender))")
+                } catch let error {
+                    print(error)
+                }
             }
         }, withCancel: nil)
     }

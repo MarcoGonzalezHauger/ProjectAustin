@@ -50,7 +50,7 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
 					self.companyLogo.UseDefaultImage()
 				}
 				self.amount.text = offerValue.isDefaultOffer ? "Get Verified" : NumberToPrice(Value: offerValue.money)
-				self.name.text = offerValue.companyDetails!.name
+                self.name.text = offerValue.companyDetails != nil ? offerValue.companyDetails!.name : ""
 				self.setTextandConstraints(offerValue: offerValue)
 				
 				if offerValue.variation == .inProgress {

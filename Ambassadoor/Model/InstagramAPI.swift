@@ -108,12 +108,18 @@ struct API {
                                         DispatchQueue.main.async {
                                             debugPrint("Got Average Likes of User.")
                                             userDictionary["averageLikes"] = averageLikes
-                                            let user = User(dictionary: userDictionary)
-                                            DispatchQueue.main.async {
-                                                UserDefaults.standard.set(user.id, forKey: "userid")
+                                            
+                                            do {
+                                                let user = try User(dictionary: userDictionary)
+                                                DispatchQueue.main.async {
+                                                    UserDefaults.standard.set(user.id, forKey: "userid")
 
-                                            completed?(user)
+                                                completed?(user)
+                                                }
+                                            } catch let error {
+                                                print(error)
                                             }
+                                            
                                         }
                                     })
                                 }else{

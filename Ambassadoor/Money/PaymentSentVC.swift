@@ -88,10 +88,11 @@ class PaymentSentVC: UIViewController {
 		
 		ref.observeSingleEvent(of: .value, with: {(snapshot) in
 			if let userInfo = snapshot.value as? [String: AnyObject] {
-				let tempYourself = User.init(dictionary: userInfo)
+				
 				
 				//first, we see if the "yourMoney" value is accurate.
-				
+                do {
+                let tempYourself = try User.init(dictionary: userInfo)
 				if tempYourself.yourMoney == Yourself.yourMoney {
 					//If it is, set yourMoney to zero.
 
@@ -147,6 +148,10 @@ class PaymentSentVC: UIViewController {
 					
 					self.present(alert, animated: true)
 				}
+                
+                } catch let error {
+                    print(error)
+                }
 			}
 		}, withCancel: nil)
 	}
