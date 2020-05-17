@@ -114,7 +114,8 @@ func calculateCostForUser(offer: Offer, user: User, increasePayVariable: Double 
 	if offer.isDefaultOffer {
 		return 0
 	}
-    return 0.055 * user.averageLikes! * Double(offer.posts.count) * increasePayVariable
+	//changed from 5.5¢ -> 6¢ on May 17th, 2020.
+    return 0.06 * user.averageLikes! * Double(offer.posts.count) * increasePayVariable
 }
 
 func DateToCountdown(date: Date) -> String? {
@@ -403,20 +404,34 @@ func OfferFromID(id: String, completion:@escaping(_ offer:Offer?)->()) {
 }
 
 func CompressNumber(number: Double) -> String {
+	var returnValue = ""
+	var suffix = ""
 	switch number {
-	case 0...9999:
-		return NumberToStringWithCommas(number: number)
-	case 10000...99999:
-		return "\(floor(number/100) / 10)K"
+	case 0...999:
+		returnValue =  String(number)
+	case 1000...99999:
+		returnValue =  "\(floor(number/100) / 10)"
+		suffix = "K"
 	case 100000...999999:
-		return "\(floor(number/1000))K"
+		returnValue =  "\(floor(number/1000))"
+		suffix = "K"
 	case 1000000...9999999:
-		return "\(floor(number/100000) / 10)M"
-	case 10000000...999999999:
-		return "\(floor(number/1000000))M"
+		returnValue =  "\(floor(number/10000) / 100)"
+		suffix = "M"
+	case 10000000...99999999:
+		returnValue =  "\(floor(number/100000) / 10)"
+		suffix = "M"
+	case 100000000...999999999:
+		returnValue =  "\(floor(number/1000000))"
+		suffix = "M"
 	default:
-		return String(number)
+		//okay if you have more than a billion followers/average likes... c'mon.
+		return "A Lot."
 	}
+	if returnValue.hasSuffix(".00") || returnValue.hasSuffix(".0") {
+		returnValue = String(returnValue.split(separator: ".").first!)
+	}
+	return returnValue + suffix
 }
 
 func PostTypeToText(posttype: TypeofPost) -> String {

@@ -42,7 +42,7 @@ class PaymentSentVC: UIViewController {
 		let fee = GetFeeForInfluencer(Yourself)
         
 		MoneyAmount = Yourself!.yourMoney - fee
-		feeAmount_lbl.text = "Ambassadoor will take \(NumberToPrice(Value: fee)).\nIf you earn more money, we will still only take \(NumberToPrice(Value: fee)) when you withdraw."
+		feeAmount_lbl.text = "Ambassadoor will take a flat fee of \(NumberToPrice(Value: fee)) whenever you withdraw."
 
         print("yourMony=\(Yourself!.yourMoney)")
 	}
