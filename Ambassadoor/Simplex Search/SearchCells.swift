@@ -129,12 +129,12 @@ class InfluencerTVC: UITableViewCell, FollowerButtonDelegete {
                 
                 if user.isDefaultOfferVerify {
                     verifyLogo_img.image = UIImage(named: "verify_Logo")
-                    self.leadingUserName.constant = 34
+                    self.leadingUserName.constant = 38
                     self.updateConstraints()
                     self.layoutIfNeeded()
                 } else {
                     verifyLogo_img.image = nil
-                    self.leadingUserName.constant = 8
+                    self.leadingUserName.constant = 12
                     self.updateConstraints()
                     self.layoutIfNeeded()
                 }
@@ -143,7 +143,7 @@ class InfluencerTVC: UITableViewCell, FollowerButtonDelegete {
                 
                 if blackIcons.contains(user.username) {
                       verifyLogo_img.image = UIImage.init(named: "verified_black")
-                    self.leadingUserName.constant = 34
+                    self.leadingUserName.constant = 38
                     self.updateConstraints()
                     self.layoutIfNeeded()
                 }

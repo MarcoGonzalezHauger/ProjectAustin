@@ -4,7 +4,7 @@
 //
 //  Created by Marco Gonzalez Hauger on 11/22/18.
 //  Copyright © 2018 Tesseract Freelance, LLC. All rights reserved.
-//  Exclusive property of Tesseract Freelance, LLC.
+//  All code contained in this file is sole property of Marco Gonzalez Hauger.
 //
 
 import Foundation
@@ -115,14 +115,20 @@ class Offer: NSObject {
     
     var incresePay: Double?
     
+	var coDetails: CompanyDetails?
 	var companyDetails: CompanyDetails?
-//    {
-//		get {
-//			return global.BusinessUser.filter({ (co1) -> Bool in
-//				return co1.userId ?? "" == self.businessAccountID
-//				}).first
-//		}
-//	}
+    {
+		get {
+			let updatedCompany = global.BusinessUser.filter({ (co1) -> Bool in
+				return co1.userId ?? "" == self.businessAccountID
+				}).first
+			if updatedCompany == nil {
+				return coDetails
+			} else {
+				return updatedCompany
+			}
+		}
+	}
 	var businessAccountID: String
     var accepted: [String]?
     
@@ -164,6 +170,12 @@ class Offer: NSObject {
 				return true
 			}
 			return offerIsFiliteredForUser(offer: self)
+		}
+	}
+	
+	var isCancelledByUser: Bool {
+		get {
+			return self.posts.filter{$0.denyMessage ?? "" == "You cancelled the offer." }.count > 0
 		}
 	}
 	
@@ -218,12 +230,16 @@ class Offer: NSObject {
 	
     
     init(dictionary: [String: AnyObject]) throws {
-        
+        let err = isDeseralizable(dictionary: dictionary, type: .offer)
+		if err.count > 0 {
+			throw NSError(domain: err.joined(separator: ", "), code: 101, userInfo: ["class": "Offer Class", "value": dictionary])
+		}
+		
         self.status = dictionary["status"] as! String
         self.money = dictionary["money"] as! Double
         self.company = nil
         guard let companyDetails = dictionary["companyDetails"] as? [String: AnyObject] else{
-            throw NSError(domain: "companyDetails returned nil", code: 101, userInfo: ["class": "Offer Class", "value":dictionary])
+            throw NSError(domain: "companyDetails returned nil", code: 101, userInfo: ["class": "Offer Class", "value": dictionary])
         }
         self.company = Company.init(name: companyDetails["name"] as! String, logo: companyDetails["logo"] as? String, mission: companyDetails["mission"] as! String, website: companyDetails["website"] as! String, account_ID: companyDetails["account_ID"] as! String, instagram_name: "", description: "", followers: companyDetails["followers"] as? [String] ?? [])
         
@@ -273,11 +289,12 @@ class Offer: NSObject {
         self.influencerFilter = dictionary["influencerFilter"] as? [String: AnyObject] ?? [:]
         self.incresePay = dictionary["incresePay"] as? Double ?? 1.0
         
-        guard let comDetailsDict = dictionary["companyDetails"] as? [String: AnyObject] else {
+        guard var comDetailsDict = dictionary["companyDetails"] as? [String: AnyObject] else {
             throw NSError(domain: "companyDetails returned nil", code: 101, userInfo: ["class": "Offer Class", "value":dictionary])
         }
         do {
-            self.companyDetails = try CompanyDetails.init(dictionary: comDetailsDict)
+			comDetailsDict["userId"] = dictionary["ownerUserID"]
+            self.coDetails = try CompanyDetails.init(dictionary: comDetailsDict)
         } catch let error {
             print(error)
         }
@@ -746,16 +763,18 @@ class CompanyDetails: NSObject {
     
     
     init(dictionary:[String: AnyObject]) throws {
+		
+		let err = isDeseralizable(dictionary: dictionary, type: .businessDetails)
+		if err.count > 0 {
+			throw NSError(domain: err.joined(separator: ", "), code: 101, userInfo: ["class": "Business Details Class", "value": dictionary])
+		}
         
         self.name  = dictionary["name"] as! String
         self.logo  = dictionary["logo"] as? String ?? ""
         self.mission = dictionary["mission"] as! String
         self.website  = dictionary["website"] as? String ?? ""
         self.account_ID  = dictionary["account_ID"] as? String ?? ""
-        guard let userId = dictionary["userId"] as? String else{
-        throw NSError(domain: "companyDetails returned nil", code: 101, userInfo: ["class": "Offer Class", "value":dictionary])
-        }
-        self.userId = userId
+        self.userId = dictionary["userId"] as? String
         self.accountBalance  = dictionary["accountBalance"] as? Double ?? 0.0
         self.owner  = dictionary["owner"] as? String ?? ""
         self.referralcode  = dictionary["referralcode"] as? String ?? ""

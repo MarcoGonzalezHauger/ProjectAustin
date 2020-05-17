@@ -4,7 +4,7 @@
 //
 //  Created by Marco Gonzalez Hauger on 11/22/18.
 //  Copyright © 2018 Tesseract Freelance, LLC. All rights reserved.
-//  Exclusive property of Tesseract Freelance, LLC.
+//  All code contained in this file is sole property of Marco Gonzalez Hauger.
 //
 
 import Foundation
@@ -251,11 +251,11 @@ func GetTierFromFollowerCount(FollowerCount: Double) -> Int? {
 }
 
 // get organic subscription fee amount based on instagram followers count
-func GetFeeFromFollowerCount(FollowerCount: Double) -> Double {
+func GetFeeForInfluencer(_ user: User) -> Double {
     
 	//The money faucet
 	
-	var fee = floor(FollowerCount * 0.003 * 2) / 2
+	var fee = floor((user.averageLikes ?? 0) * 0.017 * 2) / 2
 	if fee < 4 {
 		fee = 4
 	}
@@ -308,6 +308,17 @@ func GetCategoryStringFromlist(categories: [String]) -> String {
 	return categories.joined(separator: "\n")
 }
 
+func showAlert(selfVC: UIViewController, caption: String, title: String = "Alert", okayButton: String = "OK") {
+	let alert = UIAlertController(title: title, message: caption, preferredStyle: .alert)
+	
+	alert.addAction(UIAlertAction(title: okayButton, style: .default, handler: { (ui) in
+		selfVC.dismiss(animated: true, completion: nil)
+		
+	}
+	))
+	
+	selfVC.present(alert, animated: true)
+}
 
 // get offer information using offerID
 func OfferFromID(id: String, completion:@escaping(_ offer:Offer?)->()) {
@@ -825,7 +836,7 @@ var refreshDelegates: [refreshDelegate] = []
 func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
 	
 	if reference != nil {
-		if Yourself.yourMoney > GetFeeFromFollowerCount(FollowerCount: Yourself.followerCount) {
+		if Yourself.yourMoney > GetFeeForInfluencer(Yourself) {
 			reference!.tabBar.items![1].badgeValue = "$"
 		} else {
 			reference!.tabBar.items![1].badgeValue = nil
@@ -1031,6 +1042,30 @@ func offerIsFiliteredForUser(offer: Offer) -> Bool {
 	}
 	
 	return categoryMatch && genderMatch && locationMatch
+}
+
+//returns a list of ERRORS
+
+func isDeseralizable(dictionary: [String: AnyObject], type: structType) -> [String] {
+	var necessaryItems: [String] = []
+	var errors: [String] = []
+	switch type {
+	case .offer:
+		necessaryItems = ["status", "money", "companyDetails", "posts", "offer_ID", "offerdate", "ownerUserID", "title", "isAccepted", "expiredate", "cashPower"]
+	case .businessDetails:
+		necessaryItems = ["name", "mission"]
+	}
+	for i in necessaryItems {
+		if dictionary[i] == nil {
+			errors.append("Dictionary[\(i)] returned NIL")
+		}
+	}
+	return errors
+}
+
+enum structType {
+	case offer
+	case businessDetails
 }
 
 

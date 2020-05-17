@@ -39,10 +39,10 @@ class PaymentSentVC: UIViewController {
         paymentSuccessView.isHidden = true
 		view.bringSubviewToFront(paymentSuccessView)
         self.cancel_btn.isHidden = false
-		let fee = GetFeeFromFollowerCount(FollowerCount: Yourself.followerCount)
+		let fee = GetFeeForInfluencer(Yourself)
         
 		MoneyAmount = Yourself!.yourMoney - fee
-		feeAmount_lbl.text = "Ambassadoor will take \(NumberToPrice(Value: fee))."
+		feeAmount_lbl.text = "Ambassadoor will take \(NumberToPrice(Value: fee)).\nIf you earn more money, we will still only take \(NumberToPrice(Value: fee)) when you withdraw."
 
         print("yourMony=\(Yourself!.yourMoney)")
 	}
@@ -71,7 +71,7 @@ class PaymentSentVC: UIViewController {
 		var subAmount:Double = 0.0
 		//we WILL NOT penalize influencers for not using our service!
 		//let pendingMonths = Date.getmonthsBetweenDate(startDate: Date.getDateFromString(date: Yourself.lastPaidOSCDate)!, endDate: Date.getDateFromString(date: Date.getCurrentDate())!)
-		let feeAmount = GetFeeFromFollowerCount(FollowerCount: Yourself.followerCount)
+		let feeAmount = GetFeeForInfluencer(Yourself)
 		let withdrawAmount = MoneyAmount - Double(feeAmount)
 		print("fee=\(feeAmount)")
 		print(withdrawAmount)
@@ -141,7 +141,7 @@ class PaymentSentVC: UIViewController {
 				} else {
 					let alert = UIAlertController(title: "Nice Try (;", message: "Very creative though.\n~Marco, CTO", preferredStyle: .alert)
 					
-					alert.addAction(UIAlertAction(title: "Dang...", style: .default, handler: { (ui) in
+					alert.addAction(UIAlertAction(title: "Aw man...", style: .default, handler: { (ui) in
 						self.dismiss(animated: true, completion: nil)
 					}
 					))

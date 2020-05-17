@@ -4,7 +4,7 @@
 //
 //  Created by Marco Gonzalez Hauger on 1/21/19.
 //  Copyright © 2019 Tesseract Freelance, LLC. All rights reserved.
-//  Exclusive property of Tesseract Freelance, LLC.
+//  All code contained in this file is sole property of Marco Gonzalez Hauger.
 //
 
 import Foundation
@@ -807,7 +807,8 @@ func updateUserIdOfferPool(offer: Offer) {
 
 func updateIsAcceptedOffer(offer: Offer, money: Double) {
     
-    let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id)
+	let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(offer.offer_ID)
+	print("userid: \(Yourself.id)\nOffer ID: \(offer.offer_ID)")
     //let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(ThisOffer.offer_ID)
     let dayCount = offer.posts.count * 2
     
@@ -815,7 +816,7 @@ func updateIsAcceptedOffer(offer: Offer, money: Double) {
     
     //var expireDateString = Date.getStringFromDate(date: Date().afterDays(day: dayCount))!
     var expireDate = Date().afterDays(numberOfDays: dayCount)
-    if offer.offer_ID == "XXXDefault" {
+    if offer.isDefaultOffer {
         let foreverDate = 365 * 1000
         //expireDateString = Date.getStringFromDate(date: Date().afterDays(day: foreverDate))!
         expireDate = Date().afterDays(numberOfDays: foreverDate)
@@ -841,7 +842,7 @@ func updateIsAcceptedOffer(offer: Offer, money: Double) {
     
     //prntRef.updateChildValues(["expiredate":expireDate])
     //prntRef.updateChildValues(["isAccepted":true])
-    prntRef.updateChildValues([offer.offer_ID : offerDict])
+    prntRef.updateChildValues(offerDict)
     NotificationCenter.default.post(name: Notification.Name("updateinprogresscount"), object: nil, userInfo: ["userinfo":"1"])
     
 }
