@@ -25,20 +25,33 @@ class BankListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     var StripeFSList = [StripeAccDetail]()
 
 
-    @IBOutlet weak var shelf: UITableView!
+	@IBOutlet weak var withdrawOffset: NSLayoutConstraint!
+	@IBOutlet weak var shelf: UITableView!
     @IBOutlet weak var emptybank_Lbl: UILabel!
     @IBOutlet weak var addBank_btn: UIButton!
-    
+	@IBOutlet weak var topView: ShadowView!
+	var firstTime = true
+	
     //MARK: Tableview datasource & delegates
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        return global.AcceptedOffers.count + 1
         
-        if self.StripeFSList.count > 0{
-            addBank_btn.isHidden = true
+        if self.StripeFSList.count == 0 {
+			withdrawOffset.constant = 0
+            addBank_btn.setTitle("Add Bank", for: .normal)
+            //addBank_btn.isHidden = true
         }else{
-            addBank_btn.isHidden = false
+			withdrawOffset.constant = -20
+            addBank_btn.setTitle("Change Bank", for: .normal)
+            //addBank_btn.isHidden = false
         }
+		if !firstTime {
+			UIView.animate(withDuration: 0.5) {
+				self.topView.layoutIfNeeded()
+			}
+		}
+		firstTime = false
         return self.StripeFSList.count
     }
     
@@ -88,7 +101,7 @@ class BankListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     @IBAction func withDrawAction(sender: UIButton){
         
-		let fee = GetFeeFromFollowerCount(FollowerCount: Yourself.followerCount)
+		let fee = GetFeeForInfluencer(Yourself)
         
 		let MoneyAmount = Yourself!.yourMoney - fee
 		

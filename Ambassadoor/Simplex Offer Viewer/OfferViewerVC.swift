@@ -4,10 +4,11 @@
 //
 //  Created by K Saravana Kumar on 16/04/20.
 //  Copyright © 2020 Tesseract Freelance, LLC. All rights reserved.
-//	Exclusive Property of Tesseract Freelance, LLC.
+//	All code contained in this file is sole property of Marco Gonzalez Hauger.
 //
 
 import UIKit
+import Firebase
 
 enum postRowHeight: CGFloat {
 	case one = 100, two = 150, three = 200
@@ -66,7 +67,106 @@ protocol AcceptButtonDelegate{
 	func AcceptWasPressed()
 }
 
-class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSource, postDidSelect, reservedTimeEndDelegate, AcceptButtonDelegate, didAcceptDeleagte {
+protocol inProgressDelegate {
+	func reloadNow()
+}
+
+class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSource, postDidSelect, reservedTimeEndDelegate, AcceptButtonDelegate, didAcceptDeleagte, CancelOffer {
+	
+	var delegate: inProgressDelegate?
+	var thisParent: UIViewController?
+	
+	func cancelOffer() {
+		let alert = UIAlertController(title: "Are you sure?", message: "Cancelling this offer cannot be undone. You will not be paid.", preferredStyle: .alert)
+		
+		alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+		
+		alert.addAction(UIAlertAction(title: "I'm Sure", style: .destructive, handler: { (ui) in
+			self.cancelOfferAction()
+		}))
+		
+		self.present(alert, animated: true)
+	}
+	
+	func cancelOfferAction() {
+		//Alg by MARCO!
+		//Cancelling an offer must:
+		//1. make sure this offer is currently not cancelled...
+		//2. change the offer status to: AllRejected. All posts to rejected. The message recieved: "User has cancelled the offer"
+		//3. shouldn't dismiss the offer, should just update it.
+		//4. Update the OfferPool value with the cashPower = cashPower + (GetFeeForOffer(???) or something like this.)
+		
+		guard let OfferID = offer?.offer_ID else {return}
+		let ref = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(OfferID)
+		
+		ref.observeSingleEvent(of: .value) { (snapshot) in
+			if let offerDict = snapshot.value as? [String: AnyObject] {
+				if isDeseralizable(dictionary: offerDict, type: .offer).count == 0 {
+					var currentOffer: Offer?
+					do {
+						currentOffer = try Offer.init(dictionary: offerDict)
+					} catch let error {
+						print(error)
+					}
+					if let currentOffer = currentOffer {
+						if currentOffer.posts.filter({ (post1) -> Bool in
+							return post1.status == "verified" || post1.denyMessage == "You cancelled the offer."
+						}).count == 0 {
+							//Step 1 is now complete.
+							//Step 2: The only thing that needs to be updated is the posts.
+							let posts = currentOffer.posts
+							currentOffer.posts.removeAll()
+							var newPosts = [[String: Any]]()
+							for p in posts {
+								var newPost = p
+								newPost.status = "rejected"
+								newPost.denyMessage = "You cancelled the offer."
+								newPosts.append(API.serializePost(post: newPost))
+								currentOffer.posts.append(newPost)
+							}
+							for p in newPosts {
+								print(p)
+							}
+							ref.updateChildValues(["posts": newPosts]) { (err, dataref) in
+								if err != nil {
+									showAlert(selfVC: self, caption: "Error accessing the database", title: "Cancel Failed", okayButton: "OK")
+								} else {
+									//step 2 passed, the offer was changed in the database. now, change it in the app:
+									self.offer = currentOffer
+									self.offerViewTable.reloadData()
+									
+									//Let's in progress know to update now. (If it's in progress)
+									self.delegate?.reloadNow()
+									
+									//okay, finally make the cashPower in the original offer go UP!
+									let offerPoolRef = Database.database().reference().child("OfferPool").child(currentOffer.ownerUserID).child(OfferID)
+									offerPoolRef.observeSingleEvent(of: .value) { (snapshot) in
+										if let offerDict = snapshot.value as? [String: AnyObject] {
+											if isDeseralizable(dictionary: offerDict, type: .offer).count == 0 {
+												var offerPoolOffer: Offer?
+												do {
+													offerPoolOffer = try Offer.init(dictionary: offerDict)
+												} catch let error {
+													print(error)
+												}
+												if let offerPoolOffer = offerPoolOffer {
+													var newCashPower = offerPoolOffer.cashPower ?? 0
+													newCashPower += currentOffer.money
+													offerPoolRef.updateChildValues(["cashPower": newCashPower]) { (err, dataref) in
+														print("The cancellation of this offer has been completed.")
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 	
 	func didAccept() {
 		acceptAction()
@@ -205,6 +305,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 			let nib = Bundle.main.loadNibNamed("AbortOffer", owner: self, options: nil)
 			cell = (nib![0] as? AbortOffer)!
 		}
+		cell!.delegate = self
 		return cell!
 	}
 	
@@ -378,6 +479,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	
     
 	func acceptAction() {
+//		print("accept action was triggered.")
 		if self.offer!.isDefaultOffer {
 			updateIsAcceptedOffer(offer: self.offer!, money: 0)
 			updateUserIdOfferPool(offer: self.offer!)
@@ -388,19 +490,23 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		}
 		
 		if self.offerCount < 2  {
-			
+//			print("Offer Count < 2")
 			if let incresePay = self.offer!.incresePay {
+//				print("increasPay DOES exist")
 				let pay = calculateCostForUser(offer: self.offer!, user: Yourself, increasePayVariable: incresePay)
 				updateIsAcceptedOffer(offer: self.offer!, money: pay)
 			}else{
+//				print("increasePay Doesn't exist.")
 				let pay = calculateCostForUser(offer: self.offer!, user: Yourself)
 				updateIsAcceptedOffer(offer: self.offer!, money: pay)
 			}
-			
+
+//			print("try to dismiss")
 			updateUserIdOfferPool(offer: self.offer!)
 			
 			self.dismiss(animated: true) {
-				self.tabBarController?.selectedIndex = 3
+//				print("change bar indexpath")
+				self.thisParent?.tabBarController?.selectedIndex = 3
 			}
 		
 		}else{
@@ -443,7 +549,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		
 		(navigationController as! StandardNC).shouldDismissOnLastSlide = false
 		offerViewTable.alwaysBounceVertical = false
-		offerViewTable.contentInset = UIEdgeInsets(top: 2, left: 0, bottom: 0, right: 0)
+		offerViewTable.contentInset = UIEdgeInsets(top: 2, left: 0, bottom: 10, right: 0)
 		
 		if self.offerVariation == .canBeAccepted {
 			if offer!.enoughCashForInfluencer {

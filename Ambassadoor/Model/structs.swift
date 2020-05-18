@@ -4,7 +4,7 @@
 //
 //  Created by Marco Gonzalez Hauger on 11/22/18.
 //  Copyright © 2018 Tesseract Freelance, LLC. All rights reserved.
-//  Exclusive property of Tesseract Freelance, LLC.
+//  All code contained in this file is sole property of Marco Gonzalez Hauger.
 //
 
 import Foundation
@@ -115,11 +115,18 @@ class Offer: NSObject {
     
     var incresePay: Double?
     
-	var companyDetails: CompanyDetails? {
+	var coDetails: CompanyDetails?
+	var companyDetails: CompanyDetails?
+    {
 		get {
-			return global.BusinessUser.filter({ (co1) -> Bool in
+			let updatedCompany = global.BusinessUser.filter({ (co1) -> Bool in
 				return co1.userId ?? "" == self.businessAccountID
 				}).first
+			if updatedCompany == nil {
+				return coDetails
+			} else {
+				return updatedCompany
+			}
 		}
 	}
 	var businessAccountID: String
@@ -163,6 +170,12 @@ class Offer: NSObject {
 				return true
 			}
 			return offerIsFiliteredForUser(offer: self)
+		}
+	}
+	
+	var isCancelledByUser: Bool {
+		get {
+			return self.posts.filter{$0.denyMessage ?? "" == "You cancelled the offer." }.count > 0
 		}
 	}
 	
@@ -216,17 +229,19 @@ class Offer: NSObject {
 	
 	
     
-    init(dictionary: [String: AnyObject]) {
-        
+    init(dictionary: [String: AnyObject]) throws {
+        let err = isDeseralizable(dictionary: dictionary, type: .offer)
+		if err.count > 0 {
+			throw NSError(domain: err.joined(separator: ", "), code: 101, userInfo: ["class": "Offer Class", "value": dictionary])
+		}
+		
         self.status = dictionary["status"] as! String
         self.money = dictionary["money"] as! Double
         self.company = nil
-        if let companyDetails = dictionary["companyDetails"] as? [String: AnyObject]{
-            
-            self.company = Company.init(name: companyDetails["name"] as! String, logo: companyDetails["logo"] as? String, mission: companyDetails["mission"] as! String, website: companyDetails["website"] as! String, account_ID: companyDetails["account_ID"] as! String, instagram_name: "", description: "", followers: companyDetails["followers"] as? [String] ?? [])
-            
+        guard let companyDetails = dictionary["companyDetails"] as? [String: AnyObject] else{
+            throw NSError(domain: "companyDetails returned nil", code: 101, userInfo: ["class": "Offer Class", "value": dictionary])
         }
-        
+        self.company = Company.init(name: companyDetails["name"] as! String, logo: companyDetails["logo"] as? String, mission: companyDetails["mission"] as! String, website: companyDetails["website"] as! String, account_ID: companyDetails["account_ID"] as! String, instagram_name: "", description: "", followers: companyDetails["followers"] as? [String] ?? [])
         
         var postVal = [Post]()
         
@@ -237,13 +252,16 @@ class Offer: NSObject {
 		if let posDict = dictionary["posts"] as? [[String: AnyObject]]{
 			
 			for post in posDict {
+                do {
+                    var thisPost = try Post.init(dictionary: post)
+                    if !thisPost.hashtags.contains("ad") {
+                        thisPost.hashtags.append("ad")
+                    }
+                    postVal.append(thisPost)
+                } catch let error {
+                    print(error)
+                }
 				
-				var thisPost = Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: "", products: post["products"] as? [Product], post_ID: post["post_ID"] as! String, PostType: post["PostType"] as! String, confirmedSince: Date.getDateFromString(date: post["confirmedSince"] as? String ?? "") ?? nil, isConfirmed: post["isConfirmed"] as! Bool, hashCaption: post["hashCaption"] as? String ?? "", status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? [], isPaid: post["isPaid"] as? Bool, PayAmount: post["PayAmount"] as? Double ?? 0.0, denyMessage: post["denyMessage"] as? String ?? "")
-				
-				if !thisPost.hashtags.contains("ad") {
-					thisPost.hashtags.append("ad")
-				}
-				postVal.append(thisPost)
 			}
         }
         
@@ -270,7 +288,16 @@ class Offer: NSObject {
         self.cashPower = dictionary["cashPower"] as? Double ?? 0.0
         self.influencerFilter = dictionary["influencerFilter"] as? [String: AnyObject] ?? [:]
         self.incresePay = dictionary["incresePay"] as? Double ?? 1.0
-		
+        
+        guard var comDetailsDict = dictionary["companyDetails"] as? [String: AnyObject] else {
+            throw NSError(domain: "companyDetails returned nil", code: 101, userInfo: ["class": "Offer Class", "value":dictionary])
+        }
+        do {
+			comDetailsDict["userId"] = dictionary["ownerUserID"]
+            self.coDetails = try CompanyDetails.init(dictionary: comDetailsDict)
+        } catch let error {
+            print(error)
+        }
 //		print(dictionary)
 		//		print("\nGoing To Fail Now\n")
 		if let coId = dictionary["ownerUserID"] as? String {
@@ -328,20 +355,38 @@ class User: NSObject {
     var businessFollowing: [String]?
     var email: String?
     //followerCount
-    init(dictionary: [String: Any]) {
-        self.name = dictionary["name"] as? String
-        self.username = dictionary["username"] as! String
-        self.followerCount = Double(dictionary["followerCount"] as! Int64)
-		if (dictionary["profilePicture"] as? String ?? "") == "" {
-			self.profilePicURL = nil
-		} else {
-			self.profilePicURL = dictionary["profilePicture"] as? String
-		}
-//		print("Category: \(String(describing: dictionary["primaryCategory"]))")
-//		self.primaryCategory = Category.init(rawValue: dictionary["primaryCategory"] as? String ?? "Other")!
-		self.averageLikes = dictionary["averageLikes"] as? Double
+    init(dictionary: [String: Any]) throws {
+        guard let name = dictionary["name"] as? String else{
+            throw NSError(domain: "name returned nil", code: 101, userInfo: ["class": "userclass", "value":dictionary])
+        }
+        self.name = name
+        
+        guard let username = dictionary["username"] as? String else{
+            throw NSError(domain: "username returned nil", code: 101, userInfo: ["class": "userclass", "value":dictionary])
+        }
+        self.username = username
+        
+        guard let followerCount = dictionary["followerCount"] as? Int64 else {
+            throw NSError(domain: "followerCount returned nil", code: 101, userInfo: ["class": "userclass", "value":dictionary])
+        }
+        self.followerCount = Double(followerCount)
+        
+        guard let profilePic = dictionary["profilePicture"] as? String else {
+            throw NSError(domain: "profilePic returned nil", code: 101, userInfo: ["class": "userclass", "value":dictionary])
+        }
+        self.profilePicURL = profilePic
+        
+        guard let averageLikes = dictionary["averageLikes"] as? Double else {
+            throw NSError(domain: "averageLikes returned nil", code: 101, userInfo: ["class": "userclass", "value":dictionary])
+        }
+		self.averageLikes = averageLikes
+        
+        guard let id =  dictionary["id"] as? String else {
+             throw NSError(domain: "id returned nil", code: 101, userInfo: ["class": "userclass", "value":dictionary])
+        }
+        self.id = id
+        
 		self.zipCode = dictionary["zipCode"] as? String
-        self.id = dictionary["id"] as! String
         self.gender = Gender(rawValue: dictionary["gender"] as? String ?? "Male")
         //self.gender = (dictionary["gender"] as? Gender.RawValue).map { Gender(rawValue: $0) }!
         self.isBankAdded = dictionary["isBankAdded"] as! Bool 
@@ -377,7 +422,11 @@ class Follower: NSObject {
     init(dictionary: [String: AnyObject]){
         self.identifier = dictionary["identifier"] as? String ?? ""
         if let userDict = dictionary["user"] as? [String: AnyObject] {
-        self.user = User.init(dictionary: userDict)
+        do {
+            self.user = try User.init(dictionary: userDict)
+        } catch let error {
+            print(error)
+        }
         }
         self.startedAt = dictionary["startedAt"] as? String ?? ""
     }
@@ -395,7 +444,12 @@ class FollowingInformation: NSObject {
     init(dictionary: [String: AnyObject]){
         self.identifier = dictionary["identifier"] as? String ?? ""
         if let userDict = dictionary["user"] as? [String: AnyObject] {
-        self.user = User.init(dictionary: userDict)
+            do {
+                self.user = try User.init(dictionary: userDict)
+            } catch let error {
+                print(error)
+            }
+        
         }
         if let date = dictionary["startedAt"] as? String {
             self.startedAt = getDateFromString(date: date)
@@ -407,7 +461,12 @@ class FollowingInformation: NSObject {
         //self.startedAtString = dictionary["startedAt"] as? String ?? ""
         self.startedAtString = Date.getDateFromStringWithConvertedFormatFormat(date: dictionary["startedAt"] as? String ?? "", format: "MMM dd YYYY")
         if let offer = dictionary["offer"] as? [String: AnyObject]{
-            self.offer = Offer.init(dictionary: offer)
+            do {
+                self.offer = try Offer.init(dictionary: offer)
+            } catch let error {
+                print(error)
+            }
+            
         }
         self.tag = dictionary["tag"] as? String ?? ""
         
@@ -639,6 +698,27 @@ struct Post {
         }
     }
     
+    init(dictionary: [String: AnyObject]) throws {
+        self.image = dictionary["image"] as? String
+        self.instructions = dictionary["instructions"] as! String
+        self.captionMustInclude = ""
+        self.products = dictionary["products"] as? [Product]
+        self.post_ID = dictionary["post_ID"] as! String
+        PostType = dictionary["PostType"] as! String
+        self.confirmedSince = Date.getDateFromString(date: dictionary["confirmedSince"] as? String ?? "") ?? nil
+        self.isConfirmed = dictionary["isConfirmed"] as! Bool
+        self.hashCaption = dictionary["hashCaption"] as? String ?? ""
+        guard let status = dictionary["status"] as? String else{
+            throw NSError(domain: "post status returned nil", code: 101, userInfo: ["class": "Post Struct", "value":dictionary])
+        }
+        self.status = status
+        self.hashtags = dictionary["hashtags"] as? [String] ?? []
+        self.keywords = dictionary["keywords"] as? [String] ?? []
+        self.isPaid = dictionary["isPaid"] as? Bool
+        PayAmount = dictionary["PayAmount"] as? Double ?? 0.0
+        self.denyMessage = dictionary["denyMessage"] as? String ?? ""
+    }
+    
 }
 
 //struct for product
@@ -682,14 +762,19 @@ class CompanyDetails: NSObject {
 	}
     
     
-    init(dictionary:[String: AnyObject]) {
+    init(dictionary:[String: AnyObject]) throws {
+		
+		let err = isDeseralizable(dictionary: dictionary, type: .businessDetails)
+		if err.count > 0 {
+			throw NSError(domain: err.joined(separator: ", "), code: 101, userInfo: ["class": "Business Details Class", "value": dictionary])
+		}
         
         self.name  = dictionary["name"] as! String
         self.logo  = dictionary["logo"] as? String ?? ""
         self.mission = dictionary["mission"] as! String
         self.website  = dictionary["website"] as? String ?? ""
         self.account_ID  = dictionary["account_ID"] as? String ?? ""
-		self.userId  = dictionary["userId"] as? String ?? ""
+        self.userId = dictionary["userId"] as? String
         self.accountBalance  = dictionary["accountBalance"] as? Double ?? 0.0
         self.owner  = dictionary["owner"] as? String ?? ""
         self.referralcode  = dictionary["referralcode"] as? String ?? ""
@@ -790,10 +875,14 @@ class TransactionDetails: NSObject {
 class CachedImages: NSObject {
     var link: String?
     var imagedata: Data?
+    var object: NSManagedObject?
+    var date: Date?
     
     init(object: NSManagedObject) {
         self.link = (object.value(forKey: "url") as! NSString) as String
         self.imagedata = (object.value(forKey: "imagedata") as! Data)
+        self.date = (object.value(forKey: "updatedDate") as? Date ?? Date.getcurrentESTdate())
+        self.object = object
     }
 }
 

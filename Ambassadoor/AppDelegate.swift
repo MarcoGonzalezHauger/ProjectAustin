@@ -4,7 +4,7 @@
 //
 //  Created by Marco Gonzalez Hauger on 11/18/18.
 //  Copyright © 2018 Tesseract Freelance, LLC. All rights reserved.
-//  Exclusive property of Tesseract Freelance, LLC.
+//  All code contained in this file is sole property of Marco Gonzalez Hauger.
 //
 
 import UIKit
@@ -238,9 +238,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             for data in result as! [NSManagedObject] {
                 
                 let cachedData = CachedImages.init(object: data)
+                let afterSevenDays = cachedData.date!.afterDays(numberOfDays: 7)
+                if Date.getcurrentESTdate().timeIntervalSince1970 > afterSevenDays.timeIntervalSince1970{
+                removeCoreDataObject(object:cachedData.object!)
+                }else{
                 global.cachedImageList.append(cachedData)
+                }
+                //global.cachedImageList.append(cachedData)
                 
             }
+            print("coredatecount=",global.cachedImageList.count)
         }catch {
             
             print("Failed")
@@ -628,10 +635,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let usersRef = Database.database().reference().child("users").child(Yourself.id)
         usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let dictionary = snapshot.value as? [String: AnyObject] {
-                let userInstance = User(dictionary: dictionary )
-                Yourself = userInstance
-				print("Appdelegate gender = \(String(describing: Yourself.gender))")
-
+                
+                do {
+                    let userInstance = try User(dictionary: dictionary )
+                    Yourself = userInstance
+                    print("Appdelegate gender = \(String(describing: Yourself.gender))")
+                } catch let error {
+                    print(error)
+                }
             }
         }, withCancel: nil)
     }

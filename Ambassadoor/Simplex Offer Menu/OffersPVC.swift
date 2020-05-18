@@ -4,7 +4,7 @@
 //
 //  Created by Marco Gonzalez Hauger on 3/2/2020.
 //  Copyright © 2018 Tesseract Freelance, LLC. All rights reserved.
-//  Exclusive property of Tesseract Freelance, LLC.
+//  All code contained in this file is sole property of Marco Gonzalez Hauger.
 //
 
 import UIKit
@@ -41,7 +41,7 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
                 if offers.count > 0{
                     global.allInprogressOffer = offers
 //					self.tabBarController?.tabBar.items![3].badgeValue = String(offers.filter{CheckIfOferIsActive(offer: $0)}.count)
-//					UIApplication.shared.applicationIconBadgeNumber = offers.filter{$0.variation == .inProgress}.count
+					UIApplication.shared.applicationIconBadgeNumber = offers.filter{$0.variation == .inProgress}.count
                 }
                 
             }

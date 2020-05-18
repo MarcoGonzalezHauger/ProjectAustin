@@ -4,7 +4,7 @@
 //
 //  Created by Marco Gonzalez Hauger on 1/21/19.
 //  Copyright © 2019 Tesseract Freelance, LLC. All rights reserved.
-//  Exclusive property of Tesseract Freelance, LLC.
+//  All code contained in this file is sole property of Marco Gonzalez Hauger.
 //
 
 import Foundation
@@ -19,8 +19,13 @@ func GetOffers(userId: String) -> [Offer] {
         if let dictionary = snapshot.value as? [String: AnyObject] {
             for (_, offer) in dictionary{
                 let offerDictionary = offer as? NSDictionary
-                let offerInstance = Offer(dictionary: offerDictionary! as! [String : AnyObject])
-                offers.append(offerInstance)
+                do {
+                    let offerInstance = try Offer(dictionary: offerDictionary! as! [String : AnyObject])
+                    offers.append(offerInstance)
+                } catch let error {
+                    print(error)
+                }
+                
             }
         }
     }, withCancel: nil)
@@ -32,29 +37,36 @@ func CreateOffer() -> Offer {
     let ref = Database.database().reference().child("offers")
     let offerRef = ref.childByAutoId()
     /*
-    let values = [
-        "money": 0
-        "company": Company,
-        "posts": [Post],
-        "offerdate": Date,
-        "offer_ID": String,
-        "expiredate": Date,
-        "allPostsConfrimedSince": Date?,
-        "allConfirmed": Bool,
-        "areConfirmed": Bool,
-        "isAccepted": Bool,
-        "isExpired": Bool,
-        ] as [String : Any]
- */
+     let values = [
+     "money": 0
+     "company": Company,
+     "posts": [Post],
+     "offerdate": Date,
+     "offer_ID": String,
+     "expiredate": Date,
+     "allPostsConfrimedSince": Date?,
+     "allConfirmed": Bool,
+     "areConfirmed": Bool,
+     "isAccepted": Bool,
+     "isExpired": Bool,
+     ] as [String : Any]
+     */
     let values: [String: AnyObject] = [:]
     offerRef.updateChildValues(values)
-    var offerInstance = Offer(dictionary: [:])
+    
+    var offerInstance = try! Offer(dictionary: [:])
     offerRef.observeSingleEvent(of: .value, with: { (snapshot) in
         if let dictionary = snapshot.value as? [String: AnyObject] {
-            offerInstance = Offer(dictionary: dictionary)
+            do {
+                offerInstance = try Offer(dictionary: dictionary)
+            } catch let error {
+                print(error)
+            }
         }
     }, withCancel: nil)
     return offerInstance
+    
+    
 }
 
 
@@ -69,95 +81,106 @@ func getOfferList(completion:@escaping (_ result: [Offer])->()) {
                 
                 
                 
-                               //post detail fetch data
-                               if let posts = offerDictionary!["posts"] as? NSMutableArray{
-                                   var postfinal : [Post] = []
-                                   
-                                   for postv in posts {
-                                       var post = postv as! [String:AnyObject]
-                                       var productfinal : [Product] = []
-                                       
-                                       if let products = post["products"] as? NSMutableArray{
-                                           for productDic in products {
-                                               let product = productDic as! [String:AnyObject]
-                                               productfinal.append(Product.init(image: (product["image"] as! String), name: product["name"] as! String, price: product["price"] as! Double, buy_url: product["buy_url"] as! String, color: product["color"] as! String, product_ID: product["product_ID"] as! String))
-                                           }
-                                           post["products"] = productfinal as AnyObject
-                                       }
-                                    
-                                    /*
-                                     Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: "", products: post["products"] as? [Product], post_ID: post["post_ID"] as! String, PostType: post["PostType"] as! String, confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool, hashCaption: post["hashCaption"] as? String ?? "", status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? [], isPaid: post["isPaid"] as? Bool, PayAmount: post["isPaid"] as? Double ?? 0.0, denyMessage: post["denyMessage"] as? String ?? "")
-                                     */
-                                     /*
-                                       
-                                    postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool,denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? "",hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? []))
-                                    */
-                                    
-                                    postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: "", products: post["products"] as? [Product], post_ID: post["post_ID"] as! String, PostType: post["PostType"] as! String, confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool, hashCaption: post["hashCaption"] as? String ?? "", status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? [], isPaid: post["isPaid"] as? Bool, PayAmount: post["isPaid"] as? Double ?? 0.0, denyMessage: post["denyMessage"] as? String ?? ""))
-                                       
-                                   }
-                                   offerDictionary!["posts"] = postfinal as AnyObject
-                                   let userInstance = Offer(dictionary: offerDictionary!)
-                                   offers.append(userInstance)
-                                   DispatchQueue.main.async {
-
-                                   completion(offers)
-                                   }
-                                   
-                               }else{
-                                   
-                               }
+                //post detail fetch data
+                if let posts = offerDictionary!["posts"] as? NSMutableArray{
+                    var postfinal : [Post] = []
+                    
+                    for postv in posts {
+                        var post = postv as! [String:AnyObject]
+                        var productfinal : [Product] = []
+                        
+                        if let products = post["products"] as? NSMutableArray{
+                            for productDic in products {
+                                let product = productDic as! [String:AnyObject]
+                                productfinal.append(Product.init(image: (product["image"] as! String), name: product["name"] as! String, price: product["price"] as! Double, buy_url: product["buy_url"] as! String, color: product["color"] as! String, product_ID: product["product_ID"] as! String))
+                            }
+                            post["products"] = productfinal as AnyObject
+                        }
+                        
+                        /*
+                         Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: "", products: post["products"] as? [Product], post_ID: post["post_ID"] as! String, PostType: post["PostType"] as! String, confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool, hashCaption: post["hashCaption"] as? String ?? "", status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? [], isPaid: post["isPaid"] as? Bool, PayAmount: post["isPaid"] as? Double ?? 0.0, denyMessage: post["denyMessage"] as? String ?? "")
+                         */
+                        /*
+                         
+                         postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool,denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? "",hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? []))
+                         */
+                        
+                        
+                        do {
+                            let postValue = try Post.init(dictionary: post)
+                            postfinal.append(postValue)
+                        } catch let error {
+                            print(error)
+                        }
+                        
+                    }
+                    offerDictionary!["posts"] = postfinal as AnyObject
+                    do {
+                        let userInstance = try Offer(dictionary: offerDictionary!)
+                        offers.append(userInstance)
+                        DispatchQueue.main.async {
+                            
+                            completion(offers)
+                        }
+                    } catch let error {
+                        print(error)
+                    }
+                    
+                    
+                }else{
+                    
+                }
                 
                 
                 
                 
                 
-//                print("company=\(offerDictionary!["company"] as! String)")
+                //                print("company=\(offerDictionary!["company"] as! String)")
                 //company detail fetch data
-//                let compref = Database.database().reference().child("companies").child(offerDictionary!["ownerUserID"] as! String).child(offerDictionary!["company"] as! String)
-//                compref.observeSingleEvent(of: .value, with: { (dataSnapshot) in
-//                    if let company = dataSnapshot.value as? [String: AnyObject] {
-//                        let companyDetail = Company.init(name: company["name"] as! String, logo:
-//                            company["logo"] as? String, mission: company["mission"] as! String, website: company["website"] as! String, account_ID: company["account_ID"] as! String, instagram_name: company["name"] as! String, description: company["description"] as! String)
-//
-//                        offerDictionary!["company"] = companyDetail as AnyObject
-//
-//                        //post detail fetch data
-//                        if let posts = offerDictionary!["posts"] as? NSMutableArray{
-//                            var postfinal : [Post] = []
-//
-//                            for postv in posts {
-//                                var post = postv as! [String:AnyObject]
-//                                var productfinal : [Product] = []
-//
-//                                if let products = post["products"] as? NSMutableArray{
-//                                    for productDic in products {
-//                                        let product = productDic as! [String:AnyObject]
-//                                        productfinal.append(Product.init(image: (product["image"] as! String), name: product["name"] as! String, price: product["price"] as! Double, buy_url: product["buy_url"] as! String, color: product["color"] as! String, product_ID: product["product_ID"] as! String))
-//                                    }
-//                                    post["products"] = productfinal as AnyObject
-//                                }
-//
-//                                postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: post["captionMustInclude"] as? String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool,denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? "",keywords: post["keywords"] as? [String] ?? []))
-//
-//                            }
-//                            offerDictionary!["posts"] = postfinal as AnyObject
-//                            let userInstance = Offer(dictionary: offerDictionary!)
-//                            offers.append(userInstance)
-//                            DispatchQueue.main.async {
-//
-//                            completion(offers)
-//                            }
-//
-//                        }else{
-//
-//                        }
-//
-//                    }else{
-//
-//                    }
-//
-//                }, withCancel: nil)
+                //                let compref = Database.database().reference().child("companies").child(offerDictionary!["ownerUserID"] as! String).child(offerDictionary!["company"] as! String)
+                //                compref.observeSingleEvent(of: .value, with: { (dataSnapshot) in
+                //                    if let company = dataSnapshot.value as? [String: AnyObject] {
+                //                        let companyDetail = Company.init(name: company["name"] as! String, logo:
+                //                            company["logo"] as? String, mission: company["mission"] as! String, website: company["website"] as! String, account_ID: company["account_ID"] as! String, instagram_name: company["name"] as! String, description: company["description"] as! String)
+                //
+                //                        offerDictionary!["company"] = companyDetail as AnyObject
+                //
+                //                        //post detail fetch data
+                //                        if let posts = offerDictionary!["posts"] as? NSMutableArray{
+                //                            var postfinal : [Post] = []
+                //
+                //                            for postv in posts {
+                //                                var post = postv as! [String:AnyObject]
+                //                                var productfinal : [Product] = []
+                //
+                //                                if let products = post["products"] as? NSMutableArray{
+                //                                    for productDic in products {
+                //                                        let product = productDic as! [String:AnyObject]
+                //                                        productfinal.append(Product.init(image: (product["image"] as! String), name: product["name"] as! String, price: product["price"] as! Double, buy_url: product["buy_url"] as! String, color: product["color"] as! String, product_ID: product["product_ID"] as! String))
+                //                                    }
+                //                                    post["products"] = productfinal as AnyObject
+                //                                }
+                //
+                //                                postfinal.append(Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: post["captionMustInclude"] as? String, products: post["products"] as? [Product] , post_ID: post["post_ID"] as! String, PostType: TextToPostType(posttype: post["PostType"] as! String), confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool,denyMessage: post["denyMessage"] as? String ?? "",status: post["status"] as? String ?? "",keywords: post["keywords"] as? [String] ?? []))
+                //
+                //                            }
+                //                            offerDictionary!["posts"] = postfinal as AnyObject
+                //                            let userInstance = Offer(dictionary: offerDictionary!)
+                //                            offers.append(userInstance)
+                //                            DispatchQueue.main.async {
+                //
+                //                            completion(offers)
+                //                            }
+                //
+                //                        }else{
+                //
+                //                        }
+                //
+                //                    }else{
+                //
+                //                    }
+                //
+                //                }, withCancel: nil)
                 
             }
         }
@@ -181,7 +204,7 @@ func CreateAccount(instagramUser: User, completion:@escaping (_ Results: User , 
                     instagramUser.zipCode = dictionary["zipCode"] as? String
                     instagramUser.isBankAdded = dictionary["isBankAdded"] as! Bool
                     instagramUser.yourMoney = dictionary["yourMoney"] as! Double
-
+                    
                     if let joined = dictionary["joinedDate"] as? String {
                         instagramUser.joinedDate = joined
                     }else{
@@ -235,7 +258,7 @@ func CreateAccount(instagramUser: User, completion:@escaping (_ Results: User , 
                     }
                     
                 }
-
+                
             }
         }
         
@@ -248,7 +271,7 @@ func CreateAccount(instagramUser: User, completion:@escaping (_ Results: User , 
             completion(instagramUser,false)
         }
     })
-
+    
 }
 
 // Query all users in Firebase and to do filtering based on algorithm
@@ -276,8 +299,13 @@ func GetAllUsers(completion:@escaping (_ result: [User])->())  {
         if let dictionary = snapshot.value as? [String: AnyObject] {
             for (_, user) in dictionary{
                 let userDictionary = user as? NSDictionary
-                let userInstance = User(dictionary: userDictionary! as! [String : AnyObject])
-                users.append(userInstance)
+                
+                do {
+                    let userInstance = try User(dictionary: userDictionary! as! [String : AnyObject])
+                    users.append(userInstance)
+                } catch let error {
+                    print(error)
+                }
             }
             completion(users)
         }
@@ -294,14 +322,14 @@ func GetAllBusiness(completion:@escaping (_ result: [CompanyDetails])->()) {
             
             for(key,value) in snapDict{
                 for (_, companyValue) in value {
-					do {
-						let companyDetails = CompanyDetails.init(dictionary: companyValue as! [String : AnyObject])
-						companyDetails.userId = key
-						companyList.append(companyDetails)
-					} catch {
-						print(companyValue)
-						print(error.localizedDescription)
-					}
+                    do {
+                        let companyDetails = try CompanyDetails.init(dictionary: companyValue as! [String : AnyObject])
+                        companyDetails.userId = key
+                        companyList.append(companyDetails)
+                    } catch {
+                        print(companyValue)
+                        print(error.localizedDescription)
+                    }
                     
                 }
             }
@@ -347,7 +375,7 @@ func fundTransferAccount(transferURL: String,accountID: String,Obj: DwollaCustom
     let ref = Database.database().reference().child("FundTransfer").child(Yourself.id).child(accountID)
     let fundTransfer: [String: Any] = ["accountID":accountID,"transferURL":transferURL,"currency":currency,"amount":amount,"name":Obj.name,"mask":Obj.mask,"customerURL":Obj.customerURL,"FS":Obj.customerFSURL,"firstname":Obj.firstName,"lastname":Obj.lastName,"date":date]
     ref.updateChildValues(fundTransfer)
-
+    
     
 }
 
@@ -377,7 +405,7 @@ func instagramPostUpdate(offerID:String, post:[String:Any]) {
     
     let ref = Database.database().reference().child("InfluencerInstagramPost").child(Yourself.id).child(offerID)
     ref.updateChildValues(post)
-
+    
 }
 
 
@@ -409,7 +437,7 @@ func SentOutOffersUpdate(offer:Offer, post_ID:String, status: String) {
             for (index,_) in final.enumerated(){
                 if let checkConfirm = final[index]["isConfirmed"] as? Bool {
                     if !checkConfirm{
-                       isConfirmAllPost = false
+                        isConfirmAllPost = false
                     }
                 }
             }
@@ -418,14 +446,14 @@ func SentOutOffersUpdate(offer:Offer, post_ID:String, status: String) {
             }else{
                 update.updateChildValues(["posts": final,"status": "accepted","allConfirmed":false])
             }
-
+            
             if offer.offer_ID == "XXXDefault" {
                 update.updateChildValues(["allConfirmed":true])
                 update.updateChildValues(["allPostsConfirmedSince":getStringFromTodayDate()])
                 let updateUserData  = Database.database().reference().child("users").child(Yourself.id)
                 updateUserData.updateChildValues(["isDefaultOfferVerify":true])
                 Yourself.isDefaultOfferVerify = true
-
+                
             }
             
             
@@ -461,8 +489,8 @@ func transactionInfo(completion: @escaping([TransactionInfo]?,String,Error?) -> 
 
 //stripe
 func createStripeAccToFIR(AccDetail:[String:Any] ) {
-        let ref = Database.database().reference().child("InfluencerStripeAccount").child(Yourself.id).child("AccountDetail")
-        ref.updateChildValues(AccDetail)
+    let ref = Database.database().reference().child("InfluencerStripeAccount").child(Yourself.id).child("AccountDetail")
+    ref.updateChildValues(AccDetail)
     
     let prntRef  = Database.database().reference().child("users").child(Yourself.id)
     prntRef.updateChildValues(["isBankAdded":true])
@@ -521,25 +549,25 @@ func getInfluencerWorkedCompanies(influencer: User, completion: @escaping([Comap
                     let refCompany = Database.database().reference().child("companies").child(compayPath)
                     
                     serialQueue.async {
-                    
-                    refCompany.observeSingleEvent(of: .value) { (snap) in
                         
-                        if let companyDetails = snap.value as? [String: AnyObject]{
+                        refCompany.observeSingleEvent(of: .value) { (snap) in
                             
-                            let cmyDetail = Comapny.init(dictionary: companyDetails)
-                            cmpObject.append(cmyDetail)
+                            if let companyDetails = snap.value as? [String: AnyObject]{
+                                
+                                let cmyDetail = Comapny.init(dictionary: companyDetails)
+                                cmpObject.append(cmyDetail)
+                                
+                            }
                             
-                        }
-                        
-                        if index == companyPathArray.count - 1 {
-                            
-                            completion(cmpObject, "success", nil)
+                            if index == companyPathArray.count - 1 {
+                                
+                                completion(cmpObject, "success", nil)
+                                
+                            }
                             
                         }
                         
                     }
-                    
-                }
                     
                 }
                 
@@ -554,7 +582,7 @@ func getInfluencerWorkedCompanies(influencer: User, completion: @escaping([Comap
         completion(nil, "failure", error)
         
     }
-        
+    
 }
 
 func getStripeAccDetails(completion: @escaping([StripeAccDetail]?,String,Error?) -> Void) {
@@ -605,79 +633,79 @@ func getTransactionHistory(completion: @escaping([TransactionHistory]?,String,Er
 //Update UserData to firebase
 func updateUserDataToFIR(user: User, completion:@escaping (_ Results: User) -> ()) {
     
-        var referralCode = ""
+    var referralCode = ""
     
-        let ref = Database.database().reference().child("InfluencerReferralCodes")
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            print(snapshot.childrenCount)
-
-			if let referralCodeList = snapshot.value as? [String] {
-				
-				print("referral code list loaded.")
-                
-                var final = referralCodeList
+    let ref = Database.database().reference().child("InfluencerReferralCodes")
+    ref.observeSingleEvent(of: .value, with: { (snapshot) in
+        print(snapshot.childrenCount)
+        
+        if let referralCodeList = snapshot.value as? [String] {
+            
+            print("referral code list loaded.")
+            
+            var final = referralCodeList
+            referralCode = randomString(length: 6).uppercased()
+            while final.contains(referralCode) {
                 referralCode = randomString(length: 6).uppercased()
-                while final.contains(referralCode) {
-                    referralCode = randomString(length: 6).uppercased()
-                }
-                
-                user.referralcode = referralCode
-				
-				print("Referral Code Set.")
-
-                let userReference = Database.database().reference().child("users").child(user.id)
-                let userData = API.serializeUser(user: user, id: user.id)
-				print("User Data Serialized")
-                userReference.updateChildValues(userData)
-				print("User Data Uploaded")
-                
-                final.append(referralCode)
-                //update referral code
-                let refCode = Database.database().reference()
-                refCode.updateChildValues(["InfluencerReferralCodes":final])
-				print("Updated list of taken referral codes.")
-                
-                completion(user)
-			} else {
-				print("Referral Code List could not be converted into [String]")
-			}
-
-
-        })
+            }
+            
+            user.referralcode = referralCode
+            
+            print("Referral Code Set.")
+            
+            let userReference = Database.database().reference().child("users").child(user.id)
+            let userData = API.serializeUser(user: user, id: user.id)
+            print("User Data Serialized")
+            userReference.updateChildValues(userData)
+            print("User Data Uploaded")
+            
+            final.append(referralCode)
+            //update referral code
+            let refCode = Database.database().reference()
+            refCode.updateChildValues(["InfluencerReferralCodes":final])
+            print("Updated list of taken referral codes.")
+            
+            completion(user)
+        } else {
+            print("Referral Code List could not be converted into [String]")
+        }
+        
+        
+    })
 }
 
 func createDefaultOffer(userID:String, completion:@escaping (_ isdone:Bool) -> ()) {
-        //insertd Default offers
-        let refDefaultOffer = Database.database().reference().child("SentOutOffersToUsers").child(userID)
-        let postID = refDefaultOffer.childByAutoId().key
-        let offerData = API.serializeDefaultOffer(offerID:"XXXDefault", postID: postID! ,userID:userID)
+    //insertd Default offers
+    let refDefaultOffer = Database.database().reference().child("SentOutOffersToUsers").child(userID)
+    let postID = refDefaultOffer.childByAutoId().key
+    let offerData = API.serializeDefaultOffer(offerID:"XXXDefault", postID: postID! ,userID:userID)
     
-        
-        /*
-        READ : NOTE BY MARCO
-        I have edited this section of code so that the getOfferList function will only be activated after the default offer as been created by putting the code in the Completion Block. This was probably the "button not working" error.
-        */
-        refDefaultOffer.updateChildValues(["XXXDefault":offerData], withCompletionBlock: { (error, databaseref) in
-            var youroffers: [Offer] = []
-            // ****
-            //naveen added
-            getOfferList { (Offers) in
-                //                print(Offers.count)
-                youroffers = Offers
-                //                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
-                //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
-                global.AvaliableOffers = youroffers.filter({$0.status == "available"})
-                global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
-                //Ambver update
-                global.AcceptedOffers = youroffers.filter({$0.status == "accepted" || $0.status == "denied"})
-                global.OffersHistory = youroffers.filter({$0.status == "paid"})
-                global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
-                global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
-                
-                completion(true)
-                
-            }
-        })
+    
+    /*
+     READ : NOTE BY MARCO
+     I have edited this section of code so that the getOfferList function will only be activated after the default offer as been created by putting the code in the Completion Block. This was probably the "button not working" error.
+     */
+    refDefaultOffer.updateChildValues(["XXXDefault":offerData], withCompletionBlock: { (error, databaseref) in
+        var youroffers: [Offer] = []
+        // ****
+        //naveen added
+        getOfferList { (Offers) in
+            //                print(Offers.count)
+            youroffers = Offers
+            //                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
+            //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
+            global.AvaliableOffers = youroffers.filter({$0.status == "available"})
+            global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
+            //Ambver update
+            global.AcceptedOffers = youroffers.filter({$0.status == "accepted" || $0.status == "denied"})
+            global.OffersHistory = youroffers.filter({$0.status == "paid"})
+            global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
+            global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
+            
+            completion(true)
+            
+        }
+    })
 }
 
 func checkIfEmailExist(email: String, completion: @escaping(_ exist: Bool)-> Void) {
@@ -692,28 +720,28 @@ func checkIfEmailExist(email: String, completion: @escaping(_ exist: Bool)-> Voi
             isExist = true
             completion(isExist)
             
-//            if snapValue.count == 0 {
-//
-//                completion(isExist)
-//
-//            }else{
-//
-//                for (_,object) in snapValue {
-//                    if let checkValue = object as? [String: AnyObject] {
-//
-//                        if let emailString = checkValue["email"] as? String {
-//
-//                            if emailString == email {
-//                                isExist = true
-//                            }
-//
-//                        }
-//
-//                    }
-//                }
-//                completion(isExist)
-//
-//            }
+            //            if snapValue.count == 0 {
+            //
+            //                completion(isExist)
+            //
+            //            }else{
+            //
+            //                for (_,object) in snapValue {
+            //                    if let checkValue = object as? [String: AnyObject] {
+            //
+            //                        if let emailString = checkValue["email"] as? String {
+            //
+            //                            if emailString == email {
+            //                                isExist = true
+            //                            }
+            //
+            //                        }
+            //
+            //                    }
+            //                }
+            //                completion(isExist)
+            //
+            //            }
             
         }else{
             completion(isExist)
@@ -737,23 +765,33 @@ func checkIfUserExists(userID: String,completion: @escaping(_ exist: Bool, _ use
             createNewInfluencerAuthentication(info: NewAccount)
             let userData = API.serializeRawUserData(details: NewAccount)
             ref.updateChildValues(userData)
-            let userRef = User.init(dictionary: userData)
-            completion(false, userRef)
+            do {
+                let userRef = try User.init(dictionary: userData)
+                completion(false, userRef)
+            } catch let error {
+                print(error)
+            }
+            //let userRef = User.init(dictionary: userData)
+            
         }
         
     }) { (error) in
-         createNewInfluencerAuthentication(info: NewAccount)
-         let userData = API.serializeRawUserData(details: NewAccount)
-         ref.updateChildValues(userData)
-        let userRef = User.init(dictionary: userData)
-        completion(false, userRef)
+        createNewInfluencerAuthentication(info: NewAccount)
+        let userData = API.serializeRawUserData(details: NewAccount)
+        ref.updateChildValues(userData)
+        do {
+            let userRef = try User.init(dictionary: userData)
+            completion(false, userRef)
+        } catch let error {
+            print(error)
+        }
     }
 }
 
 func updateUserDetails(userID: String, userData:[String: Any]){
     
     let ref = Database.database().reference().child("users").child(userID)
-     ref.updateChildValues(userData)
+    ref.updateChildValues(userData)
 }
 
 func updateUserIdOfferPool(offer: Offer) {
@@ -763,13 +801,14 @@ func updateUserIdOfferPool(offer: Offer) {
     var acceptedList = offer.accepted ?? [String]()
     acceptedList.append(Yourself.id)
     
-   userRef.updateChildValues(["accepted": acceptedList])
+    userRef.updateChildValues(["accepted": acceptedList])
     
 }
 
 func updateIsAcceptedOffer(offer: Offer, money: Double) {
     
-    let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id)
+	let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(offer.offer_ID)
+	print("userid: \(Yourself.id)\nOffer ID: \(offer.offer_ID)")
     //let prntRef  = Database.database().reference().child("SentOutOffersToUsers").child(Yourself.id).child(ThisOffer.offer_ID)
     let dayCount = offer.posts.count * 2
     
@@ -777,7 +816,7 @@ func updateIsAcceptedOffer(offer: Offer, money: Double) {
     
     //var expireDateString = Date.getStringFromDate(date: Date().afterDays(day: dayCount))!
     var expireDate = Date().afterDays(numberOfDays: dayCount)
-    if offer.offer_ID == "XXXDefault" {
+    if offer.isDefaultOffer {
         let foreverDate = 365 * 1000
         //expireDateString = Date.getStringFromDate(date: Date().afterDays(day: foreverDate))!
         expireDate = Date().afterDays(numberOfDays: foreverDate)
@@ -790,7 +829,7 @@ func updateIsAcceptedOffer(offer: Offer, money: Double) {
     
     let curDateStr = Date.getStringFromDate(date: Date())
     if let currentDate = Date.getDateFromString(date: curDateStr!){
-    offer.acceptedDate = currentDate
+        offer.acceptedDate = currentDate
     }
     offer.money = money
     
@@ -803,7 +842,7 @@ func updateIsAcceptedOffer(offer: Offer, money: Double) {
     
     //prntRef.updateChildValues(["expiredate":expireDate])
     //prntRef.updateChildValues(["isAccepted":true])
-    prntRef.updateChildValues([offer.offer_ID : offerDict])
+    prntRef.updateChildValues(offerDict)
     NotificationCenter.default.post(name: Notification.Name("updateinprogresscount"), object: nil, userInfo: ["userinfo":"1"])
     
 }
@@ -840,11 +879,18 @@ func fetchSingleUserDetails(userID: String, completion: @escaping(_ status: Bool
     let usersRef = Database.database().reference().child("users").child(userID)
     usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
         if let dictionary = snapshot.value as? [String: AnyObject] {
-            let userInstance = User(dictionary: dictionary )
+            
             //Yourself = userInstance
-            completion(true,userInstance)
-//            print("Appdelegate gender = \(Yourself.gender)")
-
+            
+            //            print("Appdelegate gender = \(Yourself.gender)")
+            
+            do {
+                let userInstance = try User(dictionary: dictionary )
+                completion(true,userInstance)
+            } catch let error {
+                print(error)
+            }
+            
         }
     }, withCancel: nil)
 }
@@ -890,7 +936,7 @@ func removeFollowingFollowerUser(user: User) {
 }
 
 func updateFollowingFollowerBusinessUser(user: CompanyDetails, identifier: String) {
-
+    
     let userFollowingRef = Database.database().reference().child("Following").child(Yourself.id)
     let userDetails = API.serializeCompanyDetails(company: user)
     userFollowingRef.updateChildValues([user.userId!: ["identifier": identifier,"user":userDetails,"startedAt":Date.getStringFromDate(date: Date()) as Any] ])
@@ -923,11 +969,17 @@ func getFilteredUsers(userIDs: [String], completion: @escaping(_ status: Bool, _
                 
                 if let valueDict = value as? [String: Any] {
                     
-                    let user = User.init(dictionary: valueDict)
-                    usersList.append(user)
-                    if let token = valueDict["tokenFIR"] as? String {
-                    tokens.append(token)
+                    
+                    do {
+                        let user = try User.init(dictionary: valueDict)
+                        usersList.append(user)
+                        if let token = valueDict["tokenFIR"] as? String {
+                            tokens.append(token)
+                        }
+                    } catch let error {
+                        print(error)
                     }
+                    
                     
                 }
                 
@@ -975,14 +1027,14 @@ func fetchBusinessUserDetails(userID: String, completion: @escaping(_ status: Bo
     usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
         if let dictionary = snapshot.value as? [String: AnyObject] {
             if let deviceToken = dictionary["deviceFIRToken"] as? String {
-               completion(true,deviceToken)
+                completion(true,deviceToken)
             }else{
-               completion(false,nil)
+                completion(false,nil)
             }
             //Yourself = userInstance
             
-//            print("Appdelegate gender = \(Yourself.gender)")
-
+            //            print("Appdelegate gender = \(Yourself.gender)")
+            
         }
     }, withCancel: nil)
 }
@@ -995,32 +1047,32 @@ func updatePassword(userID: String,password: String){
 }
 
 func getObserveFilteredOffer(completion: @escaping (_ status: Bool, _ offerList: [Offer])-> Void) {
-	GetOfferPool { (offers) in
-		let offerlist = offers.filter{
-			return $0.notAccepted && $0.enoughCashForInfluencer && $0.isFiltered
-		}
-		completion(true, offerlist)
-	}
+    GetOfferPool { (offers) in
+        let offerlist = offers.filter{
+            return $0.notAccepted && $0.enoughCashForInfluencer && $0.isFiltered
+        }
+        completion(true, offerlist)
+    }
 }
 
 func getObserveFollowerCompaniesOffer(completion: @escaping (_ status: Bool, _ offerList: [Offer])-> Void) {
     
     GetOfferPool { (offers) in
-		let offerlist = offers.filter{
-			return $0.notAccepted && ((Yourself.businessFollowing ?? []).contains($0.businessAccountID)) && $0.enoughCashForInfluencer
-		}
-		completion(true, offerlist)
-	}
-
+        let offerlist = offers.filter{
+            return $0.notAccepted && ((Yourself.businessFollowing ?? []).contains($0.businessAccountID)) && $0.enoughCashForInfluencer
+        }
+        completion(true, offerlist)
+    }
+    
 }
 
 func getOfferByBusiness(userId: String, completion:@escaping(_ status: Bool,_ returnoffers: [Offer])->()) {
-	GetOfferPool { (offers) in
-		let offerlist = offers.filter{
-			return $0.notAccepted && ($0.businessAccountID == userId) && $0.enoughCashForInfluencer
-		}
-		completion(true, offerlist)
-	}
+    GetOfferPool { (offers) in
+        let offerlist = offers.filter{
+            return $0.notAccepted && ($0.businessAccountID == userId) && $0.enoughCashForInfluencer
+        }
+        completion(true, offerlist)
+    }
 }
 
 func getAcceptedOffers(completion: @escaping(_ status: Bool,_ offer: [Offer])->()) {
@@ -1034,65 +1086,69 @@ func getAcceptedOffers(completion: @escaping(_ status: Bool,_ offer: [Offer])->(
             var offerList = [Offer]()
             
             for (_, offervalue) in snapDict {
-				
-				let offer = Offer.init(dictionary: offervalue)
-				
-				offerList.append(offer)
-				
+                
+                do {
+                    let offer = try Offer.init(dictionary: offervalue)
+                    
+                    offerList.append(offer)
+                } catch let error {
+                    print(error)
+                }
+                
             }
-			
-			offerList.sort { (offer1, offer2) -> Bool in
-				
-				let o1 = CheckIfOferIsActive(offer: offer1)
-				let o2 = CheckIfOferIsActive(offer: offer2)
-				
-				if o1 == o2 {
-					if offer1.acceptedDate ?? Date() != offer1.acceptedDate ?? Date() {
-						return offer1.acceptedDate ?? Date() > offer1.acceptedDate ?? Date()
-					} else {
-						return offer1.offerdate > offer2.offerdate
-					}
-				} else {
-					return o1
-				}
-				
-			}
-			
+            
+            offerList.sort { (offer1, offer2) -> Bool in
+                
+                let o1 = CheckIfOferIsActive(offer: offer1)
+                let o2 = CheckIfOferIsActive(offer: offer2)
+                
+                if o1 == o2 {
+                    if offer1.acceptedDate ?? Date() != offer1.acceptedDate ?? Date() {
+                        return offer1.acceptedDate ?? Date() > offer1.acceptedDate ?? Date()
+                    } else {
+                        return offer1.offerdate > offer2.offerdate
+                    }
+                } else {
+                    return o1
+                }
+                
+            }
+            
             completion(true, offerList)
             
-		} else {
+        } else {
             completion(true, [])
-			
-		}
+            
+        }
         
     }
     
-//    userRef.observeSingleEvent(of: .value, with: { (snapshot) in
-//
-//        if let snapDict = snapshot.value as? [String: [String: AnyObject]] {
-//
-//            var offerList = [Offer]()
-//
-//            for (_, offervalue) in snapDict {
-//
-//                if let isAccepted = offervalue["status"] as? String{
-//                    //if isAccepted == "accepted" || isAccepted == "posted" {
-//
-//                        let offer = Offer.init(dictionary: offervalue)
-//
-//                        offerList.append(offer)
-//                    //}
-//                }
-//
-//            }
-//
-//            completion(true, offerList)
-//
-//        }
-//
-//    }) { (error) in
-//
-//    }
+    //    userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+    //
+    //        if let snapDict = snapshot.value as? [String: [String: AnyObject]] {
+    //
+    //            var offerList = [Offer]()
+    //
+    //            for (_, offervalue) in snapDict {
+    //
+    //                if let isAccepted = offervalue["status"] as? String{
+    //                    //if isAccepted == "accepted" || isAccepted == "posted" {
+    //
+    //                        let offer = Offer.init(dictionary: offervalue)
+    //
+    //                        offerList.append(offer)
+    //                    //}
+    //                }
+    //
+    //            }
+    //
+    //            completion(true, offerList)
+    //
+    //        }
+    //
+    //    }) { (error) in
+    //
+    //    }
     
 }
 
@@ -1110,9 +1166,9 @@ func getFollowerList(completion:@escaping(_ status: Bool,_ users: [FollowingInfo
                 var followerDetails = value
                 followerDetails["tag"] = "follow" as AnyObject
                 let follower = FollowingInformation.init(dictionary: followerDetails)
-				if Yourself.following?.contains(follower.user?.id ?? "X") ?? false {
-					followers.append(follower)
-				}
+                if Yourself.following?.contains(follower.user?.id ?? "X") ?? false {
+                    followers.append(follower)
+                }
             }
             
             completion(true, followers)
@@ -1134,8 +1190,12 @@ func getAcceptedSimplexOffer(offer: Offer,completion: @escaping(_ status: Bool, 
         
         if let snapOffer = snapshot.value as? [String: AnyObject]{
             
-            let offer = Offer.init(dictionary: snapOffer)
-            completion(true,offer)
+            do {
+                let offer = try Offer.init(dictionary: snapOffer)
+                completion(true,offer)
+            } catch let error {
+                print(error)
+            }
             
         }
         
@@ -1193,8 +1253,15 @@ func getFollowedByList(completion: @escaping(_ status: Bool, _ users: [User])->(
                 singleUserRef.observeSingleEvent(of: .value, with: { (singleSnap) in
                     
                     if let singleSnapDict = singleSnap.value as? [String: Any]{
-                        let user = User.init(dictionary: singleSnapDict)
-                        usersList.append(user)
+                        
+                        
+                        do {
+                            let user = try User.init(dictionary: singleSnapDict)
+                            usersList.append(user)
+                        } catch let error {
+                            print(error)
+                        }
+                        
                     }
                     
                     if index == keys.count - 1 {
@@ -1235,21 +1302,21 @@ func getFollowingAcceptedOffers(completion: @escaping(_ status: Bool, _ offers: 
                     if let offerDict = snapOffer.value as? [String: [String:AnyObject]]{
                         
                         for (_, offerValue) in offerDict {
-                           
+                            
                             followingInformation = snapDict[key] as! [String : AnyObject]
                             followingInformation["offer"] = offerValue as AnyObject
                             followingInformation["tag"] = "offer" as AnyObject
                             let offer = FollowingInformation.init(dictionary: followingInformation)
-
-							if Yourself.following?.contains(offer.user?.id ?? "X") ?? false {
-								allOfferList.append(offer)
-							}
+                            
+                            if Yourself.following?.contains(offer.user?.id ?? "X") ?? false {
+                                allOfferList.append(offer)
+                            }
                         }
                         
                     }
                     
                     if index == allKeys.count - 1{
-                       completion(true,allOfferList)
+                        completion(true,allOfferList)
                     }
                     
                 }) { (error) in
@@ -1282,18 +1349,31 @@ func getFollowingList(completion: @escaping(_ status: Bool, _ users: [AnyObject]
                     if identifier == "influencer"{
                         
                         if let influencer = value["user"] as? [String: Any]{
-                            let user = User.init(dictionary: influencer)
-							if (Yourself.following?.contains(user.id))! {
-								usersList.append(user)
-							}
+                            
+                            
+                            do {
+                                let user = try User.init(dictionary: influencer)
+                                if (Yourself.following?.contains(user.id))! {
+                                    usersList.append(user)
+                                }
+                            } catch let error {
+                                print(error)
+                            }
+                            
+                            
                         }
                         
                     }else{
                         if let businessUser = value["user"] as? [String: AnyObject]{
                             let business = businessUser
-                            let company = CompanyDetails.init(dictionary: business)
-							company.userId = key
-                            usersList.append(company)
+                            do {
+                                let company = try CompanyDetails.init(dictionary: business)
+                                company.userId = key
+                                usersList.append(company)
+                            } catch let error {
+                                print(error)
+                            }
+                            
                             
                         }
                         
@@ -1302,24 +1382,24 @@ func getFollowingList(completion: @escaping(_ status: Bool, _ users: [AnyObject]
                 }
                 
             }
-			
-			usersList.sort { (item1, item2) -> Bool in
-				let isOneBusiness = (item1 as? User) == nil
-				let isTwoBusiness = (item2 as? User) == nil
-				if isOneBusiness != isTwoBusiness {
-					return isOneBusiness
-				}
-				
-				if isOneBusiness == true {
-					let business1 = item1 as! CompanyDetails
-					let business2 = item2 as! CompanyDetails
-					return business1.name > business2.name
-				} else {
-					let influencer1 = item1 as! User
-					let influencer2 = item2 as! User
-					return influencer1.averageLikes ?? 0 > influencer2.averageLikes ?? 0
-				}
-			}
+            
+            usersList.sort { (item1, item2) -> Bool in
+                let isOneBusiness = (item1 as? User) == nil
+                let isTwoBusiness = (item2 as? User) == nil
+                if isOneBusiness != isTwoBusiness {
+                    return isOneBusiness
+                }
+                
+                if isOneBusiness == true {
+                    let business1 = item1 as! CompanyDetails
+                    let business2 = item2 as! CompanyDetails
+                    return business1.name > business2.name
+                } else {
+                    let influencer1 = item1 as! User
+                    let influencer2 = item2 as! User
+                    return influencer1.averageLikes ?? 0 > influencer2.averageLikes ?? 0
+                }
+            }
             
             completion(true, usersList)
             
@@ -1337,38 +1417,43 @@ var rememberOfferPoolFor: Double = 5
 
 
 func GetOfferPool(completion: @escaping (_ offerList: [Offer])-> Void) {
-	if let latest = latestPull {
-		
-		//if offerpool was gotten in the last 10 seconds, just use the one from the last 10 seconds.
-		
-		if latest.timeIntervalSinceNow > -(rememberOfferPoolFor - 0.1) {
-//			print("OFFERPOOL : grabbed from existing")
-			completion(currentOfferPool)
-			return
-		}
-//		print("OFFERPOOL : needs refresh")
-	} else {
-//		print("OFFERPOOL : first time")
-	}
-	let ref = Database.database().reference().child("OfferPool")
+    if let latest = latestPull {
+        
+        //if offerpool was gotten in the last 10 seconds, just use the one from the last 10 seconds.
+        
+        if latest.timeIntervalSinceNow > -(rememberOfferPoolFor - 0.1) {
+            //			print("OFFERPOOL : grabbed from existing")
+            completion(currentOfferPool)
+            return
+        }
+        //		print("OFFERPOOL : needs refresh")
+    } else {
+        //		print("OFFERPOOL : first time")
+    }
+    let ref = Database.database().reference().child("OfferPool")
     ref.observeSingleEvent(of: .value, with: { (snapshot) in
         if let totalDict = snapshot.value as? [String:[String: AnyObject]] {
             var offerList = [Offer]()
             for (_,value) in totalDict {
                 for (_, OfferValue) in value {
-					let offerData = Offer.init(dictionary: OfferValue as! [String : AnyObject])
-					offerList.append(offerData)
+                    do {
+                        let offerData = try Offer.init(dictionary: OfferValue as! [String : AnyObject])
+                        offerList.append(offerData)
+                    } catch let error {
+                        print(error)
+                    }
+                    
                 }
             }
-			offerList.sort { (offer1, offer2) -> Bool in
-				if offer1.isDefaultOffer == offer2.isDefaultOffer {
-					return offer1.offerdate > offer2.offerdate
-				} else {
-					return offer1.isDefaultOffer
-				}
+            offerList.sort { (offer1, offer2) -> Bool in
+                if offer1.isDefaultOffer == offer2.isDefaultOffer {
+                    return offer1.offerdate > offer2.offerdate
+                } else {
+                    return offer1.isDefaultOffer
+                }
             }
-			currentOfferPool = offerList
-			latestPull = Date()
+            currentOfferPool = offerList
+            latestPull = Date()
             completion(offerList)
         }
     }) { (error) in
@@ -1376,12 +1461,12 @@ func GetOfferPool(completion: @escaping (_ offerList: [Offer])-> Void) {
 }
 
 func getObserveAllOffer(completion: @escaping (_ status: Bool, _ offerList: [Offer])-> Void) {
-	GetOfferPool { (offers) in
-		let offerlist = offers.filter {
-			return $0.notAccepted && $0.isFiltered && $0.enoughCashForInfluencer
-		}
-		completion(true, offerlist)
-	}
+    GetOfferPool { (offers) in
+        let offerlist = offers.filter {
+            return $0.notAccepted && $0.isFiltered && $0.enoughCashForInfluencer
+        }
+        completion(true, offerlist)
+    }
 }
 
 func uploadImageToFIR(image: UIImage, childName: String, path: String, completion: @escaping (String,Bool) -> ()) {

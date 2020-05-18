@@ -39,10 +39,10 @@ class PaymentSentVC: UIViewController {
         paymentSuccessView.isHidden = true
 		view.bringSubviewToFront(paymentSuccessView)
         self.cancel_btn.isHidden = false
-		let fee = GetFeeFromFollowerCount(FollowerCount: Yourself.followerCount)
+		let fee = GetFeeForInfluencer(Yourself)
         
 		MoneyAmount = Yourself!.yourMoney - fee
-		feeAmount_lbl.text = "Ambassadoor will take \(NumberToPrice(Value: fee))."
+		feeAmount_lbl.text = "Ambassadoor will take a flat fee of \(NumberToPrice(Value: fee)) whenever you withdraw."
 
         print("yourMony=\(Yourself!.yourMoney)")
 	}
@@ -71,7 +71,7 @@ class PaymentSentVC: UIViewController {
 		var subAmount:Double = 0.0
 		//we WILL NOT penalize influencers for not using our service!
 		//let pendingMonths = Date.getmonthsBetweenDate(startDate: Date.getDateFromString(date: Yourself.lastPaidOSCDate)!, endDate: Date.getDateFromString(date: Date.getCurrentDate())!)
-		let feeAmount = GetFeeFromFollowerCount(FollowerCount: Yourself.followerCount)
+		let feeAmount = GetFeeForInfluencer(Yourself)
 		let withdrawAmount = MoneyAmount - Double(feeAmount)
 		print("fee=\(feeAmount)")
 		print(withdrawAmount)
@@ -88,10 +88,11 @@ class PaymentSentVC: UIViewController {
 		
 		ref.observeSingleEvent(of: .value, with: {(snapshot) in
 			if let userInfo = snapshot.value as? [String: AnyObject] {
-				let tempYourself = User.init(dictionary: userInfo)
+				
 				
 				//first, we see if the "yourMoney" value is accurate.
-				
+                do {
+                let tempYourself = try User.init(dictionary: userInfo)
 				if tempYourself.yourMoney == Yourself.yourMoney {
 					//If it is, set yourMoney to zero.
 
@@ -140,13 +141,17 @@ class PaymentSentVC: UIViewController {
 				} else {
 					let alert = UIAlertController(title: "Nice Try (;", message: "Very creative though.\n~Marco, CTO", preferredStyle: .alert)
 					
-					alert.addAction(UIAlertAction(title: "Dang...", style: .default, handler: { (ui) in
+					alert.addAction(UIAlertAction(title: "Aw man...", style: .default, handler: { (ui) in
 						self.dismiss(animated: true, completion: nil)
 					}
 					))
 					
 					self.present(alert, animated: true)
 				}
+                
+                } catch let error {
+                    print(error)
+                }
 			}
 		}, withCancel: nil)
 	}

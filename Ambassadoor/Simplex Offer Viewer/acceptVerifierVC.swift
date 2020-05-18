@@ -34,7 +34,9 @@ class acceptVerifierVC: UIViewController {
 	}
 	
 	@IBAction func acceptClicked(_ sender: Any) {
+		print("Offer was accepted.")
 		dismiss(animated: true) {
+			print("Dismissed/accepted")
 			self.delegate?.didAccept()
 		}
 	}

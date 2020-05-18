@@ -129,6 +129,9 @@
                                                                                 <state key="normal" title="CANCEL OFFER">
                                                                                     <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                 </state>
+                                                                                <connections>
+                                                                                    <action selector="cancelButtonPressed:" destination="N8k-Op-ykt" eventType="touchUpInside" id="Wta-0E-Xw8"/>
+                                                                                </connections>
                                                                             </button>
                                                                         </subviews>
                                                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -600,6 +603,7 @@ An Ambassadoor Verifier found that your posts were not acceptable. Click on one 
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <connections>
                                                         <outlet property="rejectMessage" destination="so2-CF-uoa" id="9OS-rM-9CU"/>
+                                                        <outlet property="rejectedHeading" destination="Qco-eg-hQc" id="sbK-IE-bzy"/>
                                                     </connections>
                                                 </tableViewCell>
                                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="verifyInfo" rowHeight="222" id="Vdj-Zs-nRb">
