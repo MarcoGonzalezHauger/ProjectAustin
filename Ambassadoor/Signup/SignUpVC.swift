@@ -4,7 +4,7 @@
 //
 //  Created by Marco Gonzalez Hauger on 1/28/19.
 //  Copyright © 2019 Tesseract Freelance, LLC. All rights reserved.
-//  Exclusive property of Tesseract Freelance, LLC.
+//  All code contained in this file is sole property of Marco Gonzalez Hauger.
 //
 
 protocol ConfirmationReturned {

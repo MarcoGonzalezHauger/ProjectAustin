@@ -225,6 +225,10 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                                         self.navigationController?.popViewController(animated: true)
                                     }
                                     
+                                }else{
+                                    self.showStandardAlertDialog(title: "Alert", msg: errorVal.localizedDescription) { (action) in
+                                        self.navigationController?.popViewController(animated: true)
+                                    }
                                 }
                                 
                             }

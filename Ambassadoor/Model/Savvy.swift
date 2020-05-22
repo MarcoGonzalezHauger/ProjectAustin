@@ -4,7 +4,7 @@
 //
 //  Created by Marco Gonzalez Hauger on 11/22/18.
 //  Copyright © 2018 Tesseract Freelance, LLC. All rights reserved.
-//  Exclusive property of Tesseract Freelance, LLC.
+//  All code contained in this file is sole property of Marco Gonzalez Hauger.
 //
 
 import Foundation
@@ -114,7 +114,8 @@ func calculateCostForUser(offer: Offer, user: User, increasePayVariable: Double 
 	if offer.isDefaultOffer {
 		return 0
 	}
-    return 0.055 * user.averageLikes! * Double(offer.posts.count) * increasePayVariable
+	//changed from 5.5¢ -> 6¢ on May 17th, 2020.
+    return 0.06 * user.averageLikes! * Double(offer.posts.count) * increasePayVariable
 }
 
 func DateToCountdown(date: Date) -> String? {
@@ -251,11 +252,11 @@ func GetTierFromFollowerCount(FollowerCount: Double) -> Int? {
 }
 
 // get organic subscription fee amount based on instagram followers count
-func GetFeeFromFollowerCount(FollowerCount: Double) -> Double {
+func GetFeeForInfluencer(_ user: User) -> Double {
     
 	//The money faucet
 	
-	var fee = floor(FollowerCount * 0.003 * 2) / 2
+	var fee = floor((user.averageLikes ?? 0) * 0.017 * 2) / 2
 	if fee < 4 {
 		fee = 4
 	}
@@ -308,6 +309,17 @@ func GetCategoryStringFromlist(categories: [String]) -> String {
 	return categories.joined(separator: "\n")
 }
 
+func showAlert(selfVC: UIViewController, caption: String, title: String = "Alert", okayButton: String = "OK") {
+	let alert = UIAlertController(title: title, message: caption, preferredStyle: .alert)
+	
+	alert.addAction(UIAlertAction(title: okayButton, style: .default, handler: { (ui) in
+		selfVC.dismiss(animated: true, completion: nil)
+		
+	}
+	))
+	
+	selfVC.present(alert, animated: true)
+}
 
 // get offer information using offerID
 func OfferFromID(id: String, completion:@escaping(_ offer:Offer?)->()) {
@@ -392,20 +404,34 @@ func OfferFromID(id: String, completion:@escaping(_ offer:Offer?)->()) {
 }
 
 func CompressNumber(number: Double) -> String {
+	var returnValue = ""
+	var suffix = ""
 	switch number {
-	case 0...9999:
-		return NumberToStringWithCommas(number: number)
-	case 10000...99999:
-		return "\(floor(number/100) / 10)K"
+	case 0...999:
+		returnValue =  String(number)
+	case 1000...99999:
+		returnValue =  "\(floor(number/100) / 10)"
+		suffix = "K"
 	case 100000...999999:
-		return "\(floor(number/1000))K"
+		returnValue =  "\(floor(number/1000))"
+		suffix = "K"
 	case 1000000...9999999:
-		return "\(floor(number/100000) / 10)M"
-	case 10000000...999999999:
-		return "\(floor(number/1000000))M"
+		returnValue =  "\(floor(number/10000) / 100)"
+		suffix = "M"
+	case 10000000...99999999:
+		returnValue =  "\(floor(number/100000) / 10)"
+		suffix = "M"
+	case 100000000...999999999:
+		returnValue =  "\(floor(number/1000000))"
+		suffix = "M"
 	default:
-		return String(number)
+		//okay if you have more than a billion followers/average likes... c'mon.
+		return "A Lot."
 	}
+	if returnValue.hasSuffix(".00") || returnValue.hasSuffix(".0") {
+		returnValue = String(returnValue.split(separator: ".").first!)
+	}
+	return returnValue + suffix
 }
 
 func PostTypeToText(posttype: TypeofPost) -> String {
@@ -825,7 +851,7 @@ var refreshDelegates: [refreshDelegate] = []
 func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
 	
 	if reference != nil {
-		if Yourself.yourMoney > GetFeeFromFollowerCount(FollowerCount: Yourself.followerCount) {
+		if Yourself.yourMoney > GetFeeForInfluencer(Yourself) {
 			reference!.tabBar.items![1].badgeValue = "$"
 		} else {
 			reference!.tabBar.items![1].badgeValue = nil
@@ -1031,6 +1057,30 @@ func offerIsFiliteredForUser(offer: Offer) -> Bool {
 	}
 	
 	return categoryMatch && genderMatch && locationMatch
+}
+
+//returns a list of ERRORS
+
+func isDeseralizable(dictionary: [String: AnyObject], type: structType) -> [String] {
+	var necessaryItems: [String] = []
+	var errors: [String] = []
+	switch type {
+	case .offer:
+		necessaryItems = ["status", "money", "companyDetails", "posts", "offer_ID", "offerdate", "ownerUserID", "title", "isAccepted", "expiredate", "cashPower"]
+	case .businessDetails:
+		necessaryItems = ["name", "mission"]
+	}
+	for i in necessaryItems {
+		if dictionary[i] == nil {
+			errors.append("Dictionary[\(i)] returned NIL")
+		}
+	}
+	return errors
+}
+
+enum structType {
+	case offer
+	case businessDetails
 }
 
 

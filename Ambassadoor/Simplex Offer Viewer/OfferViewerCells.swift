@@ -12,33 +12,39 @@ import UIKit
 
 class RejectedMessageCell: UITableViewCell {
 	@IBOutlet weak var rejectMessage: UILabel!
+	@IBOutlet weak var rejectedHeading: UILabel!
 	
 	var offer: Offer?{
 		didSet{
 			if let offerValue = offer{
 				
-				var detectedCount = 0
-				
-				for post in offerValue.posts {
-					if post.status == "rejected"{
-						detectedCount += 1
-					}
-				}
-				
-				if detectedCount == offerValue.posts.count{
+				if offerValue.isCancelledByUser {
+					rejectedHeading.text = "Offer Cancelled"
+					rejectMessage.text = "If this offer was somehow unfair or a scam, report it.\n\n"
+				} else {
+					var detectedCount = 0
 					
-					if offerValue.posts.count == 1{
+					for post in offerValue.posts {
+						if post.status == "rejected"{
+							detectedCount += 1
+						}
+					}
+					
+					if detectedCount == offerValue.posts.count{
 						
-						self.rejectMessage.text = "An Ambassadoor Verifier found that your post was not acceptable. Press on the post to view why"
+						if offerValue.posts.count == 1{
+							
+							self.rejectMessage.text = "An Ambassadoor Verifier found that your post was not acceptable. Press on the post to view why"
+							
+						}else{
+							
+							self.rejectMessage.text = "An Ambassadoor Verifier found that your posts were not acceptable. Press on one of the posts to view why."
+							
+						}
 						
 					}else{
-						
 						self.rejectMessage.text = "An Ambassadoor Verifier found that your posts were not acceptable. Press on one of the posts to view why."
-						
 					}
-					
-				}else{
-					self.rejectMessage.text = "An Ambassadoor Verifier found that your posts were not acceptable. Press on one of the posts to view why."
 				}
 			}
 		}
@@ -405,8 +411,17 @@ class AcceptCell: UITableViewCell {
 	
 }
 
+protocol CancelOffer {
+	func cancelOffer()
+}
+
 class AbortOffer: UITableViewCell {
 	
+	var delegate: CancelOffer?
+	
+	@IBAction func cancelButtonPressed(_ sender: Any) {
+		delegate?.cancelOffer()
+	}
 }
 
 class NextStepCell: UITableViewCell {

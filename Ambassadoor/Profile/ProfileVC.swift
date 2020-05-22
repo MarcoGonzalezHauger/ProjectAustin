@@ -218,7 +218,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
     
     @IBAction func cashOutAction(sender: UIButton){
         //MoneySegue
-		let fee = GetFeeFromFollowerCount(FollowerCount: Yourself.followerCount)
+		let fee = GetFeeForInfluencer(Yourself)
 		if Yourself.yourMoney <= fee {
 			shakerDelegate?.doItNow()
 			let alert = UIAlertController(title: "You Can't Withdraw", message: "You need more than \(NumberToPrice(Value: fee, enforceCents: true)) to cash out.", preferredStyle: .alert)
@@ -302,7 +302,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 			}
 		}
 		shelf.reloadData()
-		if Yourself.yourMoney > GetFeeFromFollowerCount(FollowerCount: Yourself.followerCount) {
+		if Yourself.yourMoney > GetFeeForInfluencer(Yourself) {
 			self.tabBarController!.tabBar.items![1].badgeValue = "$"
 		} else {
 			self.tabBarController!.tabBar.items![1].badgeValue = nil
@@ -341,12 +341,8 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		return avaliableSettings
 	}
 	
-	@IBAction func OfferHistoryClicked(_ sender: Any) {
-//		let alert = UIAlertController(title: "Unavaliable", message: "This feature is not avaliable yet.", preferredStyle: UIAlertController.Style.alert)
-//        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-//        self.present(alert, animated: true, completion: nil)
-        
-        self.performSegue(withIdentifier: "OfferHistory", sender: nil)
+	@IBAction func SettingsButtonClicked(_ sender: Any) {
+		showAlert(selfVC: self, caption: "Press on your categories/town to change your settings.", title: "Settings")
 	}
 	
     @IBAction func referral_Action(_ sender: Any) {

@@ -90,7 +90,11 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
 					
 				}else if offerValue.variation == .allPostsDenied {
 					
-					paymentReceiveAt.text = "All posts were rejected by a verifier."
+					if offerValue.isCancelledByUser {
+						paymentReceiveAt.text = "You cancelled the offer."
+					} else {
+						paymentReceiveAt.text = "All posts were rejected by a verifier."
+					}
 					progressWidth.constant = self.frame.size.width
 					progrssView.updateConstraints()
 					progrssView.layoutIfNeeded()
@@ -375,7 +379,25 @@ func CheckIfOferIsActive(offer: Offer) -> Bool {
 	return offer.variation == .inProgress || offer.variation == .willBePaid
 }
 
-class InProgressVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class InProgressVC: UIViewController, UITableViewDelegate, UITableViewDataSource, inProgressDelegate {
+	
+	
+	func reloadNow() {
+		getAcceptedOffers { (status, offers) in
+			if status{
+				
+				self.currentItems = offers.filter{CheckIfOferIsActive(offer: $0)}.count
+				
+				self.allInprogressOffer = offers
+				global.allInprogressOffer = offers
+				DispatchQueue.main.async {
+					self.inProgressTable.reloadData()
+				}
+			}
+			
+		}
+	}
+	
     
 	@IBOutlet weak var noneView: UIView!
 	
@@ -495,6 +517,7 @@ class InProgressVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         if segue.identifier == "FromInprogressToOV" {
         //guard let newviewoffer = viewoffer else { return }
         let destination = (segue.destination as! StandardNC).topViewController as! OfferViewerVC
+			destination.delegate = self
 			destination.offer = sender as? Offer
          }
         

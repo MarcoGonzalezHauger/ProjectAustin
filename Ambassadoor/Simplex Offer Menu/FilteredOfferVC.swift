@@ -96,8 +96,8 @@ class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         if segue.identifier == "FromFilteredToOV" {
             //guard let newviewoffer = viewoffer else { return }
 			let destination = (segue.destination as! StandardNC).topViewController as! OfferViewerVC
-            
                  destination.offer = sender as? Offer
+				destination.thisParent = self
              }
         
     }

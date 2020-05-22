@@ -105,6 +105,7 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         let destination = (segue.destination as! StandardNC).topViewController as! OfferViewerVC
        
             destination.offer = sender as? Offer
+			destination.thisParent = self
         }
         
     }

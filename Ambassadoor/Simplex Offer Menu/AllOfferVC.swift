@@ -105,6 +105,7 @@ class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, O
          let destination = (segue.destination as! StandardNC).topViewController as! OfferViewerVC
         
              destination.offer = sender as? Offer
+			 destination.thisParent = self
          }
     }
     
