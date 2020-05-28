@@ -190,7 +190,7 @@ class Offer: NSObject {
 				if isFollowed {
 					return .canBeAccepted
 				}
-				if let diff = Calendar.current.dateComponents([.hour], from: offerdate, to: Date()).hour, diff > 36 {
+				if let diff = Calendar.current.dateComponents([.hour], from: offerdate, to: Date()).hour, diff > 168 {
 					return .canBeAccepted
 				}
 				
