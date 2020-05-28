@@ -76,8 +76,9 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
 		//if attemptedLogOut {
 		API.instaLogout()
 		//}
-		
-		let authURL = String(format: "%@?client_id=%@&redirect_uri=%@&scope=user_profile,user_media&response_type=code", arguments: [API.INSTAGRAM_AUTHURL, API.INSTAGRAM_CLIENT_ID, API.INSTAGRAM_REDIRECT_URI])
+		//user_profile,user_media
+        //&scope=instagram_graph_user_profile,instagram_graph_user_media
+		let authURL = String(format: "%@?client_id=%@&scope=user_profile,user_media&redirect_uri=%@&response_type=code", arguments: [API.INSTAGRAM_AUTHURL, API.INSTAGRAM_CLIENT_ID, API.INSTAGRAM_REDIRECT_URI])
 		
 		let urlRequest = URLRequest.init(url: URL.init(string: authURL)!)
 		// Puts login page into WebView on VC
@@ -139,7 +140,7 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
         API.getProfileInfo(userId: userID) { (businessuser: Bool) in
             
             if businessuser{
-                self.showStandardAlertDialog(title: "Instagram Account Valid", msg: "Finally, login with Facebook so we can get information like your Average Likes.") { (clickAction) in
+                self.showStandardAlertDialog(title: "One More Step", msg: "Login with Facebook so we can get information like your Average Likes.") { (clickAction) in
                     //self.loginAct(userIDBusiness: userID)
                     
                     API.facebookLoginAct(userIDBusiness: userID, owner: self) { (userDetail,longLiveToken,error) in
@@ -225,10 +226,6 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                                         self.navigationController?.popViewController(animated: true)
                                     }
                                     
-                                }else{
-                                    self.showStandardAlertDialog(title: "Alert", msg: errorVal.localizedDescription) { (action) in
-                                        self.navigationController?.popViewController(animated: true)
-                                    }
                                 }
                                 
                             }
