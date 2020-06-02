@@ -76,8 +76,9 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
 		//if attemptedLogOut {
 		API.instaLogout()
 		//}
-		
-		let authURL = String(format: "%@?client_id=%@&redirect_uri=%@&scope=user_profile,user_media&response_type=code", arguments: [API.INSTAGRAM_AUTHURL, API.INSTAGRAM_CLIENT_ID, API.INSTAGRAM_REDIRECT_URI])
+		//user_profile,user_media
+        //&scope=instagram_graph_user_profile,instagram_graph_user_media
+		let authURL = String(format: "%@?client_id=%@&scope=user_profile,user_media&redirect_uri=%@&response_type=code", arguments: [API.INSTAGRAM_AUTHURL, API.INSTAGRAM_CLIENT_ID, API.INSTAGRAM_REDIRECT_URI])
 		
 		let urlRequest = URLRequest.init(url: URL.init(string: authURL)!)
 		// Puts login page into WebView on VC
