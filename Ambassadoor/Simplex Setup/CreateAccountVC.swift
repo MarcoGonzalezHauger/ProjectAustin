@@ -44,9 +44,7 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 //
 //		//if success (this only dimisses the VCs):
 //		AccountSuccessfullyCreated()
-        
-        
-        
+                
         if NewAccount.email != ""{
             
             if NewAccount.instagramUsername != ""{

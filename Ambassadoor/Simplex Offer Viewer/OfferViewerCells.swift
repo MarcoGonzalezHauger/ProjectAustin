@@ -303,7 +303,9 @@ class ReservedCell: UITableViewCell {
 		let dateOne = Date.getDateFromISO8601WOString(ISO8601String: dateString)
 		*/
 		
-		if let isReservedObject = self.offer!.reservedUsers![Yourself.id] {
+		guard let urself = Yourself else { return }
+		
+		if let isReservedObject = self.offer!.reservedUsers![urself.id] {
 			
 			let isReservedUntil = isReservedObject["isReservedUntil"] as! String
 			
