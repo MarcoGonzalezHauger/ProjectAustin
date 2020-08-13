@@ -134,7 +134,7 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
     }
     
     // Handle Instagram auth token from callback url and handle it with our logic
-    func handleAuth(authToken: String,userID: String) {
+    func handleAuth(authToken: String, userID: String) {
         print("Instagram authentication token = ", authToken)
         API.INSTAGRAM_ACCESS_TOKEN = authToken
         API.getProfileInfo(userId: userID) { (businessuser: Bool) in
@@ -143,10 +143,10 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                 self.showStandardAlertDialog(title: "One More Step", msg: "Login with Facebook so we can get information like your Average Likes.") { (clickAction) in
                     //self.loginAct(userIDBusiness: userID)
                     
-                    API.facebookLoginAct(userIDBusiness: userID, owner: self) { (userDetail,longLiveToken,error) in
+                    API.facebookLoginAct(userIDBusiness: userID, owner: self) { (userDetail, longLiveToken, error) in
                         if error == nil {
                             
-                            if let userDetailDict = userDetail as? [String: AnyObject]{
+                            if let userDetailDict = userDetail as? [String: AnyObject] {
                                 
                                 if let id = userDetailDict["id"] as? String {
                                     NewAccount.id = id
@@ -166,7 +166,7 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                                 }
                                 NewAccount.authenticationToken = longLiveToken!
                                 
-                                if NewAccount.profilePicture != ""{
+                                if NewAccount.profilePicture != "" {
                                     
                                     updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
                                         
@@ -174,7 +174,7 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                                             NewAccount.profilePicture = url!
                                         }
                                         DispatchQueue.main.async {
-                                        self.performSegue(withIdentifier: "toConnected", sender: self)
+											self.performSegue(withIdentifier: "toConnected", sender: self)
                                         }
                                         
                                     }
@@ -192,7 +192,7 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                                 
                                 if let err = error{
                                     
-                                    print(err)
+                                    print("ERROR: NO SERIALIZATION:\n\(err)")
                                     let errorVal = err as NSError
                                     if let messageDict = errorVal.userInfo as? [String: Any] {
                                     //com.facebook.sdk:FBSDKErrorDeveloperMessageKey
@@ -213,22 +213,27 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                             }
                             
                         }else{
+							print("THERE WAS AN ERROR.")
 //                            self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")
                             
-                            if let err = error{
-                            
-                            print(err)
-                            let errorVal = err as NSError
-                                
-                                if errorVal.code == 408{
-                                    
-                                    self.showStandardAlertDialog(title: "Alert", msg: "You have cancelled the Facebook login process.") { (action) in
-                                        self.navigationController?.popViewController(animated: true)
-                                    }
-                                    
-                                }
-                                
-                            }
+							if let err = error{
+								
+								print(err)
+								let errorVal = err as NSError
+								
+								if errorVal.code == 408{
+									
+									self.showStandardAlertDialog(title: "Alert", msg: "You have cancelled the Facebook login process.") { (action) in
+										self.navigationController?.popViewController(animated: true)
+									}
+									
+								} else {
+									self.showStandardAlertDialog(title: "Error", msg: "\(err)") { (action) in
+										self.navigationController?.popViewController(animated: true)
+									}
+								}
+								
+							}
                             
                         }
                     }

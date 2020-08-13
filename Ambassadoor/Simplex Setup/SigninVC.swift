@@ -100,7 +100,7 @@ class SigninVC: UIViewController {
     
     func callIfAccessTokenExpired(userID: String) {
         
-        API.facebookLoginAct(userIDBusiness: userID, owner: self) { (userDetail,longliveToken, error) in
+        API.facebookLoginAct(userIDBusiness: userID, owner: self) { (userDetail, longliveToken, error) in
             if error == nil {
                 
                 if let userDetailDict = userDetail as? [String: AnyObject]{
@@ -120,7 +120,7 @@ class SigninVC: UIViewController {
                     if let username = userDetailDict["username"] as? String {
                         NewAccount.instagramUsername = username
                     }
-                    //AccessToken.current!.tokenString
+					
                     NewAccount.authenticationToken = longliveToken!
                     
                     updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
@@ -129,30 +129,19 @@ class SigninVC: UIViewController {
                             NewAccount.profilePicture = url!
                             self.updateLoginDetailsToServer(userID: userID)
                         }else{
-                        self.updateLoginDetailsToServer(userID: userID)
+							self.updateLoginDetailsToServer(userID: userID)
                         }
                     }
-                    
-//                    API.calculateAverageLikes(userID: userID, longLiveToken: NewAccount.authenticationToken) { (recentMedia, error) in
-//
-//                        if error == nil{
-//
-//                            self.averageLikes(recentMedia: recentMedia, userID: userID)
-//
-//                        }else{
-//
-//                        }
-//
-//                    }
                     
                     
                     
                 }else{
-                    self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")
+                    self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later. (Fx3)")
                 }
                 
             }else{
-                self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")
+				print(error.debugDescription)
+                self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later. (Fx2)")
             }
         }
         
