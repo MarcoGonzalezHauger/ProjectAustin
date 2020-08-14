@@ -8,10 +8,10 @@
 
 import Foundation
 
-enum APImode {
+enum APImode: String {
 	case dontUseInstagramBasicDisplay //This mode will not use the Instagram Basic Display API at any time.
 	case doUseInstagramBasicDisplay //This mode will not use any business integration.
 	case normal //Won't change anything.
 }
 
-var InstagramAPI: APImode = .dontUseInstagramBasicDisplay
+//var InstagramAPI: APImode = .dontUseInstagramBasicDisplay

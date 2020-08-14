@@ -298,7 +298,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         self.signInAction()
         
+        //addDevelopmentSettings()
         
+        GetDevelopmentSettings { (development) in
+            if development != nil{
+            global.InstagramAPI = APImode(rawValue: development!)!
+            }
+        }
         
 		return true
 	}

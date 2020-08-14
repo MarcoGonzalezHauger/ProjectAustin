@@ -588,6 +588,106 @@ struct API {
         
     }
     
+    static func facebookLoginBusinessAccount(owner: UIViewController, completion: @escaping(_ object:Any?, _ longliveToken: String?, _ error: Error?)->Void) {
+        
+        let login: LoginManager = LoginManager()
+        login.logOut()
+        //"pages_show_list"
+        
+        login.logIn(permissions: ["instagram_basic", "pages_show_list"], from: owner) { (result, FBerror) in
+            if((FBerror) != nil){
+                print(FBerror as Any)
+                completion(nil, nil, FBerror)
+                
+            }else if result!.isCancelled{
+                
+                completion(nil, nil, NSError(domain: "CancelErrorDomain", code: 408, userInfo: nil))
+                
+            }
+            else{
+                
+                
+                
+                GraphRequest(graphPath: "/oauth/access_token", parameters: ["grant_type": "fb_exchange_token","client_id":API.FACEBOOK_CLIENT_ID,"client_secret": FACEBOOK_CLIENTSERCRET,"fb_exchange_token":AccessToken.current!.tokenString]).start(completionHandler: { (connection, userToken, error) -> Void in
+                    
+                    if error == nil{
+                        //completion(userDetail, nil)
+                        
+                        if let liveTokenDict = userToken as? [String: AnyObject] {
+                           
+                            if let liveToken = liveTokenDict["access_token"] as? String{
+                                
+                                GraphRequest(graphPath: "me/accounts", parameters: [:]).start(completionHandler: { (connection, accountDetail, tokenError) -> Void in
+                                    
+                                    if let userDetailDict = accountDetail as? [String: AnyObject] {
+                                       
+                                        if let userDetailArray = userDetailDict["data"] as? NSArray{
+                                            
+                                            if let userDetailFirsstObject = userDetailArray.firstObject as? [String: AnyObject]{
+                                                
+                                                if let pageID = userDetailFirsstObject["id"] as? String {
+                                                    
+                                                    GraphRequest(graphPath: pageID, parameters: ["fields":"instagram_business_account"]).start(completionHandler: { (connection, businessDetail, tokenError) -> Void in
+                                                        
+                                                        if let businessDetailDict = businessDetail as? [String: AnyObject]{
+                                                            
+                                                            if let businessIDDetail = businessDetailDict["instagram_business_account"] as? [String: AnyObject]{
+                                                                
+                                                                if let businessID = businessIDDetail["id"] as? String{
+                                                                    
+                                                                GraphRequest(graphPath: businessID, parameters: ["fields":"biography,id,followers_count,follows_count,media_count,name,profile_picture_url,username,website"]).start(completionHandler: { (connection, userDetail, tokenError) -> Void in
+                                                                    
+                                                                    if tokenError == nil{
+                                                                        completion(userDetail, liveToken, nil)
+                                                                    }else{
+                                                                        completion(nil, nil, tokenError)
+                                                                    }
+                                                                    
+                                                                })
+                                                                    
+                                                                }
+                                                                
+                                                            }
+                                                            
+                                                        }
+                                                        
+                                                        
+                                                    })
+                                                    
+                                                }
+                                            }
+                                            
+                                        }
+                                    }
+
+
+                                })
+                               
+                            }
+                            
+                        }
+                        
+                    }else{
+//                        GraphRequest(graphPath: userIDBusiness, parameters: ["fields":"biography,id,followers_count,follows_count,media_count,name,profile_picture_url,username,website"]).start(completionHandler: { (connection, userDetail, tokenError) -> Void in
+//
+//                            if error == nil{
+//                                completion(userDetail, AccessToken.current!.tokenString, nil)
+//                            }else{
+//                                completion(nil, nil, tokenError)
+//                            }
+//
+//                        })
+                    }
+                    
+                })
+                
+                
+            }
+            
+        }
+        
+    }
+    
     static func calculateAverageLikes(userID: String,longLiveToken: String,completion:@escaping(_ recentMedia: Any?,_ error: Error?)->Void) {
         
         GraphRequest(graphPath: userID + "/media", parameters: ["access_token":longLiveToken]).start(completionHandler: { (connection, recentMedia, error) -> Void in
