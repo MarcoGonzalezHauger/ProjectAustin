@@ -195,21 +195,61 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                     if let err = error{
                         
                         print("ERROR: NO SERIALIZATION:\n\(err)")
-                        let errorVal = err as NSError
-                        if let messageDict = errorVal.userInfo as? [String: Any] {
-                            //com.facebook.sdk:FBSDKErrorDeveloperMessageKey
-                            
-                            if let message = messageDict["com.facebook.sdk:FBSDKErrorDeveloperMessageKey"] as? String{
+                        if let errorVal = err as? NSError {
+                            if let messageDict = errorVal.userInfo as? [String: Any] {
+                                //com.facebook.sdk:FBSDKErrorDeveloperMessageKey
                                 
-                                self.showStandardAlertDialog(title: "Alert", msg: message) { (action) in
-                                    DispatchQueue.main.async {
-                                        self.navigationController?.popViewController(animated: true)
+                                if let message = messageDict["com.facebook.sdk:FBSDKErrorDeveloperMessageKey"] as? String{
+                                    
+                                    self.showStandardAlertDialog(title: "Alert", msg: message) { (action) in
+                                        DispatchQueue.main.async {
+                                            self.navigationController?.popViewController(animated: true)
+                                        }
+                                        
                                     }
                                     
                                 }
                                 
                             }
+                        }else{
                             
+                            if err as! String == "Page Not Created"{
+                                
+                                self.showStandardAlertDialogWithMultipleAction(title: "Alert", msg: "You must have atleast one Facebook Page. Please click instruction how to create Facebook Page", titles: ["Instruction"]) { (action) in
+                                    
+                                    if action.title == "Instruction"{
+                                        
+                                        if let url = URL(string: API.FB_PAGE_HELP) {
+                                            UIApplication.shared.open(url)
+                                        }
+                                        
+                                    }else{
+                                        self.navigationController?.popViewController(animated: true)
+                                    }
+                                    
+                                }
+                                
+                            }else if err as! String == "Instagram Not Linked"{
+                                
+                                let errorMsg = "Your Instagram Account has not changed as Creator or Professional Account yet. Please click Instagram Creator Account or Instagram Business Account to know how to change your Instagram account as creator or business"
+                                
+                                self.showStandardAlertDialogWithMultipleAction(title: "Alert", msg: errorMsg, titles: ["Instagram Creator Account","Instagram Business Account"]) { (action) in
+                                    if action.title == "Instagram Creator Account"{
+                                        if let url = URL(string: API.INSTAGRAM_CREATOR_HELP) {
+                                            UIApplication.shared.open(url)
+                                        }
+                                        
+                                    }else if action.title == "Instagram Business Account"{
+                                        
+                                        if let url = URL(string: API.INSTAGRAM_BUSINESS_HELP) {
+                                            UIApplication.shared.open(url)
+                                        }
+                                        
+                                    }else{
+                                        self.navigationController?.popViewController(animated: true)
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -221,18 +261,59 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                 if let err = error{
                     
                     print(err)
-                    let errorVal = err as NSError
-                    
-                    if errorVal.code == 408{
+                    if let errorVal = err as? NSError{
                         
-                        self.showStandardAlertDialog(title: "Alert", msg: "You have cancelled the Facebook login process.") { (action) in
-                            self.navigationController?.popViewController(animated: true)
+                        if errorVal.code == 408{
+                            
+                            self.showStandardAlertDialog(title: "Alert", msg: "You have cancelled the Facebook login process.") { (action) in
+                                self.navigationController?.popViewController(animated: true)
+                            }
+                            
+                        } else {
+                            self.showStandardAlertDialog(title: "Error", msg: "\(err)") { (action) in
+                                self.navigationController?.popViewController(animated: true)
+                            }
+                        }
+                    }else{
+                        
+                        if err as! String == "Page Not Created"{
+                            
+                            self.showStandardAlertDialogWithMultipleAction(title: "Alert", msg: "You must have atleast one Facebook Page. Please click instruction how to create Facebook Page", titles: ["Instruction"]) { (action) in
+                                
+                                if action.title == "Instruction"{
+                                    
+                                    if let url = URL(string: API.FB_PAGE_HELP) {
+                                        UIApplication.shared.open(url)
+                                    }
+                                    
+                                }else{
+                                    self.navigationController?.popViewController(animated: true)
+                                }
+                                
+                            }
+                            
+                        }else if err as! String == "Instagram Not Linked"{
+                            
+                            let errorMsg = "Your Instagram Account has not changed as Creator or Professional Account yet. Please click Instagram Creator Account or Instagram Business Account to know how to change your Instagram account as creator or business"
+                            
+                            self.showStandardAlertDialogWithMultipleAction(title: "Alert", msg: errorMsg, titles: ["Instagram Creator Account","Instagram Business Account"]) { (action) in
+                                if action.title == "Instagram Creator Account"{
+                                    if let url = URL(string: API.INSTAGRAM_CREATOR_HELP) {
+                                        UIApplication.shared.open(url)
+                                    }
+                                    
+                                }else if action.title == "Instagram Business Account"{
+                                    
+                                    if let url = URL(string: API.INSTAGRAM_BUSINESS_HELP) {
+                                        UIApplication.shared.open(url)
+                                    }
+                                    
+                                }else{
+                                    self.navigationController?.popViewController(animated: true)
+                                }
+                            }
                         }
                         
-                    } else {
-                        self.showStandardAlertDialog(title: "Error", msg: "\(err)") { (action) in
-                            self.navigationController?.popViewController(animated: true)
-                        }
                     }
                     
                 }
@@ -329,18 +410,60 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                             if let err = error{
                                 
                                 print(err)
-                                let errorVal = err as NSError
-                                
-                                if errorVal.code == 408{
+                                if let errorVal = err as? NSError{
                                     
-                                    self.showStandardAlertDialog(title: "Alert", msg: "You have cancelled the Facebook login process.") { (action) in
-                                        self.navigationController?.popViewController(animated: true)
+                                    if errorVal.code == 408{
+                                        
+                                        self.showStandardAlertDialog(title: "Alert", msg: "You have cancelled the Facebook login process.") { (action) in
+                                            self.navigationController?.popViewController(animated: true)
+                                        }
+                                        
+                                    } else {
+                                        self.showStandardAlertDialog(title: "Error", msg: "\(err)") { (action) in
+                                            self.navigationController?.popViewController(animated: true)
+                                        }
                                     }
                                     
-                                } else {
-                                    self.showStandardAlertDialog(title: "Error", msg: "\(err)") { (action) in
-                                        self.navigationController?.popViewController(animated: true)
+                                }else{
+                                    
+                                    if err as! String == "Page Not Created"{
+                                        
+                                        self.showStandardAlertDialogWithMultipleAction(title: "Alert", msg: "You must have atleast one Facebook Page. Please click instruction how to create Facebook Page", titles: ["Instruction"]) { (action) in
+                                            
+                                            if action.title == "Instruction"{
+                                                
+                                                if let url = URL(string: API.FB_PAGE_HELP) {
+                                                    UIApplication.shared.open(url)
+                                                }
+                                                
+                                            }else{
+                                                self.navigationController?.popViewController(animated: true)
+                                            }
+                                            
+                                        }
+                                        
+                                    }else if err as! String == "Instagram Not Linked"{
+                                        
+                                        let errorMsg = "Your Instagram Account has not changed as Creator or Professional Account yet. Please click Instagram Creator Account or Instagram Business Account to know how to change your Instagram account as creator or business"
+                                        
+                                        self.showStandardAlertDialogWithMultipleAction(title: "Alert", msg: errorMsg, titles: ["Instagram Creator Account","Instagram Business Account"]) { (action) in
+                                            if action.title == "Instagram Creator Account"{
+                                                if let url = URL(string: API.INSTAGRAM_CREATOR_HELP) {
+                                                    UIApplication.shared.open(url)
+                                                }
+                                                
+                                            }else if action.title == "Instagram Business Account"{
+                                                
+                                                if let url = URL(string: API.INSTAGRAM_BUSINESS_HELP) {
+                                                    UIApplication.shared.open(url)
+                                                }
+                                                
+                                            }else{
+                                                self.navigationController?.popViewController(animated: true)
+                                            }
+                                        }
                                     }
+                                    
                                 }
                                 
                             }
