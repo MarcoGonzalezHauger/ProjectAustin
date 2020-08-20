@@ -7,8 +7,8 @@
 //
 
 protocol VerificationReturned {
-	func DonePressed()
-	func ThatsNotMe()
+    func DonePressed()
+    func ThatsNotMe()
 }
 
 import UIKit
@@ -17,85 +17,94 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 
 class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationReturned {
-	
-	
-	func DonePressed() { //Proceeded
-		
-		
-		//[RAM] The account entered should be loaded onto the NewAccount strucutre
-		NewAccount.instagramKey = "" //The instagram key gotten from the WKWebView
-		NewAccount.instagramUsername = igName //The instagram user's username.
-		accInfoUpdate()
-		self.navigationController?.popViewController(animated: true)
-	}
-	
-	func ThatsNotMe() {
-		loadLogin()
-	}
-	
-
-	@IBAction func testIt(_ sender: Any) {
-		//This button will be removed later of course
-		//AccountAlreadyInUse(emailOfExistingUser: "marco@amb.co")
-		AccountLoggedIn(instagramUsername: "marcogonzalezhauger")
-	}
-	
-	@IBOutlet weak var webView: WKWebView!
-	@IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
-	
-	//[RAM] These are the three different possibilties when a user logs in. The functoins are done, you just need to call them.
-	
-	
-	func AccountLoggedIn(instagramUsername: String) {
-		igName = instagramUsername
-		performSegue(withIdentifier: "toConnected", sender: self)
-	}
-	
-	func AccountAlreadyInUse(emailOfExistingUser email: String) {
-		alreadyUsedEmail = email
-		performSegue(withIdentifier: "toInUse", sender: self)
-	}
-	
-	func NotBusinessAccount() {
-		performSegue(withIdentifier: "toNotBusiness", sender: self)
-	}
-	
-	override func viewDidLoad() {
+    
+    
+    func DonePressed() { //Proceeded
+        
+        
+        //[RAM] The account entered should be loaded onto the NewAccount strucutre
+        NewAccount.instagramKey = "" //The instagram key gotten from the WKWebView
+        NewAccount.instagramUsername = igName //The instagram user's username.
+        accInfoUpdate()
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func ThatsNotMe() {
+        loadLogin()
+    }
+    
+    
+    @IBAction func testIt(_ sender: Any) {
+        //This button will be removed later of course
+        //AccountAlreadyInUse(emailOfExistingUser: "marco@amb.co")
+        AccountLoggedIn(instagramUsername: "marcogonzalezhauger")
+    }
+    
+    @IBOutlet weak var webView: WKWebView!
+    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
+    
+    //[RAM] These are the three different possibilties when a user logs in. The functoins are done, you just need to call them.
+    
+    
+    func AccountLoggedIn(instagramUsername: String) {
+        igName = instagramUsername
+        performSegue(withIdentifier: "toConnected", sender: self)
+    }
+    
+    func AccountAlreadyInUse(emailOfExistingUser email: String) {
+        alreadyUsedEmail = email
+        performSegue(withIdentifier: "toInUse", sender: self)
+    }
+    
+    func NotBusinessAccount() {
+        performSegue(withIdentifier: "toNotBusiness", sender: self)
+    }
+    
+    override func viewDidLoad() {
         super.viewDidLoad()
-		if #available(iOS 13.0, *) {
-			self.isModalInPresentation = true
-		}
-		//[RAM] make this wkWebView go to the login page on Instagram, just like the one before.
+        if #available(iOS 13.0, *) {
+            self.isModalInPresentation = true
+        }
+        //[RAM] make this wkWebView go to the login page on Instagram, just like the one before.
         //self.NotBusinessAccount()
         //self.loginAct()
         self.loadLogin()
     }
     
     // Loads the Instagram login page
-	func loadLogin() {
-		//if attemptedLogOut {
-		API.instaLogout()
-		//}
-		//user_profile,user_media
-        //&scope=instagram_graph_user_profile,instagram_graph_user_media
-		let authURL = String(format: "%@?client_id=%@&scope=user_profile,user_media&redirect_uri=%@&response_type=code", arguments: [API.INSTAGRAM_AUTHURL, API.INSTAGRAM_CLIENT_ID, API.INSTAGRAM_REDIRECT_URI])
-		
-		let urlRequest = URLRequest.init(url: URL.init(string: authURL)!)
-		// Puts login page into WebView on VC
-		self.webView.navigationDelegate = self
-		webView.load(urlRequest)
-		
-		print("WEB VIEW URL: \(String(describing: webView.url))")
-		
-	}
+    func loadLogin() {
+        
+        if global.InstagramAPI == .dontUseInstagramBasicDisplay {
+            
+            self.getFBBusinessAccount()
+            
+        }else{
+            
+            //if attemptedLogOut {
+            API.instaLogout()
+            //}
+            //user_profile,user_media
+            //&scope=instagram_graph_user_profile,instagram_graph_user_media
+            let authURL = String(format: "%@?client_id=%@&scope=user_profile,user_media&redirect_uri=%@&response_type=code", arguments: [API.INSTAGRAM_AUTHURL, API.INSTAGRAM_CLIENT_ID, API.INSTAGRAM_REDIRECT_URI])
+            
+            let urlRequest = URLRequest.init(url: URL.init(string: authURL)!)
+            // Puts login page into WebView on VC
+            self.webView.navigationDelegate = self
+            webView.load(urlRequest)
+            
+            print("WEB VIEW URL: \(String(describing: webView.url))")
+            
+        }
+        
+    }
     
-
-	
-	@IBAction func cancelButtonPressed(_ sender: Any) {
-		self.navigationController?.popViewController(animated: true)
-	}
-	
-	func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+    
+    
+    @IBAction func cancelButtonPressed(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         activityIndicatorView.startAnimating()
     }
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
@@ -131,6 +140,188 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
             return true
         }
         return false
+    }
+    
+    func getFBBusinessAccount() {
+        
+        API.facebookLoginBusinessAccount(owner: self) { (userDetail, longLiveToken, error) in
+            
+            if error == nil {
+                
+                if let userDetailDict = userDetail as? [String: AnyObject] {
+                    
+                    if let id = userDetailDict["id"] as? String {
+                        NewAccount.id = id
+                    }
+                    if let followerCount = userDetailDict["followers_count"] as? Int {
+                        NewAccount.followerCount = Int64(followerCount)
+                    }
+                    if let name = userDetailDict["name"] as? String {
+                        NewAccount.instagramName = name
+                    }
+                    if let pic = userDetailDict["profile_picture_url"] as? String {
+                        NewAccount.profilePicture = pic
+                    }
+                    if let username = userDetailDict["username"] as? String {
+                        NewAccount.instagramUsername = username
+                        self.igName = username
+                    }
+                    NewAccount.authenticationToken = longLiveToken!
+                    
+                    if NewAccount.profilePicture != "" {
+                        
+                        updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
+                            
+                            if status{
+                                NewAccount.profilePicture = url!
+                            }
+                            DispatchQueue.main.async {
+                                self.performSegue(withIdentifier: "toConnected", sender: self)
+                            }
+                            
+                        }
+                        
+                    }else{
+                        DispatchQueue.main.async {
+                            self.performSegue(withIdentifier: "toConnected", sender: self)
+                            //self.NotBusinessAccount()
+                        }
+                    }
+                    
+                    
+                }else{
+                    
+                    
+                    if let err = error{
+                        
+                        print("ERROR: NO SERIALIZATION:\n\(err)")
+                        if let errorVal = err as? NSError {
+                            if let messageDict = errorVal.userInfo as? [String: Any] {
+                                //com.facebook.sdk:FBSDKErrorDeveloperMessageKey
+                                
+                                if let message = messageDict["com.facebook.sdk:FBSDKErrorDeveloperMessageKey"] as? String{
+                                    
+                                    self.showStandardAlertDialog(title: "Alert", msg: message) { (action) in
+                                        DispatchQueue.main.async {
+                                            self.navigationController?.popViewController(animated: true)
+                                        }
+                                        
+                                    }
+                                    
+                                }
+                                
+                            }
+                        }else{
+                            
+                            if err as! String == "Page Not Created"{
+                                
+                                self.showStandardAlertDialogWithMultipleAction(title: "Alert", msg: "You must have atleast one Facebook Page. Please click instruction how to create Facebook Page", titles: ["Instruction"]) { (action) in
+                                    
+                                    if action.title == "Instruction"{
+                                        
+                                        if let url = URL(string: API.FB_PAGE_HELP) {
+                                            UIApplication.shared.open(url)
+                                        }
+                                        
+                                    }else{
+                                        self.navigationController?.popViewController(animated: true)
+                                    }
+                                    
+                                }
+                                
+                            }else if err as! String == "Instagram Not Linked"{
+                                
+                                let errorMsg = "Your Instagram Account has not changed as Creator or Professional Account yet. Please click Instagram Creator Account or Instagram Business Account to know how to change your Instagram account as creator or business"
+                                
+                                self.showStandardAlertDialogWithMultipleAction(title: "Alert", msg: errorMsg, titles: ["Instagram Creator Account","Instagram Business Account"]) { (action) in
+                                    if action.title == "Instagram Creator Account"{
+                                        if let url = URL(string: API.INSTAGRAM_CREATOR_HELP) {
+                                            UIApplication.shared.open(url)
+                                        }
+                                        
+                                    }else if action.title == "Instagram Business Account"{
+                                        
+                                        if let url = URL(string: API.INSTAGRAM_BUSINESS_HELP) {
+                                            UIApplication.shared.open(url)
+                                        }
+                                        
+                                    }else{
+                                        self.navigationController?.popViewController(animated: true)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+            }else{
+                print("THERE WAS AN ERROR.")
+                //                            self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")
+                
+                if let err = error{
+                    
+                    print(err)
+                    if let errorVal = err as? NSError{
+                        
+                        if errorVal.code == 408{
+                            
+                            self.showStandardAlertDialog(title: "Alert", msg: "You have cancelled the Facebook login process.") { (action) in
+                                self.navigationController?.popViewController(animated: true)
+                            }
+                            
+                        } else {
+                            self.showStandardAlertDialog(title: "Error", msg: "\(err)") { (action) in
+                                self.navigationController?.popViewController(animated: true)
+                            }
+                        }
+                    }else{
+                        
+                        if err as! String == "Page Not Created"{
+                            
+                            self.showStandardAlertDialogWithMultipleAction(title: "Alert", msg: "You must have atleast one Facebook Page. Please click instruction how to create Facebook Page", titles: ["Instruction"]) { (action) in
+                                
+                                if action.title == "Instruction"{
+                                    
+                                    if let url = URL(string: API.FB_PAGE_HELP) {
+                                        UIApplication.shared.open(url)
+                                    }
+                                    
+                                }else{
+                                    self.navigationController?.popViewController(animated: true)
+                                }
+                                
+                            }
+                            
+                        }else if err as! String == "Instagram Not Linked"{
+                            
+                            let errorMsg = "Your Instagram Account has not changed as Creator or Professional Account yet. Please click Instagram Creator Account or Instagram Business Account to know how to change your Instagram account as creator or business"
+                            
+                            self.showStandardAlertDialogWithMultipleAction(title: "Alert", msg: errorMsg, titles: ["Instagram Creator Account","Instagram Business Account"]) { (action) in
+                                if action.title == "Instagram Creator Account"{
+                                    if let url = URL(string: API.INSTAGRAM_CREATOR_HELP) {
+                                        UIApplication.shared.open(url)
+                                    }
+                                    
+                                }else if action.title == "Instagram Business Account"{
+                                    
+                                    if let url = URL(string: API.INSTAGRAM_BUSINESS_HELP) {
+                                        UIApplication.shared.open(url)
+                                    }
+                                    
+                                }else{
+                                    self.navigationController?.popViewController(animated: true)
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                }
+                
+            }
+            
+        }
+        
     }
     
     // Handle Instagram auth token from callback url and handle it with our logic
@@ -174,16 +365,16 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                                             NewAccount.profilePicture = url!
                                         }
                                         DispatchQueue.main.async {
-											self.performSegue(withIdentifier: "toConnected", sender: self)
+                                            self.performSegue(withIdentifier: "toConnected", sender: self)
                                         }
                                         
                                     }
-                                                                        
+                                    
                                 }else{
-                                     DispatchQueue.main.async {
-                                         self.performSegue(withIdentifier: "toConnected", sender: self)
-                                         //self.NotBusinessAccount()
-                                     }
+                                    DispatchQueue.main.async {
+                                        self.performSegue(withIdentifier: "toConnected", sender: self)
+                                        //self.NotBusinessAccount()
+                                    }
                                 }
                                 
                                 
@@ -195,7 +386,7 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                                     print("ERROR: NO SERIALIZATION:\n\(err)")
                                     let errorVal = err as NSError
                                     if let messageDict = errorVal.userInfo as? [String: Any] {
-                                    //com.facebook.sdk:FBSDKErrorDeveloperMessageKey
+                                        //com.facebook.sdk:FBSDKErrorDeveloperMessageKey
                                         
                                         if let message = messageDict["com.facebook.sdk:FBSDKErrorDeveloperMessageKey"] as? String{
                                             
@@ -213,27 +404,69 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                             }
                             
                         }else{
-							print("THERE WAS AN ERROR.")
-//                            self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")
+                            print("THERE WAS AN ERROR.")
+                            //                            self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")
                             
-							if let err = error{
-								
-								print(err)
-								let errorVal = err as NSError
-								
-								if errorVal.code == 408{
-									
-									self.showStandardAlertDialog(title: "Alert", msg: "You have cancelled the Facebook login process.") { (action) in
-										self.navigationController?.popViewController(animated: true)
-									}
-									
-								} else {
-									self.showStandardAlertDialog(title: "Error", msg: "\(err)") { (action) in
-										self.navigationController?.popViewController(animated: true)
-									}
-								}
-								
-							}
+                            if let err = error{
+                                
+                                print(err)
+                                if let errorVal = err as? NSError{
+                                    
+                                    if errorVal.code == 408{
+                                        
+                                        self.showStandardAlertDialog(title: "Alert", msg: "You have cancelled the Facebook login process.") { (action) in
+                                            self.navigationController?.popViewController(animated: true)
+                                        }
+                                        
+                                    } else {
+                                        self.showStandardAlertDialog(title: "Error", msg: "\(err)") { (action) in
+                                            self.navigationController?.popViewController(animated: true)
+                                        }
+                                    }
+                                    
+                                }else{
+                                    
+                                    if err as! String == "Page Not Created"{
+                                        
+                                        self.showStandardAlertDialogWithMultipleAction(title: "Alert", msg: "You must have atleast one Facebook Page. Please click instruction how to create Facebook Page", titles: ["Instruction"]) { (action) in
+                                            
+                                            if action.title == "Instruction"{
+                                                
+                                                if let url = URL(string: API.FB_PAGE_HELP) {
+                                                    UIApplication.shared.open(url)
+                                                }
+                                                
+                                            }else{
+                                                self.navigationController?.popViewController(animated: true)
+                                            }
+                                            
+                                        }
+                                        
+                                    }else if err as! String == "Instagram Not Linked"{
+                                        
+                                        let errorMsg = "Your Instagram Account has not changed as Creator or Professional Account yet. Please click Instagram Creator Account or Instagram Business Account to know how to change your Instagram account as creator or business"
+                                        
+                                        self.showStandardAlertDialogWithMultipleAction(title: "Alert", msg: errorMsg, titles: ["Instagram Creator Account","Instagram Business Account"]) { (action) in
+                                            if action.title == "Instagram Creator Account"{
+                                                if let url = URL(string: API.INSTAGRAM_CREATOR_HELP) {
+                                                    UIApplication.shared.open(url)
+                                                }
+                                                
+                                            }else if action.title == "Instagram Business Account"{
+                                                
+                                                if let url = URL(string: API.INSTAGRAM_BUSINESS_HELP) {
+                                                    UIApplication.shared.open(url)
+                                                }
+                                                
+                                            }else{
+                                                self.navigationController?.popViewController(animated: true)
+                                            }
+                                        }
+                                    }
+                                    
+                                }
+                                
+                            }
                             
                         }
                     }
@@ -246,28 +479,28 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                 }
                 
             }
-
+            
         }
     }
-	
-	var igName: String = ""
-	var igKey: String = ""
-	var alreadyUsedEmail: String = ""
-	
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if let destination = segue.destination as? InstagramConnectedVC {
-			destination.delegate = self
-			destination.SetName(name: igName)
-		}
-		if let destination = segue.destination as? AccountInUseVC {
-			destination.delegate = self
-			destination.SetEmail(email: alreadyUsedEmail)
-		}
-		if let destination = segue.destination as? NotBusinessVC {
-			destination.delegate = self
-		}
-	}
-	/*
+    
+    var igName: String = ""
+    var igKey: String = ""
+    var alreadyUsedEmail: String = ""
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? InstagramConnectedVC {
+            destination.delegate = self
+            destination.SetName(name: igName)
+        }
+        if let destination = segue.destination as? AccountInUseVC {
+            destination.delegate = self
+            destination.SetEmail(email: alreadyUsedEmail)
+        }
+        if let destination = segue.destination as? NotBusinessVC {
+            destination.delegate = self
+        }
+    }
+    /*
      //                GraphRequest(graphPath: "/me/accounts", parameters: [:]).start(completionHandler: { (connection, result, error) -> Void in
      //
      //                    if let resultDict = result as? [String: AnyObject] {
@@ -341,36 +574,36 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
      if error == nil {
      
      if let userDetailDict = userDetail as? [String: AnyObject]{
-         
-         if let id = userDetailDict["id"] as? String {
-            NewAccount.id = id
-         }
-         if let followerCount = userDetailDict["followers_count"] as? Int {
-             NewAccount.followerCount = Int64(followerCount)
-         }
-         if let name = userDetailDict["name"] as? String {
-             NewAccount.instagramName = name
-         }
-         if let pic = userDetailDict["profile_picture_url"] as? String {
-             NewAccount.profilePicture = pic
-         }
-         if let username = userDetailDict["username"] as? String {
-             NewAccount.instagramUsername = username
-             self.igName = username
-         }
-         NewAccount.authenticationToken = AccessToken.current!.tokenString
-         
-         DispatchQueue.main.async {
-             self.performSegue(withIdentifier: "toConnected", sender: self)
-             //self.NotBusinessAccount()
-         }
-         
-     }else{
-         self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")
+     
+     if let id = userDetailDict["id"] as? String {
+     NewAccount.id = id
+     }
+     if let followerCount = userDetailDict["followers_count"] as? Int {
+     NewAccount.followerCount = Int64(followerCount)
+     }
+     if let name = userDetailDict["name"] as? String {
+     NewAccount.instagramName = name
+     }
+     if let pic = userDetailDict["profile_picture_url"] as? String {
+     NewAccount.profilePicture = pic
+     }
+     if let username = userDetailDict["username"] as? String {
+     NewAccount.instagramUsername = username
+     self.igName = username
+     }
+     NewAccount.authenticationToken = AccessToken.current!.tokenString
+     
+     DispatchQueue.main.async {
+     self.performSegue(withIdentifier: "toConnected", sender: self)
+     //self.NotBusinessAccount()
      }
      
      }else{
-         self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")
+     self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")
+     }
+     
+     }else{
+     self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")
      }
      */
 }

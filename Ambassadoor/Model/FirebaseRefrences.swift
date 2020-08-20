@@ -32,6 +32,7 @@ func GetOffers(userId: String) -> [Offer] {
     return offers
 }
 
+
 //Creates the offer and returns the newly created offer as an Offer instance
 func CreateOffer() -> Offer {
     let ref = Database.database().reference().child("offers")
@@ -1508,6 +1509,29 @@ func getDownloadedLink() {
             return
         }
         print("aaaaa",downloadURL)
+    }
+}
+
+func addDevelopmentSettings() {
+    
+    let ref = Database.database().reference().child("developmentSettings")
+    ref.updateChildValues(["development":"dontUseInstagramBasicDisplay"])
+}
+
+func GetDevelopmentSettings(completion: @escaping (_ developmentSettings: String?)-> ()) {
+     let ref = Database.database().reference().child("developmentSettings")
+    ref.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let snapValue = snapshot.value as? [String: AnyObject]{
+            if let developmentSettingValue = snapValue["development"] as? String{
+                completion(developmentSettingValue)
+            }else{
+                completion(nil)
+            }
+        }
+        
+    }) { (error) in
+         completion(nil)
     }
 }
 
