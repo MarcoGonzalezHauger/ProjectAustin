@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		45493CA670B234DB5D4610BF /* Pods_Ambassadoor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 236138913E9C5102B8E1275E /* Pods_Ambassadoor.framework */; };
 		B71A90F4233258D9002B6F1A /* WebViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71A90F3233258D4002B6F1A /* WebViewVC.swift */; };
+		B7261DAB24EE420200BB2B29 /* ConnectStepsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7261DAA24EE420200BB2B29 /* ConnectStepsVC.swift */; };
 		B7263285243F16D000202DFB /* InProgressVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7263284243F16D000202DFB /* InProgressVC.swift */; };
 		B73F098623291B3100CD6B00 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73F098523291B3100CD6B00 /* APIManager.swift */; };
 		B73F098823291DA000CD6B00 /* DwollaUserInformationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73F098723291DA000CD6B00 /* DwollaUserInformationVC.swift */; };
@@ -155,6 +156,7 @@
 		236138913E9C5102B8E1275E /* Pods_Ambassadoor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ambassadoor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C063C7693442ACADF942259 /* Pods-Ambassadoor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ambassadoor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ambassadoor/Pods-Ambassadoor.debug.xcconfig"; sourceTree = "<group>"; };
 		B71A90F3233258D4002B6F1A /* WebViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewVC.swift; sourceTree = "<group>"; };
+		B7261DAA24EE420200BB2B29 /* ConnectStepsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectStepsVC.swift; sourceTree = "<group>"; };
 		B7263284243F16D000202DFB /* InProgressVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InProgressVC.swift; sourceTree = "<group>"; };
 		B73F098523291B3100CD6B00 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		B73F098723291DA000CD6B00 /* DwollaUserInformationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DwollaUserInformationVC.swift; sourceTree = "<group>"; };
@@ -466,6 +468,7 @@
 				E880460623F44BAD00A21ABE /* InstagramConnectedVC.swift */,
 				E880460823F4A8FC00A21ABE /* AccountInUseVC.swift */,
 				E84667DD23FA1CE600544CE1 /* NotBusinessVC.swift */,
+				B7261DAA24EE420200BB2B29 /* ConnectStepsVC.swift */,
 			);
 			path = "Connect Instagram";
 			sourceTree = "<group>";
@@ -919,6 +922,7 @@
 				B7CD174F2459643D00D1F63A /* ViewBusinessVC.swift in Sources */,
 				B7FB2886233A1E4700980F17 /* PaymentSentVC.swift in Sources */,
 				B7263285243F16D000202DFB /* InProgressVC.swift in Sources */,
+				B7261DAB24EE420200BB2B29 /* ConnectStepsVC.swift in Sources */,
 				E86A1E4F21A86CE900DCB0D0 /* RejectedOffersVC.swift in Sources */,
 				E8CBF56E2463161400574E38 /* ReporterFeature.swift in Sources */,
 				E8AAE63D23EC3E0E00EC28D4 /* StandardNC.swift in Sources */,
@@ -1096,6 +1100,7 @@
 			baseConfigurationReference = 3C063C7693442ACADF942259 /* Pods-Ambassadoor.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconwGradient;
+				ASSETCATALOG_WARNINGS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Ambassadoor/Ambassadoor.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -1124,6 +1129,7 @@
 			baseConfigurationReference = 0A97662B45396EF7FCF0C532 /* Pods-Ambassadoor.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconwGradient;
+				ASSETCATALOG_WARNINGS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Ambassadoor/Ambassadoor.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";

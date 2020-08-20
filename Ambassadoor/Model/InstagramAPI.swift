@@ -598,7 +598,7 @@ struct API {
         login.logOut()
         //"pages_show_list"
         
-        login.logIn(permissions: ["instagram_basic", "pages_show_list"], from: owner) { (result, FBerror) in
+        login.logIn(permissions: ["instagram_basic", "pages_show_list", "manage_pages"], from: owner) { (result, FBerror) in
             if((FBerror) != nil){
                 print(FBerror as Any)
                 completion(nil, nil, FBerror as AnyObject?)
