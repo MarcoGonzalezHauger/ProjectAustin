@@ -22,6 +22,33 @@ extension UIViewController {
         }
     }
     
+    func showStandardAlertDialogWithMultipleAction(title: String = "Error", msg: String = "An unhandled error occurred.",titles: [String], handler: ((UIAlertAction) -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertController.Style.alert)
+        
+        for title in titles {
+            alert.addAction(UIAlertAction(title: title, style: UIAlertAction.Style.default, handler: handler))
+        }
+        
+//        alert.addAction(UIAlertAction.init(title: "Instagram Creator Account", style: UIAlertAction.Style.default, handler: { (action) in
+//
+//            if let url = URL(string: "https://help.instagram.com/2358103564437429") {
+//                UIApplication.shared.open(url)
+//            }
+//
+//        }))
+//        alert.addAction(UIAlertAction.init(title: "Instagram Business Account", style: UIAlertAction.Style.default, handler: { (action) in
+//
+//            if let url = URL(string: "https://help.instagram.com/502981923235522?helpref=hc_fnav") {
+//                UIApplication.shared.open(url)
+//            }
+//
+//        }))
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.destructive, handler: handler))
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
     func performDismiss()  {
         if let nav = self.navigationController {
             nav.popViewController(animated: true)

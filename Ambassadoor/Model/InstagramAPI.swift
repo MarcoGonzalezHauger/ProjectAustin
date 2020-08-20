@@ -20,6 +20,10 @@ struct API {
     static let INSTAGRAM_REDIRECT_URI2 = "https://www.ambassadoor.co/welcome"
     */
     
+    static let INSTAGRAM_CREATOR_HELP = "https://help.instagram.com/2358103564437429"
+    static let INSTAGRAM_BUSINESS_HELP = "https://help.instagram.com/502981923235522?helpref=hc_fnav"
+    static let FB_PAGE_HELP = "https://www.facebook.com/help/104002523024878"
+    
     static let INSTAGRAM_AUTHURL = "https://api.instagram.com/oauth/authorize/"
     //static let INSTAGRAM_CLIENT_ID = "fa083c34de6847ff95db596d75ef1c31"
     static let INSTAGRAM_CLIENT_ID = "177566490238866"
@@ -145,7 +149,7 @@ struct API {
     static func getProfileInfo(userId: String,completed: ((_ businessuser: Bool) -> () )?) {
         
         
-        let url = URL(string: "https://graph.instagram.com/me?fields=id,username,media_count,account_type&access_token=" + INSTAGRAM_ACCESS_TOKEN)
+        let url = URL(string: "https://graph.instagram.com/\(userId)?fields=id,username,media_count,account_type&access_token=" + INSTAGRAM_ACCESS_TOKEN)
 //        let url = URL(string: "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=" + INSTAGRAM_ACCESS_TOKEN)
         URLSession.shared.dataTask(with: url!){ (data, response, err) in
             
@@ -588,7 +592,7 @@ struct API {
         
     }
     
-    static func facebookLoginBusinessAccount(owner: UIViewController, completion: @escaping(_ object:Any?, _ longliveToken: String?, _ error: Error?)->Void) {
+    static func facebookLoginBusinessAccount(owner: UIViewController, completion: @escaping(_ object:Any?, _ longliveToken: String?, _ error: AnyObject?)->Void) {
         
         let login: LoginManager = LoginManager()
         login.logOut()
@@ -597,7 +601,7 @@ struct API {
         login.logIn(permissions: ["instagram_basic", "pages_show_list"], from: owner) { (result, FBerror) in
             if((FBerror) != nil){
                 print(FBerror as Any)
-                completion(nil, nil, FBerror)
+                completion(nil, nil, FBerror as AnyObject?)
                 
             }else if result!.isCancelled{
                 
@@ -640,12 +644,16 @@ struct API {
                                                                     if tokenError == nil{
                                                                         completion(userDetail, liveToken, nil)
                                                                     }else{
-                                                                        completion(nil, nil, tokenError)
+                                                                        completion(nil, nil, tokenError as AnyObject?)
                                                                     }
                                                                     
                                                                 })
                                                                     
                                                                 }
+                                                                
+                                                            }else{
+                                                                
+                                                                completion(nil, nil, "Instagram Not Linked" as AnyObject)
                                                                 
                                                             }
                                                             
@@ -655,7 +663,12 @@ struct API {
                                                     })
                                                     
                                                 }
-                                            }
+                                            }else{
+                                                
+                                                
+                                                completion(nil, nil, "Page Not Created" as AnyObject)
+                                                
+                                        }
                                             
                                         }
                                     }
