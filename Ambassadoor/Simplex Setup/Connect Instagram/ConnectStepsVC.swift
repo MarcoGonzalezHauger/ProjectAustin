@@ -36,12 +36,22 @@ class ConnectStepsVC: UIViewController, VerificationReturned {
         self.getFBBusinessAccount()
     }
     
-    func noIGConnect() {
+	@IBOutlet weak var Step2View: ShadowView!
+	
+	func noIGConnect() {
         print("noIG")
+		showStandardAlertDialog(title: "Connection Failed", msg: "No Instagram account was connected to this Facebook profile.") { (aa) in
+			MakeShake(viewToShake: self.Step2View)
+		}
+		//you don't have an instagram account connected.
     }
     
     func noFBPConnect() {
         print("noFBP")
+		showStandardAlertDialog(title: "Connection Failed", msg: "You must create a Facebook Page that is connected to your Instagram account to connect to Ambassadoor.") { (aa) in
+			MakeShake(viewToShake: self.Step2View)
+		}
+		//You don't have a facebook page connected to the instagram account!!
     }
     
     @IBAction func cancelAction() {
@@ -142,10 +152,10 @@ class ConnectStepsVC: UIViewController, VerificationReturned {
                     if let errorVal = err as? NSError{
                         
                         if errorVal.code == 408{
-                            
-                            self.showStandardAlertDialog(title: "Alert", msg: "You have cancelled the Facebook login process.") { (action) in
-                                self.navigationController?.popViewController(animated: true)
-                            }
+							self.navigationController?.popViewController(animated: true)
+//                            self.showStandardAlertDialog(title: "Alert", msg: "You have cancelled the Facebook login process.") { (action) in
+//
+//                            }
                             
                         } else {
                             self.showStandardAlertDialog(title: "Error", msg: "\(err)") { (action) in

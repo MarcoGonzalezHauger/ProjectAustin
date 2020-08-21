@@ -67,10 +67,10 @@ func isMeetingComplexity(password: String) -> Int {
     switch password {
     case _ where password.count < 7:
         return 1
-    case _ where password.uppercased() == password:
-        return 1
-    case _ where password.lowercased() == password:
-        return 1
+//    case _ where password.uppercased() == password:
+//        return 1
+//    case _ where password.lowercased() == password:
+//        return 1
     case _ where password.lowercased().contains("ambassadoor"):
 		return 2
     default:
