@@ -331,6 +331,29 @@ class Offer: NSObject {
     }
 }
 
+class InfluencerAuthenticationUser: NSObject {
+    
+    var email: String
+    var createdAt: String
+    var password: String
+    var SignedIn: String
+    var userid: String
+    var username: String
+    
+    init(dictionary: [String: AnyObject]){
+        
+        self.email = dictionary["email"] as? String ?? ""
+        self.createdAt = dictionary["createdAt"] as? String ?? ""
+        self.password = dictionary["password"] as? String ?? ""
+        self.SignedIn = dictionary["SignedIn"] as? String ?? ""
+        self.userid = dictionary["userid"] as? String ?? ""
+        self.username = dictionary["username"] as? String ?? ""
+
+        
+    }
+    
+}
+
 //Strcuture for users
 class User: NSObject {
 	let name: String?

@@ -597,7 +597,7 @@ struct API {
         let login: LoginManager = LoginManager()
         login.logOut()
         //"pages_show_list"
-        
+       
         login.logIn(permissions: ["instagram_basic", "pages_show_list", "manage_pages"], from: owner) { (result, FBerror) in
             if((FBerror) != nil){
                 print(FBerror as Any)

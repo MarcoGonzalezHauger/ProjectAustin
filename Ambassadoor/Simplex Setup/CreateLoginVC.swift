@@ -26,6 +26,8 @@ class CreateLoginVC: UIViewController {
 	@IBOutlet weak var proceedButton: UIButton!
 	@IBOutlet weak var proceedView: UIView!
 	@IBOutlet weak var backButton: UIButton!
+    
+    
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +35,9 @@ class CreateLoginVC: UIViewController {
 			self.isModalInPresentation = true
 		}
 		infoLabel.text = defaultText
+        
+        
+        
     }
 	@IBAction func Next(_ sender: Any) {
 		passwordText.becomeFirstResponder()
