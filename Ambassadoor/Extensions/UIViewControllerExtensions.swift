@@ -43,7 +43,7 @@ extension UIViewController {
 //            }
 //
 //        }))
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.destructive, handler: handler))
+        //alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.destructive, handler: handler))
         DispatchQueue.main.async {
             self.present(alert, animated: true, completion: nil)
         }

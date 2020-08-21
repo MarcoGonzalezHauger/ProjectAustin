@@ -25,6 +25,8 @@ class ConnectStepsVC: UIViewController, VerificationReturned {
     }
     
     var igName: String = ""
+    
+    @IBOutlet weak var connectBtn: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,15 +35,28 @@ class ConnectStepsVC: UIViewController, VerificationReturned {
     }
     
     @IBAction func connectAction(){
+        
+        AccessToken.current = nil
+        Profile.current = nil
         self.getFBBusinessAccount()
     }
     
-    func noIGConnect() {
+	@IBOutlet weak var Step2View: ShadowView!
+	
+	func noIGConnect() {
         print("noIG")
+		showStandardAlertDialog(title: "Connection Failed", msg: "No Instagram account was connected to this Facebook profile.") { (aa) in
+			MakeShake(viewToShake: self.Step2View)
+		}
+		//you don't have an instagram account connected.
     }
     
     func noFBPConnect() {
         print("noFBP")
+		showStandardAlertDialog(title: "Connection Failed", msg: "You must create a Facebook Page that is connected to your Instagram account to connect to Ambassadoor.") { (aa) in
+			MakeShake(viewToShake: self.Step2View)
+		}
+		//You don't have a facebook page connected to the instagram account!!
     }
     
     @IBAction func cancelAction() {
@@ -49,7 +64,7 @@ class ConnectStepsVC: UIViewController, VerificationReturned {
     }
     
     func getFBBusinessAccount() {
-        
+        self.connectBtn.setTitle("CONNECTING..", for: .normal)
         API.facebookLoginBusinessAccount(owner: self) { (userDetail, longLiveToken, error) in
             
             if error == nil {
@@ -57,47 +72,79 @@ class ConnectStepsVC: UIViewController, VerificationReturned {
                 if let userDetailDict = userDetail as? [String: AnyObject] {
                     
                     if let id = userDetailDict["id"] as? String {
-                        NewAccount.id = id
-                    }
-                    if let followerCount = userDetailDict["followers_count"] as? Int {
-                        NewAccount.followerCount = Int64(followerCount)
-                    }
-                    if let name = userDetailDict["name"] as? String {
-                        NewAccount.instagramName = name
-                    }
-                    if let pic = userDetailDict["profile_picture_url"] as? String {
-                        NewAccount.profilePicture = pic
-                    }
-                    if let username = userDetailDict["username"] as? String {
-                        NewAccount.instagramUsername = username
-                        self.igName = username
-                    }
-                    NewAccount.authenticationToken = longLiveToken!
-                    
-                    if NewAccount.profilePicture != "" {
+                    NewAccount.id = id
+                        checkIfInstagramExist(id: NewAccount.id) { (exist, user)  in
                         
-                        updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
+                        if exist{
+                            self.connectBtn.setTitle("CONNECT", for: .normal)
+                            self.showStandardAlertDialogWithMultipleAction(title: "Account in use", msg: "This Instagram account already belongs to a user.", titles: ["Sign In","Try Again"]) { (action) in
+                                
+                                if action.title == "Sign In"{
+                                    
+                                    DispatchQueue.main.async {
+                                        self.performSegue(withIdentifier: "FromCStoSignIn", sender: user)
+                                    }
+                                    
+                                }else{
+                                    
+                                }
+                            }
                             
-                            if status{
-                                NewAccount.profilePicture = url!
+                        }else{
+                            
+                            if let followerCount = userDetailDict["followers_count"] as? Int {
+                                NewAccount.followerCount = Int64(followerCount)
                             }
-                            DispatchQueue.main.async {
-                                self.performSegue(withIdentifier: "toInstagramConnect", sender: self)
+                            if let name = userDetailDict["name"] as? String {
+                                NewAccount.instagramName = name
                             }
+                            if let pic = userDetailDict["profile_picture_url"] as? String {
+                                NewAccount.profilePicture = pic
+                            }
+                            if let username = userDetailDict["username"] as? String {
+                                NewAccount.instagramUsername = username
+                                self.igName = username
+                            }
+                            NewAccount.authenticationToken = longLiveToken!
+                            
+                            if NewAccount.profilePicture != "" {
+                                
+                                updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
+                                    
+                                    self.connectBtn.setTitle("CONNECT", for: .normal)
+                                    
+                                    if status{
+                                        NewAccount.profilePicture = url!
+                                    }
+                                    DispatchQueue.main.async {
+                                        self.performSegue(withIdentifier: "toInstagramConnect", sender: self)
+                                    }
+                                    
+                                }
+                                
+                            }else{
+                                DispatchQueue.main.async {
+                                    self.performSegue(withIdentifier: "toInstagramConnect", sender: self)
+                                    //self.NotBusinessAccount()
+                                }
+                            }
+
                             
                         }
                         
+                    }
+                    
                     }else{
-                        DispatchQueue.main.async {
-                            self.performSegue(withIdentifier: "toInstagramConnect", sender: self)
-                            //self.NotBusinessAccount()
+                        self.connectBtn.setTitle("CONNECT", for: .normal)
+                        self.showStandardAlertDialog(title: "alert", msg: "Unknown error!") { (action) in
+                            
                         }
+                        
                     }
-                    
                     
                 }else{
                     
-                    
+                    self.connectBtn.setTitle("CONNECT", for: .normal)
                     if let err = error{
                         
                         print("ERROR: NO SERIALIZATION:\n\(err)")
@@ -133,6 +180,9 @@ class ConnectStepsVC: UIViewController, VerificationReturned {
                 }
                 
             }else{
+                
+                self.connectBtn.setTitle("CONNECT", for: .normal)
+                
                 print("THERE WAS AN ERROR.")
                 //                            self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")
                 
@@ -142,10 +192,10 @@ class ConnectStepsVC: UIViewController, VerificationReturned {
                     if let errorVal = err as? NSError{
                         
                         if errorVal.code == 408{
-                            
-                            self.showStandardAlertDialog(title: "Alert", msg: "You have cancelled the Facebook login process.") { (action) in
-                                self.navigationController?.popViewController(animated: true)
-                            }
+							self.navigationController?.popViewController(animated: true)
+//                            self.showStandardAlertDialog(title: "Alert", msg: "You have cancelled the Facebook login process.") { (action) in
+//
+//                            }
                             
                         } else {
                             self.showStandardAlertDialog(title: "Error", msg: "\(err)") { (action) in
@@ -184,6 +234,10 @@ class ConnectStepsVC: UIViewController, VerificationReturned {
         if let destination = segue.destination as? InstagramConnectedVC {
             destination.delegate = self
             destination.SetName(name: igName)
+        }
+        else if let destination = segue.destination as? SigninVC{
+            
+            destination.existUser = (sender as! InfluencerAuthenticationUser)
         }
     }
 
