@@ -709,6 +709,33 @@ func createDefaultOffer(userID:String, completion:@escaping (_ isdone:Bool) -> (
     })
 }
 
+func checkIfInstagramExist(id: String, completion: @escaping(_ exist: Bool,_ user: InfluencerAuthenticationUser?)-> Void) {
+    
+    let ref = Database.database().reference().child("InfluencerAuthentication").child("17841430066849402")
+    ref.observeSingleEvent(of: .value) { (snapshot) in
+        
+        if snapshot.exists(){
+            
+            
+            if let userData = snapshot.value as? [String: AnyObject]{
+                
+                let user = InfluencerAuthenticationUser.init(dictionary: userData)
+                
+                completion(true, user)
+                
+            }else{
+                
+                completion(false, nil)
+                
+            }
+        }else{
+            
+            completion(false, nil)
+        }
+        
+    }
+}
+
 func checkIfEmailExist(email: String, completion: @escaping(_ exist: Bool)-> Void) {
     var isExist = false
     //let ref = Database.database().reference().child("InfluencerAuthentication")
