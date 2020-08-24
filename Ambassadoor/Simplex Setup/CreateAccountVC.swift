@@ -89,6 +89,14 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         self.delegate?.DismissNow(sender: "CreateAccount")
         AverageLikes(userID: Yourself.id, userToken: Yourself.authenticationToken)
         
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            //self.delegate?.DismissNow(sender: "signin")
+            let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
+            downloadDataBeforePageLoad(reference: viewReference)
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.window?.rootViewController = viewReference
+        }
+        
 //        self.dismiss(animated: true) {
 //
 //        }
