@@ -377,6 +377,7 @@ class User: NSObject {
     var following: [String]?
     var businessFollowing: [String]?
     var email: String?
+    var version: String?
     //followerCount
     init(dictionary: [String: Any]) throws {
         guard let name = dictionary["name"] as? String else{
@@ -429,6 +430,7 @@ class User: NSObject {
 			self.businessFollowing = self.businessFollowing!.filter{$0 != ""}
 		}
         self.email = dictionary["email"] as? String ?? ""
+        self.version = dictionary["version"] as? String ?? "0.0.0"
     }
 	
 	override var description: String {
@@ -910,4 +912,12 @@ class CachedImages: NSObject {
 }
 
 var FreePass = false //If user has a newer app version; Not beta code required.
+
+enum SuspiciousFlags: String {
+    case zeroPost = "User has made zero post",
+    veryLowFollowers = "like to follow ratio very low",
+    moreLikesThanFollowers = "This person gets more likes than followers.",
+    overMoneyExcess = "Suspicoius Offer Money"
+    
+}
 

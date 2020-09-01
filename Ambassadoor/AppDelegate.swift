@@ -499,6 +499,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             ref.observeSingleEvent(of: .value, with: { (snapshot) in
                 
                 let latestVersion = snapshot.value as! String
+                global.appVersion = latestVersion
                 let versionCompare = appVersion!.compare(latestVersion, options: .numeric)
                 if versionCompare == .orderedDescending || versionCompare == .orderedSame {
 					FreePass = true
