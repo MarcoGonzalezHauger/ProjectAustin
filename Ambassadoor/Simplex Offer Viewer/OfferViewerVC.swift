@@ -172,9 +172,21 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		acceptAction()
 	}
 	
-	func AcceptWasPressed() {
-		performSegue(withIdentifier: "toAcceptVerifier", sender: self)
-	}
+    func AcceptWasPressed() {
+        
+        if let offerValue = offer{
+            
+            if AnalyzeUser(user: Yourself, offerValue: offerValue).count == 0 {
+                performSegue(withIdentifier: "toAcceptVerifier", sender: self)
+            }else{
+                
+                self.showStandardAlertDialog(title: "Your account is suspicious", msg: "You may not accept offers at this time.") { (alert) in
+                    
+                }
+                
+            }
+        }
+    }
 
 	
     func DismissWhenReservedTimeEnd() {

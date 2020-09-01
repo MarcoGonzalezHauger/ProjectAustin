@@ -20,6 +20,8 @@ struct API {
     static let INSTAGRAM_REDIRECT_URI2 = "https://www.ambassadoor.co/welcome"
     */
     
+    static let shouldAboveVersion = "2.0.0"
+    
     static let INSTAGRAM_CREATOR_HELP = "https://help.instagram.com/2358103564437429"
     static let INSTAGRAM_BUSINESS_HELP = "https://help.instagram.com/502981923235522?helpref=hc_fnav"
     static let FB_PAGE_HELP = "https://www.facebook.com/help/104002523024878"

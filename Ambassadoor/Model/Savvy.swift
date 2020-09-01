@@ -1083,4 +1083,16 @@ enum structType {
 	case businessDetails
 }
 
+func AnalyzeUser(user: User, offerValue: Offer) -> [SuspiciousFlags] {
+    var suspiciousFlags = [SuspiciousFlags]()
+    
+    let pay = calculateCostForUser(offer: offerValue, user: user, increasePayVariable: offerValue.incresePay!)
+    
+    if pay >= 1.5{
+        suspiciousFlags.append(.overMoneyExcess)
+    }
+    return suspiciousFlags
+    
+}
+
 

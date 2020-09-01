@@ -914,7 +914,19 @@ func fetchSingleUserDetails(userID: String, completion: @escaping(_ status: Bool
             
             do {
                 let userInstance = try User(dictionary: dictionary )
-                completion(true,userInstance)
+                
+                if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String{
+                    
+                    userInstance.version = appVersion
+                    completion(true,userInstance)
+                    let versionUpdateRef = Database.database().reference().child("users").child(userID)
+                    versionUpdateRef.updateChildValues(["version":appVersion])
+                    
+                }else{
+                   completion(true,userInstance)
+                }
+                
+                
             } catch let error {
                 print(error)
             }
@@ -1194,8 +1206,17 @@ func getFollowerList(completion:@escaping(_ status: Bool,_ users: [FollowingInfo
                 var followerDetails = value
                 followerDetails["tag"] = "follow" as AnyObject
                 let follower = FollowingInformation.init(dictionary: followerDetails)
-                if Yourself.following?.contains(follower.user?.id ?? "X") ?? false {
-                    followers.append(follower)
+                
+                if Yourself.following?.contains(follower.user?.id ?? "X") ?? false{
+                    
+                    let checkVersionStatus = global.appVersion!.compare(follower.user!.version!, options: .numeric)
+                    
+                    if checkVersionStatus == .orderedDescending || checkVersionStatus == .orderedSame {
+                        print("This version is 2.0.0 or above")
+                        followers.append(follower)
+                    }
+                    
+                    
                 }
             }
             
@@ -1285,7 +1306,15 @@ func getFollowedByList(completion: @escaping(_ status: Bool, _ users: [User])->(
                         
                         do {
                             let user = try User.init(dictionary: singleSnapDict)
-                            usersList.append(user)
+                            
+                            let checkVersionStatus = global.appVersion!.compare(user.version!, options: .numeric)
+                            
+                            if checkVersionStatus == .orderedDescending || checkVersionStatus == .orderedSame{
+                                usersList.append(user)
+                                print("version is 2.0.0 or above")
+                            }
+                            
+                            
                         } catch let error {
                             print(error)
                         }
@@ -1336,8 +1365,12 @@ func getFollowingAcceptedOffers(completion: @escaping(_ status: Bool, _ offers: 
                             followingInformation["tag"] = "offer" as AnyObject
                             let offer = FollowingInformation.init(dictionary: followingInformation)
                             
+                            let checkVersionStatus = global.appVersion!.compare(offer.user!.version!, options: .numeric)
+                            
                             if Yourself.following?.contains(offer.user?.id ?? "X") ?? false {
+                                if checkVersionStatus == .orderedDescending || checkVersionStatus == .orderedSame{
                                 allOfferList.append(offer)
+                                }
                             }
                         }
                         
@@ -1381,9 +1414,16 @@ func getFollowingList(completion: @escaping(_ status: Bool, _ users: [AnyObject]
                             
                             do {
                                 let user = try User.init(dictionary: influencer)
-                                if (Yourself.following?.contains(user.id))! {
-                                    usersList.append(user)
+                                
+                                let checkVersionStatus = global.appVersion!.compare(user.version!, options: .numeric)
+                                
+                                if checkVersionStatus == .orderedAscending || checkVersionStatus == .orderedSame{
+                                    if (Yourself.following?.contains(user.id))! {
+                                        usersList.append(user)
+                                    }
                                 }
+                                
+                                
                             } catch let error {
                                 print(error)
                             }

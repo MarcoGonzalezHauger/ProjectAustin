@@ -65,6 +65,10 @@ class SigninVC: UIViewController {
                                     UserDefaults.standard.set(self.emailText.text!, forKey: "email")
                                     UserDefaults.standard.set(self.passwordText.text!, forKey: "password")
                                     
+                                    let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+                                    
+                                    print(appVersion)
+                                    
                                     fetchSingleUserDetails(userID: userID) { (status, user) in
                                         Yourself = user
                                         setHapticMenu(user: Yourself)

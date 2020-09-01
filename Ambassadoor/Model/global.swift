@@ -83,6 +83,8 @@ class CentralVariables {
     var followOfferList = [Offer]()
     var allOfferList = [Offer]()
     var InstagramAPI: APImode? = nil
+    var appVersion: String? = nil
+    
 }
 
 let global = CentralVariables()
