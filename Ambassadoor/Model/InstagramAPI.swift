@@ -413,7 +413,8 @@ struct API {
             "tokenFIR":global.deviceFIRToken,
             "following":user.following ?? [],
             "businessFollowing":user.businessFollowing ?? [],
-            "email":user.email ?? ""
+            "email":user.email ?? "",
+            "version": user.version ?? "0.0.0"
         ]
         return userData
     }
