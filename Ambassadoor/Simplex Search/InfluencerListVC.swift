@@ -19,8 +19,7 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 	
 	func followingUpdated() {
 		influencerTable.reloadRows(at: [IndexPath.init(row: activeView!, section: 0)], with: .none)
-	}
-		
+	} 
     func SearchTextIndex(text: String, segmentIndex: Int) {
         self.GetSearchedInfluencerItems(query: text) { (users) in
             self.influencerTempArray = users
@@ -47,7 +46,7 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 		if global.SocialData.count == 0{
 			_ = GetAllUsers(completion: { (users) in
 				global.SocialData = users
-				self.influencerTempArray = users
+				self.influencerTempArray = GetViewableSocialData()
 				self.influencerTempArray.shuffle()
 				DispatchQueue.main.async {
 					self.influencerTable.reloadData()
@@ -56,7 +55,7 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 				
 			})
 		}else{
-			self.influencerTempArray = global.SocialData
+			self.influencerTempArray = GetViewableSocialData()
 			self.influencerTempArray.shuffle()
 			DispatchQueue.main.async {
 				self.influencerTable.reloadData()

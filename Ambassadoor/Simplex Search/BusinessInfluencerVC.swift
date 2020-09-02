@@ -54,7 +54,7 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
             if global.BusinessUser.count != 0 {
                 
                 self.totalUserData.append(contentsOf: global.BusinessUser)
-                self.totalUserData.append(contentsOf: global.SocialData)
+				self.totalUserData.append(contentsOf: GetViewableSocialData())
                 self.totalUserTempData = self.totalUserData
 				self.totalUserTempData.shuffle()
                 DispatchQueue.main.async {
@@ -66,7 +66,7 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
                     global.SocialData = users
                     
                     self.totalUserData.append(contentsOf: global.BusinessUser)
-                    self.totalUserData.append(contentsOf: global.SocialData)
+                    self.totalUserData.append(contentsOf: GetViewableSocialData())
                     self.totalUserTempData = self.totalUserData
 					self.totalUserTempData.shuffle()
                     DispatchQueue.main.async {
@@ -86,7 +86,7 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
                     global.SocialData = users
                     
                     self.totalUserData.append(contentsOf: global.BusinessUser)
-                    self.totalUserData.append(contentsOf: global.SocialData)
+                    self.totalUserData.append(contentsOf: GetViewableSocialData())
                     self.totalUserTempData = self.totalUserData
 					self.totalUserTempData.shuffle()
                     DispatchQueue.main.async {
