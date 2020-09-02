@@ -176,6 +176,12 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         
         if let offerValue = offer{
             
+            if offerValue.isDefaultOffer{
+                
+                performSegue(withIdentifier: "toAcceptVerifier", sender: self)
+                
+            }else{
+            
             if AnalyzeUser(user: Yourself, offerValue: offerValue).count == 0 {
                 performSegue(withIdentifier: "toAcceptVerifier", sender: self)
             }else{
@@ -185,6 +191,8 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                 }
                 
             }
+            
+        }
         }
     }
 
