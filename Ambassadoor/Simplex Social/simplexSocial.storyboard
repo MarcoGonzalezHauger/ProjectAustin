@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="s7s-7A-WOJ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="s7s-7A-WOJ">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -167,7 +167,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="VkJ-gZ-s0A">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="VkJ-gZ-s0A" customClass="EasyRefreshTV" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <connections>
@@ -187,7 +187,7 @@
                     </view>
                     <size key="freeformSize" width="414" height="700"/>
                     <connections>
-                        <outlet property="followingTable" destination="VkJ-gZ-s0A" id="rdO-J7-aas"/>
+                        <outlet property="followingTable" destination="VkJ-gZ-s0A" id="gxo-Ly-cw5"/>
                         <segue destination="gNY-dt-7YQ" kind="presentation" identifier="FromSocialFollowing" id="NX0-Tg-nyk"/>
                         <segue destination="gRQ-7z-0MS" kind="presentation" identifier="FromSearchToBV" id="Rto-Jd-EbJ"/>
                     </connections>
@@ -204,7 +204,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FIo-HI-bhn">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FIo-HI-bhn" customClass="EasyRefreshTV" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <connections>
@@ -228,7 +228,7 @@
                     </view>
                     <size key="freeformSize" width="414" height="700"/>
                     <connections>
-                        <outlet property="socialFeedTable" destination="FIo-HI-bhn" id="9Dw-qA-QWi"/>
+                        <outlet property="socialFeedTable" destination="FIo-HI-bhn" id="lRe-vN-Z6L"/>
                         <segue destination="gNY-dt-7YQ" kind="presentation" identifier="FromSocialFeed" id="0uG-ka-boa"/>
                     </connections>
                 </viewController>
@@ -238,9 +238,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="SocialIcon" width="30" height="30"/>
+        <image name="SocialIcon" width="19" height="28.5"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="PeM-2z-HI4"/>
+        <segue reference="0uG-ka-boa"/>
     </inferredMetricsTieBreakers>
 </document>

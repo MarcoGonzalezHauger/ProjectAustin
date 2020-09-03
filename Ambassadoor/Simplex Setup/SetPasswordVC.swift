@@ -24,6 +24,7 @@ class SetPasswordVC: UIViewController {
     var dontAnimate = false
     var passwordWasReset = false
     var authenticationData = [String: AnyObject]()
+    var userMail: String? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +51,7 @@ class SetPasswordVC: UIViewController {
     func ResetPasswordNow() {
         dontAnimate = true
         resetPasswordButton.isEnabled = false
-        resetPasswordButton.setTitle("Resetting...", for: .normal)
+        resetPasswordButton.setTitle("Changing Password...", for: .normal)
         
         //[RAM] pretty much the same as the signinVC and CreateLoginVC.
         //Functions are: PasswordResetSuccess()
@@ -64,8 +65,9 @@ class SetPasswordVC: UIViewController {
 			for (key,_) in self.authenticationData {
 				userId = key
 			}
+            
 			updatePassword(userID: userId, password: password!)
-			self.PasswordResetSuccess()
+            self.PasswordResetSuccess(userId: userId, emailID: self.userMail!, password: newPassword.text!)
 			
         }else{
             PasswordResetFailed(reason: .noPassword)
@@ -96,7 +98,7 @@ class SetPasswordVC: UIViewController {
     
     let defaultText = "Reset Password"
     
-    func PasswordResetSuccess() {
+    func PasswordResetSuccess(userId: String, emailID: String, password: String) {
         self.dontAnimate = true
         DispatchQueue.main.async {
             self.passwordWasReset = true
@@ -107,12 +109,23 @@ class SetPasswordVC: UIViewController {
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                 
-                self.closeButton.isHidden = true
+ //               self.closeButton.isHidden = true
+                
+                //self.SetLabelText(text: "Password Reset Successfully", animated: true)
+                
+                if AccessToken.current != nil {
+                    
+                    self.getSingleUserDetails(userID: userId, email: emailID, password: password)
+                    
+                }else{
+                    self.callIfAccessTokenExpired(userID: userId, usermail: emailID, password: password)
+                }
+                
             }
             
             self.infoLabel.textColor = .systemGreen
             self.SetLabelText(text: "Password Reset Successfully", animated: true)
-            self.resetPasswordButton.setTitle("Close", for: .normal)
+            self.resetPasswordButton.setTitle("Logging In..", for: .normal)
             self.resetPasswordButton.isEnabled = true
         }
         
@@ -162,6 +175,98 @@ class SetPasswordVC: UIViewController {
         }
     }
     
+    func LoginSuccessful() {
+        
+        self.infoLabel.text = "Welcome Back"
+        self.infoLabel.textColor = .systemGreen
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            //self.delegate?.DismissNow(sender: "signin")
+            let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
+            downloadDataBeforePageLoad(reference: viewReference)
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.window?.rootViewController = viewReference
+        }
+        
+    }
+    
+    func callIfAccessTokenExpired(userID: String, usermail: String, password: String) {
+        
+        API.facebookLoginAct(userIDBusiness: userID, owner: self) { (userDetail, longliveToken, error) in
+            if error == nil {
+                
+                if let userDetailDict = userDetail as? [String: AnyObject]{
+                    
+                    if let id = userDetailDict["id"] as? String {
+                        NewAccount.id = id
+                    }
+                    if let followerCount = userDetailDict["followers_count"] as? Int {
+                        NewAccount.followerCount = Int64(followerCount)
+                    }
+                    if let name = userDetailDict["name"] as? String {
+                        NewAccount.instagramName = name
+                    }
+                    if let pic = userDetailDict["profile_picture_url"] as? String {
+                        NewAccount.profilePicture = pic
+                    }
+                    if let username = userDetailDict["username"] as? String {
+                        NewAccount.instagramUsername = username
+                    }
+                    
+                    NewAccount.authenticationToken = longliveToken!
+                    
+                    updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
+                        
+                        if status{
+                            NewAccount.profilePicture = url!
+                            self.updateLoginDetailsToServer(userID: userID, email: usermail, password: password)
+                        }else{
+                            self.updateLoginDetailsToServer(userID: userID, email: usermail, password: password)
+                        }
+                    }
+                    
+                    
+                    
+                }else{
+                    self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later. (Fx3)")
+                }
+                
+            }else{
+                print(error.debugDescription)
+                self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later. (Fx2)")
+            }
+        }
+        
+    }
+    
+    func updateLoginDetailsToServer(userID: String, email: String, password: String) {
+        let userData: [String: Any] = [
+            "id": NewAccount.id,
+            "name": NewAccount.instagramName,
+            "username": NewAccount.instagramUsername,
+            "followerCount": NewAccount.followerCount,
+            "profilePicture": NewAccount.profilePicture,
+            "authenticationToken": NewAccount.authenticationToken,
+            "tokenFIR":global.deviceFIRToken
+        ]
+        
+        updateUserDetails(userID: userID, userData: userData)
+        
+        self.getSingleUserDetails(userID: userID, email: email, password: password)
+    }
+    
+    func getSingleUserDetails(userID: String, email: String, password: String) {
+        fetchSingleUserDetails(userID: userID) { (status, user) in
+            Yourself = user
+            //updateFirebaseProfileURL()
+            UserDefaults.standard.set(userID, forKey: "userID")
+            UserDefaults.standard.set(email, forKey: "email")
+            UserDefaults.standard.set(password, forKey: "password")
+            setHapticMenu(user: Yourself)
+            AverageLikes(userID: userID, userToken: NewAccount.authenticationToken)
+            self.LoginSuccessful()
+            
+        }
+    }
 
     /*
     // MARK: - Navigation

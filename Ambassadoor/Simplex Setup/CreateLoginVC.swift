@@ -60,6 +60,8 @@ class CreateLoginVC: UIViewController {
 		self.proceedButton.isEnabled = false
 		
 		if emailText.text?.count != 0{
+            
+            print("emailLowercase=",emailText.text!.lowercased())
 			
 			if isValidEmail(emailStr: emailText.text!){
 				
@@ -69,7 +71,7 @@ class CreateLoginVC: UIViewController {
 					
 					if complexity == 0 {
 						
-						checkIfEmailExist(email: emailText.text!) { (isExist) in
+                        checkIfEmailExist(email: emailText.text!.lowercased()) { (isExist) in
 							
 							if isExist{
 								self.AvaliabilityFailed(reason: .emailExists)
@@ -118,7 +120,7 @@ class CreateLoginVC: UIViewController {
 		infoLabel.textColor = .systemGreen
 		infoLabel.font = UIFont.systemFont(ofSize: 19, weight: .heavy)
 		SetLabelText(text: "Login Avaliable", animated: true)
-		NewAccount.email = emailText.text!
+        NewAccount.email = emailText.text!.lowercased()
         NewAccount.password = passwordText.text!.md5()
 		accInfoUpdate()
 		DispatchQueue.main.asyncAfter(deadline: .now() + 1.25) {
