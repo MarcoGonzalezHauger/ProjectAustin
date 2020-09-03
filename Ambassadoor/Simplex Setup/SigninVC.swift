@@ -47,7 +47,7 @@ class SigninVC: UIViewController {
                 
                 if passwordText.text?.count != 0 {
                     
-                    filterQueryByField(email: emailText.text!) { (success, data) in
+                    filterQueryByField(email: emailText.text!.lowercased()) { (success, data) in
                         if success{
                             
                             var password = ""
@@ -62,7 +62,7 @@ class SigninVC: UIViewController {
                                 if AccessToken.current != nil {
                                     
                                     UserDefaults.standard.set(userID, forKey: "userID")
-                                    UserDefaults.standard.set(self.emailText.text!, forKey: "email")
+                                    UserDefaults.standard.set(self.emailText.text!.lowercased(), forKey: "email")
                                     UserDefaults.standard.set(self.passwordText.text!, forKey: "password")
                                     
                                     let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String

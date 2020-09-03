@@ -16,10 +16,11 @@ class SocialFollowedVC: UIViewController,UITableViewDataSource, UITableViewDeleg
 				self.influencerList = users
 				DispatchQueue.main.async {
 					self.followingTable.reloadData()
-					self.refreshControl.endRefreshing()
+                    
 				}
 			}
-			stopRefreshing()
+            stopRefreshing()
+			
 		}
 	}
 	
@@ -32,21 +33,7 @@ class SocialFollowedVC: UIViewController,UITableViewDataSource, UITableViewDeleg
     
     var influencerList = [User]()
     @IBOutlet weak var followingTable: EasyRefreshTV!
-	
-	private let refreshControl = UIRefreshControl()
-	
-	@objc private func refreshFollowed(_ sender: Any) {
-		getFollowedByList { (status, users) in
-			if status{
-				self.influencerList = users
-				DispatchQueue.main.async {
-					self.followingTable.reloadData()
-					self.refreshControl.endRefreshing()
-				}
-			}
-		}
-	}
-	
+			
     override func viewDidLoad() {
         super.viewDidLoad()
         

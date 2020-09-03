@@ -57,7 +57,36 @@ class SocialCell: UITableViewCell {
     
 }
 
-class SocialFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SocialFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, EasyRefreshDelegate {
+    func wantsReload(stopRefreshing: @escaping () -> Void) {
+        
+        var templist = [FollowingInformation]()
+        getFollowerList { (status, followerList) in
+            if status{
+                templist.append(contentsOf: followerList)
+            }
+            
+            getFollowingAcceptedOffers { (status, offers) in
+                
+                if status{
+                    
+                    templist.append(contentsOf: offers)
+                    self.followerList = templist
+                    self.followerList.sort { (objOne, objTwo) -> Bool in
+                        return objOne.startedAt.compare(objTwo.startedAt) == .orderedDescending
+                    }
+                    global.followerList = templist
+                    DispatchQueue.main.async {
+                        self.socialFeedTable.reloadData()
+                    }
+                }
+                stopRefreshing()
+                
+            }
+        }
+    }
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return followerList.count
     }
@@ -85,7 +114,7 @@ class SocialFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 		tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    @IBOutlet weak var socialFeedTable: UITableView!
+    @IBOutlet weak var socialFeedTable: EasyRefreshTV!
     
     var followerList = [FollowingInformation]()
                
@@ -122,7 +151,7 @@ class SocialFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         // Do any additional setup after loading the view.
         
 		socialFeedTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
-		
+        socialFeedTable.easyRefreshDelegate = self
 		
 		if global.followerList.count != 0 {
             self.followerList = global.followerList

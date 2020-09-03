@@ -8,7 +8,27 @@
 
 import UIKit
 
-class SocialFollowingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, followUpdateDelegate {
+class SocialFollowingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, followUpdateDelegate, EasyRefreshDelegate {
+    func wantsReload(stopRefreshing: @escaping () -> Void) {
+        
+        getFollowingList { (status, usersList) in
+        
+        if status{
+            
+            self.userList = usersList
+            global.userList.removeAll()
+            global.userList = usersList
+            DispatchQueue.main.async {
+                self.followingTable.reloadData()
+            }
+            
+        }
+        stopRefreshing()
+        
+    }
+        
+    }
+    
 	
 	func followingUpdated() {
 		getFollowingList { (status, usersList) in
@@ -28,12 +48,13 @@ class SocialFollowingVC: UIViewController, UITableViewDelegate, UITableViewDataS
 	}
 	
     var userList = [AnyObject]()
-    @IBOutlet weak var followingTable: UITableView!
+    @IBOutlet weak var followingTable: EasyRefreshTV!
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
 		followingTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
+        followingTable.easyRefreshDelegate = self
 		
 		if global.userList.count != 0 {
 			self.userList = global.userList
