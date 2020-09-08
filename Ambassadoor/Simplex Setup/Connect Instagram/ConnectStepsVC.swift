@@ -64,7 +64,7 @@ class ConnectStepsVC: UIViewController, VerificationReturned {
     }
     
     func getFBBusinessAccount() {
-        self.connectBtn.setTitle("CONNECTING..", for: .normal)
+        self.connectBtn.setTitle("CONNECTING...", for: .normal)
         API.facebookLoginBusinessAccount(owner: self) { (userDetail, longLiveToken, error) in
             
             if error == nil {

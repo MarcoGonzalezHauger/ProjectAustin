@@ -86,6 +86,8 @@
 		E82347F821A1D6C0000A1A62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E82347F721A1D6C0000A1A62 /* Assets.xcassets */; };
 		E82347FB21A1D6C0000A1A62 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E82347F921A1D6C0000A1A62 /* LaunchScreen.storyboard */; };
 		E825C69723F19684003A0B0D /* CreateLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E825C69623F19684003A0B0D /* CreateLoginVC.swift */; };
+		E83249A22508144000894749 /* WhatWillTheySeeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E83249A12508144000894749 /* WhatWillTheySeeVC.swift */; };
+		E83249A425081C2B00894749 /* HowToSwitchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E83249A325081C2B00894749 /* HowToSwitchVC.swift */; };
 		E838F3CB21F687BB0021D0AD /* FirebaseRefrences.swift in Sources */ = {isa = PBXBuildFile; fileRef = E838F3CA21F687BB0021D0AD /* FirebaseRefrences.swift */; };
 		E84038CC223541DB00959CD9 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84038CB223541DB00959CD9 /* Notifications.swift */; };
 		E84667DE23FA1CE600544CE1 /* NotBusinessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84667DD23FA1CE600544CE1 /* NotBusinessVC.swift */; };
@@ -238,6 +240,8 @@
 		E82347FA21A1D6C0000A1A62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E82347FC21A1D6C0000A1A62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E825C69623F19684003A0B0D /* CreateLoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateLoginVC.swift; sourceTree = "<group>"; };
+		E83249A12508144000894749 /* WhatWillTheySeeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatWillTheySeeVC.swift; sourceTree = "<group>"; };
+		E83249A325081C2B00894749 /* HowToSwitchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToSwitchVC.swift; sourceTree = "<group>"; };
 		E838F3CA21F687BB0021D0AD /* FirebaseRefrences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseRefrences.swift; sourceTree = "<group>"; wrapsLines = 1; };
 		E84038CB223541DB00959CD9 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		E84667DD23FA1CE600544CE1 /* NotBusinessVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBusinessVC.swift; sourceTree = "<group>"; };
@@ -461,6 +465,15 @@
 			path = Ambassadoor;
 			sourceTree = "<group>";
 		};
+		E832499E2508141500894749 /* QandA */ = {
+			isa = PBXGroup;
+			children = (
+				E83249A12508144000894749 /* WhatWillTheySeeVC.swift */,
+				E83249A325081C2B00894749 /* HowToSwitchVC.swift */,
+			);
+			path = QandA;
+			sourceTree = "<group>";
+		};
 		E84E753A23F5A5B900820F7D /* Connect Instagram */ = {
 			isa = PBXGroup;
 			children = (
@@ -469,6 +482,7 @@
 				E880460823F4A8FC00A21ABE /* AccountInUseVC.swift */,
 				E84667DD23FA1CE600544CE1 /* NotBusinessVC.swift */,
 				B7261DAA24EE420200BB2B29 /* ConnectStepsVC.swift */,
+				E832499E2508141500894749 /* QandA */,
 			);
 			path = "Connect Instagram";
 			sourceTree = "<group>";
@@ -908,8 +922,10 @@
 				E8CBF5702463169900574E38 /* ProblemPickerVC.swift in Sources */,
 				B7E3D95C2445B58C0035A800 /* SocialFollowedVC.swift in Sources */,
 				B7CAD15923FE8019005CD144 /* VerifyOTPVC.swift in Sources */,
+				E83249A22508144000894749 /* WhatWillTheySeeVC.swift in Sources */,
 				E84038CC223541DB00959CD9 /* Notifications.swift in Sources */,
 				B7CAD15D23FEAB5D005CD144 /* SetPasswordVC.swift in Sources */,
+				E83249A425081C2B00894749 /* HowToSwitchVC.swift in Sources */,
 				E84D685321A9F08C00681D21 /* PostVC.swift in Sources */,
 				B7446CC422FD81BC0061983F /* UIViewControllerExtensions.swift in Sources */,
 				E87EC2E4236C9A2900690037 /* SocialAlgorithms.swift in Sources */,
@@ -1105,7 +1121,7 @@
 				CODE_SIGN_ENTITLEMENTS = Ambassadoor/Ambassadoor.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = F4W3LUKZFA;
 				INFOPLIST_FILE = Ambassadoor/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1113,7 +1129,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ambassadoor.influencer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1134,7 +1150,7 @@
 				CODE_SIGN_ENTITLEMENTS = Ambassadoor/Ambassadoor.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = F4W3LUKZFA;
 				INFOPLIST_FILE = Ambassadoor/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1142,7 +1158,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ambassadoor.influencer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -52,9 +52,11 @@ class ViewPostDetailedVC: UIViewController {
             self.instruction.text = post.denyMessage!
 			self.shadow.isHidden = true
             
-        }else if postValue.0 == .NotPosted{
+        }else if postValue.0 == .NotPosted {
             
             self.shadow.isHidden = false
+			
+			self.instruction.text = post.instructions
             
             if self.offer!.posts[index!].keywords.count != 0 {
                 self.captionItems.append(contentsOf: self.offer!.posts[index!].keywords)
