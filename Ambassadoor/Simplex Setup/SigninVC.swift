@@ -292,9 +292,9 @@ class SigninVC: UIViewController {
     
     func LoginSuccessful() {
         signinButton.Text = "Signed In"
-        self.authLabel.text = "Welcome Back"
-        self.authLabel.textColor = .systemGreen
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+		SetLabelText(text: "Welcome Back", animated: true)
+		self.authLabel.textColor = .systemGreen
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             //self.delegate?.DismissNow(sender: "signin")
             let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
             downloadDataBeforePageLoad(reference: viewReference)

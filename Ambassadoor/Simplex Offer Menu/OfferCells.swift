@@ -89,7 +89,9 @@ class StandardOfferCell: UITableViewCell {
 					let pay = calculateCostForUser(offer: offerDetail, user: Yourself, increasePayVariable: offerDetail.incresePay ?? 1)
 					self.cashOut.isHidden = false
 					self.cashOut.text = NumberToPrice(Value: pay)
-					self.progressViewWidth.constant = (self.frame.size.width - 12) * CGFloat((offerDetail.cashPower!/offerDetail.money))
+                    let commisionPercentage = offerDetail.commission ?? 0.0
+                    let commission = offerDetail.money * commisionPercentage
+					self.progressViewWidth.constant = (self.frame.size.width - 12) * CGFloat((offerDetail.cashPower!/(offerDetail.money - commission)))
 					self.progressView.backgroundColor = UIColor.init(red: 1, green: 227/255, blue: 35/255, alpha: 1)
 				}else{
 					self.cashOut.isHidden = true

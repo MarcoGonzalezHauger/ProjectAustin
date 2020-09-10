@@ -45,7 +45,7 @@ class VerifyOTPVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
       DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
         if !self.dontAnimate {
-			self.SetLabelText(text: self.defaultText, animated: true)
+			//self.SetLabelText(text: self.defaultText, animated: true)
         }
     }
     }
