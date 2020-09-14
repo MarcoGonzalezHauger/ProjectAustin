@@ -1084,6 +1084,15 @@ enum structType {
 }
 
 func AnalyzeUser(user: User, offerValue: Offer) -> [SuspiciousFlags] {
+	
+	if user.followerCount < (user.averageLikes ?? 0) {
+		return [.moreLikesThanFollowers]
+	}
+	
+	return []
+	
+	//Fixed.
+	
     var suspiciousFlags = [SuspiciousFlags]()
     
     let pay = calculateCostForUser(offer: offerValue, user: user, increasePayVariable: offerValue.incresePay!)

@@ -36,8 +36,8 @@ class OfferMenuVC: UIViewController,PageViewDelegate {
         self.desText.text = Description.allValues[1].rawValue
         // Do any additional setup after loading the view.
 		
-		//timer = Timer.scheduledTimer(timeInterval: rememberOfferPoolFor, target: self, selector: #selector(self.getPoolThenRefresh(timer:)), userInfo: nil, repeats: true)
-		//timer.fire()
+		timer = Timer.scheduledTimer(timeInterval: rememberOfferPoolFor, target: self, selector: #selector(self.getPoolThenRefresh(timer:)), userInfo: nil, repeats: true)
+		timer.fire()
     }
 	
 	var timer: Timer!

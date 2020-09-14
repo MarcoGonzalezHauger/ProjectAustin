@@ -361,4 +361,8 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
         self.present(activityViewController, animated: true, completion: nil)
     }
     
+    @IBAction func referralInfoAction(_ sender: Any){
+        self.performSegue(withIdentifier: "toReferralVC", sender: self)
+    }
+    
 }

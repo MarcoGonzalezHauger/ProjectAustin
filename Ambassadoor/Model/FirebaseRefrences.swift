@@ -1602,36 +1602,6 @@ func GetDevelopmentSettings(completion: @escaping (_ developmentSettings: String
     }
 }
 
-func getAdminValues(completion: @escaping (String) -> Void) {
-    
-    Database.database().reference().child("Admin").observeSingleEvent(of: .value, with: { (snapshot) in
-        
-        if let value = snapshot.value as? NSDictionary{
-            
-            
-            
-            let fsource = value["SourceFundingSource"] as! String
-            let commision = value["paycommision"] as! Double
-            let scale = 2
-            var value1 = Decimal(commision)
-            var roundedValue1 = Decimal()
-            NSDecimalRound(&roundedValue1, &value1, scale, NSDecimalNumber.RoundingMode.plain)
-            //Singleton.sharedInstance.setAdminFS(value: fsource)
-            //Singleton.sharedInstance.setCommision(value: commision)
-            print(roundedValue1)
-            let roundUpCommission = round(commision * 100)
-            global.ambassadoorCommision = roundUpCommission
-            completion("")
-            
-        }else{
-            completion("error")
-        }
-    }) { (error) in
-        
-    }
-    
-}
-
 //func authenticateUser(email: String, password: String, completion: @escaping(_ success: Bool)-> Void) {
 //
 //}

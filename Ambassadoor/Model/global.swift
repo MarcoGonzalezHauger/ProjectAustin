@@ -88,7 +88,6 @@ class CentralVariables {
     var allOfferList = [Offer]()
     var InstagramAPI: APImode? = nil
     var appVersion: String? = nil
-    var ambassadoorCommision: Double = 0.0
     
 }
 

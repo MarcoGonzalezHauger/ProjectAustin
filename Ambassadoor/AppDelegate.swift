@@ -264,10 +264,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 InitializeZipCodeAPI(completed: nil)
 		// Define the custom actions.
 //		UIApplication.shared.applicationIconBadgeNumber = 0
-        
-        getAdminValues { (status) in
-            
-        }
 		
 		UNUserNotificationCenter.current().delegate = self
         let center = UNUserNotificationCenter.current()
