@@ -16,6 +16,7 @@ enum AccountNameProblem {
 	case badEmailFormat //invalid email format
 	case weakPassword //insecure password was used.
 	case passwordContainsAmbassadoor //Password contains the phrase Ambassadoor.
+	case passNoMatch //Password didn't match.
 }
 
 class CreateLoginVC: UIViewController {
@@ -26,7 +27,8 @@ class CreateLoginVC: UIViewController {
 	@IBOutlet weak var proceedButton: UIButton!
 	@IBOutlet weak var proceedView: UIView!
 	@IBOutlet weak var backButton: UIButton!
-    
+	@IBOutlet weak var confirmPass: UITextField!
+	
     
 	
 	override func viewDidLoad() {
@@ -35,10 +37,10 @@ class CreateLoginVC: UIViewController {
 			self.isModalInPresentation = true
 		}
 		infoLabel.text = defaultText
-        
-        
-        
     }
+	@IBAction func confirmNext(_ sender: Any) {
+		confirmPass.becomeFirstResponder()
+	}
 	@IBAction func Next(_ sender: Any) {
 		passwordText.becomeFirstResponder()
 	}
@@ -59,45 +61,53 @@ class CreateLoginVC: UIViewController {
 		proceedButton.setTitle("Checking...", for: .normal)
 		self.proceedButton.isEnabled = false
 		
-		if emailText.text?.count != 0{
-            
-            print("emailLowercase=",emailText.text!.lowercased())
+		if passwordText.text == confirmPass.text {
 			
-			if isValidEmail(emailStr: emailText.text!){
+			if emailText.text?.count != 0{
 				
-				if passwordText.text?.count != 0 {
+				print("emailLowercase=",emailText.text!.lowercased())
+				
+				if isValidEmail(emailStr: emailText.text!){
 					
-					let complexity = isMeetingComplexity(password: passwordText.text!)
-					
-					if complexity == 0 {
+					if passwordText.text?.count != 0 {
 						
-                        checkIfEmailExist(email: emailText.text!.lowercased()) { (isExist) in
+						let complexity = isMeetingComplexity(password: passwordText.text!)
+						
+						if complexity == 0 {
 							
-							if isExist{
-								self.AvaliabilityFailed(reason: .emailExists)
-							}else{
-								self.AvaliabilitySuccess()
+							checkIfEmailExist(email: emailText.text!.lowercased()) { (isExist) in
+								
+								if isExist{
+									self.AvaliabilityFailed(reason: .emailExists)
+								}else{
+									self.AvaliabilitySuccess()
+								}
+								
 							}
-							
 						}
-					}
-					else if complexity == 1 {
-						AvaliabilityFailed(reason: .weakPassword)
-					}
+						else if complexity == 1 {
+							AvaliabilityFailed(reason: .weakPassword)
+						}
+							
+						else if complexity == 2 {
+							AvaliabilityFailed(reason: .passwordContainsAmbassadoor)
+						}
 						
-					else if complexity == 2 {
-						AvaliabilityFailed(reason: .passwordContainsAmbassadoor)
+					}else{
+						AvaliabilityFailed(reason: .noPassword)
 					}
-					
 				}else{
-					AvaliabilityFailed(reason: .noPassword)
+					AvaliabilityFailed(reason: .badEmailFormat)
 				}
 			}else{
-				AvaliabilityFailed(reason: .badEmailFormat)
+				AvaliabilityFailed(reason: .noEmail)
 			}
-		}else{
-			AvaliabilityFailed(reason: .noEmail)
+			
+		} else {
+			AvaliabilityFailed(reason: .passNoMatch)
 		}
+		
+		
 		
 		//[RAM] same as signinVC, code in all possible problems (found in the enum for AccountNameProblem)
 		//If Failed, call AvaliabilityFailed with the error parameter
@@ -115,6 +125,7 @@ class CreateLoginVC: UIViewController {
 			self.emailText.alpha = 0
 			self.passwordText.alpha = 0
 			self.backButton.alpha = 0
+			self.confirmPass.alpha = 0
 		}
 		
 		infoLabel.textColor = .systemGreen
@@ -196,6 +207,8 @@ class CreateLoginVC: UIViewController {
 			return "Password is Too Weak"
 		case .passwordContainsAmbassadoor:
 			return "Password Very Insecure!"
+		case .passNoMatch:
+			return "Passwords Don't Match"
 		default:
 			return "Failed"
 		}

@@ -4,7 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17124"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,11 +17,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="InfluencerSplash" translatesAutoresizingMaskIntoConstraints="NO" id="49f-TC-fyR">
-                                <rect key="frame" x="155.66666666666666" y="92" width="64" height="64"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="NiceIcon" translatesAutoresizingMaskIntoConstraints="NO" id="49f-TC-fyR">
+                                <rect key="frame" x="123.66666666666669" y="68" width="128" height="128"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="64" id="COb-CS-Rwh"/>
-                                    <constraint firstAttribute="width" constant="64" id="Mzc-eI-l19"/>
+                                    <constraint firstAttribute="height" constant="128" id="COb-CS-Rwh"/>
+                                    <constraint firstAttribute="width" constant="128" id="Mzc-eI-l19"/>
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="HAv-qj-563">
@@ -69,7 +68,7 @@
                                                 </connections>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" name="AmbassadoorOrange"/>
+                                        <color key="backgroundColor" systemColor="systemIndigoColor"/>
                                         <constraints>
                                             <constraint firstItem="x9r-ZL-bVp" firstAttribute="leading" secondItem="8oT-9B-2DW" secondAttribute="leading" constant="12" id="2nA-2H-xuT"/>
                                             <constraint firstItem="x9r-ZL-bVp" firstAttribute="centerY" secondItem="8oT-9B-2DW" secondAttribute="centerY" id="86S-kH-MVo"/>
@@ -85,7 +84,7 @@
                                 </constraints>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ambassadoor" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6hB-v0-KFK">
-                                <rect key="frame" x="102.66666666666669" y="176" width="170" height="30"/>
+                                <rect key="frame" x="102.66666666666669" y="186" width="170" height="30"/>
                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="25"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -140,7 +139,7 @@
                             <constraint firstItem="HMp-h3-kgY" firstAttribute="trailing" secondItem="HAv-qj-563" secondAttribute="trailing" id="0pP-iv-Zx1"/>
                             <constraint firstItem="HMp-h3-kgY" firstAttribute="bottom" secondItem="pub-Zk-b3O" secondAttribute="bottom" constant="9" id="35X-Qe-1ob"/>
                             <constraint firstItem="pub-Zk-b3O" firstAttribute="centerX" secondItem="KyO-Vz-QIV" secondAttribute="centerX" id="CXc-Gb-QUr"/>
-                            <constraint firstItem="49f-TC-fyR" firstAttribute="top" secondItem="HMp-h3-kgY" secondAttribute="top" constant="48" id="EGa-l7-9Rt"/>
+                            <constraint firstItem="49f-TC-fyR" firstAttribute="top" secondItem="HMp-h3-kgY" secondAttribute="top" constant="24" id="EGa-l7-9Rt"/>
                             <constraint firstItem="HAv-qj-563" firstAttribute="leading" secondItem="KyO-Vz-QIV" secondAttribute="leading" id="GQy-kh-9TO"/>
                             <constraint firstItem="V6P-E7-vPB" firstAttribute="leading" secondItem="HMp-h3-kgY" secondAttribute="leading" constant="16" id="MXf-Up-m7h"/>
                             <constraint firstItem="49f-TC-fyR" firstAttribute="centerX" secondItem="KyO-Vz-QIV" secondAttribute="centerX" id="Q4t-i4-coM"/>
@@ -150,7 +149,7 @@
                             <constraint firstItem="HAv-qj-563" firstAttribute="top" secondItem="V6P-E7-vPB" secondAttribute="bottom" constant="16" id="eHl-6A-1eU"/>
                             <constraint firstItem="HMp-h3-kgY" firstAttribute="trailing" secondItem="V6P-E7-vPB" secondAttribute="trailing" constant="16" id="lQ3-oq-cWs"/>
                             <constraint firstItem="pub-Zk-b3O" firstAttribute="top" secondItem="HAv-qj-563" secondAttribute="bottom" constant="9" id="nTV-C8-hUL"/>
-                            <constraint firstItem="6hB-v0-KFK" firstAttribute="top" secondItem="49f-TC-fyR" secondAttribute="bottom" constant="20" id="zmq-qk-odT"/>
+                            <constraint firstItem="6hB-v0-KFK" firstAttribute="top" secondItem="49f-TC-fyR" secondAttribute="bottom" constant="-10" id="zmq-qk-odT"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="4Af-g0-Wpl"/>
@@ -218,7 +217,7 @@
                                         </connections>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" name="AmbassadoorOrange"/>
+                                <color key="backgroundColor" systemColor="systemIndigoColor"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="Km3-Eh-mkE" secondAttribute="trailing" constant="16" id="2XX-kc-9Lm"/>
                                     <constraint firstItem="Km3-Eh-mkE" firstAttribute="leading" secondItem="ceS-4g-VbG" secondAttribute="leading" constant="16" id="90K-jM-f8S"/>
@@ -1515,7 +1514,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qfP-bn-74X">
-                                <rect key="frame" x="37.666666666666657" y="157.66666666666666" width="300" height="130.99999999999997"/>
+                                <rect key="frame" x="37.666666666666657" y="131" width="300" height="165"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose an Email and Password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="eO8-4C-DcZ">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="23"/>
@@ -1524,15 +1523,15 @@ Nobody will be able to tell your account is a Business account, and you will als
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cpy-0e-wy0">
-                                        <rect key="frame" x="0.0" y="97" width="300" height="34"/>
+                                        <rect key="frame" x="0.0" y="81" width="300" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="go" secureTextEntry="YES" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="password"/>
                                         <connections>
-                                            <action selector="PasswordNext:" destination="br5-AI-8o9" eventType="primaryActionTriggered" id="i7z-0R-BTg"/>
+                                            <action selector="confirmNext:" destination="br5-AI-8o9" eventType="primaryActionTriggered" id="VBK-gL-sgg"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MmH-1B-JKp">
-                                        <rect key="frame" x="0.0" y="55" width="300" height="34"/>
+                                        <rect key="frame" x="0.0" y="39" width="300" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next" textContentType="email"/>
                                         <connections>
@@ -1540,10 +1539,19 @@ Nobody will be able to tell your account is a Business account, and you will als
                                             <action selector="textChanged:" destination="br5-AI-8o9" eventType="editingChanged" id="oAo-LM-TIo"/>
                                         </connections>
                                     </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1fy-11-Xcs">
+                                        <rect key="frame" x="0.0" y="123" width="300" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="go" secureTextEntry="YES" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="password"/>
+                                        <connections>
+                                            <action selector="PasswordNext:" destination="br5-AI-8o9" eventType="primaryActionTriggered" id="bCY-Cf-mrA"/>
+                                        </connections>
+                                    </textField>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="MmH-1B-JKp" firstAttribute="leading" secondItem="qfP-bn-74X" secondAttribute="leading" id="2c9-Qz-gQC"/>
+                                    <constraint firstItem="1fy-11-Xcs" firstAttribute="top" secondItem="cpy-0e-wy0" secondAttribute="bottom" constant="8" id="51T-Kv-w9X"/>
                                     <constraint firstAttribute="trailing" secondItem="MmH-1B-JKp" secondAttribute="trailing" id="GHh-0g-Fbm"/>
                                     <constraint firstItem="eO8-4C-DcZ" firstAttribute="leading" secondItem="qfP-bn-74X" secondAttribute="leading" id="Ib1-h4-pBx"/>
                                     <constraint firstAttribute="trailing" secondItem="cpy-0e-wy0" secondAttribute="trailing" id="NnQ-Hv-tnf"/>
@@ -1552,8 +1560,10 @@ Nobody will be able to tell your account is a Business account, and you will als
                                     <constraint firstItem="eO8-4C-DcZ" firstAttribute="top" secondItem="qfP-bn-74X" secondAttribute="top" id="Y9f-66-dce"/>
                                     <constraint firstItem="cpy-0e-wy0" firstAttribute="leading" secondItem="qfP-bn-74X" secondAttribute="leading" id="YCL-q8-64l"/>
                                     <constraint firstAttribute="trailing" secondItem="eO8-4C-DcZ" secondAttribute="trailing" id="ck7-9G-0tD"/>
-                                    <constraint firstAttribute="bottom" secondItem="cpy-0e-wy0" secondAttribute="bottom" id="eoH-NV-Q7n"/>
-                                    <constraint firstAttribute="height" constant="131" id="tV1-jc-NHT"/>
+                                    <constraint firstAttribute="trailing" secondItem="1fy-11-Xcs" secondAttribute="trailing" id="kJx-HL-AoF"/>
+                                    <constraint firstAttribute="height" constant="165" id="tV1-jc-NHT"/>
+                                    <constraint firstItem="1fy-11-Xcs" firstAttribute="leading" secondItem="qfP-bn-74X" secondAttribute="leading" id="w5y-mk-HgF"/>
+                                    <constraint firstAttribute="bottom" secondItem="1fy-11-Xcs" secondAttribute="bottom" constant="8" id="wBg-Dr-0aF"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Login" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LPj-LX-Oql">
@@ -1617,7 +1627,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                             <constraint firstItem="OfW-dF-4oW" firstAttribute="leading" secondItem="o1v-qd-KQM" secondAttribute="leading" constant="16" id="KgI-DQ-PFb"/>
                             <constraint firstItem="o1v-qd-KQM" firstAttribute="trailing" secondItem="LKA-tU-D70" secondAttribute="trailing" constant="25" id="Pg6-FG-vtT"/>
                             <constraint firstItem="LPj-LX-Oql" firstAttribute="centerX" secondItem="8Mk-gn-4Gx" secondAttribute="centerX" id="RR0-he-vnq"/>
-                            <constraint firstItem="qfP-bn-74X" firstAttribute="top" secondItem="LPj-LX-Oql" secondAttribute="bottom" constant="116.5" id="ZvQ-cH-QR5"/>
+                            <constraint firstItem="qfP-bn-74X" firstAttribute="top" secondItem="LPj-LX-Oql" secondAttribute="bottom" constant="90" id="ZvQ-cH-QR5"/>
                             <constraint firstItem="qfP-bn-74X" firstAttribute="centerX" secondItem="8Mk-gn-4Gx" secondAttribute="centerX" id="kr0-4I-Wcq"/>
                             <constraint firstItem="LPj-LX-Oql" firstAttribute="top" secondItem="o1v-qd-KQM" secondAttribute="top" constant="17" id="xBk-lT-N3T"/>
                             <constraint firstItem="OfW-dF-4oW" firstAttribute="top" secondItem="o1v-qd-KQM" secondAttribute="top" constant="10" id="zk2-BQ-gMA"/>
@@ -1629,6 +1639,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                     <navigationItem key="navigationItem" id="UZ4-pE-JK5"/>
                     <connections>
                         <outlet property="backButton" destination="OfW-dF-4oW" id="MKK-1p-X5b"/>
+                        <outlet property="confirmPass" destination="1fy-11-Xcs" id="HhQ-jm-cAf"/>
                         <outlet property="emailText" destination="MmH-1B-JKp" id="fM0-6v-hf2"/>
                         <outlet property="infoLabel" destination="eO8-4C-DcZ" id="DJK-0D-2Bw"/>
                         <outlet property="passwordText" destination="cpy-0e-wy0" id="VAu-99-t0m"/>
@@ -2387,7 +2398,6 @@ Co-Founder and CTO</string>
                                         </button>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="New Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NMt-pL-U4c">
                                             <rect key="frame" x="38" y="215" width="299" height="34"/>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES" textContentType="one-time-code"/>
                                             <connections>
@@ -2699,12 +2709,12 @@ You can switch back at any time.</string>
     <inferredMetricsTieBreakers>
         <segue reference="igG-6b-YGC"/>
         <segue reference="8pw-Sq-bQw"/>
-        <segue reference="ZCB-4G-bg0"/>
+        <segue reference="45x-UI-aGC"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="BigVerifiedLogo" width="1200" height="1200"/>
-        <image name="InfluencerSplash" width="400" height="400"/>
         <image name="Instagrad" width="500" height="150"/>
+        <image name="NiceIcon" width="480" height="480"/>
         <image name="gender_icon" width="84" height="84"/>
         <image name="map_pin" width="84" height="84"/>
         <image name="mySignature" width="1082" height="318"/>
@@ -2712,9 +2722,6 @@ You can switch back at any time.</string>
         <image name="setup_todo" width="96" height="96"/>
         <image name="tag_icon" width="84" height="84"/>
         <image name="verified" width="600" height="600"/>
-        <namedColor name="AmbassadoorOrange">
-            <color red="0.99800002574920654" green="0.42399999499320984" blue="0.14900000393390656" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-        </namedColor>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
@@ -2741,6 +2748,9 @@ You can switch back at any time.</string>
         </systemColor>
         <systemColor name="systemGroupedBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemIndigoColor">
+            <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPurpleColor">
             <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
