@@ -30,6 +30,7 @@ class OfferAcceptConfirmVC: UIViewController {
         if let incresePay = ThisOffer.incresePay {
         let pay = calculateCostForUser(offer: ThisOffer, user: Yourself, increasePayVariable: incresePay)
         updateIsAcceptedOffer(offer: ThisOffer, money: pay)
+        
         }else{
         let pay = calculateCostForUser(offer: ThisOffer, user: Yourself)
         updateIsAcceptedOffer(offer: ThisOffer, money: pay)
@@ -50,7 +51,7 @@ class OfferAcceptConfirmVC: UIViewController {
 //            }
 //
 //        }
-
+        removeReservedOfferStatus(offer: ThisOffer)
         dismiss(animated: true) {
 			self.Confirmdelegate?.dismissPage()
 		}

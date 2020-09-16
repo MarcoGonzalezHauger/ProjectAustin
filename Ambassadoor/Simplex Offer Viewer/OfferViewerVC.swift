@@ -523,7 +523,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 
 //			print("try to dismiss")
 			updateUserIdOfferPool(offer: self.offer!)
-			
+			removeReservedOfferStatus(offer: self.offer!)
 			self.dismiss(animated: true) {
 //				print("change bar indexpath")
 				self.thisParent?.tabBarController?.selectedIndex = 3
