@@ -366,8 +366,8 @@ class ReservedCell: UITableViewCell {
 	
 }
 
-let acceptColorOne: UIColor = UIColor.init(named: "acceptColor1")!
-let acceptColorTwo: UIColor = UIColor.init(named: "acceptColor2")!
+let acceptColorOne: UIColor = UIColor.init(named: "AmbPurple")!
+let acceptColorTwo: UIColor = UIColor.init(named: "AmbDarkPurple")!
 
 class AcceptCell: UITableViewCell {
 	
