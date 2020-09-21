@@ -8,6 +8,8 @@
 //
 
 import UIKit
+import AVKit
+import AVFoundation
 
 class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, OfferMenuSegmentDelegate,AutoDimiss {
     func DismissNow(sender: String) {
@@ -111,6 +113,8 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
         if Yourself != nil{
 		dataSource = self
 		delegate = self
@@ -127,6 +131,8 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
                                     completion: nil)
         }
 		
+        
+            
 		//let bgView = UIView(frame: UIScreen.main.bounds)
 		//bgView.backgroundColor = GetBackColor()
 		//view.insertSubview(bgView, at: 0)
@@ -137,6 +143,8 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
             
         }
     }
+    
+    
     
     // MARK: - Navigation
 
