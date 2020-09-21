@@ -106,7 +106,7 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 	func AccountCreationFailed(problem: CreateAccountProblem) {
 		wasFailed = true
 		
-		YouShallNotPass(SaveButtonView: CreateButtonView, returnColor: UIColor.init(named: "AmbassadoorOrange")!)
+		YouShallNotPass(SaveButtonView: CreateButtonView, returnColor: UIColor.init(named: "AmbDarkPurple")!)
 		
 		switch problem {
 		case .emailTaken:
@@ -140,7 +140,7 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 	func SetButtonState(enabled: Bool) {
 		UIView.animate(withDuration: 0.5) {
 			if enabled {
-				self.CreateButtonView.backgroundColor = UIColor.init(named: "AmbassadoorOrange")!
+				self.CreateButtonView.backgroundColor = UIColor.init(named: "AmbDarkPurple")!
 			} else {
 				self.CreateButtonView.backgroundColor = .systemGray
 			}
