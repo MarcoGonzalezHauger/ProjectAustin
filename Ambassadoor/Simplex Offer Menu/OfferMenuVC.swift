@@ -43,11 +43,10 @@ class OfferMenuVC: UIViewController,PageViewDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(playerDidFinishPlaying), name: .AVPlayerItemDidPlayToEndTime, object: nil)
         
-        self.playTutorialVideo(sender: self)
+        self.playAppOpen(sender: self)
         
         self.pageViewContainer.isHidden = true
         self.tabBarController?.tabBar.isHidden = true
-        self.scaleAnimateView()
         offerSegmentFilter.selectedSegmentIndex = 1
         self.desText.text = Description.allValues[1].rawValue
         // Do any additional setup after loading the view.
@@ -57,7 +56,8 @@ class OfferMenuVC: UIViewController,PageViewDelegate {
         
     }
     
-    var timer: Timer!
+	@IBOutlet weak var LogoImage: UIImageView!
+	var timer: Timer!
     
     @objc func getPoolThenRefresh(timer: Timer?) {
         GetOfferPool { (offers) in
@@ -78,39 +78,85 @@ class OfferMenuVC: UIViewController,PageViewDelegate {
     }
     
     func scaleAnimateView() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+            			
             self.pageViewContainer.isHidden = false
             
-            self.pageViewContainer.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+            self.pageViewContainer.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
             
-            UIView.animate(withDuration: 0.5, animations: {
-                
-                self.pageViewContainer.transform = CGAffineTransform(scaleX: 1, y: 1)
+			self.pageViewContainer.layer.opacity = 0
+			
+            UIView.animate(withDuration: 0.4, animations: {
+				
+				self.pageViewContainer.layer.opacity = 1
+				self.pageViewContainer.transform = CGAffineTransform(scaleX: 1.07, y: 1.07)
                 
                 
             }) { (status) in
                 self.tabBarController?.tabBar.isHidden = false
-                
+				
+				UIView.animate(withDuration: 0.1, animations: {
+					
+					self.pageViewContainer.transform = CGAffineTransform(scaleX: 1, y: 1)
+					
+					
+				})
             }
             
         }
     }
     
-    func playTutorialVideo(sender: UIViewController) {
-        guard let path = Bundle.main.path(forResource: "AppOpenW", ofType:"mp4") else {
+	var player: AVPlayer!
+	
+    func playAppOpen(sender: UIViewController) {
+		var vidfile = "AppOpen"
+		if #available(iOS 12.0, *) {
+			if traitCollection.userInterfaceStyle == .light {
+				vidfile += "W" //white
+			} else {
+				vidfile += "B" //black
+			}
+		} else {
+			vidfile += "W" //white
+		}
+        guard let path = Bundle.main.path(forResource: vidfile, ofType:"mp4") else {
             print("Ambasadoor Tutorial Video not found.")
             return
         }
-        let player = AVPlayer(url: URL(fileURLWithPath: path))
+        player = AVPlayer(url: URL(fileURLWithPath: path))
+		_ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: .default, options: .mixWithOthers)
+		player.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
         self.playerLayer.player = player
         playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         playerLayer.frame = self.view.bounds
-        playerLayer.backgroundColor = UIColor.white.cgColor
+		playerLayer.backgroundColor = UIColor.clear.cgColor
+		player.allowsExternalPlayback = false
+		
         
         self.videoDumpView.layer.addSublayer(playerLayer)
+		self.videoDumpView.sendSubviewToBack(LogoImage)
         player.play()
+		
     }
+	
+	override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+		if object as AnyObject? === player {
+			if keyPath == "timeControlStatus" {
+				if #available(iOS 10.0, *) {
+					if player.timeControlStatus == .playing {
+						scaleAnimateView()
+					}
+                    
+				}
+			}
+		}
+	}
+
+	func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutableRawPointer) {
+		if keyPath == "status" {
+			print(player.status)
+		}
+	}
     
     @objc func playerDidFinishPlaying(note: NSNotification) {
         print("Video Finished")
