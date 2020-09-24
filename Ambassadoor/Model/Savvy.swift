@@ -110,6 +110,21 @@ func DateToAgo(date: Date) -> String {
 	}
 }
 
+func getofferPayOfuser(offerValue: Offer, user: User) -> Double {
+    
+    var payCheck = 0.0
+    
+    if let incresePay = offerValue.incresePay {
+    payCheck = calculateCostForUser(offer: offerValue, user: Yourself, increasePayVariable: incresePay)
+    
+    }else{
+    payCheck = calculateCostForUser(offer: offerValue, user: Yourself)
+    }
+    
+    return payCheck
+    
+}
+
 func calculateCostForUser(offer: Offer, user: User, increasePayVariable: Double = 1.00) -> Double {
 	if offer.isDefaultOffer {
 		return 0

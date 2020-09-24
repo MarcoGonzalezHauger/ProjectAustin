@@ -146,7 +146,6 @@ class OfferMenuVC: UIViewController,PageViewDelegate {
 					if player.timeControlStatus == .playing {
 						scaleAnimateView()
 					}
-                    
 				}
 			}
 		}
