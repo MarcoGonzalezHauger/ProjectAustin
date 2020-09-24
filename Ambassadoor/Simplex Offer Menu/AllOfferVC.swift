@@ -11,11 +11,11 @@ import UIKit
 let unviersalOfferHeight: CGFloat = 77.5
 
 class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, OfferResponse, refreshDelegate {
-	
-	func refreshOfferDate() {
-		allOfferAction(timer: nil)
-	}	
-	
+    
+    func refreshOfferDate() {
+        allOfferAction(timer: nil)
+    }
+    
     func OfferAccepted(offer: Offer) {
         
     }
@@ -23,12 +23,12 @@ class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, O
     @IBOutlet weak var allOfferTable: UITableView!
     
     var allOfferList = [Offer]()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-		allOfferTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
-		
+        allOfferTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
+        
         if global.allOfferList.count != 0{
             self.allOfferList = global.allOfferList
             DispatchQueue.main.async {
@@ -36,9 +36,9 @@ class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, O
             }
         }
         
-//        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.allOfferAction(timer:)), userInfo: nil, repeats: false)
-		self.allOfferAction(timer: nil)
-		refreshDelegates.append(self)
+        //        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.allOfferAction(timer:)), userInfo: nil, repeats: false)
+        self.allOfferAction(timer: nil)
+        refreshDelegates.append(self)
         // Do any additional setup after loading the view.
     }
     
@@ -75,39 +75,52 @@ class AllOfferVC: UIViewController,UITableViewDataSource, UITableViewDelegate, O
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
-		return unviersalOfferHeight
+        return unviersalOfferHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         
         //FromAllToOV
         //self.performSegue(withIdentifier: "ViewOfferSegue", sender: allOfferList[indexPath.row].offer)
-        self.performSegue(withIdentifier: "FromAllToOV", sender: allOfferList[indexPath.row])
-        tableView.deselectRow(at: indexPath, animated: true)
+        let offerValue = allOfferList[indexPath.row]
+        if offerValue.isDefaultOffer{
+            self.performSegue(withIdentifier: "FromAllToOV", sender: offerValue)
+            tableView.deselectRow(at: indexPath, animated: true)
+        }else{
+            let payCheck = getofferPayOfuser(offerValue: offerValue, user: Yourself)
+            if payCheck != 0 {
+                self.performSegue(withIdentifier: "FromAllToOV", sender: offerValue)
+                tableView.deselectRow(at: indexPath, animated: true)
+            }else{
+                self.showStandardAlertDialog(title: "You have low likes", msg: "Your pay for this offer is very low. Increse your instagram's post likes and try again later") { (alert) in
+                    
+                }
+            }
+        }
     }
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "ViewOfferSegue" {
-//        //guard let newviewoffer = viewoffer else { return }
-//        let destination = segue.destination
-//        if let destination = (destination as! UINavigationController).topViewController as? OfferVC {
-//            destination.delegate = self
-//            destination.ThisOffer = sender as? Offer
-//
-//
-//        }
-//        }
+        //        if segue.identifier == "ViewOfferSegue" {
+        //        //guard let newviewoffer = viewoffer else { return }
+        //        let destination = segue.destination
+        //        if let destination = (destination as! UINavigationController).topViewController as? OfferVC {
+        //            destination.delegate = self
+        //            destination.ThisOffer = sender as? Offer
+        //
+        //
+        //        }
+        //        }
         if segue.identifier == "FromAllToOV" {
-         //guard let newviewoffer = viewoffer else { return }
-         let destination = (segue.destination as! StandardNC).topViewController as! OfferViewerVC
-        
-             destination.offer = sender as? Offer
-			 destination.thisParent = self
-         }
+            //guard let newviewoffer = viewoffer else { return }
+            let destination = (segue.destination as! StandardNC).topViewController as! OfferViewerVC
+            
+            destination.offer = sender as? Offer
+            destination.thisParent = self
+        }
     }
     
-
+    
 }
