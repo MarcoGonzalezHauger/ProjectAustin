@@ -188,9 +188,10 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 		case 0:
 			performSegue(withIdentifier: "toCreateLogin", sender: self)
 		case 1:
-			performSegue(withIdentifier: "toConnectStepVC", sender: self)
+			performSegue(withIdentifier: "toConnectPVC", sender: self)
             //performSegue(withIdentifier: "toConnectInstagram", sender: self)
             //toConnectStepVC
+            //toConnectPVC toConnectPVC
 		case 2:
 			performSegue(withIdentifier: "toBasicInfo", sender: self)
 		default:

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17147" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="XBz-iA-8Ph">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="XBz-iA-8Ph">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17120"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,26 +17,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oCl-y9-oPR">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="NiceIcon" translatesAutoresizingMaskIntoConstraints="NO" id="ozA-fr-Mpt">
-                                <rect key="frame" x="127" y="368" width="160" height="160"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoPlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="ozA-fr-Mpt">
+                                <rect key="frame" x="0.0" y="328" width="414" height="240"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="160" id="539-K1-8FE"/>
-                                    <constraint firstAttribute="width" secondItem="ozA-fr-Mpt" secondAttribute="height" multiplier="1:1" id="jue-hh-SPI"/>
+                                    <constraint firstAttribute="height" constant="240" id="z75-5K-XPa"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="E3Q-Wm-w98"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="oCl-y9-oPR" firstAttribute="trailing" secondItem="E3Q-Wm-w98" secondAttribute="trailing" id="Fjf-2W-zGc"/>
-                            <constraint firstItem="oCl-y9-oPR" firstAttribute="top" secondItem="l51-lf-gzm" secondAttribute="top" id="GJL-D6-iGh"/>
-                            <constraint firstItem="oCl-y9-oPR" firstAttribute="leading" secondItem="E3Q-Wm-w98" secondAttribute="leading" id="Hii-15-mAF"/>
                             <constraint firstItem="ozA-fr-Mpt" firstAttribute="centerY" secondItem="l51-lf-gzm" secondAttribute="centerY" id="MtI-jz-tv5"/>
-                            <constraint firstAttribute="bottom" secondItem="oCl-y9-oPR" secondAttribute="bottom" id="Qbk-gg-tKg"/>
-                            <constraint firstItem="ozA-fr-Mpt" firstAttribute="centerX" secondItem="l51-lf-gzm" secondAttribute="centerX" id="Yep-CS-MQq"/>
+                            <constraint firstItem="ozA-fr-Mpt" firstAttribute="leading" secondItem="l51-lf-gzm" secondAttribute="leading" id="fis-e0-3Zm"/>
+                            <constraint firstAttribute="trailing" secondItem="ozA-fr-Mpt" secondAttribute="trailing" id="wNV-Wi-Hig"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -45,6 +39,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="NiceIcon" width="480" height="480"/>
+        <image name="LogoPlaceholder" width="828" height="1792"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

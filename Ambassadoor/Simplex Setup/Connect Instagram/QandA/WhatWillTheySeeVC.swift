@@ -12,9 +12,15 @@ class WhatWillTheySeeVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        connectICPageIndex = 2
+    }
+    
 	@IBAction func CloseVC(_ sender: Any) {
 		dismiss(animated: true, completion: nil)
 	}
