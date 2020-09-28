@@ -145,6 +145,7 @@ class OfferMenuVC: UIViewController,PageViewDelegate {
 				if #available(iOS 10.0, *) {
 					if player.timeControlStatus == .playing {
 						scaleAnimateView()
+						LogoImage.isHidden = true
 					}
 				}
 			}
