@@ -99,6 +99,8 @@ class OffersPVC: UIPageViewController, UIPageViewControllerDataSource, UIPageVie
             self.lastIndex = index
 		}
 	}
+    
+    
 	
 	//Allows for returning of VC when string is inputted.
 	func newVC(VC: String) -> UIViewController {

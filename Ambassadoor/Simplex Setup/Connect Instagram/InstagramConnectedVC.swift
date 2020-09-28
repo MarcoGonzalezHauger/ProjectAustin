@@ -139,9 +139,9 @@ class InstagramConnectedVC: UIViewController {
     
 	
 	@IBAction func Proceed(_ sender: Any) {
-		dismiss(animated: true) {
+		//dismiss(animated: true) {
 			self.delegate?.DonePressed()
-		}
+		//}
 	}
     
     /*

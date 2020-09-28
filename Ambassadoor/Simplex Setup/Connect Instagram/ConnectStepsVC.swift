@@ -30,8 +30,13 @@ class ConnectStepsVC: UIViewController, VerificationReturned {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+       // connectICPageIndex = 0
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        connectICPageIndex = 0
     }
     
     @IBAction func connectAction(){
