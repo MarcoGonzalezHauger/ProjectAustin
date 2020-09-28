@@ -120,7 +120,7 @@ class OfferMenuVC: UIViewController,PageViewDelegate {
 			vidfile += "W" //white
 		}
         guard let path = Bundle.main.path(forResource: vidfile, ofType:"mp4") else {
-            print("Ambasadoor Tutorial Video not found.")
+            print("Ambasadoor intro video not loading.")
             return
         }
         player = AVPlayer(url: URL(fileURLWithPath: path))
