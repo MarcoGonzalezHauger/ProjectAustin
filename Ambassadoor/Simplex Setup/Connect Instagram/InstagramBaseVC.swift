@@ -16,19 +16,22 @@ protocol InstagramPageDelegate {
 
 class InstagramBaseVC: UIViewController, PageViewDelegate {
     func pageViewIndexDidChangedelegate(index: Int) {
-        if index == 0{
-            self.previousBtn.isHidden = true
-            self.nextBtn.isHidden = false
-        }else if index == 6{
-            self.previousBtn.isHidden = false
-            self.nextBtn.isHidden = true
-        }else{
-            self.previousBtn.isHidden = false
-            self.nextBtn.isHidden = false
-        }
+		SetButtonVisibility(index)
+		
     }
+	
+	func SetButtonVisibility(_ index: Int) {
+		previousBtn.isEnabled = index != 0
+		nextBtn.isEnabled = index != 6
+		UIView.animate(withDuration: 0.2) {
+			self.NextView.alpha = index == 6 ? 0 : 1
+			self.BackView.alpha = index == 0 ? 0 : 1
+		}
+	}
     
-    
+	@IBOutlet weak var NextView: ShadowView!
+	@IBOutlet weak var BackView: ShadowView!
+	
     var pageIndexDelegate: InstagramPageDelegate?
     
     @IBOutlet weak var previousBtn: UIButton!
@@ -37,34 +40,21 @@ class InstagramBaseVC: UIViewController, PageViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         connectICPageIndex = 0
-        self.previousBtn.isHidden = true
-        self.nextBtn.isHidden = false
+		SetButtonVisibility(0)
         // Do any additional setup after loading the view.
     }
     
     @IBAction func previousAction(sender: UIButton){
-        
-        if (connectICPageIndex - 1) == 0{
-            self.previousBtn.isHidden = true
-            self.nextBtn.isHidden = false
-        }else{
-            self.previousBtn.isHidden = false
-            self.nextBtn.isHidden = false
-        }
+		
+		SetButtonVisibility(connectICPageIndex - 1)
         
         if(connectICPageIndex != 0){
-        self.pageIndexDelegate?.pageIndex(index: connectICPageIndex - 1)
+			self.pageIndexDelegate?.pageIndex(index: connectICPageIndex - 1)
         }
     }
     @IBAction func nextAction(sender: UIButton){
-        
-        if (connectICPageIndex + 1) == 6{
-            self.previousBtn.isHidden = false
-            self.nextBtn.isHidden = true
-        }else{
-            self.previousBtn.isHidden = false
-            self.nextBtn.isHidden = false
-        }
+		
+		SetButtonVisibility(connectICPageIndex + 1)
         
         if(connectICPageIndex != 6){
         self.pageIndexDelegate?.pageIndex(index: connectICPageIndex + 1)

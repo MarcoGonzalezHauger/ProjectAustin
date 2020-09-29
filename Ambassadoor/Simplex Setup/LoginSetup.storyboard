@@ -2703,12 +2703,12 @@ You can switch back at any time.</string>
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ajs-7M-vlv">
-                                <rect key="frame" x="0.0" y="58" width="375" height="598"/>
+                                <rect key="frame" x="0.0" y="50" width="375" height="606"/>
                                 <connections>
                                     <segue destination="mAm-E5-fbQ" kind="embed" identifier="pageviewCI" id="Rdm-da-rC2"/>
                                 </connections>
                             </containerView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZUg-Fh-5ib">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZUg-Fh-5ib" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="656" width="375" height="118"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tX1-yM-UNX" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
@@ -2795,12 +2795,26 @@ You can switch back at any time.</string>
                                     <constraint firstItem="RIo-QH-4mT" firstAttribute="leading" secondItem="ZUg-Fh-5ib" secondAttribute="leading" constant="16" id="b6h-aJ-Yd4"/>
                                     <constraint firstItem="RIo-QH-4mT" firstAttribute="top" secondItem="ZUg-Fh-5ib" secondAttribute="top" constant="10" id="oeH-4h-sKe"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                        <real key="value" value="0.20000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
+                                        <real key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="ShadowColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="4v0-oX-bdz"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="ajs-7M-vlv" firstAttribute="top" secondItem="FQR-Ir-Eol" secondAttribute="bottom" constant="8" id="0IK-hy-pOo"/>
+                            <constraint firstItem="ajs-7M-vlv" firstAttribute="top" secondItem="FQR-Ir-Eol" secondAttribute="bottom" id="0IK-hy-pOo"/>
                             <constraint firstAttribute="bottom" secondItem="ajs-7M-vlv" secondAttribute="bottom" constant="102" id="Kn2-vp-iiE"/>
                             <constraint firstAttribute="trailing" secondItem="FQR-Ir-Eol" secondAttribute="trailing" id="Ojs-Tw-CT2"/>
                             <constraint firstItem="FQR-Ir-Eol" firstAttribute="top" secondItem="lWL-bP-zYQ" secondAttribute="top" id="R1Y-Rx-zNT"/>
@@ -2815,6 +2829,8 @@ You can switch back at any time.</string>
                     </view>
                     <navigationItem key="navigationItem" id="fEL-vj-AeT"/>
                     <connections>
+                        <outlet property="BackView" destination="RIo-QH-4mT" id="2Uh-kT-8eh"/>
+                        <outlet property="NextView" destination="tX1-yM-UNX" id="M5q-ba-U6m"/>
                         <outlet property="nextBtn" destination="xVb-Tf-9mu" id="PlC-zG-ZMF"/>
                         <outlet property="previousBtn" destination="Jgv-hQ-2Zb" id="BxZ-0J-Vt9"/>
                     </connections>
@@ -2857,7 +2873,7 @@ You can switch back at any time.</string>
     <inferredMetricsTieBreakers>
         <segue reference="igG-6b-YGC"/>
         <segue reference="Jjy-fa-RVY"/>
-        <segue reference="45x-UI-aGC"/>
+        <segue reference="ZCB-4G-bg0"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="BigVerifiedLogo" width="1200" height="1200"/>
