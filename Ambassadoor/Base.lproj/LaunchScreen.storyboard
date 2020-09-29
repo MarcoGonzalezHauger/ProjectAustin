@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17147" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17120"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,26 +17,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5ae-bm-csp">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="NiceIcon" translatesAutoresizingMaskIntoConstraints="NO" id="Wgt-MF-0mL">
-                                <rect key="frame" x="107.66666666666669" y="326" width="160" height="160"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoPlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="Wgt-MF-0mL">
+                                <rect key="frame" x="0.0" y="286" width="375" height="240"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="Wgt-MF-0mL" secondAttribute="height" id="bgJ-9e-6pX"/>
-                                    <constraint firstAttribute="width" constant="160" id="q9l-5d-fmT"/>
+                                    <constraint firstAttribute="height" constant="240" id="8vx-ek-Z6F"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="5ae-bm-csp" secondAttribute="trailing" id="72C-IN-W5R"/>
-                            <constraint firstAttribute="bottom" secondItem="5ae-bm-csp" secondAttribute="bottom" id="DJa-XX-MXe"/>
-                            <constraint firstItem="5ae-bm-csp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ESS-jz-LII"/>
-                            <constraint firstItem="Wgt-MF-0mL" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="H3z-0g-WAw"/>
                             <constraint firstItem="Wgt-MF-0mL" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="LeE-Dn-Ee7"/>
-                            <constraint firstItem="5ae-bm-csp" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="UIc-Jq-NXC"/>
+                            <constraint firstItem="Wgt-MF-0mL" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="RIE-hW-1mW"/>
+                            <constraint firstAttribute="trailing" secondItem="Wgt-MF-0mL" secondAttribute="trailing" id="gp9-Mh-h0o"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -45,6 +39,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="NiceIcon" width="480" height="480"/>
+        <image name="LogoPlaceholder" width="828" height="1792"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

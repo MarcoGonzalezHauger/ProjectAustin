@@ -80,6 +80,8 @@ class BankListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadbankList), name: Notification.Name("reloadbanklist"), object: nil)
+        
         shelf.dataSource = self
         shelf.delegate = self
         global.delegates.append(self)
@@ -97,6 +99,19 @@ class BankListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             shelf.isHidden = false
         }
 
+    }
+    
+    @objc func reloadbankList(){
+        getStripeAccDetails { (object, status, error) in
+            if error == nil {
+                if object != nil {
+                    self.emptybank_Lbl.isHidden = true
+                    self.shelf.isHidden = false
+                    self.StripeFSList = object!
+                    self.shelf.reloadData()
+                }
+            }
+        }
     }
     
     @IBAction func withDrawAction(sender: UIButton){

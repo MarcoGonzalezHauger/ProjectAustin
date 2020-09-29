@@ -106,7 +106,7 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 	func AccountCreationFailed(problem: CreateAccountProblem) {
 		wasFailed = true
 		
-		YouShallNotPass(SaveButtonView: CreateButtonView, returnColor: UIColor.init(named: "AmbassadoorOrange")!)
+		YouShallNotPass(SaveButtonView: CreateButtonView, returnColor: UIColor.init(named: "AmbDarkPurple")!)
 		
 		switch problem {
 		case .emailTaken:
@@ -140,7 +140,7 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 	func SetButtonState(enabled: Bool) {
 		UIView.animate(withDuration: 0.5) {
 			if enabled {
-				self.CreateButtonView.backgroundColor = UIColor.init(named: "AmbassadoorOrange")!
+				self.CreateButtonView.backgroundColor = UIColor.init(named: "AmbDarkPurple")!
 			} else {
 				self.CreateButtonView.backgroundColor = .systemGray
 			}
@@ -162,11 +162,11 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 		case 0:
 			cell.titleLabel.text = NewAccount.email == "" ? "Create Login" : "Login Created"
 			cell.SetSubtitle(string: NewAccount.email.lowercased())
-			cell.checkImage.image = UIImage.init(named: NewAccount.email == "" ? "check" : "check_fill")
+			cell.checkImage.image = UIImage.init(named: NewAccount.email == "" ? "setup_todo" : "setup_completed")
 		case 1:
 			cell.titleLabel.text = NewAccount.instagramUsername == "" ? "Connect Instagram" : "Instagram Connected"
 			cell.SetSubtitle(string: NewAccount.instagramUsername)
-			cell.checkImage.image = UIImage.init(named: NewAccount.instagramUsername == "" ? "check" : "check_fill")
+			cell.checkImage.image = UIImage.init(named: NewAccount.instagramUsername == "" ? "setup_todo" : "setup_completed")
 		case 2:
 			if NewAccount.zipCode == "" {
 				cell.titleLabel.text = "Enter Basic Information"
@@ -175,7 +175,7 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 				cell.titleLabel.text = "Basic Information Entered"
 				cell.SetSubtitle(string: "Categories: " + NewAccount.categories.joined(separator: ", "))
 			}
-			cell.checkImage.image = UIImage.init(named: NewAccount.zipCode == "" ? "check" : "check_fill")
+			cell.checkImage.image = UIImage.init(named: NewAccount.zipCode == "" ? "setup_todo" : "setup_completed")
 		default:
 			break
 		}
@@ -188,9 +188,10 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 		case 0:
 			performSegue(withIdentifier: "toCreateLogin", sender: self)
 		case 1:
-			performSegue(withIdentifier: "toConnectStepVC", sender: self)
+			performSegue(withIdentifier: "toConnectPVC", sender: self)
             //performSegue(withIdentifier: "toConnectInstagram", sender: self)
             //toConnectStepVC
+            //toConnectPVC toConnectPVC
 		case 2:
 			performSegue(withIdentifier: "toBasicInfo", sender: self)
 		default:

@@ -47,7 +47,7 @@ class SigninVC: UIViewController {
                 
                 if passwordText.text?.count != 0 {
                     
-                    filterQueryByField(email: emailText.text!) { (success, data) in
+                    filterQueryByField(email: emailText.text!.lowercased()) { (success, data) in
                         if success{
                             
                             var password = ""
@@ -62,8 +62,12 @@ class SigninVC: UIViewController {
                                 if AccessToken.current != nil {
                                     
                                     UserDefaults.standard.set(userID, forKey: "userID")
-                                    UserDefaults.standard.set(self.emailText.text!, forKey: "email")
+                                    UserDefaults.standard.set(self.emailText.text!.lowercased(), forKey: "email")
                                     UserDefaults.standard.set(self.passwordText.text!, forKey: "password")
+                                    
+                                    let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+                                    
+                                    print(appVersion)
                                     
                                     fetchSingleUserDetails(userID: userID) { (status, user) in
                                         Yourself = user
@@ -288,9 +292,9 @@ class SigninVC: UIViewController {
     
     func LoginSuccessful() {
         signinButton.Text = "Signed In"
-        self.authLabel.text = "Welcome Back"
-        self.authLabel.textColor = .systemGreen
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+		SetLabelText(text: "Welcome Back", animated: true)
+		self.authLabel.textColor = .systemGreen
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             //self.delegate?.DismissNow(sender: "signin")
             let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
             downloadDataBeforePageLoad(reference: viewReference)

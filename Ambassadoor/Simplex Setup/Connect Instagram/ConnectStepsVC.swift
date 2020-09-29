@@ -30,8 +30,13 @@ class ConnectStepsVC: UIViewController, VerificationReturned {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+       // connectICPageIndex = 0
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        connectICPageIndex = 0
     }
     
     @IBAction func connectAction(){
@@ -64,7 +69,7 @@ class ConnectStepsVC: UIViewController, VerificationReturned {
     }
     
     func getFBBusinessAccount() {
-        self.connectBtn.setTitle("CONNECTING..", for: .normal)
+        self.connectBtn.setTitle("CONNECTING...", for: .normal)
         API.facebookLoginBusinessAccount(owner: self) { (userDetail, longLiveToken, error) in
             
             if error == nil {
@@ -76,7 +81,7 @@ class ConnectStepsVC: UIViewController, VerificationReturned {
                         checkIfInstagramExist(id: NewAccount.id) { (exist, user)  in
                         
                         if exist{
-                            self.connectBtn.setTitle("CONNECT", for: .normal)
+                            self.connectBtn.setTitle("CONNECT TO INSTAGRAM", for: .normal)
                             self.showStandardAlertDialogWithMultipleAction(title: "Account in use", msg: "This Instagram account already belongs to a user.", titles: ["Sign In","Try Again"]) { (action) in
                                 
                                 if action.title == "Sign In"{
@@ -111,7 +116,7 @@ class ConnectStepsVC: UIViewController, VerificationReturned {
                                 
                                 updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
                                     
-                                    self.connectBtn.setTitle("CONNECT", for: .normal)
+                                    self.connectBtn.setTitle("CONNECT TO INSTAGRAM", for: .normal)
                                     
                                     if status{
                                         NewAccount.profilePicture = url!
@@ -135,7 +140,7 @@ class ConnectStepsVC: UIViewController, VerificationReturned {
                     }
                     
                     }else{
-                        self.connectBtn.setTitle("CONNECT", for: .normal)
+                        self.connectBtn.setTitle("CONNECT TO INSTAGRAM", for: .normal)
                         self.showStandardAlertDialog(title: "alert", msg: "Unknown error!") { (action) in
                             
                         }
@@ -144,7 +149,7 @@ class ConnectStepsVC: UIViewController, VerificationReturned {
                     
                 }else{
                     
-                    self.connectBtn.setTitle("CONNECT", for: .normal)
+                    self.connectBtn.setTitle("CONNECT TO INSTAGRAM", for: .normal)
                     if let err = error{
                         
                         print("ERROR: NO SERIALIZATION:\n\(err)")
@@ -181,7 +186,7 @@ class ConnectStepsVC: UIViewController, VerificationReturned {
                 
             }else{
                 
-                self.connectBtn.setTitle("CONNECT", for: .normal)
+                self.connectBtn.setTitle("CONNECT TO INSTAGRAM", for: .normal)
                 
                 print("THERE WAS AN ERROR.")
                 //                            self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later")

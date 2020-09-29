@@ -295,7 +295,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
 		fetchSingleUserDetails(userID: Yourself.id) { (status, user) in
-			if status {
+			if status {	
 				Yourself = user
 				setHapticMenu(user: user)
 				self.shelf.reloadData()
@@ -346,6 +346,9 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	}
 	
     @IBAction func referral_Action(_ sender: Any) {
+		self.performSegue(withIdentifier: "toReferralVC", sender: self)
+		return // That's all we need.
+		
         // text to share
         let text = "Ambassadoor Business Referral Code: \(Yourself!.referralcode)"
         
@@ -359,6 +362,10 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
         
         // present the view controller
         self.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    @IBAction func referralInfoAction(_ sender: Any){
+        self.performSegue(withIdentifier: "toReferralVC", sender: self)
     }
     
 }

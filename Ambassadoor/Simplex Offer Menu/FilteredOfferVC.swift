@@ -11,11 +11,11 @@ import UIKit
 
 
 class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, OfferResponse, refreshDelegate {
-	
-	func refreshOfferDate() {
-		filteredOfferAction(timer: nil)
-	}
-	
+    
+    func refreshOfferDate() {
+        filteredOfferAction(timer: nil)
+    }
+    
     func OfferAccepted(offer: Offer) {
         
     }
@@ -26,12 +26,12 @@ class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     override func viewDidLoad() {
         super.viewDidLoad()
-		
-		filteredOfferTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
+        
+        filteredOfferTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
         self.filteredOfferAction(timer: nil)
         
-		refreshDelegates.append(self)
-		
+        refreshDelegates.append(self)
+        
         // Do any additional setup after loading the view.
     }
     
@@ -55,52 +55,65 @@ class FilteredOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         //let identifier = "standardoffer"
         
         //let cell = filteredOfferTable.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! StandardOfferCell
-		var cell: StandardOfferCell!
+        var cell: StandardOfferCell!
         
         if cell == nil {
             let nib = Bundle.main.loadNibNamed("StandardOfferCell", owner: self, options: nil)
             cell = nib![0] as? StandardOfferCell
         }
-		
+        
         cell.offer = filteredOfferList[indexPath.row]
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
-		return unviersalOfferHeight
+        return unviersalOfferHeight
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         //FromFilteredToOV
         //self.performSegue(withIdentifier: "FromFilterOfferSegue", sender: filteredOfferList[indexPath.row].offer)
-        self.performSegue(withIdentifier: "FromFilteredToOV", sender: filteredOfferList[indexPath.row])
-        tableView.deselectRow(at: indexPath, animated: true)
+        let offerValue = filteredOfferList[indexPath.row]
+        let payCheck = getofferPayOfuser(offerValue: offerValue, user: Yourself)
+        if offerValue.isDefaultOffer{
+            self.performSegue(withIdentifier: "FromFilteredToOV", sender: offerValue)
+            tableView.deselectRow(at: indexPath, animated: true)
+        }else{
+            if payCheck != 0{
+                self.performSegue(withIdentifier: "FromFilteredToOV", sender: offerValue)
+                tableView.deselectRow(at: indexPath, animated: true)
+            }else{
+                self.showStandardAlertDialog(title: "You have low likes", msg: "Your pay for this offer is very low. Increse your instagram's post likes and try again later") { (alert) in
+                    
+                }
+            }
+        }
     }
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         /*
-        if segue.identifier == "FromFilterOfferSegue" {
-        //guard let newviewoffer = viewoffer else { return }
-        let destination = segue.destination
-        if let destination = (destination as! UINavigationController).topViewController as? OfferVC {
-            destination.delegate = self
-            destination.ThisOffer = sender as? Offer
-
-
-        }
-        }
-        */
+         if segue.identifier == "FromFilterOfferSegue" {
+         //guard let newviewoffer = viewoffer else { return }
+         let destination = segue.destination
+         if let destination = (destination as! UINavigationController).topViewController as? OfferVC {
+         destination.delegate = self
+         destination.ThisOffer = sender as? Offer
+         
+         
+         }
+         }
+         */
         
         if segue.identifier == "FromFilteredToOV" {
             //guard let newviewoffer = viewoffer else { return }
-			let destination = (segue.destination as! StandardNC).topViewController as! OfferViewerVC
-                 destination.offer = sender as? Offer
-				destination.thisParent = self
-             }
+            let destination = (segue.destination as! StandardNC).topViewController as! OfferViewerVC
+            destination.offer = sender as? Offer
+            destination.thisParent = self
+        }
         
     }
     
-
+    
 }

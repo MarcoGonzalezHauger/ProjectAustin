@@ -90,10 +90,11 @@ class StripeConnectionMKWebview: UIViewController, WKNavigationDelegate {
             /*
              if url.absoluteString.hasPrefix("https:connect.stripe.com/connect/default_new/oauth/test?") || url.absoluteString.hasPrefix("https://connect.stripe.com/connect/default/oauth/test?"){
              print("SUCCESS")
- */
+            */
             
             
             if url.absoluteString.hasPrefix("https://www.ambassadoor.co/paid?") || url.absoluteString.hasPrefix("https://www.ambassadoor.co/paid?code="){
+                
                 print("SUCCESS")
                 
                 if let range = url.absoluteString.range(of: "code=") {
@@ -124,6 +125,7 @@ class StripeConnectionMKWebview: UIViewController, WKNavigationDelegate {
                 if let accDetail = try JSONSerialization.jsonObject(with: data!, options: []) as? [String : Any] {
                     
                     createStripeAccToFIR(AccDetail:accDetail)
+                    NotificationCenter.default.post(name: Notification.Name("reloadbanklist"), object: nil, userInfo: ["userinfo":"1"])
                     DispatchQueue.main.async {
                         self.dismiss(animated: true, completion: nil)
                     }

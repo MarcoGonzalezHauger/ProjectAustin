@@ -26,6 +26,7 @@ class ResetPasswordVC: UIViewController {
 	var dontAnimate = false
 	var passwordWasReset = false
     var authenticationData = [String: AnyObject]()
+    var userEmail: String? = nil
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,9 +61,9 @@ class ResetPasswordVC: UIViewController {
         
         if EmailText.text?.count != 0 {
             
-            if isValidEmail(emailStr: EmailText.text!){
+            if isValidEmail(emailStr: EmailText.text!.lowercased()){
                 
-                filterQueryByField(email: EmailText.text!) { (exist,influencer) in
+                filterQueryByField(email: EmailText.text!.lowercased()) { (exist,influencer) in
                     
                     if exist{
                         var username = ""
@@ -71,8 +72,8 @@ class ResetPasswordVC: UIViewController {
                             username = value["username"] as! String
                         }
                         
-                        let params = ["email":self.EmailText.text!,"username":username] as [String: AnyObject]
-                        
+                        let params = ["email":self.EmailText.text!.lowercased(),"username":username] as [String: AnyObject]
+                        self.userEmail = self.EmailText.text!.lowercased()
                         APIManager.shared.sendOTPtoUserService(params: params) { (status, error, data) in
                             
                         
@@ -133,6 +134,7 @@ class ResetPasswordVC: UIViewController {
         if segue.identifier == "otpcheck"{
             let viewController = segue.destination as! VerifyOTPVC
             viewController.otp = sender as! Int
+            viewController.email = self.userEmail
             viewController.authenticationData = self.authenticationData
         }
     }

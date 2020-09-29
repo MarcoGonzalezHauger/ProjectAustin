@@ -34,6 +34,7 @@ class VerifyOTPVC: UIViewController {
     var authenticationData = [String: AnyObject]()
     
     var otp: Int = 0
+    var email: String? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +45,7 @@ class VerifyOTPVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
       DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
         if !self.dontAnimate {
-			self.SetLabelText(text: self.defaultText, animated: true)
+			//self.SetLabelText(text: self.defaultText, animated: true)
         }
     }
     }
@@ -222,6 +223,7 @@ class VerifyOTPVC: UIViewController {
             
             let setPasswordController = segue.destination as! SetPasswordVC
             setPasswordController.authenticationData = self.authenticationData
+            setPasswordController.userMail = self.email
             
         }
         

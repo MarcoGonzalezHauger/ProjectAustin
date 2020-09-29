@@ -25,6 +25,10 @@ import UIKit
 
 }
 
+func GetViewableSocialData() -> [User] {
+	return global.SocialData.filter{$0.version!.first != "0"}
+}
+
 class CentralVariables {
         var OffersHistory: [Offer] = [] { didSet {
             OffersHistory = OffersHistory.sorted{ (Offer1, Offer2) -> Bool in
@@ -83,6 +87,8 @@ class CentralVariables {
     var followOfferList = [Offer]()
     var allOfferList = [Offer]()
     var InstagramAPI: APImode? = nil
+    var appVersion: String? = nil
+    
 }
 
 let global = CentralVariables()

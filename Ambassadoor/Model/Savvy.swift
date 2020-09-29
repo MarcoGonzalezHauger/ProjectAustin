@@ -110,6 +110,21 @@ func DateToAgo(date: Date) -> String {
 	}
 }
 
+func getofferPayOfuser(offerValue: Offer, user: User) -> Double {
+    
+    var payCheck = 0.0
+    
+    if let incresePay = offerValue.incresePay {
+    payCheck = calculateCostForUser(offer: offerValue, user: Yourself, increasePayVariable: incresePay)
+    
+    }else{
+    payCheck = calculateCostForUser(offer: offerValue, user: Yourself)
+    }
+    
+    return payCheck
+    
+}
+
 func calculateCostForUser(offer: Offer, user: User, increasePayVariable: Double = 1.00) -> Double {
 	if offer.isDefaultOffer {
 		return 0
@@ -1081,6 +1096,27 @@ func isDeseralizable(dictionary: [String: AnyObject], type: structType) -> [Stri
 enum structType {
 	case offer
 	case businessDetails
+}
+
+func AnalyzeUser(user: User, offerValue: Offer) -> [SuspiciousFlags] {
+	
+	if user.followerCount < (user.averageLikes ?? 0) {
+		return [.moreLikesThanFollowers]
+	}
+	
+	return []
+	
+	//Fixed.
+	
+    var suspiciousFlags = [SuspiciousFlags]()
+    
+    let pay = calculateCostForUser(offer: offerValue, user: user, increasePayVariable: offerValue.incresePay!)
+    
+    if pay >= 1.5{
+        suspiciousFlags.append(.overMoneyExcess)
+    }
+    return suspiciousFlags
+    
 }
 
 
