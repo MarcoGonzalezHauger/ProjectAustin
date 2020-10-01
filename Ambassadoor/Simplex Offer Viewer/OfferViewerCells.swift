@@ -347,21 +347,38 @@ class ReservedCell: UITableViewCell {
 	
 	func updateReservedTime() {
 		
-		if let incresePay = self.offer!.incresePay {
-			
-			let pay = calculateCostForUser(offer: self.offer!, user: Yourself, increasePayVariable: incresePay)
-			let cash = (self.offer!.cashPower! + pay + (self.offer!.commission! * self.offer!.cashPower!))
-			updateCashPower(cash: cash, offer: self.offer!)
-			
-		}else{
-			
-			let pay = calculateCostForUser(offer: self.offer!, user: Yourself)
-			let cash = (self.offer!.cashPower! + pay + (self.offer!.commission! * self.offer!.cashPower!))
-			updateCashPower(cash: cash, offer: self.offer!)
-		}
-		removeReservedOfferStatus(offer: self.offer!)
-		self.offer!.reservedUsers?.removeValue(forKey: Yourself.id)
-		
+//		if let incresePay = self.offer!.incresePay {
+//
+//			let pay = calculateCostForUser(offer: self.offer!, user: Yourself, increasePayVariable: incresePay)
+//			let cash = (self.offer!.cashPower! + pay + (self.offer!.commission! * self.offer!.cashPower!))
+//			updateCashPower(cash: cash, offer: self.offer!)
+//
+//		}else{
+//
+//			let pay = calculateCostForUser(offer: self.offer!, user: Yourself)
+//			let cash = (self.offer!.cashPower! + pay + (self.offer!.commission! * self.offer!.cashPower!))
+//			updateCashPower(cash: cash, offer: self.offer!)
+//		}
+        
+        if let reservedData = self.offer?.reservedUsers![Yourself.id]{
+            
+            if let isReserved = reservedData["isReserved"] as? Bool{
+                
+                if isReserved{
+                    
+                    if let cash = reservedData["cashPower"] as? Double{
+                        
+                        let totalCash = (self.offer!.cashPower! + cash)
+                        updateCashPower(cash: totalCash, offer: self.offer!)
+                        removeReservedOfferStatus(offer: self.offer!)
+                        self.offer!.reservedUsers?.removeValue(forKey: Yourself.id)
+                    }
+                    
+                }
+                
+            }
+            
+        }
 	}
 	
 }

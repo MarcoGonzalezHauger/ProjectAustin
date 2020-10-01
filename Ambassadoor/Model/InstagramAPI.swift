@@ -843,6 +843,7 @@ struct API {
         let offerData: [String: Any] = [
             "offer_ID": offer.offer_ID,
             "money": offer.money,
+            "originalAmount": offer.originalAmount as Any,
             "commission": offer.commission ?? 0,
             "isCommissionPaid": offer.isCommissionPaid ?? false,
             "company": offer.company?.account_ID as Any,
