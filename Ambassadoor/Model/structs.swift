@@ -55,6 +55,8 @@ class Offer: NSObject {
     
     var status: String
 	var money: Double
+    var originalAmount: Double?
+    
     var company: Company?
 	var posts: [Post]
 	let offerdate: Date
@@ -240,6 +242,7 @@ class Offer: NSObject {
 		
         self.status = dictionary["status"] as! String
         self.money = dictionary["money"] as! Double
+        self.originalAmount = dictionary["originalAmount"] as? Double ?? 0.0
         self.company = nil
         guard let companyDetails = dictionary["companyDetails"] as? [String: AnyObject] else{
             throw NSError(domain: "companyDetails returned nil", code: 101, userInfo: ["class": "Offer Class", "value": dictionary])

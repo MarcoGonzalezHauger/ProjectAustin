@@ -75,6 +75,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     var delegate: inProgressDelegate?
     var thisParent: UIViewController?
+    var reservedCellRef: ReservedCell?
     
     func cancelOffer() {
         let alert = UIAlertController(title: "Are you sure?", message: "Cancelling this offer cannot be undone. You will not be paid.", preferredStyle: .alert)
@@ -305,6 +306,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         }
         cell!.reservedCellDelegate = self
         cell!.offer = self.offer!
+        self.reservedCellRef = cell
         return cell!
     }
     
@@ -512,6 +514,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     func acceptAction() {
         //		print("accept action was triggered.")
+        
         if self.offer!.isDefaultOffer {
             updateIsAcceptedOffer(offer: self.offer!, money: 0)
             updateUserIdOfferPool(offer: self.offer!)
@@ -523,6 +526,10 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         
         if self.offerCount < 2  {
             //			print("Offer Count < 2")
+            if self.reservedCellRef != nil{
+                self.reservedCellRef?.reservedTimer?.invalidate()
+                self.reservedCellRef?.reservedTimer = nil
+            }
             if let incresePay = self.offer!.incresePay {
                 //				print("increasPay DOES exist")
                 let pay = calculateCostForUser(offer: self.offer!, user: Yourself, increasePayVariable: incresePay)
@@ -536,6 +543,7 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
             //			print("try to dismiss")
             updateUserIdOfferPool(offer: self.offer!)
             removeReservedOfferStatus(offer: self.offer!)
+            self.offer!.reservedUsers?.removeValue(forKey: Yourself.id)
             self.dismiss(animated: true) {
                 //				print("change bar indexpath")
                 self.thisParent?.tabBarController?.selectedIndex = 3
@@ -596,7 +604,10 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                             print(dateOne)
                         }
                         let pay = calculateCostForUser(offer: self.offer!, user: Yourself, increasePayVariable: self.offer!.incresePay!)
-                        let deductedAmount = pay + (self.offer!.commission! * self.offer!.cashPower!)
+                        //Edited by ram on 01/oct/20
+                        //let deductedAmount = pay + (self.offer!.commission! * self.offer!.cashPower!)
+                        //let deductedAmount = pay + (self.offer!.commission! * pay)
+                        let deductedAmount = pay
                         let cash = (self.offer!.cashPower! - deductedAmount)
                         self.offer!.cashPower = cash
                         updateCashPower(cash: cash, offer: self.offer!)
