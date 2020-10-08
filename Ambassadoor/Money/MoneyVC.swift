@@ -18,7 +18,7 @@ protocol IncomingMoneyDelegate {
 class IncomingMoneyCell: UITableViewCell, SyncTimerDelegate {
 	
 	func Tick() {
-        if self.ThisOffer.allConfirmed {
+        if self.ThisOffer.allConfirmed! {
 			if let date = ThisOffer.allPostsConfirmedSince {
 				//User can only collect money after 2 days, or 172800 seconds.
 				TimeLeft.text = DateToCountdown(date: date.addingTimeInterval(172800))

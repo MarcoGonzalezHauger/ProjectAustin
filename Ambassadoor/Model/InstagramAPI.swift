@@ -843,6 +843,7 @@ struct API {
         let offerData: [String: Any] = [
             "offer_ID": offer.offer_ID,
             "money": offer.money,
+            "originalAmount": offer.originalAmount as Any,
             "commission": offer.commission ?? 0,
             "isCommissionPaid": offer.isCommissionPaid ?? false,
             "company": offer.company?.account_ID as Any,
@@ -851,7 +852,7 @@ struct API {
             "user_ID": offer.user_ID as Any,
             "expiredate": offer.expiredate.toString(dateFormat: "yyyy/MMM/dd HH:mm:ss"),
             "allPostsConfirmedSince": offerConSin,
-            "allConfirmed": offer.allConfirmed,
+            "allConfirmed": offer.allConfirmed!,
             "isAccepted": offer.isAccepted,
             "isExpired": offer.isExpired,"ownerUserID": offer.ownerUserID,
             "isAllPaid":false,

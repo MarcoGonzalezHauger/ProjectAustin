@@ -55,12 +55,16 @@ class Offer: NSObject {
     
     var status: String
 	var money: Double
+    var originalAmount: Double?
+    
     var company: Company?
 	var posts: [Post]
 	let offerdate: Date
 	let offer_ID: String
 	var expiredate: Date
 	var allPostsConfirmedSince: Date?
+    var allConfirmed: Bool?
+    /* @Marco we are updating allconfirm status on server side. it is important for paying amount for posted offer
 	var allConfirmed: Bool {
 		get {
 			var areConfirmed = true
@@ -72,6 +76,7 @@ class Offer: NSObject {
 			return areConfirmed
 		}
 	}
+ */
 	var isAccepted: Bool
 	var isExpired: Bool {
 		if self.isDefaultOffer {
@@ -237,6 +242,7 @@ class Offer: NSObject {
 		
         self.status = dictionary["status"] as! String
         self.money = dictionary["money"] as! Double
+        self.originalAmount = dictionary["originalAmount"] as? Double ?? 0.0
         self.company = nil
         guard let companyDetails = dictionary["companyDetails"] as? [String: AnyObject] else{
             throw NSError(domain: "companyDetails returned nil", code: 101, userInfo: ["class": "Offer Class", "value": dictionary])
@@ -327,6 +333,7 @@ class Offer: NSObject {
         self.refundedOn = dictionary["refundedOn"] as? String ?? ""
         self.acceptedDate =  ((dictionary["updatedDate"] as? String) != nil) ? getDateFromString(date: dictionary["updatedDate"] as! String) : nil
         self.reservedUsers = dictionary["reservedUsers"] as? [String: [String: AnyObject]] ?? [:]
+        self.allConfirmed = dictionary["allConfirmed"] as? Bool ?? false
         
     }
 }

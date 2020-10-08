@@ -615,7 +615,7 @@ func CheckForCompletedOffers(completion: (() -> Void)?) {
 	API.getRecentMedia { (mediaData: [[String:Any]]?) in
 		for OfferIndex in 0..<(global.AcceptedOffers.count) {
 			if global.AcceptedOffers[OfferIndex].isAccepted {
-				if !global.AcceptedOffers[OfferIndex].allConfirmed {
+				if !global.AcceptedOffers[OfferIndex].allConfirmed! {
 					//get instagram user media data
 					for var postVal in mediaData!{
                         //if let captionVal = (postVal["caption"] as? [String:Any]) {
