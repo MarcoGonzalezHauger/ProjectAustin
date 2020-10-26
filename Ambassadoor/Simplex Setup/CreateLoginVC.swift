@@ -130,6 +130,7 @@ class CreateLoginVC: UIViewController {
 		
 		infoLabel.textColor = .systemGreen
 		infoLabel.font = UIFont.systemFont(ofSize: 19, weight: .heavy)
+		self.view.endEditing(true)
 		SetLabelText(text: "Login Avaliable", animated: true)
         NewAccount.email = emailText.text!.lowercased()
         NewAccount.password = passwordText.text!.md5()

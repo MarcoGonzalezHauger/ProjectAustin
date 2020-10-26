@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="v51-aR-r1J">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="v51-aR-r1J">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -30,18 +31,18 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vdr-mx-wa2">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6YX-vW-yjb">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6YX-vW-yjb">
                                                 <rect key="frame" x="5" y="5" width="365" height="50"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                                 <state key="normal" title="Create Account">
-                                                    <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="titleColor" systemColor="labelColor"/>
                                                 </state>
                                                 <connections>
                                                     <segue destination="mwW-E7-XQH" kind="show" identifier="toCreateAccount" id="7vN-fI-hz5"/>
                                                 </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstItem="6YX-vW-yjb" firstAttribute="leading" secondItem="Vdr-mx-wa2" secondAttribute="leading" constant="5" id="2BP-FV-bVg"/>
                                             <constraint firstAttribute="trailing" secondItem="6YX-vW-yjb" secondAttribute="trailing" constant="5" id="OsY-O2-N8X"/>
@@ -84,7 +85,7 @@
                                 </constraints>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ambassadoor" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6hB-v0-KFK">
-                                <rect key="frame" x="102.33333333333333" y="186" width="170.66666666666669" height="30"/>
+                                <rect key="frame" x="102.66666666666669" y="186" width="170" height="30"/>
                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="25"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -99,7 +100,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hD8-EG-lBb">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hD8-EG-lBb">
                                         <rect key="frame" x="72.666666666666686" y="58.333333333333314" width="190" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="190" id="f6N-Nd-DL2"/>
@@ -112,7 +113,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="2Ad-NV-buo" firstAttribute="leading" secondItem="V6P-E7-vPB" secondAttribute="leading" id="4IZ-5J-7k9"/>
                                     <constraint firstItem="hD8-EG-lBb" firstAttribute="centerX" secondItem="V6P-E7-vPB" secondAttribute="centerX" constant="-4" id="BDa-dg-j9p"/>
@@ -122,18 +123,19 @@
                                     <constraint firstAttribute="trailing" secondItem="2Ad-NV-buo" secondAttribute="trailing" id="mtj-qT-D16"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pub-Zk-b3O">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pub-Zk-b3O">
                                 <rect key="frame" x="118.66666666666669" y="727" width="138" height="42"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <state key="normal" title="Forgot Password">
-                                    <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="titleColor" systemColor="labelColor"/>
                                 </state>
                                 <connections>
                                     <segue destination="Rgg-fw-SGe" kind="show" id="Jjy-fa-RVY"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="HMp-h3-kgY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="HMp-h3-kgY" firstAttribute="trailing" secondItem="HAv-qj-563" secondAttribute="trailing" id="0pP-iv-Zx1"/>
                             <constraint firstItem="HMp-h3-kgY" firstAttribute="bottom" secondItem="pub-Zk-b3O" secondAttribute="bottom" constant="9" id="35X-Qe-1ob"/>
@@ -150,7 +152,6 @@
                             <constraint firstItem="pub-Zk-b3O" firstAttribute="top" secondItem="HAv-qj-563" secondAttribute="bottom" constant="9" id="nTV-C8-hUL"/>
                             <constraint firstItem="6hB-v0-KFK" firstAttribute="top" secondItem="49f-TC-fyR" secondAttribute="bottom" constant="-10" id="zmq-qk-odT"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="HMp-h3-kgY"/>
                     </view>
                     <navigationItem key="navigationItem" id="4Af-g0-Wpl"/>
                     <connections>
@@ -175,7 +176,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ADm-ta-slb">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ADm-ta-slb">
                                             <rect key="frame" x="0.0" y="0.0" width="80" height="50"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="80" id="8Ir-a3-fac"/>
@@ -183,7 +184,7 @@
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <state key="normal" title="Close">
-                                                <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="titleColor" systemColor="labelColor"/>
                                             </state>
                                             <connections>
                                                 <action selector="closeSignUp:" destination="tmR-c8-O4g" eventType="touchUpInside" id="8fQ-Ke-rKx"/>
@@ -244,11 +245,11 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9uz-44-T5d">
-                                <rect key="frame" x="110.66666666666669" y="551" width="154" height="35"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9uz-44-T5d">
+                                <rect key="frame" x="111" y="551" width="153" height="35"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                 <state key="normal" title="Forgot Password">
-                                    <color key="titleColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleColor" systemColor="linkColor"/>
                                 </state>
                                 <connections>
                                     <segue destination="Rgg-fw-SGe" kind="show" id="8pw-Sq-bQw"/>
@@ -273,6 +274,7 @@
                                 </constraints>
                             </imageView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="FA3-v5-hvO"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="SZA-yN-6wJ" firstAttribute="centerX" secondItem="U5h-kO-y3g" secondAttribute="centerX" id="AjB-cR-dIw"/>
@@ -295,7 +297,6 @@
                             <constraint firstItem="ceS-4g-VbG" firstAttribute="trailing" secondItem="FA3-v5-hvO" secondAttribute="trailing" id="pBL-ep-vfH"/>
                             <constraint firstItem="9uz-44-T5d" firstAttribute="centerX" secondItem="U5h-kO-y3g" secondAttribute="centerX" id="t1j-ww-GwO"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="FA3-v5-hvO"/>
                     </view>
                     <navigationItem key="navigationItem" id="HEr-oG-HIM"/>
                     <connections>
@@ -329,7 +330,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g8Q-Kz-2K7">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g8Q-Kz-2K7">
                                             <rect key="frame" x="0.0" y="0.0" width="80" height="50"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="50" id="7UO-A6-KPz"/>
@@ -337,7 +338,7 @@
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <state key="normal" title="Close">
-                                                <color key="titleColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="titleColor" systemColor="linkColor"/>
                                             </state>
                                             <connections>
                                                 <action selector="closeButton:" destination="Rgg-fw-SGe" eventType="touchUpInside" id="a5V-1M-Cha"/>
@@ -377,7 +378,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yrq-EV-jTr" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="25" y="629" width="325" height="70"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z0q-Jf-raR">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z0q-Jf-raR">
                                         <rect key="frame" x="5" y="5" width="315" height="60"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                         <state key="normal" title="Reset Password">
@@ -388,7 +389,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemGreenColor"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="Z0q-Jf-raR" secondAttribute="trailing" constant="5" id="56N-qt-ADr"/>
                                     <constraint firstAttribute="height" constant="70" id="CPU-49-ZT5"/>
@@ -407,11 +408,12 @@
                                         <real key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="ShadowColor">
-                                        <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="value" systemColor="labelColor"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="abD-Lj-3WX"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="3MB-Fn-MDY" secondAttribute="bottom" id="0N7-ey-7nJ"/>
@@ -422,7 +424,6 @@
                             <constraint firstItem="3MB-Fn-MDY" firstAttribute="leading" secondItem="Jgp-EM-7Ma" secondAttribute="leading" id="nzc-Se-2KT"/>
                             <constraint firstItem="3MB-Fn-MDY" firstAttribute="top" secondItem="abD-Lj-3WX" secondAttribute="top" id="sgC-Oh-HNL"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="abD-Lj-3WX"/>
                     </view>
                     <navigationItem key="navigationItem" id="yTk-Ch-wh4"/>
                     <connections>
@@ -455,7 +456,7 @@
                                 <blurEffect style="prominent"/>
                             </visualEffectView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign Up for Ambassadoor" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yzt-Y4-677">
-                                <rect key="frame" x="57" y="80" width="261.33333333333331" height="25.333333333333329"/>
+                                <rect key="frame" x="57.666666666666657" y="80" width="260" height="25.333333333333329"/>
                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="21"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -468,7 +469,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="85"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="euc-jW-1y7" id="VCS-N5-Zlh">
-                                            <rect key="frame" x="0.0" y="0.0" width="349" height="85"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="347.66666666666669" height="85"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="setup_todo" translatesAutoresizingMaskIntoConstraints="NO" id="Pdz-lW-xQc">
@@ -479,13 +480,13 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Login" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="96g-DP-25x">
-                                                    <rect key="frame" x="56" y="23" width="277" height="21"/>
+                                                    <rect key="frame" x="56" y="23" width="275.66666666666669" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="marcogonzalezhauger" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jaa-9W-Lkg">
-                                                    <rect key="frame" x="56" y="43" width="285" height="21"/>
+                                                    <rect key="frame" x="56" y="43" width="283.66666666666669" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -515,7 +516,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="juE-ov-s1N" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="25" y="619" width="325" height="70"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zMn-ex-SVT">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zMn-ex-SVT">
                                         <rect key="frame" x="5" y="5" width="315" height="60"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                         <state key="normal" title="Create Account">
@@ -526,7 +527,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemGrayColor"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="zMn-ex-SVT" secondAttribute="bottom" constant="5" id="EnM-XR-0pw"/>
                                     <constraint firstAttribute="height" constant="70" id="LP6-g2-5vL"/>
@@ -549,25 +550,26 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fQZ-XY-7uH">
-                                <rect key="frame" x="53.666666666666657" y="108.33333333333333" width="268" height="33.999999999999986"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fQZ-XY-7uH">
+                                <rect key="frame" x="55" y="108.33333333333333" width="265" height="33.999999999999986"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="(press here if you are a business)"/>
                                 <connections>
                                     <action selector="YesImABusiness:" destination="kfZ-Nb-ICJ" eventType="touchUpInside" id="9bg-fc-MSj"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="28P-oJ-eTb">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="28P-oJ-eTb">
                                 <rect key="frame" x="16" y="10" width="56" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Cancel">
-                                    <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="titleColor" systemColor="labelColor"/>
                                 </state>
                                 <connections>
                                     <action selector="cancelled:" destination="kfZ-Nb-ICJ" eventType="touchUpInside" id="537-vc-XKj"/>
                                 </connections>
                             </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="SKJ-aB-9x3"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="juE-ov-s1N" firstAttribute="leading" secondItem="SKJ-aB-9x3" secondAttribute="leading" constant="25" id="0Zn-gU-Yao"/>
@@ -588,7 +590,6 @@
                             <constraint firstItem="28P-oJ-eTb" firstAttribute="leading" secondItem="SKJ-aB-9x3" secondAttribute="leading" constant="16" id="vu2-J5-Bns"/>
                             <constraint firstItem="SKJ-aB-9x3" firstAttribute="bottom" secondItem="juE-ov-s1N" secondAttribute="bottom" constant="35" id="xQC-tQ-LnV"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="SKJ-aB-9x3"/>
                     </view>
                     <navigationItem key="navigationItem" id="Fdc-qE-laA"/>
                     <connections>
@@ -615,7 +616,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mlt-2p-WuR" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="16" y="345.33333333333331" width="343" height="160"/>
+                                <rect key="frame" x="16" y="434" width="343" height="160"/>
                                 <subviews>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zal-J2-CWk" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="160"/>
@@ -647,7 +648,7 @@
                                                 <real key="value" value="0.0"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="value" systemColor="labelColor"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
@@ -677,18 +678,18 @@
                                         <real key="value" value="0.25"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="value" systemColor="labelColor"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What will people see?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Yd-5A-qu0">
-                                <rect key="frame" x="16" y="108" width="343" height="25.333333333333343"/>
+                                <rect key="frame" x="16" y="196.66666666666666" width="343" height="25.333333333333343"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VLs-No-U0u">
-                                <rect key="frame" x="16" y="141.33333333333334" width="343" height="172.00000000000003"/>
+                                <rect key="frame" x="16" y="230" width="343" height="172"/>
                                 <string key="text">Don't want to have your Instagram account to look like a Business page? The only thing that changes is a small gray label with a category on it, and the best part is you can select to hide this.
 
 Nobody will know your account type is Business.</string>
@@ -697,19 +698,19 @@ Nobody will know your account type is Business.</string>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="LxO-Jy-Nc3"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="LxO-Jy-Nc3" firstAttribute="trailing" secondItem="VLs-No-U0u" secondAttribute="trailing" constant="16" id="5AI-F6-q73"/>
+                            <constraint firstItem="VLs-No-U0u" firstAttribute="centerY" secondItem="red-i7-2t1" secondAttribute="centerY" constant="-90" id="E6P-vq-qTZ"/>
                             <constraint firstItem="VLs-No-U0u" firstAttribute="top" secondItem="6Yd-5A-qu0" secondAttribute="bottom" constant="8" id="ITt-yN-1er"/>
                             <constraint firstItem="6Yd-5A-qu0" firstAttribute="leading" secondItem="LxO-Jy-Nc3" secondAttribute="leading" constant="16" id="OsV-uN-c5X"/>
-                            <constraint firstItem="6Yd-5A-qu0" firstAttribute="top" secondItem="LxO-Jy-Nc3" secondAttribute="top" constant="64" id="Rxq-qN-P7L"/>
                             <constraint firstItem="Mlt-2p-WuR" firstAttribute="leading" secondItem="LxO-Jy-Nc3" secondAttribute="leading" constant="16" id="T1A-sM-VTq"/>
                             <constraint firstAttribute="trailing" secondItem="Mlt-2p-WuR" secondAttribute="trailing" constant="16" id="WwC-db-KCd"/>
                             <constraint firstItem="Mlt-2p-WuR" firstAttribute="top" secondItem="VLs-No-U0u" secondAttribute="bottom" constant="32" id="cg9-ND-ZYE"/>
                             <constraint firstItem="LxO-Jy-Nc3" firstAttribute="trailing" secondItem="6Yd-5A-qu0" secondAttribute="trailing" constant="16" id="qkb-as-YeQ"/>
                             <constraint firstItem="VLs-No-U0u" firstAttribute="leading" secondItem="LxO-Jy-Nc3" secondAttribute="leading" constant="16" id="v0M-AB-Myj"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="LxO-Jy-Nc3"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2eX-U5-smt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -727,7 +728,7 @@ Nobody will know your account type is Business.</string>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BI6-kG-05a" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="162.66666666666666" y="381" width="50" height="50"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ea1-mK-9MA">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ea1-mK-9MA">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <state key="normal" backgroundImage="replay"/>
                                         <connections>
@@ -746,12 +747,12 @@ Nobody will know your account type is Business.</string>
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="a14-y5-AxF"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="BI6-kG-05a" firstAttribute="centerY" secondItem="Qal-Mo-1ZX" secondAttribute="centerY" id="1lm-oI-Ul4"/>
                             <constraint firstItem="BI6-kG-05a" firstAttribute="centerX" secondItem="Qal-Mo-1ZX" secondAttribute="centerX" id="ZxT-d1-Hyt"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="a14-y5-AxF"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <connections>
@@ -772,7 +773,7 @@ Nobody will know your account type is Business.</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MIf-VF-4fd" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="16" y="373.66666666666669" width="343" height="65"/>
+                                <rect key="frame" x="16" y="683" width="343" height="65"/>
                                 <subviews>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MSu-w2-F5P" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="65"/>
@@ -780,7 +781,7 @@ Nobody will know your account type is Business.</string>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Instagrad" translatesAutoresizingMaskIntoConstraints="NO" id="ODf-Ud-DhV">
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="65"/>
                                             </imageView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B6b-8y-j2H">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B6b-8y-j2H">
                                                 <rect key="frame" x="3" y="3" width="340" height="59"/>
                                                 <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="24"/>
                                                 <state key="normal" title="CONNECT TO INSTAGRAM">
@@ -791,7 +792,7 @@ Nobody will know your account type is Business.</string>
                                                 </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" systemColor="systemPurpleColor"/>
                                         <constraints>
                                             <constraint firstItem="ODf-Ud-DhV" firstAttribute="leading" secondItem="MSu-w2-F5P" secondAttribute="leading" id="BjH-Qk-sy1"/>
                                             <constraint firstAttribute="bottom" secondItem="B6b-8y-j2H" secondAttribute="bottom" constant="3" id="HNO-3J-izX"/>
@@ -819,12 +820,12 @@ Nobody will know your account type is Business.</string>
                                                 <real key="value" value="0.0"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="value" systemColor="labelColor"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemPurpleColor"/>
                                 <constraints>
                                     <constraint firstItem="MSu-w2-F5P" firstAttribute="top" secondItem="MIf-VF-4fd" secondAttribute="top" id="2Pj-XO-yxh"/>
                                     <constraint firstAttribute="bottom" secondItem="MSu-w2-F5P" secondAttribute="bottom" id="P9x-kd-S5y"/>
@@ -849,19 +850,38 @@ Nobody will know your account type is Business.</string>
                                         <real key="value" value="0.25"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="value" systemColor="labelColor"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Sn-Wx-O7O">
+                                <rect key="frame" x="16" y="562" width="343" height="91"/>
+                                <string key="text">When you have all previous steps completed, press "Connect to Instagram" to link you account!
+</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="NiceIcon" translatesAutoresizingMaskIntoConstraints="NO" id="jAZ-x8-PQC">
+                                <rect key="frame" x="123.66666666666669" y="114" width="128" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="128" id="ZKl-qm-b0n"/>
+                                    <constraint firstAttribute="height" constant="128" id="vpe-J1-74C"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="MIf-VF-4fd" firstAttribute="centerX" secondItem="5fI-kp-Gdu" secondAttribute="centerX" id="T9x-fz-JL0"/>
-                            <constraint firstAttribute="trailing" secondItem="MIf-VF-4fd" secondAttribute="trailing" constant="16" id="gPK-i2-urx"/>
-                            <constraint firstItem="MIf-VF-4fd" firstAttribute="centerY" secondItem="5fI-kp-Gdu" secondAttribute="centerY" id="nj7-sm-UjL"/>
-                            <constraint firstItem="MIf-VF-4fd" firstAttribute="leading" secondItem="5fI-kp-Gdu" secondAttribute="leading" constant="16" id="o2K-nC-esk"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="vDb-p7-m2N"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="jAZ-x8-PQC" firstAttribute="centerX" secondItem="5fI-kp-Gdu" secondAttribute="centerX" id="3ES-NO-Jjy"/>
+                            <constraint firstItem="vDb-p7-m2N" firstAttribute="bottom" secondItem="MIf-VF-4fd" secondAttribute="bottom" constant="30" id="6lG-NF-0kl"/>
+                            <constraint firstItem="MIf-VF-4fd" firstAttribute="top" secondItem="3Sn-Wx-O7O" secondAttribute="bottom" constant="30" id="TfO-Di-mSJ"/>
+                            <constraint firstItem="jAZ-x8-PQC" firstAttribute="top" secondItem="vDb-p7-m2N" secondAttribute="top" constant="70" id="ewN-MM-Cex"/>
+                            <constraint firstAttribute="trailing" secondItem="MIf-VF-4fd" secondAttribute="trailing" constant="16" id="gPK-i2-urx"/>
+                            <constraint firstItem="MIf-VF-4fd" firstAttribute="leading" secondItem="5fI-kp-Gdu" secondAttribute="leading" constant="16" id="o2K-nC-esk"/>
+                            <constraint firstAttribute="trailing" secondItem="3Sn-Wx-O7O" secondAttribute="trailing" constant="16" id="uqd-ug-VpN"/>
+                            <constraint firstItem="3Sn-Wx-O7O" firstAttribute="leading" secondItem="vDb-p7-m2N" secondAttribute="leading" constant="16" id="yvZ-na-4WZ"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="Step2View" destination="MIf-VF-4fd" id="9yq-7I-5qA"/>
@@ -884,7 +904,7 @@ Nobody will know your account type is Business.</string>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vP8-UR-wyM" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                 <subviews>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="US0-Uq-k6F">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="US0-Uq-k6F">
                                         <rect key="frame" x="12" y="0.0" width="59" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                         <state key="normal" title="Cancel"/>
@@ -893,13 +913,13 @@ Nobody will know your account type is Business.</string>
                                         </connections>
                                     </button>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connect to Instagram" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XNZ-R6-oUJ">
-                                        <rect key="frame" x="91.333333333333329" y="13.666666666666664" width="192.33333333333337" height="23"/>
+                                        <rect key="frame" x="92" y="13.666666666666664" width="191" height="23"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="US0-Uq-k6F" secondAttribute="bottom" id="2FN-aC-TPa"/>
                                     <constraint firstItem="US0-Uq-k6F" firstAttribute="top" secondItem="vP8-UR-wyM" secondAttribute="top" id="2Xq-nD-PH6"/>
@@ -921,17 +941,17 @@ Nobody will know your account type is Business.</string>
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tdb-5B-5ws" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="16" y="231" width="343" height="167.66666666666663"/>
+                                <rect key="frame" x="16" y="276" width="343" height="206"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0mF-wS-qfr">
-                                        <rect key="frame" x="8" y="37.000000000000007" width="327" height="114.66666666666669"/>
+                                        <rect key="frame" x="8" y="37" width="327" height="153"/>
                                         <string key="text">Because you will be an influencer, you need to switch your Instagram account to "Business" and connect a Facebook Page.
-Nobody will be able to tell your account is a Business account, and you will also have access to free analytics.</string>
+Nobody will be able to tell your account is a Business account, and you will also have access to free analytics. Even if you weren't making an account with Ambassadoor, switching is worth it.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="0mF-wS-qfr" secondAttribute="trailing" constant="8" id="a05-qu-Lzi"/>
                                     <constraint firstItem="0mF-wS-qfr" firstAttribute="leading" secondItem="Tdb-5B-5ws" secondAttribute="leading" constant="8" id="eOB-8g-1LW"/>
@@ -955,12 +975,12 @@ Nobody will be able to tell your account is a Business account, and you will als
                                         <real key="value" value="1"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="value" systemColor="systemRedColor"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8ge-NQ-5ft" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="103.66666666666669" y="216" width="168" height="35"/>
+                                <rect key="frame" x="103.66666666666669" y="261" width="168" height="35"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IMPORTANT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VqP-xF-yrf">
                                         <rect key="frame" x="16" y="3" width="136" height="29"/>
@@ -969,7 +989,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemRedColor"/>
                                 <constraints>
                                     <constraint firstItem="VqP-xF-yrf" firstAttribute="centerX" secondItem="8ge-NQ-5ft" secondAttribute="centerX" id="C2J-dF-nhv"/>
                                     <constraint firstAttribute="trailing" secondItem="VqP-xF-yrf" secondAttribute="trailing" constant="16" id="NRZ-jt-iO5"/>
@@ -997,23 +1017,23 @@ Nobody will be able to tell your account is a Business account, and you will als
                                         <real key="value" value="0.0"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="value" systemColor="labelColor"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="Rx3-4G-dTh"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Tdb-5B-5ws" secondAttribute="trailing" constant="16" id="1kB-jf-lhC"/>
                             <constraint firstItem="8ge-NQ-5ft" firstAttribute="top" secondItem="Tdb-5B-5ws" secondAttribute="top" constant="-15" id="4Z2-rV-uux"/>
-                            <constraint firstItem="Tdb-5B-5ws" firstAttribute="top" secondItem="vP8-UR-wyM" secondAttribute="bottom" constant="181" id="5R0-Wi-2uG"/>
                             <constraint firstAttribute="trailing" secondItem="vP8-UR-wyM" secondAttribute="trailing" id="XL6-eO-xIk"/>
                             <constraint firstItem="vP8-UR-wyM" firstAttribute="top" secondItem="bn0-Wn-nqp" secondAttribute="top" id="c7f-ip-thb"/>
                             <constraint firstItem="8ge-NQ-5ft" firstAttribute="centerX" secondItem="bn0-Wn-nqp" secondAttribute="centerX" id="o1o-qt-sVR"/>
+                            <constraint firstItem="Tdb-5B-5ws" firstAttribute="centerY" secondItem="bn0-Wn-nqp" secondAttribute="centerY" id="pVx-cf-11W"/>
                             <constraint firstItem="Tdb-5B-5ws" firstAttribute="leading" secondItem="bn0-Wn-nqp" secondAttribute="leading" constant="16" id="pr3-DS-HJi"/>
                             <constraint firstItem="vP8-UR-wyM" firstAttribute="leading" secondItem="Rx3-4G-dTh" secondAttribute="leading" id="puv-Js-Gxx"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="Rx3-4G-dTh"/>
                     </view>
                     <navigationItem key="navigationItem" id="BmI-wi-TX3"/>
                     <connections>
@@ -1057,7 +1077,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Help Local Businesses Find You." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nb5-S5-DVX">
                                                                 <rect key="frame" x="0.0" y="21" width="195" height="15.666666666666664"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                                <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <color key="textColor" systemColor="systemGrayColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                         </subviews>
@@ -1097,7 +1117,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                                                         <blurEffect style="regular"/>
                                                                     </visualEffectView>
                                                                 </subviews>
-                                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="bottom" secondItem="HaY-NO-YV2" secondAttribute="bottom" constant="-35" id="49x-nQ-6oe"/>
                                                                     <constraint firstAttribute="trailing" secondItem="HaY-NO-YV2" secondAttribute="trailing" id="4Pc-li-aYJ"/>
@@ -1136,7 +1156,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                                                 </connections>
                                                             </textField>
                                                         </subviews>
-                                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <constraints>
                                                             <constraint firstAttribute="trailing" secondItem="EoQ-Rr-yhK" secondAttribute="trailing" id="49N-FI-wsO"/>
                                                             <constraint firstItem="I4Z-3A-8st" firstAttribute="centerY" secondItem="kUh-eV-52b" secondAttribute="centerY" id="7VT-m3-RyK"/>
@@ -1158,7 +1178,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                 </subviews>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="170" id="6e2-BW-DYb"/>
                                                     <constraint firstItem="qV7-Xp-23N" firstAttribute="leading" secondItem="IQ3-Qq-ozX" secondAttribute="leading" id="7aI-um-ASe"/>
@@ -1189,7 +1209,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Help Businesses Find Their Ideal Influencers" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="lZK-FK-Pdh">
                                                                 <rect key="frame" x="0.0" y="21.000000000000028" width="276" height="15.666666666666664"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                                <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <color key="textColor" systemColor="systemGrayColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                         </subviews>
@@ -1220,7 +1240,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                                         </segments>
                                                     </segmentedControl>
                                                 </subviews>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstItem="57n-x0-MQA" firstAttribute="centerY" secondItem="WJy-Ml-UMB" secondAttribute="centerY" id="1EZ-Mj-rTb"/>
                                                     <constraint firstItem="57n-x0-MQA" firstAttribute="leading" secondItem="WJy-Ml-UMB" secondAttribute="trailing" constant="15" id="7vR-Tz-cn0"/>
@@ -1251,7 +1271,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Help Businesses Find Your Interests." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WJ4-Y2-c6e">
                                                                 <rect key="frame" x="0.0" y="21" width="220.33333333333334" height="15.666666666666664"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                                <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <color key="textColor" systemColor="systemGrayColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                         </subviews>
@@ -1276,18 +1296,18 @@ Nobody will be able to tell your account is a Business account, and you will als
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sd1-ZR-eHi" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="64" width="343" height="40"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZGK-3u-dtO">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZGK-3u-dtO">
                                                                 <rect key="frame" x="5" y="5" width="333" height="30"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                                 <state key="normal" title="Pick Categories">
-                                                                    <color key="titleColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <color key="titleColor" systemColor="linkColor"/>
                                                                 </state>
                                                                 <connections>
                                                                     <action selector="pickCategories:" destination="cUN-vh-p8G" eventType="touchUpInside" id="FKe-ZC-dGv"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
-                                                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="NJh-aN-39D"/>
                                                             <constraint firstItem="ZGK-3u-dtO" firstAttribute="top" secondItem="sd1-ZR-eHi" secondAttribute="top" constant="5" id="Ui4-zJ-sjM"/>
@@ -1311,13 +1331,13 @@ Nobody will be able to tell your account is a Business account, and you will als
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Categories Picked" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dcc-yo-7TY">
-                                                        <rect key="frame" x="84.333333333333329" y="120.00000000000001" width="174.33333333333337" height="21.666666666666671"/>
+                                                        <rect key="frame" x="85.000000000000014" y="120.00000000000001" width="173.33333333333337" height="21.666666666666671"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                        <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="textColor" systemColor="systemGrayColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstItem="sd1-ZR-eHi" firstAttribute="leading" secondItem="N7P-E2-Rxe" secondAttribute="leading" id="1Qv-kz-bBd"/>
                                                     <constraint firstItem="dcc-yo-7TY" firstAttribute="centerX" secondItem="sd1-ZR-eHi" secondAttribute="centerX" id="74l-9a-GMQ"/>
@@ -1361,12 +1381,12 @@ Nobody will be able to tell your account is a Business account, and you will als
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Basic Information" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hUm-Xb-gk5">
-                                        <rect key="frame" x="109.66666666666667" y="13.666666666666664" width="155.66666666666663" height="23"/>
+                                        <rect key="frame" x="110.33333333333333" y="13.666666666666664" width="154.66666666666669" height="23"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u9s-eQ-byO">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u9s-eQ-byO">
                                         <rect key="frame" x="12" y="0.0" width="59" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                         <state key="normal" title="Cancel"/>
@@ -1376,7 +1396,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="u9s-eQ-byO" firstAttribute="leading" secondItem="WbZ-R8-rS4" secondAttribute="leading" constant="12" id="45T-zs-noT"/>
                                     <constraint firstAttribute="height" constant="50" id="FX6-CT-WmX"/>
@@ -1400,7 +1420,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LbZ-Rd-Bll" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="25" y="648" width="325" height="60"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JgF-yd-w2S">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JgF-yd-w2S">
                                         <rect key="frame" x="5" y="5" width="315" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                         <state key="normal" title="Finish">
@@ -1411,7 +1431,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="7rh-HO-lVz"/>
                                     <constraint firstItem="JgF-yd-w2S" firstAttribute="top" secondItem="LbZ-Rd-Bll" secondAttribute="top" constant="5" id="Qfu-Hl-WeM"/>
@@ -1435,7 +1455,8 @@ Nobody will be able to tell your account is a Business account, and you will als
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="gMf-kh-TT3"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="gMf-kh-TT3" firstAttribute="trailing" secondItem="WbZ-R8-rS4" secondAttribute="trailing" id="4xA-3m-6nT"/>
@@ -1449,7 +1470,6 @@ Nobody will be able to tell your account is a Business account, and you will als
                             <constraint firstItem="WbZ-R8-rS4" firstAttribute="top" secondItem="gMf-kh-TT3" secondAttribute="top" id="uf4-ae-JNY"/>
                             <constraint firstItem="LbZ-Rd-Bll" firstAttribute="leading" secondItem="gMf-kh-TT3" secondAttribute="leading" constant="25" id="ury-jb-OvP"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="gMf-kh-TT3"/>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="QkC-9d-vbe" appends="YES" id="kcE-sT-Bc1"/>
                         </connections>
@@ -1530,7 +1550,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                         </connections>
                                     </textField>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="MmH-1B-JKp" firstAttribute="leading" secondItem="qfP-bn-74X" secondAttribute="leading" id="2c9-Qz-gQC"/>
                                     <constraint firstItem="1fy-11-Xcs" firstAttribute="top" secondItem="cpy-0e-wy0" secondAttribute="bottom" constant="8" id="51T-Kv-w9X"/>
@@ -1554,8 +1574,8 @@ Nobody will be able to tell your account is a Business account, and you will als
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OfW-dF-4oW">
-                                <rect key="frame" x="16" y="10" width="43" height="35"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OfW-dF-4oW">
+                                <rect key="frame" x="16" y="10" width="42" height="35"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <state key="normal" title="Back"/>
                                 <connections>
@@ -1565,7 +1585,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LKA-tU-D70" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="25" y="619" width="325" height="70"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sna-l0-cgQ">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sna-l0-cgQ">
                                         <rect key="frame" x="5" y="5" width="315" height="60"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                         <state key="normal" title="Proceed">
@@ -1576,7 +1596,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="sna-l0-cgQ" secondAttribute="trailing" constant="5" id="4Z2-Zo-z4P"/>
                                     <constraint firstAttribute="bottom" secondItem="sna-l0-cgQ" secondAttribute="bottom" constant="5" id="gqL-rT-c56"/>
@@ -1600,7 +1620,8 @@ Nobody will be able to tell your account is a Business account, and you will als
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="o1v-qd-KQM"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="LKA-tU-D70" firstAttribute="leading" secondItem="o1v-qd-KQM" secondAttribute="leading" constant="25" id="7qR-hn-ieF"/>
@@ -1613,7 +1634,6 @@ Nobody will be able to tell your account is a Business account, and you will als
                             <constraint firstItem="LPj-LX-Oql" firstAttribute="top" secondItem="o1v-qd-KQM" secondAttribute="top" constant="17" id="xBk-lT-N3T"/>
                             <constraint firstItem="OfW-dF-4oW" firstAttribute="top" secondItem="o1v-qd-KQM" secondAttribute="top" constant="10" id="zk2-BQ-gMA"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="o1v-qd-KQM"/>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="KpP-sp-7cW" appends="YES" id="rgQ-AW-Fzv"/>
                         </connections>
@@ -1649,7 +1669,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                         <subviews>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="amH-QC-oxE">
                                 <rect key="frame" x="0.0" y="60" width="375" height="698"/>
-                                <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>
@@ -1665,7 +1685,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="ebZ-kb-deg" firstAttribute="centerY" secondItem="shl-2u-vYT" secondAttribute="centerY" id="Qkp-sh-ya8"/>
                                     <constraint firstAttribute="height" constant="60" id="flG-nv-caT"/>
@@ -1686,7 +1706,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hab-K0-uvM">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hab-K0-uvM">
                                 <rect key="frame" x="10" y="12.666666666666664" width="59" height="35"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <state key="normal" title="Cancel"/>
@@ -1694,11 +1714,12 @@ Nobody will be able to tell your account is a Business account, and you will als
                                     <action selector="cancelButtonPressed:" destination="vZn-Ev-RPO" eventType="touchUpInside" id="3c4-Rb-PIh"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="YG9-li-ShA">
-                                <rect key="frame" x="169" y="360.66666666666669" width="37" height="37"/>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="YG9-li-ShA">
+                                <rect key="frame" x="177.66666666666666" y="369" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="0yY-4n-9J2"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="0yY-4n-9J2" firstAttribute="trailing" secondItem="amH-QC-oxE" secondAttribute="trailing" id="8OC-rp-Cv7"/>
                             <constraint firstItem="0yY-4n-9J2" firstAttribute="trailing" secondItem="shl-2u-vYT" secondAttribute="trailing" id="Gdn-g3-8Vx"/>
@@ -1712,7 +1733,6 @@ Nobody will be able to tell your account is a Business account, and you will als
                             <constraint firstItem="amH-QC-oxE" firstAttribute="leading" secondItem="0yY-4n-9J2" secondAttribute="leading" id="qVr-Wp-C7N"/>
                             <constraint firstItem="Hab-K0-uvM" firstAttribute="leading" secondItem="0yY-4n-9J2" secondAttribute="leading" constant="10" id="rXY-G8-ior"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="0yY-4n-9J2"/>
                     </view>
                     <navigationItem key="navigationItem" id="3aM-rX-WvN"/>
                     <connections>
@@ -1787,7 +1807,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="IFY-xj-DDP" secondAttribute="trailing" constant="12" id="0Na-bY-daB"/>
                                                 <constraint firstItem="IFY-xj-DDP" firstAttribute="centerX" secondItem="sTC-l6-fbQ" secondAttribute="centerX" id="1HN-oN-rNk"/>
@@ -1833,8 +1853,8 @@ Nobody will be able to tell your account is a Business account, and you will als
                                 </view>
                                 <blurEffect style="prominent"/>
                             </visualEffectView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yf2-1h-LPd">
-                                <rect key="frame" x="127.66666666666669" y="658" width="120" height="66"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yf2-1h-LPd">
+                                <rect key="frame" x="127" y="658" width="121" height="66"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="That's Not Me"/>
                                 <connections>
@@ -1857,7 +1877,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenDisabled="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q5D-8g-4z0">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageWhenDisabled="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q5D-8g-4z0">
                                         <rect key="frame" x="5" y="5" width="315" height="60"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                         <state key="normal" title="CALCULATING AVG LIKES..">
@@ -1868,7 +1888,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="q5D-8g-4z0" firstAttribute="top" secondItem="dXz-qm-G4d" secondAttribute="top" constant="5" id="16e-ck-b2a"/>
                                     <constraint firstAttribute="height" constant="70" id="BlF-WB-ZhC"/>
@@ -1895,6 +1915,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="Y1B-nj-Hwb"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="dXz-qm-G4d" firstAttribute="leading" secondItem="Y1B-nj-Hwb" secondAttribute="leading" constant="25" id="2Oc-pN-vCZ"/>
@@ -1908,7 +1929,6 @@ Nobody will be able to tell your account is a Business account, and you will als
                             <constraint firstItem="yf2-1h-LPd" firstAttribute="centerX" secondItem="QAM-2w-M6M" secondAttribute="centerX" id="feo-2N-BXY"/>
                             <constraint firstItem="Y1B-nj-Hwb" firstAttribute="bottom" secondItem="dXz-qm-G4d" secondAttribute="bottom" constant="66" id="v13-ej-KoY"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="Y1B-nj-Hwb"/>
                     </view>
                     <navigationItem key="navigationItem" id="g8V-dq-fxJ"/>
                     <connections>
@@ -1953,7 +1973,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="JlX-Bb-bhd" secondAttribute="trailing" constant="5" id="AXB-0x-ECD"/>
                                                 <constraint firstItem="JlX-Bb-bhd" firstAttribute="centerX" secondItem="JLr-0U-oD2" secondAttribute="centerX" id="JEq-dd-ost"/>
@@ -1993,7 +2013,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O8L-Aa-m7Y" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="25" y="629" width="325" height="70"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sFd-98-80g">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sFd-98-80g">
                                         <rect key="frame" x="5" y="5" width="315" height="60"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                         <state key="normal" title="Try a different account">
@@ -2004,7 +2024,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemGrayColor"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="sFd-98-80g" secondAttribute="bottom" constant="5" id="OfS-ns-x4r"/>
                                     <constraint firstItem="sFd-98-80g" firstAttribute="top" secondItem="O8L-Aa-m7Y" secondAttribute="top" constant="5" id="P4j-eO-dFD"/>
@@ -2023,11 +2043,12 @@ Nobody will be able to tell your account is a Business account, and you will als
                                         <real key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="ShadowColor">
-                                        <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="value" systemColor="labelColor"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="5w0-Jz-20s"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="AMU-hb-8oQ" firstAttribute="leading" secondItem="Ytc-sF-3eI" secondAttribute="leading" id="0sl-tJ-c9P"/>
@@ -2038,7 +2059,6 @@ Nobody will be able to tell your account is a Business account, and you will als
                             <constraint firstItem="5w0-Jz-20s" firstAttribute="trailing" secondItem="AMU-hb-8oQ" secondAttribute="trailing" id="bmh-d0-EMb"/>
                             <constraint firstItem="5w0-Jz-20s" firstAttribute="trailing" secondItem="O8L-Aa-m7Y" secondAttribute="trailing" constant="25" id="j0A-yD-k3q"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="5w0-Jz-20s"/>
                     </view>
                     <navigationItem key="navigationItem" id="Mh6-XO-rf4"/>
                     <connections>
@@ -2104,7 +2124,7 @@ Co-Founder and CTO</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="bottom" secondItem="dsq-2g-raR" secondAttribute="bottom" constant="5" id="7Uc-OZ-epj"/>
                                                     <constraint firstItem="p7t-Cg-w4C" firstAttribute="top" secondItem="rov-u4-vps" secondAttribute="bottom" constant="15.33" id="7b1-bP-nxb"/>
@@ -2129,7 +2149,7 @@ Co-Founder and CTO</string>
                                         <viewLayoutGuide key="frameLayoutGuide" id="z1s-YR-UWb"/>
                                     </scrollView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="0VQ-8E-7a4" secondAttribute="trailing" constant="8" id="2g4-8V-GqH"/>
                                     <constraint firstItem="0VQ-8E-7a4" firstAttribute="leading" secondItem="HCN-QN-PMb" secondAttribute="leading" constant="12" id="I01-Mo-peI"/>
@@ -2154,7 +2174,7 @@ Co-Founder and CTO</string>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yhT-CI-eOV" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="16" y="642" width="343" height="70"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x57-lq-Pll">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x57-lq-Pll">
                                         <rect key="frame" x="5" y="5" width="333" height="60"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                         <state key="normal" title="Try Again">
@@ -2165,7 +2185,7 @@ Co-Founder and CTO</string>
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
                                 <constraints>
                                     <constraint firstItem="x57-lq-Pll" firstAttribute="top" secondItem="yhT-CI-eOV" secondAttribute="top" constant="5" id="1js-XP-kkk"/>
                                     <constraint firstItem="x57-lq-Pll" firstAttribute="leading" secondItem="yhT-CI-eOV" secondAttribute="leading" constant="5" id="5XE-bb-f6B"/>
@@ -2184,11 +2204,12 @@ Co-Founder and CTO</string>
                                         <real key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="ShadowColor">
-                                        <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="value" systemColor="labelColor"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="gyD-Xp-Knu"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="MZu-Sx-F49" firstAttribute="top" secondItem="gyD-Xp-Knu" secondAttribute="top" id="4tX-lw-zoB"/>
@@ -2203,7 +2224,6 @@ Co-Founder and CTO</string>
                             <constraint firstItem="MZu-Sx-F49" firstAttribute="leading" secondItem="gyD-Xp-Knu" secondAttribute="leading" id="nif-BU-Ubx"/>
                             <constraint firstItem="HCN-QN-PMb" firstAttribute="top" secondItem="gyD-Xp-Knu" secondAttribute="top" constant="16" id="qJK-2V-NHR"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="gyD-Xp-Knu"/>
                     </view>
                     <navigationItem key="navigationItem" id="B5T-Av-GJ3"/>
                     <connections>
@@ -2228,7 +2248,7 @@ Co-Founder and CTO</string>
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4By-vk-biR">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4By-vk-biR">
                                             <rect key="frame" x="0.0" y="0.0" width="80" height="50"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="50" id="50o-QJ-gbq"/>
@@ -2236,7 +2256,7 @@ Co-Founder and CTO</string>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <state key="normal" title="Close">
-                                                <color key="titleColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="titleColor" systemColor="linkColor"/>
                                             </state>
                                             <connections>
                                                 <action selector="closeButton:" destination="Jmb-rr-8CZ" eventType="touchUpInside" id="8oJ-ki-Dqh"/>
@@ -2256,19 +2276,19 @@ Co-Founder and CTO</string>
                                             </connections>
                                         </textField>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Check email for Recovery Code" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="1Bu-Bp-FXl">
-                                            <rect key="frame" x="46" y="128" width="283.33333333333331" height="23"/>
+                                            <rect key="frame" x="47" y="128" width="281.33333333333331" height="23"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Bb-9Q-9h4">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Bb-9Q-9h4">
                                             <rect key="frame" x="9" y="285" width="357" height="35"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="35" id="NJz-6l-M5X"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                             <state key="normal" title="Resend Code">
-                                                <color key="titleColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="titleColor" systemColor="linkColor"/>
                                             </state>
                                             <connections>
                                                 <action selector="resentOTPtoMailWithSender:" destination="Jmb-rr-8CZ" eventType="touchUpInside" id="jrt-8X-PdX"/>
@@ -2293,7 +2313,7 @@ Co-Founder and CTO</string>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HCE-e0-JAH" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="25" y="629" width="325" height="70"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6x4-de-ya4">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6x4-de-ya4">
                                         <rect key="frame" x="5" y="5" width="315" height="60"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                         <state key="normal" title="Verify">
@@ -2301,7 +2321,7 @@ Co-Founder and CTO</string>
                                         </state>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemGreenColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="ZXO-Qu-f2W"/>
                                     <constraint firstAttribute="trailing" secondItem="6x4-de-ya4" secondAttribute="trailing" constant="5" id="lBe-79-gtM"/>
@@ -2320,11 +2340,12 @@ Co-Founder and CTO</string>
                                         <real key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="ShadowColor">
-                                        <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="value" systemColor="labelColor"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="Ewb-64-O85"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Iqc-pf-Kp3" firstAttribute="top" secondItem="Ewb-64-O85" secondAttribute="top" id="61u-7o-30v"/>
@@ -2335,7 +2356,6 @@ Co-Founder and CTO</string>
                             <constraint firstItem="Ewb-64-O85" firstAttribute="trailing" secondItem="HCE-e0-JAH" secondAttribute="trailing" constant="25" id="klW-b0-gZ7"/>
                             <constraint firstItem="Iqc-pf-Kp3" firstAttribute="leading" secondItem="4vi-OU-DSV" secondAttribute="leading" id="osS-Ke-aRQ"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="Ewb-64-O85"/>
                     </view>
                     <navigationItem key="navigationItem" id="ati-ef-XlP"/>
                     <connections>
@@ -2366,7 +2386,7 @@ Co-Founder and CTO</string>
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B8d-dm-Cmo">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B8d-dm-Cmo">
                                             <rect key="frame" x="0.0" y="0.0" width="80" height="50"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="50" id="HLb-Me-ZOP"/>
@@ -2374,7 +2394,7 @@ Co-Founder and CTO</string>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <state key="normal" title="Close">
-                                                <color key="titleColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="titleColor" systemColor="linkColor"/>
                                             </state>
                                             <connections>
                                                 <action selector="closeButton:" destination="6w3-DI-bMB" eventType="touchUpInside" id="bbi-dn-VRG"/>
@@ -2413,7 +2433,7 @@ Co-Founder and CTO</string>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g8s-DG-NXe" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="25" y="629" width="325" height="70"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xZT-Cl-d5F">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xZT-Cl-d5F">
                                         <rect key="frame" x="5" y="5" width="315" height="60"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                         <state key="normal" title="Change Password &amp; Login">
@@ -2424,7 +2444,7 @@ Co-Founder and CTO</string>
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemGreenColor"/>
                                 <constraints>
                                     <constraint firstItem="xZT-Cl-d5F" firstAttribute="top" secondItem="g8s-DG-NXe" secondAttribute="top" constant="5" id="0G1-bt-787"/>
                                     <constraint firstAttribute="bottom" secondItem="xZT-Cl-d5F" secondAttribute="bottom" constant="5" id="UKR-pu-QLI"/>
@@ -2443,11 +2463,12 @@ Co-Founder and CTO</string>
                                         <real key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="ShadowColor">
-                                        <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="value" systemColor="labelColor"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="BgP-zo-wXv"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="GDw-mp-iYN" secondAttribute="bottom" id="82E-fa-aef"/>
@@ -2458,7 +2479,6 @@ Co-Founder and CTO</string>
                             <constraint firstItem="BgP-zo-wXv" firstAttribute="trailing" secondItem="g8s-DG-NXe" secondAttribute="trailing" constant="25" id="jHv-pR-AYj"/>
                             <constraint firstItem="GDw-mp-iYN" firstAttribute="top" secondItem="BgP-zo-wXv" secondAttribute="top" id="t7K-PH-d5P"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="BgP-zo-wXv"/>
                     </view>
                     <navigationItem key="navigationItem" id="N5q-or-M5t"/>
                     <connections>
@@ -2524,7 +2544,7 @@ Co-Founder and CTO</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="323" id="4V1-lS-mju"/>
                                                     <constraint firstAttribute="bottom" secondItem="zGc-GD-Oip" secondAttribute="bottom" constant="5" id="BUp-E6-5x9"/>
@@ -2549,7 +2569,7 @@ Co-Founder and CTO</string>
                                         <viewLayoutGuide key="frameLayoutGuide" id="oFn-ho-4IO"/>
                                     </scrollView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="RrD-gg-w9i" secondAttribute="bottom" id="FJC-3s-3xC"/>
                                     <constraint firstItem="RrD-gg-w9i" firstAttribute="leading" secondItem="l1g-dg-RTl" secondAttribute="leading" constant="12" id="XNU-kb-GQe"/>
@@ -2574,7 +2594,7 @@ Co-Founder and CTO</string>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wq0-sw-ty4" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="16" y="642" width="343" height="70"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bcm-Zk-Jc9">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bcm-Zk-Jc9">
                                         <rect key="frame" x="5" y="5" width="333" height="60"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                         <state key="normal" title="Close">
@@ -2585,7 +2605,7 @@ Co-Founder and CTO</string>
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="bcm-Zk-Jc9" secondAttribute="trailing" constant="5" id="UqY-eu-VOi"/>
                                     <constraint firstItem="bcm-Zk-Jc9" firstAttribute="leading" secondItem="Wq0-sw-ty4" secondAttribute="leading" constant="5" id="fa8-0t-GZf"/>
@@ -2604,11 +2624,12 @@ Co-Founder and CTO</string>
                                         <real key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="ShadowColor">
-                                        <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="value" systemColor="labelColor"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="XNY-Iv-sEI"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="XNY-Iv-sEI" firstAttribute="bottom" secondItem="Wq0-sw-ty4" secondAttribute="bottom" constant="12" id="B65-1u-wBw"/>
@@ -2623,7 +2644,6 @@ Co-Founder and CTO</string>
                             <constraint firstItem="qbc-jO-VI8" firstAttribute="top" secondItem="XNY-Iv-sEI" secondAttribute="top" id="y6K-pN-kMo"/>
                             <constraint firstItem="XNY-Iv-sEI" firstAttribute="trailing" secondItem="Wq0-sw-ty4" secondAttribute="trailing" constant="16" id="yof-Yt-OdE"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="XNY-Iv-sEI"/>
                     </view>
                     <navigationItem key="navigationItem" id="VCP-Ie-fxv"/>
                     <connections>
@@ -2662,7 +2682,8 @@ You can switch back at any time.</string>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="1ei-G5-UqG"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="XbQ-Nq-DlN" firstAttribute="leading" secondItem="1ei-G5-UqG" secondAttribute="leading" constant="16" id="1CA-GZ-5Nf"/>
                             <constraint firstItem="NFc-bn-4x4" firstAttribute="leading" secondItem="1ei-G5-UqG" secondAttribute="leading" constant="16" id="8Me-c9-Bhr"/>
@@ -2671,7 +2692,6 @@ You can switch back at any time.</string>
                             <constraint firstItem="1ei-G5-UqG" firstAttribute="trailing" secondItem="XbQ-Nq-DlN" secondAttribute="trailing" constant="16" id="VfK-dg-dMt"/>
                             <constraint firstItem="1ei-G5-UqG" firstAttribute="trailing" secondItem="NFc-bn-4x4" secondAttribute="trailing" constant="16" id="xHH-iq-5Sm"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="1ei-G5-UqG"/>
                     </view>
                     <navigationItem key="navigationItem" id="Gvg-pY-zwt"/>
                 </viewController>
@@ -2695,10 +2715,16 @@ You can switch back at any time.</string>
                         <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <containerView opaque="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="ajs-7M-vlv">
+                                <rect key="frame" x="0.0" y="50" width="375" height="619"/>
+                                <connections>
+                                    <segue destination="mAm-E5-fbQ" kind="embed" identifier="pageviewCI" id="Rdm-da-rC2"/>
+                                </connections>
+                            </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FQR-Ir-Eol" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lEK-B3-bhy">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lEK-B3-bhy">
                                         <rect key="frame" x="12" y="0.0" width="59" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                         <state key="normal" title="Cancel"/>
@@ -2707,13 +2733,13 @@ You can switch back at any time.</string>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connect to Instagram" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0F8-bE-gFc">
-                                        <rect key="frame" x="91.333333333333329" y="13.666666666666664" width="192.33333333333337" height="23"/>
+                                        <rect key="frame" x="92" y="13.666666666666664" width="191" height="23"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="4S1-tL-u1P"/>
                                     <constraint firstAttribute="bottom" secondItem="lEK-B3-bhy" secondAttribute="bottom" id="EMS-l0-rY0"/>
@@ -2727,63 +2753,136 @@ You can switch back at any time.</string>
                                         <real key="value" value="0.0"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
-                                        <real key="value" value="0.20000000000000001"/>
+                                        <real key="value" value="0.29999999999999999"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
                                         <real key="value" value="2"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <containerView opaque="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="ajs-7M-vlv">
-                                <rect key="frame" x="0.0" y="58" width="375" height="598"/>
-                                <connections>
-                                    <segue destination="mAm-E5-fbQ" kind="embed" identifier="pageviewCI" id="Rdm-da-rC2"/>
-                                </connections>
-                            </containerView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jgv-hQ-2Zb">
-                                <rect key="frame" x="10" y="664" width="83" height="30"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WNU-Wx-dIH" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="669" width="375" height="95"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="O3t-Zd-KE9">
+                                        <rect key="frame" x="16" y="8" width="343" height="39"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Of-js-FMk" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="113.33333333333333" height="39"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jgv-hQ-2Zb">
+                                                        <rect key="frame" x="0.0" y="0.0" width="113.33333333333333" height="39"/>
+                                                        <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="21"/>
+                                                        <state key="normal" title="BACK">
+                                                            <color key="titleColor" systemColor="labelColor"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="previousActionWithSender:" destination="sib-ub-aj8" eventType="touchUpInside" id="J2E-kZ-lgb"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstItem="Jgv-hQ-2Zb" firstAttribute="leading" secondItem="5Of-js-FMk" secondAttribute="leading" id="HJt-5x-xmo"/>
+                                                    <constraint firstItem="Jgv-hQ-2Zb" firstAttribute="top" secondItem="5Of-js-FMk" secondAttribute="top" id="fzN-8a-C6G"/>
+                                                    <constraint firstAttribute="bottom" secondItem="Jgv-hQ-2Zb" secondAttribute="bottom" id="k8w-Hg-4eZ"/>
+                                                    <constraint firstAttribute="trailing" secondItem="Jgv-hQ-2Zb" secondAttribute="trailing" id="lw3-HJ-xy9"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <real key="value" value="8"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                                        <real key="value" value="0.29999999999999999"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
+                                                        <real key="value" value="2"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hjw-pd-dIT" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                                <rect key="frame" x="229.66666666666666" y="0.0" width="113.33333333333334" height="39"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xVb-Tf-9mu">
+                                                        <rect key="frame" x="0.0" y="0.0" width="113.33333333333333" height="39"/>
+                                                        <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="21"/>
+                                                        <state key="normal" title="NEXT">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="nextActionWithSender:" destination="sib-ub-aj8" eventType="touchUpInside" id="xHp-6N-KjC"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" name="AmbPurple"/>
+                                                <constraints>
+                                                    <constraint firstItem="xVb-Tf-9mu" firstAttribute="leading" secondItem="hjw-pd-dIT" secondAttribute="leading" id="AvX-tq-of3"/>
+                                                    <constraint firstItem="xVb-Tf-9mu" firstAttribute="top" secondItem="hjw-pd-dIT" secondAttribute="top" id="bmz-Iz-Mk0"/>
+                                                    <constraint firstAttribute="bottom" secondItem="xVb-Tf-9mu" secondAttribute="bottom" id="dNl-o1-oUj"/>
+                                                    <constraint firstAttribute="trailing" secondItem="xVb-Tf-9mu" secondAttribute="trailing" id="pA8-6T-cTx"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <real key="value" value="8"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                                        <real key="value" value="0.29999999999999999"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
+                                                        <real key="value" value="2"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="5Of-js-FMk" firstAttribute="width" secondItem="O3t-Zd-KE9" secondAttribute="width" multiplier="0.33" id="8oE-l8-nbz"/>
+                                            <constraint firstItem="hjw-pd-dIT" firstAttribute="width" secondItem="5Of-js-FMk" secondAttribute="width" id="cEA-t3-Xh9"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="Gez-dQ-SbO"/>
-                                    <constraint firstAttribute="width" constant="83" id="Lzz-Xn-bEg"/>
+                                    <constraint firstAttribute="height" constant="95" id="6MN-oV-HsH"/>
+                                    <constraint firstAttribute="trailing" secondItem="O3t-Zd-KE9" secondAttribute="trailing" constant="16" id="QLa-re-j77"/>
+                                    <constraint firstItem="O3t-Zd-KE9" firstAttribute="leading" secondItem="WNU-Wx-dIH" secondAttribute="leading" constant="16" id="ayk-rz-o4d"/>
+                                    <constraint firstItem="O3t-Zd-KE9" firstAttribute="top" secondItem="WNU-Wx-dIH" secondAttribute="top" constant="8" id="e7t-OL-19g"/>
+                                    <constraint firstAttribute="bottom" secondItem="O3t-Zd-KE9" secondAttribute="bottom" constant="48" id="vK7-rA-kMJ"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                <state key="normal" title="Previous"/>
-                                <connections>
-                                    <action selector="previousActionWithSender:" destination="sib-ub-aj8" eventType="touchUpInside" id="J2E-kZ-lgb"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xVb-Tf-9mu">
-                                <rect key="frame" x="307" y="664" width="52" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="52" id="KHo-HD-WQu"/>
-                                    <constraint firstAttribute="height" constant="30" id="aDt-pY-8ab"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                <state key="normal" title="Next"/>
-                                <connections>
-                                    <action selector="nextActionWithSender:" destination="sib-ub-aj8" eventType="touchUpInside" id="xHp-6N-KjC"/>
-                                </connections>
-                            </button>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                        <real key="value" value="0.20000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
+                                        <real key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="4v0-oX-bdz"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="ajs-7M-vlv" firstAttribute="top" secondItem="FQR-Ir-Eol" secondAttribute="bottom" constant="8" id="0IK-hy-pOo"/>
-                            <constraint firstItem="Jgv-hQ-2Zb" firstAttribute="leading" secondItem="lWL-bP-zYQ" secondAttribute="leading" constant="10" id="82b-2p-NGu"/>
-                            <constraint firstAttribute="bottom" secondItem="ajs-7M-vlv" secondAttribute="bottom" constant="102" id="Kn2-vp-iiE"/>
-                            <constraint firstItem="xVb-Tf-9mu" firstAttribute="top" secondItem="ajs-7M-vlv" secondAttribute="bottom" constant="8" id="NDX-UD-H1O"/>
+                            <constraint firstItem="ajs-7M-vlv" firstAttribute="top" secondItem="FQR-Ir-Eol" secondAttribute="bottom" id="0IK-hy-pOo"/>
+                            <constraint firstItem="WNU-Wx-dIH" firstAttribute="leading" secondItem="4v0-oX-bdz" secondAttribute="leading" id="7JV-7u-gtZ"/>
+                            <constraint firstItem="4v0-oX-bdz" firstAttribute="bottom" secondItem="WNU-Wx-dIH" secondAttribute="bottom" constant="-40" id="L1g-2E-dH4"/>
                             <constraint firstAttribute="trailing" secondItem="FQR-Ir-Eol" secondAttribute="trailing" id="Ojs-Tw-CT2"/>
                             <constraint firstItem="FQR-Ir-Eol" firstAttribute="top" secondItem="lWL-bP-zYQ" secondAttribute="top" id="R1Y-Rx-zNT"/>
+                            <constraint firstItem="4v0-oX-bdz" firstAttribute="trailing" secondItem="WNU-Wx-dIH" secondAttribute="trailing" id="RZw-8R-FNd"/>
                             <constraint firstItem="FQR-Ir-Eol" firstAttribute="leading" secondItem="4v0-oX-bdz" secondAttribute="leading" id="VzP-9F-4GF"/>
                             <constraint firstAttribute="trailing" secondItem="ajs-7M-vlv" secondAttribute="trailing" id="YtZ-YB-yJa"/>
-                            <constraint firstAttribute="trailing" secondItem="xVb-Tf-9mu" secondAttribute="trailing" constant="16" id="l09-ME-8TD"/>
-                            <constraint firstItem="Jgv-hQ-2Zb" firstAttribute="top" secondItem="ajs-7M-vlv" secondAttribute="bottom" constant="8" id="sOt-Z1-paW"/>
                             <constraint firstItem="ajs-7M-vlv" firstAttribute="leading" secondItem="lWL-bP-zYQ" secondAttribute="leading" id="zvE-rB-acN"/>
+                            <constraint firstItem="WNU-Wx-dIH" firstAttribute="top" secondItem="ajs-7M-vlv" secondAttribute="bottom" id="zxt-Id-rrM"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="4v0-oX-bdz"/>
                     </view>
                     <navigationItem key="navigationItem" id="fEL-vj-AeT"/>
                     <connections>
+                        <outlet property="TopBar" destination="FQR-Ir-Eol" id="3dA-ID-8gj"/>
+                        <outlet property="TopLabel" destination="0F8-bE-gFc" id="Nlx-K2-hr9"/>
+                        <outlet property="backView" destination="5Of-js-FMk" id="OJu-Jy-3B0"/>
+                        <outlet property="bottomBar" destination="WNU-Wx-dIH" id="9t6-NM-olU"/>
                         <outlet property="nextBtn" destination="xVb-Tf-9mu" id="PlC-zG-ZMF"/>
+                        <outlet property="nextView" destination="hjw-pd-dIT" id="EW5-h1-jVM"/>
                         <outlet property="previousBtn" destination="Jgv-hQ-2Zb" id="BxZ-0J-Vt9"/>
                     </connections>
                 </viewController>
@@ -2802,7 +2901,7 @@ You can switch back at any time.</string>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mZN-3D-1YM" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="162.66666666666666" y="381" width="50" height="50"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="INF-ex-maI">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="INF-ex-maI">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <state key="normal" backgroundImage="replay"/>
                                         <connections>
@@ -2821,12 +2920,12 @@ You can switch back at any time.</string>
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="tup-fu-d5V"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="mZN-3D-1YM" firstAttribute="centerX" secondItem="Hxy-RG-Drx" secondAttribute="centerX" id="0Dq-XL-FLJ"/>
                             <constraint firstItem="mZN-3D-1YM" firstAttribute="centerY" secondItem="Hxy-RG-Drx" secondAttribute="centerY" id="Iwe-Ra-a9k"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="tup-fu-d5V"/>
                     </view>
                     <connections>
                         <outlet property="playBackBtn" destination="INF-ex-maI" id="D7b-cR-WyM"/>
@@ -2844,8 +2943,8 @@ You can switch back at any time.</string>
                     <view key="view" tag="5" contentMode="scaleToFill" id="8LT-OS-Vva">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="Crd-8A-ulu"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gzH-Ev-R8R" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2854,7 +2953,7 @@ You can switch back at any time.</string>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="E1e-6K-Jsz"/>
+        <segue reference="igG-6b-YGC"/>
         <segue reference="8pw-Sq-bQw"/>
         <segue reference="ZCB-4G-bg0"/>
     </inferredMetricsTieBreakers>
@@ -2873,5 +2972,41 @@ You can switch back at any time.</string>
         <namedColor name="AmbDarkPurple">
             <color red="0.53299999237060547" green="0.32899999618530273" blue="0.81599998474121094" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <namedColor name="AmbPurple">
+            <color red="0.6470000147819519" green="0.36899998784065247" blue="0.9179999828338623" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGroupedBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemPurpleColor">
+            <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="tertiarySystemGroupedBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

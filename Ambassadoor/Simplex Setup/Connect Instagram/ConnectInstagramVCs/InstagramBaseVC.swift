@@ -16,19 +16,33 @@ protocol InstagramPageDelegate {
 
 class InstagramBaseVC: UIViewController, PageViewDelegate {
     func pageViewIndexDidChangedelegate(index: Int) {
-        if index == 0{
-            self.previousBtn.isHidden = true
-            self.nextBtn.isHidden = false
-        }else if index == 6{
-            self.previousBtn.isHidden = false
-            self.nextBtn.isHidden = true
-        }else{
-            self.previousBtn.isHidden = false
-            self.nextBtn.isHidden = false
-        }
+        updatePageIndex(index)
     }
-    
-    
+	
+	func updatePageIndex(_ index: Int) {
+		previousBtn.isEnabled = index != 0
+		nextBtn.isEnabled = index != 4
+		UIView.animate(withDuration: 0.3) {
+			self.backView.alpha = index == 0 ? 0 : 1
+			self.nextView.alpha = index == 4 ? 0 : 1
+			if index == 2 || index == 3 {
+				self.bottomBar.backgroundColor = .black
+				self.TopBar.backgroundColor = .black
+				self.TopLabel.textColor = .white
+			} else {
+				self.bottomBar.backgroundColor = GetBackColor()
+				self.TopBar.backgroundColor = GetBackColor()
+				self.TopLabel.textColor = GetForeColor()
+			}
+		}
+	}
+	
+	@IBOutlet weak var backView: ShadowView!
+	@IBOutlet weak var nextView: ShadowView!
+	@IBOutlet weak var bottomBar: ShadowView!
+	@IBOutlet weak var TopBar: ShadowView!
+	@IBOutlet weak var TopLabel: UILabel!
+	
     var pageIndexDelegate: InstagramPageDelegate?
     
     @IBOutlet weak var previousBtn: UIButton!
@@ -37,8 +51,7 @@ class InstagramBaseVC: UIViewController, PageViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         connectICPageIndex = 0
-        self.previousBtn.isHidden = true
-        self.nextBtn.isHidden = false
+		updatePageIndex(0)
         if #available(iOS 13.0, *) {
             self.isModalInPresentation = true
         }
@@ -47,31 +60,21 @@ class InstagramBaseVC: UIViewController, PageViewDelegate {
     
     @IBAction func previousAction(sender: UIButton){
         
-        if (connectICPageIndex - 1) == 0{
-            self.previousBtn.isHidden = true
-            self.nextBtn.isHidden = false
-        }else{
-            self.previousBtn.isHidden = false
-            self.nextBtn.isHidden = false
-        }
         
         if(connectICPageIndex != 0){
-        self.pageIndexDelegate?.pageIndex(index: connectICPageIndex - 1)
+			self.pageIndexDelegate?.pageIndex(index: connectICPageIndex - 1)
+			connectICPageIndex -= 1
         }
+		updatePageIndex(connectICPageIndex)
     }
     @IBAction func nextAction(sender: UIButton){
         
-        if (connectICPageIndex + 1) == 4{
-            self.previousBtn.isHidden = false
-            self.nextBtn.isHidden = true
-        }else{
-            self.previousBtn.isHidden = false
-            self.nextBtn.isHidden = false
-        }
         
         if(connectICPageIndex != 4){
-        self.pageIndexDelegate?.pageIndex(index: connectICPageIndex + 1)
+			self.pageIndexDelegate?.pageIndex(index: connectICPageIndex + 1)
+			connectICPageIndex += 1
         }
+		updatePageIndex(connectICPageIndex)
     }
     
     @IBAction func cancelAction() {
