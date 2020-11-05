@@ -32,6 +32,9 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 	
 	var delegate: AutoDimiss?
 	var wasFailed = false
+    
+    
+    
 	
 	@IBOutlet weak var CreateButtonView: ShadowView!
 	@IBOutlet weak var CreateButton: UIButton!
@@ -272,4 +275,7 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 			}
 		}
 	}
+    
+    
+    
 }

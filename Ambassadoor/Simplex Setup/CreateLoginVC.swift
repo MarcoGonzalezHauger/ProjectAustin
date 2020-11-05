@@ -29,7 +29,7 @@ class CreateLoginVC: UIViewController {
 	@IBOutlet weak var backButton: UIButton!
 	@IBOutlet weak var confirmPass: UITextField!
 	
-    
+    var userEmail: String = ""
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +38,13 @@ class CreateLoginVC: UIViewController {
 		}
 		infoLabel.text = defaultText
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.proceedButton.isEnabled = true
+        self.proceedButton.setTitle("Proceed", for: .normal)
+    }
+    
 	@IBAction func confirmNext(_ sender: Any) {
 		confirmPass.becomeFirstResponder()
 	}
@@ -46,7 +53,9 @@ class CreateLoginVC: UIViewController {
 	}
 	@IBAction func PasswordNext(_ sender: Any) {
 		if proceedButton.isEnabled {
+            emailText.resignFirstResponder()
 			passwordText.resignFirstResponder()
+            confirmPass.resignFirstResponder()
 			CheckAccountAvaliability()
 		}
 	}
@@ -82,7 +91,7 @@ class CreateLoginVC: UIViewController {
 								}else{
 									self.AvaliabilitySuccess()
 								}
-								
+                                
 							}
 						}
 						else if complexity == 1 {
@@ -120,29 +129,77 @@ class CreateLoginVC: UIViewController {
 	}
 	
 	func AvaliabilitySuccess() {
-		UIView.animate(withDuration: 0.25) {
-			self.proceedView.alpha = 0
-			self.emailText.alpha = 0
-			self.passwordText.alpha = 0
-			self.backButton.alpha = 0
-			self.confirmPass.alpha = 0
-		}
-		
-		infoLabel.textColor = .systemGreen
-		infoLabel.font = UIFont.systemFont(ofSize: 19, weight: .heavy)
-		SetLabelText(text: "Login Avaliable", animated: true)
+//		UIView.animate(withDuration: 0.25) {
+//			self.proceedView.alpha = 0
+//			self.emailText.alpha = 0
+//			self.passwordText.alpha = 0
+//			self.backButton.alpha = 0
+//			self.confirmPass.alpha = 0
+//		}
+//
+//		infoLabel.textColor = .systemGreen
+//		infoLabel.font = UIFont.systemFont(ofSize: 19, weight: .heavy)
+//		self.view.endEditing(true)
+//		SetLabelText(text: "Login Avaliable", animated: true)
         NewAccount.email = emailText.text!.lowercased()
         NewAccount.password = passwordText.text!.md5()
-		accInfoUpdate()
-		DispatchQueue.main.asyncAfter(deadline: .now() + 1.25) {
-			UIView.animate(withDuration: 0.25) {
-				self.infoLabel.alpha = 0
-			}
-		}
-		DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-			self.navigationController?.popViewController(animated: true)
-		}
+//		DispatchQueue.main.asyncAfter(deadline: .now() + 1.25) {
+//			UIView.animate(withDuration: 0.25) {
+//				self.infoLabel.alpha = 0
+//			}
+//		}
+//		DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+//			//self.navigationController?.popViewController(animated: true)
+//            self.resentOTPtoMail(email: NewAccount.email)
+//		}
+        
+        self.resentOTPtoMail(email: NewAccount.email)
+        
 	}
+    
+    func resentOTPtoMail(email: String) {
+        
+        let params = ["email":email,"username":"rammmm"] as [String: AnyObject]
+        APIManager.shared.sendOTPtoUserServiceForConfirmEmail(params: params) { (status, error, data) in
+            
+            
+            let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            
+            print("dataString=",dataString as Any)
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: data!, options: []) as? [String : Any]
+                
+                
+                _ = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+                
+                if let code = json!["code"] as? Int {
+                    
+                    if code == 200 {
+                    let otpCode = json!["otp"] as! Int
+                        
+                        self.userEmail = email
+                        
+                        DispatchQueue.main.async {
+                            self.performSegue(withIdentifier: "fromCreateLogin", sender: otpCode)
+                        }
+                        
+                    }else{
+                        
+                    }
+                }
+                
+            }catch _ {
+                
+            }
+            
+            
+            
+        }
+        
+        
+        
+    }
 	
 	@IBAction func textChanged(_ sender: Any) {
 		if let sender = sender as? UITextField {
@@ -170,8 +227,8 @@ class CreateLoginVC: UIViewController {
 				self.infoLabel.textColor = GetForeColor()
 			}, completion: nil)
 			DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-				self.SetLabelText(text: self.defaultText, animated: true)
-				self.proceedButton.isEnabled = true
+                self.SetLabelText(text: self.defaultText, animated: true)
+                self.proceedButton.isEnabled = true
 			}
 		}
 	}
@@ -217,4 +274,13 @@ class CreateLoginVC: UIViewController {
 	@IBAction func backButtonPressed(_ sender: Any) {
 		navigationController?.popViewController(animated: true)
 	}
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "fromCreateLogin"{
+            let viewController = segue.destination as! VerifyEmailVC
+            viewController.otp = sender as! Int
+            viewController.email = NewAccount.email
+        }
+    }
+    
 }
