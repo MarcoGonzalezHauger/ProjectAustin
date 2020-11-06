@@ -12,13 +12,13 @@ import WebKit
 
 struct API {
     /*
-    //instagram base url and secret key's
-    static let INSTAGRAM_AUTHURL = "https://api.instagram.com/oauth/authorize/"
-    static let INSTAGRAM_CLIENT_ID = "fa083c34de6847ff95db596d75ef1c31"
-    static let INSTAGRAM_CLIENTSERCRET = "b81172265e6b417782fcf075e2daf2ff"
-    static let INSTAGRAM_REDIRECT_URI = "https://ambassadoor.co/welcome"
-    static let INSTAGRAM_REDIRECT_URI2 = "https://www.ambassadoor.co/welcome"
-    */
+     //instagram base url and secret key's
+     static let INSTAGRAM_AUTHURL = "https://api.instagram.com/oauth/authorize/"
+     static let INSTAGRAM_CLIENT_ID = "fa083c34de6847ff95db596d75ef1c31"
+     static let INSTAGRAM_CLIENTSERCRET = "b81172265e6b417782fcf075e2daf2ff"
+     static let INSTAGRAM_REDIRECT_URI = "https://ambassadoor.co/welcome"
+     static let INSTAGRAM_REDIRECT_URI2 = "https://www.ambassadoor.co/welcome"
+     */
     
     static let shouldAboveVersion = "2.0.0"
     
@@ -53,7 +53,7 @@ struct API {
     //demo
     //static var Stripeclient_id = "ca_FrDIyMuhEQEpU7K8z6tsPNMwKJ2f6AiM"
     //static var Stripeclient_secret = "sk_test_zrg6oDehYkCJIVAA4oe5LrWD00mNP6IImr"
-
+    
     
     //get instagram users media
     static let INSTAGRAM_getMedia = "https://api.instagram.com/v1/users/self/media/recent/?access_token="
@@ -68,12 +68,12 @@ struct API {
     // Get user information from instagram using login access token
     static var instagramProfileData: [String: AnyObject] = [:]
     
-	static func getProfileInfo(completed: ((_ user: User?) -> () )?) {
+    static func getProfileInfo(completed: ((_ user: User?) -> () )?) {
         let url = URL(string: "https://api.instagram.com/v1/users/self/?access_token=" + INSTAGRAM_ACCESS_TOKEN)
         URLSession.shared.dataTask(with: url!){ (data, response, err) in
-			
-			print("GetProfileInfo: Downloading username data from instagram API")
-			
+            
+            print("GetProfileInfo: Downloading username data from instagram API")
+            
             if err == nil {
                 // check if JSON data is downloaded yet
                 guard let jsondata = data else { return }
@@ -81,7 +81,7 @@ struct API {
                     do {
                         // Deserilize object from JSON
                         if let profileData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String : AnyObject] {
-
+                            
                             if let codelimit = profileData["code"] as? Int64 {
                                 completed?(nil)
                             }else{
@@ -89,7 +89,7 @@ struct API {
                                 //naveen added code validation
                                 let code = meta["code"] as! Int
                                 if  code == 200 {
-									print("code was 200.")
+                                    print("code was 200.")
                                     self.instagramProfileData = profileData["data"] as! [String : AnyObject]
                                     var userDictionary: [String: Any] = [
                                         "name": instagramProfileData["full_name"] as! String,
@@ -119,8 +119,8 @@ struct API {
                                                 let user = try User(dictionary: userDictionary)
                                                 DispatchQueue.main.async {
                                                     UserDefaults.standard.set(user.id, forKey: "userid")
-
-                                                completed?(user)
+                                                    
+                                                    completed?(user)
                                                 }
                                             } catch let error {
                                                 print(error)
@@ -129,17 +129,17 @@ struct API {
                                         }
                                     })
                                 }else{
-									print("\(code): \(meta["error_type"] as! String)\n\(meta["error_message"] as! String)")
-									print("code was not 200.")
+                                    print("\(code): \(meta["error_type"] as! String)\n\(meta["error_message"] as! String)")
+                                    print("code was not 200.")
                                 }
                             }
-
+                            
                         }
                     }
                     // Wait for data to be retrieved before moving on
                     DispatchQueue.main.async {
-						print("Deserialization Failed.")
-						//completed?(nil)
+                        print("Deserialization Failed.")
+                        //completed?(nil)
                     }
                 } catch {
                     print("JSON Downloading Error!")
@@ -152,7 +152,7 @@ struct API {
         
         
         let url = URL(string: "https://graph.instagram.com/\(userId)?fields=id,username,media_count,account_type&access_token=" + INSTAGRAM_ACCESS_TOKEN)
-//        let url = URL(string: "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=" + INSTAGRAM_ACCESS_TOKEN)
+        //        let url = URL(string: "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=" + INSTAGRAM_ACCESS_TOKEN)
         URLSession.shared.dataTask(with: url!){ (data, response, err) in
             
             print("GetProfileInfo: Downloading username data from instagram API")
@@ -178,7 +178,7 @@ struct API {
                             }else{
                                 completed!(false)
                             }
-
+                            
                         }
                     }
                     // Wait for data to be retrieved before moving on
@@ -268,7 +268,7 @@ struct API {
                                                 self.instagramMediaData.append(mediaDict)
                                                 self.instagramMediaID.append(mediaID)
                                                 if index == mediaData.count - 1 {
-                                                 completed?(self.instagramMediaData)
+                                                    completed?(self.instagramMediaData)
                                                 }
                                             }
                                         }
@@ -288,33 +288,29 @@ struct API {
                 //com.facebook.sdk:FBSDKGraphRequestErrorParsedJSONResponseKey
                 let err = error! as NSError
                 print(err.userInfo)
-                        if let errorObject = err.userInfo["com.facebook.sdk:FBSDKGraphRequestErrorParsedJSONResponseKey"] as? [String: AnyObject]{
+                if let errorObject = err.userInfo["com.facebook.sdk:FBSDKGraphRequestErrorParsedJSONResponseKey"] as? [String: AnyObject]{
+                    
+                    if let errorCode = errorObject["code"] as? Int{
+                        
+                        if errorCode == 400 {
                             
-                            if let errorCode = errorObject["code"] as? Int{
+                            if let errorData = errorObject["body"] as? [String: AnyObject]{
                                 
-                                if errorCode == 400 {
+                                if let errorJson = errorData["error"] as? [String: AnyObject]{
                                     
-                                    if let errorData = errorObject["body"] as? [String: AnyObject]{
-                                       
-                                        if let errorJson = errorData["error"] as? [String: AnyObject]{
+                                    if let errorJsonCode = errorJson["code"] as? Int {
+                                        
+                                        if errorJsonCode == 102 {
+                                            //"User Access Token has expired. Please login with your Facebook Account"
+                                            let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
                                             
-                                            if let errorJsonCode = errorJson["code"] as? Int {
+                                            (appDelegate?.window!.rootViewController)!.showStandardAlertDialog(title: "Alert", msg: "User Access Token has expired. Please login with your Facebook Account") { (alert) in
                                                 
-                                                if errorJsonCode == 102 {
-                                                    //"User Access Token has expired. Please login with your Facebook Account"
-                                                    let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
+                                                API.facebookLoginAct(userIDBusiness: Yourself.id, owner: (appDelegate?.window!.rootViewController)!) { (data, longLiveToken,error) in
                                                     
-                                                    (appDelegate?.window!.rootViewController)!.showStandardAlertDialog(title: "Alert", msg: "User Access Token has expired. Please login with your Facebook Account") { (alert) in
-                                                        
-                                                        API.facebookLoginAct(userIDBusiness: Yourself.id, owner: (appDelegate?.window!.rootViewController)!) { (data, longLiveToken,error) in
-                                                            
-                                                        }
-                                                        
-                                                    }
                                                 }
                                                 
                                             }
-                                            
                                         }
                                         
                                     }
@@ -325,46 +321,50 @@ struct API {
                             
                         }
                         
+                    }
                     
+                }
+                
+                
                 
             }
         }
         
         /*
-        let url = URL(string: "https://api.instagram.com/v1/users/self/media/recent/?access_token=" + INSTAGRAM_ACCESS_TOKEN)
-        URLSession.shared.dataTask(with: url!){ (data, response, err) in
-            
-            print("GetRecentMedia: Downloading username data from instagram API")
-            
-            if err == nil {
-                // check if JSON data is downloaded yet
-				guard let jsondata = data else { return }
-				do {
-					do {
-						// Deserilize object from JSON
-						if let totalData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String : AnyObject] {
-							if let meta = totalData["meta"] as? [String : AnyObject] {
-								//naveen added code validation
-								let code = meta["code"] as! Int
-								if  code == 200{
-									self.instagramMediaData = totalData["data"] as! [[String : AnyObject]]
-									completed?(self.instagramMediaData)
-								}
-							}
-							
-						}
-					}
-					// Wait for data to be retrieved before moving on
-					DispatchQueue.main.async {
-						print("Deserialization Failed.")
-						//completed?(nil)
-					}
-                } catch {
-                    print("JSON Downloading Error!")
-                }
-            }
-        }.resume()
-    */
+         let url = URL(string: "https://api.instagram.com/v1/users/self/media/recent/?access_token=" + INSTAGRAM_ACCESS_TOKEN)
+         URLSession.shared.dataTask(with: url!){ (data, response, err) in
+         
+         print("GetRecentMedia: Downloading username data from instagram API")
+         
+         if err == nil {
+         // check if JSON data is downloaded yet
+         guard let jsondata = data else { return }
+         do {
+         do {
+         // Deserilize object from JSON
+         if let totalData: [String: AnyObject] = try JSONSerialization.jsonObject(with: jsondata, options: []) as? [String : AnyObject] {
+         if let meta = totalData["meta"] as? [String : AnyObject] {
+         //naveen added code validation
+         let code = meta["code"] as! Int
+         if  code == 200{
+         self.instagramMediaData = totalData["data"] as! [[String : AnyObject]]
+         completed?(self.instagramMediaData)
+         }
+         }
+         
+         }
+         }
+         // Wait for data to be retrieved before moving on
+         DispatchQueue.main.async {
+         print("Deserialization Failed.")
+         //completed?(nil)
+         }
+         } catch {
+         print("JSON Downloading Error!")
+         }
+         }
+         }.resume()
+         */
     }
     /*
      "id": details.id,
@@ -399,7 +399,7 @@ struct API {
             "followerCount": user.followerCount,
             "profilePicture": user.profilePicURL ?? "",
             "averageLikes": user.averageLikes ?? 0,
-			"zipCode": user.zipCode as Any,
+            "zipCode": user.zipCode as Any,
             "gender": user.gender == nil ? "" : user.gender!.rawValue,
             "isBankAdded": user.isBankAdded,
             "yourMoney": user.yourMoney,
@@ -475,12 +475,12 @@ struct API {
     }
     
     // Computes the average amount of likes on the 5 latest posts or the average of the posts in the last 3 months if more
-	static func getAverageLikesOfUser(instagramId: String, completed: @escaping (_ averageLikes: Double?) -> ()) {
+    static func getAverageLikesOfUser(instagramId: String, completed: @escaping (_ averageLikes: Double?) -> ()) {
         let url = URL(string: "https://api.instagram.com/v1/users/" + String(instagramId) + "/media/recent?access_token=" + INSTAGRAM_ACCESS_TOKEN)
         let currentTime = NSDate().timeIntervalSince1970
         var count = 0
         var average = 0
-		var averageLikes: Double?
+        var averageLikes: Double?
         URLSession.shared.dataTask(with: url!){ (data, response, err) in
             if err == nil {
                 // check if JSON data is downloaded yet
@@ -502,7 +502,7 @@ struct API {
                                         }
                                     }
                                 }
-								averageLikes = count >= 5 ? round(Double(average / count)) : nil
+                                averageLikes = count >= 5 ? round(Double(average / count)) : nil
                             }
                         }
                         DispatchQueue.main.async {
@@ -519,15 +519,15 @@ struct API {
     // Logout instagram token
     static func instaLogout(){
         let dataStore = WKWebsiteDataStore.default()
-		dataStore.fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { (records) in
-			for record in records {
-				if record.displayName.contains("instagram") {
-					dataStore.removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), for: [record], completionHandler: {
-						print("Deleted: " + record.displayName);
-					})
-				}
-			}
-		}
+        dataStore.fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { (records) in
+            for record in records {
+                if record.displayName.contains("instagram") {
+                    dataStore.removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), for: [record], completionHandler: {
+                        print("Deleted: " + record.displayName);
+                    })
+                }
+            }
+        }
     }
     
     //If instagram user is business user, we need to allow user to facebook login for fetching instagram business user details.
@@ -537,8 +537,9 @@ struct API {
         let login: LoginManager = LoginManager()
         login.logOut()
         //"pages_show_list"
-        
-        login.logIn(permissions: ["instagram_basic", "pages_show_list"], from: owner) { (result, FBerror) in
+        //"manage_pages"
+        //"pages_read_engagement"
+        login.logIn(permissions: ["instagram_basic", "pages_show_list", "manage_pages"], from: owner) { (result, FBerror) in
             if((FBerror) != nil){
                 print(FBerror as Any)
                 completion(nil, nil, FBerror)
@@ -557,7 +558,7 @@ struct API {
                         //completion(userDetail, nil)
                         
                         if let liveTokenDict = userToken as? [String: AnyObject] {
-                           
+                            
                             if let liveToken = liveTokenDict["access_token"] as? String{
                                 
                                 GraphRequest(graphPath: userIDBusiness, parameters: ["fields":"biography,id,followers_count,follows_count,media_count,name,profile_picture_url,username,website"]).start(completionHandler: { (connection, userDetail, tokenError) -> Void in
@@ -569,7 +570,7 @@ struct API {
                                     }
                                     
                                 })
-                               
+                                
                             }
                             
                         }
@@ -600,7 +601,7 @@ struct API {
         let login: LoginManager = LoginManager()
         login.logOut()
         //"pages_show_list"
-       
+        
         login.logIn(permissions: ["instagram_basic", "pages_show_list", "manage_pages"], from: owner) { (result, FBerror) in
             if((FBerror) != nil){
                 print(FBerror as Any)
@@ -621,78 +622,180 @@ struct API {
                         //completion(userDetail, nil)
                         
                         if let liveTokenDict = userToken as? [String: AnyObject] {
-                           
+                            
                             if let liveToken = liveTokenDict["access_token"] as? String{
                                 
                                 GraphRequest(graphPath: "me/accounts", parameters: [:]).start(completionHandler: { (connection, accountDetail, tokenError) -> Void in
                                     
                                     if let userDetailDict = accountDetail as? [String: AnyObject] {
-                                       
+                                        
                                         if let userDetailArray = userDetailDict["data"] as? NSArray{
                                             
-                                            if let userDetailFirsstObject = userDetailArray.firstObject as? [String: AnyObject]{
+                                            var insBusinesArray = [[String: AnyObject]]()
+                                            
+                                            let serialQueue = DispatchQueue.init(label: "serialQueue")
+                                            
+                                            for (index,userDetailData) in userDetailArray.enumerated() {
                                                 
-                                                if let pageID = userDetailFirsstObject["id"] as? String {
+                                                
+                                                
+                                                if let userDetailFirsstObject = userDetailData as? [String: AnyObject]{
                                                     
-                                                    GraphRequest(graphPath: pageID, parameters: ["fields":"instagram_business_account"]).start(completionHandler: { (connection, businessDetail, tokenError) -> Void in
+                                                    if let pageID = userDetailFirsstObject["id"] as? String {
                                                         
-                                                        if let businessDetailDict = businessDetail as? [String: AnyObject]{
+                                                        serialQueue.sync {
                                                             
-                                                            if let businessIDDetail = businessDetailDict["instagram_business_account"] as? [String: AnyObject]{
+                                                            GraphRequest(graphPath: pageID, parameters: ["fields":"instagram_business_account"]).start(completionHandler: { (connection, businessDetail, tokenError) -> Void in
                                                                 
-                                                                if let businessID = businessIDDetail["id"] as? String{
+                                                                if let businessDetailDict = businessDetail as? [String: AnyObject]{
                                                                     
-                                                                GraphRequest(graphPath: businessID, parameters: ["fields":"biography,id,followers_count,follows_count,media_count,name,profile_picture_url,username,website"]).start(completionHandler: { (connection, userDetail, tokenError) -> Void in
-                                                                    
-                                                                    if tokenError == nil{
-                                                                        completion(userDetail, liveToken, nil)
-                                                                    }else{
-                                                                        completion(nil, nil, tokenError as AnyObject?)
+                                                                    if let businessIDDetail = businessDetailDict["instagram_business_account"] as? [String: AnyObject]{
+                                                                        
+                                                                        insBusinesArray.append(businessIDDetail)
+                                                                        
+                                                                        
+                                                                        
                                                                     }
-                                                                    
-                                                                })
+                                                                    //                                                                else{
+                                                                    //
+                                                                    //                                                                    completion(nil, nil, "Instagram Not Linked" as AnyObject)
+                                                                    //
+                                                                    //                                                                }
                                                                     
                                                                 }
                                                                 
-                                                            }else{
+                                                                if index == userDetailArray.count - 1 {
+                                                                    if insBusinesArray.count != 0{
+                                                                        
+                                                                        DispatchQueue.main.async {
+                                                                            if let businessID = insBusinesArray.first!["id"] as? String{
+                                                                                
+                                                                                GraphRequest(graphPath: businessID, parameters: ["fields":"biography,id,followers_count,follows_count,media_count,name,profile_picture_url,username,website"]).start(completionHandler: { (connection, userDetail, tokenError) -> Void in
+                                                                                    
+                                                                                    if tokenError == nil{
+                                                                                        completion(userDetail, liveToken, nil)
+                                                                                        return
+                                                                                    }else{
+                                                                                        completion(nil, nil, tokenError as AnyObject?)
+                                                                                    }
+                                                                                    
+                                                                                })
+                                                                                
+                                                                            }
+                                                                            
+                                                                            
+                                                                        }
+                                                                        
+                                                                    }else{
+                                                                        
+                                                                        completion(nil, nil, "Instagram Not Linked" as AnyObject)
+                                                                        
+                                                                    }
+                                                                    
+                                                                    
+                                                                }
                                                                 
-                                                                completion(nil, nil, "Instagram Not Linked" as AnyObject)
                                                                 
-                                                            }
+                                                            })
                                                             
                                                         }
                                                         
+                                                    }else{
                                                         
-                                                    })
+                                                    }
+                                                    
+                                                    
                                                     
                                                 }
-                                            }else{
                                                 
                                                 
-                                                completion(nil, nil, "Page Not Created" as AnyObject)
                                                 
-                                        }
+                                            }
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            //                                            if let userDetailFirsstObject = userDetailArray.firstObject as? [String: AnyObject]{
+                                            //
+                                            //                                                if let pageID = userDetailFirsstObject["id"] as? String {
+                                            //
+                                            //                                                    GraphRequest(graphPath: pageID, parameters: ["fields":"instagram_business_account"]).start(completionHandler: { (connection, businessDetail, tokenError) -> Void in
+                                            //
+                                            //                                                        if let businessDetailDict = businessDetail as? [String: AnyObject]{
+                                            //
+                                            //                                                            if let businessIDDetail = businessDetailDict["instagram_business_account"] as? [String: AnyObject]{
+                                            //
+                                            //                                                                if let businessID = businessIDDetail["id"] as? String{
+                                            //
+                                            //                                                                GraphRequest(graphPath: businessID, parameters: ["fields":"biography,id,followers_count,follows_count,media_count,name,profile_picture_url,username,website"]).start(completionHandler: { (connection, userDetail, tokenError) -> Void in
+                                            //
+                                            //                                                                    if tokenError == nil{
+                                            //                                                                        completion(userDetail, liveToken, nil)
+                                            //                                                                    }else{
+                                            //                                                                        completion(nil, nil, tokenError as AnyObject?)
+                                            //                                                                    }
+                                            //
+                                            //                                                                })
+                                            //
+                                            //                                                                }
+                                            //
+                                            //                                                            }else if let businessID = businessDetailDict["id"] as? String {
+                                            //
+                                            //                                                                GraphRequest(graphPath: businessID, parameters: ["fields":"biography,id,followers_count,follows_count,media_count,name,profile_picture_url,username,website"]).start(completionHandler: { (connection, userDetail, tokenError) -> Void in
+                                            //
+                                            //                                                                    if tokenError == nil{
+                                            //                                                                        completion(userDetail, liveToken, nil)
+                                            //                                                                    }else{
+                                            //                                                                        completion(nil, nil, tokenError as AnyObject?)
+                                            //                                                                    }
+                                            //
+                                            //                                                                })
+                                            //
+                                            //
+                                            //                                                            }
+                                            //
+                                            //                                                            else{
+                                            //
+                                            //                                                                completion(nil, nil, "Instagram Not Linked" as AnyObject)
+                                            //
+                                            //                                                            }
+                                            //
+                                            //                                                        }
+                                            //
+                                            //
+                                            //                                                    })
+                                            //
+                                            //                                                }
+                                            //
+                                            //
+                                            //                                            }else{
+                                            //
+                                            //
+                                            //                                                completion(nil, nil, "Page Not Created" as AnyObject)
+                                            //
+                                            //                                        }
                                             
                                         }
                                     }
-
-
+                                    
+                                    
                                 })
-                               
+                                
                             }
                             
                         }
                         
                     }else{
-//                        GraphRequest(graphPath: userIDBusiness, parameters: ["fields":"biography,id,followers_count,follows_count,media_count,name,profile_picture_url,username,website"]).start(completionHandler: { (connection, userDetail, tokenError) -> Void in
-//
-//                            if error == nil{
-//                                completion(userDetail, AccessToken.current!.tokenString, nil)
-//                            }else{
-//                                completion(nil, nil, tokenError)
-//                            }
-//
-//                        })
+                        //                        GraphRequest(graphPath: userIDBusiness, parameters: ["fields":"biography,id,followers_count,follows_count,media_count,name,profile_picture_url,username,website"]).start(completionHandler: { (connection, userDetail, tokenError) -> Void in
+                        //
+                        //                            if error == nil{
+                        //                                completion(userDetail, AccessToken.current!.tokenString, nil)
+                        //                            }else{
+                        //                                completion(nil, nil, tokenError)
+                        //                            }
+                        //
+                        //                        })
                     }
                     
                 })
@@ -708,9 +811,9 @@ struct API {
         
         GraphRequest(graphPath: userID + "/media", parameters: ["access_token":longLiveToken]).start(completionHandler: { (connection, recentMedia, error) -> Void in
             if error == nil{
-            completion(recentMedia,nil)
+                completion(recentMedia,nil)
             }else{
-            completion(nil,error)
+                completion(nil,error)
             }
         })
         
@@ -721,7 +824,7 @@ struct API {
         let post: [String:Any] = [
             "PostType":"Single Post",
             "hashtags": ["Ambassadoor"],
-			"keywords": [],
+            "keywords": [],
             "confirmedSince":"",
             "hashCaption":"",
             "image":"",
@@ -729,9 +832,9 @@ struct API {
             "isConfirmed":false,
             "post_ID":postID,
             "products":[]
-            ]
+        ]
         posts.append(post)
-                        
+        
         let offerData: [String: Any] = [
             "allConfirmed": false,
             "allPostsConfirmedSince": "",
@@ -751,19 +854,19 @@ struct API {
             "title": "Default Offer",
             "user_IDs": [userID] as Any,
             "zipCodes": [],
-            ]
+        ]
         return offerData
     }
     
     static func serializeInfluencerAuthentication(details: NewAccountInfo) -> [String: Any]{
         
         let offerData: [String: Any] = [
-        "email":details.email,
-        "password":details.password,
-        "userid":details.id,
-        "createdAt":Date.getCurrentDate(),
-        "Signed In":Date.getCurrentDate(),
-        "username":details.instagramUsername
+            "email":details.email,
+            "password":details.password,
+            "userid":details.id,
+            "createdAt":Date.getCurrentDate(),
+            "Signed In":Date.getCurrentDate(),
+            "username":details.instagramUsername
         ]
         return offerData
     }
@@ -811,15 +914,15 @@ struct API {
     static func serializePost(post: Post) -> [String: Any] {
         var product = [[String: Any]]()
         /*
-        for value in post.products! {
-            product.append(serializeProduct(product: value))
-        }
+         for value in post.products! {
+         product.append(serializeProduct(product: value))
+         }
          */
         //DateFormatManager.sharedInstance.getStringFromDateWithFormat(date: post.confirmedSince!, format: "yyyy/MMM/dd HH:mm:ss")
-		var postData: [String: Any] = ["image":post.image!,"instructions":post.instructions,"captionMustInclude":post.captionMustInclude!,"products":[],"post_ID":post.post_ID,"PostType": post.PostType,"confirmedSince":"" ,"isConfirmed":post.isConfirmed,"hashCaption":post.hashCaption,"status": post.status,"hashtags": post.hashtags, "keywords": post.keywords, "isPaid": post.isPaid ?? false, "PayAmount": post.PayAmount ?? 0.0]
-		if let denyMessage = post.denyMessage {
-			postData["denyMessage"] = denyMessage
-		}
+        var postData: [String: Any] = ["image":post.image!,"instructions":post.instructions,"captionMustInclude":post.captionMustInclude!,"products":[],"post_ID":post.post_ID,"PostType": post.PostType,"confirmedSince":"" ,"isConfirmed":post.isConfirmed,"hashCaption":post.hashCaption,"status": post.status,"hashtags": post.hashtags, "keywords": post.keywords, "isPaid": post.isPaid ?? false, "PayAmount": post.PayAmount ?? 0.0]
+        if let denyMessage = post.denyMessage {
+            postData["denyMessage"] = denyMessage
+        }
         
         return postData
     }
@@ -833,9 +936,9 @@ struct API {
         var offerConSin = ""
         
         if offer.allPostsConfirmedSince != nil {
-           offerConSin = offer.allPostsConfirmedSince!.toString(dateFormat: "yyyy/MMM/dd HH:mm:ss")
+            offerConSin = offer.allPostsConfirmedSince!.toString(dateFormat: "yyyy/MMM/dd HH:mm:ss")
         }else{
-           offerConSin = ""
+            offerConSin = ""
         }
         
         let companyDetails = API.serializeCompanyDetails(company: offer.companyDetails!)
@@ -872,7 +975,7 @@ struct API {
             "didRefund": offer.didRefund as Any,
             "refundedOn": offer.refundedOn as Any,
             "updatedDate": Date.getStringFromDate(date: offer.acceptedDate!) as Any
-            ]
+        ]
         return offerData
         //self.isRefferedByInfluencer = dictionary["isRefferedByInfluencer"] as? Bool ?? false
         //self.isReferCommissionPaid = dictionary["isReferCommissionPaid"] as? Bool ?? false
