@@ -336,6 +336,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                                 let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
                                 downloadDataBeforePageLoad(reference: viewReference)
                                 self.window?.rootViewController = viewReference
+                                
+                               // self.callIfAccessTokenExpired(userID: userID )
+                                
                             }
                             
                         }else{

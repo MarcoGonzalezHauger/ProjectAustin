@@ -119,10 +119,34 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
         let offerValue = self.offer!
 		
 		if offerValue.isDefaultOffer {
-			paymentReceiveAt.text = "Waiting for you to post to Instagram."
-			progressWidth.constant = (self.frame.size.width - 12)
-			progrssView.backgroundColor = .systemBlue
-			return
+            
+            if offerValue.variation == .willBePaid || offerValue.variation == .hasBeenPaid {
+                
+                paymentReceiveAt.text = "You have been paid for this offer"
+                progressWidth.constant = (self.frame.size.width - 12)
+                progrssView.backgroundColor = .systemGreen
+                return
+                
+            }else if offerValue.variation == .inProgress{
+                
+                paymentReceiveAt.text = "Waiting for you to post to Instagram."
+                progressWidth.constant = (self.frame.size.width - 12)
+                progrssView.backgroundColor = .systemBlue
+                return
+                
+            }else if offerValue.variation == .allPostsDenied{
+                
+                paymentReceiveAt.text = "Offer has been denied"
+                progressWidth.constant = (self.frame.size.width - 12)
+                progrssView.backgroundColor = .red
+                return
+                
+            }else if offerValue.variation == .didNotPostInTime{
+                paymentReceiveAt.text = "You have not posted on time"
+                progressWidth.constant = (self.frame.size.width - 12)
+                progrssView.backgroundColor = .red
+                return
+            }
 		}
         
 		if offerValue.variation == .inProgress {
