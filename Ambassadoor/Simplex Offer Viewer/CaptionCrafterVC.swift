@@ -11,6 +11,8 @@ import UIKit
 class CaptionCrafterVC: UIViewController, UITextViewDelegate {
 
 	var requiredStrings: [String] = []
+    
+    var updatedString = ""
 	
 	@IBOutlet weak var perfectGoodJob: UILabel!
 	@IBOutlet weak var copyCaptionButton: UIButton!
@@ -24,20 +26,34 @@ class CaptionCrafterVC: UIViewController, UITextViewDelegate {
 		
 		var extraquotes = false
 		var notCaseSensitive = false
+        var additionalTextAdded = false
 		
 		var newString: [String] = []
 		var goods = 0
 		for l in requiredStrings {
-			if captionCanvas.text.contains(l) {
+            //captionCanvas
+            if self.updatedString.contains(l) {
 				goods += 1
-				if captionCanvas.text.contains("\"\(l)\"") {
+                
+				if self.updatedString.contains("\"\(l)\"") {
 					extraquotes = true
 					newString.append("⚠️: \"\(l)\"")
 				} else {
-					newString.append("✅: \"\(l)\"")
+					
+                    if self.checkIfTextContained(regexText: l, realText: self.updatedString){
+                        
+                        newString.append("✅: \"\(l)\"")
+                        
+                    }else{
+                        
+                        additionalTextAdded = true
+                        newString.append("⚠️: \"\(l)\"")
+                        
+                    }
+                    
 				}
 			} else {
-				if captionCanvas.text.lowercased().contains(l.lowercased()) {
+				if self.updatedString.lowercased().contains(l.lowercased()) {
 					newString.append("⚠️: \"\(l)\"")
 					notCaseSensitive = true
 				} else {
@@ -52,7 +68,10 @@ class CaptionCrafterVC: UIViewController, UITextViewDelegate {
 			perfectGoodJob.textColor = .systemGreen
 			if hasWarning {
 				perfectGoodJob.text = "This will work, but you shouldn't add the quotes around the items.\nJust Copy & Paste this caption to the Instagram Post you made and you're done!"
-			} else {
+            }else if additionalTextAdded{
+                perfectGoodJob.text = "Don't append additional text around the items in your caption."
+            }
+            else {
 				perfectGoodJob.text = "Perfect!\nJust Copy & Paste this caption to the Instagram Post you made and you're done!"
 			}
 		} else {
@@ -73,12 +92,37 @@ class CaptionCrafterVC: UIViewController, UITextViewDelegate {
 		
 		listLabel.text = newString.joined(separator: "\n")
 	}
+    
+    func checkIfTextContained(regexText: String, realText: String) -> Bool {
+        //"^[ \n]${1,}"
+        //let regexString = "[^a-zA-Z0-9][ \n]{0,}" + regexText
+        //,-./:;<=>?@_`{|}~
+        let regexString = "[ \n]{1,}" + regexText + "[ \n]{1,}"
+        
+        let regex = try! NSRegularExpression(pattern: regexString, options: [.anchorsMatchLines,.caseInsensitive])
+        let range = NSRange(location: 0, length: realText.utf16.count)
+        
+        let checkIfContained = regex.firstMatch(in: realText, range: range) != nil
+        
+        return checkIfContained
+    }
 	
 	func textViewDidChange(_ textView: UITextView) {
+        
+        self.updatedString = self.captionCanvas.text
+        
+        let text = updatedString.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        self.updatedString = " " + text + " "
+        
+        print(self.updatedString)
+    
 		updateList()
 		if copyCaptionButton.title(for: .normal) == "Copied!" {
 			copyCaptionButton.setTitle("Click to Copy Your Caption", for: .normal)
 		}
+            
+        
 	}
 	
 	var firstTime = true

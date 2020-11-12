@@ -848,6 +848,7 @@ func updateIsAcceptedOffer(offer: Offer, money: Double) {
         let foreverDate = 365 * 1000
         //expireDateString = Date.getStringFromDate(date: Date().afterDays(day: foreverDate))!
         expireDate = Date().afterDays(numberOfDays: foreverDate)
+        offer.allConfirmed = false
     }
     
     
@@ -864,6 +865,11 @@ func updateIsAcceptedOffer(offer: Offer, money: Double) {
     for(index,_) in offer.posts.enumerated() {
         offer.posts[index].status = "accepted"
         offer.posts[index].PayAmount = payEachPost
+        
+        if offer.isDefaultOffer {
+            offer.posts[index].isConfirmed = false
+        }
+        
     }
     
     let offerDict = API.serializeOffer(offer: offer)

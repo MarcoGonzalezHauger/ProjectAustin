@@ -50,8 +50,16 @@ class InstagramConnectedVC: UIViewController {
      */
 	
 	@IBAction func ThatsNotMe(_ sender: Any) {
+        
+        NewAccount.id = ""
+        NewAccount.followerCount = 0
+        NewAccount.instagramName = ""
+        NewAccount.profilePicture = ""
+        NewAccount.instagramUsername = ""
+        NewAccount.profilePicture = ""
 		delegate?.ThatsNotMe()
-		dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
+		//dismiss(animated: true, completion: nil)
 	}
 	
 	var thisName: String!
