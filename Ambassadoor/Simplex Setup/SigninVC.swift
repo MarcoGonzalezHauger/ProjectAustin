@@ -146,10 +146,15 @@ class SigninVC: UIViewController {
                     
                     
                 }else{
+                    self.signinButton.isEnabled = true
+                    self.signinButton.Text = "Sign In"
                     self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later. (Fx3)")
                 }
                 
             }else{
+                
+                self.signinButton.isEnabled = true
+                self.signinButton.Text = "Sign In"
 				print(error.debugDescription)
                 self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later. (Fx2)")
             }
