@@ -302,8 +302,12 @@ func GetAllUsers(completion:@escaping (_ result: [User])->())  {
                 let userDictionary = user as? NSDictionary
                 
                 do {
+                    
                     let userInstance = try User(dictionary: userDictionary! as! [String : AnyObject])
-                    users.append(userInstance)
+                    if userInstance.version != "0.0.0"{
+                       users.append(userInstance)
+                    }
+                    
                 } catch let error {
                     print(error)
                 }
