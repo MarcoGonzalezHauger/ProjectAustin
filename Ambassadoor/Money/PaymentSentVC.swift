@@ -76,6 +76,8 @@ class PaymentSentVC: UIViewController {
 		print("fee=\(feeAmount)")
 		print(withdrawAmount)
 		
+		
+		
 		subAmount = withdrawAmount + Double(feeAmount)
 				
 		let finaltotalAmount = 0
@@ -139,9 +141,9 @@ class PaymentSentVC: UIViewController {
 						}
 					}
 				} else {
-					let alert = UIAlertController(title: "Nice Try (;", message: "Very creative though.\n~Marco, CTO", preferredStyle: .alert)
+					let alert = UIAlertController(title: "Error", message: "Out of sync with database", preferredStyle: .alert)
 					
-					alert.addAction(UIAlertAction(title: "Aw man...", style: .default, handler: { (ui) in
+					alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (ui) in
 						self.dismiss(animated: true, completion: nil)
 					}
 					))
