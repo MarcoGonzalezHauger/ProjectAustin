@@ -18,6 +18,7 @@ class ConnectInstaOnlyVC: UIViewController,VerificationReturned {
     }
     
     func ThatsNotMe() {
+        self.connectBtn.setTitle("CONNECT TO INSTAGRAM", for: .normal)
         getFBBusinessAccount()
     }
     

@@ -530,6 +530,19 @@ struct API {
         }
     }
     
+    static func facebookLogout(){
+        let dataStore = WKWebsiteDataStore.default()
+        dataStore.fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { (records) in
+            for record in records {
+                if record.displayName.contains("instagram") {
+                    dataStore.removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), for: [record], completionHandler: {
+                        print("Deleted: " + record.displayName);
+                    })
+                }
+            }
+        }
+    }
+    
     //If instagram user is business user, we need to allow user to facebook login for fetching instagram business user details.
     
     static func facebookLoginAct(userIDBusiness: String, owner: UIViewController, completion: @escaping(_ object:Any?, _ longliveToken: String?, _ error: Error?)->Void) {
@@ -601,7 +614,7 @@ struct API {
         let login: LoginManager = LoginManager()
         login.logOut()
         //"pages_show_list"
-        
+        //API.facebookLogout()
         login.logIn(permissions: ["instagram_basic", "pages_show_list", "manage_pages"], from: owner) { (result, FBerror) in
             if((FBerror) != nil){
                 print(FBerror as Any)
@@ -631,9 +644,14 @@ struct API {
                                         
                                         if let userDetailArray = userDetailDict["data"] as? NSArray{
                                             
+                                            
+                                            if userDetailArray.count != 0{
+                                            
                                             var insBusinesArray = [[String: AnyObject]]()
                                             
                                             let serialQueue = DispatchQueue.init(label: "serialQueue")
+                                                
+                                            var isSyncCount = 0
                                             
                                             for (index,userDetailData) in userDetailArray.enumerated() {
                                                 
@@ -646,6 +664,8 @@ struct API {
                                                         serialQueue.sync {
                                                             
                                                             GraphRequest(graphPath: pageID, parameters: ["fields":"instagram_business_account"]).start(completionHandler: { (connection, businessDetail, tokenError) -> Void in
+                                                                
+                                                                isSyncCount += 1
                                                                 
                                                                 if let businessDetailDict = businessDetail as? [String: AnyObject]{
                                                                     
@@ -664,7 +684,7 @@ struct API {
                                                                     
                                                                 }
                                                                 
-                                                                if index == userDetailArray.count - 1 {
+                                                                if isSyncCount == userDetailArray.count {
                                                                     if insBusinesArray.count != 0{
                                                                         
                                                                         DispatchQueue.main.async {
@@ -702,6 +722,8 @@ struct API {
                                                         
                                                     }else{
                                                         
+                                                        
+                                                        
                                                     }
                                                     
                                                     
@@ -712,7 +734,11 @@ struct API {
                                                 
                                             }
                                             
+                                        }else{
+                                                
+                                                completion(nil, nil, "Instagram Not Linked" as AnyObject)
                                             
+                                        }
                                             
                                             
                                             
@@ -776,7 +802,11 @@ struct API {
                                             //
                                             //                                        }
                                             
+                                        }else{
+                                            completion(nil, nil, "Instagram Not Linked" as AnyObject)
                                         }
+                                    }else{
+                                        completion(nil, nil, "Instagram Not Linked" as AnyObject)
                                     }
                                     
                                     
