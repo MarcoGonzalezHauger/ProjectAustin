@@ -34,7 +34,7 @@ class ViewPostDetailedVC: UIViewController {
     func setPostedData() {
         
         let post = self.offer!.posts[self.index!]
-        let postValue = postStatus.returnImageStatus(status: post.status)
+        let postValue = postStatus.returnImageStatus(status: post.status, isPaid: post.isPaid)
         
         self.postStatusImg.image = UIImage(named: postValue.1)
         
