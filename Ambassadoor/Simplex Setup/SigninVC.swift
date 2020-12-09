@@ -73,6 +73,7 @@ class SigninVC: UIViewController {
                                         Yourself = user
                                         setHapticMenu(user: Yourself)
                                         downloadDataBeforePageLoad()
+                                        AverageLikes(userID: userID, userToken: user.authenticationToken)
                                         self.LoginSuccessful()
                                         
                                     }

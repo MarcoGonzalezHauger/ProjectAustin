@@ -151,9 +151,10 @@ class OfferViewerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                                                     print(error)
                                                 }
                                                 if let offerPoolOffer = offerPoolOffer {
+                                                    offerPoolOffer.accepted = offerPoolOffer.accepted!.filter { $0 != Yourself.id}
                                                     var newCashPower = offerPoolOffer.cashPower ?? 0
                                                     newCashPower += currentOffer.money
-                                                    offerPoolRef.updateChildValues(["cashPower": newCashPower]) { (err, dataref) in
+                                                    offerPoolRef.updateChildValues(["cashPower": newCashPower, "accepted":offerPoolOffer.accepted as Any]) { (err, dataref) in
                                                         print("The cancellation of this offer has been completed.")
                                                     }
                                                 }

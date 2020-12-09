@@ -775,13 +775,14 @@ func AverageLikes(userID: String, userToken: String) {
                 
                 var numberOfPost = 0
                 var numberOfLikes = 0
+                var numberOfCall = 0
                 
                 for (index,mediaObject) in mediaData.enumerated() {
                     
                     if let mediaID = mediaObject["id"] as? String {
                         
                         GraphRequest(graphPath: mediaID, parameters: ["fields":"like_count,timestamp","access_token":userToken]).start(completionHandler: { (connection, recentMediaDetails, error) -> Void in
-                            
+                            numberOfCall += 1
                             if let mediaDict = recentMediaDetails as? [String: AnyObject] {
                                 
                                 if let timeStamp = mediaDict["timestamp"] as? String{
@@ -804,7 +805,7 @@ func AverageLikes(userID: String, userToken: String) {
                             }
                             
                             
-                            if index == mediaObject.count - 1{
+                            if numberOfCall == mediaData.count{
                                 
                                 if numberOfPost != 0 {
                                 

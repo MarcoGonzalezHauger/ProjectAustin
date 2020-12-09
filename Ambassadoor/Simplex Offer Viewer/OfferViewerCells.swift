@@ -606,15 +606,15 @@ class PostDetailCell: UITableViewCell, UITableViewDataSource, UITableViewDelegat
 			}
 			let post = offer!.posts[indexPath.row]
 			if indexPath.row == 0 {
-				let postIdentify = postStatus.returnImageStatus(status: post.status)
+				let postIdentify = postStatus.returnImageStatus(status: post.status, isPaid: post.isPaid)
 				cell!.postDes.text = "Post 1 (\(postIdentify.0.rawValue))"
 				cell!.postDesImg.image = UIImage.init(named: postIdentify.1)
 			}else if indexPath.row == 1{
-				let postIdentify = postStatus.returnImageStatus(status: post.status)
+				let postIdentify = postStatus.returnImageStatus(status: post.status, isPaid: post.isPaid)
 				cell!.postDes.text = "Post 2 (\(postIdentify.0.rawValue))"
 				cell!.postDesImg.image = UIImage.init(named: postIdentify.1)
 			}else{
-				let postIdentify = postStatus.returnImageStatus(status: post.status)
+				let postIdentify = postStatus.returnImageStatus(status: post.status, isPaid: post.isPaid)
 				cell!.postDes.text = "Post 3 (\(postIdentify.0.rawValue))"
 				cell!.postDesImg.image = UIImage.init(named: postIdentify.1)
 			}

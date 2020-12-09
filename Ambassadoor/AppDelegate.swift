@@ -332,12 +332,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                                 Yourself = user
                                 //updateFirebaseProfileURL()
                                 setHapticMenu(user: Yourself)
-                                
+                                 AverageLikes(userID: userID, userToken: user.authenticationToken)
                                 let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
                                 downloadDataBeforePageLoad(reference: viewReference)
                                 self.window?.rootViewController = viewReference
                                 
-                               // self.callIfAccessTokenExpired(userID: userID )
+                                //self.callIfAccessTokenExpired(userID: userID )
+                                
                                 
                             }
                             

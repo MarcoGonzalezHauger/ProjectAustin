@@ -57,9 +57,8 @@ class BusinessUserTVC: UITableViewCell, FollowerButtonDelegete {
                 
                 self.name.text = business.name
                 self.mission.text = business.mission
-                
+                BusinessButton.isBusiness = true
 				BusinessButton.isFollowing = (Yourself.businessFollowing?.contains(business.userId!))!
-				BusinessButton.isBusiness = true
 				BusinessButton.delegate = self
                 
             }

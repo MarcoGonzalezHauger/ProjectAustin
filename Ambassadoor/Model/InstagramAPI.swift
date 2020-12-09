@@ -250,6 +250,9 @@ struct API {
                 if let recentMediaDict = recentMedia as? [String: AnyObject] {
                     
                     if let mediaData = recentMediaDict["data"] as? [[String: AnyObject]]{
+                        
+                        var numberOfCall = 0
+                        
                         for (index,mediaObject) in mediaData.enumerated() {
                             
                             if let mediaID = mediaObject["id"] as? String {
@@ -257,7 +260,7 @@ struct API {
                                 //if !self.instagramMediaID.contains(mediaID) {
                                 
                                 GraphRequest(graphPath: mediaID, parameters: ["fields":"like_count,timestamp,caption,username","access_token":Yourself.authenticationToken]).start(completionHandler: { (connection, recentMediaDetails, error) -> Void in
-                                    
+                                    numberOfCall += 1
                                     if let mediaDict = recentMediaDetails as? [String: AnyObject] {
                                         
                                         if let timeStamp = mediaDict["timestamp"] as? String{
@@ -267,7 +270,7 @@ struct API {
                                             if Date.getDateFromISO8601DateString(ISO8601String: timeStamp) > Date().deductMonths(month: -3){
                                                 self.instagramMediaData.append(mediaDict)
                                                 self.instagramMediaID.append(mediaID)
-                                                if index == mediaData.count - 1 {
+                                                if numberOfCall == mediaData.count {
                                                     completed?(self.instagramMediaData)
                                                 }
                                             }

@@ -290,11 +290,11 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                 postTwo.updateConstraints()
                 postTwo.layoutIfNeeded()
                 
-                postImgOne.image = UIImage.init(named: postStatus.returnImageStatus(status: offerValue.posts[0].status).1)
-                postOne.text = " Post 1 (\(postStatus.returnImageStatus(status: offerValue.posts[0].status).0.rawValue))"
+                postImgOne.image = UIImage.init(named: postStatus.returnImageStatus(status: offerValue.posts[0].status, isPaid: offerValue.posts[0].isPaid).1)
+                postOne.text = " Post 1 (\(postStatus.returnImageStatus(status: offerValue.posts[0].status, isPaid: offerValue.posts[0].isPaid).0.rawValue))"
                 
-                postImgTwo.image = UIImage.init(named: postStatus.returnImageStatus(status: offerValue.posts[1].status).1)
-                postTwo.text = " Post 2 (\(postStatus.returnImageStatus(status: offerValue.posts[1].status).0.rawValue))"
+                postImgTwo.image = UIImage.init(named: postStatus.returnImageStatus(status: offerValue.posts[1].status, isPaid: offerValue.posts[0].isPaid).1)
+                postTwo.text = " Post 2 (\(postStatus.returnImageStatus(status: offerValue.posts[1].status, isPaid: offerValue.posts[0].isPaid).0.rawValue))"
                 
             }else if offerValue.posts.count == 1 {
                 
@@ -321,8 +321,8 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
                 
                 
                 
-                postImgOne.image = UIImage.init(named: postStatus.returnImageStatus(status: offerValue.posts[0].status).1)
-                postOne.text = " Post 1 (\(postStatus.returnImageStatus(status: offerValue.posts[0].status).0.rawValue))"
+                postImgOne.image = UIImage.init(named: postStatus.returnImageStatus(status: offerValue.posts[0].status, isPaid: offerValue.posts[0].isPaid).1)
+                postOne.text = " Post 1 (\(postStatus.returnImageStatus(status: offerValue.posts[0].status, isPaid: offerValue.posts[0].isPaid).0.rawValue))"
                 
             }
         }else{
@@ -345,14 +345,14 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
             postTwo.updateConstraints()
             postTwo.layoutIfNeeded()
             
-            postImgOne.image = UIImage.init(named: postStatus.returnImageStatus(status: offerValue.posts[0].status).1)
-            postOne.text = " Post 1 (\(postStatus.returnImageStatus(status: offerValue.posts[0].status).0.rawValue))"
+            postImgOne.image = UIImage.init(named: postStatus.returnImageStatus(status: offerValue.posts[0].status, isPaid: offerValue.posts[0].isPaid).1)
+            postOne.text = " Post 1 (\(postStatus.returnImageStatus(status: offerValue.posts[0].status, isPaid: offerValue.posts[0].isPaid).0.rawValue))"
             
-            postImgTwo.image = UIImage.init(named: postStatus.returnImageStatus(status: offerValue.posts[1].status).1)
-            postTwo.text = " Post 2 (\(postStatus.returnImageStatus(status: offerValue.posts[1].status).0.rawValue))"
+            postImgTwo.image = UIImage.init(named: postStatus.returnImageStatus(status: offerValue.posts[1].status, isPaid: offerValue.posts[0].isPaid).1)
+            postTwo.text = " Post 2 (\(postStatus.returnImageStatus(status: offerValue.posts[1].status, isPaid: offerValue.posts[0].isPaid).0.rawValue))"
             
-            postImgThree.image = UIImage.init(named: postStatus.returnImageStatus(status: offerValue.posts[2].status).1)
-            postThree.text = " Post 3 (\(postStatus.returnImageStatus(status: offerValue.posts[2].status).0.rawValue))"
+            postImgThree.image = UIImage.init(named: postStatus.returnImageStatus(status: offerValue.posts[2].status, isPaid: offerValue.posts[0].isPaid).1)
+            postThree.text = " Post 3 (\(postStatus.returnImageStatus(status: offerValue.posts[2].status, isPaid: offerValue.posts[0].isPaid).0.rawValue))"
             
         }
         
@@ -381,13 +381,18 @@ enum rowHeight: CGFloat {
 enum postStatus: String {
     case NotPosted = "Not Posted",Posted = "Posted",Verified = "Verified", Rejected = "Rejected", Paid = "Paid"
     
-    static func returnImageStatus(status: String)->(postStatus, String, UIColor){
+    static func returnImageStatus(status: String, isPaid: Bool? = false)->(postStatus, String, UIColor){
         switch status {
         case "accepted":
         return(.NotPosted, "notPosted", GetForeColor())
         case "posted":
             return(.Posted, "isPosted", .systemGreen)
         case "verified":
+            if let isPaid = isPaid {
+                if isPaid {
+                   return(.Paid, "payment verified", .systemBlue)
+                }
+            }
             return(.Verified, "postVerified", .systemBlue)
         case "rejected":
             return(.Rejected, "postRejected", .systemRed)
