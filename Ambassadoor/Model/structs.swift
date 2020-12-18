@@ -204,7 +204,7 @@ class Offer: NSObject {
 				let total = posts.count
 				let postedCount = (posts.filter {$0.status == "posted"}).count
 				let verifiedCount = (posts.filter {$0.status == "verified"}).count
-				let rejectedCount = (posts.filter {$0.status == "rejected"}).count
+				let rejectedCount = (posts.filter {$0.status == "rejected" || $0.status == "denied"}).count
 				let paidCount = (posts.filter {$0.status == "paid"}).count
 				let missing = total - (postedCount + verifiedCount + rejectedCount + paidCount)
 				let notPostedCount = isExpired ? 0 : missing
@@ -239,7 +239,7 @@ class Offer: NSObject {
 		if err.count > 0 {
 			throw NSError(domain: err.joined(separator: ", "), code: 101, userInfo: ["class": "Offer Class", "value": dictionary])
 		}
-		
+		self.acceptedDate =  ((dictionary["updatedDate"] as? String) != nil) ? getDateFromString(date: dictionary["updatedDate"] as! String) : nil
         self.status = dictionary["status"] as! String
         self.money = dictionary["money"] as! Double
         self.originalAmount = dictionary["originalAmount"] as? Double ?? 0.0
@@ -331,7 +331,6 @@ class Offer: NSObject {
         self.shouldRefund = dictionary["shouldRefund"] as? Bool ?? false
         self.didRefund = dictionary["didRefund"] as? Bool ?? false
         self.refundedOn = dictionary["refundedOn"] as? String ?? ""
-        self.acceptedDate =  ((dictionary["updatedDate"] as? String) != nil) ? getDateFromString(date: dictionary["updatedDate"] as! String) : nil
         self.reservedUsers = dictionary["reservedUsers"] as? [String: [String: AnyObject]] ?? [:]
         self.allConfirmed = dictionary["allConfirmed"] as? Bool ?? false
         
@@ -421,7 +420,7 @@ class User: NSObject {
         self.gender = Gender(rawValue: dictionary["gender"] as? String ?? "Male")
         //self.gender = (dictionary["gender"] as? Gender.RawValue).map { Gender(rawValue: $0) }!
         self.isBankAdded = dictionary["isBankAdded"] as! Bool 
-        self.yourMoney = dictionary["yourMoney"] as! Double
+        self.yourMoney = dictionary["yourMoney"] as? Double ?? 0.0
         self.joinedDate = dictionary["joinedDate"] as? String
         self.categories = dictionary["categories"] as? [String]
         
