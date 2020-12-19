@@ -328,12 +328,33 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
         
         
         let ref = Database.database().reference().child("users")
-        let userReference = ref.child(Yourself.id)
-		if Yourself.referralcode == "" {
-			fatalError()
-		}
-        let userData = API.serializeUser(user: Yourself, id: Yourself.id)
-        userReference.updateChildValues(userData)
+        
+        ref.observeSingleEvent(of: .value) { (userValuSnap) in
+            
+            if let referenceUserData = userValuSnap.value as? [String: AnyObject] {
+                
+                do {
+                    let userRef = try User.init(dictionary: referenceUserData)
+                    
+                    Yourself.yourMoney = userRef.yourMoney
+                    
+                     let refAgain = Database.database().reference().child("users")
+                    
+                    let userReference = refAgain.child(Yourself.id)
+                    if Yourself.referralcode == "" {
+                        fatalError()
+                    }
+                    let userData = API.serializeUserWithOutMoney(user: Yourself, id: Yourself.id)
+                    userReference.updateChildValues(userData)
+                    
+                } catch let error {
+                    print(error)
+                }
+                
+            }
+            
+        }
+        
         
         
         self.shelf.reloadData()

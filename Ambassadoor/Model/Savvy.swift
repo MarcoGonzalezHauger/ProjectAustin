@@ -555,6 +555,7 @@ func signOutofAmbassadoor() {
     UserDefaults.standard.set(nil, forKey: "userID")
     UserDefaults.standard.set(nil, forKey: "email")
     UserDefaults.standard.set(nil, forKey: "password")
+    global.allInprogressOffer = [Offer]()
     API.instaLogout()
     Yourself = nil
 }

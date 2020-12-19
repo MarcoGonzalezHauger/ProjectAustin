@@ -396,6 +396,8 @@ enum postStatus: String {
             return(.Verified, "postVerified", .systemBlue)
         case "rejected":
             return(.Rejected, "postRejected", .systemRed)
+        case "denied":
+        return(.Rejected, "postRejected", .systemRed)
         case "paid":
         return(.Paid, "payment verified", .systemBlue)
         default:

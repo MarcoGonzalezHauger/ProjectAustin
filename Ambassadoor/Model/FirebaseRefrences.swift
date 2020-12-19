@@ -265,7 +265,7 @@ func CreateAccount(instagramUser: User, completion:@escaping (_ Results: User , 
         
         if alreadyRegistered {
             let userReference = ref.child(instagramUser.id)
-            let userData = API.serializeUser(user: instagramUser, id: instagramUser.id)
+            let userData = API.serializeUserWithOutMoney(user: instagramUser, id: instagramUser.id)
             userReference.updateChildValues(userData)
             completion(instagramUser,true)
         } else {
@@ -659,7 +659,7 @@ func updateUserDataToFIR(user: User, completion:@escaping (_ Results: User) -> (
             print("Referral Code Set.")
             
             let userReference = Database.database().reference().child("users").child(user.id)
-            let userData = API.serializeUser(user: user, id: user.id)
+            let userData = API.serializeUserWithOutMoney(user: user, id: user.id)
             print("User Data Serialized")
             userReference.updateChildValues(userData)
             print("User Data Uploaded")
@@ -965,11 +965,11 @@ func updateFollowingFollowerUser(user: User, identifier: String) {
     // update Following & Follower
     
     let userFollowingRef = Database.database().reference().child("Following").child(Yourself.id)
-    let userDetails = API.serializeUser(user: user, id: user.id)
+    let userDetails = API.serializeUserWithOutMoney(user: user, id: user.id)
     userFollowingRef.updateChildValues([user.id: ["identifier": identifier,"user":userDetails,"startedAt": Date.getStringFromDate(date: Date()) as Any] ])
     
     let userFollowerRef = Database.database().reference().child("Follower").child(user.id)
-    let followerDetails = API.serializeUser(user: user, id: user.id)
+    let followerDetails = API.serializeUserWithOutMoney(user: user, id: user.id)
     userFollowerRef.updateChildValues([Yourself.id: ["identifier": "influencer","user":followerDetails, "startedAt": Date.getStringFromDate(date: Date()) as Any]])
 }
 

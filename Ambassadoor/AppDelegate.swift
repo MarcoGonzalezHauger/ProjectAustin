@@ -595,7 +595,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         global.OffersHistory = youroffers.filter({$0.status == "paid"})
 
                             global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
-                            global.RejectedOffers = youroffers.filter({$0.status == "rejected"})
+                            global.RejectedOffers = youroffers.filter({$0.status == "rejected" || $0.status == "denied"})
                             
                             UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
                                 var newavailableresults: [Offer] = []

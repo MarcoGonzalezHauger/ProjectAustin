@@ -25,7 +25,7 @@ class RejectedMessageCell: UITableViewCell {
 					var detectedCount = 0
 					
 					for post in offerValue.posts {
-						if post.status == "rejected"{
+                        if post.status == "rejected" || post.status == "denied"{
 							detectedCount += 1
 						}
 					}

@@ -422,6 +422,34 @@ struct API {
         return userData
     }
     
+    // change User detail class object to json value
+    static func serializeUserWithOutMoney(user: User, id: String) -> [String: Any] {
+        let userData: [String: Any] = [
+            "id": id,
+            "name": user.name!,
+            "username": user.username,
+            "followerCount": user.followerCount,
+            "profilePicture": user.profilePicURL ?? "",
+            "averageLikes": user.averageLikes ?? 0,
+            "zipCode": user.zipCode as Any,
+            "gender": user.gender == nil ? "" : user.gender!.rawValue,
+            "isBankAdded": user.isBankAdded,
+            "joinedDate": user.joinedDate!,
+            "categories": user.categories as AnyObject,
+            "referralcode": user.referralcode,
+            "isDefaultOfferVerify": user.isDefaultOfferVerify,
+            "lastPaidOSCDate": user.lastPaidOSCDate,
+            "priorityValue": user.priorityValue,
+            "authenticationToken": user.authenticationToken,
+            "tokenFIR":global.deviceFIRToken,
+            "following":user.following ?? [],
+            "businessFollowing":user.businessFollowing ?? [],
+            "email":user.email ?? "",
+            "version": user.version ?? "0.0.0"
+        ]
+        return userData
+    }
+    
     static func serializeCompanyDetails(company: CompanyDetails)-> [String: Any]{
         
         let companyData: [String: Any] = [
