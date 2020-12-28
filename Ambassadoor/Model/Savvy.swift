@@ -555,6 +555,13 @@ func signOutofAmbassadoor() {
     UserDefaults.standard.set(nil, forKey: "userID")
     UserDefaults.standard.set(nil, forKey: "email")
     UserDefaults.standard.set(nil, forKey: "password")
+    UIApplication.shared.applicationIconBadgeNumber = 0
+    for timer in global.allTimers {
+        if timer != nil {
+            timer.invalidate()
+        }
+    }
+    global.allTimers.removeAll()
     global.allInprogressOffer = [Offer]()
     API.instaLogout()
     Yourself = nil

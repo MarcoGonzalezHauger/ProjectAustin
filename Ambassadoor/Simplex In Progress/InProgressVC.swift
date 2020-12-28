@@ -62,6 +62,7 @@ class InProgressTVC: UITableViewCell, SyncTimerDelegate{
 								self.setInprogressValue(currentDate: currentDate, expireDateAftAcpt: expireDateAftAcpt, offerAcceptedDate: offerAcceptedDate)
 								self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.startCountDownForAccepted(sender:)), userInfo: nil, repeats: true)
 								self.startCountDownForAccepted(sender: timer!)
+                                global.allTimers.append(self.timer!)
 							}else{
 								progressWidth.constant = self.frame.size.width
 								progrssView.updateConstraints()

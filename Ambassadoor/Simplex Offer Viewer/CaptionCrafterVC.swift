@@ -97,7 +97,9 @@ class CaptionCrafterVC: UIViewController, UITextViewDelegate {
         //"^[ \n]${1,}"
         //let regexString = "[^a-zA-Z0-9][ \n]{0,}" + regexText
         //,-./:;<=>?@_`{|}~
-        let regexString = "[ \n]{1,}" + regexText + "[ \n]{1,}"
+        let text =  NSRegularExpression.escapedPattern(for: regexText)
+
+        let regexString = "[ \n]{1,}" + text + "[ \n]{1,}"
         
         let regex = try! NSRegularExpression(pattern: regexString, options: [.anchorsMatchLines,.caseInsensitive])
         let range = NSRange(location: 0, length: realText.utf16.count)
