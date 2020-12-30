@@ -109,7 +109,8 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		signOutofAmbassadoor()
 		attemptedLogOut = true
         UserDefaults.standard.removeObject(forKey: "userID")
-		let loginVC = self.storyboard?.instantiateInitialViewController()
+        let signInStoryBoard = UIStoryboard(name: "LoginSetup", bundle: nil)
+        let loginVC = signInStoryBoard.instantiateInitialViewController()
 		let appDel: AppDelegate = UIApplication.shared.delegate as! AppDelegate
 		appDel.window?.rootViewController = loginVC
 	}
