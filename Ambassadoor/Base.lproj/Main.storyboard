@@ -404,9 +404,9 @@ here</string>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6rC-RI-cRx">
-                                                                    <rect key="frame" x="292" y="33.333333333333336" width="71" height="32.000000000000007"/>
+                                                                    <rect key="frame" x="238" y="33.333333333333336" width="125" height="32.000000000000007"/>
                                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                                                    <state key="normal" title="Cash Out"/>
+                                                                    <state key="normal" title="Transfer to Bank"/>
                                                                 </button>
                                                             </subviews>
                                                             <constraints>
@@ -4598,7 +4598,7 @@ here</string>
                                     <action selector="doneClicked:" destination="JUk-2d-bAm" eventType="touchUpInside" id="Ole-Ex-MfA"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Follower Treshhold" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qwN-WY-XME">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Follower Treshhold" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qwN-WY-XME">
                                 <rect key="frame" x="249.66666666666663" y="64" width="148.33333333333337" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="KLk-cU-ptK"/>
@@ -4607,13 +4607,13 @@ here</string>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7cv-BD-75t">
+                            <switch hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7cv-BD-75t">
                                 <rect key="frame" x="349" y="16" width="51" height="31"/>
                                 <connections>
                                     <action selector="verifiedSwitch:" destination="JUk-2d-bAm" eventType="valueChanged" id="wgr-XG-Uqq"/>
                                 </connections>
                             </switch>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BigVerifiedLogo" translatesAutoresizingMaskIntoConstraints="NO" id="4dd-rr-i5h">
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BigVerifiedLogo" translatesAutoresizingMaskIntoConstraints="NO" id="4dd-rr-i5h">
                                 <rect key="frame" x="310" y="13" width="37" height="37"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="4dd-rr-i5h" secondAttribute="height" multiplier="1:1" id="MKg-nb-He4"/>

@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import StoreKit
 
 protocol makeCashBoxShake {
 	func doItNow()
@@ -219,6 +220,9 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
     
     @IBAction func cashOutAction(sender: UIButton){
         //MoneySegue
+        
+        
+        
 		let fee = GetFeeForInfluencer(Yourself)
 		if Yourself.yourMoney <= fee {
 			shakerDelegate?.doItNow()
@@ -231,6 +235,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 			
 			self.present(alert, animated: true)
 		} else {
+            SKStoreReviewController.requestReview()
 			self.performSegue(withIdentifier: "MoneySegue", sender: self)
 		}
     }
@@ -321,11 +326,16 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		var avaliableSettings: [ProfileSetting] = []
         print(Yourself.zipCode as AnyObject)
         print(Yourself.categories as AnyObject)
-
+        
+        
+        let updateTwoKeys = Database.database().reference().child("users").child(Yourself.id)
+        updateTwoKeys.updateChildValues(["zipCode": Yourself.zipCode as Any,"categories": Yourself.categories as AnyObject])
 
 
         avaliableSettings.append(ProfileSetting.init(Header: "CATEGORIES", Information: Yourself.categories as AnyObject, identifier: "main_cat"))
 		avaliableSettings.append(ProfileSetting.init(Header: "TOWN", Information: (Yourself.zipCode ?? "0") as AnyObject, identifier: "zip"))
+        
+        
         
         
         let ref = Database.database().reference().child("users")

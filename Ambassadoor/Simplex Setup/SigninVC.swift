@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseCrashlytics
 
 enum LoginProblem {
     case noEmail //no email.
@@ -41,6 +42,7 @@ class SigninVC: UIViewController {
     
     func SignInNow() {
         
+                
         if emailText.text?.count != 0 {
             
             if isValidEmail(emailStr: emailText.text!){
