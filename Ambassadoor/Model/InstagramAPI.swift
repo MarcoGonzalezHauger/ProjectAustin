@@ -19,7 +19,7 @@ struct API {
      static let INSTAGRAM_REDIRECT_URI = "https://ambassadoor.co/welcome"
      static let INSTAGRAM_REDIRECT_URI2 = "https://www.ambassadoor.co/welcome"
      */
-    
+    static var isForTesting = true
     static let shouldAboveVersion = "2.0.0"
     
     static let INSTAGRAM_CREATOR_HELP = "https://help.instagram.com/2358103564437429"
@@ -1035,7 +1035,8 @@ struct API {
             "shouldRefund": offer.shouldRefund as Any,
             "didRefund": offer.didRefund as Any,
             "refundedOn": offer.refundedOn as Any,
-            "updatedDate": Date.getStringFromDate(date: offer.acceptedDate!) as Any
+            "updatedDate": Date.getStringFromDate(date: offer.acceptedDate!) as Any,
+            "isForTesting": offer.isForTesting
         ]
         return offerData
         //self.isRefferedByInfluencer = dictionary["isRefferedByInfluencer"] as? Bool ?? false

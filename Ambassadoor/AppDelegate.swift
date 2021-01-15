@@ -228,6 +228,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        FirebaseApp.configure()
+        Database.database().isPersistenceEnabled = false
+        
 //        SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         global.cachedImageList.removeAll()
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "AppImageData")
@@ -257,8 +260,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         
 		//AskForNotificationPermission()
-                FirebaseApp.configure()
-                Database.database().isPersistenceEnabled = false
+                
                 //Form-API Depreciated
         //        InitializeFormAPI(completed: nil)
                 InitializeZipCodeAPI(completed: nil)

@@ -183,6 +183,9 @@ class Offer: NSObject {
 			return self.posts.filter{$0.denyMessage ?? "" == "You cancelled the offer." }.count > 0
 		}
 	}
+    
+    var isForTesting: Bool
+    
 	
 	var variation: OfferVariation {
 		get {
@@ -333,6 +336,7 @@ class Offer: NSObject {
         self.refundedOn = dictionary["refundedOn"] as? String ?? ""
         self.reservedUsers = dictionary["reservedUsers"] as? [String: [String: AnyObject]] ?? [:]
         self.allConfirmed = dictionary["allConfirmed"] as? Bool ?? false
+        self.isForTesting = dictionary["isForTesting"] as? Bool ?? false
         
     }
 }

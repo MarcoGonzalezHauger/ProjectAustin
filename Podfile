@@ -8,11 +8,13 @@ target 'Ambassadoor' do
   use_frameworks!
 
   # Pods for Ambassadoor
-  pod 'Firebase/Core'
+  pod 'Firebase/CoreOnly'
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
   pod 'Firebase/Database'
   pod 'Firebase/Messaging'
+  pod 'Firebase/Crashlytics'
+  pod 'Firebase/Analytics'
 #  pod 'SwiftKeychainWrapper'
 #  pod 'Plaid'
   pod 'SDWebImage'

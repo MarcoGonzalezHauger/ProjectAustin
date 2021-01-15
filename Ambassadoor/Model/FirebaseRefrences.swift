@@ -1099,7 +1099,12 @@ func updatePassword(userID: String,password: String){
 func getObserveFilteredOffer(completion: @escaping (_ status: Bool, _ offerList: [Offer])-> Void) {
     GetOfferPool { (offers) in
         let offerlist = offers.filter{
-            return $0.notAccepted && $0.enoughCashForInfluencer && $0.isFiltered
+            
+            if API.isForTesting == true{
+                return $0.notAccepted && $0.enoughCashForInfluencer && $0.isFiltered && $0.isForTesting
+            }else{
+                return $0.notAccepted && $0.enoughCashForInfluencer && $0.isFiltered && !$0.isForTesting
+            }
         }
         completion(true, offerlist)
     }
@@ -1109,7 +1114,14 @@ func getObserveFollowerCompaniesOffer(completion: @escaping (_ status: Bool, _ o
     
     GetOfferPool { (offers) in
         let offerlist = offers.filter{
-            return $0.notAccepted && ((Yourself.businessFollowing ?? []).contains($0.businessAccountID)) && $0.enoughCashForInfluencer
+            
+            if API.isForTesting == true{
+                return $0.notAccepted && ((Yourself.businessFollowing ?? []).contains($0.businessAccountID)) && $0.enoughCashForInfluencer && $0.isForTesting
+            }else{
+                return $0.notAccepted && ((Yourself.businessFollowing ?? []).contains($0.businessAccountID)) && $0.enoughCashForInfluencer && !$0.isForTesting
+            }
+            
+            
         }
         completion(true, offerlist)
     }
@@ -1119,7 +1131,11 @@ func getObserveFollowerCompaniesOffer(completion: @escaping (_ status: Bool, _ o
 func getOfferByBusiness(userId: String, completion:@escaping(_ status: Bool,_ returnoffers: [Offer])->()) {
     GetOfferPool { (offers) in
         let offerlist = offers.filter{
-            return $0.notAccepted && ($0.businessAccountID == userId) && $0.enoughCashForInfluencer
+            if API.isForTesting == true{
+            return $0.notAccepted && ($0.businessAccountID == userId) && $0.enoughCashForInfluencer && $0.isForTesting
+            }else{
+            return $0.notAccepted && ($0.businessAccountID == userId) && $0.enoughCashForInfluencer && !$0.isForTesting
+            }
         }
         completion(true, offerlist)
     }
@@ -1140,7 +1156,19 @@ func getAcceptedOffers(completion: @escaping(_ status: Bool,_ offer: [Offer])->(
                 do {
                     let offer = try Offer.init(dictionary: offervalue)
                     
-                    offerList.append(offer)
+                    if API.isForTesting{
+                        
+                        if offer.isForTesting == true{
+                           offerList.append(offer)
+                        }
+                        
+                    }else{
+                        
+                        if offer.isForTesting == false{
+                           offerList.append(offer)
+                        }
+                        
+                    }
                 } catch let error {
                     print(error)
                 }
@@ -1541,7 +1569,12 @@ func GetOfferPool(completion: @escaping (_ offerList: [Offer])-> Void) {
 func getObserveAllOffer(completion: @escaping (_ status: Bool, _ offerList: [Offer])-> Void) {
     GetOfferPool { (offers) in
         let offerlist = offers.filter {
-            return $0.notAccepted && $0.isFiltered && $0.enoughCashForInfluencer
+            if API.isForTesting == true{
+                return $0.notAccepted && $0.isFiltered && $0.enoughCashForInfluencer && $0.isForTesting
+            }else{
+               return $0.notAccepted && $0.isFiltered && $0.enoughCashForInfluencer && !$0.isForTesting
+            }
+            
         }
         completion(true, offerlist)
     }
