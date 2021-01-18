@@ -231,6 +231,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         FirebaseApp.configure()
         Database.database().isPersistenceEnabled = false
         
+        downloadSocialBusinessData()
+        
 //        SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         global.cachedImageList.removeAll()
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "AppImageData")

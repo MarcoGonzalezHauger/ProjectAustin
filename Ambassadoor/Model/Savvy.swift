@@ -881,36 +881,6 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
 			reference!.tabBar.items![1].badgeValue = nil
 		}
 	}
-	
-	global.BusinessUser.removeAll()
-    _ = GetAllBusiness(completion: { (business) in
-        global.BusinessUser = business
-        
-        if global.BusinessUser.count > 20 {
-            for i in 0...19{
-                
-                let business = global.BusinessUser[i]
-                
-                if let logo = business.logo{
-                    downloadImage(logo) { (image) in
-                        
-                    }
-                }
-                
-            }
-        }else{
-            for business in global.BusinessUser{
-                                
-                if let logo = business.logo{
-                    downloadImage(logo) { (image) in
-                        
-                    }
-                }
-                
-            }
-        }
-        
-    })
     
 	getObserveFollowerCompaniesOffer() { (status, offers) in
         
@@ -928,33 +898,6 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
     }
     
     
-    global.SocialData.removeAll()
-    _ = GetAllUsers(completion: { (users) in
-        global.SocialData = users
-        if global.SocialData.count > 20 {
-            for i in 0...19{
-                
-                let user = global.SocialData[i]
-                
-                if let profile = user.profilePicURL{
-                    downloadImage(profile) { (profileImage) in
-                        
-                    }
-                }
-                
-            }
-        }else{
-            for user in global.SocialData{
-                if let profile = user.profilePicURL{
-                    downloadImage(profile) { (profileImage) in
-                        
-                    }
-                }
-                
-            }
-        }
-    })
-    
     if reference != nil {
         getAcceptedOffers { (status, offers) in
             
@@ -965,6 +908,10 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
 				UIApplication.shared.applicationIconBadgeNumber = offers.filter{$0.variation == .inProgress}.count
                 
             }
+            
+//            if let searchView = reference?.viewControllers![0] as? SearchMenuVC{
+//                searchView.viewDidLoad()
+//            }
             
         }
     }
@@ -1011,6 +958,67 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
         }
         
     }
+}
+
+func downloadSocialBusinessData() {
+    
+    global.SocialData.removeAll()
+    _ = GetAllUsers(completion: { (users) in
+        global.SocialData = users
+        if global.SocialData.count > 20 {
+            for i in 0...19{
+                
+                let user = global.SocialData[i]
+                
+                if let profile = user.profilePicURL{
+                    downloadImage(profile) { (profileImage) in
+                        
+                    }
+                }
+                
+            }
+        }else{
+            for user in global.SocialData{
+                if let profile = user.profilePicURL{
+                    downloadImage(profile) { (profileImage) in
+                        
+                    }
+                }
+                
+            }
+        }
+    })
+    
+    global.BusinessUser.removeAll()
+    _ = GetAllBusiness(completion: { (business) in
+        global.BusinessUser = business
+        
+        if global.BusinessUser.count > 20 {
+            for i in 0...19{
+                
+                let business = global.BusinessUser[i]
+                
+                if let logo = business.logo{
+                    downloadImage(logo) { (image) in
+                        
+                    }
+                }
+                
+            }
+        }else{
+            for business in global.BusinessUser{
+                                
+                if let logo = business.logo{
+                    downloadImage(logo) { (image) in
+                        
+                    }
+                }
+                
+            }
+        }
+        
+    })
+    
 }
 
 func saveCoreDataUpdate(object: NSManagedObject) {
