@@ -392,7 +392,8 @@ func getFollowerList(completion:@escaping(_ status: Bool,_ users: [FollowingInfo
 func getFollowedByList(completion: @escaping(_ status: Bool, _ users: [User])->()) {
     
     let userRef = Database.database().reference().child("Follower").child(Yourself.id)
-    userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+    //userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+    userRef.observe(.value, with: { (snapshot) in
         
         if let snapDict = snapshot.value as? [String: AnyObject]{
             
@@ -400,10 +401,17 @@ func getFollowedByList(completion: @escaping(_ status: Bool, _ users: [User])->(
             
             var usersList = [User]()
             
+            var indexInc = 0
+            
+            
             for (index,key) in keys.enumerated() {
-                let singleUserRef = Database.database().reference().child("users").child(key)
                 
+                
+                
+                let singleUserRef = Database.database().reference().child("users").child(key)
                 singleUserRef.observeSingleEvent(of: .value, with: { (singleSnap) in
+                    
+                    indexInc += 1
                     
                     if let singleSnapDict = singleSnap.value as? [String: Any]{
                         
@@ -425,7 +433,8 @@ func getFollowedByList(completion: @escaping(_ status: Bool, _ users: [User])->(
                         
                     }
                     
-                    if index == keys.count - 1 {
+                    if indexInc == keys.count {
+                        
                         completion(true, usersList)
                     }
                     
@@ -502,6 +511,7 @@ func getFollowingList(completion: @escaping(_ status: Bool, _ users: [AnyObject]
     
     let userRef = Database.database().reference().child("Following").child(Yourself.id)
     userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+    //userRef.observe(.value, with: { (snapshot) in
         
         if let snapDict = snapshot.value as? [String: AnyObject]{
             
@@ -572,7 +582,6 @@ func getFollowingList(completion: @escaping(_ status: Bool, _ users: [AnyObject]
                     return influencer1.averageLikes ?? 0 > influencer2.averageLikes ?? 0
                 }
             }
-            
             completion(true, usersList)
             
         }

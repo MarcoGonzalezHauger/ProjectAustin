@@ -66,6 +66,7 @@ class socialCategoryVC: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     override func viewWillAppear(_ animated: Bool) {
         _ = GetAllUsers(completion: { (users) in
+            global.SocialData.removeAll()
             global.SocialData = users
             self.rankedShelf.reloadData()
         })

@@ -24,6 +24,7 @@ class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
 	
     func SearchTextIndex(text: String, segmentIndex: Int) {
         self.GetSearchedBusinessItems(query: text) { (businessusers) in
+            self.businessTempArray.removeAll()
             self.businessTempArray = businessusers
             DispatchQueue.main.async {
                 self.businessUserTable.reloadData()
@@ -43,10 +44,10 @@ class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         super.viewDidLoad()
         businessUserTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
 		businessUserTable.easyRefreshDelegate = self
-        
+        self.businessTempArray.removeAll()
         if global.BusinessUser.count == 0 {
         _ = GetAllBusiness(completion: { (business) in
-            
+            global.BusinessUser.removeAll()
             global.BusinessUser = business
             self.businessTempArray = business
 			self.businessTempArray.shuffle()
@@ -64,8 +65,18 @@ class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
 	override func viewWillAppear(_ animated: Bool) {
-		        SearchMenuVC.searchDelegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadUserData), name: Notification.Name("reloadbusinessusers"), object: nil)
+        SearchMenuVC.searchDelegate = self
 	}
+    
+    @objc func reloadUserData() {
+        self.businessTempArray.removeAll()
+        self.businessTempArray = global.BusinessUser
+        self.businessTempArray.shuffle()
+        DispatchQueue.main.async {
+            self.businessUserTable.reloadData()
+        }
+    }
 	
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.businessTempArray.count

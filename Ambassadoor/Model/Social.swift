@@ -139,6 +139,9 @@ func GetAllUsers(completion:@escaping (_ result: [User])->())  {
     //    usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
     usersRef.observe(.value, with: { (snapshot) in
         if let dictionary = snapshot.value as? [String: AnyObject] {
+            
+            users.removeAll()
+            
             for (_, user) in dictionary{
                 let userDictionary = user as? NSDictionary
                 
@@ -153,6 +156,7 @@ func GetAllUsers(completion:@escaping (_ result: [User])->())  {
                     print(error)
                 }
             }
+            
             completion(users)
         }
     }, withCancel: nil)

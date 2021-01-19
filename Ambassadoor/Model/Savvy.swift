@@ -933,6 +933,7 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
         getFollowingAcceptedOffers { (status, offers) in
             global.followerList.removeAll()
             if statusFollower{
+                
                 global.followerList.append(contentsOf: followerList)
                 
             }
@@ -952,8 +953,9 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
     getFollowedByList { (status, users) in
         
         if status{
-            
+            global.influencerList.removeAll()
             global.influencerList = users
+            NotificationCenter.default.post(name: Notification.Name("updatefollowedBy"), object: nil, userInfo: ["userinfo":"1"])
             
         }
         
@@ -962,9 +964,11 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
 
 func downloadSocialBusinessData() {
     
-    global.SocialData.removeAll()
+    
     _ = GetAllUsers(completion: { (users) in
+        global.SocialData.removeAll()
         global.SocialData = users
+        NotificationCenter.default.post(name: Notification.Name("reloadusers"), object: nil, userInfo: ["userinfo":"1"])
         if global.SocialData.count > 20 {
             for i in 0...19{
                 
@@ -989,10 +993,11 @@ func downloadSocialBusinessData() {
         }
     })
     
-    global.BusinessUser.removeAll()
+    
     _ = GetAllBusiness(completion: { (business) in
+        global.BusinessUser.removeAll()
         global.BusinessUser = business
-        
+        NotificationCenter.default.post(name: Notification.Name("reloadbusinessusers"), object: nil, userInfo: ["userinfo":"1"])
         if global.BusinessUser.count > 20 {
             for i in 0...19{
                 

@@ -27,6 +27,7 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
 	
     func SearchTextIndex(text: String, segmentIndex: Int) {
         self.GetSearchedTotalItems(query: text) { (users) in
+            self.totalUserTempData.removeAll()
             self.totalUserTempData = users
             DispatchQueue.main.async {
                 self.UserTable.reloadData()
@@ -63,6 +64,7 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
             }else{
                 
                 _ = GetAllUsers(completion: { (users) in
+                    global.SocialData.removeAll()
                     global.SocialData = users
                     
                     self.totalUserData.append(contentsOf: global.BusinessUser)
@@ -83,6 +85,9 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
                 global.BusinessUser = business
                 
                 _ = GetAllUsers(completion: { (users) in
+                    self.totalUserData.removeAll()
+                    self.totalUserTempData.removeAll()
+                    global.SocialData.removeAll()
                     global.SocialData = users
                     
                     self.totalUserData.append(contentsOf: global.BusinessUser)
@@ -103,10 +108,24 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadUserData), name: Notification.Name("reloadusers"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadUserData), name: Notification.Name("reloadbusinessusers"), object: nil)
         SearchMenuVC.searchDelegate = self
 
     }
     
+    @objc func reloadUserData() {
+        
+        self.totalUserData.removeAll()
+        self.totalUserTempData.removeAll()
+        self.totalUserData.append(contentsOf: global.BusinessUser)
+        self.totalUserData.append(contentsOf: GetViewableSocialData())
+        self.totalUserTempData = self.totalUserData
+        self.totalUserTempData.shuffle()
+        DispatchQueue.main.async {
+            self.UserTable.reloadData()
+        }
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.totalUserTempData.count

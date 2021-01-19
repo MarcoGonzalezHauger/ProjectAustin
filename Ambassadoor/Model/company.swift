@@ -12,8 +12,8 @@ import Firebase
 
 func GetAllBusiness(completion:@escaping (_ result: [CompanyDetails])->()) {
     let usersRef = Database.database().reference().child("companies")
-    //usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
-    usersRef.observe(.value, with: { (snapshot) in
+    usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
+    //usersRef.observe(.value, with: { (snapshot) in
         
         if let snapDict = snapshot.value as? [String: [String: AnyObject]]{
             
