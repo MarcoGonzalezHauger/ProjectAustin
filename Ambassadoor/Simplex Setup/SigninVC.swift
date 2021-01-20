@@ -74,7 +74,7 @@ class SigninVC: UIViewController {
                                     fetchSingleUserDetails(userID: userID) { (status, user) in
                                         Yourself = user
                                         setHapticMenu(user: Yourself)
-                                        downloadDataBeforePageLoad()
+                                        //downloadDataBeforePageLoad()
                                         AverageLikes(userID: userID, userToken: user.authenticationToken)
                                         self.LoginSuccessful()
                                         

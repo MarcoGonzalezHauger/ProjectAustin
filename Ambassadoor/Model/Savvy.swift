@@ -881,11 +881,123 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
 			reference!.tabBar.items![1].badgeValue = nil
 		}
 	}
-	
-	global.BusinessUser.removeAll()
-    _ = GetAllBusiness(completion: { (business) in
-        global.BusinessUser = business
+    
+	getObserveFollowerCompaniesOffer() { (status, offers) in
         
+        if status {
+			global.followOfferList = offers
+        }
+        
+    }
+    
+    getObserveAllOffer() { (status, allOffer) in
+        if status{
+			global.allOfferList = allOffer
+        }
+        
+    }
+    
+    
+    if reference != nil {
+        getAcceptedOffers { (status, offers) in
+            
+            if status{
+				global.allInprogressOffer = offers
+				let badge = offers.filter{CheckIfOferIsActive(offer: $0)}.count
+				reference!.tabBar.items![3].badgeValue = badge == 0 ? nil : String(badge)
+				UIApplication.shared.applicationIconBadgeNumber = offers.filter{$0.variation == .inProgress}.count
+                
+            }
+            
+//            if let searchView = reference?.viewControllers![0] as? SearchMenuVC{
+//                searchView.viewDidLoad()
+//            }
+            
+        }
+    }
+
+    getFollowingList { (status, usersList) in
+        
+        if status{
+            //self.userList = usersList
+            global.userList.removeAll()
+            global.userList = usersList
+        }
+        
+    }
+    
+    getFollowerList { (statusFollower, followerList) in
+        
+        
+        
+        getFollowingAcceptedOffers { (status, offers) in
+            global.followerList.removeAll()
+            if statusFollower{
+                
+                global.followerList.append(contentsOf: followerList)
+                
+            }
+            
+            if status{
+                
+                global.followerList.append(contentsOf: offers)
+                let sorted = global.followerList.sorted { (objOne, objTwo) -> Bool in
+                return (objOne.startedAt.compare(objTwo.startedAt) == .orderedDescending)
+                }
+                global.followerList = sorted
+            }
+            
+        }
+    }
+    
+    getFollowedByList { (status, users) in
+        
+        if status{
+            global.influencerList.removeAll()
+            global.influencerList = users
+            NotificationCenter.default.post(name: Notification.Name("updatefollowedBy"), object: nil, userInfo: ["userinfo":"1"])
+            
+        }
+        
+    }
+}
+
+func downloadSocialBusinessData() {
+    
+    
+    _ = GetAllUsers(completion: { (users) in
+        global.SocialData.removeAll()
+        global.SocialData = users
+        NotificationCenter.default.post(name: Notification.Name("reloadusers"), object: nil, userInfo: ["userinfo":"1"])
+        if global.SocialData.count > 20 {
+            for i in 0...19{
+                
+                let user = global.SocialData[i]
+                
+                if let profile = user.profilePicURL{
+                    downloadImage(profile) { (profileImage) in
+                        
+                    }
+                }
+                
+            }
+        }else{
+            for user in global.SocialData{
+                if let profile = user.profilePicURL{
+                    downloadImage(profile) { (profileImage) in
+                        
+                    }
+                }
+                
+            }
+        }
+    })
+    
+    
+    _ = GetAllBusiness(completion: { (business) in
+        global.BusinessUser.removeAll()
+        global.BusinessUser = business
+        NotificationCenter.default.post(name: Notification.Name("reloadbusinessusers"), object: nil, userInfo: ["userinfo":"1"])
         if global.BusinessUser.count > 20 {
             for i in 0...19{
                 
@@ -912,105 +1024,6 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
         
     })
     
-	getObserveFollowerCompaniesOffer() { (status, offers) in
-        
-        if status {
-			global.followOfferList = offers
-        }
-        
-    }
-    
-    getObserveAllOffer() { (status, allOffer) in
-        if status{
-			global.allOfferList = allOffer
-        }
-        
-    }
-    
-    
-    global.SocialData.removeAll()
-    _ = GetAllUsers(completion: { (users) in
-        global.SocialData = users
-        if global.SocialData.count > 20 {
-            for i in 0...19{
-                
-                let user = global.SocialData[i]
-                
-                if let profile = user.profilePicURL{
-                    downloadImage(profile) { (profileImage) in
-                        
-                    }
-                }
-                
-            }
-        }else{
-            for user in global.SocialData{
-                if let profile = user.profilePicURL{
-                    downloadImage(profile) { (profileImage) in
-                        
-                    }
-                }
-                
-            }
-        }
-    })
-    
-    if reference != nil {
-        getAcceptedOffers { (status, offers) in
-            
-            if status{
-				global.allInprogressOffer = offers
-				let badge = offers.filter{CheckIfOferIsActive(offer: $0)}.count
-				reference!.tabBar.items![3].badgeValue = badge == 0 ? nil : String(badge)
-				UIApplication.shared.applicationIconBadgeNumber = offers.filter{$0.variation == .inProgress}.count
-                
-            }
-            
-        }
-    }
-
-    getFollowingList { (status, usersList) in
-        
-        if status{
-            //self.userList = usersList
-            global.userList.removeAll()
-            global.userList = usersList
-        }
-        
-    }
-    
-    getFollowerList { (statusFollower, followerList) in
-        
-        
-        
-        getFollowingAcceptedOffers { (status, offers) in
-            global.followerList.removeAll()
-            if statusFollower{
-                global.followerList.append(contentsOf: followerList)
-                
-            }
-            
-            if status{
-                
-                global.followerList.append(contentsOf: offers)
-                let sorted = global.followerList.sorted { (objOne, objTwo) -> Bool in
-                return (objOne.startedAt.compare(objTwo.startedAt) == .orderedDescending)
-                }
-                global.followerList = sorted
-            }
-            
-        }
-    }
-    
-    getFollowedByList { (status, users) in
-        
-        if status{
-            
-            global.influencerList = users
-            
-        }
-        
-    }
 }
 
 func saveCoreDataUpdate(object: NSManagedObject) {

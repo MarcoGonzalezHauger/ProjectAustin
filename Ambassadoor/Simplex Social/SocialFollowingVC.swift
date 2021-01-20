@@ -79,7 +79,11 @@ class SocialFollowingVC: UIViewController, UITableViewDelegate, UITableViewDataS
 		}
 		// Do any additional setup after loading the view.
 	}
-	
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+    }
+    
 	override func viewDidAppear(_ animated: Bool) {
 		followingUpdated()
 	}

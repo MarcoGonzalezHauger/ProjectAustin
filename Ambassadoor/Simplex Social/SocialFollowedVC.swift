@@ -36,9 +36,9 @@ class SocialFollowedVC: UIViewController,UITableViewDataSource, UITableViewDeleg
 			
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadData(sender:)), name: Notification.Name("updatefollowedBy"), object: nil)
 		followingTable.easyRefreshDelegate = self
-		
+        self.influencerList.removeAll()
 		followingTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
 		
         if global.influencerList.count != 0 {
@@ -66,6 +66,10 @@ class SocialFollowedVC: UIViewController,UITableViewDataSource, UITableViewDeleg
 	override func viewDidAppear(_ animated: Bool) {
 		followingTable.reloadData()
 	}
+    
+    @objc func reloadData(sender: NSNotification){
+        followingTable.reloadData()
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             

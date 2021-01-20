@@ -22,6 +22,7 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 	} 
     func SearchTextIndex(text: String, segmentIndex: Int) {
         self.GetSearchedInfluencerItems(query: text) { (users) in
+            self.influencerTempArray.removeAll()
             self.influencerTempArray = users
             DispatchQueue.main.async {
                 self.influencerTable.reloadData()
@@ -42,9 +43,10 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
         super.viewDidLoad()
         influencerTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
 		influencerTable.easyRefreshDelegate = self
-        
+        self.influencerTempArray.removeAll()
 		if global.SocialData.count == 0{
 			_ = GetAllUsers(completion: { (users) in
+                global.SocialData.removeAll()
 				global.SocialData = users
 				self.influencerTempArray = GetViewableSocialData()
 				self.influencerTempArray.shuffle()
@@ -98,10 +100,18 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadUserData), name: Notification.Name("reloadusers"), object: nil)
 		SearchMenuVC.searchDelegate = self
 	}
 	
-	
+    @objc func reloadUserData() {
+        self.influencerTempArray.removeAll()
+        self.influencerTempArray = GetViewableSocialData()
+        self.influencerTempArray.shuffle()
+        DispatchQueue.main.async {
+            self.influencerTable.reloadData()
+        }
+    }
 	
     func GetSearchedInfluencerItems(query: String?, completed: @escaping (_ Results: [User]) -> ()) {
         guard let query = query else { return }
