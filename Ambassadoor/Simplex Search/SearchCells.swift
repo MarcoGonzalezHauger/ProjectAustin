@@ -27,6 +27,14 @@ class BusinessUserTVC: UITableViewCell, FollowerButtonDelegete {
 					removeFollowingFollowerBusinessUser(user: ThisUser)
 					
 				}
+				
+				AnimateLabelText(label: name, text: "Unfollowed")
+				DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+					if self.name.text == "Unfollowed" {
+						AnimateLabelText(label: self.name, text: ThisUser.name)
+					}
+				}
+				
 			}else{
 				//FOLLOWING
 				var followingList = Yourself.businessFollowing ?? []
@@ -36,6 +44,15 @@ class BusinessUserTVC: UITableViewCell, FollowerButtonDelegete {
 				Yourself.businessFollowing = followingList
 				updateBusinessFollowingList(company: ThisUser, userID: ThisUser.userId!, ownUserID: Yourself)
 				updateFollowingFollowerBusinessUser(user: ThisUser, identifier: "business")
+				
+				
+				AnimateLabelText(label: name, text: "Followed")
+				DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+					if self.name.text == "Followed" {
+						AnimateLabelText(label: self.name, text: ThisUser.name)
+					}
+				}
+				
 			}
 		}
 	}
@@ -90,6 +107,14 @@ class InfluencerTVC: UITableViewCell, FollowerButtonDelegete {
 				Yourself.following = followingList
 				updateFollowingList(userID: ThisUser.id, ownUserID: Yourself)
 				updateFollowingFollowerUser(user: ThisUser, identifier: "influencer")
+				
+				AnimateLabelText(label: userName, text: "Followed")
+				DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+					if self.userName.text == "Followed" {
+						AnimateLabelText(label: self.userName, text: ThisUser.name ?? "")
+					}
+				}
+				
 			} else {
 				//UNFOLLOW
 				var followingList = Yourself.following
@@ -100,6 +125,13 @@ class InfluencerTVC: UITableViewCell, FollowerButtonDelegete {
 					removeFollowingFollowerUser(user: ThisUser)
 					
 				}
+				AnimateLabelText(label: userName, text: "Unfollowed")
+				DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+					if self.userName.text == "Unfollowed" {
+						AnimateLabelText(label: self.userName, text: ThisUser.name ?? "")
+					}
+				}
+				
 			}
 		}
 	}
