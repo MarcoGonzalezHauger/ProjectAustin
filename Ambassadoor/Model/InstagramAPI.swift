@@ -445,7 +445,8 @@ struct API {
             "following":user.following ?? [],
             "businessFollowing":user.businessFollowing ?? [],
             "email":user.email ?? "",
-            "version": user.version ?? "0.0.0"
+            "version": user.version ?? "0.0.0",
+            "isForTesting": user.isForTesting
         ]
         return userData
     }
@@ -461,7 +462,8 @@ struct API {
             "name": company.name,
             "owner": company.owner ?? "",
             "referralcode": company.referralcode ?? "",
-            "website": company.website ?? ""
+            "website": company.website ?? "",
+            "isForTesting": company.isForTesting
         ]
         return companyData
         
@@ -954,7 +956,8 @@ struct API {
             "tokenFIR":global.deviceFIRToken,
             "following":[],
             "businessFollowing":[],
-            "email":details.email
+            "email":details.email,
+            "isForTesting":API.isForTesting
         ]
         return userData
     }

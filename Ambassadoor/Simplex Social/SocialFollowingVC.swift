@@ -38,9 +38,9 @@ class SocialFollowingVC: UIViewController, UITableViewDelegate, UITableViewDataS
 				self.userList = usersList
 				global.userList.removeAll()
 				global.userList = usersList
-				DispatchQueue.main.async {
-					self.followingTable.reloadData()
-				}
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.followingTable.reloadData()
+                }
 				
 			}
 			
@@ -109,6 +109,7 @@ class SocialFollowingVC: UIViewController, UITableViewDelegate, UITableViewDataS
 			}
 			cell!.userData = (self.userList[indexPath.row] as! User)
 			cell!.followButton.tag = indexPath.row
+            cell!.delegate = self
 			return cell!
 		}else{
 			
@@ -121,6 +122,7 @@ class SocialFollowingVC: UIViewController, UITableViewDelegate, UITableViewDataS
 				cell = nib![0] as? BusinessUserTVC
 			}
 			cell!.businessDatail = (self.userList[indexPath.row] as! CompanyDetails)
+            cell!.delegate = self
 			return cell!
 		}
     }

@@ -17,6 +17,8 @@ class BusinessUserTVC: UITableViewCell, FollowerButtonDelegete {
 	
 	func isFollowingChanged(sender: AnyObject, newValue: Bool) {
 		if let ThisUser = businessDatail {
+            global.isClickedBusinesFollow = true
+            global.isClickedUserFollow = true
 			if !newValue {
 				//UNFOLLOWING
 				var followingList = Yourself.businessFollowing
@@ -54,6 +56,7 @@ class BusinessUserTVC: UITableViewCell, FollowerButtonDelegete {
 				}
 				
 			}
+            
 		}
 	}
 	
@@ -61,6 +64,8 @@ class BusinessUserTVC: UITableViewCell, FollowerButtonDelegete {
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var mission: UILabel!
 	@IBOutlet weak var BusinessButton: FollowButtonSmall!
+    
+    var delegate: followUpdateDelegate?
 	
     var businessDatail: CompanyDetails? {
         didSet{
@@ -77,7 +82,7 @@ class BusinessUserTVC: UITableViewCell, FollowerButtonDelegete {
                 BusinessButton.isBusiness = true
 				BusinessButton.isFollowing = (Yourself.businessFollowing?.contains(business.userId!))!
 				BusinessButton.delegate = self
-                
+                self.delegate?.followingUpdated()
             }
         }
     }
@@ -93,11 +98,15 @@ class InfluencerTVC: UITableViewCell, FollowerButtonDelegete {
     @IBOutlet weak var verifyLogo_img: UIImageView!
 	@IBOutlet weak var tierBox: ShadowView!
 	@IBOutlet weak var followButton: FollowButtonSmall!
+    
+    var delegate: followUpdateDelegate?
 	
     @IBOutlet weak var leadingUserName: NSLayoutConstraint!
 	
 	func isFollowingChanged(sender: AnyObject, newValue: Bool) {
 		if let ThisUser = userData {
+            global.isClickedUserFollow = true
+            global.isClickedBusinesFollow = true
 			if newValue {
 				//FOLLOW
 				var followingList = Yourself.following
@@ -133,6 +142,7 @@ class InfluencerTVC: UITableViewCell, FollowerButtonDelegete {
 				}
 				
 			}
+            self.delegate?.followingUpdated()
 		}
 	}
 	

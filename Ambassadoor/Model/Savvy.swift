@@ -963,8 +963,7 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
 }
 
 func downloadSocialBusinessData() {
-    
-    
+        
     _ = GetAllUsers(completion: { (users) in
         global.SocialData.removeAll()
         global.SocialData = users

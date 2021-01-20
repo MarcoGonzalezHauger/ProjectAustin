@@ -388,6 +388,7 @@ class User: NSObject {
     var businessFollowing: [String]?
     var email: String?
     var version: String?
+    var isForTesting: Bool
     //followerCount
     init(dictionary: [String: Any]) throws {
         guard let name = dictionary["name"] as? String else{
@@ -441,6 +442,7 @@ class User: NSObject {
 		}
         self.email = dictionary["email"] as? String ?? ""
         self.version = dictionary["version"] as? String ?? "0.0.0"
+        self.isForTesting = dictionary["isForTesting"] as? Bool ?? false
     }
 	
 	override var description: String {
@@ -789,7 +791,7 @@ class CompanyDetails: NSObject {
     var owner: String?
     var referralcode: String?
     var followers: [String]?
-	
+	var isForTesting: Bool
 	var isOfficialAmbassadoorAccount: Bool {
 		get {
 			return self.userId ?? "" == "C2bxiVNW58UxcPiBe2rihN81e302"
@@ -814,6 +816,7 @@ class CompanyDetails: NSObject {
         self.owner  = dictionary["owner"] as? String ?? ""
         self.referralcode  = dictionary["referralcode"] as? String ?? ""
         self.followers  = dictionary["followers"] as? [String] ?? []
+        self.isForTesting = dictionary["isForTesting"] as? Bool ?? false
         
     }
 }
