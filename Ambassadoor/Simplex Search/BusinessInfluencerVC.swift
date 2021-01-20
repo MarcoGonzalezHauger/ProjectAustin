@@ -13,7 +13,7 @@ import UIKit
 class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SearchBarDelegate, followUpdateDelegate, EasyRefreshDelegate {
 	
 	func wantsReload(stopRefreshing: @escaping () -> Void) {
-		self.totalUserTempData.shuffle()
+		
 		DispatchQueue.main.async {
 			self.UserTable.reloadData()
 		}
@@ -54,10 +54,7 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
         if global.SocialData.count != 0 {
             if global.BusinessUser.count != 0 {
                 
-                self.totalUserData.append(contentsOf: global.BusinessUser)
-				self.totalUserData.append(contentsOf: GetViewableSocialData())
-                self.totalUserTempData = self.totalUserData
-				self.totalUserTempData.shuffle()
+                self.totalUserTempData = GetBothInOrder()
                 DispatchQueue.main.async {
                     self.UserTable.reloadData()
                 }
@@ -67,10 +64,7 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
                     global.SocialData.removeAll()
                     global.SocialData = users
                     
-                    self.totalUserData.append(contentsOf: global.BusinessUser)
-                    self.totalUserData.append(contentsOf: GetViewableSocialData())
-                    self.totalUserTempData = self.totalUserData
-					self.totalUserTempData.shuffle()
+                    self.totalUserTempData = GetBothInOrder()
                     DispatchQueue.main.async {
                         self.UserTable.reloadData()
                     }
@@ -87,14 +81,10 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
                 _ = GetAllUsers(completion: { (users) in
                     self.totalUserData.removeAll()
                     self.totalUserTempData.removeAll()
-                    global.SocialData.removeAll()
                     global.SocialData = users
                     
-                    self.totalUserData.append(contentsOf: global.BusinessUser)
-                    self.totalUserData.append(contentsOf: GetViewableSocialData())
-                    self.totalUserTempData = self.totalUserData
-					self.totalUserTempData.shuffle()
-                    DispatchQueue.main.async {
+                    self.totalUserTempData = GetBothInOrder()
+					DispatchQueue.main.async {
                         self.UserTable.reloadData()
                     }
                     
@@ -116,12 +106,8 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
     
     @objc func reloadUserData() {
         
-        self.totalUserData.removeAll()
-        self.totalUserTempData.removeAll()
-        self.totalUserData.append(contentsOf: global.BusinessUser)
-        self.totalUserData.append(contentsOf: GetViewableSocialData())
-        self.totalUserTempData = self.totalUserData
-        self.totalUserTempData.shuffle()
+        self.totalUserData = GetBothInOrder()
+        self.totalUserTempData = GetBothInOrder()
         DispatchQueue.main.async {
             self.UserTable.reloadData()
         }

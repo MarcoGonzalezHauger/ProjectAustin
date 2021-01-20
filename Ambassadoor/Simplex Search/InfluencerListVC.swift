@@ -11,7 +11,6 @@ import UIKit
 class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SearchBarDelegate, followUpdateDelegate, EasyRefreshDelegate {
 	
 	func wantsReload(stopRefreshing: @escaping () -> Void) {
-		influencerTempArray.shuffle()
 		influencerTable.reloadData()
 		stopRefreshing()
 	}
@@ -43,13 +42,13 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
         super.viewDidLoad()
         influencerTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
 		influencerTable.easyRefreshDelegate = self
-        self.influencerTempArray.removeAll()
+		
+		
 		if global.SocialData.count == 0{
 			_ = GetAllUsers(completion: { (users) in
                 global.SocialData.removeAll()
 				global.SocialData = users
-				self.influencerTempArray = GetViewableSocialData()
-				self.influencerTempArray.shuffle()
+				self.influencerTempArray = GetInfluencersInOrder()
 				DispatchQueue.main.async {
 					self.influencerTable.reloadData()
 				}
@@ -57,8 +56,7 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 				
 			})
 		}else{
-			self.influencerTempArray = GetViewableSocialData()
-			self.influencerTempArray.shuffle()
+			self.influencerTempArray = GetInfluencersInOrder()
 			DispatchQueue.main.async {
 				self.influencerTable.reloadData()
 			}
@@ -105,9 +103,7 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 	}
 	
     @objc func reloadUserData() {
-        self.influencerTempArray.removeAll()
         self.influencerTempArray = GetViewableSocialData()
-        self.influencerTempArray.shuffle()
         DispatchQueue.main.async {
             self.influencerTable.reloadData()
         }
@@ -142,7 +138,7 @@ class InfluencerListVC: UIViewController, UITableViewDelegate, UITableViewDataSo
         }
         metusers.sort { (User1, User2) -> Bool in
             if strengthdict[User1]! == strengthdict[User2]! {
-                return User1.followerCount > User2.followerCount
+				return User1.averageLikes ?? 0 > User2.averageLikes ?? 0
             } else {
                 return strengthdict[User1]! > strengthdict[User2]!
             }
