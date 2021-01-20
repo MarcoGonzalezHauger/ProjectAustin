@@ -131,11 +131,11 @@ class FollowButtonSmall: UIView {
 	@IBOutlet weak var gradientView: UIView!
 	
 	func LoadColorScheme() {
-		gradientView.backgroundColor = getColorForBool(bool: isBusiness)
+		shadowView.borderColor = getColorForBool(bool: isBusiness)
 	}
 	
 	func getColorForBool(bool: Bool) -> UIColor {
-		return bool ? UIColor.init(patternImage: UIImage.init(named: "followerbutton_business")!) : UIColor.init(patternImage: UIImage.init(named: "followerbutton_influencer")!)
+		return bool ? UIColor.init(named: "AmbassadoorOrange")! : .systemBlue
 	}
 	
 	required init?(coder: NSCoder) {
