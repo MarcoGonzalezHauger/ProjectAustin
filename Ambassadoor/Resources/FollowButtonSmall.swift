@@ -47,6 +47,7 @@ class FollowButtonSmall: UIView {
 			if !self.isFollowing {
 				UIView.animate(withDuration: 1, delay: 0.0, options: [.allowUserInteraction], animations: {
 					self.gradientView.alpha = 1
+                    self.shadowView.backgroundColor = self.isBusiness ? .systemTeal : .systemYellow
 				})
 			}
 		}

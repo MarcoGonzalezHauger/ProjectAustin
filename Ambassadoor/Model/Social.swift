@@ -138,6 +138,7 @@ func GetAllUsers(completion:@escaping (_ result: [User])->())  {
     var users: [User] = []
     //    usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
     usersRef.observe(.value, with: { (snapshot) in
+        if !global.isClickedUserFollow {
         if let dictionary = snapshot.value as? [String: AnyObject] {
             
             users.removeAll()
@@ -148,7 +149,7 @@ func GetAllUsers(completion:@escaping (_ result: [User])->())  {
                 do {
                     
                     let userInstance = try User(dictionary: userDictionary! as! [String : AnyObject])
-                    if userInstance.version != "0.0.0"{
+                    if userInstance.version != "0.0.0" && API.isForTesting == true ? userInstance.isForTesting : !userInstance.isForTesting{
                         users.append(userInstance)
                     }
                     
@@ -158,6 +159,9 @@ func GetAllUsers(completion:@escaping (_ result: [User])->())  {
             }
             
             completion(users)
+        }
+        }else{
+            global.isClickedUserFollow = false
         }
     }, withCancel: nil)
 }

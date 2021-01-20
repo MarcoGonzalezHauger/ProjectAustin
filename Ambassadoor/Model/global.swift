@@ -89,7 +89,8 @@ class CentralVariables {
     var InstagramAPI: APImode? = nil
     var appVersion: String? = nil
     var allTimers = [Timer]()
-    
+    var isClickedUserFollow = false
+    var isClickedBusinesFollow = false
 }
 
 let global = CentralVariables()
