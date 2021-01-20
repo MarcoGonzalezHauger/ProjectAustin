@@ -6,11 +6,13 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FollowButtonSmall" customModule="Ambassadoor" customModuleProvider="target">
             <connections>
+                <outlet property="ambIcon" destination="sMy-c3-wWw" id="YgK-92-0Zu"/>
                 <outlet property="gradientView" destination="zdv-iK-MNG" id="dbr-vn-4ek"/>
                 <outlet property="isFollowingIcon" destination="nKn-Ru-8hr" id="zsW-ej-Ybk"/>
                 <outlet property="shadowView" destination="gfD-rq-QaL" id="NlM-ut-rDh"/>
@@ -30,6 +32,7 @@
                         </view>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="FollowIcon" translatesAutoresizingMaskIntoConstraints="NO" id="sMy-c3-wWw">
                             <rect key="frame" x="11" y="8.5" width="14" height="21"/>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="sMy-c3-wWw" secondAttribute="height" multiplier="2:3" id="6fc-jz-HgX"/>
                                 <constraint firstAttribute="width" constant="14" id="fTQ-oD-m7z"/>
@@ -37,12 +40,13 @@
                         </imageView>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="followedUser" translatesAutoresizingMaskIntoConstraints="NO" id="nKn-Ru-8hr">
                             <rect key="frame" x="31" y="7.5" width="21" height="21"/>
+                            <color key="tintColor" systemColor="tertiarySystemBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="nKn-Ru-8hr" secondAttribute="height" id="OUM-Nt-7mH"/>
                             </constraints>
                         </imageView>
                     </subviews>
-                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <gestureRecognizers/>
                     <constraints>
                         <constraint firstItem="zdv-iK-MNG" firstAttribute="leading" secondItem="gfD-rq-QaL" secondAttribute="leading" id="5aU-e8-Yg2"/>
@@ -94,5 +98,8 @@
         <namedColor name="Main_ambassa">
             <color red="1" green="0.47499999403953552" blue="0.030999999493360519" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="tertiarySystemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

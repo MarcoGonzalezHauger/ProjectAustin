@@ -41,15 +41,15 @@ class FollowButtonSmall: UIView {
 	}
 	
 	func CreateUnfollowEffect() {
-		shadowView.backgroundColor = .systemRed
-		gradientView.alpha = 0
-		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-			if !self.isFollowing {
-				UIView.animate(withDuration: 1, delay: 0.0, options: [.allowUserInteraction], animations: {
-					self.gradientView.alpha = 1
-				})
-			}
-		}
+//		shadowView.backgroundColor = .systemRed
+//		gradientView.alpha = 0
+//		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//			if !self.isFollowing {
+//				UIView.animate(withDuration: 1, delay: 0.0, options: [.allowUserInteraction], animations: {
+//					self.gradientView.alpha = 1
+//				})
+//			}
+//		}
 		changeIcon(isFollowing: false)
 //		self.SetLabelText(text: "Unfollowed", animated: false)
 ////		self.width.constant = 125
@@ -68,11 +68,11 @@ class FollowButtonSmall: UIView {
 	}
 	
 	func CreateFollowEffect() {
-		shadowView.backgroundColor = isBusiness ? .systemTeal : .systemYellow
-		gradientView.alpha = 0
-		UIView.animate(withDuration: 1, delay: 0.0, options: [.allowUserInteraction], animations: {
-			self.gradientView.alpha = 1
-		})
+//		shadowView.backgroundColor = getColorForBool(bool: isBusiness)
+//		gradientView.alpha = 0
+//		UIView.animate(withDuration: 1, delay: 0.0, options: [.allowUserInteraction], animations: {
+//			self.gradientView.alpha = 1
+//		})
 		
 		changeIcon(isFollowing: true)
 		
@@ -129,13 +129,18 @@ class FollowButtonSmall: UIView {
 	@IBOutlet weak var isFollowingIcon: UIImageView!
 	@IBOutlet weak var shadowView: ShadowView!
 	@IBOutlet weak var gradientView: UIView!
+	@IBOutlet weak var ambIcon: UIImageView!
 	
 	func LoadColorScheme() {
-		shadowView.borderColor = getColorForBool(bool: isBusiness)
+		let tint = getColorForBool(bool: isBusiness)
+		shadowView.borderColor = tint
+		isFollowingIcon.tintColor = tint
+		ambIcon.tintColor = tint
 	}
 	
 	func getColorForBool(bool: Bool) -> UIColor {
-		return bool ? UIColor.init(named: "AmbassadoorOrange")! : .systemBlue
+		return UIColor.init(named: "AmbPurple")!
+//		return bool ? UIColor.init(named: "AmbassadoorOrange")! : .systemBlue
 	}
 	
 	required init?(coder: NSCoder) {
