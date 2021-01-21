@@ -24,7 +24,7 @@ func GetViewableSocialData() -> [User] {
 func GetViewableBusinessData() -> [CompanyDetails] {
 	var data = global.BusinessUser
 	data = data.filter({ (bus) -> Bool in
-		return !bus.isForTesting
+        return API.isForTesting == true ? bus.isForTesting : !bus.isForTesting
 	})
 	return data
 }
