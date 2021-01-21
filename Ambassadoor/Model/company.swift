@@ -11,43 +11,43 @@ import Firebase
 
 
 func GetAllBusiness(completion:@escaping (_ result: [CompanyDetails])->()) {
-    let usersRef = Database.database().reference().child("companies")
-    //usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
-    usersRef.observe(.value, with: { (snapshot) in
-        
-        if !global.isClickedBusinesFollow {
-        
-        if let snapDict = snapshot.value as? [String: [String: AnyObject]]{
-            
-            var companyList = [CompanyDetails]()
-            
-            for(key,value) in snapDict{
-                for (_, companyValue) in value {
-                    do {
-                        let companyDetails = try CompanyDetails.init(dictionary: companyValue as! [String : AnyObject])
-                        if API.isForTesting == true ? companyDetails.isForTesting : !companyDetails.isForTesting {
-                            companyDetails.userId = key
-                            companyList.append(companyDetails)
-                        }
-                        
-                    } catch {
-                        print(companyValue)
-                        print(error.localizedDescription)
-                    }
-                    
-                }
-            }
-            
-            completion(companyList)
-        }
-            
-        }else{
-          global.isClickedBusinesFollow = false
-        }
-        
-    }) { (error) in
-        
-    }
+	let usersRef = Database.database().reference().child("companies")
+	//usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
+	usersRef.observe(.value, with: { (snapshot) in
+		
+		if !global.isClickedBusinesFollow {
+			
+			if let snapDict = snapshot.value as? [String: [String: AnyObject]]{
+				
+				var companyList = [CompanyDetails]()
+				
+				for(key,value) in snapDict{
+					for (_, companyValue) in value {
+						do {
+							let companyDetails = try CompanyDetails.init(dictionary: companyValue as! [String : AnyObject])
+							if API.isForTesting == true ? companyDetails.isForTesting : !companyDetails.isForTesting {
+								companyDetails.userId = key
+								companyList.append(companyDetails)
+							}
+							
+						} catch {
+							print(companyValue)
+							print(error.localizedDescription)
+						}
+						
+					}
+				}
+				
+				completion(companyList)
+			}
+			
+		}else{
+			global.isClickedBusinesFollow = false
+		}
+		
+	}) { (error) in
+		
+	}
     
 }
 

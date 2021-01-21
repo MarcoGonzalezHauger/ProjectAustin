@@ -59,11 +59,11 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let identifier = "followedoffer"
         
-        var cell = offerTable.dequeueReusableCell(withIdentifier: identifier) as? FollowedCompaniesOffer
+        var cell = offerTable.dequeueReusableCell(withIdentifier: identifier) as? StandardOfferCell
         
         if cell == nil {
-            let nib = Bundle.main.loadNibNamed("FollowedCompaniesOffer", owner: self, options: nil)
-            cell = nib![0] as? FollowedCompaniesOffer
+            let nib = Bundle.main.loadNibNamed("StandardOfferCell", owner: self, options: nil)
+            cell = nib![0] as? StandardOfferCell
         }
         cell!.offer = followOfferList[indexPath.row]
         
@@ -72,7 +72,7 @@ class FollowedOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
-        return 110
+        return unviersalOfferHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){

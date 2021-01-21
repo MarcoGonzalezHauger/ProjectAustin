@@ -374,7 +374,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	}
 	
 	@IBAction func SettingsButtonClicked(_ sender: Any) {
-		showAlert(selfVC: self, caption: "Press on your categories/town to change your settings.", title: "Settings")
+		showAlert(selfVC: self, caption: "Press on your categories/town to edit your information.", title: "Edit Your Info")
 	}
 	
     @IBAction func referral_Action(_ sender: Any) {
@@ -388,10 +388,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
         let textToShare = [ text ]
         let activityViewController = UIActivityViewController(activityItems: textToShare as [Any], applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
-        
-        // exclude some activity types from the list (optional)
-        activityViewController.excludedActivityTypes = [ UIActivity.ActivityType.mail, UIActivity.ActivityType.message, UIActivity.ActivityType.postToFacebook, UIActivity.ActivityType.postToTwitter ]
-        
+		
         // present the view controller
         self.present(activityViewController, animated: true, completion: nil)
     }
