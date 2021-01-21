@@ -62,23 +62,17 @@ class PaymentSentVC: UIViewController {
 		dismiss(animated: true, completion: nil)
 	}
 	
+	@IBOutlet weak var getPaidButton: UIButton!
 	// this action amount transfer to admin account To Influencer bank account. and update user money value and added user transaction detail in FIR
 	@IBAction func submit_Action(_ sender: Any) {
 		//            self.createDwollaAccessTokenForFundTransfer(fundSource: selectedBank!.customerFSURL, acctID: selectedBank!.acctID, object: selectedBank!)
 		
 		
 		//calculation for OSC for user
-		var subAmount:Double = 0.0
+		
 		//we WILL NOT penalize influencers for not using our service!
 		//let pendingMonths = Date.getmonthsBetweenDate(startDate: Date.getDateFromString(date: Yourself.lastPaidOSCDate)!, endDate: Date.getDateFromString(date: Date.getCurrentDate())!)
-		let feeAmount = GetFeeForInfluencer(Yourself)
-		let withdrawAmount = MoneyAmount - Double(feeAmount)
-		print("fee=\(feeAmount)")
-		print(withdrawAmount)
 		
-		subAmount = withdrawAmount + Double(feeAmount)
-				
-		let finaltotalAmount = 0
 		
 		///I really upgraded security here. ~Marco
 		
@@ -88,19 +82,37 @@ class PaymentSentVC: UIViewController {
 		
 		ref.observeSingleEvent(of: .value, with: {(snapshot) in
 			if let userInfo = snapshot.value as? [String: AnyObject] {
+				self.getPaidButton.isEnabled = false
 				
 				
 				//first, we see if the "yourMoney" value is accurate.
                 do {
-                let tempYourself = try User.init(dictionary: userInfo)
-				if tempYourself.yourMoney == Yourself.yourMoney {
+					let tempYourself = try User.init(dictionary: userInfo)
 					//If it is, set yourMoney to zero.
-
+					
+					if tempYourself.yourMoney == 0 {
+						self.showStandardAlertDialog(title: "No Money to Withdraw", msg: "Earn money by completing Offers.")
+						self.getPaidButton.isEnabled = true
+						return
+					}
+					
+					var subAmount:Double = 0.0
+					let feeAmount = GetFeeForInfluencer(tempYourself)
+					let withdrawAmount = tempYourself.yourMoney - Double(feeAmount)
+					print("fee=\(feeAmount)")
+					print(withdrawAmount)
+					
+					
+					subAmount = withdrawAmount + Double(feeAmount)
+							
+					let finaltotalAmount = 0
+					
 					ref.updateChildValues(["yourMoney": 0]) { (error, DatabaseReference) in
 						if error == nil {
 							//If yourMoney was sucessfully set to zero, then proceed with the bank withdraw.
 							let params = ["accountID":self.selectedBank!.stripe_user_id,"amount":subAmount * 100] as [String: AnyObject]
 							APIManager.shared.withdrawThroughStripe(params: params) { (status, error, data) in
+								
 								
 								let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
 								
@@ -115,7 +127,10 @@ class PaymentSentVC: UIViewController {
 										
 										if code == 401 {
 											let message = json!["message"] as! [String:Any]
-											self.showStandardAlertDialog(title: "Alert", msg: message["code"] as! String)
+											self.showStandardAlertDialog(title: "Failed", msg: message["code"] as! String)
+											ref.updateChildValues(["yourMoney": tempYourself.yourMoney]) { (error, DatabaseReference) in
+												self.getPaidButton.isEnabled = true
+											}
 										}else{
 											//update to DB
 											let prntRef  = Database.database().reference().child("users").child(Yourself.id)
@@ -138,16 +153,16 @@ class PaymentSentVC: UIViewController {
 							}
 						}
 					}
-				} else {
-					let alert = UIAlertController(title: "Nice Try (;", message: "Very creative though.\n~Marco, CTO", preferredStyle: .alert)
-					
-					alert.addAction(UIAlertAction(title: "Aw man...", style: .default, handler: { (ui) in
-						self.dismiss(animated: true, completion: nil)
-					}
-					))
-					
-					self.present(alert, animated: true)
-				}
+//				} else {
+//					let alert = UIAlertController(title: "Error", message: "Out of sync with database", preferredStyle: .alert)
+//
+//					alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (ui) in
+//						self.dismiss(animated: true, completion: nil)
+//					}
+//					))
+//
+//					self.present(alert, animated: true)
+//				}
                 
                 } catch let error {
                     print(error)

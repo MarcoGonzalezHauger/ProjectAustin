@@ -149,7 +149,7 @@ func GetAllUsers(completion:@escaping (_ result: [User])->())  {
                 do {
                     
                     let userInstance = try User(dictionary: userDictionary! as! [String : AnyObject])
-                    if userInstance.version != "0.0.0" && API.isForTesting == true ? userInstance.isForTesting : !userInstance.isForTesting{
+                    if userInstance.version != "0.0.0" && API.isForTesting == true ? userInstance.isForTesting : !userInstance.isForTesting {
                         users.append(userInstance)
                     }
                     

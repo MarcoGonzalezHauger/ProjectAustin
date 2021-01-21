@@ -58,17 +58,10 @@ func removeReservedOfferStatus(offer: Offer) {
 
 func GetOfferPool(completion: @escaping (_ offerList: [Offer])-> Void) {
     if let latest = latestPull {
-        
-        //if offerpool was gotten in the last 10 seconds, just use the one from the last 10 seconds.
-        
         if latest.timeIntervalSinceNow > -(rememberOfferPoolFor - 0.1) {
-            //            print("OFFERPOOL : grabbed from existing")
             completion(currentOfferPool)
             return
         }
-        //        print("OFFERPOOL : needs refresh")
-    } else {
-        //        print("OFFERPOOL : first time")
     }
     let ref = Database.database().reference().child("OfferPool")
     ref.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -78,7 +71,9 @@ func GetOfferPool(completion: @escaping (_ offerList: [Offer])-> Void) {
                 for (_, OfferValue) in value {
                     do {
                         let offerData = try Offer.init(dictionary: OfferValue as! [String : AnyObject])
-                        offerList.append(offerData)
+						if offerData.companyDetails!.isForTesting == false || API.isForTesting {
+							offerList.append(offerData)
+						}
                     } catch let error {
                         print(error)
                     }

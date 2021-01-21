@@ -12,7 +12,6 @@ import UIKit
 
 class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource, SearchBarDelegate, followUpdateDelegate, EasyRefreshDelegate {
 	func wantsReload(stopRefreshing: @escaping () -> Void) {
-		self.businessTempArray.shuffle()
 		self.businessUserTable.reloadData()
 		stopRefreshing()
 	}
@@ -49,15 +48,13 @@ class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         _ = GetAllBusiness(completion: { (business) in
             global.BusinessUser.removeAll()
             global.BusinessUser = business
-            self.businessTempArray = business
-			self.businessTempArray.shuffle()
+            self.businessTempArray = GetBusinessInOrder()
             DispatchQueue.main.async {
                 self.businessUserTable.reloadData()
             }
         })
         }else{
-            self.businessTempArray = global.BusinessUser
-			self.businessTempArray.shuffle()
+			self.businessTempArray = GetBusinessInOrder()
             DispatchQueue.main.async {
                 self.businessUserTable.reloadData()
             }
@@ -71,8 +68,7 @@ class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     @objc func reloadUserData() {
         self.businessTempArray.removeAll()
-        self.businessTempArray = global.BusinessUser
-        self.businessTempArray.shuffle()
+		self.businessTempArray = GetBusinessInOrder()
         DispatchQueue.main.async {
             self.businessUserTable.reloadData()
         }

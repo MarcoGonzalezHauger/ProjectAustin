@@ -46,15 +46,15 @@ class FollowButtonRegular: UIView {
 	}
 	
 	func CreateUnfollowEffect() {
-		shadowView.backgroundColor = .systemRed
-		gradientView.alpha = 0
-		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-			if !self.isFollowing {
-				UIView.animate(withDuration: 1, delay: 0.0, options: [.allowUserInteraction], animations: {
-					self.gradientView.alpha = 1
-				})
-			}
-		}
+//		shadowView.backgroundColor = .systemRed
+//		gradientView.alpha = 0
+//		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//			if !self.isFollowing {
+//				UIView.animate(withDuration: 1, delay: 0.0, options: [.allowUserInteraction], animations: {
+//					self.gradientView.alpha = 1
+//				})
+//			}
+//		}
 		self.SetLabelText(text: "Unfollowed", animated: false)
 		self.width.constant = 125
 		UIView.animate(withDuration: 0.25) {
@@ -72,12 +72,12 @@ class FollowButtonRegular: UIView {
 	}
 	
 	func CreateFollowEffect() {
-		shadowView.backgroundColor = isBusiness ? .systemTeal : .systemYellow
-		gradientView.alpha = 0
-		UIView.animate(withDuration: 1, delay: 0.0, options: [.allowUserInteraction], animations: {
-			self.gradientView.alpha = 1
-		})
-		
+//		shadowView.backgroundColor = getColorForBool(bool: isBusiness)
+//		gradientView.alpha = 0
+//		UIView.animate(withDuration: 1, delay: 0.0, options: [.allowUserInteraction], animations: {
+//			self.gradientView.alpha = 1
+//		})
+//
 		self.width.constant = 110
 		UIView.animate(withDuration: 0.25) {
 			self.layoutIfNeeded()
@@ -127,13 +127,19 @@ class FollowButtonRegular: UIView {
 	@IBOutlet weak var isFollowingLabel: UILabel!
 	@IBOutlet weak var shadowView: ShadowView!
 	@IBOutlet weak var gradientView: UIView!
+	@IBOutlet weak var ambIcon: UIImageView!
 	
 	func LoadColorScheme() {
-		gradientView.backgroundColor = getColorForBool(bool: isBusiness)
+		let tint = getColorForBool(bool: isBusiness)
+		shadowView.borderColor = tint
+		isFollowingLabel.textColor = tint
+		ambIcon.tintColor = tint
 	}
 	
 	func getColorForBool(bool: Bool) -> UIColor {
-		return bool ? UIColor.init(patternImage: UIImage.init(named: "followerbutton_business")!) : UIColor.init(patternImage: UIImage.init(named: "followerbutton_influencer")!)
+		return UIColor.init(named: "AmbPurple")!
+//		return bool ? UIColor.init(named: "AmbassadoorOrange")! : .systemBlue
+//		return bool ? UIColor.init(patternImage: UIImage.init(named: "followerbutton_business")!) : UIColor.init(patternImage: UIImage.init(named: "followerbutton_influencer")!)
 	}
 	
 	required init?(coder: NSCoder) {

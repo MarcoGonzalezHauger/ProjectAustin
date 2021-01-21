@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FollowButtonSmall" customModule="Ambassadoor" customModuleProvider="target">
             <connections>
+                <outlet property="ambIcon" destination="sMy-c3-wWw" id="YgK-92-0Zu"/>
                 <outlet property="gradientView" destination="zdv-iK-MNG" id="dbr-vn-4ek"/>
                 <outlet property="isFollowingIcon" destination="nKn-Ru-8hr" id="zsW-ej-Ybk"/>
                 <outlet property="shadowView" destination="gfD-rq-QaL" id="NlM-ut-rDh"/>
@@ -27,10 +29,10 @@
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zdv-iK-MNG">
                             <rect key="frame" x="0.0" y="0.0" width="62.5" height="36"/>
-                            <color key="backgroundColor" name="AmbassadoorOrange"/>
                         </view>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="FollowIcon" translatesAutoresizingMaskIntoConstraints="NO" id="sMy-c3-wWw">
                             <rect key="frame" x="11" y="8.5" width="14" height="21"/>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="sMy-c3-wWw" secondAttribute="height" multiplier="2:3" id="6fc-jz-HgX"/>
                                 <constraint firstAttribute="width" constant="14" id="fTQ-oD-m7z"/>
@@ -38,12 +40,13 @@
                         </imageView>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="followedUser" translatesAutoresizingMaskIntoConstraints="NO" id="nKn-Ru-8hr">
                             <rect key="frame" x="31" y="7.5" width="21" height="21"/>
+                            <color key="tintColor" systemColor="tertiarySystemBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="nKn-Ru-8hr" secondAttribute="height" id="OUM-Nt-7mH"/>
                             </constraints>
                         </imageView>
                     </subviews>
-                    <color key="backgroundColor" name="Main_ambassa"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <gestureRecognizers/>
                     <constraints>
                         <constraint firstItem="zdv-iK-MNG" firstAttribute="leading" secondItem="gfD-rq-QaL" secondAttribute="leading" id="5aU-e8-Yg2"/>
@@ -68,9 +71,16 @@
                         <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
                             <real key="value" value="0.0"/>
                         </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                            <real key="value" value="1.5"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                            <color key="value" name="Main_ambassa"/>
+                        </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="gfD-rq-QaL" secondAttribute="trailing" id="0EN-O4-6UM"/>
@@ -79,18 +89,17 @@
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <point key="canvasLocation" x="-292.75362318840581" y="156.36160714285714"/>
         </view>
     </objects>
     <resources>
         <image name="FollowIcon" width="50" height="75"/>
         <image name="followedUser" width="84" height="84"/>
-        <namedColor name="AmbassadoorOrange">
-            <color red="0.99800002574920654" green="0.42399999499320984" blue="0.14900000393390656" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-        </namedColor>
         <namedColor name="Main_ambassa">
             <color red="1" green="0.47499999403953552" blue="0.030999999493360519" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="tertiarySystemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
