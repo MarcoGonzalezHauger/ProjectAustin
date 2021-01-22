@@ -19,7 +19,7 @@ struct API {
      static let INSTAGRAM_REDIRECT_URI = "https://ambassadoor.co/welcome"
      static let INSTAGRAM_REDIRECT_URI2 = "https://www.ambassadoor.co/welcome"
      */
-    static var isForTesting = true
+    static var isForTesting = false
     static let shouldAboveVersion = "2.0.0"
     
     static let INSTAGRAM_CREATOR_HELP = "https://help.instagram.com/2358103564437429"

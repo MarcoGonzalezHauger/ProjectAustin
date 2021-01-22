@@ -49,7 +49,7 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
         super.viewDidLoad()
         UserTable.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
 		UserTable.easyRefreshDelegate = self
-        self.totalUserData.removeAll()
+		self.totalUserData = GetBothInOrder()
         self.totalUserTempData.removeAll()
         if global.SocialData.count != 0 {
             if global.BusinessUser.count != 0 {
@@ -79,7 +79,7 @@ class BusinessInfluencerVC: UIViewController, UITableViewDelegate, UITableViewDa
                 global.BusinessUser = business
                 
                 _ = GetAllUsers(completion: { (users) in
-                    self.totalUserData.removeAll()
+					self.totalUserData = GetBothInOrder()
                     self.totalUserTempData.removeAll()
                     global.SocialData = users
                     

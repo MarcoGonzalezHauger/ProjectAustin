@@ -20,7 +20,7 @@ class RejectedMessageCell: UITableViewCell {
 				
 				if offerValue.isCancelledByUser {
 					rejectedHeading.text = "Offer Cancelled"
-					rejectMessage.text = "If this offer was somehow unfair or a scam, report it.\n\n"
+					rejectMessage.text = "If this offer was somehow unfair, report it.\n\n"
 				} else {
 					var detectedCount = 0
 					

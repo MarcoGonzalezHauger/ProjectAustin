@@ -64,19 +64,6 @@ class Offer: NSObject {
 	var expiredate: Date
 	var allPostsConfirmedSince: Date?
     var allConfirmed: Bool?
-    /* @Marco we are updating allconfirm status on server side. it is important for paying amount for posted offer
-	var allConfirmed: Bool {
-		get {
-			var areConfirmed = true
-			for x : Post in posts {
-				if x.isConfirmed == false {
-					areConfirmed = false
-				}
-			}
-			return areConfirmed
-		}
-	}
- */
 	var isAccepted: Bool
 	var isExpired: Bool {
 		if self.isDefaultOffer {
@@ -184,7 +171,11 @@ class Offer: NSObject {
 		}
 	}
     
-    var isForTesting: Bool
+	var isForTesting: Bool {
+		get {
+			return self.companyDetails?.isForTesting ?? false
+		}
+	}
     
 	
 	var variation: OfferVariation {
@@ -336,7 +327,7 @@ class Offer: NSObject {
         self.refundedOn = dictionary["refundedOn"] as? String ?? ""
         self.reservedUsers = dictionary["reservedUsers"] as? [String: [String: AnyObject]] ?? [:]
         self.allConfirmed = dictionary["allConfirmed"] as? Bool ?? false
-        self.isForTesting = dictionary["isForTesting"] as? Bool ?? false
+        //self.isForTesting = dictionary["isForTesting"] as? Bool ?? false
         
     }
 }
@@ -817,7 +808,9 @@ class CompanyDetails: NSObject {
         self.referralcode  = dictionary["referralcode"] as? String ?? ""
         self.followers  = dictionary["followers"] as? [String] ?? []
         self.isForTesting = dictionary["isForTesting"] as? Bool ?? false
-        
+		if self.userId == "lztskONVPcSnisJkoTcWn4F16MI2" {
+			self.isForTesting = true
+		}
     }
 }
 

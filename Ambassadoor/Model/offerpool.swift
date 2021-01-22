@@ -112,11 +112,10 @@ func getObserveAllOffer(completion: @escaping (_ status: Bool, _ offerList: [Off
 func getObserveFilteredOffer(completion: @escaping (_ status: Bool, _ offerList: [Offer])-> Void) {
     GetOfferPool { (offers) in
         let offerlist = offers.filter{
-            
-            if API.isForTesting == true{
+            if API.isForTesting {
                 return $0.notAccepted && $0.enoughCashForInfluencer && $0.isFiltered && $0.isForTesting
             }else{
-                return $0.notAccepted && $0.enoughCashForInfluencer && $0.isFiltered && !$0.isForTesting
+				return $0.notAccepted && $0.enoughCashForInfluencer && $0.isFiltered && !$0.isForTesting && !($0.companyDetails?.isForTesting ?? true)
             }
         }
         completion(true, offerlist)
