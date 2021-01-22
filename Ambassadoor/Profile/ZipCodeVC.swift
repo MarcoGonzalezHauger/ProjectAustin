@@ -24,12 +24,14 @@ class ZipCodeVC: UIViewController, MKMapViewDelegate {
 	var currentquery: String?
 	
 	var noCancel = false
+    
+    var zipCode: String = "0"
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
 		cancelButtonView.isHidden = noCancel
 		if Yourself != nil {
-			zipField.placeholder = Yourself.zipCode ?? "10000"
+			zipField.placeholder = zipCode ?? "10000"
 		}
     }
 	

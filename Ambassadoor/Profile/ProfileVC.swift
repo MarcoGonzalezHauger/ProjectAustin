@@ -84,6 +84,11 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
     @IBOutlet weak var referralCode_btn: UIButton!
     //@IBOutlet weak var joinedOn_lbl: UILabel!
     var userSettings: [ProfileSetting] = []
+    @IBOutlet weak var editBtn: UIButton!
+    var modifiedZipCode = ""
+    var modifiedCategories = [String]()
+    
+    var isEdit = false
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return userSettings.count + 2
@@ -97,7 +102,10 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		if indexPath.row == 1 {
 			return cashHeight
 		} else if indexPath.row == 2 {
-			return CGFloat(50 + ((Yourself.categories ?? ["default"]).count * 25))
+            
+            let modifiedCount = self.modifiedCategories.count == 0 ? ((Yourself.categories ?? ["default"]).count * 25) : (self.modifiedCategories.count * 25)
+            
+            return CGFloat(50 + (isEdit == true ? modifiedCount : ((Yourself.categories ?? ["default"]).count * 25)))
 		} else {
 			return 75
 		}
@@ -157,7 +165,7 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		case "main_cat":
 			cell.categoryHeader.text = settings.Header
 //			cell.categoryLabel.text = (settings.Information as! Category).rawValue
-			let finalCategories: String = GetCategoryStringFromlist(categories: Yourself.categories ?? [])
+            let finalCategories: String = GetCategoryStringFromlist(categories: isEdit == true ? self.modifiedCategories.count == 0 ? Yourself.categories ?? [] : self.modifiedCategories : Yourself.categories ?? [])
             let catcount = settings.Information as! [String]
             
             cell.categoryHeader.text = settings.Header + (" \(catcount.count)/\(maximumCategories)")
@@ -172,8 +180,11 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 				cell.categoryLabel.text = "Zip Code: \(zip)"
 				
 				GetTownName(zipCode: String(zip)) { (townName, zipCode) in
-					cell.categoryLabel.text = townName?.CityAndStateName
-					cell.categoryHeader.text = "TOWN (\(zip))"
+                    DispatchQueue.main.async {
+                        cell.categoryLabel.text = townName?.CityAndStateName
+                        cell.categoryHeader.text = "TOWN (\(zip))"
+                    }
+					
 				}
 			}
 		default:
@@ -198,9 +209,15 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		case "main_cat":
 			//curcat = Yourself.primaryCategory
 			//performSegue(withIdentifier: "toPicker", sender: self)
-			performSegue(withIdentifier: "toPicker", sender: self)
+            if isEdit {
+                performSegue(withIdentifier: "toPicker", sender: self)
+            }
+			
 		case "zip":
-			performSegue(withIdentifier: "toZip", sender: self)
+            if isEdit {
+               performSegue(withIdentifier: "toZip", sender: self)
+            }
+			
 		default:
 			break
 		}
@@ -212,10 +229,20 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	
 	func ZipCodeEntered(zipCode: String?) {
 		if let zipCode = zipCode {
-			Yourself.zipCode = zipCode
+			//Yourself.zipCode = zipCode
+            self.modifiedZipCode = zipCode
+            
+            var avaliableSettings: [ProfileSetting] = []
+            avaliableSettings.append(ProfileSetting.init(Header: "CATEGORIES", Information: self.modifiedCategories.count == 0 ? Yourself.categories as AnyObject : self.modifiedCategories as AnyObject, identifier: "main_cat"))
+            avaliableSettings.append(ProfileSetting.init(Header: "TOWN", Information: (self.modifiedZipCode) as AnyObject, identifier: "zip"))
+            
+            userSettings = avaliableSettings
+            
+            self.shelf.reloadData()
+            
 			GetAllZipCodesInRadius(zipCode: zipCode, radiusInMiles: socialPageMileRadius, completed: nil) //For Cache
 		}
-		self.dataUpdated()
+		//self.dataUpdated()
 	}
     
     @IBAction func cashOutAction(sender: UIButton){
@@ -243,12 +270,21 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
     // pass some value to another VC
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let destination = segue.destination as? CategoryPicker {
-			destination.SetupPicker(originalCategories: Yourself!.categories!) { (cat) in
-				Yourself.categories = cat
-				self.dataUpdated()
+            destination.SetupPicker(originalCategories: isEdit == true ? self.modifiedCategories.count == 0 ? Yourself!.categories! : self.modifiedCategories : Yourself!.categories!) { (cat) in
+				//Yourself.categories = cat
+                self.modifiedCategories = cat
+				//self.dataUpdated()
+                var avaliableSettings: [ProfileSetting] = []
+                avaliableSettings.append(ProfileSetting.init(Header: "CATEGORIES", Information: self.modifiedCategories as AnyObject, identifier: "main_cat"))
+                avaliableSettings.append(ProfileSetting.init(Header: "TOWN", Information: self.modifiedZipCode == "" ? (Yourself?.zipCode ?? "0") as AnyObject : (self.modifiedZipCode) as AnyObject, identifier: "zip"))
+                
+                self.userSettings = avaliableSettings
+                
+                self.shelf.reloadData()
 			}
 		}
 		if let destination = segue.destination as? ZipCodeVC {
+            destination.zipCode = (isEdit == true ? self.modifiedZipCode == "" ? Yourself!.zipCode : self.modifiedZipCode : Yourself!.zipCode)!
 			destination.delegate = self
 		}
 	}
@@ -374,7 +410,22 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 	}
 	
 	@IBAction func SettingsButtonClicked(_ sender: Any) {
-		showAlert(selfVC: self, caption: "Press on your categories/town to edit your information.", title: "Edit Your Info")
+		//showAlert(selfVC: self, caption: "Press on your categories/town to edit your information.", title: "Edit Your Info")
+        if !isEdit {
+            self.editBtn.setTitle("Save", for: .normal)
+            isEdit = true
+            self.modifiedCategories.removeAll()
+            self.modifiedZipCode = ""
+            
+        }else{
+            self.editBtn.setTitle("Edit", for: .normal)
+            Yourself.categories = self.modifiedCategories.count == 0 ? Yourself.categories : self.modifiedCategories
+            Yourself.zipCode = self.modifiedZipCode == "" ? Yourself.zipCode : self.modifiedZipCode
+            self.modifiedCategories.removeAll()
+            self.modifiedZipCode = ""
+            isEdit = false
+            self.dataUpdated()
+        }
 	}
 	
     @IBAction func referral_Action(_ sender: Any) {
