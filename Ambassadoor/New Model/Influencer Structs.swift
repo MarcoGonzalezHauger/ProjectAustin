@@ -44,6 +44,14 @@ class Influencer {
 				inbox.append(Message(dictionary: thisMessage, userId: id, messageId: messageId))
 			}
 		}
+        
+        instagramPosts = []
+        if let thisPost = d["instagramPosts"] as? [String: Any] {
+            for postId in thisPost.keys {
+                let thisPostData = thisPost[postId] as! [String : Any]
+                instagramPosts.append(InstagramPost(dictionary: thisPostData, userId: userId))
+            }
+        }
 		
 		email = d["email"] as! String
 		password = d["password"] as! String
@@ -166,7 +174,51 @@ class BasicInfluencer { //All public information goes here.
 }
 
 class InstagramPost {
-	
+    
+    var caption: String
+    var id: String
+    var images: String
+    var like_count: Int
+    var status: String
+    var timestamp: String
+    var type: String
+    var username: String
+    var userId: String
+    var postID: String
+    var offerID: String
+    
+    
+    init(dictionary d: [String: Any], userId id: String) {
+        self.userId = id
+        
+        self.caption = d["caption"] as! String
+        self.id = d["id"] as! String
+        self.images = d["images"] as! String
+        self.like_count = d["like_count"] as! Int
+        self.status = d["status"] as! String
+        self.type = d["type"] as! String
+        self.username = d["username"] as! String
+        self.postID = d["postID"] as! String
+        self.offerID = d["offerID"] as! String
+        
+    }
+    
+    func toDictionary() -> [String: Any] {
+        var d: [String: Any] = [:]
+        
+        d["caption"] = caption
+        d["id"] = id
+        d["images"] = images
+        d["like_count"] = like_count
+        d["status"] = status
+        d["type"] = type
+        d["username"] = username
+        d["postID"] = postID
+        d["offerID"] = offerID
+        
+        return d
+    }
+    
 }
 
 class InfluencerFinance {
@@ -183,16 +235,12 @@ class InfluencerFinance {
 	var balance: Double
 	var stripeAccount: StripeAccountInformation?
 	var userId: String
-	var bank: InfluencerBank?
 	var log: [InfluencerTransactionLogItem]
 	
 	init(dictionary d: [String: Any], userID id: String) {
 		userId = id
 		
 		balance = d["balance"] as! Double
-		if let bankDictionary = d["bank"] as? [String: Any] {
-			bank = InfluencerBank(dictionary: bankDictionary, userID: userId)
-		}
 		log = []
 		if let thisLog = d["log"] as? [String: Any] {
 			for logItem in thisLog.keys {
@@ -269,6 +317,8 @@ class StripeAccountInformation {
 	var stripeUserId: String
 	var scope: String
 	var userOrBusinessId: String
+    var stripeCode: String
+    
 	
 	init(dictionary d: [String: Any], userOrBusinessId id: String) {
 		userOrBusinessId = id
@@ -280,6 +330,7 @@ class StripeAccountInformation {
 		stripePublishableKey = d["stripePublishableKey"] as! String
 		stripeUserId = d["stripeUserId"] as! String
 		scope = d["scope"] as! String
+        stripeCode = d["stripCode"] as! String
 	}
 	
 	// To Diciontary Function
@@ -294,6 +345,7 @@ class StripeAccountInformation {
 		d["stripePublishableKey"] = stripePublishableKey
 		d["stripeUserId"] = stripeUserId
 		d["scope"] = scope
+		d["stripeCode"] = stripeCode
 		
 		return d
 	}
