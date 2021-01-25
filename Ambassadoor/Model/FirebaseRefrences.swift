@@ -75,32 +75,6 @@ func instagramPostUpdate(offerID:String, post:[String:Any]) {
     
 }
 
-
-func transactionInfo(completion: @escaping([TransactionInfo]?,String,Error?) -> Void) {
-    
-    let ref = Database.database().reference().child("FundTransfer").child(Yourself.id)
-    ref.observeSingleEvent(of: .value, with: { (snapshot) in
-        
-        if let totalValues = snapshot.value as? NSDictionary{
-            
-            var objects = [TransactionInfo]()
-            
-            for value in totalValues.allKeys {
-                
-                let transactionInfo = TransactionInfo.init(dictionary: totalValues[value] as! [String: Any])
-                objects.append(transactionInfo)
-                
-            }
-            completion(objects, "success", nil)
-        }
-        
-        
-    }) { (error) in
-        completion(nil, "success", error)
-    }
-    
-}
-
 //stripe
 func createStripeAccToFIR(AccDetail:[String:Any] ) {
     let ref = Database.database().reference().child("InfluencerStripeAccount").child(Yourself.id).child("AccountDetail")

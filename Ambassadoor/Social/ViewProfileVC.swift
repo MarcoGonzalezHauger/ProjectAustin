@@ -241,17 +241,17 @@ class ViewProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		swdView.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "Instagrad")!)
 		tierBubble.backgroundColor = UIColor.init(patternImage: UIImage.init(named: "tiergrad")!)
 		ShowUser()
-		getInfluencerWorkedCompanies(influencer: Yourself) { (company, status, error) in
-			
-			if status == "success"{
-				
-				if let company = company {
-					if company.count != 0 {
-						global.influencerWrkCompany = company
-					}
-				}
-			}
-		}
+//		getInfluencerWorkedCompanies(influencer: Yourself) { (company, status, error) in
+//			
+//			if status == "success"{
+//				
+//				if let company = company {
+//					if company.count != 0 {
+//						global.influencerWrkCompany = company
+//					}
+//				}
+//			}
+//		}
 	}
 	
 }

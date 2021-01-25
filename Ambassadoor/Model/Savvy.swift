@@ -365,15 +365,15 @@ func OfferFromID(id: String, completion:@escaping(_ offer:Offer?)->()) {
 							
 							for postv in posts {
 								var post = postv as! [String:AnyObject]
-								var productfinal : [Product] = []
-								
-								if let products = post["products"] as? NSMutableArray{
-									for productDic in products {
-										let product = productDic as! [String:AnyObject]
-										productfinal.append(Product.init(image: (product["image"] as! String), name: product["name"] as! String, price: product["price"] as! Double, buy_url: product["buy_url"] as! String, color: product["color"] as! String, product_ID: product["product_ID"] as! String))
-									}
-									post["products"] = productfinal as AnyObject
-								}
+//								var productfinal : [Product] = []
+//
+//								if let products = post["products"] as? NSMutableArray{
+//									for productDic in products {
+//										let product = productDic as! [String:AnyObject]
+//										productfinal.append(Product.init(image: (product["image"] as! String), name: product["name"] as! String, price: product["price"] as! Double, buy_url: product["buy_url"] as! String, color: product["color"] as! String, product_ID: product["product_ID"] as! String))
+//									}
+//									post["products"] = productfinal as AnyObject
+//								}
 								/*
                                  Post.init(image: post["image"] as? String, instructions: post["instructions"] as! String, captionMustInclude: "", products: post["products"] as? [Product], post_ID: post["post_ID"] as! String, PostType: post["PostType"] as! String, confirmedSince: post["confirmedSince"] as? Date, isConfirmed: post["isConfirmed"] as! Bool, hashCaption: post["hashCaption"] as? String ?? "", status: post["status"] as? String ?? "", hashtags: post["hashtags"] as? [String] ?? [], keywords: post["keywords"] as? [String] ?? [], isPaid: post["isPaid"] as? Bool, PayAmount: post["isPaid"] as? Double ?? 0.0, denyMessage: post["denyMessage"] as? String ?? "")
                                  */

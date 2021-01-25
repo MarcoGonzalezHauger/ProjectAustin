@@ -501,25 +501,6 @@ class FollowingInformation: NSObject {
     }
 }
 
-class Comapny: NSObject {
-    var accountBalance: Double?
-    var account_ID: String?
-    var logo: String?
-    var name: String?
-    var owner: String?
-    var referralcode: String?
-    var website: String?
-    init(dictionary: [String: Any]) {
-        self.accountBalance = dictionary["accountBalance"] as? Double ?? 0
-        self.account_ID = dictionary["account_ID"] as? String ?? ""
-        self.logo = dictionary["logo"] as? String ?? ""
-        self.name = dictionary["name"] as? String ?? ""
-        self.owner = dictionary["owner"] as? String ?? ""
-        self.referralcode = dictionary["referralcode"] as? String ?? ""
-        self.website = dictionary["website"] as? String ?? ""
-    }
-}
-
 // Structure for Bank information
 class Bank: NSObject {
     let publicToken: String
@@ -616,58 +597,11 @@ class TransactionHistory: NSObject {
     
 }
 
-// Structure for transaction Information
-class TransactionInfo: NSObject {
-    
-    var acctID = ""
-    var firstName = ""
-    var lastName = ""
-    var customerURL = ""
-    var customerFSURL = ""
-    var mask = ""
-    var name = ""
-    var transactionURL = ""
-    var amount = ""
-    var currency = ""
-    
-    init(dictionary: [String: Any]) {
-        
-        self.acctID = dictionary["accountID"] as! String
-        self.firstName = dictionary["firstname"] as! String
-        self.lastName = dictionary["lastname"] as! String
-        self.customerURL = dictionary["customerURL"] as! String
-        self.customerFSURL = dictionary["FS"] as! String
-        self.mask = dictionary["mask"] as! String
-        self.name = dictionary["name"] as! String
-        self.transactionURL = dictionary["transferURL"] as! String
-        self.amount = dictionary["currency"] as! String
-        self.currency = dictionary["currency"] as! String
-    }
-    
-}
-
-//Structure for post
-/*
-struct Post {
-	let image: String?
-	let instructions: String
-    let captionMustInclude: String?
-	let products: [Product]?
-	let post_ID: String
-	let PostType: TypeofPost
-	var confirmedSince: Date?
-	var isConfirmed: Bool
-    var denyMessage: String?
-    var status: String?
-	var hashtags: [String]
-	var keywords: [String]
-}
-*/
 struct Post {
     let image: String?
     let instructions: String
     let captionMustInclude: String?
-    let products: [Product]?
+    //let products: [Product]?
     var post_ID: String
     let PostType: String
     //let PostType: TypeofPost
@@ -730,7 +664,7 @@ struct Post {
         self.image = dictionary["image"] as? String
         self.instructions = dictionary["instructions"] as! String
         self.captionMustInclude = ""
-        self.products = dictionary["products"] as? [Product]
+//        self.products = dictionary["products"] as? [Product]
         self.post_ID = dictionary["post_ID"] as! String
         PostType = dictionary["PostType"] as! String
         self.confirmedSince = Date.getDateFromString(date: dictionary["confirmedSince"] as? String ?? "") ?? nil
@@ -748,17 +682,6 @@ struct Post {
     }
     
 }
-
-//struct for product
-struct Product {
-	let image: String?
-	let name: String
-	let price: Double
-	let buy_url: String
-	let color: String
-	let product_ID: String
-}
-
 //struct for company
 struct Company {
 	let name: String
@@ -812,12 +735,6 @@ class CompanyDetails: NSObject {
 			self.isForTesting = true
 		}
     }
-}
-
-//Carries personal info only avalible to view and edit by the user.
-struct PersonalInfo {
-	let gender: Gender?
-    let accountBalance: Int?
 }
 
 enum Gender: String {
