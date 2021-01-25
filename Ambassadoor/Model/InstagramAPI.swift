@@ -962,17 +962,17 @@ struct API {
         return userData
     }
     
-    static func serializeProduct(product: Product) -> [String: Any] {
-        let userData: [String: Any] = [
-            "product_ID": product.product_ID as Any,
-            "image": product.image as Any,
-            "name": product.name,
-            "price": product.price,
-            "buy_url": product.buy_url as Any,
-            "color": product.color
-        ]
-        return userData
-    }
+//    static func serializeProduct(product: Product) -> [String: Any] {
+//        let userData: [String: Any] = [
+//            "product_ID": product.product_ID as Any,
+//            "image": product.image as Any,
+//            "name": product.name,
+//            "price": product.price,
+//            "buy_url": product.buy_url as Any,
+//            "color": product.color
+//        ]
+//        return userData
+//    }
     
     
     static func serializePost(post: Post) -> [String: Any] {
