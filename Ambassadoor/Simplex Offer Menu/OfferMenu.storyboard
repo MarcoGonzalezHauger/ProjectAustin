@@ -74,14 +74,23 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yHg-no-AqH">
+                                                <rect key="frame" x="297" y="109" width="71" height="30"/>
+                                                <state key="normal" title="CONVERT"/>
+                                                <connections>
+                                                    <action selector="convertDatabase:" destination="6Q1-4r-QbC" eventType="touchUpInside" id="Zsp-ny-F91"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="yHg-no-AqH" secondAttribute="trailing" constant="7" id="Apd-hj-wjK"/>
                                             <constraint firstAttribute="trailing" secondItem="US7-Bc-mcK" secondAttribute="trailing" constant="20" id="EBW-Zz-jtw"/>
                                             <constraint firstItem="US7-Bc-mcK" firstAttribute="top" secondItem="LrO-XP-73G" secondAttribute="top" constant="72" id="FAL-oU-Ghr"/>
                                             <constraint firstItem="7z4-xJ-yxF" firstAttribute="centerX" secondItem="US7-Bc-mcK" secondAttribute="centerX" id="gIl-zN-ilT"/>
                                             <constraint firstItem="US7-Bc-mcK" firstAttribute="leading" secondItem="LrO-XP-73G" secondAttribute="leading" constant="20" id="ju3-FV-ZvP"/>
                                             <constraint firstAttribute="height" constant="144" id="lEy-9p-1dG"/>
+                                            <constraint firstAttribute="bottom" secondItem="yHg-no-AqH" secondAttribute="bottom" constant="5" id="w2F-bX-Maw"/>
                                             <constraint firstItem="7z4-xJ-yxF" firstAttribute="top" secondItem="US7-Bc-mcK" secondAttribute="bottom" constant="8" id="xyf-Da-xZX"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>

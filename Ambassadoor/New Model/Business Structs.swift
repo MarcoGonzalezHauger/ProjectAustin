@@ -118,7 +118,7 @@ class BasicBusiness {
 	var logoUrl: String
 	var mission: String
 	var website: String
-	var joinedDate: String
+	var joinedDate: Date
 	var referralCode: String
 	var flags: [String]
 	var followedBy: [String]
@@ -148,7 +148,7 @@ class BasicBusiness {
 		logoUrl = d["logoUrl"] as! String
 		mission = d["mission"] as! String
 		website = d["website"] as! String
-		joinedDate = d["joinedDate"] as! String
+		joinedDate = (d["joinedDate"] as! String).toUDate()
 		referralCode = d["referralCode"] as! String
 		flags = d["flags"] as! [String]
 		followedBy = d["followedBy"] as! [String]
@@ -164,7 +164,7 @@ class BasicBusiness {
 		d["logoUrl"] = logoUrl
 		d["mission"] = mission
 		d["website"] = website
-		d["joinedDate"] = joinedDate
+		d["joinedDate"] = joinedDate.toUString()
 		d["referralCode"] = referralCode
 		d["flags"] = flags
 		d["followedBy"] = followedBy
@@ -232,7 +232,7 @@ class BusinessFinance {
 
 class BusinessTransactionLogItem {
 	var value: Double
-	var time: String
+	var time: Date
 	var type: String //acceptable values: creditCardDeposit, withdrawedToStripe, ambver, sentOffer, tookBackOffer, addedOfferFunds
 	
 	var transactionId: String
@@ -243,7 +243,7 @@ class BusinessTransactionLogItem {
 		transactionId = tID
 		
 		value = d["value"] as! Double
-		time = d["time"] as! String
+		time = (d["time"] as! String).toUDate()
 		type = d["type"] as! String
 	}
 	
@@ -252,7 +252,7 @@ class BusinessTransactionLogItem {
 	func toDictionary() -> [String: Any] {
 		var d: [String: Any] = [:]
 		d["value"] = value
-		d["time"] = time
+		d["time"] = time.toUString()
 		d["type"] = type
 		return d
 	}

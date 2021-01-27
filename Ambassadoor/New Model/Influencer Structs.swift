@@ -18,8 +18,7 @@ class Influencer {
 	var inbox: [Message]
 	var finance: InfluencerFinance
 	
-	var instagramPosts: [InstagramPost]
-	var inProgressOffers: [inProgressOffer]
+	var inProgressPosts: [InProgressPost]
 	
 	//Authentication and Tokens
 	var email: String
@@ -28,9 +27,21 @@ class Influencer {
 	var instagramAccountId: String
 	var tokenFIR: String
 	
-	
 	var userId: String
 		
+	init(basic: BasicInfluencer, finance: InfluencerFinance, email: String, password: String, instagramAuthToken: String, instagramAccountId: String, tokenFIR: String, userId: String) {
+		self.basic = basic
+		self.finance = finance
+		self.email = email
+		self.password = password
+		self.instagramAuthToken =  instagramAuthToken
+		self.instagramAccountId = instagramAccountId
+		self.tokenFIR = tokenFIR
+		self.userId = userId
+		self.inProgressPosts = []
+		self.inbox = []
+	}
+	
 	init(dictionary d: [String: Any], userId id: String) {
 		userId = id
 		
@@ -44,14 +55,6 @@ class Influencer {
 				inbox.append(Message(dictionary: thisMessage, userId: id, messageId: messageId))
 			}
 		}
-        
-        instagramPosts = []
-        if let thisPost = d["instagramPosts"] as? [String: Any] {
-            for postId in thisPost.keys {
-                let thisPostData = thisPost[postId] as! [String : Any]
-                instagramPosts.append(InstagramPost(dictionary: thisPostData, userId: userId))
-            }
-        }
 		
 		email = d["email"] as! String
 		password = d["password"] as! String
@@ -59,7 +62,14 @@ class Influencer {
 		instagramAccountId = d["instagramAccountId"] as! String
 		tokenFIR = d["tokenFIR"] as! String
 	
-		
+		inProgressPosts = []
+		if let inProgressDictionary = d["inProgressPosts"] as? [String: Any] {
+			for inProgressPostId in inProgressDictionary.keys {
+				let thisInProgressPost = inProgressDictionary[inProgressPostId] as! [String: Any]
+				let newInProgressPost = InProgressPost.init(dictionary: thisInProgressPost, inProgressPostId: inProgressPostId, userId: id)
+				inProgressPosts.append(newInProgressPost)
+			}
+		}
 		
 	}
 	
@@ -87,6 +97,13 @@ class Influencer {
 			d["inbox"] = inboxDictionary
 		}
 		
+		if inProgressPosts.count != 0 {
+			var ippDictionary: [String: Any] = [:]
+			for p in inProgressPosts {
+				ippDictionary[p.inProgressPostId] = p.toDictionary()
+			}
+			d["inProgressPosts"] = ippDictionary
+		}
 		
 		return d
 	}
@@ -105,7 +122,7 @@ class BasicInfluencer { //All public information goes here.
 	var profilePicURL: String
 	var zipCode: String
 	var gender: String
-	var joinedDate: String
+	var joinedDate: Date
 	var categories: [String]
 	var referralCode: String
 	var userId: String
@@ -113,6 +130,7 @@ class BasicInfluencer { //All public information goes here.
 	var followingInfluencers: [String]
 	var followingBusinesses: [String]
 	var followedBy: [String]
+	var birthday: Date
 	
 	func checkFlag(_ flag: String) -> Bool {
 		return flags.contains(flag)
@@ -140,15 +158,37 @@ class BasicInfluencer { //All public information goes here.
 		profilePicURL = d["profilePicURL"] as! String
 		zipCode = d["zipCode"] as! String
 		gender = d["gender"] as! String
-		joinedDate = d["joinedDate"] as! String
+		joinedDate = (d["joinedDate"] as! String).toUDate()
 		categories = d["categories"] as! [String]
 		referralCode = d["referralCode"] as! String
 		flags = d["flags"] as! [String]
 		followingInfluencers = d["followingInfluencers"] as! [String]
 		followingBusinesses = d["followingBusinesses"] as! [String]
 		followedBy = d["followedBy"] as! [String]
+		birthday = (d["birthday"] as! String).toUDate()
+		
 	}
 	
+	init(name: String,	username: String, followerCount: Double, averageLikes: Double, profilePicURL: String, zipCode: String, gender: String, joinedDate: Date, categories: [String], referralCode: String, flags: [String], followingInfluencers: [String], followingBusinesses: [String], followedBy: [String], birthday: Date, userId: String) {
+		self.name = name
+		self.username = username
+		self.followerCount = followerCount
+		self.averageLikes = averageLikes
+		self.profilePicURL = profilePicURL
+		self.zipCode = zipCode
+		self.gender = gender
+		self.joinedDate = joinedDate
+		self.categories = categories
+		self.referralCode = referralCode
+		self.flags = flags
+		self.followingInfluencers = followingInfluencers
+		self.followingBusinesses = followingBusinesses
+		self.followedBy = followedBy
+		self.birthday = birthday
+		self.userId = userId
+	}
+		 
+		 
 	// To Diciontary Function
 	
 	func toDictionary() -> [String: Any] {
@@ -161,13 +201,14 @@ class BasicInfluencer { //All public information goes here.
 		d["profilePicURL"] = profilePicURL
 		d["zipCode"] = zipCode
 		d["gender"] = gender
-		d["joinedDate"] = joinedDate
+		d["joinedDate"] = joinedDate.toUString()
 		d["categories"] = categories
 		d["referralCode"] = referralCode
 		d["flags"] = flags
 		d["followingInfluencers"] = followingInfluencers
 		d["followingBusinesses"] = followingBusinesses
 		d["followedBy"] = followedBy
+		d["birthday"] = birthday.toUString()
 		
 		return d
 	}
@@ -176,11 +217,11 @@ class BasicInfluencer { //All public information goes here.
 class InstagramPost {
     
     var caption: String
-    var id: String
+    var instagramPostId: String
     var images: String
     var like_count: Int
     var status: String
-    var timestamp: String
+    var timestamp: Date
     var type: String
     var username: String
     var userId: String
@@ -189,17 +230,18 @@ class InstagramPost {
     
     
     init(dictionary d: [String: Any], userId id: String) {
-        self.userId = id
+        userId = id
         
-        self.caption = d["caption"] as! String
-        self.id = d["id"] as! String
-        self.images = d["images"] as! String
-        self.like_count = d["like_count"] as! Int
-        self.status = d["status"] as! String
-        self.type = d["type"] as! String
-        self.username = d["username"] as! String
-        self.postID = d["postID"] as! String
-        self.offerID = d["offerID"] as! String
+        caption = d["caption"] as! String
+        instagramPostId = d["instagramPostId"] as! String
+        images = d["images"] as! String
+        like_count = d["like_count"] as! Int
+        status = d["status"] as! String
+        type = d["type"] as! String
+        username = d["username"] as! String
+        postID = d["postID"] as! String
+        offerID = d["offerID"] as! String
+		timestamp = (d["timestamp"] as! String).toUDate()
         
     }
     
@@ -207,7 +249,7 @@ class InstagramPost {
         var d: [String: Any] = [:]
         
         d["caption"] = caption
-        d["id"] = id
+        d["instagramPostId"] = instagramPostId
         d["images"] = images
         d["like_count"] = like_count
         d["status"] = status
@@ -215,6 +257,7 @@ class InstagramPost {
         d["username"] = username
         d["postID"] = postID
         d["offerID"] = offerID
+		d["timestamp"] = timestamp.toUString()
         
         return d
     }
@@ -222,11 +265,6 @@ class InstagramPost {
 }
 
 class InfluencerFinance {
-	var isBankAdded: Bool {
-		get {
-			return bank != nil
-		}
-	}
 	var hasStripeAccount: Bool {
 		get {
 			return stripeAccount != nil
@@ -254,14 +292,18 @@ class InfluencerFinance {
 		}
 	}
 	
+	init(balance: Double, userId: String, stripeAccount: StripeAccountInformation?) {
+		self.balance = balance
+		self.userId = userId
+		self.stripeAccount = stripeAccount
+		self.log = []
+	}
+	
 	// To Diciontary Function
 	
 	func toDictionary() -> [String: Any] {
 		var d: [String: Any] = [:]
 		
-		if let bank = bank {
-			d["bank"] = bank.toDictionary()
-		}
 		if log.count != 0 {
 			var logDictionary: [String: Any] = [:]
 			for logItem in log {
@@ -283,7 +325,7 @@ class InfluencerFinance {
 
 class InfluencerTransactionLogItem {
 	var value: Double
-	var time: String
+	var time: Date
 	var transactionId: String
 	var type: String //acceptable values: fromOffer, addedToBank, ambverChanged
 	var userId: String
@@ -293,7 +335,7 @@ class InfluencerTransactionLogItem {
 		transactionId = tID
 		
 		value = d["value"] as! Double
-		time = d["time"] as! String
+		time = (d["time"] as! String).toUDate()
 		type = d["type"] as! String
 	}
 	
@@ -302,7 +344,7 @@ class InfluencerTransactionLogItem {
 	func toDictionary() -> [String: Any] {
 		var d: [String: Any] = [:]
 		d["value"] = value
-		d["time"] = time
+		d["time"] = time.toUString()
 		d["type"] = type
 		return d
 	}
@@ -321,14 +363,15 @@ class StripeAccountInformation {
     
 	
 	init(dictionary d: [String: Any], userOrBusinessId id: String) {
-		userOrBusinessId = id
 		
-		accessToken = d["accessToken"] as! String
+		userOrBusinessId = id //This ID can be either a business or user ID.
+		
+		accessToken = d["access_token"] as! String
 		livemode = d["livemode"] as! Bool
-		refreshToken = d["refreshToken"] as! String
-		tokenType = d["tokenType"] as! String
-		stripePublishableKey = d["stripePublishableKey"] as! String
-		stripeUserId = d["stripeUserId"] as! String
+		refreshToken = d["refresh_token"] as! String
+		tokenType = d["token_type"] as! String
+		stripePublishableKey = d["stripe_publishable_key"] as! String
+		stripeUserId = d["stripe_user_id"] as! String
 		scope = d["scope"] as! String
         stripeCode = d["stripCode"] as! String
 	}
@@ -338,12 +381,12 @@ class StripeAccountInformation {
 	func toDictionary() -> [String: Any] {
 		var d: [String: Any] = [:]
 		
-		d["accessToken"] = accessToken
+		d["access_token"] = accessToken
 		d["livemode"] = livemode
-		d["refreshToken"] = refreshToken
+		d["refresh_token"] = refreshToken
 		d["tokenType"] = tokenType
-		d["stripePublishableKey"] = stripePublishableKey
-		d["stripeUserId"] = stripeUserId
+		d["stripe_publishable_key"] = stripePublishableKey
+		d["stripe_user_id"] = stripeUserId
 		d["scope"] = scope
 		d["stripeCode"] = stripeCode
 		
@@ -352,41 +395,10 @@ class StripeAccountInformation {
 	
 }
 
-class InfluencerBank {
-	var publicToken: String
-	var institutionName: String
-	var institutionID: String
-	var accountID: String
-	var accountName: String
-	var userId: String
-   
-	init(dictionary d: [String: Any], userID id: String) {
-		userId = id
-		
-		publicToken = d["publicToken"] as! String
-		institutionName = d["institutionName"] as! String
-		institutionID = d["institutionID"] as! String
-		accountID = d["accountID"] as! String
-		accountName = d["accountName"] as! String
-	}
-	
-	// To Diciontary Function
-	
-	func toDictionary() -> [String: Any] {
-		var d: [String: Any] = [:]
-		d["publicToken"] = publicToken
-		d["institutionName"] = institutionName
-		d["institutionID"] = institutionID
-		d["accountID"] = accountID
-		d["accountName"] = accountName
-		return d
-	}
-}
-
 class Message {
 	var text: String
 	var title: String
-	var time: String
+	var time: Date
 	var read: Bool
 	var messageId: String
 	var userId: String
@@ -396,7 +408,7 @@ class Message {
 		
 		text = d["text"] as! String
 		title = d["title"] as! String
-		time = d["time"] as! String
+		time = (d["time"] as! String).toUDate()
 		read = d["read"] as! Bool
 	}
 	
@@ -406,7 +418,7 @@ class Message {
 		var d: [String: Any] = [:]
 		d["text"] = text
 		d["title"] = title
-		d["time"] = time
+		d["time"] = time.toUString()
 		d["read"] = read
 		return d
 	}

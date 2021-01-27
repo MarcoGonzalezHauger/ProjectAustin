@@ -17,14 +17,14 @@ class DraftOffer { //before business sends
 	
 	var draftPosts: [DraftPost]
 	var title: String
-	var lastEdited: String
+	var lastEdited: Date
 	
 	init(dictionary d: [String: Any], businessId id: String, draftId did: String) {
 		businessId = id
 		draftId = did
 		
 		title = d["title"] as! String
-		lastEdited = d["lastEdited"] as! String
+		lastEdited = (d["lastEdited"] as! String).toUDate()
 		
 		draftPosts = []
 		if let postDraftsDict = d["draftPosts"] as? [String: Any] {
@@ -44,7 +44,7 @@ class DraftOffer { //before business sends
 		var d: [String: Any] = [:]
 		
 		d["title"] = title
-		d["lastEdited"] = lastEdited
+		d["lastEdited"] = lastEdited.toUString()
 		
 		if draftPosts.count != 0 {
 			var draftPostDict: [String: Any] = [:]
@@ -99,6 +99,8 @@ class OfferFilter {
 	var acceptedZipCodes: [String]
 	var acceptedCategories: [String]
 	var acceptedGenders: [String]
+	var mustBe21: Bool
+	var minimumEngagmentRate: Double
 	
 	var businessId: String
 	
@@ -108,6 +110,8 @@ class OfferFilter {
 		acceptedZipCodes = d["acceptedZipCodes"] as! [String]
 		acceptedCategories = d["acceptedCategories"] as! [String]
 		acceptedGenders = d["acceptedGenders"] as! [String]
+		mustBe21 = d["mustBe21"] as! Bool
+		minimumEngagmentRate = d["minimumEngagmentRate"] as! Double
 		
 	}
 	
@@ -119,31 +123,10 @@ class OfferFilter {
 		d["acceptedZipCodes"] = acceptedZipCodes
 		d["acceptedCategories"] = acceptedCategories
 		d["acceptedGenders"] = acceptedGenders
+		d["mustBe21"] = mustBe21
+		d["minimumEngagmentRate"] = minimumEngagmentRate
 		
 		return d
-	}
-	
-	func DoesInfluencerPassFilter(basicInfluencer: BasicInfluencer) -> Bool {
-		if acceptedZipCodes.count != 0 {
-			if !acceptedZipCodes.contains(basicInfluencer.zipCode) {
-				return false
-			}
-		}
-		if acceptedGenders.count != 0 {
-			if !acceptedGenders.contains(basicInfluencer.gender) {
-				return false
-			}
-		}
-		if acceptedCategories.count != 0 {
-			for cat in basicInfluencer.categories {
-				if acceptedCategories.contains(cat) {
-					return true
-				}
-			}
-		} else {
-			return true
-		}
-		return false
 	}
 	
 }
@@ -163,7 +146,7 @@ class PoolOffer { //while in offer pool (GETS ASSIGNED NEW ID)
 	var filter: OfferFilter
 	var draftPosts: [DraftPost]
 	var flags: [String] //SUCH AS: mustBeOver21, isForTesting, isDefaultOffer
-	var sentDate: String
+	var sentDate: Date
 	var payIncrease: Double
 	
 	func checkFlag(_ flag: String) -> Bool {
@@ -193,7 +176,7 @@ class PoolOffer { //while in offer pool (GETS ASSIGNED NEW ID)
 		filter = flt
 		draftPosts = draftOffer.draftPosts
 		flags = []
-		sentDate = Date().toString(dateFormat: "yyyy-MM-dd HH:mm:ssZ")
+		sentDate = Date()
 		payIncrease = draftOffer.payIncrease
 		
 		if draftOffer.mustBeOver21 {
@@ -201,15 +184,15 @@ class PoolOffer { //while in offer pool (GETS ASSIGNED NEW ID)
 		}
 	}
 	
-	init(dictionary d: [String: Any], businessId id: String, poolId pid: String) {
-		businessId = id
+	init(dictionary d: [String: Any], poolId pid: String) {
 		poolId = pid
+		businessId = d["businessId"] as! String
 		
 		filter = OfferFilter.init(dictionary: d["filter"] as! [String: Any], businessId: businessId)
 		
 		draftOfferId = d["draftOfferId"] as! String
 		flags = d["flags"] as! [String]
-		sentDate = d["sentDate"] as! String
+		sentDate = (d["sentDate"] as! String).toUDate()
 		
 		draftPosts = []
 		if let postDraftsDict = d["draftPosts"] as? [String: Any] {
@@ -217,6 +200,7 @@ class PoolOffer { //while in offer pool (GETS ASSIGNED NEW ID)
 				draftPosts.append(DraftPost.init(dictionary: postDraftsDict[postDraftId] as! [String: Any], businessId: businessId, draftId: draftOfferId, draftPost: postDraftId, poolId: poolId))
 			}
 		}
+		
 		
 		comissionUserId = d["comissionUserId"] as? String
 		comissionBusinessId = d["comissionBusinessId"] as? String
@@ -233,9 +217,10 @@ class PoolOffer { //while in offer pool (GETS ASSIGNED NEW ID)
 		d["filter"] = filter.toDictionary()
 		d["draftOfferId"] = draftOfferId
 		d["flags"] = flags
-		d["sentDate"] = sentDate
+		d["sentDate"] = sentDate.toUString()
 		d["cashPower"] = cashPower
 		d["originalCashPower"] = originalCashPower
+		d["businessId"] = businessId
 		
 		if let comissionUserId = comissionUserId {
 			d["comissionUserId"] = comissionUserId }
@@ -251,43 +236,189 @@ class PoolOffer { //while in offer pool (GETS ASSIGNED NEW ID)
 			d["draftPosts"] = draftPosts
 		}
 		
-		
-		
-		
-		
 		return d
 	}
 	
 }
 
-class inProgressOffer { //when accepted by influencer (GETS ASSIGNED NEW ID)
-	var poolId: String
-	var inProgressId: String
+class InProgressPost {
 	
-	var businessId: String
+	var inProgressPostId: String
 	var userId: String
 	
-	init(dictionary d: [String: Any], inProgressId ipid: String, userId id: String) {
+	var PoolOfferId: String
+	var draftOfferId: String
+	var businessId: String
+	var draftPostId: String
+	
+	var comissionUserId: String?
+	var comissionBusinessId: String?
+	
+	var draftPost: DraftPost
+	
+	var cashValue: Double
+	var status: String //Accepted, Expired, Posted, Verified, Paid, Rejected.
+	
+	//MARK: Accetped
+	var dateAccepted: Date
+	var expirationDate: Date //dateAccepted + 48 hours
+	
+	//MARK: Expired
+	//NO variables needed for this status. the status is enough information.
+	
+	//MARK: Posted
+	var instagramPost: InstagramPost?
+	var willBePaidOn: Date //instagramPost.timestamp + 48 hours
+	
+	//MARK: Verified
+	var dateVerified: Date //The date where the post was verified by AMBVER.
+	//this status will also use the willBePaidOn variable used on the posted.
+	
+	//MARK: Paid
+	var datePaid: Date //The date wher the stuatus was changed to "Paid"
+	
+	//MARK: Rejected
+	var denyReason: String
+	var dateRejected: Date
+	
+	init(draftPost dp: DraftPost, comissionUserId cuid: String?, comissionBusinessId cbid: String?, userId id: String, poolOfferId poid: String, businessId bid: String, draftOfferId doid: String, cashValue cash: Double) { //This init function should be used when the user first accepts an offer and the PoolOffer is truned into many different inProgressPosts.
+		
+		draftPost = dp
+		draftPostId = dp.draftPostId
+		
+		comissionUserId = cuid
+		comissionBusinessId = cbid
 		userId = id
-		inProgressId = ipid
+		PoolOfferId = poid
+		businessId = bid
+		draftOfferId = doid
+		
+		
+		//Creating the id for this class:
+		inProgressPostId = Date().toString(dateFormat: "yyyy.MM.dd.HH.mm.ss") + "." + randomString(length: 20)
+		
+		status = "Accepted"
+		cashValue = cash
+		
+		//all start as "" when offer is first accepted.
+		
+		willBePaidOn = GetEmptyDate()
+		dateVerified = GetEmptyDate()
+		datePaid = GetEmptyDate()
+		dateAccepted = GetEmptyDate()
+		expirationDate =  GetEmptyDate()
+		dateRejected = GetEmptyDate()
+		denyReason = ""
 		
 		
 	}
+	
+	init(dictionary d: [String: Any], inProgressPostId ipid: String, userId id: String) {
+		userId = id
+		inProgressPostId = ipid
+		
+		dateAccepted = (d["dateAccepted"] as! String).toUDate()
+		expirationDate = (d["expirationDate"] as! String).toUDate()
+		willBePaidOn = (d["willBePaidOn"] as! String).toUDate()
+		dateVerified = (d["dateVerified"] as! String).toUDate()
+		datePaid = (d["datePaid"] as! String).toUDate()
+		dateRejected = (d["dateRejected"] as! String).toUDate()
+		
+		
+		if let instaPostDict = d["instagramPost"] as? [String: Any] {
+			instagramPost = InstagramPost.init(dictionary: instaPostDict, userId: id)		//sometimes nil
+		}									//sometimes ""
+		denyReason = d["denyReason"] as! String												//sometimes ""
+		
+		PoolOfferId = d["PoolOfferId"] as! String											//never ""
+		draftOfferId = d["draftOfferId"] as! String											//never ""
+		businessId = d["businessId"] as! String												//never ""
+		draftPostId = d["draftPostId"] as! String											//never ""
+		
+		comissionUserId = d["comissionUserId"] as? String									//sometimes ""
+		comissionBusinessId = d["comissionBusinessId"] as? String							//sometimes ""
+		
+		draftPost = DraftPost.init(dictionary: d["draftPost"] as! [String: Any], businessId: businessId, draftId: draftOfferId, draftPost: draftPostId, poolId: PoolOfferId) //never nil
+		
+		status = d["status"] as! String //never ""
+		cashValue = d["cashValue"] as! Double
+	}
+	
+	func toDictionary() -> [String: Any] {
+		var d: [String: Any] = [:]
+		
+		if let comissionUserId = comissionUserId {
+			d["comissionUserId"] = comissionUserId }
+		if let comissionBusinessId = comissionBusinessId {
+			d["comissionBusinessId"] = comissionBusinessId }
+		if let instagramPost = instagramPost {
+			d["instagramPost"] = instagramPost.toDictionary() }
+		
+		d["status"] = status
+		d["cashValue"] = cashValue
+		
+		d["dateAccepted"] = dateAccepted.toUString()
+		d["expirationDate"] = expirationDate.toUString()
+		d["dateVerified"] = dateVerified.toUString()
+		d["datePaid"] = datePaid.toUString()
+		d["dateRejected"] = dateRejected.toUString()
+		d["willBePaidOn"] = willBePaidOn.toUString()
+		
+		d["denyReason"] = denyReason
+		
+		d["PoolOfferId"] = PoolOfferId
+		d["draftOfferId"] = draftOfferId
+		d["businessId"] = businessId
+		d["draftPostId"] = draftPostId
+		
+		return d
+	}
 }
 
-class sentOffer { //when business goes back to look at previously sent out offers
+class sentOffer { //when business goes back to look at previously sent out offers.
 	var poolId: String
-	var sentOfferId: String
 	var draftOfferId: String
+	var inProgressPosts: [InProgressPost]
 	
+	var sentOfferId: String
 	var businessId: String
+	
+	var title: String
+	var timeSent: Date
 	
 	init(dictionary d: [String: Any], businessId id: String, sentOfferId soid: String) {
 		businessId = id
 		sentOfferId = soid
 		
+		poolId = d["poolId"] as! String
+		draftOfferId = d["draftOfferId"] as! String
+		inProgressPosts = d["inProgressPosts"] as! [InProgressPost]
+		title = d["title"] as! String
+		timeSent = (d["timeSent"] as! String).toUDate()
 		
 	}
+
+	init(poolId pid: String, draftOfferId doid: String, businessId bid: String, title t: String) {
+		poolId = pid
+		draftOfferId = doid
+		businessId = bid
+		inProgressPosts = []
+		
+		title = t
+		timeSent = Date()
+		
+		sentOfferId = Date().toString(dateFormat: "yyyy.MM.dd.HH.mm.ss") + "..." + randomString(length: 20)
+	}
 	
-	func toDictionary() -> [String: Any] { return [:] }
+	func toDictionary() -> [String: Any] {
+		var d: [String: Any] = [:]
+		
+		d["poolId"] = poolId
+		d["draftOfferId"] = draftOfferId
+		d["inProgressPosts"] = inProgressPosts
+		d["title"] = title
+		d["timeSent"] = timeSent.toUString()
+		
+		return d
+	}
 }

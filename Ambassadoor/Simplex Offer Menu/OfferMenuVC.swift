@@ -37,7 +37,11 @@ class OfferMenuVC: UIViewController,PageViewDelegate {
     
     var playerLayer = AVPlayerLayer()
     
-    override func viewDidLoad() {
+	@IBAction func convertDatabase(_ sender: Any) {
+		ConvertEntireDatabase(iUnderstandWhatThisFunctionDoes: true)
+	}
+	
+	override func viewDidLoad() {
         super.viewDidLoad()
         
         
