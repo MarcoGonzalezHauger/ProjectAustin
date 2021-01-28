@@ -317,7 +317,6 @@ class InProgressPost {
 	
 	//MARK: Cancelled
 	var dateCancelled: Date
-	var wasRefundedForCancel: Bool
 	
 	init(draftPost dp: DraftPost, comissionUserId cuid: String?, comissionBusinessId cbid: String?, userId id: String, poolOfferId poid: String, businessId bid: String, draftOfferId doid: String, cashValue cash: Double) { //This init function should be used when the user first accepts an offer and the PoolOffer is truned into many different inProgressPosts.
 		
@@ -348,7 +347,6 @@ class InProgressPost {
 		expirationDate =  GetEmptyDate()
 		dateRejected = GetEmptyDate()
 		dateCancelled = GetEmptyDate()
-		wasRefundedForCancel = false
 		denyReason = ""
 		
 		
@@ -366,7 +364,6 @@ class InProgressPost {
 		dateRejected = (d["dateRejected"] as! String).toUDate()
 		dateCancelled = (d["dateCancelled"] as! String).toUDate()
 		
-		wasRefundedForCancel = d["wasRefundedForCancel"] as! Bool
 		
 		
 		if let instaPostDict = d["instagramPost"] as? [String: Any] {
@@ -400,8 +397,6 @@ class InProgressPost {
 		
 		d["status"] = status
 		d["cashValue"] = cashValue
-		
-		d["wasRefundedForCancel"] = wasRefundedForCancel
 		
 		d["dateAccepted"] = dateAccepted.toUString()
 		d["expirationDate"] = expirationDate.toUString()
