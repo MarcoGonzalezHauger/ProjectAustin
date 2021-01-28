@@ -59,3 +59,14 @@ extension OfferFilter {
 		return false
 	}
 }
+
+extension PoolOffer {
+	func hasInfluencerAccepted(influencer inf: Influencer) -> Bool {
+		for p in inf.inProgressPosts {
+			if p.PoolOfferId == self.poolId {
+				return true
+			}
+		}
+		return false
+	}
+}

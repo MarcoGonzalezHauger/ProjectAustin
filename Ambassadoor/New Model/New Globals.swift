@@ -16,3 +16,6 @@ var globalBasicBusinesses: [BasicBusiness] = []
 var globalBasicBoth: [Any] = []
 var offerPool: [PoolOffer] = []
 
+func GetNewID() -> String {
+	return Date().toString(dateFormat: "yyyy-MM-dd HH:mm:ss") + ", " + randomString(length: 15)
+}

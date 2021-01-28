@@ -354,8 +354,7 @@ func OfferFromID(id: String, completion:@escaping(_ offer:Offer?)->()) {
 				let compref = Database.database().reference().child("companies").child(offerDictionary!["ownerUserID"] as! String).child(offerDictionary!["company"] as! String)
 				compref.observeSingleEvent(of: .value, with: { (dataSnapshot) in
 					if let company = dataSnapshot.value as? [String: AnyObject] {
-						let companyDetail = Company.init(name: company["name"] as! String, logo:
-							company["logo"] as? String, mission: company["mission"] as! String, website: company["website"] as! String, account_ID: company["account_ID"] as! String, instagram_name: company["name"] as! String, description: company["description"] as! String)
+						let companyDetail = Company.init(dictionary: company)
 						
 						offerDictionary!["company"] = companyDetail as AnyObject
 						
@@ -1102,7 +1101,7 @@ func isDeseralizable(dictionary: [String: AnyObject], type: structType) -> [Stri
 	var errors: [String] = []
 	switch type {
 	case .offer:
-		necessaryItems = ["status", "money", "companyDetails", "posts", "offer_ID", "offerdate", "ownerUserID", "title", "isAccepted", "expiredate", "cashPower"]
+		necessaryItems = [] //["status", "money", "posts", "offer_ID", "offerdate", "ownerUserID", "title", "isAccepted", "expiredate", "cashPower"]
 	case .businessDetails:
 		necessaryItems = ["name", "mission"]
 	}

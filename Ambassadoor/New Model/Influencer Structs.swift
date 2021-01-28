@@ -359,7 +359,7 @@ class StripeAccountInformation {
 	var stripeUserId: String
 	var scope: String
 	var userOrBusinessId: String
-    var stripeCode: String
+	var stripeCode: String?
     
 	
 	init(dictionary d: [String: Any], userOrBusinessId id: String) {
@@ -373,7 +373,7 @@ class StripeAccountInformation {
 		stripePublishableKey = d["stripe_publishable_key"] as! String
 		stripeUserId = d["stripe_user_id"] as! String
 		scope = d["scope"] as! String
-        stripeCode = d["stripCode"] as! String
+		stripeCode = d["stripeCode"] as? String
 	}
 	
 	// To Diciontary Function

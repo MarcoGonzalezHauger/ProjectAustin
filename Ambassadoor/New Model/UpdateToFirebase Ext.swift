@@ -37,7 +37,7 @@ extension Business {
 		ref.updateChildValues(self.toDictionary()) { (err, dataref) in
 			completed?(err != nil)
 		}
-		self.basic!.UpdateToFirebase(completed: {_ in })
+		self.basic?.UpdateToFirebase(completed: {_ in })
 	}
 }
 

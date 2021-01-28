@@ -229,19 +229,20 @@ class Offer: NSObject {
 	
     
     init(dictionary: [String: AnyObject]) throws {
-        let err = isDeseralizable(dictionary: dictionary, type: .offer)
-		if err.count > 0 {
-			throw NSError(domain: err.joined(separator: ", "), code: 101, userInfo: ["class": "Offer Class", "value": dictionary])
-		}
+//        let err = isDeseralizable(dictionary: dictionary, type: .offer)
+//		if err.count > 0 {
+//			throw NSError(domain: err.joined(separator: ", "), code: 101, userInfo: ["class": "Offer Class", "value": dictionary])
+//		}
 		self.acceptedDate =  ((dictionary["updatedDate"] as? String) != nil) ? getDateFromString(date: dictionary["updatedDate"] as! String) : nil
         self.status = dictionary["status"] as! String
         self.money = dictionary["money"] as! Double
         self.originalAmount = dictionary["originalAmount"] as? Double ?? 0.0
         self.company = nil
-        guard let companyDetails = dictionary["companyDetails"] as? [String: AnyObject] else{
-            throw NSError(domain: "companyDetails returned nil", code: 101, userInfo: ["class": "Offer Class", "value": dictionary])
+		if let companyDetails = dictionary["companyDetails"] as? [String: AnyObject] {
+			self.company = Company.init(dictionary: companyDetails)
         }
-        self.company = Company.init(name: companyDetails["name"] as! String, logo: companyDetails["logo"] as? String, mission: companyDetails["mission"] as! String, website: companyDetails["website"] as! String, account_ID: companyDetails["account_ID"] as! String, instagram_name: "", description: "", followers: companyDetails["followers"] as? [String] ?? [])
+		
+		
         
         var postVal = [Post]()
         
@@ -289,14 +290,13 @@ class Offer: NSObject {
         self.influencerFilter = dictionary["influencerFilter"] as? [String: AnyObject] ?? [:]
         self.incresePay = dictionary["incresePay"] as? Double ?? 1.0
         
-        guard var comDetailsDict = dictionary["companyDetails"] as? [String: AnyObject] else {
-            throw NSError(domain: "companyDetails returned nil", code: 101, userInfo: ["class": "Offer Class", "value":dictionary])
-        }
-        do {
-			comDetailsDict["userId"] = dictionary["ownerUserID"]
-            self.coDetails = try CompanyDetails.init(dictionary: comDetailsDict)
-        } catch let error {
-            print(error)
+		if var comDetailsDict = dictionary["companyDetails"] as? [String: AnyObject] {
+			do {
+				comDetailsDict["userId"] = dictionary["ownerUserID"]
+			 self.coDetails = try CompanyDetails.init(dictionary: comDetailsDict)
+			} catch let error {
+				print(error)
+			}
         }
 //		print(dictionary)
 		//		print("\nGoing To Fail Now\n")
@@ -683,15 +683,59 @@ struct Post {
     
 }
 //struct for company
-struct Company {
-	let name: String
-	let logo: String?
-	let mission: String
-	let website: String
-	let account_ID: String
-	let instagram_name: String
-	let description: String
-    var followers: [String]?
+class Company: NSObject {
+	var userID: String?
+	let account_ID: String?
+	var name: String
+	var logo: String?
+	var mission: String
+	var website: String
+	let owner_email: String
+	let companyDescription: String
+	var accountBalance: Double
+	var referralcode: String?
+	var isForTesting: Bool
+	
+	
+	init(dictionary: [String: Any]) {
+		self.account_ID = dictionary["account_ID"] as? String
+		self.name = dictionary["name"] as! String
+		self.logo = dictionary["logo"] as? String
+		self.mission = dictionary["mission"] as! String
+		self.website = dictionary["website"] as! String
+		self.owner_email = (dictionary["owner"] as? String) ?? ""
+		self.companyDescription = dictionary["description"] as! String
+		self.accountBalance = dictionary["accountBalance"] as! Double
+		self.referralcode = dictionary["referralcode"] as? String ?? ""
+		self.userID = dictionary["userId"] as? String ?? ""
+		self.isForTesting = dictionary["isForTesting"] as? Bool ?? false
+	}
+}
+
+class CompanyUser: NSObject {
+	var userID: String?
+	var token: String?
+	var email: String?
+	var refreshToken: String?
+	var isCompanyRegistered: Bool?
+	var companyID: String?
+	var deviceFIRToken: String?
+	var businessReferral: String?
+	var isForTesting: Bool
+	
+	
+	init(dictionary: [String: Any]) {
+		
+		self.userID = dictionary["userID"] as? String
+		self.token = dictionary["token"] as? String
+		self.email = dictionary["email"] as? String
+		self.refreshToken = dictionary["refreshToken"] as? String
+		self.isCompanyRegistered = dictionary["isCompanyRegistered"] as? Bool
+		self.companyID = dictionary["companyID"] as? String
+		self.deviceFIRToken = dictionary["deviceFIRToken"] as? String ?? ""
+		self.businessReferral = dictionary["businessReferral"] as? String ?? ""
+		self.isForTesting = dictionary["isForTesting"] as? Bool ?? false
+	}
 }
 
 class CompanyDetails: NSObject {
@@ -776,6 +820,31 @@ class Deposit: NSObject {
     
 }
 
+class businessDeposit: NSObject {
+	var userID: String?
+	var currentBalance: Double?
+	var totalDepositAmount: Double?
+	var totalDeductedAmount: Double?
+	var lastDeductedAmount: Double?
+	var lastDepositedAmount: Double?
+	var lastTransactionHistory: TransactionDetails?
+	var depositHistory: [Any]?
+	
+	init(dictionary: [String: Any]) {
+		
+		self.userID = dictionary["userID"] as? String
+		self.currentBalance = dictionary["currentBalance"] as? Double ?? 0.0
+		self.totalDepositAmount = dictionary["totalDepositAmount"] as? Double ?? 0.0
+		self.totalDeductedAmount = dictionary["totalDeductedAmount"] as? Double ?? 0.0
+		self.lastDeductedAmount = dictionary["lastDeductedAmount"] as? Double ?? 0.0
+		self.lastDepositedAmount = dictionary["lastDepositedAmount"] as? Double ?? 0.0
+		self.lastTransactionHistory = TransactionDetails.init(dictionary: dictionary["lastTransactionHistory"] as! [String : Any])
+		self.depositHistory = dictionary["depositHistory"] as? [Any]
+		
+	}
+	
+}
+
 class TransactionDetails: NSObject {
     var id: String?
     var status: String?
@@ -844,3 +913,43 @@ enum SuspiciousFlags: String {
     
 }
 
+class TemplateOffer: Offer {
+	var targetCategories: [String]
+	var locationFilter: String
+	var lastEdited: Date
+	var isStatistic: Bool
+	
+
+	override init(dictionary: [String: AnyObject])throws {
+		self.locationFilter = dictionary["locationFilter"] as? String ?? ""
+		self.targetCategories = dictionary["targetCategories"] as? [String] ?? []
+		self.isStatistic = false
+		self.targetCategories = []
+		self.lastEdited = Date()
+		try super.init(dictionary: dictionary)
+		self.category = dictionary["category"] as? [String] ?? []
+		self.title = dictionary["title"] as? String ?? ""
+		self.genders = dictionary["genders"] as? [String] ?? []
+		self.user_IDs = dictionary["user_IDs"] as? [String] ?? []
+		self.status = dictionary["status"] as? String ?? ""
+	}
+	
+	func GetSummary() -> String {
+		var lines: [String] = []
+		if self.posts.count == 1 {
+			lines.append("This Offer has 1 Post.")
+		} else if self.posts.count == 0 {
+			lines.append("This Offer doesn't have posts yet.")
+		} else {
+			lines.append("This Offer has \(self.posts.count) Posts:")
+		}
+		var index = 1
+		for post in self.posts {
+			lines.append("• Post #\(index): \(post.GetSummary(maxItems: 2))")
+			index += 1
+		}
+		lines.append("")
+		//lines.append("Has been sent to \(user_IDs.count) influencer\(user_IDs.count != 1 ? "s" : "").")
+		return lines.joined(separator: "\n")
+	}
+}

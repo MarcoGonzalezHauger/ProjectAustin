@@ -10,8 +10,8 @@ import Foundation
 import Firebase
 
 extension DraftOffer {
-	func distributeToPool(asBusiness: Business, filter: OfferFilter, withMoney: Double, completed: @escaping (_ failedReason: String, _ newBusinessWithChanges: Business?) -> ()) {
-		if asBusiness.finance.balance < withMoney - 0.01 {
+	func distributeToPool(asBusiness: Business, filter: OfferFilter, withMoney: Double, withDrawFundsFalseForTestingOnly withdrawFunds: Bool, completed: @escaping (_ failedReason: String, _ newBusinessWithChanges: Business?) -> ()) {
+		if withdrawFunds && asBusiness.finance.balance < withMoney - 0.01 {
 			completed("You do not enough money to distribute this offer.", nil)
 			return
 		}
@@ -19,9 +19,11 @@ extension DraftOffer {
 		newPoolOffer.UpdateToFirebase { (success) in
 			if success {
 				asBusiness.sentOffers.append(sentOffer.init(poolId: newPoolOffer.poolId, draftOfferId: self.draftId, businessId: self.businessId, title: self.title))
-				asBusiness.finance.balance -= withMoney
-				if asBusiness.finance.balance < 0 {
-					asBusiness.finance.balance = 0
+				if withdrawFunds {
+					asBusiness.finance.balance -= withMoney
+					if asBusiness.finance.balance < 0 {
+						asBusiness.finance.balance = 0
+					}
 				}
 				completed("", asBusiness)
 				asBusiness.UpdateToFirebase(completed: nil)
