@@ -872,14 +872,14 @@ protocol refreshDelegate {
 var refreshDelegates: [refreshDelegate] = []
 
 func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
-	
-	if reference != nil {
-		if Yourself.yourMoney > GetFeeForInfluencer(Yourself) {
-			reference!.tabBar.items![1].badgeValue = "$"
-		} else {
-			reference!.tabBar.items![1].badgeValue = nil
-		}
-	}
+//	
+//	if reference != nil {
+//		if Yourself.yourMoney > GetFeeForInfluencer(Yourself) {
+//			reference!.tabBar.items![1].badgeValue = "$"
+//		} else {
+//			reference!.tabBar.items![1].badgeValue = nil
+//		}
+//	}
     
 	getObserveFollowerCompaniesOffer() { (status, offers) in
         
@@ -1027,7 +1027,7 @@ func downloadSocialBusinessData() {
 func saveCoreDataUpdate(object: NSManagedObject) {
     
     let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
-    print(paths[0])
+    //print(paths[0])
     do {
         try object.managedObjectContext?.save()
     } catch {
@@ -1040,7 +1040,7 @@ func removeCoreDataObject(object: NSManagedObject) {
     
     let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
     
-    print(paths[0])
+    //print(paths[0])
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     

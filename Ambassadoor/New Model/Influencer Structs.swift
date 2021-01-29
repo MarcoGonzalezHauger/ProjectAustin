@@ -123,7 +123,7 @@ class BasicInfluencer { //All public information goes here.
 	var zipCode: String
 	var gender: String
 	var joinedDate: Date
-	var categories: [String]
+	var interests: [String] //Formally "categories"
 	var referralCode: String
 	var userId: String
 	var flags: [String]
@@ -150,27 +150,33 @@ class BasicInfluencer { //All public information goes here.
 	
 	init(dictionary d: [String: Any], userId id: String) {
 		userId = id
-		
-		name = d["name"] as! String
+				
 		username = d["username"] as! String
+		name = d["name"] as! String
+		if name == "" {
+			name = username
+		}
 		followerCount = d["followerCount"] as! Double
 		averageLikes = d["averageLikes"] as! Double
 		profilePicURL = d["profilePicURL"] as! String
 		zipCode = d["zipCode"] as! String
 		gender = d["gender"] as! String
 		joinedDate = (d["joinedDate"] as! String).toUDate()
-		categories = d["categories"] as! [String]
+		interests = d["interests"] as? [String] ?? []
 		referralCode = d["referralCode"] as! String
-		flags = d["flags"] as! [String]
-		followingInfluencers = d["followingInfluencers"] as! [String]
-		followingBusinesses = d["followingBusinesses"] as! [String]
-		followedBy = d["followedBy"] as! [String]
+		flags = d["flags"] as? [String] ?? []
+		followingInfluencers = d["followingInfluencers"] as? [String] ?? []
+		followingBusinesses = d["followingBusinesses"] as? [String] ?? []
+		followedBy = d["followedBy"] as? [String] ?? []
 		birthday = (d["birthday"] as! String).toUDate()
 		
 	}
 	
-	init(name: String,	username: String, followerCount: Double, averageLikes: Double, profilePicURL: String, zipCode: String, gender: String, joinedDate: Date, categories: [String], referralCode: String, flags: [String], followingInfluencers: [String], followingBusinesses: [String], followedBy: [String], birthday: Date, userId: String) {
+	init(name: String,	username: String, followerCount: Double, averageLikes: Double, profilePicURL: String, zipCode: String, gender: String, joinedDate: Date, interests: [String], referralCode: String, flags: [String], followingInfluencers: [String], followingBusinesses: [String], followedBy: [String], birthday: Date, userId: String) {
 		self.name = name
+		if name == "" {
+			self.name = username
+		}
 		self.username = username
 		self.followerCount = followerCount
 		self.averageLikes = averageLikes
@@ -178,7 +184,7 @@ class BasicInfluencer { //All public information goes here.
 		self.zipCode = zipCode
 		self.gender = gender
 		self.joinedDate = joinedDate
-		self.categories = categories
+		self.interests = interests
 		self.referralCode = referralCode
 		self.flags = flags
 		self.followingInfluencers = followingInfluencers
@@ -202,7 +208,7 @@ class BasicInfluencer { //All public information goes here.
 		d["zipCode"] = zipCode
 		d["gender"] = gender
 		d["joinedDate"] = joinedDate.toUString()
-		d["categories"] = categories
+		d["interests"] = interests
 		d["referralCode"] = referralCode
 		d["flags"] = flags
 		d["followingInfluencers"] = followingInfluencers

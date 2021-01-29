@@ -342,9 +342,9 @@ func getFollowerList(completion:@escaping(_ status: Bool,_ users: [FollowingInfo
                 if let user = follower.user {
                     if Yourself.following?.contains(follower.user?.id ?? "X") ?? false && API.isForTesting == true ? user.isForTesting : !user.isForTesting{
                         
-                        let checkVersionStatus = global.appVersion!.compare(follower.user!.version!, options: .numeric)
+                        //let checkVersionStatus = global.appVersion!.compare(follower.user!.version!, options: .numeric)
                         
-                        if checkVersionStatus == .orderedDescending || checkVersionStatus == .orderedSame {
+						if follower.user!.version! != "0.0.0" {
                             print("This version is 2.0.0 or above")
                             followers.append(follower)
                         }
@@ -397,9 +397,9 @@ func getFollowedByList(completion: @escaping(_ status: Bool, _ users: [User])->(
                             
                             if API.isForTesting == true ? user.isForTesting : !user.isForTesting{
                                 
-                                let checkVersionStatus = global.appVersion!.compare(user.version!, options: .numeric)
+                                //let checkVersionStatus = global.appVersion!.compare(user.version!, options: .numeric)
                                 
-                                if checkVersionStatus == .orderedDescending || checkVersionStatus == .orderedSame{
+								if user.version! != "0.0.0" {
                                     usersList.append(user)
                                     print("version is 2.0.0 or above")
                                 }
@@ -457,12 +457,12 @@ func getFollowingAcceptedOffers(completion: @escaping(_ status: Bool, _ offers: 
                             followingInformation["tag"] = "offer" as AnyObject
                             let offer = FollowingInformation.init(dictionary: followingInformation)
                             
-                            let checkVersionStatus = global.appVersion!.compare(offer.user!.version!, options: .numeric)
+                            //let checkVersionStatus = global.appVersion!.compare(offer.user!.version!, options: .numeric)
                             
                             if let user = offer.user{
                                 
                                 if Yourself.following?.contains(offer.user?.id ?? "X") ?? false && API.isForTesting == true ? user.isForTesting : !user.isForTesting {
-                                    if checkVersionStatus == .orderedDescending || checkVersionStatus == .orderedSame{
+									if user.version! != "0.0.0" {
                                         allOfferList.append(offer)
                                     }
                                 }
@@ -516,13 +516,11 @@ func getFollowingList(completion: @escaping(_ status: Bool, _ users: [AnyObject]
                                 
                                 if API.isForTesting == true ? user.isForTesting : !user.isForTesting{
                                 
-                                let checkVersionStatus = global.appVersion!.compare(user.version!, options: .numeric)
-                                
-                                if checkVersionStatus == .orderedAscending || checkVersionStatus == .orderedSame{
-                                    if (Yourself.following?.contains(user.id))! {
-                                        usersList.append(user)
-                                    }
-                                }
+									if user.version! != "0.0.0" {
+										if (Yourself.following?.contains(user.id))! {
+											usersList.append(user)
+										}
+									}
                                 
                             }
                                 

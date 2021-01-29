@@ -49,6 +49,7 @@ func DoStuff(od: [String: Any]) {
 			
 		}
 	}
+	var convertedInfluencer: [Influencer] = []
 	for u in users {
 		if u.version != "0.0.0" {
 			
@@ -63,6 +64,9 @@ func DoStuff(od: [String: Any]) {
 			}
 			if u.isDefaultOfferVerify {
 				flags.append("isVerified")
+			}
+			if u.username == "marcogonzalezhauger" || u.username == "brunogonzalezhauger" {
+				flags.append("isAmbassadoorExecutive")
 			}
 			
 			let authDict: [String: Any] = (od["InfluencerAuthentication"] as! [String: Any])[u.id] as! [String: Any]
@@ -83,13 +87,27 @@ func DoStuff(od: [String: Any]) {
 			
 			let tbday = Date.init(timeIntervalSince1970: 123)
 			
-			let basic = BasicInfluencer.init(name: u.name!, username: u.username, followerCount: u.followerCount, averageLikes: u.averageLikes ?? 0, profilePicURL: u.profilePicURL ?? "", zipCode: u.zipCode ?? "0", gender: tgender, joinedDate: u.joinedDate?.toUDate() ?? Date(), categories: u.categories!, referralCode: u.referralcode, flags: flags, followingInfluencers: [], followingBusinesses: [], followedBy: [], birthday: tbday, userId: NewUserID)
+			var joinedDate = Date()
+			if let jDate = u.joinedDate { //JoinedDate was serialized with a NON UNIVERSAL FORAMT.
+				let dateFormatter = DateFormatter()
+				dateFormatter.timeZone = TimeZone(abbreviation: "EST")
+				dateFormatter.dateFormat = "yyyy/MMM/dd HH:mm:ss"
+				
+				joinedDate = dateFormatter.date(from: jDate) ?? Date()
+				
+			}
+			
+			
+				
+			
+			let basic = BasicInfluencer.init(name: u.name!, username: u.username, followerCount: u.followerCount, averageLikes: u.averageLikes ?? 0, profilePicURL: u.profilePicURL ?? "", zipCode: u.zipCode ?? "0", gender: tgender, joinedDate: joinedDate, interests: u.categories!, referralCode: u.referralcode, flags: flags, followingInfluencers: [], followingBusinesses: [], followedBy: [], birthday: tbday, userId: NewUserID)
 			
 			let inffin = InfluencerFinance.init(balance: u.yourMoney, userId: NewUserID, stripeAccount: stripeAcc)
 			
-			let influener = Influencer.init(basic: basic, finance: inffin, email: authDict["email"] as! String, password: authDict["password"] as! String, instagramAuthToken: u.authenticationToken, instagramAccountId: u.id, tokenFIR: u.tokenFIR ?? "", userId: NewUserID)
+			let newInfluencer = Influencer.init(basic: basic, finance: inffin, email: authDict["email"] as! String, password: authDict["password"] as! String, instagramAuthToken: u.authenticationToken, instagramAccountId: u.id, tokenFIR: u.tokenFIR ?? "", userId: NewUserID)
 			
-			influener.UpdateToFirebase(completed: nil)
+			newInfluencer.UpdateToFirebase(completed: nil)
+			convertedInfluencer.append(newInfluencer)
 		}
 	}
 	print("========[INFLUENCERS FINSIHED, STARTING BUSINESS CONVERSION]=========")
@@ -199,7 +217,7 @@ func DoStuff(od: [String: Any]) {
 						 var coPoolDict = (poolDict[o.businessAccountID] as! [String : Any])[o.offer_ID] as! [String: Any]
 						 
 						 coPoolDict["acceptedZipCodes"] = (o.influencerFilter!["zipCode"] as? [String]) ?? [String]()
-						 coPoolDict["acceptedCategories"] = o.category
+						 coPoolDict["acceptedInterests"] = o.category
 						 coPoolDict["acceptedGenders"] = o.genders
 						 coPoolDict["mustBe21"] = o.mustBe21
 						 coPoolDict["minimumEngagmentRate"] = 0
@@ -216,6 +234,18 @@ func DoStuff(od: [String: Any]) {
 				}
 			}
 		}
+		
 	}
+	print("========[DOWNLOADING GLOBALS]=========")
+	RefreshPublicData {
+		print("Public data downloaded.")
+	}
+	
+	Myself = convertedInfluencer.filter{$0.basic.username == "brunogonzalezhauger"}[0]
+	//Myself = convertedInfluencer.randomElement()
+	
+	print("Myself variable has been set to \(Myself.basic.name)")
+	
+	print("Done Porting. Database is now up to date with old database.")
 	
 }

@@ -11,7 +11,13 @@ import Firebase
 
 extension BasicInfluencer {
 	var engagmentRate: Double {
+		if followerCount == 0 {
+			return 0
+		}
 		return averageLikes / followerCount
+	}
+	var engagmentRateInt: Int {
+		return Int((engagmentRate * 100).rounded(.down))
 	}
 	var baselinePricePerPost: Double {
 		return averageLikes * cashToLikesCoefficient
@@ -47,9 +53,9 @@ extension OfferFilter {
 		if basicInfluencer.followingBusinesses.contains(businessId) {
 			return true
 		}
-		if acceptedCategories.count != 0 {
-			for cat in basicInfluencer.categories {
-				if acceptedCategories.contains(cat) {
+		if acceptedInterests.count != 0 {
+			for cat in basicInfluencer.interests {
+				if acceptedInterests.contains(cat) {
 					return true
 				}
 			}

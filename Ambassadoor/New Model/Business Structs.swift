@@ -182,8 +182,8 @@ class BasicBusiness {
 		website = d["website"] as! String
 		joinedDate = (d["joinedDate"] as! String).toUDate()
 		referralCode = d["referralCode"] as! String
-		flags = d["flags"] as! [String]
-		followedBy = d["followedBy"] as! [String]
+		flags = d["flags"] as? [String] ?? []
+		followedBy = d["followedBy"] as? [String] ?? []
 		
 	}
 	

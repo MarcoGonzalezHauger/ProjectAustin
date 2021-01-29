@@ -36,7 +36,7 @@ extension BasicInfluencer {
 		let ref = Database.database().reference().child(publicPath)
 		ref.observeSingleEvent(of: .value) { (snap) in
 			let d = snap.value as! [String: Any]
-			self.followedBy = d["followedBy"] as! [String]
+			self.followedBy = d["followedBy"] as? [String] ?? []
 			completed()
 		}
 	}
@@ -73,7 +73,7 @@ extension BasicBusiness {
 		let ref = Database.database().reference().child("/Accounts/Public/Businesses/\(self.businessId)")
 		ref.observeSingleEvent(of: .value) { (snap) in
 			let d = snap.value as! [String: Any]
-			self.followedBy = d["followedBy"] as! [String]
+			self.followedBy = d["followedBy"] as? [String] ?? []
 			completed()
 		}
 	}

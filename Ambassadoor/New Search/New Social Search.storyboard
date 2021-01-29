@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vzT-G4-gWE">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Search-->
+        <scene sceneID="bqw-hC-SK0">
+            <objects>
+                <viewController restorationIdentifier="newSocialSearch" storyboardIdentifier="newSocialSearch" id="vzT-G4-gWE" customClass="NewSocialSearchVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9gE-PY-IBd">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4NQ-3E-O6N" customClass="EasyRefreshTV" customModule="Ambassadoor" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="165" width="414" height="731"/>
+                                <color key="backgroundColor" name="newSubtleBackground"/>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wTZ-KQ-CYK" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="-56" width="414" height="221"/>
+                                <subviews>
+                                    <searchBar contentMode="redraw" searchBarStyle="minimal" text="" placeholder="Search Name" showsScopeBar="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HPt-8t-xAT">
+                                        <rect key="frame" x="0.0" y="110" width="414" height="103"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <scopeButtonTitles>
+                                            <string>Both</string>
+                                            <string>Influencers</string>
+                                            <string>Businesses</string>
+                                        </scopeButtonTitles>
+                                    </searchBar>
+                                </subviews>
+                                <color key="backgroundColor" name="newTrueBack"/>
+                                <constraints>
+                                    <constraint firstItem="HPt-8t-xAT" firstAttribute="top" secondItem="wTZ-KQ-CYK" secondAttribute="top" constant="110" id="2tP-18-SPd"/>
+                                    <constraint firstAttribute="trailing" secondItem="HPt-8t-xAT" secondAttribute="trailing" id="G3P-V2-0kr"/>
+                                    <constraint firstAttribute="bottom" secondItem="HPt-8t-xAT" secondAttribute="bottom" constant="8" id="OS0-ku-8cb"/>
+                                    <constraint firstItem="HPt-8t-xAT" firstAttribute="leading" secondItem="wTZ-KQ-CYK" secondAttribute="leading" id="Sx6-aa-h5r"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
+                                        <real key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="ShadowColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                        <real key="value" value="0.20000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="o8o-80-EkS"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="wTZ-KQ-CYK" firstAttribute="top" secondItem="o8o-80-EkS" secondAttribute="top" constant="-100" id="1A4-Zt-nB9"/>
+                            <constraint firstItem="4NQ-3E-O6N" firstAttribute="leading" secondItem="o8o-80-EkS" secondAttribute="leading" id="GPd-pA-K9C"/>
+                            <constraint firstItem="o8o-80-EkS" firstAttribute="trailing" secondItem="4NQ-3E-O6N" secondAttribute="trailing" id="Pt8-Q6-PNB"/>
+                            <constraint firstAttribute="bottom" secondItem="4NQ-3E-O6N" secondAttribute="bottom" id="Xnw-EV-ANZ"/>
+                            <constraint firstItem="wTZ-KQ-CYK" firstAttribute="trailing" secondItem="o8o-80-EkS" secondAttribute="trailing" id="cNY-J8-NXT"/>
+                            <constraint firstItem="wTZ-KQ-CYK" firstAttribute="leading" secondItem="o8o-80-EkS" secondAttribute="leading" id="sIU-UB-bpC"/>
+                            <constraint firstItem="4NQ-3E-O6N" firstAttribute="top" secondItem="wTZ-KQ-CYK" secondAttribute="bottom" id="zgO-Ko-2zj"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Search" image="searchIcon" id="Fzx-oE-Ki6"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="searchBar" destination="HPt-8t-xAT" id="fqY-cS-eRe"/>
+                        <outlet property="tableView" destination="4NQ-3E-O6N" id="OOc-X5-DKV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UVr-hG-FV2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-199" y="141"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="searchIcon" width="25" height="25"/>
+        <namedColor name="newSubtleBackground">
+            <color red="0.94893664119999999" green="0.94907277820000002" blue="0.94890683890000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="newTrueBack">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

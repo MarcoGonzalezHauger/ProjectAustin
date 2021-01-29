@@ -83,8 +83,8 @@ class DraftPost {
 		draftPostId = pid
 		poolId = plid
 		
-		requiredHastags = d["requiredHastags"] as! [String]
-		requiredKeywords = d["requiredKeywords"] as! [String]
+		requiredHastags = d["requiredHastags"] as? [String] ?? []
+		requiredKeywords = d["requiredKeywords"] as? [String] ?? []
 		instructions = d["instructions"] as! String
 		
 	}
@@ -119,7 +119,7 @@ class OfferFilter {
 	
 	//List should be empty if all are accepted.
 	var acceptedZipCodes: [String]
-	var acceptedCategories: [String]
+	var acceptedInterests: [String]
 	var acceptedGenders: [String]
 	var mustBe21: Bool
 	var minimumEngagmentRate: Double
@@ -129,9 +129,9 @@ class OfferFilter {
 	init(dictionary d: [String: Any], businessId id: String) {
 		businessId = id
 				
-		acceptedZipCodes = d["acceptedZipCodes"] as! [String]
-		acceptedCategories = d["acceptedCategories"] as! [String]
-		acceptedGenders = d["acceptedGenders"] as! [String]
+		acceptedZipCodes = d["acceptedZipCodes"] as? [String] ?? []
+		acceptedInterests = d["acceptedInterests"] as? [String] ?? []
+		acceptedGenders = d["acceptedGenders"] as? [String] ?? []
 		mustBe21 = d["mustBe21"] as! Bool
 		minimumEngagmentRate = d["minimumEngagmentRate"] as! Double
 		
@@ -143,7 +143,7 @@ class OfferFilter {
 		var d: [String: Any] = [:]
 		
 		d["acceptedZipCodes"] = acceptedZipCodes
-		d["acceptedCategories"] = acceptedCategories
+		d["acceptedInterests"] = acceptedInterests
 		d["acceptedGenders"] = acceptedGenders
 		d["mustBe21"] = mustBe21
 		d["minimumEngagmentRate"] = minimumEngagmentRate
@@ -225,7 +225,7 @@ class PoolOffer { //while in offer pool (GETS ASSIGNED NEW ID)
 		filter = OfferFilter.init(dictionary: d["filter"] as! [String: Any], businessId: businessId)
 		
 		draftOfferId = d["draftOfferId"] as! String
-		flags = d["flags"] as! [String]
+		flags = d["flags"] as? [String] ?? []
 		sentDate = (d["sentDate"] as! String).toUDate()
 		
 		draftPosts = []
