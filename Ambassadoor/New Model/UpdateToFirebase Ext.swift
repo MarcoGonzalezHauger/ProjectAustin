@@ -64,21 +64,14 @@ extension Influencer {
 		}
 	}
 	
-	func UpdateToFirebase(completed: ((_ success: Bool) -> ())?) {
+	func UpdateToFirebase(alsoUpdateToPublic: Bool, completed: ((_ success: Bool) -> ())?) {
 		let ref = Database.database().reference().child(privatePath)
 		ref.updateChildValues(self.toDictionary()) { (err, dataref) in
 			completed?(err != nil)
 		}
-		self.basic.UpdateToFirebase(completed: {_ in })
-	}
-	
-	func setUpAsync() {
-		let ref = Database.database().reference().child(basic.publicPath)
-		ref.observe(.childChanged) { (snap) in
-			let dict = snap.value as! [String: Any]
-			self.basic = BasicInfluencer.init(dictionary: dict, userId: self.userId)
+		if alsoUpdateToPublic {
+			self.basic.UpdateToFirebase(completed: {_ in })
 		}
-
 	}
 }
 

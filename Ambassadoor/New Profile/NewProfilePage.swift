@@ -8,15 +8,13 @@
 
 import UIKit
 
-class NewProfilePage: UIViewController, balanceRefreshDelegate {
+class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 	
-	func refreshed(userId: String, newBalance: Double) {
-		if userId == Myself.userId {
-			Myself.finance.balance = newBalance
-			balanceLabel.text = NumberToPrice(Value: newBalance)
-		}
+	
+	func myselfRefreshed() { //from MyselfRefreshDelegate
+		loadFromMyself()
 	}
-
+	
 	@IBOutlet var uniformShadowViews: [ShadowView]!
 	@IBOutlet weak var backProfileImage: UIImageView!
 	@IBOutlet weak var frontProfileImage: UIImageView!
@@ -36,18 +34,51 @@ class NewProfilePage: UIViewController, balanceRefreshDelegate {
 	@IBOutlet weak var genderLabel: UILabel!
 	@IBOutlet weak var ageLabel: UILabel!
 	
+	@IBOutlet weak var interestCollectionView: UICollectionView!
+	
+	@IBOutlet weak var scrollView: UIScrollView!
+	
 	override func viewDidLoad() {
         super.viewDidLoad()
+		
+		let xib = UINib.init(nibName: "InterestCVC", bundle: Bundle.main)
+		interestCollectionView.register(xib, forCellWithReuseIdentifier: "InterestCell")
+		
+		interestCollectionView.backgroundColor = .clear
 		for sv in uniformShadowViews {
-			sv.cornerRadius = 8
+			sv.cornerRadius = globalCornerRadius
 		}
 		loadFromMyself()
-		balanceListners.append(self)
-		StartListeningToBalance(userId: Myself.userId)
+		myselfRefreshListeners.append(self)
+		interestCollectionView.delegate = self
+		interestCollectionView.dataSource = self
+		
+		scrollView.alwaysBounceVertical = false
     }
 	
 	func loadFromMyself() {
 		loadInfluencerInfo(influencer: Myself)
+	}
+	
+	@IBAction func transferToBank(_ sender: Any) {
+		
+	}
+	
+	var isOnCopied = false
+	
+	@IBAction func copyRefferal(_ sender: Any) {
+		if !isOnCopied {
+			print("Copying referral code.")
+			UseTapticEngine()
+			let pasteboard = UIPasteboard.general
+			pasteboard.string = Myself.basic.referralCode
+			SetLabelText(label: referralCodeLabel, text: "Copied", animated: true)
+			isOnCopied = true
+			DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+				SetLabelText(label: self.referralCodeLabel, text: Myself.basic.referralCode, animated: true)
+				self.isOnCopied = false
+			}
+		}
 	}
 	
 	func loadInfluencerInfo(influencer i: Influencer) {
@@ -66,11 +97,13 @@ class NewProfilePage: UIViewController, balanceRefreshDelegate {
 		zipCodeLabel.text = i.basic.zipCode
 		self.townNameLabel.isHidden = true
 		GetTownName(zipCode: i.basic.zipCode) { (zipCodeData, zipCode) in
-			if let zipCodeData = zipCodeData {
-				self.townNameLabel.isHidden = false
-				self.townNameLabel.text = zipCodeData.CityAndStateName
-			} else {
-				self.townNameLabel.isHidden = true
+			DispatchQueue.main.async {
+				if let zipCodeData = zipCodeData {
+					self.townNameLabel.isHidden = false
+					self.townNameLabel.text = zipCodeData.CityAndStateName
+				} else {
+					self.townNameLabel.isHidden = true
+				}
 			}
 		}
 		
@@ -78,6 +111,52 @@ class NewProfilePage: UIViewController, balanceRefreshDelegate {
 		
 		ageLabel.text = "\(i.basic.age)"
 		
+		interestCollectionView.reloadData()
+		
+	}
+	
+	
+	
+	var maxInterests = 10
+	var rows = 2
+	var spacingBetweenCells: CGFloat = 12
+	
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return maxInterests
+	}
+	
+	
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "InterestCell", for: indexPath) as! InterestCVC
+		if indexPath.item < Myself.basic.interests.count {
+			cell.interest = Myself.basic.interests[indexPath.item]
+		} else {
+			cell.interest = ""
+		}
+		cell.mainView.cornerRadius = globalCornerRadius
+		return cell
+	}
+	
+	func collectionView(_ collectionView: UICollectionView,
+						layout collectionViewLayout: UICollectionViewLayout,
+						sizeForItemAt indexPath: IndexPath) -> CGSize {
+		
+		let width = collectionView.bounds.width - (spacingBetweenCells * CGFloat(((maxInterests / rows) - 1)))
+		let widthPer: CGFloat = CGFloat(width / CGFloat(maxInterests / rows))
+		return CGSize(width: widthPer, height: widthPer)
+		
+	}
+
+	func collectionView(_ collectionView: UICollectionView,
+						layout collectionViewLayout: UICollectionViewLayout,
+						minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+		return spacingBetweenCells
+	}
+
+	func collectionView(_ collectionView: UICollectionView, layout
+		collectionViewLayout: UICollectionViewLayout,
+						minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+		return spacingBetweenCells
 	}
 
 }

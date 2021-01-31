@@ -9,11 +9,6 @@
 import Foundation
 import Firebase
 
-
-
-
-
-
 /*
 So this function will take everything in the current database and port it all to Ambassadoor 3.0 Update database.
 No Loss.
@@ -31,7 +26,7 @@ func ConvertEntireDatabase(iUnderstandWhatThisFunctionDoes ok: Bool) {
 				ref.observeSingleEvent(of: .value) { (snap) in
 					let od = snap.value as! [String: Any]
 					print("DATABASE HAS BEEN DOWNLOADED\n====================================")
-					DoStuff(od: od)
+					ConvertDatabaseToNewDatabaseFormat(od: od)
 				}
 			}
 		}
@@ -39,7 +34,7 @@ func ConvertEntireDatabase(iUnderstandWhatThisFunctionDoes ok: Bool) {
 	}
 }
 
-func DoStuff(od: [String: Any]) {
+func ConvertDatabaseToNewDatabaseFormat(od: [String: Any]) {
 	let usersdb = od["users"] as! [String: Any]
 	var users: [User] = []
 	for u in usersdb.keys {
@@ -97,16 +92,24 @@ func DoStuff(od: [String: Any]) {
 				
 			}
 			
+			var newReferral: String = u.referralcode
+			if newReferral == "" {
+				newReferral = randomString(length: 6)
+			}
+			if u.username == "marcogonzalezhauger" {
+				newReferral = "CTO"
+			}
+			
 			
 				
 			
-			let basic = BasicInfluencer.init(name: u.name!, username: u.username, followerCount: u.followerCount, averageLikes: u.averageLikes ?? 0, profilePicURL: u.profilePicURL ?? "", zipCode: u.zipCode ?? "0", gender: tgender, joinedDate: joinedDate, interests: u.categories!, referralCode: u.referralcode, flags: flags, followingInfluencers: [], followingBusinesses: [], followedBy: [], birthday: tbday, userId: NewUserID)
+			let basic = BasicInfluencer.init(name: u.name!, username: u.username, followerCount: u.followerCount, averageLikes: u.averageLikes ?? 0, profilePicURL: u.profilePicURL ?? "", zipCode: u.zipCode ?? "0", gender: tgender, joinedDate: joinedDate, interests: u.categories!, referralCode: newReferral, flags: flags, followingInfluencers: [], followingBusinesses: [], followedBy: [], birthday: tbday, userId: NewUserID)
 			
 			let inffin = InfluencerFinance.init(balance: u.yourMoney, userId: NewUserID, stripeAccount: stripeAcc)
 			
 			let newInfluencer = Influencer.init(basic: basic, finance: inffin, email: authDict["email"] as! String, password: authDict["password"] as! String, instagramAuthToken: u.authenticationToken, instagramAccountId: u.id, tokenFIR: u.tokenFIR ?? "", userId: NewUserID)
 			
-			newInfluencer.UpdateToFirebase(completed: nil)
+			newInfluencer.UpdateToFirebase(alsoUpdateToPublic: true, completed: nil)
 			convertedInfluencer.append(newInfluencer)
 		}
 	}
@@ -146,13 +149,14 @@ func DoStuff(od: [String: Any]) {
 		}
 		if coUser.email	== "themagiccube.marco@gmail.com" {
 			flags.append("isOfficialAmbassadoor")
+			
 		}
 		
 		let businessFinance = BusinessFinance.init(stripeAccount: nil, log: [], balance: coDeposit?.currentBalance ?? 0, businessId: NewBusinessID)
 		
 		var basicBusiness: BasicBusiness? = nil
 		if let co = co {
-			basicBusiness = BasicBusiness.init(name: co.name, logoUrl: co.logo!, mission: co.mission, website: co.website, joinedDate: Date(), referralCode: co.referralcode ?? randomString(length: 6), flags: flags, followedBy: [], businessId: NewBusinessID)
+			basicBusiness = BasicBusiness.init(name: co.name, logoUrl: co.logo ?? "", mission: co.mission, website: co.website, joinedDate: Date(), referralCode: co.referralcode ?? randomString(length: 6), flags: flags, followedBy: [], businessId: NewBusinessID)
 		}
 		
 		var drafts: [DraftOffer] = []
@@ -214,22 +218,22 @@ func DoStuff(od: [String: Any]) {
 				if !foundIt {
 					if o.posts.count > 0 && draft.draftPosts.count > 0 {
 						if o.posts[0].instructions == draft.draftPosts[0].instructions {
-						 var coPoolDict = (poolDict[o.businessAccountID] as! [String : Any])[o.offer_ID] as! [String: Any]
-						 
-						 coPoolDict["acceptedZipCodes"] = (o.influencerFilter!["zipCode"] as? [String]) ?? [String]()
-						 coPoolDict["acceptedInterests"] = o.category
-						 coPoolDict["acceptedGenders"] = o.genders
-						 coPoolDict["mustBe21"] = o.mustBe21
-						 coPoolDict["minimumEngagmentRate"] = 0
-						 
-						 foundIt = true
-						 
-						 draft.distributeToPool(asBusiness: b, filter: OfferFilter.init(dictionary: coPoolDict as [String: AnyObject], businessId: b.businessId), withMoney: o.cashPower!, withDrawFundsFalseForTestingOnly: false) { (success, bizObj) in
-							 if let bizObj = bizObj {
-								 bizObj.UpdateToFirebase(completed: nil)
-							 }
-						 }
-					 }
+							var coPoolDict = (poolDict[o.businessAccountID] as! [String : Any])[o.offer_ID] as! [String: Any]
+							
+							coPoolDict["acceptedZipCodes"] = (o.influencerFilter!["zipCode"] as? [String]) ?? [String]()
+							coPoolDict["acceptedInterests"] = o.category
+							coPoolDict["acceptedGenders"] = o.genders
+							coPoolDict["mustBe21"] = o.mustBe21
+							coPoolDict["minimumEngagmentRate"] = 0
+							
+							foundIt = true
+							
+							draft.distributeToPool(asBusiness: b, filter: OfferFilter.init(dictionary: coPoolDict as [String: AnyObject], businessId: b.businessId), withMoney: o.cashPower!, withDrawFundsFalseForTestingOnly: false) { (success, bizObj) in
+								if let bizObj = bizObj {
+									bizObj.UpdateToFirebase(completed: nil)
+								}
+							}
+						}
 					}
 				}
 			}
@@ -247,5 +251,12 @@ func DoStuff(od: [String: Any]) {
 	print("Myself variable has been set to \(Myself.basic.name)")
 	
 	print("Done Porting. Database is now up to date with old database.")
+	
+	startListeningToMyself(userId: Myself.userId)
+	
+	StartListeningToPublicData()
+	
+	let interestRef = Database.database().reference().child("ReadOnly")
+	interestRef.updateChildValues(["Interests": AllInterests])
 	
 }

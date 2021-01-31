@@ -8,13 +8,10 @@
 
 import UIKit
 
-class NewSocialSearchVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, EasyRefreshDelegate {
+class NewSocialSearchVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, publicDataRefreshDelegate {
 	
-	func wantsReload(stopRefreshing: @escaping () -> Void) {
-		RefreshPublicData {
-			self.refreshItems()
-			stopRefreshing()
-		}
+	func refreshed(userOrBusinessId: String) {
+		refreshItems()
 	}
 	
 	func GetSearchScope() -> SearchFor {
@@ -47,13 +44,13 @@ class NewSocialSearchVC: UIViewController, UISearchBarDelegate, UITableViewDeleg
 	
 	override func viewDidLoad() {
 		tableView.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
-		tableView.easyRefreshDelegate = self
 		searchBar.delegate = self
 		tableView.delegate = self
 		tableView.dataSource = self
+		
+		publicDataListeners.append(self)
+		
 		refreshItems()
-		
-		
 	}
 
 	func refreshItems() {
@@ -69,12 +66,30 @@ class NewSocialSearchVC: UIViewController, UISearchBarDelegate, UITableViewDeleg
 		}
 	}
 	
+	var passedUserId: String = ""
+	var passedBusinessId: String = ""
+	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		
+		if let thisInf = basicObjectResults[indexPath.row] as? BasicInfluencer {
+			passedUserId = thisInf.userId
+			performSegue(withIdentifier: "toInfluencerView", sender: self)
+		}
+		if let thisBus = basicObjectResults[indexPath.row] as? BasicBusiness {
+			passedBusinessId = thisBus.businessId
+		}
+		
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return basicObjectResults.count
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if let view = segue.destination as? NewBasicInfluencerView {
+			view.displayInfluencerId(userId: passedUserId)
+		}
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

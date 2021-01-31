@@ -34,22 +34,34 @@ class ShadowView: UIView {
 	
 	func DrawShadows() {
 		//draw shadow & rounded corners for offer cell
+		updateCornerRadius()
+		updateShadows()
+		updateBorder()
+    }
+	
+	func updateCornerRadius() {
 		if cornerRadius != 0 {
 			self.layer.cornerRadius = CGFloat(cornerRadius)
 		}
+	}
+	
+	func updateShadows() {
 		if ShadowOpacity != 0 {
 			self.layer.shadowColor = ShadowColor.cgColor
 			self.layer.shadowOpacity = ShadowOpacity
 			self.layer.shadowOffset = CGSize.zero
 			self.layer.shadowRadius = CGFloat(ShadowRadius)
 		}
+	}
+	
+	func updateBorder() {
 		if borderWidth != 0 {
 			self.layer.borderWidth = CGFloat(borderWidth)
 			self.layer.borderColor = borderColor.cgColor
 			self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.layer.cornerRadius).cgPath
 		}
-        
-    }
+	}
+	
 }
 
 //Structure for an offer that comes into username's inbox

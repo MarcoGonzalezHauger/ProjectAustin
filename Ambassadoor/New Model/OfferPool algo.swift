@@ -13,51 +13,44 @@ protocol OfferPoolRefreshDelegate {
 	func refreshed()
 }
 
-protocol balanceRefreshDelegate {
-	func refreshed(userId: String, newBalance: Double)
+protocol myselfRefreshDelegate {
+	func myselfRefreshed()
 }
 
+var myselfRefreshListeners: [myselfRefreshDelegate] = []
 var offerPoolListeners: [OfferPoolRefreshDelegate] = []
-var balanceListners: [balanceRefreshDelegate] = []
 
 //This function only needs to activated ONCE on startup of the app. After that please do not execute it again.
 
 func startListeningToOfferPool() {
-	let ref = Database.database().reference().child("Pool")
-	refreshOfferPoolFromFirebase()
-	ref.observe(.childAdded) { (snap) in
-		refreshOfferPoolFromFirebase()
-	}
-	ref.observe(.childChanged) { (snap) in
-		refreshOfferPoolFromFirebase()
+	let listenRef = Database.database().reference().child("Pool")
+	
+	listenRef.observe(.value) { (snap) in
+		serializeAndUpdateOfferPool(dictionary: snap.value as! [String: Any])
 	}
 }
 
-func refreshOfferPoolFromFirebase() {
-	let ref = Database.database().reference().child("Pool")
-	ref.observeSingleEvent(of: .value) { (snap) in
-		let dict = snap.value as! [String: Any]
-		serializeAndUpdateOfferPool(dictionary: dict)
-	}
-}
-
-func StartListeningToBalance(userId: String) {
-	let ref = Database.database().reference().child("Accounts/Private/Influencers/\(userId)/finance")
-	ref.observeSingleEvent(of: .value) { (snap) in
-		let finDict = snap.value as! [String: Any]
-		let bal = finDict["balance"] as! Double
-		for l in balanceListners {
-			l.refreshed(userId: userId, newBalance: bal)
+func startListeningToMyself(userId: String) {
+	let listenRef = Database.database().reference().child("Accounts/Private/Influencers/\(Myself.userId)")
+	
+	listenRef.observe(.value) { (snap) in
+		Myself = Influencer.init(dictionary: snap.value as! [String: Any], userId: snap.key)
+		for l in myselfRefreshListeners {
+			l.myselfRefreshed()
 		}
 	}
-	ref.observe(.childChanged) { (snap) in
-		if snap.key == "balance" {
-			let bal = snap.value as! Double
-		 for l in balanceListners {
-			 l.refreshed(userId: userId, newBalance: bal)
-		 }
+	
+	let PublicFollowedByRef = Database.database().reference().child("Accounts/Public/Influencers/\(Myself.userId)/followingBusinesses")
+	
+	PublicFollowedByRef.observe(.value) { (snap) in
+		if let followedBy = snap.value as? [String] {
+			Myself.basic.followedBy = followedBy
+		} else {
+			Myself.basic.followedBy = []
 		}
-		
+		for l in myselfRefreshListeners {
+			l.myselfRefreshed()
+		}
 	}
 }
 

@@ -45,37 +45,33 @@ extension PoolOffer {
 			}
 		}
 		
-		let ref = Database.database().reference().child(poolPath)
-		ref.observeSingleEvent(of: .value) { (dataSnapshot) in
-			
-			let offerRefreshDictionary = dataSnapshot.value as! [String: Any]
-			self.cashPower = offerRefreshDictionary["cashPower"] as! Double
-			self.filter = OfferFilter.init(dictionary: offerRefreshDictionary["filter"] as! [String: Any], businessId: self.businessId)
-			
-			let costPerPost = thisInfluencer.basic.baselinePricePerPost * self.payIncrease
-			let totalCost = costPerPost * Double(self.draftPosts.count)
-			if totalCost > self.cashPower {
-				completed("There isn't enough money in this offer to afford your fee. (\(NumberToPrice(Value: totalCost)))", nil)
+		let costPerPost = thisInfluencer.basic.baselinePricePerPost * self.payIncrease
+		let totalCost = costPerPost * Double(self.draftPosts.count)
+		
+		if totalCost > self.cashPower {
+			completed("There isn't enough money in this offer to afford your fee. (\(NumberToPrice(Value: totalCost)))", nil)
+		} else {
+			if self.filter.DoesInfluencerPassFilter(basicInfluencer: thisInfluencer.basic) {
+				completed("You don't meet the filters of this offer.", nil)
 			} else {
-				if self.filter.DoesInfluencerPassFilter(basicInfluencer: thisInfluencer.basic) {
-					completed("You don't meet the filters of this offer.", nil)
-				} else {
-					let newCashPower = self.cashPower - totalCost
-					
-					var newPosts: [InProgressPost] = [] // we do this before updating cashPower, because if the app crahses while compiling a list of new draftposts AFTER the money has been withdrawn, that would be a huge problem.
-					for p in self.draftPosts {
-						let newInP = InProgressPost.init(draftPost: p, comissionUserId: self.comissionUserId, comissionBusinessId: self.comissionBusinessId, userId: thisInfluencer.userId, poolOfferId: self.poolId, businessId: self.businessId, draftOfferId: self.draftOfferId, cashValue: costPerPost)
-						newPosts.append(newInP)
-					}
-					
-					ref.setValue(["cashPower": newCashPower]) { (err, dataref) in
-						if err != nil {
-							thisInfluencer.inProgressPosts.append(contentsOf: newPosts)
-							thisInfluencer.UpdateToFirebase(completed: nil)
-							completed("", thisInfluencer)
-						} else {
-							completed("A network error prevented you from accepting this offer.", nil)
-						}
+				let newCashPower = self.cashPower - totalCost
+				
+				
+				var newPosts: [InProgressPost] = [] // we do this before updating cashPower, because if the app crahses while compiling a list of new draftposts AFTER the money has been withdrawn, that would be a huge problem.
+				for p in self.draftPosts {
+					let newInP = InProgressPost.init(draftPost: p, comissionUserId: self.comissionUserId, comissionBusinessId: self.comissionBusinessId, userId: thisInfluencer.userId, poolOfferId: self.poolId, businessId: self.businessId, draftOfferId: self.draftOfferId, cashValue: costPerPost)
+					newPosts.append(newInP)
+				}
+				
+				let ref = Database.database().reference().child(poolPath)
+				ref.setValue(["cashPower": newCashPower]) { (err, dataref) in
+					if err != nil {
+						self.cashPower = newCashPower
+						thisInfluencer.inProgressPosts.append(contentsOf: newPosts)
+						thisInfluencer.UpdateToFirebase(alsoUpdateToPublic: false, completed: nil)
+						completed("", thisInfluencer)
+					} else {
+						completed("A network error prevented you from accepting this offer.", nil)
 					}
 				}
 			}

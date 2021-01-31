@@ -9,6 +9,75 @@
 import Foundation
 import Firebase
 
+protocol publicDataRefreshDelegate {
+	func refreshed(userOrBusinessId: String)
+}
+
+var publicDataListeners: [publicDataRefreshDelegate] = []
+
+func StartListeningToPublicData() {
+	let ref = Database.database().reference().child("Accounts/Public/Influencers")
+	ref.observe(.childChanged) { (snap) in
+		
+		print(snap.key + ": \(snap.value as! [String: Any])")
+		
+		if let snapValue = snap.value as? [String: Any] {
+			
+			let newInf = BasicInfluencer.init(dictionary: snapValue, userId: snap.key)
+			
+			for i in 0...(globalBasicInfluencers.count - 1) {
+				if globalBasicInfluencers[i].userId == newInf.userId {
+					globalBasicInfluencers[i] = newInf
+					break
+				}
+			}
+			
+			for i in 0...(globalBasicBoth.count - 1) {
+				if let thisInf = globalBasicBoth[i] as? BasicInfluencer {
+					if thisInf.userId == newInf.userId {
+						globalBasicBoth[i] = newInf
+						break
+					}
+				}
+			}
+			
+			for l in publicDataListeners {
+				l.refreshed(userOrBusinessId: newInf.userId)
+			}
+		}
+	}
+	
+	let refBusinesses = Database.database().reference().child("Accounts/Public/Businesses")
+	refBusinesses.observe(.childChanged) { (snap) in
+		if let snapValue = snap.value as? [String: Any] {
+			
+			let newBus = BasicBusiness.init(dictionary: snapValue, businessId: snap.key)
+			
+			for i in 0...(globalBasicBusinesses.count - 1) {
+				if globalBasicBusinesses[i].businessId == newBus.businessId {
+					globalBasicBusinesses[i] = newBus
+					break
+				}
+			}
+			
+			for i in 0...(globalBasicBoth.count - 1) {
+				if let thisBus = globalBasicBoth[i] as? BasicBusiness {
+					if thisBus.businessId == newBus.businessId {
+						globalBasicBusinesses[i] = newBus
+						break
+					}
+				}
+			}
+			
+			for l in publicDataListeners {
+				l.refreshed(userOrBusinessId: newBus.businessId)
+			}
+		}
+	}
+}
+
+
+
 func RefreshPublicData(finished: (() -> ())?) {
 	let ref = Database.database().reference().child("Accounts/Public")
 	ref.observeSingleEvent(of: .value) { (snapshot) in

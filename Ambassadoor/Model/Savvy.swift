@@ -417,37 +417,6 @@ func OfferFromID(id: String, completion:@escaping(_ offer:Offer?)->()) {
 	}
 }
 
-func CompressNumber(number: Double) -> String {
-	var returnValue = ""
-	var suffix = ""
-	switch number {
-	case 0...999:
-		returnValue =  String(number)
-	case 1000...99999:
-		returnValue =  "\(floor(number/100) / 10)"
-		suffix = "K"
-	case 100000...999999:
-		returnValue =  "\(floor(number/1000))"
-		suffix = "K"
-	case 1000000...9999999:
-		returnValue =  "\(floor(number/10000) / 100)"
-		suffix = "M"
-	case 10000000...99999999:
-		returnValue =  "\(floor(number/100000) / 10)"
-		suffix = "M"
-	case 100000000...999999999:
-		returnValue =  "\(floor(number/1000000))"
-		suffix = "M"
-	default:
-		//okay if you have more than a billion followers/average likes... c'mon.
-		return "A Lot."
-	}
-	if returnValue.hasSuffix(".00") || returnValue.hasSuffix(".0") {
-		returnValue = String(returnValue.split(separator: ".").first!)
-	}
-	return returnValue + suffix
-}
-
 func PostTypeToText(posttype: TypeofPost) -> String {
 	switch posttype {
 	case .SinglePost:
@@ -706,27 +675,6 @@ func sendPushNotification(params: [String: AnyObject]){
 
 func ResortLocation() {
 	
-}
-
-let impact = UIImpactFeedbackGenerator()
-func UseTapticEngine() {
-	impact.impactOccurred()
-}
-
-func GetForeColor() -> UIColor {
-	if #available(iOS 13.0, *) {
-		return .label
-	} else {
-		return .black
-	}
-}
-
-func GetBackColor() -> UIColor {
-	if #available(iOS 13.0, *) {
-		return .systemBackground
-	} else {
-		return .white
-	}
 }
 
 //refund funcs
