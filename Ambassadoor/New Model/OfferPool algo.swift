@@ -10,7 +10,7 @@ import Foundation
 import Firebase
 
 protocol OfferPoolRefreshDelegate {
-	func refreshed()
+	func OfferPoolRefreshed(poolId: String)
 }
 
 protocol myselfRefreshDelegate {
@@ -23,10 +23,43 @@ var offerPoolListeners: [OfferPoolRefreshDelegate] = []
 //This function only needs to activated ONCE on startup of the app. After that please do not execute it again.
 
 func startListeningToOfferPool() {
-	let listenRef = Database.database().reference().child("Pool")
-	
-	listenRef.observe(.value) { (snap) in
-		serializeAndUpdateOfferPool(dictionary: snap.value as! [String: Any])
+	let oneTimeRef = Database.database().reference().child("Pool")
+	oneTimeRef.observeSingleEvent(of: .value) { (snap) in
+		let d = snap.value as! [String: Any]
+		var pool: [PoolOffer] = []
+		for id in d.keys {
+			let thisOffer = PoolOffer.init(dictionary: d[id] as! [String: Any], poolId: id)
+			pool.append(thisOffer)
+		}
+		offerPool = pool
+		sortOfferPool()
+	}
+	let listenerRef = Database.database().reference().child("Pool")
+	listenerRef.observe(.childChanged) { (snap) in
+		if let d = snap.value as? [String: Any] {
+			let thisOffer = PoolOffer.init(dictionary: d, poolId: snap.key)
+			for i in 0...(offerPool.count - 1) {
+				if offerPool[i].poolId == thisOffer.poolId {
+					offerPool[i] = thisOffer
+				}
+			}
+			sortOfferPool()
+			for l in offerPoolListeners {
+				l.OfferPoolRefreshed(poolId: snap.key)
+			}
+		}
+	}
+	let listenerRef2 = Database.database().reference().child("Pool")
+	listenerRef2.observe(.childAdded) { (snap) in
+		if let d = snap.value as? [String: Any] {
+			
+			let thisOffer = PoolOffer.init(dictionary: d, poolId: snap.key)
+			offerPool.append(thisOffer)
+			sortOfferPool()
+			for l in offerPoolListeners {
+				l.OfferPoolRefreshed(poolId: snap.key)
+			}
+		}
 	}
 }
 
@@ -54,33 +87,13 @@ func startListeningToMyself(userId: String) {
 	}
 }
 
-func serializeAndUpdateOfferPool(dictionary d: [String: Any]) {
-	var pool: [PoolOffer] = []
-	for id in d.keys {
-		let thisOffer = PoolOffer.init(dictionary: d[id] as! [String: Any], poolId: id)
-		pool.append(thisOffer)
-	}
-	SortAndUpdateOfferPool(pool: pool)
-}
-
-func SortAndUpdateOfferPool(pool p: [PoolOffer]?) {
-	var pool: [PoolOffer]! = p
-	if pool == nil {
-		pool = offerPool.filter{$0.cashPower > (Myself.basic.baselinePricePerPost * Double($0.draftPosts.count) * $0.payIncrease)} //only offers that contian enough money to be accepted by an influencer.
-	} else {
-		pool = pool.filter{$0.cashPower > (Myself.basic.baselinePricePerPost * Double($0.draftPosts.count) * $0.payIncrease)} //only offers that contian enough money to be accepted by an influencer.
-	}
-	
-	pool.sort { (o1, o2) -> Bool in
+func sortOfferPool() {
+	offerPool.sort { (o1, o2) -> Bool in
 		if o1.payIncrease == o2.payIncrease {
 			return o1.sentDate > o2.sentDate
 		} else {
 			return o1.payIncrease > o2.payIncrease
 		}
-	}
-	
-	for p in offerPoolListeners {
-		p.refreshed()
 	}
 }
 
@@ -89,9 +102,32 @@ func getFollowingOfferPool() -> [PoolOffer] {
 }
 
 func getFilteredOfferPool() -> [PoolOffer] {
-	return offerPool.filter{$0.filter.DoesInfluencerPassFilter(basicInfluencer: Myself.basic) && !$0.hasInfluencerAccepted(influencer: Myself)}
+	let filteredPool = offerPool.filter{
+		$0.filter.DoesInfluencerPassFilter(basicInfluencer: Myself.basic) && !$0.hasInfluencerAccepted(influencer: Myself) && $0.cashPower > $0.totalCost(forInfluencer: Myself.basic)
+		
+	}
+	
+	return filteredPool
 }
 
 func GetOfferPool() -> [PoolOffer] {
 	return offerPool
+}
+
+func GetBasicInfluencer(id: String) -> BasicInfluencer? {
+	for i in globalBasicInfluencers {
+		if i.userId == id {
+			return i
+		}
+	}
+	return  nil
+}
+
+func GetBasicBusiness(id: String) -> BasicBusiness? {
+	for b in globalBasicBusinesses {
+		if b.businessId == id {
+			return b
+		}
+	}
+	return  nil
 }

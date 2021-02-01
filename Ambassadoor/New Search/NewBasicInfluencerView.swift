@@ -21,7 +21,7 @@ class NewBasicInfluencerView: UIViewController, publicDataRefreshDelegate, UICol
 	}
 	
 	
-	func refreshed(userOrBusinessId: String) {
+	func publicDataRefreshed(userOrBusinessId: String) {
 		if userOrBusinessId == thisInfluencer.userId {
 			for i in globalBasicInfluencers {
 				if i.userId == thisInfluencer.userId {
@@ -60,8 +60,36 @@ class NewBasicInfluencerView: UIViewController, publicDataRefreshDelegate, UICol
 	@IBOutlet weak var youVsThemEngagementRateLabel: UILabel!
 	@IBOutlet weak var youVsThemEngagementRateView: ShadowView!
 	
+	@IBOutlet weak var youVsThemLabel: UILabel!
+	@IBOutlet weak var youVsThemView: ShadowView!
+	
+	
+	
+	func CompressNumberWithPlus(number: Double) -> String {
+		return (number > 0 ? "+" : "") + CompressNumber(number: number)
+	}
+	
 	func LoadYouVsThem() {
-		thisInfluencer
+		let likesDiff = Myself.basic.averageLikes - thisInfluencer.averageLikes
+		let followersDiff = Myself.basic.followerCount - thisInfluencer.followerCount
+		let engagementRate = Myself.basic.engagmentRate - thisInfluencer.engagmentRate
+		
+		let likesString = CompressNumberWithPlus(number: likesDiff)
+		let followerString = CompressNumberWithPlus(number: followersDiff)
+		let engagementString = engagmentRateInDetail(engagmentRate: engagementRate, enforceSign: true)
+		
+		youVsThemAverageLikesLabel.text = likesString
+		youVsThemFollowersLabel.text = followerString
+		youVsThemEngagementRateLabel.text = engagementString
+		
+		youVsThemAverageLikesView.borderColor = GetColorForNumber(number: likesDiff)
+		youVsThemFollowersView.borderColor = GetColorForNumber(number: followersDiff)
+		youVsThemEngagementRateView.borderColor = GetColorForNumber(number: Double(engagementRate))
+	}
+	
+	func viewYouVsThemItem() {
+		UseTapticEngine()
+		performSegue(withIdentifier: "viewYouVsThemItem", sender: self)
 	}
 	
 	@IBAction func dismiss(_ sender: Any) {
@@ -95,6 +123,45 @@ class NewBasicInfluencerView: UIViewController, publicDataRefreshDelegate, UICol
 		}
 	}
 	
+	@IBAction func averageLikesPressed(_ sender: Any) {
+		stat1 = Myself.basic.averageLikes
+		stat2 = thisInfluencer.averageLikes
+		headingName = "Average Likes"
+		viewYouVsThemItem()
+	}
+	
+	@IBAction func followersPressed(_ sender: Any) {
+		stat1 = Myself.basic.followerCount
+		stat2 = thisInfluencer.followerCount
+		headingName = "Followers"
+		viewYouVsThemItem()
+	}
+	
+	@IBAction func EngagementRatePressed(_ sender: Any) {
+		stat1 = Myself.basic.engagmentRate
+		stat2 = thisInfluencer.engagmentRate
+		headingName = "Engagement Rate"
+		viewYouVsThemItem()
+	}
+	
+	var stat1: Double = 0
+	var stat2: Double = 0
+	var diff: Double {
+		get {
+			return stat1 - stat2
+		}
+	}
+	var headingName: String = ""
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if let view = segue.destination as? YouVsThemViewerVC {
+			view.stat1 = stat1
+			view.stat2 = stat2
+			view.difference = diff
+			view.heading = headingName
+		}
+	}
+	
 	override func viewDidLoad() {
 		scrollView.alwaysBounceVertical = false
 		interestCollectionView.backgroundColor = .clear
@@ -114,6 +181,9 @@ class NewBasicInfluencerView: UIViewController, publicDataRefreshDelegate, UICol
 	}
 	
 	func loadBasicInfluencerInfo() {
+		
+		let thisIsMe = thisInfluencer.userId == Myself.userId
+		
 		backProfileImage.downloadAndSetImage(thisInfluencer.profilePicURL)
 		frontProfileImage.downloadAndSetImage(thisInfluencer.profilePicURL)
 		nameLabel.text = thisInfluencer.name
@@ -128,6 +198,18 @@ class NewBasicInfluencerView: UIViewController, publicDataRefreshDelegate, UICol
 		}
 		
 		interestCollectionView.reloadData()
+		
+		
+		youVsThemLabel.isHidden = thisIsMe
+		youVsThemView.isHidden = thisIsMe
+		followButton.isHidden = thisIsMe
+		if thisIsMe {
+			DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+				SetLabelText(label: self.nameLabel, text: "You", animated: true)
+			}
+		} else {
+			LoadYouVsThem()
+		}
 	}
 	
 	var maxInterests = 10

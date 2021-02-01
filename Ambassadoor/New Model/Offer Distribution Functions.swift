@@ -45,8 +45,8 @@ extension PoolOffer {
 			}
 		}
 		
-		let costPerPost = thisInfluencer.basic.baselinePricePerPost * self.payIncrease
-		let totalCost = costPerPost * Double(self.draftPosts.count)
+		let costPerPost = self.pricePerPost(forInfluencer: thisInfluencer.basic)
+		let totalCost = self.totalCost(forInfluencer: thisInfluencer.basic)
 		
 		if totalCost > self.cashPower {
 			completed("There isn't enough money in this offer to afford your fee. (\(NumberToPrice(Value: totalCost)))", nil)

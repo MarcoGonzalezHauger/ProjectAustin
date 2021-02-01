@@ -12,33 +12,19 @@ import Firebase
 extension BasicInfluencer {
 	
 	func Follow(as myInf: Influencer) {
-		RefreshFromPublic {
-			if !self.isFollowing(as: myInf) {
-				self.followedBy.append(myInf.userId)
-				self.UpdateToFirebase(completed: nil)
-				myInf.basic.followingInfluencers.append(self.userId)
-				myInf.basic.UpdateToFirebase(completed: nil)
-			}
-		}
-		
-	}
-	
-	func Unfollow(as myInf: Influencer) {
-		RefreshFromPublic {
-			self.followedBy.removeAll{$0 == myInf.userId}
+		if !self.isFollowing(as: myInf) {
+			self.followedBy.append(myInf.userId)
 			self.UpdateToFirebase(completed: nil)
-			myInf.basic.followingInfluencers.removeAll{$0 == self.userId}
+			myInf.basic.followingInfluencers.append(self.userId)
 			myInf.basic.UpdateToFirebase(completed: nil)
 		}
 	}
 	
-	func RefreshFromPublic(completed: @escaping () -> ()) {
-		let ref = Database.database().reference().child(publicPath)
-		ref.observeSingleEvent(of: .value) { (snap) in
-			let d = snap.value as! [String: Any]
-			self.followedBy = d["followedBy"] as? [String] ?? []
-			completed()
-		}
+	func Unfollow(as myInf: Influencer) {
+		self.followedBy.removeAll{$0 == myInf.userId}
+		self.UpdateToFirebase(completed: nil)
+		myInf.basic.followingInfluencers.removeAll{$0 == self.userId}
+		myInf.basic.UpdateToFirebase(completed: nil)
 	}
 	
 	func isFollowing(as myInf: Influencer) -> Bool {
@@ -49,33 +35,20 @@ extension BasicInfluencer {
 extension BasicBusiness {
 	
 	func Follow(as myInf: Influencer) {
-		RefreshFromPublic {
-			if !self.isFollowing(as: myInf) {
-				self.followedBy.append(myInf.userId)
-				self.UpdateToFirebase(completed: nil)
-				myInf.basic.followingBusinesses.append(self.businessId)
-				myInf.basic.UpdateToFirebase(completed: nil)
-			}
+		if !self.isFollowing(as: myInf) {
+			self.followedBy.append(myInf.userId)
+			self.UpdateToFirebase(completed: nil)
+			myInf.basic.followingBusinesses.append(self.businessId)
+			myInf.basic.UpdateToFirebase(completed: nil)
 		}
 		
 	}
 	
 	func Unfollow(as myInf: Influencer) {
-		RefreshFromPublic {
-			self.followedBy.removeAll{$0 == myInf.userId}
-			self.UpdateToFirebase(completed: nil)
-			myInf.basic.followingBusinesses.removeAll{$0 == self.businessId}
-			myInf.basic.UpdateToFirebase(completed: nil)
-		}
-	}
-	
-	func RefreshFromPublic(completed: @escaping () -> ()) {
-		let ref = Database.database().reference().child("/Accounts/Public/Businesses/\(self.businessId)")
-		ref.observeSingleEvent(of: .value) { (snap) in
-			let d = snap.value as! [String: Any]
-			self.followedBy = d["followedBy"] as? [String] ?? []
-			completed()
-		}
+		self.followedBy.removeAll{$0 == myInf.userId}
+		self.UpdateToFirebase(completed: nil)
+		myInf.basic.followingBusinesses.removeAll{$0 == self.businessId}
+		myInf.basic.UpdateToFirebase(completed: nil)
 	}
 	
 	func isFollowing(as myInf: Influencer) -> Bool {

@@ -25,6 +25,22 @@ extension BasicInfluencer {
 	var age: Int {
 		return Calendar.current.dateComponents([.year], from: birthday, to: Date()).year!
 	}
+	var isForTesting: Bool {
+		get {
+			return checkFlag("isForTesting")
+		}
+	}
+}
+
+extension BasicBusiness {
+	var avaliableOffers: [PoolOffer] {
+		return getFilteredOfferPool().filter{$0.businessId == businessId}
+	}
+	var isForTesting: Bool {
+		get {
+			return checkFlag("isForTesting")
+		}
+	}
 }
 
 extension OfferFilter {
@@ -36,6 +52,9 @@ extension OfferFilter {
 			if basicInfluencer.age < 21 {
 				return false
 			}
+		}
+		if basicInfluencer.averageLikes == 0 {
+			return false
 		}
 		if basicInfluencer.engagmentRate < minimumEngagmentRate {
 			return false
@@ -74,5 +93,14 @@ extension PoolOffer {
 			}
 		}
 		return false
+	}
+	func BasicBusiness() -> BasicBusiness? {
+		return GetBasicBusiness(id: businessId)
+	}
+	func pricePerPost(forInfluencer inf: BasicInfluencer) -> Double {
+		return inf.baselinePricePerPost * self.payIncrease
+	}
+	func totalCost(forInfluencer inf: BasicInfluencer) -> Double {
+		return pricePerPost(forInfluencer: inf) * Double(draftPosts.count)
 	}
 }

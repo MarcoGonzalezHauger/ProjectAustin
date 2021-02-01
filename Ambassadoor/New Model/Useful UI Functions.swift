@@ -56,6 +56,39 @@ func GetBackColor() -> UIColor {
 	}
 }
 
+func GetColorForNumber(number: Double) -> UIColor {
+	if number < 0 {
+		return UIColor.init(named: "newYouVsThemRed")!
+	} else if number > 0 {
+		return UIColor.init(named: "newYouVsThemGreen")!
+	} else {
+		return GetForeColor()
+	}
+}
+
+func engagmentRateInDetail(engagmentRate eg: Double, enforceSign es: Bool) -> String {
+	if es {
+		return (eg > 0 ? "+" : "") + String((eg * 10000).rounded() / 100) + "%"
+	} else {
+		return String((eg * 10000).rounded() / 100) + "%"
+	}
+}
+
+func roundPriceDown(price: Double) -> Double {
+	return (price * 100).rounded(.down) / 100
+}
+
+func GetColorFromPercentage(percent: Double) -> UIColor {
+	switch true {
+	case percent < 0.2:
+		return .systemRed
+	case percent < 0.6:
+		return .systemYellow
+	default:
+		return .systemGreen
+	}
+}
+
 func CompressNumber(number: Double) -> String {
 	var number = number
 	var returnValue = ""

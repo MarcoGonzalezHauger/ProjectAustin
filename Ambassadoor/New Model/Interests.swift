@@ -83,5 +83,5 @@ var AllInterests: [String] = [
 	"Graphic Design",
 	"Business", //Organization
 	"Entrepreneurship",
-	"Advertising",
+	"Advertising"
 ]

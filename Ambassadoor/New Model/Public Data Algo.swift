@@ -10,7 +10,7 @@ import Foundation
 import Firebase
 
 protocol publicDataRefreshDelegate {
-	func refreshed(userOrBusinessId: String)
+	func publicDataRefreshed(userOrBusinessId: String)
 }
 
 var publicDataListeners: [publicDataRefreshDelegate] = []
@@ -42,7 +42,7 @@ func StartListeningToPublicData() {
 			}
 			
 			for l in publicDataListeners {
-				l.refreshed(userOrBusinessId: newInf.userId)
+				l.publicDataRefreshed(userOrBusinessId: newInf.userId)
 			}
 		}
 	}
@@ -63,14 +63,14 @@ func StartListeningToPublicData() {
 			for i in 0...(globalBasicBoth.count - 1) {
 				if let thisBus = globalBasicBoth[i] as? BasicBusiness {
 					if thisBus.businessId == newBus.businessId {
-						globalBasicBusinesses[i] = newBus
+						globalBasicBoth[i] = newBus
 						break
 					}
 				}
 			}
 			
 			for l in publicDataListeners {
-				l.refreshed(userOrBusinessId: newBus.businessId)
+				l.publicDataRefreshed(userOrBusinessId: newBus.businessId)
 			}
 		}
 	}
@@ -95,16 +95,12 @@ func SerializePublicData(dictionary: [String: Any], finished: (() -> ())?) {
 	let influencers = dictionary["Influencers"] as! [String: Any]
 	for i in influencers.keys {
 		let inf = BasicInfluencer.init(dictionary: influencers[i] as! [String: Any], userId: i)
-		if !inf.checkFlag("isForTesting") || thisUserIsForTesting {
-			infs.append(inf)
-		}
+		infs.append(inf)
 	}
 	let businesses = dictionary["Businesses"] as! [String: Any]
 	for b in businesses.keys {
 		let bus = BasicBusiness.init(dictionary: businesses[b] as! [String: Any], businessId: b)
-		if !bus.checkFlag("isForTesting") || thisUserIsForTesting {
-			basicbu.append(bus)
-		}
+		basicbu.append(bus)
 	}
 	
 	//sort both influencer and business accounts.
@@ -187,6 +183,16 @@ func SearchSocialData(searchQuery: String, searchIn: SearchFor) -> [Any] {
 	}
 	if searchIn == .businesses || searchIn == .both {
 		listOfUsers.append(contentsOf: globalBasicBusinesses)
+	}
+	
+	if !Myself.basic.isForTesting {
+		listOfUsers = listOfUsers.filter{
+			if let inf = $0 as? BasicInfluencer {
+				return !inf.isForTesting
+			}
+			let bus = $0 as! BasicBusiness
+			return !bus.isForTesting
+		}
 	}
 	
 	if query == "" {

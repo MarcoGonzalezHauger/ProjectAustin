@@ -10,7 +10,7 @@ import UIKit
 
 class NewSocialSearchVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, publicDataRefreshDelegate {
 	
-	func refreshed(userOrBusinessId: String) {
+	func publicDataRefreshed(userOrBusinessId: String) {
 		refreshItems()
 	}
 	
@@ -77,6 +77,7 @@ class NewSocialSearchVC: UIViewController, UISearchBarDelegate, UITableViewDeleg
 		}
 		if let thisBus = basicObjectResults[indexPath.row] as? BasicBusiness {
 			passedBusinessId = thisBus.businessId
+			performSegue(withIdentifier: "toBusinessView", sender: self)
 		}
 		
 		tableView.deselectRow(at: indexPath, animated: true)
@@ -89,6 +90,9 @@ class NewSocialSearchVC: UIViewController, UISearchBarDelegate, UITableViewDeleg
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let view = segue.destination as? NewBasicInfluencerView {
 			view.displayInfluencerId(userId: passedUserId)
+		}
+		if let view = segue.destination as? NewBasicBusinessView {
+			view.displayBusinessId(businessId: passedBusinessId)
 		}
 	}
 	

@@ -25,12 +25,12 @@ class ShadowView: UIView {
         DrawShadows()
     }
     override var bounds: CGRect { didSet { DrawShadows() } }
-    @IBInspectable var cornerRadius: Float = 10 { didSet { DrawShadows() } }
-    @IBInspectable var ShadowOpacity: Float = 0 { didSet { DrawShadows() } }
-    @IBInspectable var ShadowRadius: Float = 1.75 { didSet { DrawShadows() } }
-    @IBInspectable var ShadowColor: UIColor = UIColor.black { didSet { DrawShadows() } }
-    @IBInspectable var borderWidth: Float = 0.0 { didSet { DrawShadows() } }
-	@IBInspectable var borderColor: UIColor = GetForeColor() { didSet { DrawShadows() }}
+    @IBInspectable var cornerRadius: Float = 10 { didSet { updateCornerRadius() } }
+    @IBInspectable var ShadowOpacity: Float = 0 { didSet { updateShadows() } }
+    @IBInspectable var ShadowRadius: Float = 1.75 { didSet { updateShadows() } }
+    @IBInspectable var ShadowColor: UIColor = UIColor.black { didSet { updateShadows() } }
+    @IBInspectable var borderWidth: Float = 0.0 { didSet { updateBorder() } }
+	@IBInspectable var borderColor: UIColor = GetForeColor() { didSet { updateBorder() }}
 	
 	func DrawShadows() {
 		//draw shadow & rounded corners for offer cell

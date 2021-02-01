@@ -16,6 +16,8 @@ var globalBasicBusinesses: [BasicBusiness] = []
 var globalBasicBoth: [Any] = []
 var offerPool: [PoolOffer] = []
 
+let globalPoolOfferHeight: CGFloat = 195
+
 let globalCornerRadius: Float = 8
 
 var thisUserIsForTesting: Bool {

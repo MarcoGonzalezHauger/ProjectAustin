@@ -179,7 +179,7 @@ func ConvertDatabaseToNewDatabaseFormat(od: [String: Any]) {
 						ps.append(DraftPost.init(businessId: NewBusinessID, draftId: newDraftId, poolId: nil, hash: p.hashtags, keywords: p.keywords, ins: p.instructions))
 					}
 					
-					let newDraftOffer = DraftOffer.init(draftId: newDraftId, businessId: NewBusinessID, mustBeOver21: templ.mustBe21, payIncrease: templ.incresePay ?? 1, draftPosts: ps, title: templ.title, lastEdited: templ.lastEdited)
+					let newDraftOffer = DraftOffer.init(draftId: newDraftId, businessId: NewBusinessID, mustBeOver21: templ.mustBe21, payIncrease: 1, draftPosts: ps, title: templ.title, lastEdited: templ.lastEdited)
 					drafts.append(newDraftOffer)
 				}
 			}
@@ -255,6 +255,8 @@ func ConvertDatabaseToNewDatabaseFormat(od: [String: Any]) {
 	startListeningToMyself(userId: Myself.userId)
 	
 	StartListeningToPublicData()
+	
+	startListeningToOfferPool()
 	
 	let interestRef = Database.database().reference().child("ReadOnly")
 	interestRef.updateChildValues(["Interests": AllInterests])

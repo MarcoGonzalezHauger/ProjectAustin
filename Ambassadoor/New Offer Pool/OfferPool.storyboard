@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Offers-->
+        <scene sceneID="cSQ-cT-1nx">
+            <objects>
+                <viewController storyboardIdentifier="OfferPoolView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="JMq-ha-PUb" customClass="OfferPoolView" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Il5-Wz-edt">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DJt-QX-U8S">
+                                <rect key="frame" x="6" y="165" width="402" height="648"/>
+                                <color key="backgroundColor" name="newSubtleBackground"/>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="whJ-SB-WAF" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="-56" width="414" height="221"/>
+                                <subviews>
+                                    <searchBar contentMode="redraw" searchBarStyle="minimal" text="" placeholder="Search" showsScopeBar="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ll0-Ro-21y">
+                                        <rect key="frame" x="0.0" y="110" width="414" height="103"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <scopeButtonTitles>
+                                            <string>Followed</string>
+                                            <string>Filitered For You</string>
+                                            <string>All Offers</string>
+                                        </scopeButtonTitles>
+                                    </searchBar>
+                                </subviews>
+                                <color key="backgroundColor" name="newTrueBack"/>
+                                <constraints>
+                                    <constraint firstItem="Ll0-Ro-21y" firstAttribute="top" secondItem="whJ-SB-WAF" secondAttribute="top" constant="110" id="0WC-pf-oZ5"/>
+                                    <constraint firstItem="Ll0-Ro-21y" firstAttribute="leading" secondItem="whJ-SB-WAF" secondAttribute="leading" id="6VL-ul-vVJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ll0-Ro-21y" secondAttribute="trailing" id="G5v-u7-xej"/>
+                                    <constraint firstAttribute="bottom" secondItem="Ll0-Ro-21y" secondAttribute="bottom" constant="8" id="fYt-ZF-GFE"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
+                                        <real key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="ShadowColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                        <real key="value" value="0.20000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Nu9-Ym-Eea"/>
+                        <color key="backgroundColor" name="newSubtleBackground"/>
+                        <constraints>
+                            <constraint firstItem="Nu9-Ym-Eea" firstAttribute="bottom" secondItem="DJt-QX-U8S" secondAttribute="bottom" id="2CM-1h-0Ke"/>
+                            <constraint firstItem="whJ-SB-WAF" firstAttribute="leading" secondItem="Nu9-Ym-Eea" secondAttribute="leading" id="48Y-Le-NiV"/>
+                            <constraint firstAttribute="trailing" secondItem="whJ-SB-WAF" secondAttribute="trailing" id="6pM-xj-yRW"/>
+                            <constraint firstItem="whJ-SB-WAF" firstAttribute="top" secondItem="Nu9-Ym-Eea" secondAttribute="top" constant="-100" id="EVe-WI-XxD"/>
+                            <constraint firstItem="Nu9-Ym-Eea" firstAttribute="trailing" secondItem="DJt-QX-U8S" secondAttribute="trailing" constant="6" id="PzA-tD-ive"/>
+                            <constraint firstItem="DJt-QX-U8S" firstAttribute="leading" secondItem="Nu9-Ym-Eea" secondAttribute="leading" constant="6" id="orL-K3-c2d"/>
+                            <constraint firstItem="DJt-QX-U8S" firstAttribute="top" secondItem="whJ-SB-WAF" secondAttribute="bottom" id="u4b-uo-hJY"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Offers" image="homa" id="PR2-S3-tdy"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="searchBar" destination="Ll0-Ro-21y" id="bsQ-Uc-OLb"/>
+                        <outlet property="tableView" destination="DJt-QX-U8S" id="yNR-uh-dgo"/>
+                        <segue destination="iqy-gL-q73" kind="presentation" id="zmh-bm-IR4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8ca-kc-LOj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="139" y="138"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Pqk-j3-4hb">
+            <objects>
+                <viewController id="5Xp-oA-iTK" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dWk-1y-ozE">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="MZ5-xI-lnS"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Qk3-m5-caY"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hjj-RR-CIE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1908.6956521739132" y="137.94642857142856"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="DpJ-7m-ayD">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="iqy-gL-q73" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="b1v-z7-ZiY">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="5Xp-oA-iTK" kind="relationship" relationship="rootViewController" id="WPk-A2-TOb"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nvB-HC-JAI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="998.55072463768124" y="137.94642857142856"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="homa" width="30" height="30"/>
+        <namedColor name="newSubtleBackground">
+            <color red="0.94900000095367432" green="0.94900000095367432" blue="0.94900000095367432" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="newTrueBack">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

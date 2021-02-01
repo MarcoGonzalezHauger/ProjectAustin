@@ -54,6 +54,8 @@ class DraftOffer { //before business sends
 		
 		d["title"] = title
 		d["lastEdited"] = lastEdited.toUString()
+		d["mustBeOver21"] = mustBeOver21
+		d["payIncrease"] = payIncrease
 		
 		if draftPosts.count != 0 {
 			var draftPostDict: [String: Any] = [:]
@@ -128,7 +130,7 @@ class OfferFilter {
 	
 	init(dictionary d: [String: Any], businessId id: String) {
 		businessId = id
-				
+		
 		acceptedZipCodes = d["acceptedZipCodes"] as? [String] ?? []
 		acceptedInterests = d["acceptedInterests"] as? [String] ?? []
 		acceptedGenders = d["acceptedGenders"] as? [String] ?? []
