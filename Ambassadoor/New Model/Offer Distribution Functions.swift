@@ -35,13 +35,13 @@ extension DraftOffer {
 }
 
 extension PoolOffer {
-	func acceptThisOffer(asInfluencer thisInfluencer: Influencer, completed: @escaping (_ failedReason: String, _ newInfluencerWithChanges: Influencer?) -> ()) {
+	func acceptThisOffer(asInfluencer thisInfluencer: Influencer, completed: @escaping (_ failedReason: String) -> ()) {
 		
 		for p in thisInfluencer.inProgressPosts {
 			if p.PoolOfferId == self.poolId {
-				completed("You already accepted this offer.", nil)
+				completed("You already accepted this offer.")
 			} else if p.draftOfferId == self.draftOfferId {
-				completed("You already accepted this offer.", nil)
+				completed("You already accepted this offer.")
 			}
 		}
 		
@@ -49,13 +49,20 @@ extension PoolOffer {
 		let totalCost = self.totalCost(forInfluencer: thisInfluencer.basic)
 		
 		if totalCost > self.cashPower {
-			completed("There isn't enough money in this offer to afford your fee. (\(NumberToPrice(Value: totalCost)))", nil)
+			completed("There isn't enough money in this offer to afford your fee. (\(NumberToPrice(Value: totalCost)))")
 		} else {
 			if self.filter.DoesInfluencerPassFilter(basicInfluencer: thisInfluencer.basic) {
-				completed("You don't meet the filters of this offer.", nil)
+				completed("You don't meet the filters of this offer.")
 			} else {
 				let newCashPower = self.cashPower - totalCost
 				
+				var newAccUserIds: [String] = self.acceptedUserIds
+				
+				if self.hasInfluencerAccepted(influencer: thisInfluencer) {
+					completed("You already accepted this offer.")
+				} else {
+					newAccUserIds.append(thisInfluencer.userId)
+				}
 				
 				var newPosts: [InProgressPost] = [] // we do this before updating cashPower, because if the app crahses while compiling a list of new draftposts AFTER the money has been withdrawn, that would be a huge problem.
 				for p in self.draftPosts {
@@ -64,14 +71,13 @@ extension PoolOffer {
 				}
 				
 				let ref = Database.database().reference().child(poolPath)
-				ref.setValue(["cashPower": newCashPower]) { (err, dataref) in
+				ref.setValue(["cashPower": newCashPower, "acceptedUserIds": newAccUserIds]) { (err, dataref) in
 					if err != nil {
-						self.cashPower = newCashPower
 						thisInfluencer.inProgressPosts.append(contentsOf: newPosts)
 						thisInfluencer.UpdateToFirebase(alsoUpdateToPublic: false, completed: nil)
-						completed("", thisInfluencer)
+						completed("")
 					} else {
-						completed("A network error prevented you from accepting this offer.", nil)
+						completed("A network error prevented you from accepting this offer.")
 					}
 				}
 			}

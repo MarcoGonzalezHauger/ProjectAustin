@@ -27,6 +27,8 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	
 	@IBOutlet weak var referralCodeLabel: UILabel!
 	@IBOutlet weak var balanceLabel: UILabel!
+	@IBOutlet weak var transferView: ShadowView!
+	@IBOutlet weak var transferButton: UIButton!
 	
 	@IBOutlet weak var zipCodeLabel: UILabel!
 	@IBOutlet weak var townNameLabel: UILabel!
@@ -93,6 +95,11 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 		
 		referralCodeLabel.text = "\(i.basic.referralCode)"
 		balanceLabel.text = NumberToPrice(Value: i.finance.balance)
+		if i.finance.balance == 0 {
+			transferView.isHidden = true
+		} else {
+			transferView.isHidden = false
+		}
 		
 		zipCodeLabel.text = i.basic.zipCode
 		self.townNameLabel.isHidden = true

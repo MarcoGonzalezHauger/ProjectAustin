@@ -31,6 +31,7 @@ func startListeningToOfferPool() {
 			let thisOffer = PoolOffer.init(dictionary: d[id] as! [String: Any], poolId: id)
 			pool.append(thisOffer)
 		}
+		print("PV: Original Count is \(pool.count)")
 		offerPool = pool
 		sortOfferPool()
 	}
@@ -73,7 +74,7 @@ func startListeningToMyself(userId: String) {
 		}
 	}
 	
-	let PublicFollowedByRef = Database.database().reference().child("Accounts/Public/Influencers/\(Myself.userId)/followingBusinesses")
+	let PublicFollowedByRef = Database.database().reference().child("Accounts/Public/Influencers/\(Myself.userId)/followedBy")
 	
 	PublicFollowedByRef.observe(.value) { (snap) in
 		if let followedBy = snap.value as? [String] {
@@ -102,15 +103,13 @@ func getFollowingOfferPool() -> [PoolOffer] {
 }
 
 func getFilteredOfferPool() -> [PoolOffer] {
-	let filteredPool = offerPool.filter{
-		$0.filter.DoesInfluencerPassFilter(basicInfluencer: Myself.basic) && !$0.hasInfluencerAccepted(influencer: Myself) && $0.cashPower > $0.totalCost(forInfluencer: Myself.basic)
-		
-	}
-	
+	let filteredPool = offerPool.filter { $0.canBeAccepted(forInfluencer: Myself) }
+	print("PV: Filitered Count is \(filteredPool.count)")
 	return filteredPool
 }
 
 func GetOfferPool() -> [PoolOffer] {
+	print("PV: Getting Total count is \(offerPool.count)")
 	return offerPool
 }
 

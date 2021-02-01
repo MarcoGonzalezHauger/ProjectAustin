@@ -169,6 +169,7 @@ class PoolOffer { //while in offer pool (GETS ASSIGNED NEW ID)
 	var flags: [String] //SUCH AS: mustBeOver21, isForTesting, isDefaultOffer
 	var sentDate: Date
 	var payIncrease: Double
+	var acceptedUserIds: [String]
 	
 	func checkFlag(_ flag: String) -> Bool {
 		return flags.contains(flag)
@@ -199,6 +200,7 @@ class PoolOffer { //while in offer pool (GETS ASSIGNED NEW ID)
 		flags = []
 		sentDate = Date()
 		payIncrease = draftOffer.payIncrease
+		self.acceptedUserIds = []
 		
 		if draftOffer.mustBeOver21 {
 			self.AddFlag("mustBeOver21")
@@ -218,6 +220,7 @@ class PoolOffer { //while in offer pool (GETS ASSIGNED NEW ID)
 		self.flags = flags
 		self.sentDate = sentDate
 		self.payIncrease = payIncrease
+		self.acceptedUserIds = []
 	}
 	
 	init(dictionary d: [String: Any], poolId pid: String) {
@@ -244,7 +247,7 @@ class PoolOffer { //while in offer pool (GETS ASSIGNED NEW ID)
 		cashPower = d["cashPower"] as! Double
 		originalCashPower = d["originalCashPower"] as! Double
 		payIncrease = d["payIncrease"] as! Double
-		
+		acceptedUserIds = (d["acceptedUserIds"] as? [String] ) ?? []
 	}
 	
 	func toDictionary() -> [String: Any] {
@@ -257,6 +260,7 @@ class PoolOffer { //while in offer pool (GETS ASSIGNED NEW ID)
 		d["cashPower"] = cashPower
 		d["originalCashPower"] = originalCashPower
 		d["businessId"] = businessId
+		d["acceptedUserIds"] = acceptedUserIds
 		
 		if let comissionUserId = comissionUserId {
 			d["comissionUserId"] = comissionUserId }

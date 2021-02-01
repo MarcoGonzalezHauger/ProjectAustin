@@ -16,7 +16,7 @@ extension BasicInfluencer {
 			self.followedBy.append(myInf.userId)
 			self.UpdateToFirebase(completed: nil)
 			myInf.basic.followingInfluencers.append(self.userId)
-			myInf.basic.UpdateToFirebase(completed: nil)
+			myInf.UpdateToFirebase(alsoUpdateToPublic: true, completed: nil)
 		}
 	}
 	
@@ -39,7 +39,7 @@ extension BasicBusiness {
 			self.followedBy.append(myInf.userId)
 			self.UpdateToFirebase(completed: nil)
 			myInf.basic.followingBusinesses.append(self.businessId)
-			myInf.basic.UpdateToFirebase(completed: nil)
+			myInf.UpdateToFirebase(alsoUpdateToPublic: true, completed: nil)
 		}
 		
 	}

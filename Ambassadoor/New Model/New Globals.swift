@@ -15,6 +15,7 @@ var globalBasicInfluencers: [BasicInfluencer] = []
 var globalBasicBusinesses: [BasicBusiness] = []
 var globalBasicBoth: [Any] = []
 var offerPool: [PoolOffer] = []
+var withdrawFee: Double = 4
 
 let globalPoolOfferHeight: CGFloat = 195
 
@@ -32,3 +33,4 @@ var thisUserIsForTesting: Bool {
 func GetNewID() -> String {
 	return Date().toString(dateFormat: "yyyy-MM-dd HH:mm:ss") + ", " + randomString(length: 15)
 }
+

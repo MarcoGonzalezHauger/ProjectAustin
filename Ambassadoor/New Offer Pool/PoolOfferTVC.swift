@@ -42,18 +42,16 @@ class PoolOfferTVC: UITableViewCell {
 		
 		let percent = poolOffer.cashPower / poolOffer.originalCashPower
 		leftOfLabel.text = NumberToPrice(Value: poolOffer.cashPower) + " left of " + NumberToPrice(Value: poolOffer.originalCashPower)
-		self.progressView.backgroundColor = GetColorFromPercentage(percent: percent)
+		progressView.backgroundColor = GetColorFromPercentage(percent: percent)
 		let maxWidth = expectedWidth - 24
 		if maxWidth * CGFloat(percent) > 0 {
 			self.barWidth.constant = maxWidth * CGFloat(percent)
 		} else {
 			self.barWidth.constant = 0
 		}
-		if poolOffer.cashPower < poolOffer.totalCost(forInfluencer: Myself.basic) {
-			leftOfLabel.textColor = .red
+		if !poolOffer.canAffordInflunecer(forInfluencer: Myself.basic) {
 			perPostLabel.text = "Not enough left in Offer."
-		} else {
-			leftOfLabel.textColor = GetForeColor()
+			progressView.backgroundColor = .red
 		}
 	}
     

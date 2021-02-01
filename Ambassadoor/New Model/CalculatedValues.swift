@@ -81,6 +81,7 @@ extension OfferFilter {
 		} else {
 			return true
 		}
+		print("Failed finally.")
 		return false
 	}
 }
@@ -102,5 +103,16 @@ extension PoolOffer {
 	}
 	func totalCost(forInfluencer inf: BasicInfluencer) -> Double {
 		return pricePerPost(forInfluencer: inf) * Double(draftPosts.count)
+	}
+	
+	func canAffordInflunecer(forInfluencer inf: BasicInfluencer) -> Bool {
+		return cashPower > totalCost(forInfluencer: inf)
+	}
+	func canBeAccepted(forInfluencer inf: Influencer) -> Bool {
+		print("PV: for \(self.BasicBusiness()!.name) =====[\(NumberToPrice(Value: cashPower))]======")
+		print("PV: \(filter.DoesInfluencerPassFilter(basicInfluencer: inf.basic)) = FILTER")
+		print("PV: \(canAffordInflunecer(forInfluencer: inf.basic)) = AFFORD")
+		print("PV: \(hasInfluencerAccepted(influencer: inf)) = ACCEPTED")
+		return filter.DoesInfluencerPassFilter(basicInfluencer: inf.basic) && canAffordInflunecer(forInfluencer: inf.basic) && !hasInfluencerAccepted(influencer: inf)
 	}
 }

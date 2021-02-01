@@ -56,6 +56,10 @@ func GetBackColor() -> UIColor {
 	}
 }
 
+func GetInterestUrl(interest: String) -> String {
+	return "https://firebasestorage.googleapis.com/v0/b/amassadoor.appspot.com/o/interestImages%2Fprofile%2F\(interest.replacingOccurrences(of: " ", with: "%20"))_128x128.png?alt=media&token=4264d4fc-143d-4cf3-ac6b-fa4f9e341712"
+}
+
 func GetColorForNumber(number: Double) -> UIColor {
 	if number < 0 {
 		return UIColor.init(named: "newYouVsThemRed")!
@@ -82,7 +86,7 @@ func GetColorFromPercentage(percent: Double) -> UIColor {
 	switch true {
 	case percent < 0.2:
 		return .systemRed
-	case percent < 0.6:
+	case percent < 0.55:
 		return .systemYellow
 	default:
 		return .systemGreen

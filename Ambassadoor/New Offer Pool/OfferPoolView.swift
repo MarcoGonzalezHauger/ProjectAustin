@@ -88,6 +88,20 @@ class OfferPoolView: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		
     }
 	
+	var passPO: PoolOffer!
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if let view = segue.destination as? PoolOfferNC {
+			view.SetPoolOffer(poolOffer: passPO)
+		}
+	}
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		tableView.deselectRow(at: indexPath, animated: true)
+		passPO = currentOffers[indexPath.row]
+		performSegue(withIdentifier: "viewPoolOffer", sender: self)
+	}
+	
 	var currentOffers: [PoolOffer] = []
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

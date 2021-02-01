@@ -12,20 +12,20 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="InterestCell" id="gTV-IL-0wX" customClass="InterestCVC" customModule="Ambassadoor" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="99" height="100"/>
+            <rect key="frame" x="0.0" y="0.0" width="70" height="74"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="99" height="100"/>
+                <rect key="frame" x="0.0" y="0.0" width="70" height="74"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yD2-bY-orn" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="99" height="100"/>
+                        <rect key="frame" x="0.0" y="0.0" width="70" height="74"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="homa" translatesAutoresizingMaskIntoConstraints="NO" id="Jui-Om-K63">
-                                <rect key="frame" x="8" y="8" width="83" height="84"/>
+                                <rect key="frame" x="8" y="8" width="54" height="58"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Something" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="azK-Ib-brV">
-                                <rect key="frame" x="4" y="78.5" width="91" height="13.5"/>
+                                <rect key="frame" x="4" y="52.5" width="62" height="13.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -52,13 +52,13 @@
                 <constraint firstItem="yD2-bY-orn" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="wZE-9E-oec"/>
                 <constraint firstAttribute="bottom" secondItem="yD2-bY-orn" secondAttribute="bottom" id="znl-2l-bZt"/>
             </constraints>
-            <size key="customSize" width="99" height="100"/>
+            <size key="customSize" width="70" height="74"/>
             <connections>
                 <outlet property="interestImage" destination="Jui-Om-K63" id="tPm-Jr-tCR"/>
                 <outlet property="interestLabel" destination="azK-Ib-brV" id="g8v-n4-ltw"/>
                 <outlet property="mainView" destination="yD2-bY-orn" id="I5R-BU-yU4"/>
             </connections>
-            <point key="canvasLocation" x="15.217391304347828" y="122.54464285714285"/>
+            <point key="canvasLocation" x="4.3478260869565224" y="116.51785714285714"/>
         </collectionViewCell>
     </objects>
     <resources>
