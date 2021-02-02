@@ -30,7 +30,6 @@ class Business {
 	var email: String
 	var refreshToken: String
 	var deviceFIRToken: String
-	
 	var referredByUserId: String?
 	var referredByBusinessId: String?
 		
@@ -65,6 +64,24 @@ class Business {
 				sentOffers.append(sentOffer.init(dictionary: sentOffersDict[sentOfferId] as! [String: Any], businessId: businessId, sentOfferId: sentOfferId))
 			}
 		}
+		
+	}
+	
+	init(businessId: String, token: String, email: String, refreshToken: String, deviceFIRToken: String, referredByUserId: String, referredByBusinessId: String, drafts: [DraftOffer], finance: BusinessFinance, sentOffers: [sentOffer], basic: BasicBusiness?) {
+		
+		self.businessId = businessId
+		self.token = token
+		self.email = email
+		self.refreshToken = refreshToken
+		self.deviceFIRToken = deviceFIRToken
+		self.referredByUserId = referredByUserId
+		self.referredByBusinessId = referredByBusinessId
+		
+		self.drafts = drafts
+		self.finance = finance
+		self.basic = basic
+		self.sentOffers = sentOffers
+		
 		
 	}
 	
@@ -118,10 +135,11 @@ class BasicBusiness {
 	var logoUrl: String
 	var mission: String
 	var website: String
-	var joinedDate: String
+	var joinedDate: Date
 	var referralCode: String
 	var flags: [String]
 	var followedBy: [String]
+	
 	var businessId: String
 	
 	func checkFlag(_ flag: String) -> Bool {
@@ -140,6 +158,21 @@ class BasicBusiness {
 		}
 	}
 	
+	init(name: String, logoUrl: String, mission: String, website: String, joinedDate: Date, referralCode: String, flags: [String], followedBy: [String], businessId: String) {
+		
+		self.businessId = businessId
+		self.name = name
+		self.logoUrl = logoUrl
+		self.mission = mission
+		self.website = website
+		self.joinedDate = joinedDate
+		self.referralCode = referralCode
+		self.flags = flags
+		self.followedBy = followedBy
+		
+		
+	}
+	
 	init(dictionary d: [String: Any], businessId id: String) {
 		businessId = id
 		
@@ -147,10 +180,10 @@ class BasicBusiness {
 		logoUrl = d["logoUrl"] as! String
 		mission = d["mission"] as! String
 		website = d["website"] as! String
-		joinedDate = d["joinedDate"] as! String
+		joinedDate = (d["joinedDate"] as! String).toUDate()
 		referralCode = d["referralCode"] as! String
-		flags = d["flags"] as! [String]
-		followedBy = d["followedBy"] as! [String]
+		flags = d["flags"] as? [String] ?? []
+		followedBy = d["followedBy"] as? [String] ?? []
 		
 	}
 	
@@ -163,7 +196,7 @@ class BasicBusiness {
 		d["logoUrl"] = logoUrl
 		d["mission"] = mission
 		d["website"] = website
-		d["joinedDate"] = joinedDate
+		d["joinedDate"] = joinedDate.toUString()
 		d["referralCode"] = referralCode
 		d["flags"] = flags
 		d["followedBy"] = followedBy
@@ -185,6 +218,14 @@ class BusinessFinance {
 	
 	var balance: Double
 	var businessId: String
+	
+	init(stripeAccount: StripeAccountInformation?, log: [BusinessTransactionLogItem], balance: Double, businessId: String) {
+		self.stripeAccount = stripeAccount
+		self.log = log
+		self.balance = balance
+		self.businessId = businessId
+		
+	}
 	
 	init(dictionary d: [String: Any], businessId id: String) {
 		businessId = id
@@ -231,7 +272,7 @@ class BusinessFinance {
 
 class BusinessTransactionLogItem {
 	var value: Double
-	var time: String
+	var time: Date
 	var type: String //acceptable values: creditCardDeposit, withdrawedToStripe, ambver, sentOffer, tookBackOffer, addedOfferFunds
 	
 	var transactionId: String
@@ -242,7 +283,7 @@ class BusinessTransactionLogItem {
 		transactionId = tID
 		
 		value = d["value"] as! Double
-		time = d["time"] as! String
+		time = (d["time"] as! String).toUDate()
 		type = d["type"] as! String
 	}
 	
@@ -251,7 +292,7 @@ class BusinessTransactionLogItem {
 	func toDictionary() -> [String: Any] {
 		var d: [String: Any] = [:]
 		d["value"] = value
-		d["time"] = time
+		d["time"] = time.toUString()
 		d["type"] = type
 		return d
 	}

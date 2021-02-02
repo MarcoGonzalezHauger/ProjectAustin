@@ -84,7 +84,7 @@ class CreateLoginVC: UIViewController {
 						
 						if complexity == 0 {
 							
-							checkIfEmailExist(email: emailText.text!.lowercased()) { (isExist) in
+							checkNewIfEmailExist(email: emailText.text!.lowercased()) { (isExist) in
 								
 								if isExist{
 									self.AvaliabilityFailed(reason: .emailExists)

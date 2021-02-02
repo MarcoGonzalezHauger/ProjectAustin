@@ -339,7 +339,8 @@ class ProfileVC: UIViewController, EnterZipCode, UITableViewDelegate, UITableVie
 		fetchSingleUserDetails(userID: Yourself.id) { (status, user) in
 			if status {	
 				Yourself = user
-				setHapticMenu(user: user)
+				//setHapticMenu(user: user)
+                setHapticMenu(user: Myself)
 				self.shelf.reloadData()
 			}
 		}

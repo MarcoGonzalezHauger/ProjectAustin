@@ -51,9 +51,9 @@ func instantiateViewController(storyboard: String, reference: String) -> AnyObje
     return redViewController
 }
 
-func setHapticMenu(user: User) {
+func setHapticMenu(user: Influencer) {
     
-    let amt = NumberToPrice(Value: user.yourMoney, enforceCents: true)
+    let amt = NumberToPrice(Value: user.finance.balance, enforceCents: true)
     
     var shortcutItems = UIApplication.shared.shortcutItems ?? []
     if shortcutItems.count == 0{
@@ -354,8 +354,7 @@ func OfferFromID(id: String, completion:@escaping(_ offer:Offer?)->()) {
 				let compref = Database.database().reference().child("companies").child(offerDictionary!["ownerUserID"] as! String).child(offerDictionary!["company"] as! String)
 				compref.observeSingleEvent(of: .value, with: { (dataSnapshot) in
 					if let company = dataSnapshot.value as? [String: AnyObject] {
-						let companyDetail = Company.init(name: company["name"] as! String, logo:
-							company["logo"] as? String, mission: company["mission"] as! String, website: company["website"] as! String, account_ID: company["account_ID"] as! String, instagram_name: company["name"] as! String, description: company["description"] as! String)
+						let companyDetail = Company.init(dictionary: company)
 						
 						offerDictionary!["company"] = companyDetail as AnyObject
 						
@@ -416,37 +415,6 @@ func OfferFromID(id: String, completion:@escaping(_ offer:Offer?)->()) {
 		
 	}else{
 	}
-}
-
-func CompressNumber(number: Double) -> String {
-	var returnValue = ""
-	var suffix = ""
-	switch number {
-	case 0...999:
-		returnValue =  String(number)
-	case 1000...99999:
-		returnValue =  "\(floor(number/100) / 10)"
-		suffix = "K"
-	case 100000...999999:
-		returnValue =  "\(floor(number/1000))"
-		suffix = "K"
-	case 1000000...9999999:
-		returnValue =  "\(floor(number/10000) / 100)"
-		suffix = "M"
-	case 10000000...99999999:
-		returnValue =  "\(floor(number/100000) / 10)"
-		suffix = "M"
-	case 100000000...999999999:
-		returnValue =  "\(floor(number/1000000))"
-		suffix = "M"
-	default:
-		//okay if you have more than a billion followers/average likes... c'mon.
-		return "A Lot."
-	}
-	if returnValue.hasSuffix(".00") || returnValue.hasSuffix(".0") {
-		returnValue = String(returnValue.split(separator: ".").first!)
-	}
-	return returnValue + suffix
 }
 
 func PostTypeToText(posttype: TypeofPost) -> String {
@@ -709,27 +677,6 @@ func ResortLocation() {
 	
 }
 
-let impact = UIImpactFeedbackGenerator()
-func UseTapticEngine() {
-	impact.impactOccurred()
-}
-
-func GetForeColor() -> UIColor {
-	if #available(iOS 13.0, *) {
-		return .label
-	} else {
-		return .black
-	}
-}
-
-func GetBackColor() -> UIColor {
-	if #available(iOS 13.0, *) {
-		return .systemBackground
-	} else {
-		return .white
-	}
-}
-
 //refund funcs
 func serializeTransactionDetails(transaction: TransactionDetails) -> [String: Any] {
     
@@ -770,9 +717,9 @@ func serializeDepositDetails(deposit: Deposit) -> [String: Any] {
     return depositSerialize
 }
 
-func AverageLikes(userID: String, userToken: String) {
+func AverageLikes(instagramID: String, userToken: String) {
     
-    API.calculateAverageLikes(userID: userID, longLiveToken: userToken) { (recentMedia, error) in
+    API.calculateAverageLikes(userID: instagramID, longLiveToken: userToken) { (recentMedia, error) in
         
         if error == nil {
         
@@ -821,8 +768,12 @@ func AverageLikes(userID: String, userToken: String) {
                                     let avgLikes = Double(numberOfLikes/numberOfPost)
                                     
                                     let userData: [String: Any] = ["averageLikes": avgLikes]
-                                    Yourself.averageLikes = avgLikes
-                                    updateUserDetails(userID: userID, userData: userData)
+                                    //Yourself.averageLikes = avgLikes
+                                    Myself.basic.averageLikes = avgLikes
+                                    let privatePath = "\(Myself.userId)/basic"
+                                    let publicPath = "\(Myself.userId)"
+                                    //newUpdateUserDetails(privatePath: privatePath, publicPath:publicPath,  userData: userData)
+                                    newUpdateAverageLikes(privatePath: privatePath, publicPath: publicPath, userData: userData)
                                     
                                 }
                                 
@@ -873,14 +824,14 @@ protocol refreshDelegate {
 var refreshDelegates: [refreshDelegate] = []
 
 func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
-	
-	if reference != nil {
-		if Yourself.yourMoney > GetFeeForInfluencer(Yourself) {
-			reference!.tabBar.items![1].badgeValue = "$"
-		} else {
-			reference!.tabBar.items![1].badgeValue = nil
-		}
-	}
+//	
+//	if reference != nil {
+//		if Yourself.yourMoney > GetFeeForInfluencer(Yourself) {
+//			reference!.tabBar.items![1].badgeValue = "$"
+//		} else {
+//			reference!.tabBar.items![1].badgeValue = nil
+//		}
+//	}
     
 	getObserveFollowerCompaniesOffer() { (status, offers) in
         
@@ -1028,7 +979,7 @@ func downloadSocialBusinessData() {
 func saveCoreDataUpdate(object: NSManagedObject) {
     
     let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
-    print(paths[0])
+    //print(paths[0])
     do {
         try object.managedObjectContext?.save()
     } catch {
@@ -1041,7 +992,7 @@ func removeCoreDataObject(object: NSManagedObject) {
     
     let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
     
-    print(paths[0])
+    //print(paths[0])
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -1102,7 +1053,7 @@ func isDeseralizable(dictionary: [String: AnyObject], type: structType) -> [Stri
 	var errors: [String] = []
 	switch type {
 	case .offer:
-		necessaryItems = ["status", "money", "companyDetails", "posts", "offer_ID", "offerdate", "ownerUserID", "title", "isAccepted", "expiredate", "cashPower"]
+		necessaryItems = [] //["status", "money", "posts", "offer_ID", "offerdate", "ownerUserID", "title", "isAccepted", "expiredate", "cashPower"]
 	case .businessDetails:
 		necessaryItems = ["name", "mission"]
 	}

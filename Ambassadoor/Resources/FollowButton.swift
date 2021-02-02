@@ -17,6 +17,9 @@ class FollowButtonRegular: UIView {
 	var changedByPress = false
 	var delegate: FollowerButtonDelegete?
 	
+	@IBOutlet weak var trailing: NSLayoutConstraint!
+	
+	
 	var isFollowing = false {
 		didSet {
 			if !changedByPress {
@@ -29,6 +32,10 @@ class FollowButtonRegular: UIView {
 				}
 			}
 		}
+	}
+	
+	func MakeCentered() {
+		trailing?.isActive = false
 	}
 	
 	func ButtonPressed() {

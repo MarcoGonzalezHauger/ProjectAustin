@@ -70,7 +70,7 @@ func getCompanyDetails(id: String, completion: @escaping (_ status: Bool,_ compa
             
             if let dictValue = dict.values.first {
                 
-                let company = Company.init(name: dictValue["name"] as! String, logo: "", mission: "", website: "", account_ID: "", instagram_name: "", description: "")
+				let company = Company.init(dictionary: dictValue)
                 
                 completion(true, company)
                 

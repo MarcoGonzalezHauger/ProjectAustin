@@ -202,6 +202,61 @@ func checkIfInstagramExist(id: String, completion: @escaping(_ exist: Bool,_ use
     }
 }
 
+func checkNewIfInstagramExist(id: String, completion: @escaping(_ exist: Bool,_ user: Influencer?)-> Void) {
+    var isExist = false
+    var userID = ""
+    let ref = Database.database().reference().child("Accounts/Private/Influencers")
+    let query = ref.queryOrdered(byChild: "instagramAccountId").queryEqual(toValue: id)
+    query.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        //if let _ = snapshot.value as? [String: AnyObject] {
+        if snapshot.exists() {
+            
+            if let snapValue = snapshot.value as? [String: AnyObject]{
+                for (key,_) in snapValue {
+                    userID = key
+                }
+                isExist = true
+                if let valueData = snapValue[userID] as? [String: Any] {
+                    let user = Influencer.init(dictionary: valueData, userId: userID)
+                    completion(isExist,user)
+                }
+                
+                
+            }
+            
+            
+        }else{
+            completion(isExist, nil)
+        }
+        
+    }) { (error) in
+        completion(isExist, nil)
+    }
+//    ref.observeSingleEvent(of: .value) { (snapshot) in
+        
+//        if snapshot.exists(){
+//
+//
+//            if let userData = snapshot.value as? [String: AnyObject]{
+//
+//                let user = InfluencerAuthenticationUser.init(dictionary: userData)
+//
+//                completion(true, user)
+//
+//            }else{
+//
+//                completion(false, nil)
+//
+//            }
+//        }else{
+//
+//            completion(false, nil)
+//        }
+        
+//    }
+}
+
 func checkIfEmailExist(email: String, completion: @escaping(_ exist: Bool)-> Void) {
     var isExist = false
     //let ref = Database.database().reference().child("InfluencerAuthentication")
@@ -214,28 +269,26 @@ func checkIfEmailExist(email: String, completion: @escaping(_ exist: Bool)-> Voi
             isExist = true
             completion(isExist)
             
-            //            if snapValue.count == 0 {
-            //
-            //                completion(isExist)
-            //
-            //            }else{
-            //
-            //                for (_,object) in snapValue {
-            //                    if let checkValue = object as? [String: AnyObject] {
-            //
-            //                        if let emailString = checkValue["email"] as? String {
-            //
-            //                            if emailString == email {
-            //                                isExist = true
-            //                            }
-            //
-            //                        }
-            //
-            //                    }
-            //                }
-            //                completion(isExist)
-            //
-            //            }
+        }else{
+            completion(isExist)
+        }
+        
+    }) { (error) in
+        completion(isExist)
+    }
+}
+
+func checkNewIfEmailExist(email: String, completion: @escaping(_ exist: Bool)-> Void) {
+    var isExist = false
+    //let ref = Database.database().reference().child("InfluencerAuthentication")
+    let ref = Database.database().reference().child("Accounts/Private/Influencers")
+    let query = ref.queryOrdered(byChild: "email").queryEqual(toValue: email)
+    query.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        //if let _ = snapshot.value as? [String: AnyObject] {
+        if snapshot.exists() {
+            isExist = true
+            completion(isExist)
             
         }else{
             completion(isExist)
@@ -259,6 +312,25 @@ func createNewInfluencerAuthentication(info: NewAccountInfo) {
 func filterQueryByField(email: String, completion:@escaping(_ exist: Bool, _ userData: [String: AnyObject]?)->Void){
     
     let ref = Database.database().reference().child("InfluencerAuthentication")
+    let query = ref.queryOrdered(byChild: "email").queryEqual(toValue: email)
+    query.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let snapValue = snapshot.value as? [String: AnyObject]{
+            
+            completion(true, snapValue)
+        }else{
+            completion(false, nil)
+        }
+        
+    }) { (error) in
+        
+    }
+    
+}
+
+func filterNewQueryByField(email: String, completion:@escaping(_ exist: Bool, _ userData: [String: AnyObject]?)->Void){
+    
+    let ref = Database.database().reference().child("Accounts/Private/Influencers")
     let query = ref.queryOrdered(byChild: "email").queryEqual(toValue: email)
     query.observeSingleEvent(of: .value, with: { (snapshot) in
         
@@ -342,9 +414,9 @@ func getFollowerList(completion:@escaping(_ status: Bool,_ users: [FollowingInfo
                 if let user = follower.user {
                     if Yourself.following?.contains(follower.user?.id ?? "X") ?? false && API.isForTesting == true ? user.isForTesting : !user.isForTesting{
                         
-                        let checkVersionStatus = global.appVersion!.compare(follower.user!.version!, options: .numeric)
+                        //let checkVersionStatus = global.appVersion!.compare(follower.user!.version!, options: .numeric)
                         
-                        if checkVersionStatus == .orderedDescending || checkVersionStatus == .orderedSame {
+						if follower.user!.version! != "0.0.0" {
                             print("This version is 2.0.0 or above")
                             followers.append(follower)
                         }
@@ -397,9 +469,9 @@ func getFollowedByList(completion: @escaping(_ status: Bool, _ users: [User])->(
                             
                             if API.isForTesting == true ? user.isForTesting : !user.isForTesting{
                                 
-                                let checkVersionStatus = global.appVersion!.compare(user.version!, options: .numeric)
+                                //let checkVersionStatus = global.appVersion!.compare(user.version!, options: .numeric)
                                 
-                                if checkVersionStatus == .orderedDescending || checkVersionStatus == .orderedSame{
+								if user.version! != "0.0.0" {
                                     usersList.append(user)
                                     print("version is 2.0.0 or above")
                                 }
@@ -457,12 +529,12 @@ func getFollowingAcceptedOffers(completion: @escaping(_ status: Bool, _ offers: 
                             followingInformation["tag"] = "offer" as AnyObject
                             let offer = FollowingInformation.init(dictionary: followingInformation)
                             
-                            let checkVersionStatus = global.appVersion!.compare(offer.user!.version!, options: .numeric)
+                            //let checkVersionStatus = global.appVersion!.compare(offer.user!.version!, options: .numeric)
                             
                             if let user = offer.user{
                                 
                                 if Yourself.following?.contains(offer.user?.id ?? "X") ?? false && API.isForTesting == true ? user.isForTesting : !user.isForTesting {
-                                    if checkVersionStatus == .orderedDescending || checkVersionStatus == .orderedSame{
+									if user.version! != "0.0.0" {
                                         allOfferList.append(offer)
                                     }
                                 }
@@ -516,13 +588,11 @@ func getFollowingList(completion: @escaping(_ status: Bool, _ users: [AnyObject]
                                 
                                 if API.isForTesting == true ? user.isForTesting : !user.isForTesting{
                                 
-                                let checkVersionStatus = global.appVersion!.compare(user.version!, options: .numeric)
-                                
-                                if checkVersionStatus == .orderedAscending || checkVersionStatus == .orderedSame{
-                                    if (Yourself.following?.contains(user.id))! {
-                                        usersList.append(user)
-                                    }
-                                }
+									if user.version! != "0.0.0" {
+										if (Yourself.following?.contains(user.id))! {
+											usersList.append(user)
+										}
+									}
                                 
                             }
                                 

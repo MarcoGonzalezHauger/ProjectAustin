@@ -147,6 +147,7 @@ class FollowButtonSmall: UIView {
 		super.init(coder: coder)
 		LoadViewFromNib()
 		setupTap()
+		LoadColorScheme()
 	}
 	
 	func LoadViewFromNib() {

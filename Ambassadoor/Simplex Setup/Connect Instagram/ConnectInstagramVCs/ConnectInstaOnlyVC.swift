@@ -75,7 +75,7 @@ class ConnectInstaOnlyVC: UIViewController,VerificationReturned {
                         
                         if let id = userDetailDict["id"] as? String {
                         NewAccount.id = id
-                            checkIfInstagramExist(id: NewAccount.id) { (exist, user)  in
+                            checkNewIfInstagramExist(id: NewAccount.id) { (exist, user)  in
                             
                             if exist{
                                 self.connectBtn.setTitle("CONNECT TO INSTAGRAM", for: .normal)

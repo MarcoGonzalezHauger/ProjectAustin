@@ -46,6 +46,41 @@ func checkIfUserExists(userID: String,completion: @escaping(_ exist: Bool, _ use
     }
 }
 
+func checkNewIfUserExists(userID: String,completion: @escaping(_ exist: Bool, _ user: Influencer?)-> Void) {
+    //var isAlreadyRegistered: Bool = false
+    let ref = Database.database().reference().child("Accounts/Private/Influencers").child(userID)
+    ref.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        //if let _ = snapshot.value as? [String: AnyObject]{
+        if snapshot.exists(){
+            completion(true, nil)
+            
+        }else{
+            let userData = Influencer.createUserDictionary(user: NewAccount)
+            let basic = BasicInfluencer.createBasicUserDictionary(userInfo: NewAccount)
+            createNewAccountDataToFIR(userID: userID, basic: basic, accountDetails: userData)
+            let userRef = Influencer.init(dictionary: userData, userId: userID)
+            completion(false, userRef)
+            
+        }
+        
+    }) { (error) in
+        let userData = Influencer.createUserDictionary(user: NewAccount)
+        let basic = BasicInfluencer.createBasicUserDictionary(userInfo: NewAccount)
+        createNewAccountDataToFIR(userID: userID, basic: basic, accountDetails: userData)
+        let userRef = Influencer.init(dictionary: userData, userId: userID)
+        completion(false, userRef)
+    }
+}
+
+func createNewAccountDataToFIR(userID: String, basic: [String: Any], accountDetails: [String: Any]) {
+    let refPrivate = Database.database().reference().child("Accounts/Private/Influencers").child(userID)
+    refPrivate.updateChildValues(accountDetails)
+    
+    let refPublic = Database.database().reference().child("Accounts/Public/Influencers").child(userID)
+    refPublic.updateChildValues(basic)
+}
+
 //naveen added func
 func CreateAccount(instagramUser: User, completion:@escaping (_ Results: User , _ bool:Bool) -> ()) {
     // Pointer reference in Firebase to Users
@@ -173,6 +208,28 @@ func updateUserDetails(userID: String, userData:[String: Any]){
 }
 
 
+func newUpdateUserDetails(path: String, user: Influencer){
+    
+    let userData = user.toDictionary()
+    
+    let refPrivate = Database.database().reference().child("Accounts/Private/Influencers").child(path)
+    refPrivate.updateChildValues(userData)
+    
+    let userPublicData = user.basic.toDictionary()
+    
+    let refPublic = Database.database().reference().child("Accounts/Public/Influencers").child(path)
+    refPublic.updateChildValues(userPublicData)
+}
+
+func newUpdateAverageLikes(privatePath: String, publicPath: String, userData:[String: Any]){
+    
+    let refPrivate = Database.database().reference().child("Accounts/Private/Influencers").child(privatePath)
+    refPrivate.updateChildValues(userData)
+    
+    let refPublic = Database.database().reference().child("Accounts/Public/Influencers").child(publicPath)
+    refPublic.updateChildValues(userData)
+}
+
 func fetchSingleUserDetails(userID: String, completion: @escaping(_ status: Bool, _ user: User)->Void) {
     let usersRef = Database.database().reference().child("users").child(userID)
     usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -204,6 +261,8 @@ func fetchSingleUserDetails(userID: String, completion: @escaping(_ status: Bool
         }
     }, withCancel: nil)
 }
+
+
 
 func updateFollowingList(userID: String, ownUserID: User) {
     let usersRef = Database.database().reference().child("users").child(ownUserID.id)

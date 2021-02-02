@@ -49,7 +49,7 @@ class SigninVC: UIViewController {
                 
                 if passwordText.text?.count != 0 {
                     
-                    filterQueryByField(email: emailText.text!.lowercased()) { (success, data) in
+                    filterNewQueryByField(email: emailText.text!.lowercased()) { (success, data) in
                         if success{
                             
                             var password = ""
@@ -61,33 +61,60 @@ class SigninVC: UIViewController {
                             
                             if self.passwordText.text!.md5() == password {
                                 
+                                if let valueData = data![userID] as? [String: Any] {
+                                    let user = Influencer.init(dictionary: valueData, userId: userID)
+                                    Myself = user
+                                }
+                                
                                 if AccessToken.current != nil {
                                     
                                     UserDefaults.standard.set(userID, forKey: "userID")
                                     UserDefaults.standard.set(self.emailText.text!.lowercased(), forKey: "email")
                                     UserDefaults.standard.set(self.passwordText.text!, forKey: "password")
                                     
-                                    let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+                                    //let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
                                     
-                                    print(appVersion)
-                                    
-                                    fetchSingleUserDetails(userID: userID) { (status, user) in
-                                        Yourself = user
-                                        setHapticMenu(user: Yourself)
-                                        //downloadDataBeforePageLoad()
-                                        AverageLikes(userID: userID, userToken: user.authenticationToken)
-                                        self.LoginSuccessful()
-                                        
-                                    }
+                                    AverageLikes(instagramID: Myself.instagramAccountId, userToken: Myself.instagramAuthToken)
+                                    self.LoginSuccessful()
                                     
                                 }else{
+                                    
+                                    self.callIfAccessTokenExpired(userID: userID, instaID: Myself.instagramAccountId)
+                                    
+                                }
+                                
+//                                if AccessToken.current != nil {
+//
+//                                    UserDefaults.standard.set(userID, forKey: "userID")
+//                                    UserDefaults.standard.set(self.emailText.text!.lowercased(), forKey: "email")
+//                                    UserDefaults.standard.set(self.passwordText.text!, forKey: "password")
+//
+//                                    let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+//
+//                                    print(appVersion)
+//
+//
+//
+//
+//
 //                                    fetchSingleUserDetails(userID: userID) { (status, user) in
 //                                        Yourself = user
+//                                        //setHapticMenu(user: Yourself)
+//                                        setHapticMenu(user: Myself)
+//                                        //downloadDataBeforePageLoad()
+//                                        AverageLikes(userID: userID, userToken: user.authenticationToken)
 //                                        self.LoginSuccessful()
 //
 //                                    }
-                                    self.callIfAccessTokenExpired(userID: userID)
-                                }
+//
+//                                }else{
+////                                    fetchSingleUserDetails(userID: userID) { (status, user) in
+////                                        Yourself = user
+////                                        self.LoginSuccessful()
+////
+////                                    }
+//                                    self.callIfAccessTokenExpired(userID: userID)
+//                                }
                                 
                             }else{
                                 self.LoginFailed(reason: .passwordInvalid)
@@ -111,9 +138,9 @@ class SigninVC: UIViewController {
         
     }
     
-    func callIfAccessTokenExpired(userID: String) {
+    func callIfAccessTokenExpired(userID: String, instaID: String) {
         
-        API.facebookLoginAct(userIDBusiness: userID, owner: self) { (userDetail, longliveToken, error) in
+        API.facebookLoginAct(userIDBusiness: instaID, owner: self) { (userDetail, longliveToken, error) in
             if error == nil {
                 
                 if let userDetailDict = userDetail as? [String: AnyObject]{
@@ -140,9 +167,9 @@ class SigninVC: UIViewController {
                         
                         if status{
                             NewAccount.profilePicture = url!
-                            self.updateLoginDetailsToServer(userID: userID)
+                            self.updateLoginDetailsToServer(userID: userID, user: Myself)
                         }else{
-							self.updateLoginDetailsToServer(userID: userID)
+							self.updateLoginDetailsToServer(userID: userID, user: Myself)
                         }
                     }
                     
@@ -165,7 +192,8 @@ class SigninVC: UIViewController {
         
     }
     
-    func updateLoginDetailsToServer(userID: String) {
+    func updateLoginDetailsToServer(userID: String, user: Influencer) {
+        /*
         let userData: [String: Any] = [
             "id": NewAccount.id,
             "name": NewAccount.instagramName,
@@ -175,20 +203,37 @@ class SigninVC: UIViewController {
             "authenticationToken": NewAccount.authenticationToken,
             "tokenFIR":global.deviceFIRToken
         ]
+        */
+        let userDetail = user
+        userDetail.basic.followerCount = Double(NewAccount.followerCount)
+        userDetail.basic.profilePicURL = NewAccount.profilePicture
+        userDetail.basic.name = NewAccount.instagramName
+        userDetail.basic.username = NewAccount.instagramUsername
+        userDetail.instagramAuthToken = NewAccount.authenticationToken
+        userDetail.instagramAccountId = NewAccount.id
+        userDetail.tokenFIR = global.deviceFIRToken
         
-        updateUserDetails(userID: userID, userData: userData)
+        newUpdateUserDetails(path: userID, user: userDetail)
         
-        fetchSingleUserDetails(userID: userID) { (status, user) in
-            Yourself = user
-            //updateFirebaseProfileURL()
-            UserDefaults.standard.set(userID, forKey: "userID")
-            UserDefaults.standard.set(self.emailText.text!, forKey: "email")
-            UserDefaults.standard.set(self.passwordText.text!, forKey: "password")
-            setHapticMenu(user: Yourself)
-            AverageLikes(userID: userID, userToken: NewAccount.authenticationToken)
-            self.LoginSuccessful()
-            
-        }
+        Myself = userDetail
+        UserDefaults.standard.set(userID, forKey: "userID")
+        UserDefaults.standard.set(self.emailText.text!, forKey: "email")
+        UserDefaults.standard.set(self.passwordText.text!, forKey: "password")
+        setHapticMenu(user: Myself)
+        AverageLikes(instagramID: NewAccount.id, userToken: NewAccount.authenticationToken)
+        self.LoginSuccessful()
+        
+//        fetchSingleUserDetails(userID: userID) { (status, user) in
+//            Yourself = user
+//            //updateFirebaseProfileURL()
+//            UserDefaults.standard.set(userID, forKey: "userID")
+//            UserDefaults.standard.set(self.emailText.text!, forKey: "email")
+//            UserDefaults.standard.set(self.passwordText.text!, forKey: "password")
+//            setHapticMenu(user: Myself)
+//            AverageLikes(userID: NewAccount.id, userToken: NewAccount.authenticationToken)
+//            self.LoginSuccessful()
+//
+//        }
     }
     
     
@@ -305,7 +350,7 @@ class SigninVC: UIViewController {
 		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             //self.delegate?.DismissNow(sender: "signin")
             let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
-            downloadDataBeforePageLoad(reference: viewReference)
+            //downloadDataBeforePageLoad(reference: viewReference)
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             appDelegate.window?.rootViewController = viewReference
         }

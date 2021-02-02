@@ -30,7 +30,7 @@ public extension UIImageView {
     }
     
 	func UseDefaultImage() {
-		self.layer.cornerRadius = [self.bounds.width, self.bounds.height].min()! / 2
+		//self.layer.cornerRadius = [self.bounds.width, self.bounds.height].min()! / 2
 		self.image = defaultImage
 	}
 	
@@ -60,7 +60,7 @@ public extension UIImageView {
     func addBorder() {
 //        self.layer.borderColor = UIColor.gray.cgColor
 //        self.layer.borderWidth = 1
-		self.layer.cornerRadius = self.bounds.height / 2
+		//self.layer.cornerRadius = self.bounds.height / 2
     }
     
     func removeBorder() {
@@ -82,8 +82,8 @@ public extension UIImageView {
 				}
 				if isCircle {
 					DispatchQueue.main.async {
-						self.layer.cornerRadius = [self.bounds.width, self.bounds.height].min()! / 2
-						image = makeImageCircular(image: image!)
+//						self.layer.cornerRadius = [self.bounds.width, self.bounds.height].min()! / 2
+//						image = makeImageCircular(image: image!)
 					}
 				}
             DispatchQueue.main.async() {
@@ -94,14 +94,15 @@ public extension UIImageView {
             }.resume()
     }
     
-    func downloadAndSetImage(_ urlLink: String, isCircle: Bool = true){
+	func downloadAndSetImage(_ urlLink: String, forceDownload: Bool = false, isCircle: Bool = true){
         self.showActivityIndicator()
         self.image = nil
-		downloadImage(urlLink) { (returnImage) in
+		downloadImage(urlLink, forceDownload: forceDownload) { (returnImage) in
 			guard let returnImage = returnImage else { return }
 			if isCircle {
-				self.layer.cornerRadius = [self.bounds.width, self.bounds.height].min()! / 2
-				self.image = makeImageCircular(image: returnImage)
+				//self.layer.cornerRadius = [self.bounds.width, self.bounds.height].min()! / 2
+//				self.image = makeImageCircular(image: returnImage)
+				self.image = returnImage
 			} else {
 				self.image = returnImage
 			}
@@ -153,25 +154,17 @@ func downloadProfileImage(_ urlLink: String, completed: @escaping (_ image: UIIm
      
 }
 
-func downloadImage(_ urlLink: String, completed: @escaping (_ image: UIImage?) -> ()){
+func downloadImage(_ urlLink: String, forceDownload: Bool = false, completed: @escaping (_ image: UIImage?) -> ()){
 	if urlLink.isEmpty {
 		completed(nil)
 		return
 	}
-	// check cache first
-	/*
-	if let cachedImage = imageCache.object(forKey: urlLink as NSString) as? UIImage {
-	print("CHACHED  : \(urlLink)")
-	completed(cachedImage)
-	return
-	}
-	*/
 	
 	let cachedImage = global.cachedImageList.filter { (cache) -> Bool in
 		return cache.link! == urlLink
 	}
 	
-	if cachedImage.count != 0{
+	if cachedImage.count != 0 && !forceDownload {
 		
 		if let image = UIImage(data: cachedImage.first!.imagedata!){
 			
@@ -189,8 +182,10 @@ func downloadImage(_ urlLink: String, completed: @escaping (_ image: UIImage?) -
     
 	
 	// otherwise, download
-	let url = URL(string: urlLink)
-	URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
+	print("URL:" + urlLink)
+	let url = URL(string: urlLink)!
+	print(url)
+	URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
 		//print("DOWNLOAD : \(urlLink)")
 		if let err = error {
 			print("abc=",err)
