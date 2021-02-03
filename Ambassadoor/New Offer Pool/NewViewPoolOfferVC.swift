@@ -95,6 +95,21 @@ class NewViewPoolOfferVC: UIViewController, UITableViewDelegate, UITableViewData
 		tableView.dataSource = self
     }
 	
+	var passIndex = 0
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if let view = segue.destination as? NewPoolOfferPostViewer {
+			view.index = passIndex
+			view.thisPoolOffer = thisPoolOffer
+		}
+	}
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		tableView.deselectRow(at: indexPath, animated: true)
+		passIndex = indexPath.row
+		performSegue(withIdentifier: "toPostView", sender: self)
+	}
+	
 	func updatePoolOffer() {
 		if let bb = thisPoolOffer.BasicBusiness() {
 			offerByLabel.text = "Offer by \(bb.name)"
@@ -110,7 +125,7 @@ class NewViewPoolOfferVC: UIViewController, UITableViewDelegate, UITableViewData
 		acceptView.isHidden = !thisPoolOffer.canBeAccepted(forInfluencer: Myself)
 		cannotBeAcceptedView.isHidden = thisPoolOffer.canBeAccepted(forInfluencer: Myself)
 		
-		if thisPoolOffer.canBeAccepted(forInfluencer: Myself) {
+		if !thisPoolOffer.canBeAccepted(forInfluencer: Myself) {
 			var listOfReasons: [String] = []
 			if thisPoolOffer.hasInfluencerAccepted(influencer: Myself) {
 				listOfReasons.append("You already accepted this Offer.")

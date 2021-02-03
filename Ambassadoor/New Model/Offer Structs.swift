@@ -419,6 +419,8 @@ class InProgressPost {
 		d["businessId"] = businessId
 		d["draftPostId"] = draftPostId
 		
+		d["draftPost"] = draftPost.toDictionary()
+		
 		return d
 	}
 }

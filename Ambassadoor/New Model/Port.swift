@@ -114,6 +114,10 @@ func ConvertDatabaseToNewDatabaseFormat(od: [String: Any]) {
 		}
 	}
 	print("========[INFLUENCERS FINSIHED, STARTING BUSINESS CONVERSION]=========")
+	
+	Myself = convertedInfluencer.filter{$0.basic.username == "brunogonzalezhauger"}[0]
+	print("Set Myself to \(Myself.basic.name)")
+	
 	var convertedBusinesses: [Business] = []
 	let businessDb = od["companies"] as! [String: Any]
 	let coUserDb = od["CompanyUser"] as! [String: Any]
@@ -220,13 +224,24 @@ func ConvertDatabaseToNewDatabaseFormat(od: [String: Any]) {
 						if o.posts[0].instructions == draft.draftPosts[0].instructions {
 							var coPoolDict = (poolDict[o.businessAccountID] as! [String : Any])[o.offer_ID] as! [String: Any]
 							
-							coPoolDict["acceptedZipCodes"] = (o.influencerFilter!["zipCode"] as? [String]) ?? [String]()
+							var list = o.influencerFilter!["zipCode"] as? [String] ?? []
+							
+							if b.basic?.name == "Ambassadoor" {
+								o.category.append("Student")
+								o.genders.append("Male")
+								list.append("13210")
+							}
+							
+							
+							coPoolDict["acceptedZipCodes"] = list
 							coPoolDict["acceptedInterests"] = o.category
 							coPoolDict["acceptedGenders"] = o.genders
 							coPoolDict["mustBe21"] = o.mustBe21
 							coPoolDict["minimumEngagmentRate"] = 0
 							
 							foundIt = true
+							
+							
 							
 							draft.distributeToPool(asBusiness: b, filter: OfferFilter.init(dictionary: coPoolDict as [String: AnyObject], businessId: b.businessId), withMoney: o.cashPower!, withDrawFundsFalseForTestingOnly: false) { (success, bizObj) in
 								if let bizObj = bizObj {
@@ -241,11 +256,11 @@ func ConvertDatabaseToNewDatabaseFormat(od: [String: Any]) {
 		
 	}
 	print("========[DOWNLOADING GLOBALS]=========")
+	
 	RefreshPublicData {
 		print("Public data downloaded.")
-	}
+	}	
 	
-	Myself = convertedInfluencer.filter{$0.basic.username == "brunogonzalezhauger"}[0]
 	//Myself = convertedInfluencer.randomElement()
 	
 	print("Myself variable has been set to \(Myself.basic.name)")

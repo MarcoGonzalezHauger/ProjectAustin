@@ -88,6 +88,9 @@ extension OfferFilter {
 
 extension PoolOffer {
 	func hasInfluencerAccepted(influencer inf: Influencer) -> Bool {
+		if acceptedUserIds.contains(Myself.userId) {
+			return true
+		}
 		for p in inf.inProgressPosts {
 			if p.PoolOfferId == self.poolId {
 				return true

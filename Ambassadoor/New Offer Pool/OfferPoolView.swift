@@ -55,6 +55,11 @@ class OfferPoolView: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		case .all:
 			pool = GetOfferPool()
 		}
+		if Myself == nil {
+			currentOffers = pool
+			tableView.reloadData()
+			return
+		}
 		let query = searchBar.text!.lowercased()
 		if query != "" {
 			pool = pool.filter{($0.BasicBusiness()?.name.lowercased().contains(query) ?? false)}
