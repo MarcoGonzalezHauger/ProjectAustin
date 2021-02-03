@@ -261,8 +261,8 @@ class SetPasswordVC: UIViewController {
             UserDefaults.standard.set(userID, forKey: "userID")
             UserDefaults.standard.set(email, forKey: "email")
             UserDefaults.standard.set(password, forKey: "password")
-            setHapticMenu(user: Yourself)
-            AverageLikes(userID: userID, userToken: NewAccount.authenticationToken)
+            setHapticMenu(user: Myself)
+            AverageLikes(instagramID: userID, userToken: NewAccount.authenticationToken)
             self.LoginSuccessful()
             
         }

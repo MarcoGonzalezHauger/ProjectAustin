@@ -108,7 +108,19 @@ class Influencer {
 		return d
 	}
 	
-	
+    static func createUserDictionary(user: NewAccountInfo) -> [String: Any] {
+        var d: [String: Any] = [:]
+        
+        d["basic"] = BasicInfluencer.createBasicUserDictionary(userInfo: user)
+        d["finance"] = InfluencerFinance.createFinanceDictionary(userInfo: user)
+        d["password"] = user.password
+        d["email"] = user.email
+        d["instagramAuthToken"] = user.authenticationToken
+        d["instagramAccountId"] = user.id
+        d["tokenFIR"] = global.deviceFIRToken
+        
+        return d
+    }
 	
 }
 
@@ -218,6 +230,29 @@ class BasicInfluencer { //All public information goes here.
 		
 		return d
 	}
+    
+    static func createBasicUserDictionary(userInfo: NewAccountInfo) -> [String: Any] {
+        var d: [String: Any] = [:]
+        let flags = ["isForTesting"]
+        d["name"] = userInfo.instagramName
+        d["username"] = userInfo.instagramUsername
+        d["followerCount"] = Double(userInfo.followerCount)
+        d["averageLikes"] = userInfo.averageLikes
+        d["profilePicURL"] = userInfo.profilePicture
+        d["zipCode"] = userInfo.profilePicture
+        d["gender"] = userInfo.gender
+        d["joinedDate"] = Date().toUString()
+        d["interests"] = userInfo.categories
+        d["referralCode"] = userInfo.referralCode
+        d["flags"] = flags
+        d["followingInfluencers"] = []
+        d["followingBusinesses"] = []
+        d["followedBy"] = []
+        d["birthday"] = Date().toUString()
+        
+        return d
+        
+    }
 }
 
 class InstagramPost {
@@ -325,6 +360,12 @@ class InfluencerFinance {
 		
 		return d
 	}
+    
+    static func createFinanceDictionary(userInfo: NewAccountInfo) -> [String: Any] {
+        var d: [String: Any] = [:]
+        d["balance"] = 0.0
+        return d
+    }
 }
 
 //MARK: Items

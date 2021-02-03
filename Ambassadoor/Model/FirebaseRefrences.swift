@@ -202,6 +202,61 @@ func checkIfInstagramExist(id: String, completion: @escaping(_ exist: Bool,_ use
     }
 }
 
+func checkNewIfInstagramExist(id: String, completion: @escaping(_ exist: Bool,_ user: Influencer?)-> Void) {
+    var isExist = false
+    var userID = ""
+    let ref = Database.database().reference().child("Accounts/Private/Influencers")
+    let query = ref.queryOrdered(byChild: "instagramAccountId").queryEqual(toValue: id)
+    query.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        //if let _ = snapshot.value as? [String: AnyObject] {
+        if snapshot.exists() {
+            
+            if let snapValue = snapshot.value as? [String: AnyObject]{
+                for (key,_) in snapValue {
+                    userID = key
+                }
+                isExist = true
+                if let valueData = snapValue[userID] as? [String: Any] {
+                    let user = Influencer.init(dictionary: valueData, userId: userID)
+                    completion(isExist,user)
+                }
+                
+                
+            }
+            
+            
+        }else{
+            completion(isExist, nil)
+        }
+        
+    }) { (error) in
+        completion(isExist, nil)
+    }
+//    ref.observeSingleEvent(of: .value) { (snapshot) in
+        
+//        if snapshot.exists(){
+//
+//
+//            if let userData = snapshot.value as? [String: AnyObject]{
+//
+//                let user = InfluencerAuthenticationUser.init(dictionary: userData)
+//
+//                completion(true, user)
+//
+//            }else{
+//
+//                completion(false, nil)
+//
+//            }
+//        }else{
+//
+//            completion(false, nil)
+//        }
+        
+//    }
+}
+
 func checkIfEmailExist(email: String, completion: @escaping(_ exist: Bool)-> Void) {
     var isExist = false
     //let ref = Database.database().reference().child("InfluencerAuthentication")
@@ -214,28 +269,26 @@ func checkIfEmailExist(email: String, completion: @escaping(_ exist: Bool)-> Voi
             isExist = true
             completion(isExist)
             
-            //            if snapValue.count == 0 {
-            //
-            //                completion(isExist)
-            //
-            //            }else{
-            //
-            //                for (_,object) in snapValue {
-            //                    if let checkValue = object as? [String: AnyObject] {
-            //
-            //                        if let emailString = checkValue["email"] as? String {
-            //
-            //                            if emailString == email {
-            //                                isExist = true
-            //                            }
-            //
-            //                        }
-            //
-            //                    }
-            //                }
-            //                completion(isExist)
-            //
-            //            }
+        }else{
+            completion(isExist)
+        }
+        
+    }) { (error) in
+        completion(isExist)
+    }
+}
+
+func checkNewIfEmailExist(email: String, completion: @escaping(_ exist: Bool)-> Void) {
+    var isExist = false
+    //let ref = Database.database().reference().child("InfluencerAuthentication")
+    let ref = Database.database().reference().child("Accounts/Private/Influencers")
+    let query = ref.queryOrdered(byChild: "email").queryEqual(toValue: email)
+    query.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        //if let _ = snapshot.value as? [String: AnyObject] {
+        if snapshot.exists() {
+            isExist = true
+            completion(isExist)
             
         }else{
             completion(isExist)
@@ -259,6 +312,25 @@ func createNewInfluencerAuthentication(info: NewAccountInfo) {
 func filterQueryByField(email: String, completion:@escaping(_ exist: Bool, _ userData: [String: AnyObject]?)->Void){
     
     let ref = Database.database().reference().child("InfluencerAuthentication")
+    let query = ref.queryOrdered(byChild: "email").queryEqual(toValue: email)
+    query.observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        if let snapValue = snapshot.value as? [String: AnyObject]{
+            
+            completion(true, snapValue)
+        }else{
+            completion(false, nil)
+        }
+        
+    }) { (error) in
+        
+    }
+    
+}
+
+func filterNewQueryByField(email: String, completion:@escaping(_ exist: Bool, _ userData: [String: AnyObject]?)->Void){
+    
+    let ref = Database.database().reference().child("Accounts/Private/Influencers")
     let query = ref.queryOrdered(byChild: "email").queryEqual(toValue: email)
     query.observeSingleEvent(of: .value, with: { (snapshot) in
         

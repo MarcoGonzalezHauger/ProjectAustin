@@ -38,6 +38,8 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 	
 	@IBOutlet weak var CreateButtonView: ShadowView!
 	@IBOutlet weak var CreateButton: UIButton!
+    
+    
 	
 	func CreateAccount() {
 		//[RAM] Complete this function with creation of account
@@ -57,13 +59,15 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                     referralcodeString.append(randomString(length: 6))
                     let referral = referralcodeString.uppercased()
                     NewAccount.referralCode = referral
-                    checkIfUserExists(userID: NewAccount.id) { (exist, user) in
+                    let uid = NewAccount.instagramUsername.replacingOccurrences(of: ".", with: ",")
+                    let NewUserID = uid + ", " + randomString(length: 15)
+                    checkNewIfUserExists(userID: NewUserID) { (exist, user) in
                         
                         if exist{
                             self.AccountCreationFailed(problem: .instaTaken)
                         }else{
-                            Yourself = user
-                            UserDefaults.standard.set(NewAccount.id, forKey: "userID")
+                            Myself = user
+                            UserDefaults.standard.set(NewUserID, forKey: "userID")
                             UserDefaults.standard.set(NewAccount.email, forKey: "email")
                             UserDefaults.standard.set(NewAccount.password, forKey: "password")
                             self.AccountSuccessfullyCreated()
@@ -90,12 +94,12 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 	func AccountSuccessfullyCreated() {
 
         self.delegate?.DismissNow(sender: "CreateAccount")
-        AverageLikes(userID: Yourself.id, userToken: Yourself.authenticationToken)
+        AverageLikes(instagramID: Myself.instagramAccountId, userToken: Myself.instagramAuthToken)
         
         DispatchQueue.main.asyncAfter(deadline: .now()) {
             //self.delegate?.DismissNow(sender: "signin")
             let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
-            downloadDataBeforePageLoad(reference: viewReference)
+            //downloadDataBeforePageLoad(reference: viewReference)
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             appDelegate.window?.rootViewController = viewReference
         }

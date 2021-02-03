@@ -51,9 +51,9 @@ func instantiateViewController(storyboard: String, reference: String) -> AnyObje
     return redViewController
 }
 
-func setHapticMenu(user: User) {
+func setHapticMenu(user: Influencer) {
     
-    let amt = NumberToPrice(Value: user.yourMoney, enforceCents: true)
+    let amt = NumberToPrice(Value: user.finance.balance, enforceCents: true)
     
     var shortcutItems = UIApplication.shared.shortcutItems ?? []
     if shortcutItems.count == 0{
@@ -717,9 +717,9 @@ func serializeDepositDetails(deposit: Deposit) -> [String: Any] {
     return depositSerialize
 }
 
-func AverageLikes(userID: String, userToken: String) {
+func AverageLikes(instagramID: String, userToken: String) {
     
-    API.calculateAverageLikes(userID: userID, longLiveToken: userToken) { (recentMedia, error) in
+    API.calculateAverageLikes(userID: instagramID, longLiveToken: userToken) { (recentMedia, error) in
         
         if error == nil {
         
@@ -768,8 +768,12 @@ func AverageLikes(userID: String, userToken: String) {
                                     let avgLikes = Double(numberOfLikes/numberOfPost)
                                     
                                     let userData: [String: Any] = ["averageLikes": avgLikes]
-                                    Yourself.averageLikes = avgLikes
-                                    updateUserDetails(userID: userID, userData: userData)
+                                    //Yourself.averageLikes = avgLikes
+                                    Myself.basic.averageLikes = avgLikes
+                                    let privatePath = "\(Myself.userId)/basic"
+                                    let publicPath = "\(Myself.userId)"
+                                    //newUpdateUserDetails(privatePath: privatePath, publicPath:publicPath,  userData: userData)
+                                    newUpdateAverageLikes(privatePath: privatePath, publicPath: publicPath, userData: userData)
                                     
                                 }
                                 

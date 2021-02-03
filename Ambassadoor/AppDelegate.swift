@@ -323,7 +323,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 
                 if AccessToken.current != nil {
                 
-                filterQueryByField(email: email) { (success, data) in
+                filterNewQueryByField(email: email) { (success, data) in
                     if success{
                         
                         var passwordEncrpted = ""
@@ -335,19 +335,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         
                         if password.md5() == passwordEncrpted {
                             
-                            fetchSingleUserDetails(userID: userID) { (status, user) in
-                                Yourself = user
-                                //updateFirebaseProfileURL()
-                                setHapticMenu(user: Yourself)
-                                 AverageLikes(userID: userID, userToken: user.authenticationToken)
+                            if let valueData = data![userID] as? [String: Any] {
+                                let user = Influencer.init(dictionary: valueData, userId: userID)
+                                Myself = user
+                            }
+                            
+                            if AccessToken.current != nil {
+                                
+                                setHapticMenu(user: Myself)
+                                AverageLikes(instagramID: Myself.instagramAccountId, userToken: Myself.instagramAuthToken)
                                 let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
-                                downloadDataBeforePageLoad(reference: viewReference)
                                 self.window?.rootViewController = viewReference
                                 
-                                //self.callIfAccessTokenExpired(userID: userID )
+                            }else{
                                 
+                                self.callIfAccessTokenExpired(userID: Myself.userId, instaID: Myself.instagramAccountId)
                                 
                             }
+                            
+                            
+                            
+//                            fetchSingleUserDetails(userID: userID) { (status, user) in
+//                                Yourself = user
+//                                //updateFirebaseProfileURL()
+//
+//                                 AverageLikes(instagramID: userID, userToken: user.authenticationToken)
+//                                let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
+//                                downloadDataBeforePageLoad(reference: viewReference)
+//                                self.window?.rootViewController = viewReference
+//
+//                                //self.callIfAccessTokenExpired(userID: userID )
+//
+//
+//                            }
                             
                         }else{
                             let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
@@ -363,7 +383,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
                     self.window?.rootViewController = viewReference
                     let userID = UserDefaults.standard.object(forKey: "userID")
-                    callIfAccessTokenExpired(userID: userID as! String)
+                    //callIfAccessTokenExpired(userID: userID as! String, instaID: )
                     
                 }
                 
@@ -379,77 +399,156 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     }
     
-        func callIfAccessTokenExpired(userID: String) {
-            
-            API.facebookLoginAct(userIDBusiness: userID, owner: self.window!.rootViewController!) { (userDetail,longliveToken, error) in
-                if error == nil {
+    func callIfAccessTokenExpired(userID: String, instaID: String) {
+        
+        API.facebookLoginAct(userIDBusiness: instaID, owner: self.window!.rootViewController!) { (userDetail, longliveToken, error) in
+            if error == nil {
+                
+                if let userDetailDict = userDetail as? [String: AnyObject]{
                     
-                    if let userDetailDict = userDetail as? [String: AnyObject]{
-                        
-                        if let id = userDetailDict["id"] as? String {
-                            NewAccount.id = id
-                        }
-                        if let followerCount = userDetailDict["followers_count"] as? Int {
-                            NewAccount.followerCount = Int64(followerCount)
-                        }
-                        if let name = userDetailDict["name"] as? String {
-                            NewAccount.instagramName = name
-                        }
-                        if let pic = userDetailDict["profile_picture_url"] as? String {
-                            NewAccount.profilePicture = pic
-                        }
-                        if let username = userDetailDict["username"] as? String {
-                            NewAccount.instagramUsername = username
-                        }
-                        NewAccount.authenticationToken = longliveToken!
-                        
-                        updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
-                            
-                            if status{
-                                NewAccount.profilePicture = url!
-                                self.updateLoginDetailsToServer(userID: userID)
-                            }else{
-                            self.updateLoginDetailsToServer(userID: userID)
-                            }
-                        }
-    
-                    }else{
-                        
+                    if let id = userDetailDict["id"] as? String {
+                        NewAccount.id = id
+                    }
+                    if let followerCount = userDetailDict["followers_count"] as? Int {
+                        NewAccount.followerCount = Int64(followerCount)
+                    }
+                    if let name = userDetailDict["name"] as? String {
+                        NewAccount.instagramName = name
+                    }
+                    if let pic = userDetailDict["profile_picture_url"] as? String {
+                        NewAccount.profilePicture = pic
+                    }
+                    if let username = userDetailDict["username"] as? String {
+                        NewAccount.instagramUsername = username
                     }
                     
+                    NewAccount.authenticationToken = longliveToken!
+                    
+                    updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
+                        
+                        if status{
+                            NewAccount.profilePicture = url!
+                            self.updateLoginDetailsToServer(userID: userID, user: Myself)
+                        }else{
+                            self.updateLoginDetailsToServer(userID: userID, user: Myself)
+                        }
+                    }
+                    
+                    
+                    
                 }else{
-                   
+                    
                 }
+                
+            }else{
+                
+               
             }
-            
         }
+        
+    }
     
-    func updateLoginDetailsToServer(userID: String) {
+//        func callIfAccessTokenExpired(userID: String) {
+//
+//            API.facebookLoginAct(userIDBusiness: userID, owner: self.window!.rootViewController!) { (userDetail,longliveToken, error) in
+//                if error == nil {
+//
+//                    if let userDetailDict = userDetail as? [String: AnyObject]{
+//
+//                        if let id = userDetailDict["id"] as? String {
+//                            NewAccount.id = id
+//                        }
+//                        if let followerCount = userDetailDict["followers_count"] as? Int {
+//                            NewAccount.followerCount = Int64(followerCount)
+//                        }
+//                        if let name = userDetailDict["name"] as? String {
+//                            NewAccount.instagramName = name
+//                        }
+//                        if let pic = userDetailDict["profile_picture_url"] as? String {
+//                            NewAccount.profilePicture = pic
+//                        }
+//                        if let username = userDetailDict["username"] as? String {
+//                            NewAccount.instagramUsername = username
+//                        }
+//                        NewAccount.authenticationToken = longliveToken!
+//
+//                        updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
+//
+//                            if status{
+//                                NewAccount.profilePicture = url!
+//                                self.updateLoginDetailsToServer(userID: userID)
+//                            }else{
+//                            self.updateLoginDetailsToServer(userID: userID)
+//                            }
+//                        }
+//
+//                    }else{
+//
+//                    }
+//
+//                }else{
+//
+//                }
+//            }
+//
+//        }
+    
+    func updateLoginDetailsToServer(userID: String, user: Influencer) {
+        
+        /*
         let userData: [String: Any] = [
             "id": NewAccount.id,
             "name": NewAccount.instagramName,
             "username": NewAccount.instagramUsername,
             "followerCount": NewAccount.followerCount,
+            "profilePicture": NewAccount.profilePicture,
             "authenticationToken": NewAccount.authenticationToken,
             "tokenFIR":global.deviceFIRToken
         ]
+        */
+        let userDetail = user
+        userDetail.basic.followerCount = Double(NewAccount.followerCount)
+        userDetail.basic.profilePicURL = NewAccount.profilePicture
+        userDetail.basic.name = NewAccount.instagramName
+        userDetail.basic.username = NewAccount.instagramUsername
+        userDetail.instagramAuthToken = NewAccount.authenticationToken
+        userDetail.instagramAccountId = NewAccount.id
+        userDetail.tokenFIR = global.deviceFIRToken
         
-        updateUserDetails(userID: userID, userData: userData)
+        newUpdateUserDetails(path: userID, user: userDetail)
         
-        fetchSingleUserDetails(userID: userID) { (status, user) in
-            
-            
-            Yourself = user
-
-            setHapticMenu(user: Yourself)
-            AverageLikes(userID: userID, userToken: NewAccount.authenticationToken)
-            let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
-            downloadDataBeforePageLoad(reference: viewReference)
-            self.window?.rootViewController = viewReference
-            
-            
-            
-        }
+        Myself = userDetail
+        setHapticMenu(user: Myself)
+        AverageLikes(instagramID: NewAccount.id, userToken: NewAccount.authenticationToken)
+        let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
+        //downloadDataBeforePageLoad(reference: viewReference)
+        self.window?.rootViewController = viewReference
+        
+//        let userData: [String: Any] = [
+//            "id": NewAccount.id,
+//            "name": NewAccount.instagramName,
+//            "username": NewAccount.instagramUsername,
+//            "followerCount": NewAccount.followerCount,
+//            "authenticationToken": NewAccount.authenticationToken,
+//            "tokenFIR":global.deviceFIRToken
+//        ]
+//
+//        updateUserDetails(userID: userID, userData: userData)
+        
+//        fetchSingleUserDetails(userID: userID) { (status, user) in
+//
+//
+//            Yourself = user
+//
+//            setHapticMenu(user: Myself)
+//            AverageLikes(instagramID: userID, userToken: NewAccount.authenticationToken)
+//            let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
+//            downloadDataBeforePageLoad(reference: viewReference)
+//            self.window?.rootViewController = viewReference
+//
+//
+//
+//        }
     }
     
     
