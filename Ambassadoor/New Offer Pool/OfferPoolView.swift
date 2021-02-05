@@ -46,12 +46,26 @@ class OfferPoolView: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	}
 	
 	func refreshPool() {
-		var pool: [PoolOffer]
+		var pool: [PoolOffer] = [PoolOffer]()
 		switch GetScope() {
 		case .followed:
-			pool = getFollowingOfferPool()
+            if globalBasicBusinesses.count != 0 {
+                pool = getFollowingOfferPool()
+            }else{
+                RefreshPublicData {
+                    pool = getFollowingOfferPool()
+                }
+            }
+			
 		case .filitered:
-			pool = getFilteredOfferPool()
+            if globalBasicBusinesses.count != 0 {
+                pool = getFilteredOfferPool()
+            }else{
+                RefreshPublicData {
+                    pool = getFilteredOfferPool()
+                }
+            }
+			
 		case .all:
 			pool = GetOfferPool()
 		}

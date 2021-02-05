@@ -75,6 +75,7 @@ class SigninVC: UIViewController {
                                     //let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
                                     
                                     AverageLikes(instagramID: Myself.instagramAccountId, userToken: Myself.instagramAuthToken)
+                                    downloadDataBeforePageLoad()
                                     self.LoginSuccessful()
                                     
                                 }else{
@@ -221,6 +222,7 @@ class SigninVC: UIViewController {
         UserDefaults.standard.set(self.passwordText.text!, forKey: "password")
         setHapticMenu(user: Myself)
         AverageLikes(instagramID: NewAccount.id, userToken: NewAccount.authenticationToken)
+        downloadDataBeforePageLoad()
         self.LoginSuccessful()
         
 //        fetchSingleUserDetails(userID: userID) { (status, user) in

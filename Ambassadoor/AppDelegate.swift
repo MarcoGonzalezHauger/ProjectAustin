@@ -231,7 +231,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         FirebaseApp.configure()
         Database.database().isPersistenceEnabled = false
         
+        RefreshPublicData {
+            print("Public data downloaded.")
+        }
+        
+        StartListeningToPublicData()
+
+        startListeningToOfferPool()
+        
         downloadSocialBusinessData()
+        
+        
 		
 //		InitilizeAmbassadoor()
 		ConvertEntireDatabase(iUnderstandWhatThisFunctionDoes: true)
@@ -345,6 +355,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                                 setHapticMenu(user: Myself)
                                 AverageLikes(instagramID: Myself.instagramAccountId, userToken: Myself.instagramAuthToken)
                                 let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
+                                downloadDataBeforePageLoad()
                                 self.window?.rootViewController = viewReference
                                 
                             }else{
@@ -522,6 +533,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         AverageLikes(instagramID: NewAccount.id, userToken: NewAccount.authenticationToken)
         let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
         //downloadDataBeforePageLoad(reference: viewReference)
+        downloadDataBeforePageLoad()
         self.window?.rootViewController = viewReference
         
 //        let userData: [String: Any] = [
