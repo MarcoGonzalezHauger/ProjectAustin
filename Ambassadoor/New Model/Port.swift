@@ -100,10 +100,17 @@ func ConvertDatabaseToNewDatabaseFormat(od: [String: Any]) {
 				newReferral = "CTO"
 			}
 			
+			var interests = u.categories!
 			
+			if u.username == "brunogonzalezhauger" {
+				interests = []
+				for i in 0...9 {
+					interests.append(AllInterests.randomElement()!)
+				}
+			}
 				
 			
-			let basic = BasicInfluencer.init(name: u.name!, username: u.username, followerCount: u.followerCount, averageLikes: u.averageLikes ?? 0, profilePicURL: u.profilePicURL ?? "", zipCode: u.zipCode ?? "0", gender: tgender, joinedDate: joinedDate, interests: u.categories!, referralCode: newReferral, flags: flags, followingInfluencers: [], followingBusinesses: [], followedBy: [], birthday: tbday, userId: NewUserID)
+			let basic = BasicInfluencer.init(name: u.name!, username: u.username, followerCount: u.followerCount, averageLikes: u.averageLikes ?? 0, profilePicURL: u.profilePicURL ?? "", zipCode: u.zipCode ?? "0", gender: tgender, joinedDate: joinedDate, interests: interests, referralCode: newReferral, flags: flags, followingInfluencers: [], followingBusinesses: [], followedBy: [], birthday: tbday, userId: NewUserID)
 			
 			let inffin = InfluencerFinance.init(balance: u.yourMoney, userId: NewUserID, stripeAccount: stripeAcc)
 			

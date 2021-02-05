@@ -8,13 +8,25 @@
 
 import UIKit
 
-class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EnterZipCode {
 	
-	
-	func myselfRefreshed() { //from MyselfRefreshDelegate
-		loadFromMyself()
+	func ZipCodeEntered(zipCode: String?) {
+		if let zipCode = zipCode {
+			if isInEditMode {
+				tempeditInfBasic.zipCode = zipCode
+				refreshAfterOneEdit()
+			}
+		}
 	}
 	
+	func myselfRefreshed() { //from MyselfRefreshDelegate
+		if !isInEditMode {
+			loadFromMyself()
+		}
+	}
+	
+	@IBOutlet weak var referralCodeView: ShadowView!
+	@IBOutlet var editingViews: [ShadowView]!
 	@IBOutlet var uniformShadowViews: [ShadowView]!
 	@IBOutlet weak var backProfileImage: UIImageView!
 	@IBOutlet weak var frontProfileImage: UIImageView!
@@ -24,6 +36,7 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	@IBOutlet weak var averageLikesLabel: UILabel!
 	@IBOutlet weak var followerCountLabel: UILabel!
 	@IBOutlet weak var engagmentRateLabel: UILabel!
+	@IBOutlet weak var blurView: UIVisualEffectView!
 	
 	@IBOutlet weak var referralCodeLabel: UILabel!
 	@IBOutlet weak var balanceLabel: UILabel!
@@ -39,6 +52,12 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	@IBOutlet weak var interestCollectionView: UICollectionView!
 	
 	@IBOutlet weak var scrollView: UIScrollView!
+	
+	@IBOutlet weak var editButton: UIButton! //isInEditMode: CANCEL BUTTON
+	@IBOutlet weak var signOutButton: UIButton! //isInEditMode: SAVE CHANGES BUTTON
+	@IBOutlet weak var signOutView: ShadowView!
+	
+	@IBOutlet weak var topMargin: NSLayoutConstraint!
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,7 +78,7 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
     }
 	
 	func loadFromMyself() {
-		loadInfluencerInfo(influencer: Myself)
+		loadInfluencerInfo(influencer: Myself, BasicInfluencer: Myself.basic)
 	}
 	
 	@IBAction func transferToBank(_ sender: Any) {
@@ -69,31 +88,156 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	var isOnCopied = false
 	
 	@IBAction func copyRefferal(_ sender: Any) {
-		if !isOnCopied {
-			print("Copying referral code.")
-			UseTapticEngine()
-			let pasteboard = UIPasteboard.general
-			pasteboard.string = Myself.basic.referralCode
-			SetLabelText(label: referralCodeLabel, text: "Copied", animated: true)
-			isOnCopied = true
-			DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-				SetLabelText(label: self.referralCodeLabel, text: Myself.basic.referralCode, animated: true)
-				self.isOnCopied = false
+		if isInEditMode {
+			MakeShake(viewToShake: referralCodeView, coefficient: 0.2)
+		} else {
+			if !isOnCopied {
+				print("Copying referral code.")
+				UseTapticEngine()
+				let pasteboard = UIPasteboard.general
+				pasteboard.string = Myself.basic.referralCode
+				SetLabelText(label: referralCodeLabel, text: "Copied", animated: true)
+				isOnCopied = true
+				DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+					SetLabelText(label: self.referralCodeLabel, text: Myself.basic.referralCode, animated: true)
+					self.isOnCopied = false
+				}
 			}
 		}
 	}
 	
-	func loadInfluencerInfo(influencer i: Influencer) {
-		backProfileImage.downloadAndSetImage(i.basic.profilePicURL)
-		frontProfileImage.downloadAndSetImage(i.basic.profilePicURL)
-		nameLabel.text = i.basic.name
-		executiveBadge.isHidden = !i.basic.checkFlag("isAmbassadoorExecutive")
-		verifiedBadge.isHidden = !i.basic.checkFlag("isVerified")
-		averageLikesLabel.text = NumberToStringWithCommas(number: i.basic.averageLikes)
-		followerCountLabel.text = NumberToStringWithCommas(number: i.basic.followerCount)
-		engagmentRateLabel.text = "\(i.basic.engagmentRateInt)%"
+	@IBAction func editButtonPressed(_ sender: Any) {
+		if isInEditMode {
+			cancelEditing()
+		} else {
+			startEditing()
+		}
+	}
+	
+	@IBAction func signOutButtonPressed(_ sender: Any) {
+		if isInEditMode {
+			saveChanged()
+		} else {
+			SignOutOfAmbassadoor3()
+		}
+	}
+	
+	func SignOutOfAmbassadoor3() {
 		
-		referralCodeLabel.text = "\(i.basic.referralCode)"
+	}
+	
+	var isInEditMode: Bool = false {
+		didSet {
+			if isInEditMode {
+				StartEditAnimation()
+				loadInfluencerInfo(influencer: Myself, BasicInfluencer: tempeditInfBasic)
+			} else {
+				EndEditAnimation()
+				loadInfluencerInfo(influencer: Myself, BasicInfluencer: Myself.basic)
+			}
+		}
+	}
+	
+	var tempeditInfBasic: BasicInfluencer!
+	
+	func StartEditAnimation() {
+		UIView.animate(withDuration: 0.5) { [self] in
+			self.backProfileImage.alpha = 0
+			//self.blurView.alpha = 0
+			for v in self.editingViews {
+				v.backgroundColor = UIColor.init(named: "newSubtleBackground")!
+			}
+			self.signOutView.backgroundColor = .systemBlue
+		}
+		editButton.setTitle("Cancel", for: .normal)
+		signOutButton.setTitle("Save Changes", for: .normal)
+		signOutButton.setTitleColor(.white, for: .normal)
+	}
+	
+	func EndEditAnimation() {
+		UIView.animate(withDuration: 0.5) {
+			self.backProfileImage.alpha = 1
+			//self.blurView.alpha = 1
+			for v in self.editingViews {
+				v.backgroundColor = UIColor.init(named: "newCellColor")!
+			}
+			self.signOutView.backgroundColor = UIColor.init(named: "newCellColor")!
+		}
+		editButton.setTitle("Edit", for: .normal)
+		signOutButton.setTitle("Sign Out", for: .normal)
+		signOutButton.setTitleColor(.systemRed, for: .normal)
+	}
+	
+	func startEditing() {
+		tempeditInfBasic = Myself.basic
+		isInEditMode = true
+	}
+	
+	func cancelEditing() {
+		tempeditInfBasic = nil
+		isInEditMode = false
+	}
+	
+	func saveChanged() {
+		Myself.basic.zipCode = tempeditInfBasic.zipCode
+		Myself.basic.gender	= tempeditInfBasic.gender
+		Myself.basic.birthday = tempeditInfBasic.birthday
+		Myself.basic.interests = tempeditInfBasic.interests
+		isInEditMode = false
+		Myself.UpdateToFirebase(alsoUpdateToPublic: true, completed: nil)
+		cancelEditing()
+	}
+
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		UseTapticEngine()
+		if isInEditMode {
+			//display the interest picker
+		}
+	}
+	
+	@IBAction func zipCodePressed(_ sender: Any) {
+		if isInEditMode {
+			UseTapticEngine()
+			performSegue(withIdentifier: "toZip", sender: self)
+		}
+	}
+	
+	@IBAction func genderPressed(_ sender: Any) {
+		if isInEditMode {
+			UseTapticEngine()
+			//age picker
+		}
+	}
+	
+	@IBAction func agePressed(_ sender: Any) {
+		if isInEditMode {
+			UseTapticEngine()
+			//age picker.
+		}
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if let view = segue.destination as? ZipCodeVC {
+			view.delegate = self
+		}
+	}
+	
+	
+	func refreshAfterOneEdit() {
+		loadInfluencerInfo(influencer: Myself, BasicInfluencer: tempeditInfBasic)
+	}
+	
+	func loadInfluencerInfo(influencer i: Influencer, BasicInfluencer basic: BasicInfluencer) {
+		backProfileImage.downloadAndSetImage(basic.profilePicURL)
+		frontProfileImage.downloadAndSetImage(basic.profilePicURL)
+		nameLabel.text = basic.name
+		executiveBadge.isHidden = !basic.checkFlag("isAmbassadoorExecutive")
+		verifiedBadge.isHidden = !basic.checkFlag("isVerified")
+		averageLikesLabel.text = NumberToStringWithCommas(number: basic.averageLikes)
+		followerCountLabel.text = NumberToStringWithCommas(number: basic.followerCount)
+		engagmentRateLabel.text = "\(basic.engagmentRateInt)%"
+		
+		referralCodeLabel.text = "\(basic.referralCode)"
 		balanceLabel.text = NumberToPrice(Value: i.finance.balance)
 		if i.finance.balance == 0 {
 			transferView.isHidden = true
@@ -101,9 +245,9 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 			transferView.isHidden = false
 		}
 		
-		zipCodeLabel.text = i.basic.zipCode
+		zipCodeLabel.text = basic.zipCode
 		self.townNameLabel.isHidden = true
-		GetTownName(zipCode: i.basic.zipCode) { (zipCodeData, zipCode) in
+		GetTownName(zipCode: basic.zipCode) { (zipCodeData, zipCode) in
 			DispatchQueue.main.async {
 				if let zipCodeData = zipCodeData {
 					self.townNameLabel.isHidden = false
@@ -114,15 +258,11 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 			}
 		}
 		
-		genderLabel.text = i.basic.gender
-		
-		ageLabel.text = "\(i.basic.age)"
-		
+		genderLabel.text = basic.gender
+		ageLabel.text = "\(basic.age)"
 		interestCollectionView.reloadData()
 		
 	}
-	
-	
 	
 	var maxInterests = 10
 	var rows = 2

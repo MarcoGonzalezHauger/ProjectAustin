@@ -54,7 +54,8 @@ extension PoolOffer {
 			if !self.filter.DoesInfluencerPassFilter(basicInfluencer: thisInfluencer.basic) {
 				completed("You don't meet the filters of this offer.")
 			} else {
-				let newCashPower = self.cashPower - totalCost
+				
+				let newCashPower = roundPriceDown(price: self.cashPower - totalCost)
 				
 				var newAccUserIds: [String] = self.acceptedUserIds
 				

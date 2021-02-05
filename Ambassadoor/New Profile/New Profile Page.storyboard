@@ -13,6 +13,22 @@
         <!--My Profile-->
         <scene sceneID="Vn7-dB-4cE">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vT4-jQ-KUU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="250-Mc-22P">
+                    <connections>
+                        <action selector="genderPressed:" destination="THN-bl-N7s" id="SK3-UR-qbf"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="iBh-cH-4ur">
+                    <connections>
+                        <action selector="agePressed:" destination="THN-bl-N7s" id="Qfg-hK-MOC"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="XlT-P4-qem">
+                    <connections>
+                        <action selector="zipCodePressed:" destination="THN-bl-N7s" id="xr6-RZ-GsP"/>
+                    </connections>
+                </tapGestureRecognizer>
                 <viewController restorationIdentifier="NewProfilePage" storyboardIdentifier="NewProfilePage" id="THN-bl-N7s" customClass="NewProfilePage" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="P9D-Xo-tMT">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
@@ -304,12 +320,16 @@
                                                     </stackView>
                                                 </subviews>
                                                 <color key="backgroundColor" name="newCellColor"/>
+                                                <gestureRecognizers/>
                                                 <constraints>
                                                     <constraint firstAttribute="trailing" secondItem="1bX-AX-h6g" secondAttribute="trailing" constant="3" id="Lfp-dJ-nNW"/>
                                                     <constraint firstItem="1bX-AX-h6g" firstAttribute="centerY" secondItem="Ov3-AU-sd4" secondAttribute="centerY" id="dkP-XO-RE0"/>
                                                     <constraint firstItem="1bX-AX-h6g" firstAttribute="leading" secondItem="Ov3-AU-sd4" secondAttribute="leading" constant="3" id="e6o-Y8-CtK"/>
                                                     <constraint firstAttribute="width" secondItem="Ov3-AU-sd4" secondAttribute="height" multiplier="4:3" id="lRs-WG-siU"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="XlT-P4-qem" appends="YES" id="j2V-ya-5xt"/>
+                                                </connections>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rId-qT-aVM" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                                 <rect key="frame" x="133" y="234.99999999999997" width="109" height="81.666666666666657"/>
@@ -333,11 +353,15 @@
                                                     </stackView>
                                                 </subviews>
                                                 <color key="backgroundColor" name="newCellColor"/>
+                                                <gestureRecognizers/>
                                                 <constraints>
                                                     <constraint firstItem="BH1-eJ-Sfo" firstAttribute="leading" secondItem="rId-qT-aVM" secondAttribute="leading" constant="5" id="ZAE-3g-fX8"/>
                                                     <constraint firstItem="BH1-eJ-Sfo" firstAttribute="centerY" secondItem="rId-qT-aVM" secondAttribute="centerY" id="bDn-yP-5eW"/>
                                                     <constraint firstAttribute="trailing" secondItem="BH1-eJ-Sfo" secondAttribute="trailing" constant="5" id="qzT-eq-alO"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="250-Mc-22P" appends="YES" id="aXG-tR-A3v"/>
+                                                </connections>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p31-ru-zJA" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                                 <rect key="frame" x="254" y="234.99999999999997" width="109" height="81.666666666666657"/>
@@ -361,11 +385,15 @@
                                                     </stackView>
                                                 </subviews>
                                                 <color key="backgroundColor" name="newCellColor"/>
+                                                <gestureRecognizers/>
                                                 <constraints>
                                                     <constraint firstItem="kIN-1o-gk8" firstAttribute="leading" secondItem="p31-ru-zJA" secondAttribute="leading" constant="3" id="PbY-Gj-gom"/>
                                                     <constraint firstItem="kIN-1o-gk8" firstAttribute="centerY" secondItem="p31-ru-zJA" secondAttribute="centerY" id="TN7-L4-I3Y"/>
                                                     <constraint firstAttribute="trailing" secondItem="kIN-1o-gk8" secondAttribute="trailing" constant="3" id="irp-9Y-ddw"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="iBh-cH-4ur" appends="YES" id="U3F-2a-WXI"/>
+                                                </connections>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l18-42-Ts5" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                                 <rect key="frame" x="12" y="133" width="169.33333333333334" height="90"/>
@@ -385,10 +413,6 @@
                                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="27"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
-                                                                <connections>
-                                                                    <outletCollection property="gestureRecognizers" destination="aZZ-M5-eYV" appends="YES" id="K8O-Ga-bVt"/>
-                                                                    <outletCollection property="gestureRecognizers" destination="aZZ-M5-eYV" appends="YES" id="X3E-eD-qax"/>
-                                                                </connections>
                                                             </label>
                                                         </subviews>
                                                     </stackView>
@@ -401,8 +425,7 @@
                                                     <constraint firstAttribute="trailing" secondItem="saT-Bc-czM" secondAttribute="trailing" constant="6" id="mlG-c8-W2p"/>
                                                 </constraints>
                                                 <connections>
-                                                    <outletCollection property="gestureRecognizers" destination="aZZ-M5-eYV" appends="YES" id="hdV-un-JE2"/>
-                                                    <outletCollection property="gestureRecognizers" destination="aZZ-M5-eYV" appends="YES" id="AUA-de-AO0"/>
+                                                    <outletCollection property="gestureRecognizers" destination="eHv-MY-QQ4" appends="YES" id="IZZ-xL-bCE"/>
                                                 </connections>
                                             </view>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Gzf-ny-rhp">
@@ -421,6 +444,7 @@
                                             </collectionView>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstItem="MMD-Ne-8pb" firstAttribute="top" secondItem="l18-42-Ts5" secondAttribute="top" id="4lo-3d-80T"/>
                                             <constraint firstItem="DII-mI-JE9" firstAttribute="leading" secondItem="rhO-fT-R1C" secondAttribute="leading" constant="12" id="CJI-Hr-OjT"/>
@@ -474,6 +498,9 @@
                                                         <state key="normal" title="Edit">
                                                             <color key="titleColor" systemColor="labelColor"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="editButtonPressed:" destination="THN-bl-N7s" eventType="touchUpInside" id="cO2-9m-CQe"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <color key="backgroundColor" name="newCellColor"/>
@@ -498,6 +525,9 @@
                                                         <state key="normal" title="Sign Out">
                                                             <color key="titleColor" systemColor="systemRedColor"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="signOutButtonPressed:" destination="THN-bl-N7s" eventType="touchUpInside" id="qpw-ta-BPJ"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <color key="backgroundColor" name="newCellColor"/>
@@ -548,6 +578,8 @@
                         <outlet property="averageLikesLabel" destination="lJF-td-yqo" id="M08-Ms-cm3"/>
                         <outlet property="backProfileImage" destination="rYA-Gw-6dW" id="8Gf-0T-9Rk"/>
                         <outlet property="balanceLabel" destination="vEk-1Y-uH4" id="zQs-gG-oRI"/>
+                        <outlet property="blurView" destination="YRh-2Y-M9Q" id="yeq-Yn-bHQ"/>
+                        <outlet property="editButton" destination="ta6-bL-Zyp" id="vSi-L6-tjP"/>
                         <outlet property="engagmentRateLabel" destination="bOD-C7-gSc" id="UEV-rp-cSF"/>
                         <outlet property="executiveBadge" destination="x28-15-hhy" id="A9d-iR-IT0"/>
                         <outlet property="followerCountLabel" destination="Wth-s7-ZNZ" id="Rrm-wI-k1t"/>
@@ -556,23 +588,40 @@
                         <outlet property="interestCollectionView" destination="Gzf-ny-rhp" id="HFT-Dn-kOv"/>
                         <outlet property="nameLabel" destination="mDH-yx-FDy" id="Emd-d3-9n3"/>
                         <outlet property="referralCodeLabel" destination="cHc-o3-1Qn" id="sCD-8E-s9E"/>
+                        <outlet property="referralCodeView" destination="l18-42-Ts5" id="NIE-Bl-Jjy"/>
                         <outlet property="scrollView" destination="8Zo-pB-eEx" id="Omg-TB-MLp"/>
+                        <outlet property="signOutButton" destination="8sz-Jn-nis" id="7ML-fW-nbW"/>
+                        <outlet property="signOutView" destination="ldV-Gk-Kkg" id="Ebz-NA-Mbl"/>
+                        <outlet property="topMargin" destination="u55-8p-fo6" id="jqi-2c-Mho"/>
                         <outlet property="townNameLabel" destination="IyJ-8D-hnh" id="u6j-DL-o6U"/>
                         <outlet property="transferButton" destination="y32-KQ-b9u" id="DIK-n2-gor"/>
                         <outlet property="transferView" destination="YRz-5E-G6I" id="RHu-bb-MAw"/>
                         <outlet property="verifiedBadge" destination="mDK-jv-23J" id="LeZ-SF-CGa"/>
                         <outlet property="zipCodeLabel" destination="faY-aM-xTp" id="a22-cn-svO"/>
                         <outletCollection property="uniformShadowViews" destination="Ov3-AU-sd4" collectionClass="NSMutableArray" id="D3S-TD-yRi"/>
+                        <outletCollection property="editingViews" destination="DII-mI-JE9" collectionClass="NSMutableArray" id="pqV-KK-Jxj"/>
+                        <outletCollection property="editingViews" destination="MMD-Ne-8pb" collectionClass="NSMutableArray" id="fje-IQ-fEi"/>
+                        <outletCollection property="editingViews" destination="l18-42-Ts5" collectionClass="NSMutableArray" id="8gi-Kb-mlM"/>
+                        <segue destination="Tcr-wl-YZE" kind="show" identifier="toZip" id="8HI-fg-lbl"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="vT4-jQ-KUU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer cancelsTouchesInView="NO" id="aZZ-M5-eYV">
+                <tapGestureRecognizer id="eHv-MY-QQ4">
                     <connections>
-                        <action selector="copyRefferal:" destination="THN-bl-N7s" id="MBH-aO-vAV"/>
+                        <action selector="copyRefferal:" destination="THN-bl-N7s" id="may-vn-ftT"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="136.80000000000001" y="131.52709359605913"/>
+        </scene>
+        <!--ZipCodePicker-->
+        <scene sceneID="qD8-mG-Ic5">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ZipCodePicker" id="Tcr-wl-YZE" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="X9Y-gC-te3"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="58H-i1-Fmk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="841" y="132"/>
         </scene>
     </scenes>
     <resources>
@@ -588,7 +637,7 @@
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="newSubtleBackground">
-            <color red="0.94900000095367432" green="0.94900000095367432" blue="0.94900000095367432" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94099998474121094" green="0.94900000095367432" blue="0.96100002527236938" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
