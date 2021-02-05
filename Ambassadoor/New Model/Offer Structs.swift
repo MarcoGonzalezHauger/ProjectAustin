@@ -355,7 +355,9 @@ class InProgressPost {
 		dateCancelled = GetEmptyDate()
 		denyReason = ""
 		
+		//d["draftPost"] = draftPost.toDictionary()
 		
+		//return d
 	}
 	
 	init(dictionary d: [String: Any], inProgressPostId ipid: String, userId id: String) {
@@ -418,7 +420,7 @@ class InProgressPost {
 		d["draftOfferId"] = draftOfferId
 		d["businessId"] = businessId
 		d["draftPostId"] = draftPostId
-		
+        d["draftPost"] = draftPost.toDictionary()
 		return d
 	}
 }
@@ -457,6 +459,18 @@ class sentOffer { //when business goes back to look at previously sent out offer
 		
 		sentOfferId = GetNewID()
 	}
+
+//	init(poolId pid: String, draftOfferId doid: String, businessId bid: String, title t: String) {
+//		poolId = pid
+//		draftOfferId = doid
+//		businessId = bid
+//		inProgressPosts = []
+//
+//		title = t
+//		timeSent = Date()
+//
+//		sentOfferId = GetNewID()
+//	}
 	
 	func toDictionary() -> [String: Any] {
 		var d: [String: Any] = [:]

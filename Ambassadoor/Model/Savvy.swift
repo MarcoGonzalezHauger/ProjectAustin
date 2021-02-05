@@ -824,93 +824,90 @@ protocol refreshDelegate {
 var refreshDelegates: [refreshDelegate] = []
 
 func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
-//	
-//	if reference != nil {
-//		if Yourself.yourMoney > GetFeeForInfluencer(Yourself) {
-//			reference!.tabBar.items![1].badgeValue = "$"
-//		} else {
-//			reference!.tabBar.items![1].badgeValue = nil
-//		}
-//	}
-    
-	getObserveFollowerCompaniesOffer() { (status, offers) in
-        
-        if status {
-			global.followOfferList = offers
-        }
-        
-    }
-    
-    getObserveAllOffer() { (status, allOffer) in
-        if status{
-			global.allOfferList = allOffer
-        }
-        
-    }
-    
-    
-    if reference != nil {
-        getAcceptedOffers { (status, offers) in
-            
-            if status{
-				global.allInprogressOffer = offers
-				let badge = offers.filter{CheckIfOferIsActive(offer: $0)}.count
-				reference!.tabBar.items![3].badgeValue = badge == 0 ? nil : String(badge)
-				UIApplication.shared.applicationIconBadgeNumber = offers.filter{$0.variation == .inProgress}.count
-                
-            }
-            
-//            if let searchView = reference?.viewControllers![0] as? SearchMenuVC{
-//                searchView.viewDidLoad()
-//            }
-            
-        }
-    }
 
-    getFollowingList { (status, usersList) in
-        
-        if status{
-            //self.userList = usersList
-            global.userList.removeAll()
-            global.userList = usersList
-        }
-        
-    }
     
-    getFollowerList { (statusFollower, followerList) in
-        
-        
-        
-        getFollowingAcceptedOffers { (status, offers) in
-            global.followerList.removeAll()
-            if statusFollower{
-                
-                global.followerList.append(contentsOf: followerList)
-                
-            }
-            
-            if status{
-                
-                global.followerList.append(contentsOf: offers)
-                let sorted = global.followerList.sorted { (objOne, objTwo) -> Bool in
-                return (objOne.startedAt.compare(objTwo.startedAt) == .orderedDescending)
-                }
-                global.followerList = sorted
-            }
-            
-        }
-    }
+//	getObserveFollowerCompaniesOffer() { (status, offers) in
+//
+//        if status {
+//			global.followOfferList = offers
+//        }
+//
+//    }
     
-    getFollowedByList { (status, users) in
-        
-        if status{
-            global.influencerList.removeAll()
-            global.influencerList = users
-            NotificationCenter.default.post(name: Notification.Name("updatefollowedBy"), object: nil, userInfo: ["userinfo":"1"])
-            
-        }
-        
-    }
+    startListeningToMyself(userId: Myself.userId)
+
+    
+    
+//    getObserveAllOffer() { (status, allOffer) in
+//        if status{
+//			global.allOfferList = allOffer
+//        }
+//
+//    }
+    
+    
+//    if reference != nil {
+//        getAcceptedOffers { (status, offers) in
+//
+//            if status{
+//				global.allInprogressOffer = offers
+//				let badge = offers.filter{CheckIfOferIsActive(offer: $0)}.count
+//				reference!.tabBar.items![3].badgeValue = badge == 0 ? nil : String(badge)
+//				UIApplication.shared.applicationIconBadgeNumber = offers.filter{$0.variation == .inProgress}.count
+//
+//            }
+//
+////            if let searchView = reference?.viewControllers![0] as? SearchMenuVC{
+////                searchView.viewDidLoad()
+////            }
+//
+//        }
+//    }
+
+//    getFollowingList { (status, usersList) in
+//
+//        if status{
+//            //self.userList = usersList
+//            global.userList.removeAll()
+//            global.userList = usersList
+//        }
+//
+//    }
+    
+//    getFollowerList { (statusFollower, followerList) in
+//
+//
+//
+//        getFollowingAcceptedOffers { (status, offers) in
+//            global.followerList.removeAll()
+//            if statusFollower{
+//
+//                global.followerList.append(contentsOf: followerList)
+//
+//            }
+//
+//            if status{
+//
+//                global.followerList.append(contentsOf: offers)
+//                let sorted = global.followerList.sorted { (objOne, objTwo) -> Bool in
+//                return (objOne.startedAt.compare(objTwo.startedAt) == .orderedDescending)
+//                }
+//                global.followerList = sorted
+//            }
+//
+//        }
+//    }
+    
+//    getFollowedByList { (status, users) in
+//
+//        if status{
+//            global.influencerList.removeAll()
+//            global.influencerList = users
+//            NotificationCenter.default.post(name: Notification.Name("updatefollowedBy"), object: nil, userInfo: ["userinfo":"1"])
+//
+//        }
+//
+//    }
 }
 
 func downloadSocialBusinessData() {

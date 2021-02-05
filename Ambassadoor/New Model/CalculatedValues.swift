@@ -88,6 +88,9 @@ extension OfferFilter {
 
 extension PoolOffer {
 	func hasInfluencerAccepted(influencer inf: Influencer) -> Bool {
+		if acceptedUserIds.contains(Myself.userId) {
+			return true
+		}
 		for p in inf.inProgressPosts {
 			if p.PoolOfferId == self.poolId {
 				return true
@@ -96,6 +99,7 @@ extension PoolOffer {
 		return false
 	}
 	func BasicBusiness() -> BasicBusiness? {
+        print(businessId)
 		return GetBasicBusiness(id: businessId)
 	}
 	func pricePerPost(forInfluencer inf: BasicInfluencer) -> Double {
@@ -109,6 +113,8 @@ extension PoolOffer {
 		return cashPower > totalCost(forInfluencer: inf)
 	}
 	func canBeAccepted(forInfluencer inf: Influencer) -> Bool {
+        print(cashPower)
+        print(self.BasicBusiness()?.name)
 		print("PV: for \(self.BasicBusiness()!.name) =====[\(NumberToPrice(Value: cashPower))]======")
 		print("PV: \(filter.DoesInfluencerPassFilter(basicInfluencer: inf.basic)) = FILTER")
 		print("PV: \(canAffordInflunecer(forInfluencer: inf.basic)) = AFFORD")
