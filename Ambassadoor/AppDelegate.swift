@@ -231,16 +231,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         FirebaseApp.configure()
         Database.database().isPersistenceEnabled = false
         
-        RefreshPublicData {
-            print("Public data downloaded.")
-        }
+//        RefreshPublicData {
+//            print("Public data downloaded.")
+//        }
         
-        StartListeningToPublicData()
-
-        startListeningToOfferPool()
-        
-        downloadSocialBusinessData()
-        
+//        StartListeningToPublicData()
+//
+//        startListeningToOfferPool()
+//
         
 		
 //		InitilizeAmbassadoor()

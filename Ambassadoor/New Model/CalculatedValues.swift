@@ -99,7 +99,6 @@ extension PoolOffer {
 		return false
 	}
 	func BasicBusiness() -> BasicBusiness? {
-        print(businessId)
 		return GetBasicBusiness(id: businessId)
 	}
 	func pricePerPost(forInfluencer inf: BasicInfluencer) -> Double {
@@ -120,5 +119,11 @@ extension PoolOffer {
 		print("PV: \(canAffordInflunecer(forInfluencer: inf.basic)) = AFFORD")
 		print("PV: \(hasInfluencerAccepted(influencer: inf)) = ACCEPTED")
 		return filter.DoesInfluencerPassFilter(basicInfluencer: inf.basic) && canAffordInflunecer(forInfluencer: inf.basic) && !hasInfluencerAccepted(influencer: inf)
+	}
+}
+
+extension InProgressPost {
+	func BasicBusiness() -> BasicBusiness? {
+		return GetBasicBusiness(id: businessId)
 	}
 }

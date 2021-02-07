@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--In Progress-->
+        <scene sceneID="9Ds-Gc-CMb">
+            <objects>
+                <viewController storyboardIdentifier="NewInProgressView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Yqa-8P-EMP" customClass="NewInProgressViewVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="snC-M8-lHq">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GxB-F0-Yly">
+                                <rect key="frame" x="6" y="118" width="402" height="695"/>
+                                <color key="backgroundColor" name="newSubtleBackground"/>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Ie-Fb-p2t" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="-56" width="414" height="174"/>
+                                <subviews>
+                                    <searchBar contentMode="redraw" searchBarStyle="minimal" text="" placeholder="Search Posts" translatesAutoresizingMaskIntoConstraints="NO" id="Red-nz-24c">
+                                        <rect key="frame" x="0.0" y="110" width="414" height="56"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </searchBar>
+                                </subviews>
+                                <color key="backgroundColor" name="newTrueBack"/>
+                                <constraints>
+                                    <constraint firstItem="Red-nz-24c" firstAttribute="top" secondItem="8Ie-Fb-p2t" secondAttribute="top" constant="110" id="IP3-jN-jOo"/>
+                                    <constraint firstItem="Red-nz-24c" firstAttribute="leading" secondItem="8Ie-Fb-p2t" secondAttribute="leading" id="dW0-b0-gOe"/>
+                                    <constraint firstAttribute="bottom" secondItem="Red-nz-24c" secondAttribute="bottom" constant="8" id="kPy-9g-lcA"/>
+                                    <constraint firstAttribute="trailing" secondItem="Red-nz-24c" secondAttribute="trailing" id="oKw-J7-ZAi"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
+                                        <real key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="ShadowColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                        <real key="value" value="0.20000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HlO-3X-hs5" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                <rect key="frame" x="57" y="233" width="300" height="150"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="OaU-Ze-fvP">
+                                        <rect key="frame" x="8" y="38" width="284" height="74.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You haven't accepted any offers yet." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W4v-ji-AQx">
+                                                <rect key="frame" x="4" y="0.0" width="276.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wra-L9-JRY">
+                                                <rect key="frame" x="95" y="40.5" width="94" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                <state key="normal" title="View Offers"/>
+                                                <connections>
+                                                    <action selector="viewOffersPressed:" destination="Yqa-8P-EMP" eventType="touchUpInside" id="SdM-4u-GR1"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" name="newSubtleBackground"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="CaY-wI-GGh"/>
+                                    <constraint firstItem="OaU-Ze-fvP" firstAttribute="leading" secondItem="HlO-3X-hs5" secondAttribute="leading" constant="8" id="a5X-IQ-Yzj"/>
+                                    <constraint firstAttribute="trailing" secondItem="OaU-Ze-fvP" secondAttribute="trailing" constant="8" id="cAl-Tn-fth"/>
+                                    <constraint firstItem="OaU-Ze-fvP" firstAttribute="centerY" secondItem="HlO-3X-hs5" secondAttribute="centerY" id="ccs-Ax-dMf"/>
+                                    <constraint firstAttribute="width" constant="300" id="zcZ-ee-teD"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="K8e-FU-lhX"/>
+                        <color key="backgroundColor" name="newSubtleBackground"/>
+                        <constraints>
+                            <constraint firstItem="K8e-FU-lhX" firstAttribute="bottom" secondItem="GxB-F0-Yly" secondAttribute="bottom" id="5v4-qx-rKQ"/>
+                            <constraint firstItem="8Ie-Fb-p2t" firstAttribute="leading" secondItem="K8e-FU-lhX" secondAttribute="leading" id="WhT-Ow-IX1"/>
+                            <constraint firstItem="GxB-F0-Yly" firstAttribute="top" secondItem="8Ie-Fb-p2t" secondAttribute="bottom" id="d91-34-IYt"/>
+                            <constraint firstItem="K8e-FU-lhX" firstAttribute="trailing" secondItem="GxB-F0-Yly" secondAttribute="trailing" constant="6" id="i4d-ci-d8n"/>
+                            <constraint firstItem="HlO-3X-hs5" firstAttribute="centerX" secondItem="snC-M8-lHq" secondAttribute="centerX" id="iTR-Jw-jYy"/>
+                            <constraint firstItem="8Ie-Fb-p2t" firstAttribute="top" secondItem="K8e-FU-lhX" secondAttribute="top" constant="-100" id="naA-KY-1v4"/>
+                            <constraint firstItem="GxB-F0-Yly" firstAttribute="leading" secondItem="K8e-FU-lhX" secondAttribute="leading" constant="6" id="uB2-77-WyJ"/>
+                            <constraint firstItem="HlO-3X-hs5" firstAttribute="centerY" secondItem="snC-M8-lHq" secondAttribute="centerY" constant="-140" id="wjx-Hk-D17"/>
+                            <constraint firstAttribute="trailing" secondItem="8Ie-Fb-p2t" secondAttribute="trailing" id="ye4-kK-EDY"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="In Progress" image="in progress" id="xLc-4B-sf7">
+                        <color key="badgeColor" systemColor="systemBlueColor"/>
+                    </tabBarItem>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="noneInProgress" destination="HlO-3X-hs5" id="MPX-6t-EI3"/>
+                        <outlet property="searchBar" destination="Red-nz-24c" id="0fw-2w-A46"/>
+                        <outlet property="tableView" destination="GxB-F0-Yly" id="LEF-WM-rzy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Iki-rr-P6u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="139" y="138"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="in progress" width="25" height="25"/>
+        <namedColor name="newSubtleBackground">
+            <color red="0.94099998474121094" green="0.94900000095367432" blue="0.96100002527236938" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="newTrueBack">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

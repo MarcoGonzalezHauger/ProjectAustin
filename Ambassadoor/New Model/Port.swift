@@ -104,9 +104,20 @@ func ConvertDatabaseToNewDatabaseFormat(od: [String: Any]) {
 			
 			if u.username == "brunogonzalezhauger" {
 				interests = []
-				for i in 0...9 {
-					interests.append(AllInterests.randomElement()!)
+				for _ in 0...9 {
+					var this: String = AllInterests.randomElement()!
+					
+					while interests.contains(this) {
+						this = AllInterests.randomElement()!
+					}
+				
+					interests.append(this)
 				}
+			}
+			
+			interests = interests.filter{AllInterests.contains($0)}
+			if interests.count == 0 {
+				interests.append("Student")
 			}
 				
 			
@@ -234,7 +245,7 @@ func ConvertDatabaseToNewDatabaseFormat(od: [String: Any]) {
 							var list = o.influencerFilter!["zipCode"] as? [String] ?? []
 							
 							if b.basic?.name == "Ambassadoor" {
-								o.category.append("Student")
+								o.category.append(Myself.basic.interests.randomElement()!)
 								o.genders.append("Male")
 								list.append("13210")
 							}

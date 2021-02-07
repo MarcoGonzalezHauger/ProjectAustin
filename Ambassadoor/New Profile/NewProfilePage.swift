@@ -8,7 +8,12 @@
 
 import UIKit
 
-class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EnterZipCode {
+class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EnterZipCode, NewSettingsDelegate {
+	
+	func GoIntoEditMode() {
+		startEditing()
+	}
+	
 	
 	func ZipCodeEntered(zipCode: String?) {
 		if let zipCode = zipCode {
@@ -57,7 +62,6 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	@IBOutlet weak var signOutButton: UIButton! //isInEditMode: SAVE CHANGES BUTTON
 	@IBOutlet weak var signOutView: ShadowView!
 	
-	@IBOutlet weak var topMargin: NSLayoutConstraint!
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,6 +79,9 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 		interestCollectionView.dataSource = self
 		
 		scrollView.alwaysBounceVertical = false
+		
+		editProfileView.alpha = 0
+		
     }
 	
 	func loadFromMyself() {
@@ -88,38 +95,29 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	var isOnCopied = false
 	
 	@IBAction func copyRefferal(_ sender: Any) {
-		if isInEditMode {
-			MakeShake(viewToShake: referralCodeView, coefficient: 0.2)
-		} else {
-			if !isOnCopied {
-				print("Copying referral code.")
-				UseTapticEngine()
-				let pasteboard = UIPasteboard.general
-				pasteboard.string = Myself.basic.referralCode
-				SetLabelText(label: referralCodeLabel, text: "Copied", animated: true)
-				isOnCopied = true
-				DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-					SetLabelText(label: self.referralCodeLabel, text: Myself.basic.referralCode, animated: true)
-					self.isOnCopied = false
-				}
+		if !isOnCopied {
+			print("Copying referral code.")
+			UseTapticEngine()
+			let pasteboard = UIPasteboard.general
+			pasteboard.string = Myself.basic.referralCode
+			SetLabelText(label: referralCodeLabel, text: "Copied", animated: true)
+			isOnCopied = true
+			DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+				SetLabelText(label: self.referralCodeLabel, text: Myself.basic.referralCode, animated: true)
+				self.isOnCopied = false
 			}
 		}
 	}
 	
-	@IBAction func editButtonPressed(_ sender: Any) {
+	@IBAction func settingsButtonPressed(_ sender: Any) {
 		if isInEditMode {
-			cancelEditing()
-		} else {
-			startEditing()
+			saveChanged()
 		}
+		performSegue(withIdentifier: "toSettings", sender: self)
 	}
 	
 	@IBAction func signOutButtonPressed(_ sender: Any) {
-		if isInEditMode {
-			saveChanged()
-		} else {
-			SignOutOfAmbassadoor3()
-		}
+		
 	}
 	
 	func SignOutOfAmbassadoor3() {
@@ -129,52 +127,96 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	var isInEditMode: Bool = false {
 		didSet {
 			if isInEditMode {
-				StartEditAnimation()
-				loadInfluencerInfo(influencer: Myself, BasicInfluencer: tempeditInfBasic)
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+					self.StartEditAnimation()
+				}
 			} else {
-				EndEditAnimation()
-				loadInfluencerInfo(influencer: Myself, BasicInfluencer: Myself.basic)
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+					self.EndEditAnimation()
+				}
 			}
 		}
 	}
 	
 	var tempeditInfBasic: BasicInfluencer!
 	
+	
+	@IBOutlet weak var editBoxTop: NSLayoutConstraint! //edit mode: 8, reg: -20
+	@IBOutlet weak var topMargin: NSLayoutConstraint! //reg: 20, edit mode: 45.
+	@IBOutlet weak var mainView: UIView!
+	@IBOutlet weak var editProfileView: ShadowView!
+	@IBOutlet var endEditButtons: [UIButton]!
+	@IBOutlet weak var profileEditLabel: UILabel!
+	
+	@IBOutlet var editBorderViews: [ShadowView]!
+	var interestViews: [ShadowView] = []
+	
+	func GetAllBorderViews() -> [ShadowView] {
+		
+		var allViews: [ShadowView]! = self.editBorderViews
+		allViews.append(contentsOf: self.interestViews)
+		
+		return allViews
+	}
+	
 	func StartEditAnimation() {
-		UIView.animate(withDuration: 0.5) { [self] in
-			self.backProfileImage.alpha = 0
-			//self.blurView.alpha = 0
-			for v in self.editingViews {
-				v.backgroundColor = UIColor.init(named: "newSubtleBackground")!
-			}
-			self.signOutView.backgroundColor = .systemBlue
+		topMargin.constant = 55
+		editBoxTop.constant = 18
+		
+		for b in endEditButtons {
+			b.isEnabled = true
 		}
-		editButton.setTitle("Cancel", for: .normal)
-		signOutButton.setTitle("Save Changes", for: .normal)
-		signOutButton.setTitleColor(.white, for: .normal)
+		
+		
+		for v in GetAllBorderViews() {
+			v.borderWidth = 1.5
+		}
+		
+		UIView.animate(withDuration: 0.5) {
+			self.view.layoutIfNeeded()
+			self.editProfileView.alpha = 1
+		}
+		
+		for v in self.GetAllBorderViews() {
+			v.animateBorderColor(toColor: .systemBlue, duration: 0.5)
+		}
 	}
 	
 	func EndEditAnimation() {
-		UIView.animate(withDuration: 0.5) {
-			self.backProfileImage.alpha = 1
-			//self.blurView.alpha = 1
-			for v in self.editingViews {
-				v.backgroundColor = UIColor.init(named: "newCellColor")!
-			}
-			self.signOutView.backgroundColor = UIColor.init(named: "newCellColor")!
+		topMargin.constant = 20
+		editBoxTop.constant = -20
+		
+		for b in endEditButtons {
+			b.isEnabled = false
 		}
-		editButton.setTitle("Edit", for: .normal)
-		signOutButton.setTitle("Sign Out", for: .normal)
-		signOutButton.setTitleColor(.systemRed, for: .normal)
+		
+		UIView.animate(withDuration: 0.5) {
+			self.view.layoutIfNeeded()
+			self.editProfileView.alpha = 0
+		}
+		
+		for v in self.GetAllBorderViews() {
+			v.animateBorderColor(toColor: .clear, duration: 0.5)
+		}
 	}
 	
+	@IBAction func changedSaved(_ sender: Any) {
+		saveChanged()
+	}
+	
+	@IBAction func changesDiscarded(_ sender: Any) {
+		cancelEditing()
+	}
+	
+	
 	func startEditing() {
-		tempeditInfBasic = Myself.basic
+		tempeditInfBasic = BasicInfluencer.init(dictionary: Myself.basic.toDictionary(), userId: "TEMPINF")
 		isInEditMode = true
 	}
 	
 	func cancelEditing() {
 		tempeditInfBasic = nil
+		loadInfluencerInfo(influencer: Myself, BasicInfluencer: Myself.basic)
 		isInEditMode = false
 	}
 	
@@ -187,37 +229,92 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 		Myself.UpdateToFirebase(alsoUpdateToPublic: true, completed: nil)
 		cancelEditing()
 	}
+	
+	func doSegueForEdit(withIdentifier id: String) {
+		UseTapticEngine()
+		
+		if !isInEditMode {
+			startEditing()
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+				self.doSegue(id: id)
+			}
+		} else {
+			doSegue(id: id)
+		}
+	}
+	
+	func pickGender() {
+		let genderPick = UIAlertController(title: "Pick Gender", message: "", preferredStyle: UIAlertController.Style.actionSheet)
+		
+		let female = UIAlertAction(title: "Female", style: .default) { (action: UIAlertAction) in
+			self.tempeditInfBasic.gender = "Female"
+			self.refreshAfterOneEdit()
+		}
+		
+		let male = UIAlertAction(title: "Male", style: .default) { (action: UIAlertAction) in
+			self.tempeditInfBasic.gender = "Male"
+			self.refreshAfterOneEdit()
+		}
+		
+		let other = UIAlertAction(title: "Other...", style: .default) { (action: UIAlertAction) in
+			let alert = UIAlertController(title: "Enter Your Gender", message: "", preferredStyle: .alert)
+
+			alert.addTextField { (textField) in
+				textField.placeholder = "Gender"
+			}
+			
+			alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+				let text = alert!.textFields![0].text!
+				if text != "" {
+					self.tempeditInfBasic.gender = text
+					self.refreshAfterOneEdit()
+				}
+			}))
+
+			self.present(alert, animated: true, completion: nil)
+		}
+		
+		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+		
+		genderPick.addAction(female)
+		genderPick.addAction(male)
+		genderPick.addAction(other)
+		genderPick.addAction(cancelAction)
+		self.present(genderPick, animated: true, completion: nil)
+	}
+	
+	func doSegue(id: String) {
+		switch id {
+		case "toGenderPicker":
+			pickGender()
+		default:
+			performSegue(withIdentifier: id, sender: self)
+		}
+	}
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		UseTapticEngine()
-		if isInEditMode {
-			//display the interest picker
-		}
+		doSegueForEdit(withIdentifier: "toInterestPicker")
 	}
 	
 	@IBAction func zipCodePressed(_ sender: Any) {
-		if isInEditMode {
-			UseTapticEngine()
-			performSegue(withIdentifier: "toZip", sender: self)
-		}
+		doSegueForEdit(withIdentifier: "toZip")
 	}
 	
 	@IBAction func genderPressed(_ sender: Any) {
-		if isInEditMode {
-			UseTapticEngine()
-			//age picker
-		}
+		doSegueForEdit(withIdentifier: "toGenderPicker")
 	}
 	
 	@IBAction func agePressed(_ sender: Any) {
-		if isInEditMode {
-			UseTapticEngine()
-			//age picker.
-		}
+		doSegueForEdit(withIdentifier: "toAgePicker")
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let view = segue.destination as? ZipCodeVC {
+			view.delegate = self
+		}
+		if let view = segue.destination as? NewSettingsVC {
 			view.delegate = self
 		}
 	}
@@ -245,15 +342,17 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 			transferView.isHidden = false
 		}
 		
-		zipCodeLabel.text = basic.zipCode
-		self.townNameLabel.isHidden = true
-		GetTownName(zipCode: basic.zipCode) { (zipCodeData, zipCode) in
-			DispatchQueue.main.async {
-				if let zipCodeData = zipCodeData {
-					self.townNameLabel.isHidden = false
-					self.townNameLabel.text = zipCodeData.CityAndStateName
-				} else {
-					self.townNameLabel.isHidden = true
+		if basic.zipCode != zipCodeLabel.text {
+			zipCodeLabel.text = basic.zipCode
+			self.townNameLabel.isHidden = true
+			GetTownName(zipCode: basic.zipCode) { (zipCodeData, zipCode) in
+				DispatchQueue.main.async {
+					if let zipCodeData = zipCodeData {
+						self.townNameLabel.isHidden = false
+						self.townNameLabel.text = zipCodeData.CityAndStateName
+					} else {
+						self.townNameLabel.isHidden = true
+					}
 				}
 			}
 		}
@@ -261,7 +360,6 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 		genderLabel.text = basic.gender
 		ageLabel.text = "\(basic.age)"
 		interestCollectionView.reloadData()
-		
 	}
 	
 	var maxInterests = 10
@@ -272,13 +370,17 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 		return maxInterests
 	}
 	
-	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "InterestCell", for: indexPath) as! InterestCVC
 		if indexPath.item < Myself.basic.interests.count {
-			cell.interest = Myself.basic.interests[indexPath.item]
+			if cell.interest != Myself.basic.interests[indexPath.row] {
+				cell.interest = Myself.basic.interests[indexPath.item]
+			}
 		} else {
 			cell.interest = ""
+		}
+		if !interestViews.contains(cell.mainView) {
+			interestViews.append(cell.mainView)
 		}
 		cell.mainView.cornerRadius = globalCornerRadius
 		return cell

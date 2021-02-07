@@ -834,7 +834,7 @@ func downloadDataBeforePageLoad(reference: TabBarVC? = nil){
 //
 //    }
     
-    startListeningToMyself(userId: Myself.userId)
+//    startListeningToMyself(userId: Myself.userId)
 
     
     

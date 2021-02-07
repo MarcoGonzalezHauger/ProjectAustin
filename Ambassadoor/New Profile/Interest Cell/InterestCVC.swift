@@ -36,7 +36,7 @@ class InterestCVC: UICollectionViewCell {
 		if interest != "" {
 			interestLabel.text = ""
 			
-			interestImage.downloadAndSetImage(GetInterestUrl(interest: interest), forceDownload: true)
+			interestImage.downloadAndSetImage(GetInterestUrl(interest: interest), forceDownload: false)
 		} else {
 			interestLabel.text = ""
 			if #available(iOS 13.0, *) {
