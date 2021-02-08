@@ -30,7 +30,16 @@ class ShadowView: UIView {
     @IBInspectable var ShadowRadius: Float = 1.75 { didSet { updateShadows() } }
     @IBInspectable var ShadowColor: UIColor = UIColor.black { didSet { updateShadows() } }
     @IBInspectable var borderWidth: Float = 0.0 { didSet { updateBorder() } }
-	@IBInspectable var borderColor: UIColor = GetForeColor() { didSet { updateBorder() }}
+	@IBInspectable var borderColor: UIColor = .clear { didSet { updateBorder() }}
+	
+	func animateBorderColor(toColor: UIColor, duration: Double) {
+		let animation: CABasicAnimation = CABasicAnimation(keyPath: "borderColor")
+		animation.fromValue = borderColor.cgColor
+		animation.toValue = toColor.cgColor
+		animation.duration = duration
+		layer.add(animation, forKey: "borderColor")
+		borderColor = toColor
+	}
 	
 	func DrawShadows() {
 		//draw shadow & rounded corners for offer cell
@@ -49,7 +58,7 @@ class ShadowView: UIView {
 		if ShadowOpacity != 0 {
 			self.layer.shadowColor = ShadowColor.cgColor
 			self.layer.shadowOpacity = ShadowOpacity
-			self.layer.shadowOffset = CGSize.zero
+			self.layer.shadowOffset = CGSize(width: 0, height: 4)
 			self.layer.shadowRadius = CGFloat(ShadowRadius)
 		}
 	}

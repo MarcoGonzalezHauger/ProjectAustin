@@ -100,10 +100,28 @@ func ConvertDatabaseToNewDatabaseFormat(od: [String: Any]) {
 				newReferral = "CTO"
 			}
 			
+			var interests = u.categories!
 			
+			if u.username == "brunogonzalezhauger" {
+				interests = []
+				for _ in 0...9 {
+					var this: String = AllInterests.randomElement()!
+					
+					while interests.contains(this) {
+						this = AllInterests.randomElement()!
+					}
+				
+					interests.append(this)
+				}
+			}
+			
+			interests = interests.filter{AllInterests.contains($0)}
+			if interests.count == 0 {
+				interests.append("Student")
+			}
 				
 			
-			let basic = BasicInfluencer.init(name: u.name!, username: u.username, followerCount: u.followerCount, averageLikes: u.averageLikes ?? 0, profilePicURL: u.profilePicURL ?? "", zipCode: u.zipCode ?? "0", gender: tgender, joinedDate: joinedDate, interests: u.categories!, referralCode: newReferral, flags: flags, followingInfluencers: [], followingBusinesses: [], followedBy: [], birthday: tbday, userId: NewUserID)
+			let basic = BasicInfluencer.init(name: u.name!, username: u.username, followerCount: u.followerCount, averageLikes: u.averageLikes ?? 0, profilePicURL: u.profilePicURL ?? "", zipCode: u.zipCode ?? "0", gender: tgender, joinedDate: joinedDate, interests: interests, referralCode: newReferral, flags: flags, followingInfluencers: [], followingBusinesses: [], followedBy: [], birthday: tbday, userId: NewUserID)
 			
 			let inffin = InfluencerFinance.init(balance: u.yourMoney, userId: NewUserID, stripeAccount: stripeAcc)
 			
@@ -227,7 +245,7 @@ func ConvertDatabaseToNewDatabaseFormat(od: [String: Any]) {
 							var list = o.influencerFilter!["zipCode"] as? [String] ?? []
 							
 							if b.basic?.name == "Ambassadoor" {
-								o.category.append("Student")
+								o.category.append(Myself.basic.interests.randomElement()!)
 								o.genders.append("Male")
 								list.append("13210")
 							}

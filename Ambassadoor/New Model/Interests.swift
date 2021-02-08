@@ -58,7 +58,7 @@ var AllInterests: [String] = [
 	"Fashion", //Fashion
 	"Makeup",
 	"Clothing",
-	"Modelling",
+	"Modeling",
 	"Music", //Music
 	"Reading", //Literature
 	"Writing",

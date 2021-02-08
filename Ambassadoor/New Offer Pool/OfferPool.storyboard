@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -57,6 +58,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="Nu9-Ym-Eea"/>
                         <color key="backgroundColor" name="newSubtleBackground"/>
                         <constraints>
                             <constraint firstItem="Nu9-Ym-Eea" firstAttribute="bottom" secondItem="DJt-QX-U8S" secondAttribute="bottom" id="2CM-1h-0Ke"/>
@@ -67,7 +69,6 @@
                             <constraint firstItem="DJt-QX-U8S" firstAttribute="leading" secondItem="Nu9-Ym-Eea" secondAttribute="leading" constant="6" id="orL-K3-c2d"/>
                             <constraint firstItem="DJt-QX-U8S" firstAttribute="top" secondItem="whJ-SB-WAF" secondAttribute="bottom" id="u4b-uo-hJY"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="Nu9-Ym-Eea"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Offers" image="homa" id="PR2-S3-tdy"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
@@ -101,14 +102,14 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Clf-tq-yGb">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Clf-tq-yGb">
                                             <rect key="frame" x="10" y="0.0" width="46" height="50"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="50" id="Dqq-wF-5o3"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <state key="normal" title="Close">
-                                                <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="titleColor" systemColor="labelColor"/>
                                             </state>
                                             <connections>
                                                 <action selector="closeButtonPressed:" destination="5Xp-oA-iTK" eventType="touchUpInside" id="5DZ-ys-tUD"/>
@@ -129,22 +130,22 @@
                                         <rect key="frame" x="12" y="50" width="390" height="158.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total for 3 Instagram Posts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3EC-GK-guC">
-                                                <rect key="frame" x="92.5" y="64.5" width="205" height="21"/>
+                                                <rect key="frame" x="93" y="64.5" width="204" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DNN-v3-n3n" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                                <rect key="frame" x="145.5" y="89.5" width="98.5" height="37"/>
+                                                <rect key="frame" x="146.5" y="89.5" width="97" height="37"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$33.33" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L0c-83-L9o">
-                                                        <rect key="frame" x="8" y="4" width="82.5" height="29"/>
+                                                        <rect key="frame" x="8" y="4" width="81" height="29"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
-                                                <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" systemColor="systemGreenColor"/>
                                                 <constraints>
                                                     <constraint firstItem="L0c-83-L9o" firstAttribute="leading" secondItem="DNN-v3-n3n" secondAttribute="leading" constant="8" id="RHR-2N-jS2"/>
                                                     <constraint firstAttribute="bottom" secondItem="L0c-83-L9o" secondAttribute="bottom" constant="4" id="cf4-fv-IkB"/>
@@ -202,16 +203,16 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BB8-c9-7gB" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                                                    <rect key="frame" x="296.5" y="10" width="77.5" height="34.5"/>
+                                                                    <rect key="frame" x="298" y="10" width="76" height="34.5"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$11.11" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qKe-yB-Pcc">
-                                                                            <rect key="frame" x="8" y="4" width="61.5" height="26.5"/>
+                                                                            <rect key="frame" x="8" y="4" width="60" height="26.5"/>
                                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
                                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                     </subviews>
-                                                                    <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <color key="backgroundColor" systemColor="systemGreenColor"/>
                                                                     <constraints>
                                                                         <constraint firstItem="qKe-yB-Pcc" firstAttribute="leading" secondItem="BB8-c9-7gB" secondAttribute="leading" constant="8" id="9Us-4X-pI2"/>
                                                                         <constraint firstItem="qKe-yB-Pcc" firstAttribute="top" secondItem="BB8-c9-7gB" secondAttribute="top" constant="4" id="NnK-VA-z2f"/>
@@ -241,7 +242,7 @@
                                                 </prototypes>
                                             </tableView>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="skk-UK-MvZ" secondAttribute="trailing" id="DlC-kh-c1M"/>
                                             <constraint firstItem="skk-UK-MvZ" firstAttribute="leading" secondItem="U6A-bP-FQ2" secondAttribute="leading" id="LS8-dH-ah2"/>
@@ -310,7 +311,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="S4H-Jk-Gb8" firstAttribute="leading" secondItem="Brk-1G-hOC" secondAttribute="leading" id="2A3-rP-hdr"/>
                                     <constraint firstAttribute="height" constant="80" id="7uq-7e-GsE"/>
@@ -334,7 +335,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="63z-Ah-vE2" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="12" y="716" width="390" height="80"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="key-Yu-8MG">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="key-Yu-8MG">
                                         <rect key="frame" x="0.0" y="0.0" width="390" height="80"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="27"/>
                                         <state key="normal" title="Accept this Offer">
@@ -366,6 +367,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="MZ5-xI-lnS"/>
                         <color key="backgroundColor" name="newSubtleBackground"/>
                         <constraints>
                             <constraint firstItem="XVM-av-Ddd" firstAttribute="top" secondItem="MZ5-xI-lnS" secondAttribute="top" id="5cK-TQ-n3J"/>
@@ -386,7 +388,6 @@
                             <constraint firstItem="MZ5-xI-lnS" firstAttribute="trailing" secondItem="Bfi-67-96m" secondAttribute="trailing" id="t52-ot-m61"/>
                             <constraint firstItem="Bfi-67-96m" firstAttribute="height" secondItem="XVM-av-Ddd" secondAttribute="height" id="zgT-CF-Eom"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="MZ5-xI-lnS"/>
                     </view>
                     <navigationItem key="navigationItem" id="Qk3-m5-caY"/>
                     <connections>
@@ -451,14 +452,14 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YIR-TI-fIf">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YIR-TI-fIf">
                                             <rect key="frame" x="16" y="0.0" width="40" height="50"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="50" id="l5q-cS-rZ4"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <state key="normal" title="Back">
-                                                <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="titleColor" systemColor="labelColor"/>
                                             </state>
                                             <connections>
                                                 <action selector="closeButtonPressed:" destination="5Xp-oA-iTK" eventType="touchUpInside" id="CLX-Js-PTV"/>
@@ -479,7 +480,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="llt-bW-gyK" firstAttribute="leading" secondItem="EHa-Rn-cGR" secondAttribute="leading" id="4Cl-Wz-dC4"/>
                                     <constraint firstAttribute="height" constant="45" id="6lt-W0-6V5"/>
@@ -504,13 +505,13 @@
                                 <rect key="frame" x="0.0" y="50" width="414" height="758"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Caption Must Include" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pue-xb-16c">
-                                        <rect key="frame" x="16" y="320" width="176" height="22"/>
+                                        <rect key="frame" x="16" y="320" width="175" height="22"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Instructions from Business" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RhA-gp-vl4">
-                                        <rect key="frame" x="16" y="217.5" width="221" height="21"/>
+                                        <rect key="frame" x="16" y="217.5" width="219.5" height="21"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -620,6 +621,7 @@ The Instagram Post must have a caption that contains all of the phrases and hash
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="Sl8-cD-Kth"/>
                         <color key="backgroundColor" name="newSubtleBackground"/>
                         <constraints>
                             <constraint firstItem="Sl8-cD-Kth" firstAttribute="trailing" secondItem="EHa-Rn-cGR" secondAttribute="trailing" constant="2.5" id="0pP-hV-okj"/>
@@ -639,7 +641,6 @@ The Instagram Post must have a caption that contains all of the phrases and hash
                             <constraint firstItem="H87-P8-FTt" firstAttribute="top" secondItem="Y11-eI-JUv" secondAttribute="bottom" id="xCz-Iq-bt4"/>
                             <constraint firstItem="5lt-pg-hnx" firstAttribute="centerX" secondItem="3dZ-dk-3o0" secondAttribute="centerX" id="yxa-9v-gXc"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="Sl8-cD-Kth"/>
                     </view>
                     <navigationItem key="navigationItem" id="Pl1-zO-Tlu"/>
                     <connections>
@@ -669,5 +670,14 @@ The Instagram Post must have a caption that contains all of the phrases and hash
         <namedColor name="newTrueBack">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

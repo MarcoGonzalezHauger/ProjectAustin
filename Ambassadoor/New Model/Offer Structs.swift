@@ -346,18 +346,18 @@ class InProgressPost {
 		
 		//all start as "" when offer is first accepted.
 		
+		
 		willBePaidOn = GetEmptyDate()
 		dateVerified = GetEmptyDate()
 		datePaid = GetEmptyDate()
-		dateAccepted = GetEmptyDate()
-		expirationDate =  GetEmptyDate()
+		dateAccepted = Date() //now
+		
+		let cal = Calendar.current
+		
+		expirationDate = cal.date(byAdding: .day, value: 2, to: Date())! //Expiration set to 2 days from right now.
 		dateRejected = GetEmptyDate()
 		dateCancelled = GetEmptyDate()
 		denyReason = ""
-		
-		//d["draftPost"] = draftPost.toDictionary()
-		
-		//return d
 	}
 	
 	init(dictionary d: [String: Any], inProgressPostId ipid: String, userId id: String) {

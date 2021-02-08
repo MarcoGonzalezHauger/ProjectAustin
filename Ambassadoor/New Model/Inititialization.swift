@@ -10,7 +10,7 @@ import Foundation
 import Firebase
 
 func InitilizeAmbassadoor() {
-	
+	/*
 	let email = "brunognzalez@gmail.com"
 	
 	let ref = Database.database().reference().child("Accounts/Private/Influencers")
@@ -33,6 +33,8 @@ func InitilizeAmbassadoor() {
 	}, withCancel: { (err) in
 		print("ERROR WITH FINDING EMAIL: " + err.localizedDescription)
 	})
+    */
+    StartListening()
 	
 }
 
@@ -42,7 +44,7 @@ func StartListening() {
 		print("Public data downloaded.")
 	}
 	
-	startListeningToMyself(userId: Myself.userId)
+	//startListeningToMyself(userId: Myself.userId)
 	
 	StartListeningToPublicData()
 	

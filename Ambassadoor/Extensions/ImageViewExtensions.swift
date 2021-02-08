@@ -99,13 +99,7 @@ public extension UIImageView {
         self.image = nil
 		downloadImage(urlLink, forceDownload: forceDownload) { (returnImage) in
 			guard let returnImage = returnImage else { return }
-			if isCircle {
-				//self.layer.cornerRadius = [self.bounds.width, self.bounds.height].min()! / 2
-//				self.image = makeImageCircular(image: returnImage)
-				self.image = returnImage
-			} else {
-				self.image = returnImage
-			}
+			self.image = returnImage
 		}
     }
 }
@@ -182,9 +176,9 @@ func downloadImage(_ urlLink: String, forceDownload: Bool = false, completed: @e
     
 	
 	// otherwise, download
-	print("URL:" + urlLink)
+//	print("URL:" + urlLink)
 	let url = URL(string: urlLink)!
-	print(url)
+//	print(url)
 	URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
 		//print("DOWNLOAD : \(urlLink)")
 		if let err = error {

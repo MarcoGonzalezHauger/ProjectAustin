@@ -54,5 +54,4 @@ class PoolOfferTVC: UITableViewCell {
 			progressView.backgroundColor = .red
 		}
 	}
-    
 }

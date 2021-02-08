@@ -195,6 +195,14 @@ func SearchSocialData(searchQuery: String, searchIn: SearchFor) -> [Any] {
 		}
 	}
 	
+	listOfUsers = listOfUsers.filter {
+		if let inf = $0 as? BasicInfluencer {
+			return !inf.checkFlag("isInvisible")
+		}
+		let bus = $0 as! BasicBusiness
+		return !bus.checkFlag("isInvisible")
+	}
+	
 	if query == "" {
 		switch searchIn {
 		case .both:
