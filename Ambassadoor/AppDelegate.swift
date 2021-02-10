@@ -351,6 +351,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                             if AccessToken.current != nil {
                                 
                                 setHapticMenu(user: Myself)
+                                InitilizeAmbassadoor()
                                 AverageLikes(instagramID: Myself.instagramAccountId, userToken: Myself.instagramAuthToken)
                                 let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
                                 downloadDataBeforePageLoad()
@@ -397,10 +398,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 }
                 
             }else{
+                //InitilizeAmbassadoor()
                 let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
                 self.window?.rootViewController = viewReference
             }
         }else{
+            //InitilizeAmbassadoor()
             let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
             self.window?.rootViewController = viewReference
         }
@@ -528,6 +531,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         Myself = userDetail
         setHapticMenu(user: Myself)
+        InitilizeAmbassadoor()
         AverageLikes(instagramID: NewAccount.id, userToken: NewAccount.authenticationToken)
         let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
         //downloadDataBeforePageLoad(reference: viewReference)
