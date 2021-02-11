@@ -23,7 +23,7 @@
                                     <constraint firstAttribute="height" constant="240" id="8vx-ek-Z6F"/>
                                 </constraints>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rbM-nD-HNp" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rbM-nD-HNp">
                                 <rect key="frame" x="149" y="476" width="77" height="38"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BETA" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VH8-Gv-euJ">
@@ -40,11 +40,6 @@
                                     <constraint firstAttribute="bottom" secondItem="VH8-Gv-euJ" secondAttribute="bottom" constant="3" id="jlb-DF-G2h"/>
                                     <constraint firstItem="VH8-Gv-euJ" firstAttribute="top" secondItem="rbM-nD-HNp" secondAttribute="top" constant="3" id="xg6-XI-YmC"/>
                                 </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="10"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
