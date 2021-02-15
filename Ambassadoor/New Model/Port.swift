@@ -47,10 +47,8 @@ func ConvertDatabaseToNewDatabaseFormat(od: [String: Any]) {
 	var convertedInfluencer: [Influencer] = []
 	for u in users {
 		if u.version != "0.0.0" {
-			
-			let uid = u.username.replacingOccurrences(of: ".", with: ",")
-			
-			let NewUserID = uid + ", " + randomString(length: 15)
+						
+			let NewUserID = makeFirebaseUrl(u.username + ", " + randomString(length: 15))
 			
 			print("Updating User: \(u.username) (\(u.id)) --> \"\(NewUserID)\"")
 			var flags: [String] = []
@@ -160,9 +158,9 @@ func ConvertDatabaseToNewDatabaseFormat(od: [String: Any]) {
 			coDeposit = businessDeposit.init(dictionary: depositDict)
 		}
 		
-		let coName: String = (co?.name.replacingOccurrences(of: ".", with: ",") ?? "NewCo" + ", " + GetNewID())
+		let coName: String = makeFirebaseUrl(co?.name ?? "NewCo" + ", " + GetNewID())
 		
-		let NewBusinessID: String = coName + ", " + randomString(length: 15)
+		let NewBusinessID: String = makeFirebaseUrl(coName + ", " + randomString(length: 15))
 		
 		var flags: [String] = []
 		

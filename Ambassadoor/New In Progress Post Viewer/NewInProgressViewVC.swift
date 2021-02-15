@@ -29,8 +29,18 @@ class NewInProgressViewVC: UIViewController, UITableViewDelegate, UITableViewDat
 		return 220
 	}
 	
+	var passIPP: InProgressPost!
+	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		passIPP = inProgList[indexPath.row]
+		performSegue(withIdentifier: "toViewInProgress", sender: self)
 		tableView.deselectRow(at: indexPath, animated: true)
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if let view = segue.destination as? NewViewInProgressVC {
+			view.thisInProgressPost = passIPP
+		}
 	}
 	
 	func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

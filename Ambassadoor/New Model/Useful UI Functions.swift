@@ -96,6 +96,10 @@ func GetColorFromPercentage(percent: Double) -> UIColor {
 	}
 }
 
+func makeFirebaseUrl(_ str: String) -> String {
+	return str.replacingOccurrences(of: ".", with: ",").replacingOccurrences(of: "#", with: "%").replacingOccurrences(of: "$", with: "%").replacingOccurrences(of: "[", with: "(").replacingOccurrences(of: "]", with: ")")
+}
+
 func CompressNumber(number: Double) -> String {
 	var number = number
 	var returnValue = ""
