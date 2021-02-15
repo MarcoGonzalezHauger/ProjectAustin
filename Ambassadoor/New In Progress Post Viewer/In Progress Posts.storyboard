@@ -112,7 +112,7 @@
                         <outlet property="noneInProgress" destination="HlO-3X-hs5" id="MPX-6t-EI3"/>
                         <outlet property="searchBar" destination="Red-nz-24c" id="0fw-2w-A46"/>
                         <outlet property="tableView" destination="GxB-F0-Yly" id="LEF-WM-rzy"/>
-                        <segue destination="T1g-gb-QMC" kind="presentation" id="meP-Yf-ryy"/>
+                        <segue destination="T1g-gb-QMC" kind="presentation" identifier="toViewInProgress" id="meP-Yf-ryy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Iki-rr-P6u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -510,18 +510,20 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p6p-wd-dRN" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="23" width="390" height="80"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A8F-Yk-smo">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A8F-Yk-smo">
                                                                 <rect key="frame" x="78" y="9.5" width="300" height="61"/>
-                                                                <string key="text">abc
-abc
-abc</string>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="61" id="VS8-fF-KtG"/>
+                                                                </constraints>
+                                                                <string key="text">You cancelled this post
+3:14 PM Jan 20 2003</string>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="postVerified2" translatesAutoresizingMaskIntoConstraints="NO" id="Q4i-sd-tV5">
+                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="postCancelled" translatesAutoresizingMaskIntoConstraints="NO" id="Q4i-sd-tV5">
                                                                 <rect key="frame" x="12" y="8" width="50" height="64"/>
-                                                                <color key="tintColor" systemColor="systemGreenColor"/>
+                                                                <color key="tintColor" systemColor="systemRedColor"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="50" id="7Fn-LL-H38"/>
                                                                     <constraint firstAttribute="height" constant="64" id="Zqb-jI-JiV"/>
@@ -531,11 +533,11 @@ abc</string>
                                                         <color key="backgroundColor" name="newCellColor"/>
                                                         <constraints>
                                                             <constraint firstAttribute="trailing" secondItem="A8F-Yk-smo" secondAttribute="trailing" constant="12" id="2s2-ln-dAh"/>
-                                                            <constraint firstAttribute="bottom" secondItem="Q4i-sd-tV5" secondAttribute="bottom" constant="8" id="X1O-bS-uz5"/>
+                                                            <constraint firstAttribute="bottom" secondItem="A8F-Yk-smo" secondAttribute="bottom" constant="9.5" id="9Bi-Cx-tvh"/>
                                                             <constraint firstItem="A8F-Yk-smo" firstAttribute="leading" secondItem="Q4i-sd-tV5" secondAttribute="trailing" constant="16" id="b3h-JF-5uW"/>
                                                             <constraint firstItem="A8F-Yk-smo" firstAttribute="centerY" secondItem="Q4i-sd-tV5" secondAttribute="centerY" id="hgP-lZ-WJ7"/>
                                                             <constraint firstItem="Q4i-sd-tV5" firstAttribute="leading" secondItem="p6p-wd-dRN" secondAttribute="leading" constant="12" id="huw-Ib-QKo"/>
-                                                            <constraint firstItem="Q4i-sd-tV5" firstAttribute="top" secondItem="p6p-wd-dRN" secondAttribute="top" constant="8" id="iRD-4H-sCg"/>
+                                                            <constraint firstItem="A8F-Yk-smo" firstAttribute="top" secondItem="p6p-wd-dRN" secondAttribute="top" constant="9.5" id="tA5-O2-L9S"/>
                                                         </constraints>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -546,8 +548,8 @@ abc</string>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Post was..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gEl-ea-vo0">
-                                                        <rect key="frame" x="6" y="2" width="74" height="18"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Post was Cancelled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gEl-ea-vo0">
+                                                        <rect key="frame" x="6" y="2" width="133.5" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -1062,9 +1064,9 @@ Good Luck &amp; Get Creative!</string>
     </scenes>
     <resources>
         <image name="in progress" width="25" height="25"/>
+        <image name="postCancelled" width="150" height="150"/>
         <image name="postExpired" width="150" height="150"/>
         <image name="postPaid" width="150" height="150"/>
-        <image name="postVerified2" width="150" height="150"/>
         <namedColor name="newCellColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

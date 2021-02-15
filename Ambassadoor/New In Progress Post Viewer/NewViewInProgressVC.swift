@@ -8,7 +8,16 @@
 
 import UIKit
 
-class NewViewInProgressVC: UIViewController {
+class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
+	
+	func myselfRefreshed() {
+		for ip in Myself.inProgressPosts {
+			if ip.inProgressPostId == thisInProgressPost.inProgressPostId {
+				thisInProgressPost = ip
+				updateConents()
+			}
+		}
+	}
 
 	@IBOutlet weak var scrollView: UIScrollView!
 	
@@ -62,6 +71,7 @@ class NewViewInProgressVC: UIViewController {
         super.viewDidLoad()
 		scrollView.alwaysBounceVertical = false
 		orbs.sort{$0.tag > $1.tag}
+		myselfRefreshListeners.append(self)
 		updateConents()
     }
 	
@@ -70,7 +80,14 @@ class NewViewInProgressVC: UIViewController {
 	}
 	
 	@IBAction func postCancelled(_ sender: Any) {
-		
+		thisInProgressPost.cancelPost()
+		for i in 0...(Myself.inProgressPosts.count - 1) {
+			if Myself.inProgressPosts[i].inProgressPostId == thisInProgressPost.inProgressPostId {
+				cancelPostButton.isEnabled = false
+				Myself.inProgressPosts[i] = thisInProgressPost
+				Myself.UpdateToFirebase(alsoUpdateToPublic: false, completed: nil)
+			}
+		}
 	}
 	
 	@IBAction func createCaption(_ sender: Any) {
@@ -78,10 +95,6 @@ class NewViewInProgressVC: UIViewController {
 	}
 	
 	@IBAction func ViewBusiness(_ sender: Any) {
-		
-	}
-	
-	func updateOrbView() {
 		
 	}
 	
@@ -99,7 +112,69 @@ class NewViewInProgressVC: UIViewController {
 		youHaveBeenPaidView.isHidden = 		!["Paid"]													.contains(thisInProgressPost.status)
 		cancelPostView.isHidden = 			!["Accepted", "Posted", "Verified"]							.contains(thisInProgressPost.status)
 		
+		updateForStatus(status: thisInProgressPost.status)
 		updateOrbStatus()
+	}
+	
+	func updateForStatus(status: String) {
+		switch status {
+		
+		case "Accepted":
+			//Main Instructions View: Nothing because isHideen was already done.
+			
+			//Caption Requirement
+			captionLabel.text = thisInProgressPost.draftPost.getCaptionRequirementsViewable()
+			
+			//Business Instructions
+			instructionsLabel.text = thisInProgressPost.draftPost.instructions
+		
+		
+		case "Posted":
+		
+			//statusView as posted.
+			statusTitleLabel.text = "Post was Detected"
+			statusImage.image = UIImage.init(named: "postDetected")!
+			statusImage.tintColor = .systemBlue
+			statusDescriptionLabel.text = "Your Instagram post was detected.\nIt will now be reviewed."
+			
+			//cancel button already visible.
+		
+		case "Verified":
+	
+			//status view, cancel post
+			statusTitleLabel.text = "Post was Verified"
+			statusImage.image = UIImage.init(named: "postVerified2")!
+			statusImage.tintColor = .systemGreen
+			statusDescriptionLabel.text = "Your post was verified!"
+		
+		case "Paid":
+			paidAmountLabel.text = "\(thisInProgressPost.cashValue)"
+		
+		case "Rejected":
+			
+			//status view.
+			statusTitleLabel.text = "Post was Rejected"
+			statusImage.image = UIImage.init(named: "postRejected2")!
+			statusImage.tintColor = .systemRed
+			statusDescriptionLabel.text = "Your post was rejected.\nREASON: " + thisInProgressPost.denyReason
+		
+		case "Cancelled":
+			
+			//status view.
+			statusTitleLabel.text = "Post was Cancelled"
+			statusImage.image = UIImage.init(named: "postCancelled")!
+			statusImage.tintColor = .systemRed
+			statusDescriptionLabel.text = "You cancelled this post\n\(thisInProgressPost.dateCancelled.toString(dateFormat: "HH:mm a MM/dd/yyyy"))"
+		
+		
+		case "Expired":
+			break //Didntpost in time already visible.
+			
+			
+		
+		default:
+			fatalError("IMPOSSIBLE STATUS : \(status)")
+		}
 	}
 	
 }
@@ -168,7 +243,7 @@ extension NewViewInProgressVC {
 			removeRadar()
 			
 		default:
-			print("IMPOSSIBLE STATUS : \(thisInProgressPost.status)")
+			fatalError("IMPOSSIBLE STATUS : \(thisInProgressPost.status)")
 		}
 	}
 	
@@ -192,8 +267,8 @@ extension NewViewInProgressVC {
 	
 	func setRadar(toRect: CGRect, color: UIColor) {
 		if !isDoingAnimations {
-			view.addSubview(radarView)
-			view.bringSubviewToFront(radarView)
+			orbView.addSubview(radarView)
+			orbView.bringSubviewToFront(radarView)
 		}
 		radarView.frame = toRect
 		radarView.backgroundColor = color

@@ -115,6 +115,17 @@ class DraftPost {
 		
 		return d
 	}
+	
+	func getCaptionRequirementsViewable() -> String {
+		var finallist = [String]()
+		for p in requiredKeywords {
+			finallist.append("• " + p)
+		}
+		for h in requiredHastags {
+			finallist.append("• #" + h)
+		}
+		return finallist.joined(separator: "\n")
+	}
 }
 
 class OfferFilter {
@@ -192,7 +203,7 @@ class PoolOffer { //while in offer pool (GETS ASSIGNED NEW ID)
 		originalCashPower = cash
 		comissionUserId = bus.referredByUserId
 		comissionBusinessId = bus.referredByBusinessId
-		poolId = bus.basic!.name + ", " + GetNewID()
+		poolId = makeFirebaseUrl(bus.basic!.name + ", " + GetNewID()) 
 		businessId = bus.businessId
 		draftOfferId = draftOffer.draftId
 		filter = flt
