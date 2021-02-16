@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		45493CA670B234DB5D4610BF /* Pods_Ambassadoor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 236138913E9C5102B8E1275E /* Pods_Ambassadoor.framework */; };
+		B70182D225DBE65600780B83 /* AccountDetails.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B70182D125DBE65600780B83 /* AccountDetails.storyboard */; };
+		B70182D425DBE6DA00780B83 /* AccountInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70182D325DBE6DA00780B83 /* AccountInfoVC.swift */; };
+		B70182D725DBEE4900780B83 /* NewSocial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B70182D625DBEE4900780B83 /* NewSocial.storyboard */; };
+		B70182D925DBEE8D00780B83 /* NewSocialMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70182D825DBEE8D00780B83 /* NewSocialMenuVC.swift */; };
 		B71A90F4233258D9002B6F1A /* WebViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71A90F3233258D4002B6F1A /* WebViewVC.swift */; };
 		B71BE92F250FA54C0009A242 /* ReferralInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71BE92E250FA54C0009A242 /* ReferralInfoVC.swift */; };
 		B7261DAB24EE420200BB2B29 /* ConnectStepsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7261DAA24EE420200BB2B29 /* ConnectStepsVC.swift */; };
@@ -216,6 +220,10 @@
 		0A97662B45396EF7FCF0C532 /* Pods-Ambassadoor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ambassadoor.release.xcconfig"; path = "Pods/Target Support Files/Pods-Ambassadoor/Pods-Ambassadoor.release.xcconfig"; sourceTree = "<group>"; };
 		236138913E9C5102B8E1275E /* Pods_Ambassadoor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ambassadoor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C063C7693442ACADF942259 /* Pods-Ambassadoor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ambassadoor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ambassadoor/Pods-Ambassadoor.debug.xcconfig"; sourceTree = "<group>"; };
+		B70182D125DBE65600780B83 /* AccountDetails.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AccountDetails.storyboard; sourceTree = "<group>"; };
+		B70182D325DBE6DA00780B83 /* AccountInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoVC.swift; sourceTree = "<group>"; };
+		B70182D625DBEE4900780B83 /* NewSocial.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NewSocial.storyboard; sourceTree = "<group>"; };
+		B70182D825DBEE8D00780B83 /* NewSocialMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSocialMenuVC.swift; sourceTree = "<group>"; };
 		B71A90F3233258D4002B6F1A /* WebViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewVC.swift; sourceTree = "<group>"; };
 		B71BE92E250FA54C0009A242 /* ReferralInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralInfoVC.swift; sourceTree = "<group>"; };
 		B7261DAA24EE420200BB2B29 /* ConnectStepsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectStepsVC.swift; sourceTree = "<group>"; };
@@ -454,6 +462,24 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		B70182D025DBE61800780B83 /* New Transactions */ = {
+			isa = PBXGroup;
+			children = (
+				B70182D125DBE65600780B83 /* AccountDetails.storyboard */,
+				B70182D325DBE6DA00780B83 /* AccountInfoVC.swift */,
+			);
+			path = "New Transactions";
+			sourceTree = "<group>";
+		};
+		B70182D525DBEE1400780B83 /* New Social */ = {
+			isa = PBXGroup;
+			children = (
+				B70182D625DBEE4900780B83 /* NewSocial.storyboard */,
+				B70182D825DBEE8D00780B83 /* NewSocialMenuVC.swift */,
+			);
+			path = "New Social";
+			sourceTree = "<group>";
+		};
 		B775F9E125221DA2001C5787 /* VideoReference */ = {
 			isa = PBXGroup;
 			children = (
@@ -595,6 +621,8 @@
 				E887A8BB25C37B630003BCD1 /* Outdated Files */,
 				B7EA07332382924C0009870E /* Ambassadoor.entitlements */,
 				B7EA07342382C4740009870E /* GoogleService-Info.plist */,
+				B70182D525DBEE1400780B83 /* New Social */,
+				B70182D025DBE61800780B83 /* New Transactions */,
 				E8178E3125BA37E70068367C /* New Model */,
 				E887A88525C341070003BCD1 /* New Search */,
 				E85DDB5725C743B6002DB82E /* New Offer Pool */,
@@ -1059,6 +1087,7 @@
 				E88CF1D725215FAE0024BA86 /* AppOpenB.mp4 in Resources */,
 				B7A178FD243C8C48000670C3 /* InfluencerTVC.xib in Resources */,
 				B7D55E5A24497871004BC608 /* OfferMoneyTVC.xib in Resources */,
+				B70182D725DBEE4900780B83 /* NewSocial.storyboard in Resources */,
 				B7D55E5C24497D40004BC608 /* ReservedCell.xib in Resources */,
 				E871623D2467C42D00BA48BE /* SimplexBackground.xib in Resources */,
 				B79CAC3A243B082D009F982D /* StandardOfferCell.xib in Resources */,
@@ -1072,6 +1101,7 @@
 				E887A89025C34A300003BCD1 /* BasicBusinessCell.xib in Resources */,
 				B7C25CE8245011040060F472 /* PostDetailInfoCell.xib in Resources */,
 				B7A13924252EDF4800FB4C78 /* SignUpTutorial1.mp4 in Resources */,
+				B70182D225DBE65600780B83 /* AccountDetails.storyboard in Resources */,
 				E8D78E9125CE04F100144FD8 /* InProgressPostTVC.xib in Resources */,
 				E85DDB5B25C743EB002DB82E /* PoolOfferTVC.xib in Resources */,
 				E887A89225C34A330003BCD1 /* BasicInfluencerCell.xib in Resources */,
@@ -1260,6 +1290,7 @@
 				E8CBF56E2463161400574E38 /* ReporterFeature.swift in Sources */,
 				E8AAE63D23EC3E0E00EC28D4 /* StandardNC.swift in Sources */,
 				E84487DA25C0B0CD00317A8C /* Offer Distribution Functions.swift in Sources */,
+				B70182D425DBE6DA00780B83 /* AccountInfoVC.swift in Sources */,
 				E82347EE21A1D6BF000A1A62 /* AppDelegate.swift in Sources */,
 				B7CE99BB244897C400517330 /* OfferViewerVC.swift in Sources */,
 				E8EF2C78222D786500B2EDC6 /* CategoryPicker.swift in Sources */,
@@ -1290,6 +1321,7 @@
 				E8963EA121F7F16B0047CF99 /* OfferCell.swift in Sources */,
 				E86920A2246CC24B0052517B /* EasyRefreshTV.swift in Sources */,
 				E8AF3B8525C8804000FBDCF3 /* PoolOfferNC.swift in Sources */,
+				B70182D925DBEE8D00780B83 /* NewSocialMenuVC.swift in Sources */,
 				B7C762BC243745A90002623F /* OfferMenuVC.swift in Sources */,
 				E8BADF7F25C45A9300DAECA4 /* Interests.swift in Sources */,
 				E80AB86C21B1F9E000D9B546 /* inProgressVC.swift in Sources */,

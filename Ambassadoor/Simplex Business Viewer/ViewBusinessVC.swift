@@ -24,6 +24,8 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var tableviewHeight: NSLayoutConstraint!
     
     var businessDatail: CompanyDetails?
+    var basicBusinessDetails: BasicBusiness?
+    
     var fromSearch: Bool?
     
     var followOfferList = [Offer]()
@@ -41,7 +43,7 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
     }
 	
 	func isFollowingChanged(sender: AnyObject, newValue: Bool) {
-		guard let ThisUser = self.businessDatail else {return}
+        if let ThisUser = self.businessDatail{
 		if newValue {
 			//FOLLOW
             var followingList = Yourself.businessFollowing!
@@ -63,6 +65,44 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
             }
 		}
 		delegate?.followingUpdated()
+        }else if let ThisUser = self.basicBusinessDetails{
+            
+            if newValue {
+                //FOLLOW
+                var followingList = Myself.basic.followingBusinesses
+                if !(followingList.contains(ThisUser.businessId)) {
+                    followingList.append(ThisUser.businessId)
+                }
+                Myself.basic.followingBusinesses = followingList
+                updateBasicInfluencersBusinessFollowingList(userId: Myself.userId, followlist: followingList)
+                
+                var followedByList = ThisUser.followedBy
+                if !(followedByList.contains(Myself.userId)) {
+                    followedByList.append(Myself.userId)
+                }
+                self.basicBusinessDetails?.followedBy = followedByList
+                updateBasicBusinessFollowedByList(businessId: ThisUser.businessId, followedBy: followedByList)
+               
+            } else {
+                //UNFOLLOW
+                var followingList = Myself.basic.followingBusinesses
+                if let i = followingList.firstIndex(of: ThisUser.businessId){
+                    followingList.remove(at: i)
+                    Myself.basic.followingBusinesses = followingList
+                    updateBasicInfluencersBusinessFollowingList(userId: Myself.userId, followlist: followingList)
+                    
+                }
+                
+                var followedByList = ThisUser.followedBy
+                if let i = followedByList.firstIndex(of: Myself.userId){
+                    followedByList.remove(at: i)
+                    self.basicBusinessDetails?.followedBy = followedByList
+                    updateBasicBusinessFollowedByList(businessId: ThisUser.businessId, followedBy: followedByList)
+                }
+            }
+            delegate?.followingUpdated()
+            
+        }
 	}
 	
 	@IBOutlet weak var officialLabel: UILabel!
@@ -95,14 +135,33 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
                         
             if let url = URL.init(string: businessData.website!){
                 
-                if let host = url.host{
-                   self.getDomainFromUnFormatedUrl(businessData: businessData)
+                if url.host != nil{
+                    self.getDomainFromUnFormatedUrl(website: businessData.website!)
                 }else{
-                    self.getDomainFromUnFormatedUrl(businessData: businessData)
+                    self.getDomainFromUnFormatedUrl(website: businessData.website!)
                 }
             }else{
-				self.getDomainFromUnFormatedUrl(businessData: businessData)
+                self.getDomainFromUnFormatedUrl(website: businessData.website!)
             }
+        }else if let basicInfo = basicBusinessDetails{
+            
+            followButton.isFollowing = Myself.basic.followingBusinesses.contains(basicInfo.businessId)
+            self.companyLogo.downloadAndSetImage(basicInfo.logoUrl)
+            self.companyName.text = basicInfo.name
+            self.mission.text = basicInfo.mission
+            //self.website.setTitle(businessData.website, for: .normal)
+            
+            if let url = URL.init(string: basicInfo.website){
+                
+                if url.host != nil{
+                    self.getDomainFromUnFormatedUrl(website: basicInfo.website)
+                }else{
+                    self.getDomainFromUnFormatedUrl(website: basicInfo.website)
+                }
+            }else{
+                self.getDomainFromUnFormatedUrl(website: basicInfo.website)
+            }
+            
         }
     }
 	
@@ -117,13 +176,25 @@ class ViewBusinessVC: UIViewController, UITableViewDataSource, UITableViewDelega
 			} else {
 				MakeShake(viewToShake: webShadowView)
 			}
-		} else {
+        }else if let urlString = basicBusinessDetails?.website{
+            
+            if let url = URL(string: urlString) {
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(url)
+                }
+            } else {
+                MakeShake(viewToShake: webShadowView)
+            }
+            
+        }else {
 			MakeShake(viewToShake: webShadowView)
 		}
 	}
 	
-    func getDomainFromUnFormatedUrl(businessData: CompanyDetails) {
-		var websiteString = businessData.website!.lowercased()
+    func getDomainFromUnFormatedUrl(website: String) {
+		var websiteString = website.lowercased()
 		var result = ""
 		while(websiteString.contains("///")) {
 			websiteString = websiteString.replacingOccurrences(of: "///", with: "//")
