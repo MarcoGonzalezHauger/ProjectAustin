@@ -71,6 +71,7 @@ class NewViewPoolOfferVC: UIViewController, UITableViewDelegate, UITableViewData
 				self.acceptActivityIndicator.isHidden = true
 				if err == "" {
 					//success
+                    self.dismiss(animated: true, completion: nil)
 				} else {
 					MakeShake(viewToShake: self.acceptView)
 					self.showStandardAlertDialog(title: "Offer Couldn't be Accpeted", msg: err, handler: .none)

@@ -279,6 +279,30 @@ func updateBusinessFollowingList(company: CompanyDetails,userID: String, ownUser
     businessRef.updateChildValues(["followers":followers!])
 }
 
+//MARK: New Database FollowedBy Update
+
+func updateBasicBusinessFollowedByList(businessId: String, followedBy: [String]) {
+    
+    let privateRef = Database.database().reference().child("Accounts/Private/Businesses").child(businessId).child("basic")
+    privateRef.updateChildValues(["followedBy":followedBy])
+    
+    let publicRef = Database.database().reference().child("Accounts/Public/Businesses").child(businessId)
+    publicRef.updateChildValues(["followedBy":followedBy])
+    
+}
+
+//MARK: New Database Following List Update
+
+func updateBasicInfluencersBusinessFollowingList(userId: String, followlist: [String]) {
+    
+    let privateRef = Database.database().reference().child("Accounts/Private/Influencers").child(userId).child("basic")
+    privateRef.updateChildValues(["followingBusinesses":followlist])
+    
+    let publicRef = Database.database().reference().child("Accounts/Public/Influencers").child(userId)
+    publicRef.updateChildValues(["followingBusinesses":followlist])
+    
+}
+
 func getFilteredUsers(userIDs: [String], completion: @escaping(_ status: Bool, _ users: [User]?, _ deveiceTokens: [String]?)-> Void) {
     
     let usersRef = Database.database().reference().child("users")

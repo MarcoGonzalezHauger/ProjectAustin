@@ -231,6 +231,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         FirebaseApp.configure()
         Database.database().isPersistenceEnabled = false
         
+        
 //        RefreshPublicData {
 //            print("Public data downloaded.")
 //        }

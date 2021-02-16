@@ -89,6 +89,8 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	}
 	
 	@IBAction func transferToBank(_ sender: Any) {
+        
+        self.performSegue(withIdentifier: "toAccountInfoSegue", sender: self)
 		
 	}
 	
