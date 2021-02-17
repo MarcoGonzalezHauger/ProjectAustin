@@ -30,6 +30,40 @@ extension BasicInfluencer {
 			return checkFlag("isForTesting")
 		}
 	}
+	var resizedProfile: String {
+		get {
+			let resizedUrl: String = self.profilePicURL.replacingOccurrences(of: "profile%2F", with: "profile%2Fsmall%2F").replacingOccurrences(of: ".jpeg", with: "_256x256.jpeg").replacingOccurrences(of: ".png", with: "_256x256.jpeg")
+			return resizedUrl
+		}
+	}
+    
+    func getUserProfile(completion: @escaping(URL?)->()){
+        let storageRef = Storage.storage().reference().child("profile").child("small").child(self.appendResizeExtension())
+        storageRef.downloadURL { (url, error) in
+            self.resizedUrl = url
+            completion(url)
+        }
+        
+    }
+    
+    func appendResizeExtension() -> String {
+        
+        return self.username + "_256x256.jpeg"
+        
+    }
+    
+    
+}
+
+extension Business {
+	func GetActiveBasicBusiness() -> BasicBusiness? {
+		for b in basics {
+			if b.basicId == activeBasicId {
+				return b
+			}
+		}
+		return nil
+	}
 }
 
 extension BasicBusiness {
@@ -99,7 +133,7 @@ extension PoolOffer {
 		return false
 	}
 	func BasicBusiness() -> BasicBusiness? {
-		return GetBasicBusiness(id: businessId)
+		return GetBasicBusiness(id: basicId)
 	}
 	func pricePerPost(forInfluencer inf: BasicInfluencer) -> Double {
 		return inf.baselinePricePerPost * self.payIncrease
@@ -112,18 +146,12 @@ extension PoolOffer {
 		return cashPower > totalCost(forInfluencer: inf)
 	}
 	func canBeAccepted(forInfluencer inf: Influencer) -> Bool {
-        print(cashPower)
-        print(self.BasicBusiness()?.name)
-		print("PV: for \(self.BasicBusiness()!.name) =====[\(NumberToPrice(Value: cashPower))]======")
-		print("PV: \(filter.DoesInfluencerPassFilter(basicInfluencer: inf.basic)) = FILTER")
-		print("PV: \(canAffordInflunecer(forInfluencer: inf.basic)) = AFFORD")
-		print("PV: \(hasInfluencerAccepted(influencer: inf)) = ACCEPTED")
 		return filter.DoesInfluencerPassFilter(basicInfluencer: inf.basic) && canAffordInflunecer(forInfluencer: inf.basic) && !hasInfluencerAccepted(influencer: inf)
 	}
 }
 
 extension InProgressPost {
 	func BasicBusiness() -> BasicBusiness? {
-		return GetBasicBusiness(id: businessId)
+		return GetBasicBusiness(id: basicId)
 	}
 }

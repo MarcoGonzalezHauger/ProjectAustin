@@ -174,9 +174,11 @@ func ConvertDatabaseToNewDatabaseFormat(od: [String: Any]) {
 		
 		let businessFinance = BusinessFinance.init(stripeAccount: nil, log: [], balance: coDeposit?.currentBalance ?? 0, businessId: NewBusinessID)
 		
-		var basicBusiness: BasicBusiness? = nil
+		var basicBusiness: [BasicBusiness] = []
+		var active: String = ""
 		if let co = co {
-			basicBusiness = BasicBusiness.init(name: co.name, logoUrl: co.logo ?? "", mission: co.mission, website: co.website, joinedDate: Date(), referralCode: co.referralcode ?? randomString(length: 6), flags: flags, followedBy: [], businessId: NewBusinessID)
+			basicBusiness = [BasicBusiness.init(name: co.name, logoUrl: co.logo ?? "", mission: co.mission, website: co.website, joinedDate: Date(), referralCode: co.referralcode ?? randomString(length: 6), flags: flags, followedBy: [], businessId: NewBusinessID)]
+			active = basicBusiness[0].basicId
 		}
 		
 		var drafts: [DraftOffer] = []
@@ -206,10 +208,10 @@ func ConvertDatabaseToNewDatabaseFormat(od: [String: Any]) {
 		}
 		
 		
-		let newBusiness = Business.init(businessId: NewBusinessID, token: coUser.token ?? "", email: coUser.email ?? "", refreshToken: coUser.refreshToken ?? "", deviceFIRToken: coUser.deviceFIRToken ?? "", referredByUserId: "", referredByBusinessId: "", drafts: drafts, finance: businessFinance, sentOffers: [], basic: basicBusiness)
-		if newBusiness.basic != nil {
-			if newBusiness.basic!.referralCode == "" {
-				newBusiness.basic!.referralCode = randomString(length: 6)
+		let newBusiness = Business.init(businessId: NewBusinessID, token: coUser.token ?? "", email: coUser.email ?? "", refreshToken: coUser.refreshToken ?? "", deviceFIRToken: coUser.deviceFIRToken ?? "", referredByUserId: "", referredByBusinessId: "", drafts: drafts, finance: businessFinance, sentOffers: [], basic: basicBusiness, activeBasicId: active)
+		if newBusiness.basics.count != 0 {
+			if newBusiness.basics[0].referralCode == "" {
+				newBusiness.basics[0].referralCode = randomString(length: 6)
 			}
 		}
 		newBusiness.UpdateToFirebase(completed: nil)
@@ -242,7 +244,7 @@ func ConvertDatabaseToNewDatabaseFormat(od: [String: Any]) {
 							
 							var list = o.influencerFilter!["zipCode"] as? [String] ?? []
 							
-							if b.basic?.name == "Ambassadoor" {
+							if b.basics[0].name == "Ambassadoor" {
 								o.category.append(Myself.basic.interests.randomElement()!)
 								o.genders.append("Male")
 								list.append("13210")
@@ -259,7 +261,7 @@ func ConvertDatabaseToNewDatabaseFormat(od: [String: Any]) {
 							
 							
 							
-							draft.distributeToPool(asBusiness: b, filter: OfferFilter.init(dictionary: coPoolDict as [String: AnyObject], businessId: b.businessId), withMoney: o.cashPower!, withDrawFundsFalseForTestingOnly: false) { (success, bizObj) in
+							draft.distributeToPool(asBusiness: b, asBasic: b.basics[0], filter: OfferFilter.init(dictionary: coPoolDict as [String: AnyObject], businessId: b.businessId), withMoney: o.cashPower!, withDrawFundsFalseForTestingOnly: false) { (success, bizObj) in
 								if let bizObj = bizObj {
 									bizObj.UpdateToFirebase(completed: nil)
 								}

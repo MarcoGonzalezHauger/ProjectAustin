@@ -242,7 +242,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //
         
 		
-		//InitilizeAmbassadoor()
+//		InitilizeAmbassadoor()
 		//ConvertEntireDatabase(iUnderstandWhatThisFunctionDoes: true)
         
 //        SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -436,8 +436,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     }
                     
                     NewAccount.authenticationToken = longliveToken!
-                    
-                    updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
+                    //updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) {
+                    updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.instagramUsername) { (url, status) in
                         
                         if status{
                             NewAccount.profilePicture = url!

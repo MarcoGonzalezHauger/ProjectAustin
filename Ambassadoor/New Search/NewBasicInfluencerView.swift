@@ -184,8 +184,12 @@ class NewBasicInfluencerView: UIViewController, publicDataRefreshDelegate, UICol
 		
 		let thisIsMe = thisInfluencer.userId == Myself.userId
 		
-		backProfileImage.downloadAndSetImage(thisInfluencer.profilePicURL)
-		frontProfileImage.downloadAndSetImage(thisInfluencer.profilePicURL)
+		backProfileImage.image = nil
+		frontProfileImage.image = nil
+		downloadImage(thisInfluencer.resizedProfile) { (uiimage) in
+			self.backProfileImage.image = uiimage
+			self.frontProfileImage.image = uiimage
+		}
 		nameLabel.text = thisInfluencer.name
 		executiveBadge.isHidden = !thisInfluencer.checkFlag("isAmbassadoorExecutive")
 		verifiedBadge.isHidden = !thisInfluencer.checkFlag("isVerified")

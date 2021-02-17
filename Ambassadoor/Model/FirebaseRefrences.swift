@@ -37,20 +37,6 @@ func getDwollaFundingSource(completion: @escaping([DwollaCustomerFSList]?,String
     
 }
 
-func appendResizeExtension(accountID: String) -> String {
-    
-    return accountID + "_128x128.jpeg"
-    
-}
-
-func getUserProfile(accountID: String, completion: @escaping(URL?)->()){
-    let storageRef = Storage.storage().reference().child("profile").child("small").child(appendResizeExtension(accountID: accountID))
-    storageRef.downloadURL { (url, error) in
-        completion(url)
-    }
-    
-}
-
 func fundTransferAccount(transferURL: String,accountID: String,Obj: DwollaCustomerFSList, currency: String, amount: String, date:String) {
     
     let ref = Database.database().reference().child("FundTransfer").child(Yourself.id).child(accountID)

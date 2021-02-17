@@ -327,8 +327,14 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	}
 	
 	func loadInfluencerInfo(influencer i: Influencer, BasicInfluencer basic: BasicInfluencer) {
-		backProfileImage.downloadAndSetImage(basic.profilePicURL)
-		frontProfileImage.downloadAndSetImage(basic.profilePicURL)
+		
+		backProfileImage.image = nil
+		frontProfileImage.image = nil
+		downloadImage(basic.resizedProfile) { (uiimage) in
+			self.backProfileImage.image = uiimage
+			self.frontProfileImage.image = uiimage
+		}
+		
 		nameLabel.text = basic.name
 		executiveBadge.isHidden = !basic.checkFlag("isAmbassadoorExecutive")
 		verifiedBadge.isHidden = !basic.checkFlag("isVerified")

@@ -37,7 +37,9 @@ extension Business {
 		ref.updateChildValues(self.toDictionary()) { (err, dataref) in
 			completed?(err != nil)
 		}
-		self.basic?.UpdateToFirebase(completed: {_ in })
+		for b in self.basics {
+			b.UpdateToFirebase(completed: nil)
+		}
 	}
 }
 
@@ -51,7 +53,7 @@ extension BasicBusiness {
 	
 	var publicPath: String {
 		get {
-			return "Accounts/Public/Businesses/\(self.businessId)"
+			return "Accounts/Public/Businesses/\(self.basicId)"
 		}
 	}
 }

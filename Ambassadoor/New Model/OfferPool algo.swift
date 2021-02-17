@@ -126,7 +126,7 @@ func GetBasicInfluencer(id: String) -> BasicInfluencer? {
 
 func GetBasicBusiness(id: String) -> BasicBusiness? {
 	for b in globalBasicBusinesses {
-		if b.businessId == id {
+		if b.basicId == id {
 			return b
 		}
 	}

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Firebase
 
 
 //MARK: Main Class
@@ -28,13 +29,6 @@ class Influencer {
 	var tokenFIR: String
 	
 	var userId: String
-    
-    var resizedProfile:URL?{
-        get{
-            return getUserProfile(accountID: instagramAccountId)
-        }
-    }
-        
 		
 	init(basic: BasicInfluencer, finance: InfluencerFinance, email: String, password: String, instagramAuthToken: String, instagramAccountId: String, tokenFIR: String, userId: String) {
 		self.basic = basic
@@ -128,6 +122,7 @@ class Influencer {
         
         return d
     }
+    
 	
 }
 
@@ -150,6 +145,7 @@ class BasicInfluencer { //All public information goes here.
 	var followingBusinesses: [String]
 	var followedBy: [String]
 	var birthday: Date
+    var resizedUrl: URL?
     
 	
 	func checkFlag(_ flag: String) -> Bool {

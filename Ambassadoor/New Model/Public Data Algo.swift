@@ -51,7 +51,7 @@ func StartListeningToPublicData() {
 	refBusinesses.observe(.childChanged) { (snap) in
 		if let snapValue = snap.value as? [String: Any] {
 			
-			let newBus = BasicBusiness.init(dictionary: snapValue, businessId: snap.key)
+			let newBus = BasicBusiness.init(dictionary: snapValue, basicId: snap.key)
 			
 			for i in 0...(globalBasicBusinesses.count - 1) {
 				if globalBasicBusinesses[i].businessId == newBus.businessId {
@@ -99,7 +99,7 @@ func SerializePublicData(dictionary: [String: Any], finished: (() -> ())?) {
 	}
 	let businesses = dictionary["Businesses"] as! [String: Any]
 	for b in businesses.keys {
-		let bus = BasicBusiness.init(dictionary: businesses[b] as! [String: Any], businessId: b)
+		let bus = BasicBusiness.init(dictionary: businesses[b] as! [String: Any], basicId: b)
 		basicbu.append(bus)
 	}
 	

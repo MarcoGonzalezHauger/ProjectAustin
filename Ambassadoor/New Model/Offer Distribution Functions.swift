@@ -10,15 +10,15 @@ import Foundation
 import Firebase
 
 extension DraftOffer {
-	func distributeToPool(asBusiness: Business, filter: OfferFilter, withMoney: Double, withDrawFundsFalseForTestingOnly withdrawFunds: Bool, completed: @escaping (_ failedReason: String, _ newBusinessWithChanges: Business?) -> ()) {
+	func distributeToPool(asBusiness: Business, asBasic: BasicBusiness, filter: OfferFilter, withMoney: Double, withDrawFundsFalseForTestingOnly withdrawFunds: Bool, completed: @escaping (_ failedReason: String, _ newBusinessWithChanges: Business?) -> ()) {
 		if withdrawFunds && asBusiness.finance.balance < withMoney - 0.01 {
 			completed("You do not enough money to distribute this offer.", nil)
 			return
 		}
-		let newPoolOffer = PoolOffer.init(draftOffer: self, filter: filter, withMoney: withMoney, createdBy: asBusiness)
+		let newPoolOffer = PoolOffer.init(draftOffer: self, filter: filter, withMoney: withMoney, createdBy: asBusiness, sentFromBasicId: asBasic)
 		newPoolOffer.UpdateToFirebase { (success) in
 			if success {
-				asBusiness.sentOffers.append(sentOffer.init(poolId: newPoolOffer.poolId, draftOfferId: self.draftId, businessId: self.businessId, title: self.title))
+				asBusiness.sentOffers.append(sentOffer.init(poolId: newPoolOffer.poolId, draftOfferId: self.draftId, businessId: self.businessId, title: self.title, basicId: asBasic.basicId))
 				if withdrawFunds {
 					asBusiness.finance.balance -= withMoney
 					if asBusiness.finance.balance < 0 {
@@ -68,7 +68,7 @@ extension PoolOffer {
 				var newPosts: [InProgressPost] = [] // we do this before updating cashPower, because if the app crahses while compiling a list of new draftposts AFTER the money has been withdrawn, that would be a huge problem.
 				
 				for p in self.draftPosts {
-					let newInP = InProgressPost.init(draftPost: p, comissionUserId: self.comissionUserId, comissionBusinessId: self.comissionBusinessId, userId: thisInfluencer.userId, poolOfferId: self.poolId, businessId: self.businessId, draftOfferId: self.draftOfferId, cashValue: costPerPost)
+					let newInP = InProgressPost.init(draftPost: p, comissionUserId: self.comissionUserId, comissionBusinessId: self.comissionBusinessId, userId: thisInfluencer.userId, poolOfferId: self.poolId, businessId: self.businessId, draftOfferId: self.draftOfferId, cashValue: costPerPost, basicId: basicId)
 					newPosts.append(newInP)
 				}
 				

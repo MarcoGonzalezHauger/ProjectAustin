@@ -14,14 +14,14 @@ class Business {
 	
 	var isCompanyRegistered: Bool {
 		get {
-			return basic != nil
+			return basics.count != 0
 		}
 	}
 	
 	//subclasses
 	var drafts: [DraftOffer]
 	var finance: BusinessFinance
-	var basic: BasicBusiness?
+	var basics: [BasicBusiness]
 	var sentOffers: [sentOffer]
 	
 	//variables
@@ -32,6 +32,7 @@ class Business {
 	var deviceFIRToken: String
 	var referredByUserId: String?
 	var referredByBusinessId: String?
+	var activeBasicId: String
 		
 	init(dictionary d: [String: Any], businessId id: String) {
 		businessId = id
@@ -45,8 +46,14 @@ class Business {
 		referredByUserId = d["referredByUserId"] as? String
 		referredByBusinessId = d["referredByBusinessId"] as? String
 		
-		if let basicDict = d["basic"] as? [String: Any] {
-			basic = BasicBusiness.init(dictionary: basicDict, businessId: businessId)
+		activeBasicId = d["activeBasicId"] as! String
+		
+		basics = []
+		if let basicDict = d["basics"] as? [String: Any] {
+			for b in basicDict.keys {
+				let thisBasic = BasicBusiness.init(dictionary: basicDict[b] as! [String: Any], basicId: b)
+				basics.append(thisBasic)
+			}
 		}
 		
 		finance = BusinessFinance.init(dictionary: d["finance"] as! [String: Any], businessId: businessId)
@@ -67,7 +74,7 @@ class Business {
 		
 	}
 	
-	init(businessId: String, token: String, email: String, refreshToken: String, deviceFIRToken: String, referredByUserId: String, referredByBusinessId: String, drafts: [DraftOffer], finance: BusinessFinance, sentOffers: [sentOffer], basic: BasicBusiness?) {
+	init(businessId: String, token: String, email: String, refreshToken: String, deviceFIRToken: String, referredByUserId: String, referredByBusinessId: String, drafts: [DraftOffer], finance: BusinessFinance, sentOffers: [sentOffer], basic: [BasicBusiness], activeBasicId: String) {
 		
 		self.businessId = businessId
 		self.token = token
@@ -79,9 +86,9 @@ class Business {
 		
 		self.drafts = drafts
 		self.finance = finance
-		self.basic = basic
+		self.basics = basic
 		self.sentOffers = sentOffers
-		
+		self.activeBasicId = activeBasicId
 		
 	}
 	
@@ -91,8 +98,12 @@ class Business {
 		var d: [String: Any] = [:]
 		
 		d["finance"] = finance.toDictionary()
-		if let basic = basic {
-			d["basic"] = basic.toDictionary()
+		
+		if basics.count != 0 {
+			var basicDict: [String: Any] = [:]
+			for b in basics {
+				basicDict[b.basicId] = b.toDictionary()
+			}
 		}
 		
 		if let referredByUserId = referredByUserId {
@@ -123,6 +134,7 @@ class Business {
 		d["email"] = email
 		d["refreshToken"] = refreshToken
 		d["deviceFIRToken"] = deviceFIRToken
+		d["activeBasicId"] = activeBasicId
 		
 		return d
 	}
@@ -141,6 +153,7 @@ class BasicBusiness {
 	var followedBy: [String]
 	
 	var businessId: String
+	var basicId: String
 	
 	func checkFlag(_ flag: String) -> Bool {
 		return flags.contains(flag)
@@ -161,6 +174,9 @@ class BasicBusiness {
 	init(name: String, logoUrl: String, mission: String, website: String, joinedDate: Date, referralCode: String, flags: [String], followedBy: [String], businessId: String) {
 		
 		self.businessId = businessId
+		
+		self.basicId = makeFirebaseUrl(name + " " + GetNewID())
+		
 		self.name = name
 		self.logoUrl = logoUrl
 		self.mission = mission
@@ -173,9 +189,10 @@ class BasicBusiness {
 		
 	}
 	
-	init(dictionary d: [String: Any], businessId id: String) {
-		businessId = id
+	init(dictionary d: [String: Any], basicId bid: String) {
+		basicId = bid
 		
+		businessId = d["businessId"] as? String ?? ""
 		name = d["name"] as! String
 		logoUrl = d["logoUrl"] as! String
 		mission = d["mission"] as! String
@@ -200,6 +217,7 @@ class BasicBusiness {
 		d["referralCode"] = referralCode
 		d["flags"] = flags
 		d["followedBy"] = followedBy
+		d["businessId"] = businessId
 		
 		return d
 	}
