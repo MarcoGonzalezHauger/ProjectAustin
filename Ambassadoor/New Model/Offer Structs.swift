@@ -174,6 +174,7 @@ class PoolOffer { //while in offer pool (GETS ASSIGNED NEW ID)
 	var comissionBusinessId: String?
 	var poolId: String
 	var businessId: String
+	var basicId: String
 	var draftOfferId: String
 	var filter: OfferFilter
 	var draftPosts: [DraftPost]
@@ -198,13 +199,15 @@ class PoolOffer { //while in offer pool (GETS ASSIGNED NEW ID)
 		}
 	}
 	
-	init(draftOffer: DraftOffer, filter flt: OfferFilter, withMoney cash: Double, createdBy bus: Business) {
+	init(draftOffer: DraftOffer, filter flt: OfferFilter, withMoney cash: Double, createdBy bus: Business, sentFromBasicId basicD: BasicBusiness) {
 		cashPower = cash
 		originalCashPower = cash
 		comissionUserId = bus.referredByUserId
 		comissionBusinessId = bus.referredByBusinessId
-		poolId = makeFirebaseUrl(bus.basic!.name + ", " + GetNewID()) 
+		poolId = makeFirebaseUrl(basicD.name + " " + GetNewID())
 		businessId = bus.businessId
+		basicId = basicD.basicId
+		
 		draftOfferId = draftOffer.draftId
 		filter = flt
 		draftPosts = draftOffer.draftPosts
@@ -218,7 +221,7 @@ class PoolOffer { //while in offer pool (GETS ASSIGNED NEW ID)
 		}
 	}
 	
-	init(cashPower: Double, originalCashPower: Double, comissionUserId: String, comissionBusinessId: String, poolId: String, businessId: String, draftOfferId: String, filter: OfferFilter, draftPosts: [DraftPost], flags: [String], sentDate: Date, payIncrease: Double) {
+	init(cashPower: Double, originalCashPower: Double, comissionUserId: String, comissionBusinessId: String, poolId: String, businessId: String, draftOfferId: String, filter: OfferFilter, draftPosts: [DraftPost], flags: [String], sentDate: Date, payIncrease: Double, basicId: String) {
 		self.cashPower = cashPower
 		self.originalCashPower = originalCashPower
 		self.comissionUserId = comissionUserId
@@ -232,6 +235,7 @@ class PoolOffer { //while in offer pool (GETS ASSIGNED NEW ID)
 		self.sentDate = sentDate
 		self.payIncrease = payIncrease
 		self.acceptedUserIds = []
+		self.basicId = basicId
 	}
 	
 	init(dictionary d: [String: Any], poolId pid: String) {
@@ -259,6 +263,7 @@ class PoolOffer { //while in offer pool (GETS ASSIGNED NEW ID)
 		originalCashPower = d["originalCashPower"] as! Double
 		payIncrease = d["payIncrease"] as! Double
 		acceptedUserIds = (d["acceptedUserIds"] as? [String] ) ?? []
+		basicId = d["basicId"] as! String
 	}
 	
 	func toDictionary() -> [String: Any] {
@@ -272,6 +277,7 @@ class PoolOffer { //while in offer pool (GETS ASSIGNED NEW ID)
 		d["originalCashPower"] = originalCashPower
 		d["businessId"] = businessId
 		d["acceptedUserIds"] = acceptedUserIds
+		d["basicId"] = basicId
 		
 		if let comissionUserId = comissionUserId {
 			d["comissionUserId"] = comissionUserId }
@@ -300,6 +306,7 @@ class InProgressPost {
 	var PoolOfferId: String
 	var draftOfferId: String
 	var businessId: String
+	var basicId: String
 	var draftPostId: String
 	
 	var comissionUserId: String?
@@ -335,7 +342,7 @@ class InProgressPost {
 	//MARK: Cancelled
 	var dateCancelled: Date
 	
-	init(draftPost dp: DraftPost, comissionUserId cuid: String?, comissionBusinessId cbid: String?, userId id: String, poolOfferId poid: String, businessId bid: String, draftOfferId doid: String, cashValue cash: Double) { //This init function should be used when the user first accepts an offer and the PoolOffer is truned into many different inProgressPosts.
+	init(draftPost dp: DraftPost, comissionUserId cuid: String?, comissionBusinessId cbid: String?, userId id: String, poolOfferId poid: String, businessId bid: String, draftOfferId doid: String, cashValue cash: Double, basicId bbid: String) { //This init function should be used when the user first accepts an offer and the PoolOffer is truned into many different inProgressPosts.
 		
 		draftPost = dp
 		draftPostId = dp.draftPostId
@@ -346,6 +353,7 @@ class InProgressPost {
 		PoolOfferId = poid
 		businessId = bid
 		draftOfferId = doid
+		basicId = bbid
 		
 		
 		//Creating the id for this class:
@@ -394,6 +402,7 @@ class InProgressPost {
 		draftOfferId = d["draftOfferId"] as! String											//never ""
 		businessId = d["businessId"] as! String												//never ""
 		draftPostId = d["draftPostId"] as! String											//never ""
+		basicId = d["basicId"] as! String
 		
 		comissionUserId = d["comissionUserId"] as? String									//sometimes ""
 		comissionBusinessId = d["comissionBusinessId"] as? String							//sometimes ""
@@ -443,6 +452,7 @@ class sentOffer { //when business goes back to look at previously sent out offer
 	
 	var sentOfferId: String
 	var businessId: String
+	var basicId: String
 	
 	var title: String
 	var timeSent: Date
@@ -456,14 +466,16 @@ class sentOffer { //when business goes back to look at previously sent out offer
 		inProgressPosts = d["inProgressPosts"] as! [InProgressPost]
 		title = d["title"] as! String
 		timeSent = (d["timeSent"] as! String).toUDate()
+		basicId = d["basicId"] as! String
 		
 	}
 
-	init(poolId pid: String, draftOfferId doid: String, businessId bid: String, title t: String) {
+	init(poolId pid: String, draftOfferId doid: String, businessId bid: String, title t: String, basicId b: String) {
 		poolId = pid
 		draftOfferId = doid
 		businessId = bid
 		inProgressPosts = []
+		basicId = b
 		
 		title = t
 		timeSent = Date()
@@ -491,6 +503,7 @@ class sentOffer { //when business goes back to look at previously sent out offer
 		d["inProgressPosts"] = inProgressPosts
 		d["title"] = title
 		d["timeSent"] = timeSent.toUString()
+		d["basicId"] = basicId
 		
 		return d
 	}

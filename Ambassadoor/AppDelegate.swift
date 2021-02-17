@@ -242,8 +242,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //
         
 		
-		InitilizeAmbassadoor()
-//		ConvertEntireDatabase(iUnderstandWhatThisFunctionDoes: true)
+//		InitilizeAmbassadoor()
+		ConvertEntireDatabase(iUnderstandWhatThisFunctionDoes: true)
         
 //        SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         global.cachedImageList.removeAll()

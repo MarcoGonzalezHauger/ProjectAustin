@@ -53,7 +53,7 @@ class BasicInfluenerCell: UITableViewCell, FollowerButtonDelegete {
 		followerCountLabel.text = CompressNumber(number: represents.followerCount)
 				
 		engagmentRateLabel.text = "\(represents.engagmentRateInt)%"
-		userImagePicture.downloadAndSetImage(represents.profilePicURL)
+		userImagePicture.downloadAndSetImage(represents.resizedProfile)
 		
 		if represents.userId == Myself.userId {
 			followButton.isHidden = true

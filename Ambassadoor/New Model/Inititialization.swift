@@ -34,6 +34,8 @@ func InitilizeAmbassadoor() {
 		print("ERROR WITH FINDING EMAIL: " + err.localizedDescription)
 	})
     */
+	
+	
     StartListening()
 	
 }
@@ -49,5 +51,9 @@ func StartListening() {
 	StartListeningToPublicData()
 	
 	startListeningToOfferPool()
+	
+}
+
+func StartListeningToReadOnly() {
 	
 }
