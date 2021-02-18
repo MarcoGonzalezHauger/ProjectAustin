@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="TvT-9h-m8P">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="TvT-9h-m8P">
     <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--StripeConnectionRef-->
+        <scene sceneID="iqa-2l-wq3">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="StripeConnectionRef" id="sXb-Wy-20n" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qX1-aX-UwL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2341" y="-351"/>
+        </scene>
         <!--Account InfoVC-->
         <scene sceneID="o0e-lT-cA8">
             <objects>
@@ -30,15 +37,15 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n24-MV-b3h" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="18" y="120" width="378" height="44"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stripeLogo" translatesAutoresizingMaskIntoConstraints="NO" id="6bK-sd-bfi">
-                                                <rect key="frame" x="154" y="2" width="56" height="42"/>
+                                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stripeLogo" translatesAutoresizingMaskIntoConstraints="NO" id="6bK-sd-bfi">
+                                                <rect key="frame" x="155" y="2" width="56" height="42"/>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="56" id="0TG-9u-khu"/>
                                                 </constraints>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Withdraw Using" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uqH-NQ-jmb">
-                                                <rect key="frame" x="12" y="10.666666666666657" width="134" height="23"/>
+                                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Withdraw Using" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uqH-NQ-jmb">
+                                                <rect key="frame" x="12" y="10.666666666666657" width="135" height="23"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -59,10 +66,10 @@
                                                 <real key="value" value="8"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
-                                                <real key="value" value="0.20000000000000001"/>
+                                                <real key="value" value="0.0"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
-                                                <real key="value" value="3"/>
+                                                <real key="value" value="1"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="color" keyPath="ShadowColor">
                                                 <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -86,8 +93,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="Rch-32-gyw"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="H7g-e4-Slw" firstAttribute="top" secondItem="OHZ-SM-nWO" secondAttribute="bottom" constant="8" id="2yw-Z7-eYn"/>
                             <constraint firstItem="Rch-32-gyw" firstAttribute="bottom" secondItem="H7g-e4-Slw" secondAttribute="bottom" constant="-16" id="FkL-6p-GmZ"/>
@@ -96,21 +102,27 @@
                             <constraint firstItem="OHZ-SM-nWO" firstAttribute="centerX" secondItem="pTA-ih-ztq" secondAttribute="centerX" id="duj-nj-wBv"/>
                             <constraint firstItem="OHZ-SM-nWO" firstAttribute="top" secondItem="pTA-ih-ztq" secondAttribute="top" constant="12" id="oqz-0Y-AlR"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="Rch-32-gyw"/>
                     </view>
                     <navigationItem key="navigationItem" id="8TB-M5-LVf"/>
                     <connections>
-                        <segue destination="lnM-X8-PIY" kind="show" id="w7C-am-2tF"/>
+                        <segue destination="lnM-X8-PIY" kind="show" identifier="fromAccountInfoToWithdraw" id="w7C-am-2tF"/>
+                        <segue destination="sXb-Wy-20n" kind="presentation" identifier="fromAccountToStripe" id="4Di-3X-uWg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5nv-um-naO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="SGG-z0-GsC"/>
+                <tapGestureRecognizer id="SGG-z0-GsC">
+                    <connections>
+                        <action selector="showStripeAccountWithGesture:" destination="Kx6-5S-PGY" id="h1x-Tg-Wet"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1781.1594202898552" y="35.869565217391305"/>
         </scene>
-        <!--View Controller-->
+        <!--New WithdrawVC-->
         <scene sceneID="U5x-jU-ent">
             <objects>
-                <viewController id="lnM-X8-PIY" sceneMemberID="viewController">
+                <viewController id="lnM-X8-PIY" customClass="NewWithdrawVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tGI-oP-RoJ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -160,15 +172,18 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W3c-jR-z1t" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="32" y="260" width="350" height="56"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E9J-Zt-SiC">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E9J-Zt-SiC">
                                                 <rect key="frame" x="0.0" y="0.0" width="350" height="56"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
                                                 <state key="normal" title="Confirm Transfer">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="withdrawActionWithSender:" destination="lnM-X8-PIY" eventType="touchUpInside" id="H5h-XI-4f5"/>
+                                                </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                        <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="56" id="4yD-MT-pML"/>
@@ -227,8 +242,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="iXw-NF-obL"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="r2o-Bv-M96" firstAttribute="centerX" secondItem="tGI-oP-RoJ" secondAttribute="centerX" id="5Ao-wi-eyx"/>
                             <constraint firstAttribute="trailing" secondItem="Ke9-NJ-BKi" secondAttribute="trailing" id="Kwr-3f-A5U"/>
@@ -237,26 +251,28 @@
                             <constraint firstItem="r2o-Bv-M96" firstAttribute="top" secondItem="tGI-oP-RoJ" secondAttribute="topMargin" constant="12" id="dxw-KP-Kod"/>
                             <constraint firstItem="Ke9-NJ-BKi" firstAttribute="top" secondItem="r2o-Bv-M96" secondAttribute="bottom" constant="8" id="rXd-zJ-mVj"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="iXw-NF-obL"/>
                     </view>
                     <navigationItem key="navigationItem" id="weL-xc-Tru"/>
                     <connections>
-                        <segue destination="L7P-Ig-62M" kind="show" id="oiU-3F-zs2"/>
+                        <outlet property="amt" destination="Tne-A5-8ce" id="wuZ-e1-La2"/>
+                        <segue destination="L7P-Ig-62M" kind="show" identifier="fromNewWithToNote" id="oiU-3F-zs2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vAr-YF-F8Y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2523" y="36"/>
         </scene>
-        <!--View Controller-->
+        <!--With Draw NoteVC-->
         <scene sceneID="tfC-dh-eiX">
             <objects>
-                <viewController id="L7P-Ig-62M" sceneMemberID="viewController">
+                <viewController id="L7P-Ig-62M" customClass="WithDrawNoteVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sbC-xR-NqZ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transferred" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37a-pG-mWe">
-                                <rect key="frame" x="151" y="12" width="112" height="26"/>
+                                <rect key="frame" x="151.66666666666666" y="12" width="110.66666666666666" height="26"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="21"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -300,15 +316,18 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z9i-jO-dHb" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="32" y="393.33333333333331" width="350" height="56"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uex-VA-HIE">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uex-VA-HIE">
                                                 <rect key="frame" x="0.0" y="0.0" width="350" height="56"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
                                                 <state key="normal" title="Done">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="dismisActionWithSender:" destination="L7P-Ig-62M" eventType="touchUpInside" id="SdS-lN-k25"/>
+                                                </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                        <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstItem="Uex-VA-HIE" firstAttribute="top" secondItem="z9i-jO-dHb" secondAttribute="top" id="2FL-Ul-dad"/>
@@ -360,8 +379,7 @@ Stripe may take up to 3 days to complete the transfer, but it usually transfers 
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="qsd-J6-g2p"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="37a-pG-mWe" firstAttribute="centerX" secondItem="sbC-xR-NqZ" secondAttribute="centerX" id="7BI-Zg-jjF"/>
                             <constraint firstAttribute="bottom" secondItem="BW3-w8-rCY" secondAttribute="bottom" constant="-12" id="DCW-KU-w7r"/>
@@ -370,12 +388,16 @@ Stripe may take up to 3 days to complete the transfer, but it usually transfers 
                             <constraint firstItem="BW3-w8-rCY" firstAttribute="top" secondItem="37a-pG-mWe" secondAttribute="bottom" constant="8" id="gvw-L1-3pK"/>
                             <constraint firstItem="BW3-w8-rCY" firstAttribute="leading" secondItem="qsd-J6-g2p" secondAttribute="leading" id="pYd-uW-6tJ"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="qsd-J6-g2p"/>
                     </view>
                     <navigationItem key="navigationItem" id="kFi-lO-8Kz"/>
+                    <connections>
+                        <outlet property="amt" destination="8h9-Fi-s4a" id="hHb-4E-HEG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ufi-1Q-ZKo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3273.913043478261" y="35.869565217391305"/>
+            <point key="canvasLocation" x="3264" y="36"/>
         </scene>
         <!--StandardNC-->
         <scene sceneID="3hh-C9-SS2">
@@ -404,11 +426,5 @@ Stripe may take up to 3 days to complete the transfer, but it usually transfers 
         <namedColor name="newSubtleBackground">
             <color red="0.94099998474121094" green="0.94900000095367432" blue="0.96100002527236938" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
     </resources>
 </document>

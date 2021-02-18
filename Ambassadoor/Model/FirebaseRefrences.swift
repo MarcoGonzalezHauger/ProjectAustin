@@ -67,6 +67,11 @@ func withdrawUpdate(amount: Double, fee: Double,from: String,to: String, id: Str
     
 }
 
+func updateNewTransLog(transID: String, userID: String, log: [String: Any]) {
+    let ref = Database.database().reference().child("Accounts/Private/Influencers").child(userID).child("finance").child("log").child(transID)
+    ref.updateChildValues(log)
+}
+
 // added instagram post to FIR. after verified the offer post and instagram post
 func instagramPostUpdate(offerID:String, post:[String:Any]) {
     
@@ -83,6 +88,12 @@ func createStripeAccToFIR(AccDetail:[String:Any] ) {
     let prntRef  = Database.database().reference().child("users").child(Yourself.id)
     prntRef.updateChildValues(["isBankAdded":true])
     Yourself.isBankAdded = true
+}
+
+func addStripeAccountInfoToFIR(stripeInfo:[String:Any]) {
+    
+    let ref = Database.database().reference().child("Accounts/Private/Influencers").child(Myself.userId).child("finance")
+    ref.updateChildValues(["stripeAccount": stripeInfo])
 }
 
 

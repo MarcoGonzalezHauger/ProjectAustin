@@ -87,14 +87,14 @@ class StripeConnectionMKWebview: UIViewController, WKNavigationDelegate {
         
         if let url = navigationAction.request.url {
             print(url.absoluteString)
-            /*
+            
              if url.absoluteString.hasPrefix("https:connect.stripe.com/connect/default_new/oauth/test?") || url.absoluteString.hasPrefix("https://connect.stripe.com/connect/default/oauth/test?"){
              print("SUCCESS")
-            */
             
             
+            /*
             if url.absoluteString.hasPrefix("https://www.ambassadoor.co/paid?") || url.absoluteString.hasPrefix("https://www.ambassadoor.co/paid?code="){
-                
+                */
                 print("SUCCESS")
                 
                 if let range = url.absoluteString.range(of: "code=") {
@@ -124,10 +124,14 @@ class StripeConnectionMKWebview: UIViewController, WKNavigationDelegate {
                 
                 if let accDetail = try JSONSerialization.jsonObject(with: data!, options: []) as? [String : Any] {
                     
-                    createStripeAccToFIR(AccDetail:accDetail)
-                    NotificationCenter.default.post(name: Notification.Name("reloadbanklist"), object: nil, userInfo: ["userinfo":"1"])
+                    let stripe = StripeAccountInformation.init(dictionary: accDetail, userOrBusinessId: Myself.userId)
+                    addStripeAccountInfoToFIR(stripeInfo: (stripe.toDictionary()))
+                    //createStripeAccToFIR(AccDetail:accDetail)
+                    
                     DispatchQueue.main.async {
-                        self.dismiss(animated: true, completion: nil)
+                        self.dismiss(animated: true) {
+                           NotificationCenter.default.post(name: Notification.Name("reloadbanklist"), object: nil, userInfo: ["userinfo":"1"])
+                        }                        
                     }
 
                 }
