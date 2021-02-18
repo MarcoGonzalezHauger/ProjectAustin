@@ -110,8 +110,8 @@ class ConnectInstaOnlyVC: UIViewController,VerificationReturned {
                                 NewAccount.authenticationToken = longLiveToken!
                                 
                                 if NewAccount.profilePicture != "" {
-                                    
-                                    updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
+                                    //updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
+                                    updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.instagramUsername) { (url, status) in
                                         
                                         self.connectBtn.setTitle("CONNECT TO INSTAGRAM", for: .normal)
                                         

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Firebase
 
 
 //MARK: Main Class
@@ -121,6 +122,7 @@ class Influencer {
         
         return d
     }
+    
 	
 }
 
@@ -143,6 +145,7 @@ class BasicInfluencer { //All public information goes here.
 	var followingBusinesses: [String]
 	var followedBy: [String]
 	var birthday: Date
+    var resizedUrl: URL?
     
 	
 	func checkFlag(_ flag: String) -> Bool {

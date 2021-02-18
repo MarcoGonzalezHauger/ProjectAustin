@@ -243,26 +243,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
 		
 //		InitilizeAmbassadoor()
-		ConvertEntireDatabase(iUnderstandWhatThisFunctionDoes: true)
-		
-		//        SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
-		global.cachedImageList.removeAll()
-		let request = NSFetchRequest<NSFetchRequestResult>(entityName: "AppImageData")
-		request.returnsObjectsAsFaults = false
-		let context = self.persistentContainer.viewContext
-		do {
-			let result = try context.fetch(request)
-			for data in result as! [NSManagedObject] {
-				
-				let cachedData = CachedImages.init(object: data)
-				let afterSevenDays = cachedData.date!.afterDays(numberOfDays: 7)
-				if Date.getcurrentESTdate().timeIntervalSince1970 > afterSevenDays.timeIntervalSince1970{
-					removeCoreDataObject(object:cachedData.object!)
-				}else{
-					global.cachedImageList.append(cachedData)
-				}
-				//global.cachedImageList.append(cachedData)
-				
+		//ConvertEntireDatabase(iUnderstandWhatThisFunctionDoes: true)
+        
+//        SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        global.cachedImageList.removeAll()
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "AppImageData")
+        request.returnsObjectsAsFaults = false
+        let context = self.persistentContainer.viewContext
+        do {
+            let result = try context.fetch(request)
+            for data in result as! [NSManagedObject] {
+                
+                let cachedData = CachedImages.init(object: data)
+                let afterSevenDays = cachedData.date!.afterDays(numberOfDays: 7)
+                if Date.getcurrentESTdate().timeIntervalSince1970 > afterSevenDays.timeIntervalSince1970{
+                removeCoreDataObject(object:cachedData.object!)
+                }else{
+                global.cachedImageList.append(cachedData)
+                }
+                //global.cachedImageList.append(cachedData)
+                
             }
             print("coredatecount=",global.cachedImageList.count)
         }catch {
@@ -436,8 +436,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     }
                     
                     NewAccount.authenticationToken = longliveToken!
-                    
-                    updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
+                    //updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) {
+                    updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.instagramUsername) { (url, status) in
                         
                         if status{
                             NewAccount.profilePicture = url!

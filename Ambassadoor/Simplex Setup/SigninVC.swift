@@ -163,8 +163,8 @@ class SigninVC: UIViewController {
                     }
 					
                     NewAccount.authenticationToken = longliveToken!
-                    
-                    updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
+                    //updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) {
+                    updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.instagramUsername) { (url, status) in
                         
                         if status{
                             NewAccount.profilePicture = url!

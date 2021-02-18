@@ -169,8 +169,8 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                     NewAccount.authenticationToken = longLiveToken!
                     
                     if NewAccount.profilePicture != "" {
-                        
-                        updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
+                        //updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) {
+                        updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.instagramUsername) { (url, status) in
                             
                             if status{
                                 NewAccount.profilePicture = url!
@@ -358,8 +358,8 @@ class ConnectInstagramVC: UIViewController, WKNavigationDelegate, VerificationRe
                                 NewAccount.authenticationToken = longLiveToken!
                                 
                                 if NewAccount.profilePicture != "" {
-                                    
-                                    updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
+                                    //updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
+                                    updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.instagramUsername) { (url, status) in
                                         
                                         if status{
                                             NewAccount.profilePicture = url!
