@@ -104,6 +104,7 @@ class Business {
 			for b in basics {
 				basicDict[b.basicId] = b.toDictionary()
 			}
+			d["basics"] = basicDict
 		}
 		
 		if let referredByUserId = referredByUserId {
