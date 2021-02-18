@@ -36,23 +36,6 @@ extension BasicInfluencer {
 			return resizedUrl
 		}
 	}
-    
-    func getUserProfile(completion: @escaping(URL?)->()){
-        let storageRef = Storage.storage().reference().child("profile").child("small").child(self.appendResizeExtension())
-        storageRef.downloadURL { (url, error) in
-            self.resizedUrl = url
-            completion(url)
-        }
-        
-    }
-    
-    func appendResizeExtension() -> String {
-        
-        return self.username + "_256x256.jpeg"
-        
-    }
-    
-    
 }
 
 extension Business {

@@ -288,6 +288,28 @@ func GetFeeForInfluencer(_ user: User) -> Double {
 //    }
 }
 
+// get organic subscription fee amount based on instagram followers count
+func GetFeeForNewInfluencer(_ user: Influencer) -> Double {
+    
+    //The money faucet
+    
+    var fee = floor((user.basic.averageLikes) * 0.017 * 2) / 2
+    if fee < 4 {
+        fee = 4
+    }
+    return fee
+    
+//    switch FollowerCount {
+//    case 0...749: return 4
+//    case 750...1249: return 5
+//    case 1250...2999: return 6
+//    case 3000...4999: return 7
+//    case 5000...9999: return 12
+//    case 10000...: return ((FollowerCount) / 1000) * 12
+//    default: return ((FollowerCount) / 1000) * 12
+//    }
+}
+
 func makeImageCircular(image: UIImage) -> UIImage {
 	//remvoed this functio becuase it takes a long time to process. Also a simple CGLayer cornerRadius can do the same thing, except more efficiently.
 	

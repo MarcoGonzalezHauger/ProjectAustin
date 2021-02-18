@@ -104,6 +104,7 @@ class Business {
 			for b in basics {
 				basicDict[b.basicId] = b.toDictionary()
 			}
+			d["basics"] = basicDict
 		}
 		
 		if let referredByUserId = referredByUserId {
@@ -192,7 +193,7 @@ class BasicBusiness {
 	init(dictionary d: [String: Any], basicId bid: String) {
 		basicId = bid
 		
-		businessId = d["businessId"] as? String ?? ""
+		businessId = d["businessId"] as! String
 		name = d["name"] as! String
 		logoUrl = d["logoUrl"] as! String
 		mission = d["mission"] as! String

@@ -53,23 +53,6 @@ class BasicInfluenerCell: UITableViewCell, FollowerButtonDelegete {
 		followerCountLabel.text = CompressNumber(number: represents.followerCount)
 				
 		engagmentRateLabel.text = "\(represents.engagmentRateInt)%"
-        
-//        if represents.resizedUrl == nil {
-//            represents.getUserProfile { (url) in
-//                if url != nil{
-//                    print("printedURL",url!.absoluteString)
-//                    self.userImagePicture.downloadAndSetImage(url!.absoluteString)
-//                }else{
-//                    print("printedURL0",self.represents.username)
-//                    self.userImagePicture.UseDefaultImage()
-//                }
-//            }
-//        }else{
-//            print("printedURL1",represents.resizedUrl!.absoluteString)
-//            self.userImagePicture.downloadAndSetImage(represents.resizedUrl!.absoluteString)
-//        }
-        
-        
 		userImagePicture.downloadAndSetImage(represents.resizedProfile)
 		
 		if represents.userId == Myself.userId {

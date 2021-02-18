@@ -435,7 +435,7 @@ class StripeAccountInformation {
 		d["access_token"] = accessToken
 		d["livemode"] = livemode
 		d["refresh_token"] = refreshToken
-		d["tokenType"] = tokenType
+		d["token_type"] = tokenType
 		d["stripe_publishable_key"] = stripePublishableKey
 		d["stripe_user_id"] = stripeUserId
 		d["scope"] = scope

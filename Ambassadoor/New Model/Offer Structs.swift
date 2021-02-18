@@ -402,7 +402,7 @@ class InProgressPost {
 		draftOfferId = d["draftOfferId"] as! String											//never ""
 		businessId = d["businessId"] as! String												//never ""
 		draftPostId = d["draftPostId"] as! String											//never ""
-		basicId = d["basicId"] as? String ?? ""
+		basicId = d["basicId"] as! String
 		
 		comissionUserId = d["comissionUserId"] as? String									//sometimes ""
 		comissionBusinessId = d["comissionBusinessId"] as? String							//sometimes ""
