@@ -73,7 +73,7 @@ class SigninVC: UIViewController {
                                     UserDefaults.standard.set(self.passwordText.text!, forKey: "password")
                                     
                                     //let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-                                    InitilizeAmbassadoor()
+                                    InitializeAmbassadoor()
                                     AverageLikes(instagramID: Myself.instagramAccountId, userToken: Myself.instagramAuthToken)
                                     downloadDataBeforePageLoad()
                                     self.LoginSuccessful()
@@ -221,7 +221,7 @@ class SigninVC: UIViewController {
         UserDefaults.standard.set(self.emailText.text!, forKey: "email")
         UserDefaults.standard.set(self.passwordText.text!, forKey: "password")
         setHapticMenu(user: Myself)
-        InitilizeAmbassadoor()
+        InitializeAmbassadoor()
         AverageLikes(instagramID: NewAccount.id, userToken: NewAccount.authenticationToken)
         downloadDataBeforePageLoad()
         self.LoginSuccessful()

@@ -29,9 +29,9 @@ class YouVsThemViewerVC: UIViewController {
 		differenceView.borderColor = GetColorForNumber(number: difference)
 		
 		if heading == "Engagement Rate" {
-			statistic1Label.text = engagmentRateInDetail(engagmentRate: stat1, enforceSign: false)
-			statistic2Label.text = engagmentRateInDetail(engagmentRate: stat2, enforceSign: false)
-			differenceLabel.text = engagmentRateInDetail(engagmentRate: difference, enforceSign: true)
+			statistic1Label.text = engagementRateInDetail(engagementRate: stat1, enforceSign: false)
+			statistic2Label.text = engagementRateInDetail(engagementRate: stat2, enforceSign: false)
+			differenceLabel.text = engagementRateInDetail(engagementRate: difference, enforceSign: true)
 		} else {
 			statistic1Label.text = NumberToStringWithCommas(number: stat1)
 			statistic2Label.text = NumberToStringWithCommas(number: stat2)

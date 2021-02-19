@@ -320,25 +320,6 @@ func createNewInfluencerAuthentication(info: NewAccountInfo) {
     // Create New User In users table
 }
 
-func filterQueryByField(email: String, completion:@escaping(_ exist: Bool, _ userData: [String: AnyObject]?)->Void){
-    
-    let ref = Database.database().reference().child("InfluencerAuthentication")
-    let query = ref.queryOrdered(byChild: "email").queryEqual(toValue: email)
-    query.observeSingleEvent(of: .value, with: { (snapshot) in
-        
-        if let snapValue = snapshot.value as? [String: AnyObject]{
-            
-            completion(true, snapValue)
-        }else{
-            completion(false, nil)
-        }
-        
-    }) { (error) in
-        
-    }
-    
-}
-
 func filterNewQueryByField(email: String, completion:@escaping(_ exist: Bool, _ userData: [String: AnyObject]?)->Void){
     
     let ref = Database.database().reference().child("Accounts/Private/Influencers")

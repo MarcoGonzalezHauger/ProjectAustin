@@ -340,7 +340,7 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 		verifiedBadge.isHidden = !basic.checkFlag("isVerified")
 		averageLikesLabel.text = NumberToStringWithCommas(number: basic.averageLikes)
 		followerCountLabel.text = NumberToStringWithCommas(number: basic.followerCount)
-		engagmentRateLabel.text = "\(basic.engagmentRateInt)%"
+		engagmentRateLabel.text = "\(basic.engagementRateInt)%"
 		
 		referralCodeLabel.text = "\(basic.referralCode)"
 		balanceLabel.text = NumberToPrice(Value: i.finance.balance)

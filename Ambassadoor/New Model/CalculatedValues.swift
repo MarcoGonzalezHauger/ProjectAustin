@@ -10,14 +10,14 @@ import Foundation
 import Firebase
 
 extension BasicInfluencer {
-	var engagmentRate: Double {
+	var engagementRate: Double {
 		if followerCount == 0 {
 			return 0
 		}
 		return averageLikes / followerCount
 	}
-	var engagmentRateInt: Int {
-		return Int((engagmentRate * 100).rounded(.down))
+	var engagementRateInt: Int {
+		return Int((engagementRate * 100).rounded(.down))
 	}
 	var baselinePricePerPost: Double {
 		return averageLikes * cashToLikesCoefficient
@@ -51,7 +51,7 @@ extension Business {
 
 extension BasicBusiness {
 	var avaliableOffers: [PoolOffer] {
-		return getFilteredOfferPool().filter{$0.businessId == businessId}
+		return getFilteredOfferPool().filter{$0.basicId == basicId}
 	}
 	var isForTesting: Bool {
 		get {
@@ -73,7 +73,7 @@ extension OfferFilter {
 		if basicInfluencer.averageLikes == 0 {
 			return false
 		}
-		if basicInfluencer.engagmentRate < minimumEngagmentRate {
+		if basicInfluencer.engagementRate < minimumEngagementRate {
 			return false
 		}
 		if acceptedZipCodes.count != 0 {
@@ -86,7 +86,7 @@ extension OfferFilter {
 				return false
 			}
 		}
-		if basicInfluencer.followingBusinesses.contains(businessId) {
+		if basicInfluencer.followingBusinesses.contains(basicId) {
 			return true
 		}
 		if acceptedInterests.count != 0 {

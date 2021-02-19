@@ -160,16 +160,29 @@ func ConvertDatabaseToNewDatabaseFormat(od: [String: Any]) {
 		
 		let coName: String = makeFirebaseUrl(co?.name ?? "NewCo" + ", " + GetNewID())
 		
+		let testName: String = co?.name ?? ""
+		
 		let NewBusinessID: String = makeFirebaseUrl(coName + ", " + randomString(length: 15))
 		
 		var flags: [String] = []
 		
 		if co?.isForTesting ?? false {
-			flags.append("isForTesting")
+			flags = ["isForTesting"]
+		}
+		if testName.lowercased().contains("test") {
+			flags = ["isForTesting"]
+		}
+		if testName.lowercased().contains("private limited") {
+			flags = ["isForTesting"]
+		}
+		if testName == "abc" {
+			flags = ["isForTesting"]
+		}
+		if co?.mission == "" {
+			flags.append("isInvisible")
 		}
 		if coUser.email	== "themagiccube.marco@gmail.com" {
 			flags.append("isOfficialAmbassadoor")
-			
 		}
 		
 		let businessFinance = BusinessFinance.init(stripeAccount: nil, log: [], balance: coDeposit?.currentBalance ?? 0, businessId: NewBusinessID)
@@ -250,18 +263,15 @@ func ConvertDatabaseToNewDatabaseFormat(od: [String: Any]) {
 								list.append("13210")
 							}
 							
-							
 							coPoolDict["acceptedZipCodes"] = list
 							coPoolDict["acceptedInterests"] = o.category
 							coPoolDict["acceptedGenders"] = o.genders
 							coPoolDict["mustBe21"] = o.mustBe21
-							coPoolDict["minimumEngagmentRate"] = 0
+							coPoolDict["minimumEngagementRate"] = 0
 							
 							foundIt = true
 							
-							
-							
-							draft.distributeToPool(asBusiness: b, asBasic: b.basics[0], filter: OfferFilter.init(dictionary: coPoolDict as [String: AnyObject], businessId: b.businessId), withMoney: o.cashPower!, withDrawFundsFalseForTestingOnly: false) { (success, bizObj) in
+							draft.distributeToPool(asBusiness: b, asBasic: b.GetActiveBasicBusiness()!, filter: OfferFilter.init(dictionary: coPoolDict as [String: AnyObject], businessId: b.businessId, basicId: b.GetActiveBasicBusiness()!.basicId), withMoney: o.cashPower!, withDrawFundsFalseForTestingOnly: false) { (success, bizObj) in
 								if let bizObj = bizObj {
 									bizObj.UpdateToFirebase(completed: nil)
 								}

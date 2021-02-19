@@ -231,55 +231,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         FirebaseApp.configure()
         Database.database().isPersistenceEnabled = false
         
-        
-//        RefreshPublicData {
-//            print("Public data downloaded.")
-//        }
-        
-//        StartListeningToPublicData()
-//
-//        startListeningToOfferPool()
-//
-        
-		
-//		InitilizeAmbassadoor()
-		//ConvertEntireDatabase(iUnderstandWhatThisFunctionDoes: true)
-        
-//        SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         global.cachedImageList.removeAll()
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "AppImageData")
         request.returnsObjectsAsFaults = false
+		
         let context = self.persistentContainer.viewContext
         do {
             let result = try context.fetch(request)
             for data in result as! [NSManagedObject] {
-                
                 let cachedData = CachedImages.init(object: data)
                 let afterSevenDays = cachedData.date!.afterDays(numberOfDays: 7)
                 if Date.getcurrentESTdate().timeIntervalSince1970 > afterSevenDays.timeIntervalSince1970{
-                removeCoreDataObject(object:cachedData.object!)
+					removeCoreDataObject(object:cachedData.object!)
                 }else{
-                global.cachedImageList.append(cachedData)
-                }
-                //global.cachedImageList.append(cachedData)
-                
-            }
-            print("coredatecount=",global.cachedImageList.count)
-        }catch {
-            
-            print("Failed")
-        }
-        
-        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
-        
-        
-		//AskForNotificationPermission()
-                
-                //Form-API Depreciated
-        //        InitializeFormAPI(completed: nil)
-                InitializeZipCodeAPI(completed: nil)
-		// Define the custom actions.
-//		UIApplication.shared.applicationIconBadgeNumber = 0
+					global.cachedImageList.append(cachedData)
+				}
+			}
+			print("coredatecount=",global.cachedImageList.count)
+		}catch {
+			
+			print("Failed")
+		}
+		
+		ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
 		
 		UNUserNotificationCenter.current().delegate = self
         let center = UNUserNotificationCenter.current()
@@ -290,11 +264,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 NotificationCenter.default.addObserver(self, selector: #selector(self.tokenRefreshNotification(_:)), name: NSNotification.Name.InstanceIDTokenRefresh, object: nil)
             }
         }
-        
-        // Fetch data once an hour.
-//        UIApplication.shared.setMinimumBackgroundFetchInterval(600)
-        //self.startTimer()
-        
+		
         if let shortcutItem = launchOptions?[UIApplication.LaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
             
             if let userID = UserDefaults.standard.value(forKey: "userID") as? String{
@@ -310,11 +280,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             return true
         }
         
-        //getDownloadedLink()
-        
         self.signInAction()
-        
-        //addDevelopmentSettings()
         
         GetDevelopmentSettings { (development) in
             if development != nil{
@@ -326,89 +292,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	}
     
     
-    func signInAction() {
-        if let email = UserDefaults.standard.object(forKey: "email") as? String{
-            if let password = UserDefaults.standard.object(forKey: "password") as? String{
-                
-                if AccessToken.current != nil {
-                
-                filterNewQueryByField(email: email) { (success, data) in
-                    if success{
-                        
-                        var passwordEncrpted = ""
-                        var userID = ""
-                        for (key,value) in data! {
-                            userID = key
-                            passwordEncrpted = value["password"] as! String
-                        }
-                        
-                        if password.md5() == passwordEncrpted {
-                            
-                            if let valueData = data![userID] as? [String: Any] {
-                                let user = Influencer.init(dictionary: valueData, userId: userID)
-                                Myself = user
-                            }
-                            
-                            if AccessToken.current != nil {
-                                
-                                setHapticMenu(user: Myself)
-                                InitilizeAmbassadoor()
-                                AverageLikes(instagramID: Myself.instagramAccountId, userToken: Myself.instagramAuthToken)
-                                let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
-                                downloadDataBeforePageLoad()
-                                self.window?.rootViewController = viewReference
-                                
-                            }else{
-                                
-                                self.callIfAccessTokenExpired(userID: Myself.userId, instaID: Myself.instagramAccountId)
-                                
-                            }
-                            
-                            
-                            
-//                            fetchSingleUserDetails(userID: userID) { (status, user) in
-//                                Yourself = user
-//                                //updateFirebaseProfileURL()
-//
-//                                 AverageLikes(instagramID: userID, userToken: user.authenticationToken)
-//                                let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
-//                                downloadDataBeforePageLoad(reference: viewReference)
-//                                self.window?.rootViewController = viewReference
-//
-//                                //self.callIfAccessTokenExpired(userID: userID )
-//
-//
-//                            }
-                            
-                        }else{
-                            let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
-                            self.window?.rootViewController = viewReference
-                        }
-                    }else{
-                         let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
-                         self.window?.rootViewController = viewReference
-                    }
-                }
-                }else{
-                    
-                    let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
-                    self.window?.rootViewController = viewReference
-                    let userID = UserDefaults.standard.object(forKey: "userID")
-                    //callIfAccessTokenExpired(userID: userID as! String, instaID: )
-                    
-                }
-                
-            }else{
-                //InitilizeAmbassadoor()
-                let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
-                self.window?.rootViewController = viewReference
-            }
-        }else{
-            //InitilizeAmbassadoor()
-            let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
-            self.window?.rootViewController = viewReference
-        }
-
+	func signInAction() {
+//		ConvertEntireDatabase(iUnderstandWhatThisFunctionDoes: true)
+//		return
+		
+		let eMail: String! = UserDefaults.standard.object(forKey: "email") as? String
+		let passWord: String! = UserDefaults.standard.object(forKey: "password") as? String
+		
+		if eMail == nil || passWord == nil || AccessToken.current == nil {
+			let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
+			self.window?.rootViewController = viewReference
+			return
+		}
+		
+		let ref = Database.database().reference().child("Accounts/Private/Influencers")
+		let query = ref.queryOrdered(byChild: "email").queryEqual(toValue: eMail)
+		query.observeSingleEvent(of: .value, with: { (snapshot) in
+			
+			let thisInf = Influencer.init(dictionary: snapshot.value as! [String: Any], userId: snapshot.key)
+			
+			if thisInf.password == passWord?.md5() {
+				
+				Myself = thisInf
+				
+				if AccessToken.current != nil {
+					
+					setHapticMenu(user: Myself)
+					InitializeAmbassadoor()
+					AverageLikes(instagramID: Myself.instagramAccountId, userToken: Myself.instagramAuthToken)
+					let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
+					downloadDataBeforePageLoad()
+					self.window?.rootViewController = viewReference
+					
+				} else {
+					
+					self.callIfAccessTokenExpired(userID: Myself.userId, instaID: Myself.instagramAccountId)
+					
+				}
+			}
+			
+		})
 
     }
     
@@ -532,7 +455,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         Myself = userDetail
         setHapticMenu(user: Myself)
-        InitilizeAmbassadoor()
+        InitializeAmbassadoor()
         AverageLikes(instagramID: NewAccount.id, userToken: NewAccount.authenticationToken)
         let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
         //downloadDataBeforePageLoad(reference: viewReference)

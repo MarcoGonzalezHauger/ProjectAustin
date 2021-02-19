@@ -135,18 +135,20 @@ class OfferFilter {
 	var acceptedInterests: [String]
 	var acceptedGenders: [String]
 	var mustBe21: Bool
-	var minimumEngagmentRate: Double
+	var minimumEngagementRate: Double
 	
 	var businessId: String
+	var basicId: String
 	
-	init(dictionary d: [String: Any], businessId id: String) {
+	init(dictionary d: [String: Any], businessId id: String, basicId bid: String) {
 		businessId = id
+		basicId = bid
 		
 		acceptedZipCodes = d["acceptedZipCodes"] as? [String] ?? []
 		acceptedInterests = d["acceptedInterests"] as? [String] ?? []
 		acceptedGenders = d["acceptedGenders"] as? [String] ?? []
 		mustBe21 = d["mustBe21"] as! Bool
-		minimumEngagmentRate = d["minimumEngagmentRate"] as! Double
+		minimumEngagementRate = d["minimumEngagementRate"] as! Double
 		
 	}
 	
@@ -159,7 +161,7 @@ class OfferFilter {
 		d["acceptedInterests"] = acceptedInterests
 		d["acceptedGenders"] = acceptedGenders
 		d["mustBe21"] = mustBe21
-		d["minimumEngagmentRate"] = minimumEngagmentRate
+		d["minimumEngagementRate"] = minimumEngagementRate
 		
 		return d
 	}
@@ -241,8 +243,9 @@ class PoolOffer { //while in offer pool (GETS ASSIGNED NEW ID)
 	init(dictionary d: [String: Any], poolId pid: String) {
 		poolId = pid
 		businessId = d["businessId"] as! String
+		basicId = d["basicId"] as! String
 		
-		filter = OfferFilter.init(dictionary: d["filter"] as! [String: Any], businessId: businessId)
+		filter = OfferFilter.init(dictionary: d["filter"] as! [String: Any], businessId: businessId, basicId: basicId)
 		
 		draftOfferId = d["draftOfferId"] as! String
 		flags = d["flags"] as? [String] ?? []
@@ -263,7 +266,6 @@ class PoolOffer { //while in offer pool (GETS ASSIGNED NEW ID)
 		originalCashPower = d["originalCashPower"] as! Double
 		payIncrease = d["payIncrease"] as! Double
 		acceptedUserIds = (d["acceptedUserIds"] as? [String] ) ?? []
-		basicId = d["basicId"] as! String
 	}
 	
 	func toDictionary() -> [String: Any] {

@@ -72,11 +72,11 @@ class NewBasicInfluencerView: UIViewController, publicDataRefreshDelegate, UICol
 	func LoadYouVsThem() {
 		let likesDiff = Myself.basic.averageLikes - thisInfluencer.averageLikes
 		let followersDiff = Myself.basic.followerCount - thisInfluencer.followerCount
-		let engagementRate = Myself.basic.engagmentRate - thisInfluencer.engagmentRate
+		let engagementRate = Myself.basic.engagementRate - thisInfluencer.engagementRate
 		
 		let likesString = CompressNumberWithPlus(number: likesDiff)
 		let followerString = CompressNumberWithPlus(number: followersDiff)
-		let engagementString = engagmentRateInDetail(engagmentRate: engagementRate, enforceSign: true)
+		let engagementString = engagementRateInDetail(engagementRate: engagementRate, enforceSign: true)
 		
 		youVsThemAverageLikesLabel.text = likesString
 		youVsThemFollowersLabel.text = followerString
@@ -138,8 +138,8 @@ class NewBasicInfluencerView: UIViewController, publicDataRefreshDelegate, UICol
 	}
 	
 	@IBAction func EngagementRatePressed(_ sender: Any) {
-		stat1 = Myself.basic.engagmentRate
-		stat2 = thisInfluencer.engagmentRate
+		stat1 = Myself.basic.engagementRate
+		stat2 = thisInfluencer.engagementRate
 		headingName = "Engagement Rate"
 		viewYouVsThemItem()
 	}
@@ -195,7 +195,7 @@ class NewBasicInfluencerView: UIViewController, publicDataRefreshDelegate, UICol
 		verifiedBadge.isHidden = !thisInfluencer.checkFlag("isVerified")
 		averageLikesLabel.text = NumberToStringWithCommas(number: thisInfluencer.averageLikes)
 		followerCountLabel.text = NumberToStringWithCommas(number: thisInfluencer.followerCount)
-		engagmentRateLabel.text = "\(thisInfluencer.engagmentRateInt)%"
+		engagmentRateLabel.text = "\(thisInfluencer.engagementRateInt)%"
 		
 		if !didJustFollow {
 			followButton.isFollowing = thisInfluencer.followedBy.contains(Myself.userId)

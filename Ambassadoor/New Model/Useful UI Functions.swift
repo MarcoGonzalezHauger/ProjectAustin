@@ -73,7 +73,7 @@ func GetColorForNumber(number: Double) -> UIColor {
 	}
 }
 
-func engagmentRateInDetail(engagmentRate eg: Double, enforceSign es: Bool) -> String {
+func engagementRateInDetail(engagementRate eg: Double, enforceSign es: Bool) -> String {
 	if es {
 		return (eg > 0 ? "+" : "") + String((eg * 10000).rounded() / 100) + "%"
 	} else {

@@ -20,7 +20,7 @@ class NewBasicBusinessView: UIViewController, UITableViewDelegate, UITableViewDa
 	}
 	
 	func publicDataRefreshed(userOrBusinessId: String) {
-		if userOrBusinessId == thisBusiness.businessId {
+		if userOrBusinessId == thisBusiness.basicId {
 			thisBusiness = GetBasicBusiness(id: userOrBusinessId)
 			LoadBasicBusinessInfo(refreshIsFollowing: false)
 		}
@@ -88,8 +88,8 @@ class NewBasicBusinessView: UIViewController, UITableViewDelegate, UITableViewDa
 		LoadBasicBusinessInfo(refreshIsFollowing: true)
     }
 	
-	func displayBusinessId(businessId: String) {
-		thisBusiness = GetBasicBusiness(id: businessId)
+	func displayBasicId(basicId: String) {
+		thisBusiness = GetBasicBusiness(id: basicId)
 	}
 
 	@IBAction func closeButtonClicked(_ sender: Any) {
@@ -97,8 +97,12 @@ class NewBasicBusinessView: UIViewController, UITableViewDelegate, UITableViewDa
 	}
 	
 	func LoadBasicBusinessInfo(refreshIsFollowing rif: Bool) {
-		backImage.downloadAndSetImage(thisBusiness.logoUrl)
-		regProfilePic.downloadAndSetImage(thisBusiness.logoUrl)
+		backImage.image = nil
+		regProfilePic.image = nil
+		downloadImage(thisBusiness.logoUrl) { (img) in
+			self.backImage.image = img
+			self.regProfilePic.image = img
+		}
 		businessName.text = thisBusiness.name
 		if rif {
 			regFollowButton.isFollowing = thisBusiness.isFollowing(as: Myself)
