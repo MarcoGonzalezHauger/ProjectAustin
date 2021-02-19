@@ -63,7 +63,7 @@ class ResetPasswordVC: UIViewController {
             
             if isValidEmail(emailStr: EmailText.text!.lowercased()){
                 
-                filterQueryByField(email: EmailText.text!.lowercased()) { (exist,influencer) in
+                filterNewQueryByField(email: EmailText.text!.lowercased()) { (exist,influencer) in
                     
                     if exist{
                         var username = ""

@@ -80,14 +80,6 @@ let socialPageMileRadius: Int = 10
 var zipCodeRadiusDic: [zipCodeRadius] = []
 
 //Used in Classic Sort algorithms for the social page.
-func GetSocialZipDistances() -> [String: Double] {
-	for zcr in zipCodeRadiusDic {
-		if zcr.zipCode == (Yourself.zipCode ?? "0") && zcr.radius == socialPageMileRadius {
-			return zcr.results
-		}
-	}
-	return [Yourself.zipCode ?? "0": 0]
-}
 
 //Uses zip code API to get all zip codes in a certain radius. before API call we are checking userdefault values for same zipCoderadius value
 func GetAllZipCodesInRadius(zipCode: String, radiusInMiles: Int, completed:((_ zipCodeDistances: [String: Double]?, _ zipCode: String, _ radiusInMiles: Int) -> () )?) {

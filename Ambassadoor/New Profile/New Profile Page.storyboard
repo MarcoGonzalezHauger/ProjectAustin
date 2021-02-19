@@ -676,7 +676,7 @@
                         <outletCollection property="editBorderViews" destination="p31-ru-zJA" collectionClass="NSMutableArray" id="gMg-fy-ceT"/>
                         <segue destination="Tcr-wl-YZE" kind="show" identifier="toZip" id="8HI-fg-lbl"/>
                         <segue destination="VGr-Ng-fdz" kind="show" identifier="toSetings" id="Eb5-eN-w7f"/>
-                        <segue destination="hFQ-jf-OhG" kind="presentation" identifier="toAccountInfoSegue" id="oaf-PL-qpd"/>
+                        <segue destination="hFQ-jf-OhG" kind="presentation" identifier="toAccountInfoSegue" modalPresentationStyle="fullScreen" id="oaf-PL-qpd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vT4-jQ-KUU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -713,10 +713,12 @@
             </objects>
             <point key="canvasLocation" x="137" y="577"/>
         </scene>
-        <!--AccountInfoRef-->
+        <!--AccountNavRef-->
         <scene sceneID="w0N-Sj-s5x">
             <objects>
-                <viewControllerPlaceholder storyboardName="AccountDetails" referencedIdentifier="AccountInfoRef" id="hFQ-jf-OhG" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="AccountDetails" referencedIdentifier="AccountNavRef" id="hFQ-jf-OhG" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="W7S-ki-Q0f"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LNY-m3-xlS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="753" y="-289"/>

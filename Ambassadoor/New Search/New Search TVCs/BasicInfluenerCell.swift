@@ -52,7 +52,7 @@ class BasicInfluenerCell: UITableViewCell, FollowerButtonDelegete {
 		averageLikesLabel.text = CompressNumber(number: represents.averageLikes)
 		followerCountLabel.text = CompressNumber(number: represents.followerCount)
 				
-		engagmentRateLabel.text = "\(represents.engagmentRateInt)%"
+		engagmentRateLabel.text = "\(represents.engagementRateInt)%"
 		userImagePicture.downloadAndSetImage(represents.resizedProfile)
 		
 		if represents.userId == Myself.userId {

@@ -134,14 +134,26 @@ func sortCompareBusiness(business1 bus1: BasicBusiness, business2 bus2: BasicBus
 }
 
 func sortCompareInfluencers(influencer1 inf1: BasicInfluencer, influencer2 inf2: BasicInfluencer) -> Bool {
-	if inf1.engagmentRate == inf2.engagmentRate {
+	if inf1.engagementRate == inf2.engagementRate {
 		if inf1.averageLikes == inf2.averageLikes {
 			return inf1.username > inf2.username
 		} else {
 			return inf1.averageLikes > inf2.averageLikes
 		}
 	} else {
-		return inf1.engagmentRate > inf2.engagmentRate
+		if inf1.averageLikes < 30 || inf2.averageLikes < 30 {
+			if inf1.averageLikes == inf2.averageLikes {
+				if inf1.engagementRate == inf2.engagementRate {
+					return inf1.username > inf2.username
+				} else {
+					return inf1.engagementRate > inf2.engagementRate
+				}
+			} else {
+				return inf1.averageLikes > inf2.averageLikes
+			}
+		} else {
+			return inf1.engagementRate > inf2.engagementRate
+		}
 	}
 }
 
@@ -186,7 +198,7 @@ func SearchSocialData(searchQuery: String, searchIn: SearchFor) -> [Any] {
 	}
 	
 	if !Myself.basic.isForTesting {
-		listOfUsers = listOfUsers.filter{
+		listOfUsers = listOfUsers.filter {
 			if let inf = $0 as? BasicInfluencer {
 				return !inf.isForTesting
 			}

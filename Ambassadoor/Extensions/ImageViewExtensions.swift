@@ -13,6 +13,8 @@ import CoreData
 
 var imageCache = NSCache<NSString, AnyObject>()
 
+let defaultImage : UIImage = UIImage.init(named: "defaultuser")!
+
 //This extension allows UIImageViews to download images from the web and have them saved in cache.
 
 func GetUIActivityIndicator() -> UIActivityIndicatorView {

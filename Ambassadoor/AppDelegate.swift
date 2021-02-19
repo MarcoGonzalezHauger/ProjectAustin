@@ -34,21 +34,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	}
 	
 	func sendOffer(id: String) {
-		pageDelegate?.selectedIndex = 2
-		delegate?.SendOffer(OfferID: id)
+//		pageDelegate?.selectedIndex = 2
+//		delegate?.SendOffer(OfferID: id)
 	}
     
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void){
         print(shortcutItem.type)
 
-        if let userID = UserDefaults.standard.value(forKey: "userID") as? String{
-            fetchSingleUserDetails(userID: userID) { (status, user) in
-                Yourself = user
-               let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
-                self.handleHapticActions(shortcutItem, user: Yourself, tabController: viewReference)
-                self.window?.rootViewController = viewReference
-            }
-        }
+//        if let userID = UserDefaults.standard.value(forKey: "userID") as? String{
+//            fetchSingleUserDetails(userID: userID) { (status, user) in
+//                Yourself = user
+//               let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
+//                self.handleHapticActions(shortcutItem, user: Yourself, tabController: viewReference)
+//                self.window?.rootViewController = viewReference
+//            }
+//        }
 
     }
 	
@@ -108,95 +108,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
 	
-	var delegate: PresentOfferDelegate?
+	//var delegate: PresentOfferDelegate?
 	var pageDelegate: UITabBarController?
 	
-    // create new expire notification here
-	func CreateExpireNotification(expiringOffer: Offer) {
-//		let content = UNMutableNotificationContent()
-//		content.title = "Offer Will Expire in 1h"
-//		content.body = "An offer by \(expiringOffer.company.name) for \(NumberToPrice(Value: expiringOffer.money)) is about to expire."
-//		downloadImage(expiringOffer.company.logo ?? "") { (logo) in
-//			if let logo = logo {
-//				if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
-//					content.attachments = [attachment]
-//				}
-//			}
-//
-//			let request = UNNotificationRequest.init(identifier: "expire\(expiringOffer.offer_ID)", content: content, trigger: UNTimeIntervalNotificationTrigger.init(timeInterval: 10, repeats: false))
-//			UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-//        }
-        
-        let dateComponents = DateComponents(year: Calendar.current.component(.year, from: expiringOffer.expiredate), month: Calendar.current.component(.month, from: expiringOffer.expiredate), day: Calendar.current.component(.day, from: expiringOffer.expiredate))
-        let yourFireDate = Calendar.current.date(from: dateComponents)
-        let content = UNMutableNotificationContent()
-        content.title = NSString.localizedUserNotificationString(forKey:
-            "Offer Will Expire in 1h", arguments: nil)
-		content.body = NSString.localizedUserNotificationString(forKey: "An offer by \(expiringOffer.company?.name ?? "a business") for \(NumberToPrice(Value: expiringOffer.money)) is about to expire.", arguments: nil)
-        content.categoryIdentifier = "\(expiringOffer.offer_ID)"
-        content.sound = UNNotificationSound.default
-        content.badge = 1
-        
-        downloadImage(expiringOffer.company?.logo ?? "") { (logo) in
-            if let logo = logo {
-                if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
-                    content.attachments = [attachment]
-                }
-            }
-            
-            let dateComponents2 = Calendar.current.dateComponents(Set(arrayLiteral: Calendar.Component.year, Calendar.Component.month, Calendar.Component.day), from: yourFireDate!)
-            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents2, repeats: false)
-            let request = UNNotificationRequest(identifier: "expire\(expiringOffer.offer_ID)", content: content, trigger: trigger)
-            UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
-                if error != nil {
-                    //handle error
-                } else {
-                    //notification set up successfully
-                }
-                
-            })
-        }
-        
-    }
-    
-	
-    // create offer Accepted notification here
-    func CreateOfferAcceptNotification(acceptedOffer: Offer) {
-        let content = UNMutableNotificationContent()
-        content.title = "Offer Accepted"
-        content.badge = 1
-        content.body = "An offer by \(acceptedOffer.company?.name ?? "a business") for \(NumberToPrice(Value: acceptedOffer.money)) is Accepted."
-        downloadImage(acceptedOffer.company?.logo ?? "") { (logo) in
-            if let logo = logo {
-                if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
-                    content.attachments = [attachment]
-                }
-            }
-            let request = UNNotificationRequest.init(identifier: "accept\(acceptedOffer.offer_ID)", content: content, trigger: UNTimeIntervalNotificationTrigger.init(timeInterval: 15, repeats: false))
-            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-        }
-        
-    }
-    
-    // create new offer notification here
-	func CreateNewOfferNotification(newOffer: Offer) {
-		let content = UNMutableNotificationContent()
-		content.title = "New Offer"
-        content.badge = 1
-		content.body = "\(newOffer.company?.name ?? "a business") will pay you \(NumberToPrice(Value: newOffer.money)) for \(newOffer.posts.count) posts."
-		downloadImage(newOffer.company?.logo ?? "") { (logo) in
-			if let logo = logo {
-				if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
-					content.attachments = [attachment]
-				}
-			}
-			
-			//Time inverval is for debug only.
-			
-			let request = UNNotificationRequest.init(identifier: "new\(newOffer.offer_ID)", content: content, trigger: UNTimeIntervalNotificationTrigger.init(timeInterval: 15, repeats: false))
-			UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-		}
-	}
 	
 	var window: UIWindow?
     
@@ -231,55 +145,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         FirebaseApp.configure()
         Database.database().isPersistenceEnabled = false
         
-        
-//        RefreshPublicData {
-//            print("Public data downloaded.")
-//        }
-        
-//        StartListeningToPublicData()
-//
-//        startListeningToOfferPool()
-//
-        
-		
-//		InitilizeAmbassadoor()
-		//ConvertEntireDatabase(iUnderstandWhatThisFunctionDoes: true)
-        
-//        SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         global.cachedImageList.removeAll()
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "AppImageData")
         request.returnsObjectsAsFaults = false
+		
         let context = self.persistentContainer.viewContext
         do {
             let result = try context.fetch(request)
             for data in result as! [NSManagedObject] {
-                
                 let cachedData = CachedImages.init(object: data)
                 let afterSevenDays = cachedData.date!.afterDays(numberOfDays: 7)
                 if Date.getcurrentESTdate().timeIntervalSince1970 > afterSevenDays.timeIntervalSince1970{
-                removeCoreDataObject(object:cachedData.object!)
+					removeCoreDataObject(object:cachedData.object!)
                 }else{
-                global.cachedImageList.append(cachedData)
-                }
-                //global.cachedImageList.append(cachedData)
-                
-            }
-            print("coredatecount=",global.cachedImageList.count)
-        }catch {
-            
-            print("Failed")
-        }
-        
-        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
-        
-        
-		//AskForNotificationPermission()
-                
-                //Form-API Depreciated
-        //        InitializeFormAPI(completed: nil)
-                InitializeZipCodeAPI(completed: nil)
-		// Define the custom actions.
-//		UIApplication.shared.applicationIconBadgeNumber = 0
+					global.cachedImageList.append(cachedData)
+				}
+			}
+			print("coredatecount=",global.cachedImageList.count)
+		}catch {
+			
+			print("Failed")
+		}
+		
+		ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
 		
 		UNUserNotificationCenter.current().delegate = self
         let center = UNUserNotificationCenter.current()
@@ -290,35 +178,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 NotificationCenter.default.addObserver(self, selector: #selector(self.tokenRefreshNotification(_:)), name: NSNotification.Name.InstanceIDTokenRefresh, object: nil)
             }
         }
-        
-        // Fetch data once an hour.
-//        UIApplication.shared.setMinimumBackgroundFetchInterval(600)
-        //self.startTimer()
-        
+		
         if let shortcutItem = launchOptions?[UIApplication.LaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
             
-            if let userID = UserDefaults.standard.value(forKey: "userID") as? String{
-                fetchSingleUserDetails(userID: userID) { (status, user) in
-                    Yourself = user
-                   let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
-                    self.handleHapticActions(shortcutItem, user: Yourself, tabController: viewReference)
-                    self.window?.rootViewController = viewReference
-
-                }
-            }
+//            if let userID = UserDefaults.standard.value(forKey: "userID") as? String{
+//                fetchSingleUserDetails(userID: userID) { (status, user) in
+//                    Yourself = user
+//                   let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
+//                    self.handleHapticActions(shortcutItem, user: Yourself, tabController: viewReference)
+//                    self.window?.rootViewController = viewReference
+//
+//                }
+//            }
             
             return true
         }
         
-        //getDownloadedLink()
-        
         self.signInAction()
-        
-        //addDevelopmentSettings()
         
         GetDevelopmentSettings { (development) in
             if development != nil{
-            global.InstagramAPI = APImode(rawValue: development!)!
+            //global.InstagramAPI = APImode(rawValue: development!)!
             }
         }
         
@@ -326,89 +206,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	}
     
     
-    func signInAction() {
-        if let email = UserDefaults.standard.object(forKey: "email") as? String{
-            if let password = UserDefaults.standard.object(forKey: "password") as? String{
-                
-                if AccessToken.current != nil {
-                
-                filterNewQueryByField(email: email) { (success, data) in
-                    if success{
-                        
-                        var passwordEncrpted = ""
-                        var userID = ""
-                        for (key,value) in data! {
-                            userID = key
-                            passwordEncrpted = value["password"] as! String
-                        }
-                        
-                        if password.md5() == passwordEncrpted {
-                            
-                            if let valueData = data![userID] as? [String: Any] {
-                                let user = Influencer.init(dictionary: valueData, userId: userID)
-                                Myself = user
-                            }
-                            
-                            if AccessToken.current != nil {
-                                
-                                setHapticMenu(user: Myself)
-                                InitilizeAmbassadoor()
-                                AverageLikes(instagramID: Myself.instagramAccountId, userToken: Myself.instagramAuthToken)
-                                let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
-                                downloadDataBeforePageLoad()
-                                self.window?.rootViewController = viewReference
-                                
-                            }else{
-                                
-                                self.callIfAccessTokenExpired(userID: Myself.userId, instaID: Myself.instagramAccountId)
-                                
-                            }
-                            
-                            
-                            
-//                            fetchSingleUserDetails(userID: userID) { (status, user) in
-//                                Yourself = user
-//                                //updateFirebaseProfileURL()
-//
-//                                 AverageLikes(instagramID: userID, userToken: user.authenticationToken)
-//                                let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
-//                                downloadDataBeforePageLoad(reference: viewReference)
-//                                self.window?.rootViewController = viewReference
-//
-//                                //self.callIfAccessTokenExpired(userID: userID )
-//
-//
-//                            }
-                            
-                        }else{
-                            let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
-                            self.window?.rootViewController = viewReference
-                        }
-                    }else{
-                         let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
-                         self.window?.rootViewController = viewReference
-                    }
-                }
-                }else{
-                    
-                    let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
-                    self.window?.rootViewController = viewReference
-                    let userID = UserDefaults.standard.object(forKey: "userID")
-                    //callIfAccessTokenExpired(userID: userID as! String, instaID: )
-                    
-                }
-                
-            }else{
-                //InitilizeAmbassadoor()
-                let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
-                self.window?.rootViewController = viewReference
-            }
+	func signInAction() {
+//		ConvertEntireDatabase(iUnderstandWhatThisFunctionDoes: true)
+//		return
+		
+		let eMail: String! = UserDefaults.standard.object(forKey: "email") as? String
+		let passWord: String! = UserDefaults.standard.object(forKey: "password") as? String
+		
+		if eMail == nil || passWord == nil || AccessToken.current == nil {
+			let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
+			self.window?.rootViewController = viewReference
+			return
+		}
+		
+		let ref = Database.database().reference().child("Accounts/Private/Influencers")
+		let query = ref.queryOrdered(byChild: "email").queryEqual(toValue: eMail)
+		query.observeSingleEvent(of: .value, with: { (snapshot) in
+            if let snapValue = snapshot.value as? [String: Any]{
+                let thisInf = Influencer.init(dictionary: snapValue.values.first as! [String : Any], userId: snapValue.keys.first!)
+			
+			if thisInf.password == passWord?.md5() {
+				
+				Myself = thisInf
+				
+				if AccessToken.current != nil {
+					
+					setHapticMenu(user: Myself)
+					InitializeAmbassadoor()
+					AverageLikes(instagramID: Myself.instagramAccountId, userToken: Myself.instagramAuthToken)
+					let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
+					downloadDataBeforePageLoad()
+					self.window?.rootViewController = viewReference
+					
+				} else {
+					
+					self.callIfAccessTokenExpired(userID: Myself.userId, instaID: Myself.instagramAccountId)
+					
+				}
+			} else {
+				let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
+				self.window?.rootViewController = viewReference
+			}
+            
         }else{
-            //InitilizeAmbassadoor()
             let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
             self.window?.rootViewController = viewReference
         }
-
+			
+		})
 
     }
     
@@ -532,7 +377,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         Myself = userDetail
         setHapticMenu(user: Myself)
-        InitilizeAmbassadoor()
+        InitializeAmbassadoor()
         AverageLikes(instagramID: NewAccount.id, userToken: NewAccount.authenticationToken)
         let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
         //downloadDataBeforePageLoad(reference: viewReference)
@@ -689,72 +534,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }()
     
     // Update User details, OfferList and completed offer verification for every 4 secs
-    private func startTimer() {
-        let queue = DispatchQueue(label: "com.firm.app.timer", attributes: .concurrent)
-        
-        timer?.cancel()
-        
-        timer = DispatchSource.makeTimerSource(queue: queue)
-        
-        timer?.schedule(deadline: .now(), repeating: .seconds(4), leeway: .milliseconds(100))
-        
-        timer?.setEventHandler { [weak self] in // `[weak self]` only needed if you reference `self` in this closure and you want to prevent strong reference cycle
-            
-                //offers updates
-                if  Yourself != nil{
-                    self?.fetchUserDetails()
-                    //naveen added
-                    var youroffers: [Offer] = []
-                    getOfferList { (Offers) in
-                        youroffers = Offers
-            //                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
-            //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
-                            global.AvaliableOffers = youroffers.filter({$0.status == "available"})
-                            global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
-                        //Ambver update
-                            global.AcceptedOffers = youroffers.filter({$0.status == "accepted" || $0.status == "denied"})
-                        global.OffersHistory = youroffers.filter({$0.status == "paid"})
-
-                            global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
-                            global.RejectedOffers = youroffers.filter({$0.status == "rejected" || $0.status == "denied"})
-                            
-                            UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
-                                var newavailableresults: [Offer] = []
-                                for notification in notifications {
-                                    print(notification.identifier)
-                                    var identifier = notification.identifier
-
-                                    if identifier.hasPrefix("new") {
-                                        identifier = String(identifier.dropFirst(3))
-                                    } else if identifier.hasPrefix("accept") {
-                                        identifier = String(identifier.dropFirst(6))
-                                    }
-                                        //naveeen added
-                                    else if identifier.hasPrefix("expire"){
-                                        identifier = String(identifier.dropFirst(6))
-                                    }else{
-                                    }
-                                    newavailableresults = global.AvaliableOffers.filter({ $0.offer_ID != identifier })
-                                    
-                                }
-                                
-                                for offer in newavailableresults {
-                                    self!.CreateExpireNotification(expiringOffer: offer)
-                                    self!.CreateNewOfferNotification(newOffer: offer)
-                                }
-                                
-                            }
-                        
-                    }
-                    CheckForCompletedOffers() {
-
-                    }
-                }            
-            
-        }
-        
-        timer?.resume()
-    }
     
     // after close the app stop the timer
     private func stopTimer() {
@@ -763,21 +542,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     // get user details From FIR
-    func fetchUserDetails() {
-        let usersRef = Database.database().reference().child("users").child(Yourself.id)
-        usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
-            if let dictionary = snapshot.value as? [String: AnyObject] {
-                
-                do {
-                    let userInstance = try User(dictionary: dictionary )
-                    Yourself = userInstance
-                    print("Appdelegate gender = \(String(describing: Yourself.gender))")
-                } catch let error {
-                    print(error)
-                }
-            }
-        }, withCancel: nil)
-    }
     
     
 	func applicationWillResignActive(_ application: UIApplication) {

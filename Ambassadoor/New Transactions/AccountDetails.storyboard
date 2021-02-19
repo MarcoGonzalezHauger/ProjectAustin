@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="TvT-9h-m8P">
-    <device id="retina5_5" orientation="portrait" appearance="light"/>
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -12,7 +12,9 @@
         <!--StripeConnectionRef-->
         <scene sceneID="iqa-2l-wq3">
             <objects>
-                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="StripeConnectionRef" id="sXb-Wy-20n" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="StripeConnectionRef" id="sXb-Wy-20n" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="6E6-qC-FKx"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qX1-aX-UwL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2341" y="-351"/>
@@ -22,17 +24,17 @@
             <objects>
                 <viewController storyboardIdentifier="AccountInfoRef" id="Kx6-5S-PGY" customClass="AccountInfoVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pTA-ih-ztq">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transfer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OHZ-SM-nWO">
-                                <rect key="frame" x="167.33333333333334" y="11.999999999999998" width="79.666666666666657" height="25.333333333333329"/>
+                                <rect key="frame" x="167" y="56" width="80" height="25.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="21"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H7g-e4-Slw" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="45.333333333333314" width="414" height="706.66666666666674"/>
+                                <rect key="frame" x="0.0" y="89.5" width="414" height="818.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n24-MV-b3h" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="18" y="120" width="378" height="44"/>
@@ -45,7 +47,7 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Withdraw Using" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uqH-NQ-jmb">
-                                                <rect key="frame" x="12" y="10.666666666666657" width="135" height="23"/>
+                                                <rect key="frame" x="12" y="10.5" width="135" height="23"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -88,7 +90,7 @@
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="16"/>
+                                        <real key="value" value="0.0"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
@@ -96,11 +98,11 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="H7g-e4-Slw" firstAttribute="top" secondItem="OHZ-SM-nWO" secondAttribute="bottom" constant="8" id="2yw-Z7-eYn"/>
-                            <constraint firstItem="Rch-32-gyw" firstAttribute="bottom" secondItem="H7g-e4-Slw" secondAttribute="bottom" constant="-16" id="FkL-6p-GmZ"/>
+                            <constraint firstAttribute="bottom" secondItem="H7g-e4-Slw" secondAttribute="bottom" constant="-12" id="FkL-6p-GmZ"/>
                             <constraint firstItem="Rch-32-gyw" firstAttribute="trailing" secondItem="H7g-e4-Slw" secondAttribute="trailing" id="R0C-bL-T4W"/>
                             <constraint firstItem="H7g-e4-Slw" firstAttribute="leading" secondItem="Rch-32-gyw" secondAttribute="leading" id="Uwz-lB-byC"/>
                             <constraint firstItem="OHZ-SM-nWO" firstAttribute="centerX" secondItem="pTA-ih-ztq" secondAttribute="centerX" id="duj-nj-wBv"/>
-                            <constraint firstItem="OHZ-SM-nWO" firstAttribute="top" secondItem="pTA-ih-ztq" secondAttribute="top" constant="12" id="oqz-0Y-AlR"/>
+                            <constraint firstItem="OHZ-SM-nWO" firstAttribute="top" secondItem="Rch-32-gyw" secondAttribute="top" constant="12" id="oqz-0Y-AlR"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Rch-32-gyw"/>
                     </view>
@@ -124,23 +126,23 @@
             <objects>
                 <viewController id="lnM-X8-PIY" customClass="NewWithdrawVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tGI-oP-RoJ">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confirm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r2o-Bv-M96">
-                                <rect key="frame" x="168.33333333333334" y="12" width="77.333333333333343" height="26"/>
+                                <rect key="frame" x="168.5" y="56" width="77" height="26"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="21"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ke9-NJ-BKi" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="46" width="414" height="702"/>
+                                <rect key="frame" x="0.0" y="90" width="414" height="818"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XTZ-kB-M5c" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="64" y="60" width="286" height="72"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$3.33" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tne-A5-8ce">
-                                                <rect key="frame" x="3" y="14.666666666666671" width="280" height="43"/>
+                                                <rect key="frame" x="3" y="14.5" width="280" height="43"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="36"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -208,13 +210,13 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transfer with" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYD-1j-raE">
-                                        <rect key="frame" x="63.999999999999993" y="24.666666666666671" width="122.33333333333331" height="25.333333333333329"/>
+                                        <rect key="frame" x="64" y="24.5" width="121.5" height="25.5"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="21"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stripeLogo" translatesAutoresizingMaskIntoConstraints="NO" id="B8H-mb-OR1">
-                                        <rect key="frame" x="194.33333333333334" y="14" width="56" height="48"/>
+                                        <rect key="frame" x="193.5" y="14" width="56" height="48"/>
                                         <color key="tintColor" red="0.40000000000000002" green="0.44705882349999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="56" id="73w-ow-2C1"/>
@@ -237,7 +239,7 @@
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="16"/>
+                                        <real key="value" value="0.0"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
@@ -261,30 +263,30 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vAr-YF-F8Y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2523" y="36"/>
+            <point key="canvasLocation" x="2928" y="36"/>
         </scene>
         <!--With Draw NoteVC-->
         <scene sceneID="tfC-dh-eiX">
             <objects>
                 <viewController id="L7P-Ig-62M" customClass="WithDrawNoteVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sbC-xR-NqZ">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transferred" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37a-pG-mWe">
-                                <rect key="frame" x="151.66666666666666" y="12" width="110.66666666666666" height="26"/>
+                                <rect key="frame" x="151.5" y="56" width="111" height="26"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="21"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BW3-w8-rCY" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="46" width="414" height="702"/>
+                                <rect key="frame" x="0.0" y="90" width="414" height="818"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2sI-EJ-z2a" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="64" y="60" width="286" height="60"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$3.33" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8h9-Fi-s4a">
-                                                <rect key="frame" x="3" y="11.666666666666671" width="280" height="37"/>
+                                                <rect key="frame" x="3" y="11.5" width="280" height="37"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="31"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -314,7 +316,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z9i-jO-dHb" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                        <rect key="frame" x="32" y="393.33333333333331" width="350" height="56"/>
+                                        <rect key="frame" x="32" y="393.5" width="350" height="56"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uex-VA-HIE">
                                                 <rect key="frame" x="0.0" y="0.0" width="350" height="56"/>
@@ -352,7 +354,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jFR-Vb-skq">
-                                        <rect key="frame" x="32" y="184" width="350" height="81.333333333333314"/>
+                                        <rect key="frame" x="32" y="184" width="350" height="81.5"/>
                                         <string key="text">The money is on its way!
 Stripe may take up to 3 days to complete the transfer, but it usually transfers within a few minutes.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -374,7 +376,7 @@ Stripe may take up to 3 days to complete the transfer, but it usually transfers 
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="16"/>
+                                        <real key="value" value="0.0"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
@@ -397,12 +399,12 @@ Stripe may take up to 3 days to complete the transfer, but it usually transfers 
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ufi-1Q-ZKo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3264" y="36"/>
+            <point key="canvasLocation" x="3668" y="36"/>
         </scene>
         <!--StandardNC-->
         <scene sceneID="3hh-C9-SS2">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="TvT-9h-m8P" customClass="StandardNC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="AccountNavRef" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="TvT-9h-m8P" customClass="StandardNC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <nil key="simulatedTopBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="n1F-YI-gtv">

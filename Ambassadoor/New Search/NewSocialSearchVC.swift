@@ -67,7 +67,7 @@ class NewSocialSearchVC: UIViewController, UISearchBarDelegate, UITableViewDeleg
 	}
 	
 	var passedUserId: String = ""
-	var passedBusinessId: String = ""
+	var passedBasicId: String = ""
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		
@@ -76,7 +76,7 @@ class NewSocialSearchVC: UIViewController, UISearchBarDelegate, UITableViewDeleg
 			performSegue(withIdentifier: "toInfluencerView", sender: self)
 		}
 		if let thisBus = basicObjectResults[indexPath.row] as? BasicBusiness {
-			passedBusinessId = thisBus.businessId
+			passedBasicId = thisBus.basicId
 			performSegue(withIdentifier: "toBusinessView", sender: self)
 		}
 		
@@ -92,7 +92,7 @@ class NewSocialSearchVC: UIViewController, UISearchBarDelegate, UITableViewDeleg
 			view.displayInfluencerId(userId: passedUserId)
 		}
 		if let view = segue.destination as? NewBasicBusinessView {
-			view.displayBusinessId(businessId: passedBusinessId)
+			view.displayBasicId(basicId: passedBasicId)
 		}
 	}
 	

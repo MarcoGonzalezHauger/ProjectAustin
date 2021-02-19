@@ -38,16 +38,19 @@ class NewWithdrawVC: UIViewController {
             let withdrawAmount = influencer.finance.balance - Double(feeAmount)
             print("fee=\(feeAmount)")
             print(withdrawAmount)
-            
-            
             subAmount = withdrawAmount + Double(feeAmount)
+            
+            if withdrawAmount < 0 {
+                self.showStandardAlertDialog(title: "Stripe Fees more than your Money", msg: "Earn money by completing Offers.")
+                return
+            }
                     
             let finaltotalAmount = 0
             let balanceUpdateRef = Database.database().reference().child("Accounts/Private/Influencers").child(Myself.userId).child("finance")
             balanceUpdateRef.updateChildValues(["balance": 0]) { (error, DatabaseReference) in
             if error == nil {
                 
-                let params = ["accountID": Myself.finance.stripeAccount?.stripeUserId as Any,"amount": 1 * 100, "mode": "test"] as [String: AnyObject]
+                let params = ["accountID": Myself.finance.stripeAccount?.stripeUserId as Any,"amount": subAmount * 100, "mode": "test"] as [String: AnyObject]
                 APIManager.shared.withdrawThroughStripe(params: params) { (status, error, data) in
                     
                     

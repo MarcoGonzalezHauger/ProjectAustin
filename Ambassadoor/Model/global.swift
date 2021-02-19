@@ -26,62 +26,14 @@ import UIKit
 }
 
 class CentralVariables {
-        var OffersHistory: [Offer] = [] { didSet {
-            OffersHistory = OffersHistory.sorted{ (Offer1, Offer2) -> Bool in
-                return (Offer1.money / Double(Offer1.posts.count)) > (Offer2.money / Double(Offer2.posts.count))    }
-            EachListener(){ if let targetfunction = $0.OffersHistoryChanged { targetfunction()}}}}
-    
-	//The offers that are currently in the users inbox.
-	var AvaliableOffers: [Offer] = [] { didSet {
         
-//		UIApplication.shared.applicationIconBadgeNumber = AvaliableOffers.count
-		AvaliableOffers = AvaliableOffers.sorted{ (Offer1, Offer2) -> Bool in
-			return (Offer1.money / Double(Offer1.posts.count)) > (Offer2.money / Double(Offer2.posts.count))	}
-		EachListener(){ if let targetfunction = $0.AvaliableOffersChanged { targetfunction()}}}}
-	
-	//The offers that the user has rejected.
-	var RejectedOffers: [Offer] = [] { didSet { EachListener(){ if let targetfunction = $0.RejectedOffersChanged { targetfunction()}}}}
-	
-	//The offers that the user has accepted.
-	var AcceptedOffers: [Offer] = [] { didSet {	EachListener() { if let targetfunction = $0.AcceptedOffersChanged { targetfunction()}}}
-	}
-	
-	//The offers the user has completed.
-	var CompletedOffers: [Offer] = [] {	didSet { EachListener(){ if let targetfunction = $0.CompletedOffersChanged { targetfunction()}}}}
-	
-	//The offers the user has completed.
-	var SocialData: [User] = [] { didSet { EachListener(){ if let targetfunction = $0.SocialDataChanged{ targetfunction()}}}}
-    
-    //Offers tied to a User
-    var OffersForUser: [Offer] = [] { didSet { EachListener(){ if let targetfunction = $0.OffersForUserChanged{ targetfunction()}}}}
-    
-    
-	
-	//Every VC that is connected to this global variable.
-	func EachListener(updatefor: (_ Listener: GlobalListener) -> ()) {
-		for x : GlobalListener in delegates {
-			updatefor(x)
-		}
-	}	
 	var delegates: [GlobalListener] = []
-    
-    var BusinessUser = [CompanyDetails]()
-    
-    
-    
     var deviceFIRToken = ""
     var dwollaCustomerInformation = DwollaCustomerInformation()
     //Influencer worked Companies
     var inProgressOfferCount = [Int]()
     var cachedImageList = [CachedImages]()
     var identifySegment = ""
-    var allInprogressOffer = [Offer]()
-    var userList = [AnyObject]()
-    var followerList = [FollowingInformation]()
-    var influencerList = [User]()
-    var followOfferList = [Offer]()
-    var allOfferList = [Offer]()
-    var InstagramAPI: APImode? = nil
     var appVersion: String? = nil
     var allTimers = [Timer]()
     var isClickedUserFollow = false
