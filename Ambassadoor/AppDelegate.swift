@@ -329,6 +329,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 					self.callIfAccessTokenExpired(userID: Myself.userId, instaID: Myself.instagramAccountId)
 					
 				}
+			} else {
+				let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
+				self.window?.rootViewController = viewReference
 			}
 			
 		})
