@@ -30,14 +30,10 @@ class SigninVC: UIViewController {
     @IBOutlet weak var authLabel: UILabel!
     @IBOutlet weak var ForgotPasswordButton: UIButton!
     
-    var existUser: InfluencerAuthenticationUser? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if existUser != nil {
-            self.emailText.text = existUser?.email
-        }
     }
     
     func SignInNow() {

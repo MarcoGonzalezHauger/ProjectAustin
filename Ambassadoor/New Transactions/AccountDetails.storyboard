@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="TvT-9h-m8P">
-    <device id="retina6_0" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="TvT-9h-m8P">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--StripeConnectionRef-->
         <scene sceneID="iqa-2l-wq3">
             <objects>
-                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="StripeConnectionRef" id="sXb-Wy-20n" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="StripeConnectionRef" id="sXb-Wy-20n" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="6E6-qC-FKx"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qX1-aX-UwL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2341" y="-351"/>
@@ -23,30 +24,30 @@
             <objects>
                 <viewController storyboardIdentifier="AccountInfoRef" id="Kx6-5S-PGY" customClass="AccountInfoVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pTA-ih-ztq">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transfer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OHZ-SM-nWO">
-                                <rect key="frame" x="155.33333333333334" y="56.000000000000007" width="79.666666666666657" height="25.333333333333336"/>
+                                <rect key="frame" x="167" y="56" width="80" height="25.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="21"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H7g-e4-Slw" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="89.333333333333314" width="390" height="766.66666666666674"/>
+                                <rect key="frame" x="0.0" y="89.5" width="414" height="818.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n24-MV-b3h" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                        <rect key="frame" x="18" y="120" width="354" height="44"/>
+                                        <rect key="frame" x="18" y="120" width="378" height="44"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stripeLogo" translatesAutoresizingMaskIntoConstraints="NO" id="6bK-sd-bfi">
-                                                <rect key="frame" x="154" y="2" width="56" height="42"/>
+                                                <rect key="frame" x="155" y="2" width="56" height="42"/>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="56" id="0TG-9u-khu"/>
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Withdraw Using" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uqH-NQ-jmb">
-                                                <rect key="frame" x="12" y="10.666666666666657" width="134" height="23"/>
+                                                <rect key="frame" x="12" y="10.5" width="135" height="23"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -94,8 +95,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="Rch-32-gyw"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="H7g-e4-Slw" firstAttribute="top" secondItem="OHZ-SM-nWO" secondAttribute="bottom" constant="8" id="2yw-Z7-eYn"/>
                             <constraint firstAttribute="bottom" secondItem="H7g-e4-Slw" secondAttribute="bottom" constant="-12" id="FkL-6p-GmZ"/>
@@ -104,6 +104,7 @@
                             <constraint firstItem="OHZ-SM-nWO" firstAttribute="centerX" secondItem="pTA-ih-ztq" secondAttribute="centerX" id="duj-nj-wBv"/>
                             <constraint firstItem="OHZ-SM-nWO" firstAttribute="top" secondItem="Rch-32-gyw" secondAttribute="top" constant="12" id="oqz-0Y-AlR"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="Rch-32-gyw"/>
                     </view>
                     <navigationItem key="navigationItem" id="8TB-M5-LVf"/>
                     <connections>
@@ -125,23 +126,23 @@
             <objects>
                 <viewController id="lnM-X8-PIY" customClass="NewWithdrawVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tGI-oP-RoJ">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confirm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r2o-Bv-M96">
-                                <rect key="frame" x="156.33333333333334" y="56" width="77.333333333333343" height="26"/>
+                                <rect key="frame" x="168.5" y="56" width="77" height="26"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="21"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ke9-NJ-BKi" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="90" width="390" height="766"/>
+                                <rect key="frame" x="0.0" y="90" width="414" height="818"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XTZ-kB-M5c" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                        <rect key="frame" x="64" y="60" width="262" height="72"/>
+                                        <rect key="frame" x="64" y="60" width="286" height="72"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$3.33" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tne-A5-8ce">
-                                                <rect key="frame" x="3" y="14.666666666666657" width="256" height="43"/>
+                                                <rect key="frame" x="3" y="14.5" width="280" height="43"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="36"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -171,10 +172,10 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W3c-jR-z1t" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                        <rect key="frame" x="32" y="260" width="326" height="56"/>
+                                        <rect key="frame" x="32" y="260" width="350" height="56"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E9J-Zt-SiC">
-                                                <rect key="frame" x="0.0" y="0.0" width="326" height="56"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E9J-Zt-SiC">
+                                                <rect key="frame" x="0.0" y="0.0" width="350" height="56"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
                                                 <state key="normal" title="Confirm Transfer">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -184,7 +185,7 @@
                                                 </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                        <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="56" id="4yD-MT-pML"/>
@@ -209,13 +210,13 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transfer with" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYD-1j-raE">
-                                        <rect key="frame" x="63.999999999999993" y="24.666666666666671" width="122.33333333333331" height="25.333333333333329"/>
+                                        <rect key="frame" x="64" y="24.5" width="121.5" height="25.5"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="21"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stripeLogo" translatesAutoresizingMaskIntoConstraints="NO" id="B8H-mb-OR1">
-                                        <rect key="frame" x="194.33333333333334" y="14" width="56" height="48"/>
+                                        <rect key="frame" x="193.5" y="14" width="56" height="48"/>
                                         <color key="tintColor" red="0.40000000000000002" green="0.44705882349999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="56" id="73w-ow-2C1"/>
@@ -243,8 +244,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="iXw-NF-obL"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="r2o-Bv-M96" firstAttribute="centerX" secondItem="tGI-oP-RoJ" secondAttribute="centerX" id="5Ao-wi-eyx"/>
                             <constraint firstAttribute="trailing" secondItem="Ke9-NJ-BKi" secondAttribute="trailing" id="Kwr-3f-A5U"/>
@@ -253,6 +253,7 @@
                             <constraint firstItem="r2o-Bv-M96" firstAttribute="top" secondItem="tGI-oP-RoJ" secondAttribute="topMargin" constant="12" id="dxw-KP-Kod"/>
                             <constraint firstItem="Ke9-NJ-BKi" firstAttribute="top" secondItem="r2o-Bv-M96" secondAttribute="bottom" constant="8" id="rXd-zJ-mVj"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="iXw-NF-obL"/>
                     </view>
                     <navigationItem key="navigationItem" id="weL-xc-Tru"/>
                     <connections>
@@ -269,23 +270,23 @@
             <objects>
                 <viewController id="L7P-Ig-62M" customClass="WithDrawNoteVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sbC-xR-NqZ">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transferred" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37a-pG-mWe">
-                                <rect key="frame" x="139.66666666666666" y="56" width="110.66666666666666" height="26"/>
+                                <rect key="frame" x="151.5" y="56" width="111" height="26"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="21"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BW3-w8-rCY" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="90" width="390" height="766"/>
+                                <rect key="frame" x="0.0" y="90" width="414" height="818"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2sI-EJ-z2a" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                        <rect key="frame" x="64" y="60" width="262" height="60"/>
+                                        <rect key="frame" x="64" y="60" width="286" height="60"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$3.33" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8h9-Fi-s4a">
-                                                <rect key="frame" x="3" y="11.666666666666657" width="256" height="37"/>
+                                                <rect key="frame" x="3" y="11.5" width="280" height="37"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="31"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -315,10 +316,10 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z9i-jO-dHb" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                        <rect key="frame" x="32" y="393.33333333333331" width="326" height="56"/>
+                                        <rect key="frame" x="32" y="393.5" width="350" height="56"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uex-VA-HIE">
-                                                <rect key="frame" x="0.0" y="0.0" width="326" height="56"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uex-VA-HIE">
+                                                <rect key="frame" x="0.0" y="0.0" width="350" height="56"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
                                                 <state key="normal" title="Done">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -328,7 +329,7 @@
                                                 </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                        <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstItem="Uex-VA-HIE" firstAttribute="top" secondItem="z9i-jO-dHb" secondAttribute="top" id="2FL-Ul-dad"/>
@@ -353,7 +354,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jFR-Vb-skq">
-                                        <rect key="frame" x="32" y="184" width="326" height="81.333333333333314"/>
+                                        <rect key="frame" x="32" y="184" width="350" height="81.5"/>
                                         <string key="text">The money is on its way!
 Stripe may take up to 3 days to complete the transfer, but it usually transfers within a few minutes.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -380,8 +381,7 @@ Stripe may take up to 3 days to complete the transfer, but it usually transfers 
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="qsd-J6-g2p"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="37a-pG-mWe" firstAttribute="centerX" secondItem="sbC-xR-NqZ" secondAttribute="centerX" id="7BI-Zg-jjF"/>
                             <constraint firstAttribute="bottom" secondItem="BW3-w8-rCY" secondAttribute="bottom" constant="-12" id="DCW-KU-w7r"/>
@@ -390,6 +390,7 @@ Stripe may take up to 3 days to complete the transfer, but it usually transfers 
                             <constraint firstItem="BW3-w8-rCY" firstAttribute="top" secondItem="37a-pG-mWe" secondAttribute="bottom" constant="8" id="gvw-L1-3pK"/>
                             <constraint firstItem="BW3-w8-rCY" firstAttribute="leading" secondItem="qsd-J6-g2p" secondAttribute="leading" id="pYd-uW-6tJ"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="qsd-J6-g2p"/>
                     </view>
                     <navigationItem key="navigationItem" id="kFi-lO-8Kz"/>
                     <connections>
@@ -403,7 +404,7 @@ Stripe may take up to 3 days to complete the transfer, but it usually transfers 
         <!--StandardNC-->
         <scene sceneID="3hh-C9-SS2">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="TvT-9h-m8P" customClass="StandardNC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="AccountNavRef" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="TvT-9h-m8P" customClass="StandardNC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <nil key="simulatedTopBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="n1F-YI-gtv">
@@ -427,11 +428,5 @@ Stripe may take up to 3 days to complete the transfer, but it usually transfers 
         <namedColor name="newSubtleBackground">
             <color red="0.94099998474121094" green="0.94900000095367432" blue="0.96100002527236938" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
     </resources>
 </document>

@@ -34,21 +34,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	}
 	
 	func sendOffer(id: String) {
-		pageDelegate?.selectedIndex = 2
-		delegate?.SendOffer(OfferID: id)
+//		pageDelegate?.selectedIndex = 2
+//		delegate?.SendOffer(OfferID: id)
 	}
     
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void){
         print(shortcutItem.type)
 
-        if let userID = UserDefaults.standard.value(forKey: "userID") as? String{
-            fetchSingleUserDetails(userID: userID) { (status, user) in
-                Yourself = user
-               let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
-                self.handleHapticActions(shortcutItem, user: Yourself, tabController: viewReference)
-                self.window?.rootViewController = viewReference
-            }
-        }
+//        if let userID = UserDefaults.standard.value(forKey: "userID") as? String{
+//            fetchSingleUserDetails(userID: userID) { (status, user) in
+//                Yourself = user
+//               let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
+//                self.handleHapticActions(shortcutItem, user: Yourself, tabController: viewReference)
+//                self.window?.rootViewController = viewReference
+//            }
+//        }
 
     }
 	
@@ -108,95 +108,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
 	
-	var delegate: PresentOfferDelegate?
+	//var delegate: PresentOfferDelegate?
 	var pageDelegate: UITabBarController?
 	
-    // create new expire notification here
-	func CreateExpireNotification(expiringOffer: Offer) {
-//		let content = UNMutableNotificationContent()
-//		content.title = "Offer Will Expire in 1h"
-//		content.body = "An offer by \(expiringOffer.company.name) for \(NumberToPrice(Value: expiringOffer.money)) is about to expire."
-//		downloadImage(expiringOffer.company.logo ?? "") { (logo) in
-//			if let logo = logo {
-//				if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
-//					content.attachments = [attachment]
-//				}
-//			}
-//
-//			let request = UNNotificationRequest.init(identifier: "expire\(expiringOffer.offer_ID)", content: content, trigger: UNTimeIntervalNotificationTrigger.init(timeInterval: 10, repeats: false))
-//			UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-//        }
-        
-        let dateComponents = DateComponents(year: Calendar.current.component(.year, from: expiringOffer.expiredate), month: Calendar.current.component(.month, from: expiringOffer.expiredate), day: Calendar.current.component(.day, from: expiringOffer.expiredate))
-        let yourFireDate = Calendar.current.date(from: dateComponents)
-        let content = UNMutableNotificationContent()
-        content.title = NSString.localizedUserNotificationString(forKey:
-            "Offer Will Expire in 1h", arguments: nil)
-		content.body = NSString.localizedUserNotificationString(forKey: "An offer by \(expiringOffer.company?.name ?? "a business") for \(NumberToPrice(Value: expiringOffer.money)) is about to expire.", arguments: nil)
-        content.categoryIdentifier = "\(expiringOffer.offer_ID)"
-        content.sound = UNNotificationSound.default
-        content.badge = 1
-        
-        downloadImage(expiringOffer.company?.logo ?? "") { (logo) in
-            if let logo = logo {
-                if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
-                    content.attachments = [attachment]
-                }
-            }
-            
-            let dateComponents2 = Calendar.current.dateComponents(Set(arrayLiteral: Calendar.Component.year, Calendar.Component.month, Calendar.Component.day), from: yourFireDate!)
-            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents2, repeats: false)
-            let request = UNNotificationRequest(identifier: "expire\(expiringOffer.offer_ID)", content: content, trigger: trigger)
-            UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
-                if error != nil {
-                    //handle error
-                } else {
-                    //notification set up successfully
-                }
-                
-            })
-        }
-        
-    }
-    
-	
-    // create offer Accepted notification here
-    func CreateOfferAcceptNotification(acceptedOffer: Offer) {
-        let content = UNMutableNotificationContent()
-        content.title = "Offer Accepted"
-        content.badge = 1
-        content.body = "An offer by \(acceptedOffer.company?.name ?? "a business") for \(NumberToPrice(Value: acceptedOffer.money)) is Accepted."
-        downloadImage(acceptedOffer.company?.logo ?? "") { (logo) in
-            if let logo = logo {
-                if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
-                    content.attachments = [attachment]
-                }
-            }
-            let request = UNNotificationRequest.init(identifier: "accept\(acceptedOffer.offer_ID)", content: content, trigger: UNTimeIntervalNotificationTrigger.init(timeInterval: 15, repeats: false))
-            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-        }
-        
-    }
-    
-    // create new offer notification here
-	func CreateNewOfferNotification(newOffer: Offer) {
-		let content = UNMutableNotificationContent()
-		content.title = "New Offer"
-        content.badge = 1
-		content.body = "\(newOffer.company?.name ?? "a business") will pay you \(NumberToPrice(Value: newOffer.money)) for \(newOffer.posts.count) posts."
-		downloadImage(newOffer.company?.logo ?? "") { (logo) in
-			if let logo = logo {
-				if let attachment = UNNotificationAttachment.make(identifier: "logo", image: logo, options: nil) {
-					content.attachments = [attachment]
-				}
-			}
-			
-			//Time inverval is for debug only.
-			
-			let request = UNNotificationRequest.init(identifier: "new\(newOffer.offer_ID)", content: content, trigger: UNTimeIntervalNotificationTrigger.init(timeInterval: 15, repeats: false))
-			UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-		}
-	}
 	
 	var window: UIWindow?
     
@@ -267,15 +181,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		
         if let shortcutItem = launchOptions?[UIApplication.LaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
             
-            if let userID = UserDefaults.standard.value(forKey: "userID") as? String{
-                fetchSingleUserDetails(userID: userID) { (status, user) in
-                    Yourself = user
-                   let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
-                    self.handleHapticActions(shortcutItem, user: Yourself, tabController: viewReference)
-                    self.window?.rootViewController = viewReference
-
-                }
-            }
+//            if let userID = UserDefaults.standard.value(forKey: "userID") as? String{
+//                fetchSingleUserDetails(userID: userID) { (status, user) in
+//                    Yourself = user
+//                   let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
+//                    self.handleHapticActions(shortcutItem, user: Yourself, tabController: viewReference)
+//                    self.window?.rootViewController = viewReference
+//
+//                }
+//            }
             
             return true
         }
@@ -284,7 +198,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         GetDevelopmentSettings { (development) in
             if development != nil{
-            global.InstagramAPI = APImode(rawValue: development!)!
+            //global.InstagramAPI = APImode(rawValue: development!)!
             }
         }
         
@@ -308,8 +222,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		let ref = Database.database().reference().child("Accounts/Private/Influencers")
 		let query = ref.queryOrdered(byChild: "email").queryEqual(toValue: eMail)
 		query.observeSingleEvent(of: .value, with: { (snapshot) in
-			
-			let thisInf = Influencer.init(dictionary: snapshot.value as! [String: Any], userId: snapshot.key)
+            if let snapValue = snapshot.value as? [String: Any]{
+                let thisInf = Influencer.init(dictionary: snapValue.values.first as! [String : Any], userId: snapValue.keys.first!)
 			
 			if thisInf.password == passWord?.md5() {
 				
@@ -333,6 +247,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 				let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
 				self.window?.rootViewController = viewReference
 			}
+            
+        }else{
+            let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
+            self.window?.rootViewController = viewReference
+        }
 			
 		})
 
@@ -615,72 +534,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }()
     
     // Update User details, OfferList and completed offer verification for every 4 secs
-    private func startTimer() {
-        let queue = DispatchQueue(label: "com.firm.app.timer", attributes: .concurrent)
-        
-        timer?.cancel()
-        
-        timer = DispatchSource.makeTimerSource(queue: queue)
-        
-        timer?.schedule(deadline: .now(), repeating: .seconds(4), leeway: .milliseconds(100))
-        
-        timer?.setEventHandler { [weak self] in // `[weak self]` only needed if you reference `self` in this closure and you want to prevent strong reference cycle
-            
-                //offers updates
-                if  Yourself != nil{
-                    self?.fetchUserDetails()
-                    //naveen added
-                    var youroffers: [Offer] = []
-                    getOfferList { (Offers) in
-                        youroffers = Offers
-            //                                global.AvaliableOffers = youroffers.filter({$0.isAccepted == false})
-            //                                global.AcceptedOffers = youroffers.filter({$0.isAccepted == true})
-                            global.AvaliableOffers = youroffers.filter({$0.status == "available"})
-                            global.AvaliableOffers = GetSortedOffers(offer: global.AvaliableOffers)
-                        //Ambver update
-                            global.AcceptedOffers = youroffers.filter({$0.status == "accepted" || $0.status == "denied"})
-                        global.OffersHistory = youroffers.filter({$0.status == "paid"})
-
-                            global.AcceptedOffers = GetSortedOffers(offer: global.AcceptedOffers)
-                            global.RejectedOffers = youroffers.filter({$0.status == "rejected" || $0.status == "denied"})
-                            
-                            UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
-                                var newavailableresults: [Offer] = []
-                                for notification in notifications {
-                                    print(notification.identifier)
-                                    var identifier = notification.identifier
-
-                                    if identifier.hasPrefix("new") {
-                                        identifier = String(identifier.dropFirst(3))
-                                    } else if identifier.hasPrefix("accept") {
-                                        identifier = String(identifier.dropFirst(6))
-                                    }
-                                        //naveeen added
-                                    else if identifier.hasPrefix("expire"){
-                                        identifier = String(identifier.dropFirst(6))
-                                    }else{
-                                    }
-                                    newavailableresults = global.AvaliableOffers.filter({ $0.offer_ID != identifier })
-                                    
-                                }
-                                
-                                for offer in newavailableresults {
-                                    self!.CreateExpireNotification(expiringOffer: offer)
-                                    self!.CreateNewOfferNotification(newOffer: offer)
-                                }
-                                
-                            }
-                        
-                    }
-                    CheckForCompletedOffers() {
-
-                    }
-                }            
-            
-        }
-        
-        timer?.resume()
-    }
     
     // after close the app stop the timer
     private func stopTimer() {
@@ -689,21 +542,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     // get user details From FIR
-    func fetchUserDetails() {
-        let usersRef = Database.database().reference().child("users").child(Yourself.id)
-        usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
-            if let dictionary = snapshot.value as? [String: AnyObject] {
-                
-                do {
-                    let userInstance = try User(dictionary: dictionary )
-                    Yourself = userInstance
-                    print("Appdelegate gender = \(String(describing: Yourself.gender))")
-                } catch let error {
-                    print(error)
-                }
-            }
-        }, withCancel: nil)
-    }
     
     
 	func applicationWillResignActive(_ application: UIApplication) {

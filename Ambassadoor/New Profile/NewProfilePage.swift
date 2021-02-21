@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EnterZipCode, NewSettingsDelegate {
 	
 	func GoIntoEditMode() {
@@ -90,7 +91,19 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	
 	@IBAction func transferToBank(_ sender: Any) {
         
-        self.performSegue(withIdentifier: "toAccountInfoSegue", sender: self)
+        let feeAmount = GetFeeForNewInfluencer(Myself)
+        let withdrawAmount = Myself.finance.balance - Double(feeAmount)
+        print("fee=\(feeAmount)")
+        print(withdrawAmount)
+        
+        if withdrawAmount < 0 {
+            self.showStandardAlertDialog(title: "Stripe Fees more than your Money", msg: "Earn money by completing Offers.")
+            return
+        }else{
+            self.performSegue(withIdentifier: "toAccountInfoSegue", sender: self)
+        }
+        
+        
 		
 	}
 	

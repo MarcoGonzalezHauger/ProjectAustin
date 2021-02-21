@@ -30,9 +30,7 @@ class ZipCodeVC: UIViewController, MKMapViewDelegate {
 	override func viewDidLoad() {
         super.viewDidLoad()
 		cancelButtonView.isHidden = noCancel
-		if Yourself != nil {
-			zipField.placeholder = zipCode ?? "10000"
-		}
+		
     }
 	
 	func TownToZip(code: String) {

@@ -66,7 +66,7 @@ class SetPasswordVC: UIViewController {
 				userId = key
 			}
             
-			updatePassword(userID: userId, password: password!)
+			//updatePassword(userID: userId, password: password!)
             self.PasswordResetSuccess(userId: userId, emailID: self.userMail!, password: newPassword.text!)
 			
         }else{
@@ -249,23 +249,23 @@ class SetPasswordVC: UIViewController {
             "tokenFIR":global.deviceFIRToken
         ]
         
-        updateUserDetails(userID: userID, userData: userData)
+        //updateUserDetails(userID: userID, userData: userData)
         
         self.getSingleUserDetails(userID: userID, email: email, password: password)
     }
     
     func getSingleUserDetails(userID: String, email: String, password: String) {
-        fetchSingleUserDetails(userID: userID) { (status, user) in
-            Yourself = user
-            //updateFirebaseProfileURL()
-            UserDefaults.standard.set(userID, forKey: "userID")
-            UserDefaults.standard.set(email, forKey: "email")
-            UserDefaults.standard.set(password, forKey: "password")
-            setHapticMenu(user: Myself)
-            AverageLikes(instagramID: userID, userToken: NewAccount.authenticationToken)
-            self.LoginSuccessful()
-            
-        }
+//        fetchSingleUserDetails(userID: userID) { (status, user) in
+//            Yourself = user
+//            //updateFirebaseProfileURL()
+//            UserDefaults.standard.set(userID, forKey: "userID")
+//            UserDefaults.standard.set(email, forKey: "email")
+//            UserDefaults.standard.set(password, forKey: "password")
+//            setHapticMenu(user: Myself)
+//            AverageLikes(instagramID: userID, userToken: NewAccount.authenticationToken)
+//            self.LoginSuccessful()
+//
+//        }
     }
 
     /*
