@@ -9,7 +9,14 @@
 import UIKit
 
 
-class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EnterZipCode, NewSettingsDelegate {
+class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EnterZipCode, NewSettingsDelegate, InterestPickerDelegate {
+	
+	func newInterests(interests: [String]) {
+		if isInEditMode {
+			tempeditInfBasic.interests = interests
+			interestCollectionView.reloadData()
+		}
+	}
 	
 	func GoIntoEditMode() {
 		startEditing()
@@ -332,6 +339,12 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 		if let view = segue.destination as? NewSettingsVC {
 			view.delegate = self
 		}
+		if let view = segue.destination as? InterestPickerPopupVC {
+			if isInEditMode {
+				view.currentInterests = tempeditInfBasic.interests
+			}
+			view.delegate = self
+		}
 	}
 	
 	
@@ -393,9 +406,16 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "InterestCell", for: indexPath) as! InterestCVC
-		if indexPath.item < Myself.basic.interests.count {
-			if cell.interest != Myself.basic.interests[indexPath.row] {
-				cell.interest = Myself.basic.interests[indexPath.item]
+		
+		var interests = Myself.basic.interests
+		
+		if isInEditMode {
+			interests = tempeditInfBasic.interests
+		}
+		
+		if indexPath.item < interests.count {
+			if cell.interest != interests[indexPath.row] {
+				cell.interest = interests[indexPath.item]
 			}
 		} else {
 			cell.interest = ""

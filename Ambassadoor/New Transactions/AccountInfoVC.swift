@@ -14,6 +14,10 @@ class AccountInfoVC: UIViewController {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(self.segueToWithdraw), name: Notification.Name("reloadbanklist"), object: nil)
         // Do any additional setup after loading the view.
+		
+		if #available(iOS 13.0, *) {
+			self.isModalInPresentation = true
+		}
     }
     
     @IBAction func showStripeAccount(gesture: UIGestureRecognizer){
