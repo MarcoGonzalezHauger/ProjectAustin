@@ -599,9 +599,9 @@ By Pressing "Sign In" or "Create Account" you are accepting the Ambassadoor "Ter
                         <outlet property="CreateButtonView" destination="juE-ov-s1N" id="cct-TE-xJm"/>
                         <outlet property="stepShelf" destination="nfV-jX-pVA" id="FFw-u7-8QD"/>
                         <segue destination="br5-AI-8o9" kind="show" identifier="toCreateLogin" id="STw-Ln-JLf"/>
-                        <segue destination="cUN-vh-p8G" kind="show" identifier="toBasicInfo" id="6Hl-9b-ec2"/>
                         <segue destination="3sl-Yy-ja2" kind="show" identifier="toConnectStepVC" id="g1J-am-JDB"/>
                         <segue destination="sib-ub-aj8" kind="show" identifier="toConnectPVC" id="dhM-jg-qgB"/>
+                        <segue destination="PTE-jI-mdn" kind="presentation" identifier="fromCreateAccount" id="uwJ-Tf-YRl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nFc-aY-OQc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -934,7 +934,7 @@ Nobody will know your account type is Business.</string>
                                         <real key="value" value="0.0"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
-                                        <real key="value" value="0.20000000000000001"/>
+                                        <real key="value" value="0.0"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
                                         <real key="value" value="2"/>
@@ -1023,7 +1023,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" name="newSubtleBackground"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Tdb-5B-5ws" secondAttribute="trailing" constant="16" id="1kB-jf-lhC"/>
                             <constraint firstItem="8ge-NQ-5ft" firstAttribute="top" secondItem="Tdb-5B-5ws" secondAttribute="top" constant="-15" id="4Z2-rV-uux"/>
@@ -1051,11 +1051,11 @@ Nobody will be able to tell your account is a Business account, and you will als
             <objects>
                 <viewController id="cUN-vh-p8G" customClass="basicInfoVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UuW-mb-RoK">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="wl7-ge-i3q">
-                                <rect key="frame" x="16" y="50" width="359" height="708"/>
+                                <rect key="frame" x="16" y="94" width="359" height="718"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="N2C-bb-aF3">
                                         <rect key="frame" x="0.0" y="15" width="359" height="600"/>
@@ -1076,7 +1076,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Help Local Businesses Find You." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nb5-S5-DVX">
-                                                                <rect key="frame" x="0.0" y="21" width="195" height="15.666666666666664"/>
+                                                                <rect key="frame" x="0.0" y="20.999999999999986" width="195" height="15.666666666666664"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                                 <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -1196,7 +1196,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                                 <rect key="frame" x="0.0" y="170" width="359" height="120"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="57n-x0-MQA">
-                                                        <rect key="frame" x="63" y="5.6666666666666572" width="276" height="36.666666666666664"/>
+                                                        <rect key="frame" x="63" y="5.6666666666666856" width="276" height="36.666666666666664"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gender" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aGE-KU-5sN">
                                                                 <rect key="frame" x="0.0" y="0.0" width="276" height="21"/>
@@ -1208,7 +1208,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Help Businesses Find Their Ideal Influencers" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="lZK-FK-Pdh">
-                                                                <rect key="frame" x="0.0" y="21.000000000000028" width="276" height="15.666666666666664"/>
+                                                                <rect key="frame" x="0.0" y="21" width="276" height="15.666666666666664"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                                 <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -1379,7 +1379,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                 <viewLayoutGuide key="frameLayoutGuide" id="y9m-hD-AAx"/>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WbZ-R8-rS4" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Basic Information" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hUm-Xb-gk5">
                                         <rect key="frame" x="109.66666666666667" y="13.666666666666664" width="155.66666666666663" height="23"/>
@@ -1418,7 +1418,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LbZ-Rd-Bll" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="25" y="648" width="325" height="60"/>
+                                <rect key="frame" x="25" y="702" width="325" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JgF-yd-w2S">
                                         <rect key="frame" x="5" y="5" width="315" height="50"/>
@@ -1495,7 +1495,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2431" y="2270"/>
+            <point key="canvasLocation" x="3946" y="2383"/>
         </scene>
         <!--categoryPicker-->
         <scene sceneID="IK6-2b-8cr">
@@ -1505,7 +1505,7 @@ Nobody will be able to tell your account is a Business account, and you will als
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TQA-rB-ueK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2429" y="2642"/>
+            <point key="canvasLocation" x="5189" y="3320"/>
         </scene>
         <!--Create LoginVC-->
         <scene sceneID="WDy-yG-9MZ">
@@ -2653,9 +2653,233 @@ Co-Founder and CTO</string>
             </objects>
             <point key="canvasLocation" x="3353" y="86"/>
         </scene>
+        <!--New Basic InfoVC-->
+        <scene sceneID="i6h-07-ZTT">
+            <objects>
+                <viewController id="PTE-jI-mdn" customClass="NewBasicInfoVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gBH-Me-UFv">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bdX-ty-fQR" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                <rect key="frame" x="12" y="45.666666666666657" width="109" height="60"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="2vn-wb-yhU">
+                                        <rect key="frame" x="3" y="9.6666666666666714" width="103" height="40.666666666666664"/>
+                                        <subviews>
+                                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click to enter" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="D7d-uW-NJO">
+                                                <rect key="frame" x="0.0" y="0.0" width="103" height="12"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ZIP Code" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="aBt-ek-FO7">
+                                                <rect key="frame" x="0.0" y="11.999999999999995" width="103" height="28.666666666666671"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="24"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" name="newCellColor"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="bdX-ty-fQR" secondAttribute="height" multiplier="10:5.5" id="dRf-Kf-o8e"/>
+                                    <constraint firstItem="2vn-wb-yhU" firstAttribute="leading" secondItem="bdX-ty-fQR" secondAttribute="leading" constant="3" id="kw8-s8-4RG"/>
+                                    <constraint firstAttribute="trailing" secondItem="2vn-wb-yhU" secondAttribute="trailing" constant="3" id="qzh-MW-8pX"/>
+                                    <constraint firstItem="2vn-wb-yhU" firstAttribute="centerY" secondItem="bdX-ty-fQR" secondAttribute="centerY" id="vxS-sd-BSn"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="EC9-Sc-h9n" appends="YES" id="aWz-LG-jXL"/>
+                                </connections>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Er-A3-Wy9" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                <rect key="frame" x="133" y="45.666666666666657" width="109" height="60"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="PwL-uG-Jal">
+                                        <rect key="frame" x="5" y="9" width="99" height="42"/>
+                                        <subviews>
+                                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click to enter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Oku-mH-Eam">
+                                                <rect key="frame" x="0.0" y="0.0" width="99" height="13.333333333333334"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gender" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.30000001192092896" translatesAutoresizingMaskIntoConstraints="NO" id="Mzu-bb-5vx">
+                                                <rect key="frame" x="0.0" y="13.333333333333337" width="99" height="28.666666666666671"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="24"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="RKx-Sv-QTw" appends="YES" id="zIY-9s-vgg"/>
+                                                </connections>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" name="newCellColor"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstItem="PwL-uG-Jal" firstAttribute="centerY" secondItem="4Er-A3-Wy9" secondAttribute="centerY" id="VcE-Ul-JdI"/>
+                                    <constraint firstAttribute="trailing" secondItem="PwL-uG-Jal" secondAttribute="trailing" constant="5" id="agQ-ur-Rbe"/>
+                                    <constraint firstItem="PwL-uG-Jal" firstAttribute="leading" secondItem="4Er-A3-Wy9" secondAttribute="leading" constant="5" id="xjy-Ue-9Yu"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="68x-7Q-XjV" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                <rect key="frame" x="254" y="45.666666666666657" width="109" height="60"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="6JK-h2-tz6">
+                                        <rect key="frame" x="3" y="9" width="103" height="42"/>
+                                        <subviews>
+                                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click to enter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="u7D-z3-ie1">
+                                                <rect key="frame" x="0.0" y="0.0" width="103" height="13.333333333333334"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Birthday" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.30000001192092896" translatesAutoresizingMaskIntoConstraints="NO" id="gtj-zi-NoD">
+                                                <rect key="frame" x="0.0" y="13.333333333333337" width="103" height="28.666666666666671"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="24"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" name="newCellColor"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstItem="6JK-h2-tz6" firstAttribute="centerY" secondItem="68x-7Q-XjV" secondAttribute="centerY" id="3WJ-ZF-xBO"/>
+                                    <constraint firstItem="6JK-h2-tz6" firstAttribute="leading" secondItem="68x-7Q-XjV" secondAttribute="leading" constant="3" id="Ox8-hx-x06"/>
+                                    <constraint firstAttribute="trailing" secondItem="6JK-h2-tz6" secondAttribute="trailing" constant="3" id="db0-Fe-sGD"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="CMb-qb-qhp" appends="YES" id="TGE-4A-zYt"/>
+                                </connections>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Basic Information" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1AC-CM-WJj">
+                                <rect key="frame" x="113.66666666666667" y="12.000000000000002" width="147.66666666666663" height="21.666666666666671"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lpy-PI-ZfO">
+                                <rect key="frame" x="320" y="6" width="43" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Done"/>
+                                <connections>
+                                    <action selector="doneAction" destination="PTE-jI-mdn" eventType="touchUpInside" id="CLc-B6-hE4"/>
+                                </connections>
+                            </button>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P7i-MB-Boi">
+                                <rect key="frame" x="0.0" y="134.66666666666669" width="375" height="623.33333333333326"/>
+                                <connections>
+                                    <segue destination="VZf-da-Avy" kind="embed" identifier="interestpickerembed" id="ph7-js-uxG"/>
+                                </connections>
+                            </containerView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Your Interests" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K7K-rg-W8U">
+                                <rect key="frame" x="120.66666666666667" y="115.66666666666667" width="133.66666666666663" height="17.000000000000014"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" name="newSubtleBackground"/>
+                        <constraints>
+                            <constraint firstItem="4Er-A3-Wy9" firstAttribute="leading" secondItem="bdX-ty-fQR" secondAttribute="trailing" constant="12" id="797-SL-6wD"/>
+                            <constraint firstAttribute="bottom" secondItem="P7i-MB-Boi" secondAttribute="bottom" id="7j7-a2-U3A"/>
+                            <constraint firstItem="Ryw-ji-EHR" firstAttribute="trailing" secondItem="P7i-MB-Boi" secondAttribute="trailing" id="Dp7-q5-q45"/>
+                            <constraint firstItem="P7i-MB-Boi" firstAttribute="top" secondItem="K7K-rg-W8U" secondAttribute="bottom" constant="2" id="M9v-gT-zI3"/>
+                            <constraint firstItem="4Er-A3-Wy9" firstAttribute="bottom" secondItem="bdX-ty-fQR" secondAttribute="bottom" id="Mwz-iR-2Re"/>
+                            <constraint firstItem="68x-7Q-XjV" firstAttribute="width" secondItem="4Er-A3-Wy9" secondAttribute="width" id="OG4-jC-MSb"/>
+                            <constraint firstItem="lpy-PI-ZfO" firstAttribute="centerY" secondItem="1AC-CM-WJj" secondAttribute="centerY" id="PLE-ge-ndQ"/>
+                            <constraint firstItem="K7K-rg-W8U" firstAttribute="centerX" secondItem="gBH-Me-UFv" secondAttribute="centerX" id="SnQ-w2-1aE"/>
+                            <constraint firstItem="P7i-MB-Boi" firstAttribute="leading" secondItem="Ryw-ji-EHR" secondAttribute="leading" id="UJt-G7-ZkQ"/>
+                            <constraint firstItem="4Er-A3-Wy9" firstAttribute="top" secondItem="bdX-ty-fQR" secondAttribute="top" id="UQd-Sd-BXH"/>
+                            <constraint firstItem="68x-7Q-XjV" firstAttribute="bottom" secondItem="4Er-A3-Wy9" secondAttribute="bottom" id="Vsv-Tz-yTr"/>
+                            <constraint firstItem="Ryw-ji-EHR" firstAttribute="trailing" secondItem="lpy-PI-ZfO" secondAttribute="trailing" constant="12" id="Y4t-X1-OK8"/>
+                            <constraint firstItem="bdX-ty-fQR" firstAttribute="leading" secondItem="Ryw-ji-EHR" secondAttribute="leading" constant="12" id="YTW-IK-ofo"/>
+                            <constraint firstItem="bdX-ty-fQR" firstAttribute="top" secondItem="1AC-CM-WJj" secondAttribute="bottom" constant="12" id="a18-Nw-HGJ"/>
+                            <constraint firstItem="K7K-rg-W8U" firstAttribute="top" secondItem="4Er-A3-Wy9" secondAttribute="bottom" constant="10" id="a5e-TY-iQk"/>
+                            <constraint firstItem="1AC-CM-WJj" firstAttribute="centerX" secondItem="gBH-Me-UFv" secondAttribute="centerX" id="ayC-aB-VEd"/>
+                            <constraint firstItem="Ryw-ji-EHR" firstAttribute="trailing" secondItem="68x-7Q-XjV" secondAttribute="trailing" constant="12" id="bZT-Jd-jAp"/>
+                            <constraint firstItem="68x-7Q-XjV" firstAttribute="leading" secondItem="4Er-A3-Wy9" secondAttribute="trailing" constant="12" id="dLu-jp-e9f"/>
+                            <constraint firstItem="68x-7Q-XjV" firstAttribute="top" secondItem="4Er-A3-Wy9" secondAttribute="top" id="s1o-9C-bAe"/>
+                            <constraint firstItem="1AC-CM-WJj" firstAttribute="top" secondItem="Ryw-ji-EHR" secondAttribute="top" constant="12" id="xYY-9G-TV6"/>
+                            <constraint firstItem="4Er-A3-Wy9" firstAttribute="width" secondItem="bdX-ty-fQR" secondAttribute="width" id="zqB-CQ-mjN"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Ryw-ji-EHR"/>
+                    </view>
+                    <connections>
+                        <outlet property="ageText" destination="gtj-zi-NoD" id="eoG-8O-Yca"/>
+                        <outlet property="genderText" destination="Mzu-bb-5vx" id="pTQ-Mo-y9N"/>
+                        <outlet property="zipCodeText" destination="aBt-ek-FO7" id="nA4-nj-Iom"/>
+                        <segue destination="hIU-AI-qNh" kind="presentation" identifier="fromBasicInfo" id="hG0-aE-QjY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dhk-b8-STU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="EC9-Sc-h9n">
+                    <connections>
+                        <action selector="zipCodePressedWith_sender:" destination="PTE-jI-mdn" id="ROJ-q3-2X3"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="RKx-Sv-QTw">
+                    <connections>
+                        <action selector="genderPressedWith_sender:" destination="PTE-jI-mdn" id="uwt-An-pAK"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="CMb-qb-qhp">
+                    <connections>
+                        <action selector="dobPressedWith_sender:" destination="PTE-jI-mdn" id="PEj-eS-iZd"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="2408.8000000000002" y="2347.536945812808"/>
+        </scene>
+        <!--ZipCodePicker-->
+        <scene sceneID="TNi-Uq-Ulz">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ZipCodePicker" id="hIU-AI-qNh" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nbT-Yb-urx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3009" y="1973"/>
+        </scene>
+        <!--InterestPickerEmbeded-->
+        <scene sceneID="wVk-qe-mHy">
+            <objects>
+                <viewControllerPlaceholder storyboardName="InterestPicker" referencedIdentifier="InterestPickerEmbeded" id="VZf-da-Avy" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jKU-BE-lme" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3353" y="2348"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="E1e-6K-Jsz"/>
+        <segue reference="igG-6b-YGC"/>
         <segue reference="Jjy-fa-RVY"/>
         <segue reference="ZCB-4G-bg0"/>
     </inferredMetricsTieBreakers>
@@ -2676,6 +2900,12 @@ Co-Founder and CTO</string>
         </namedColor>
         <namedColor name="AmbPurple">
             <color red="0.92900002002716064" green="0.23499999940395355" blue="0.40000000596046448" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="newCellColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="newSubtleBackground">
+            <color red="0.94099998474121094" green="0.94900000095367432" blue="0.96100002527236938" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
     </resources>
 </document>

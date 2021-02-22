@@ -12,9 +12,9 @@ var AllInterests: [String] = [
 	"Vegan", //Diet Preferences
 	"Vegetarian",
 	"Pescaterian",
-	"Gluten-Free",
+	"Gluten Free",
 	"Lactose Intolerant",
-	"Paleo Diet",
+	"Paleo",
 	"Pets",
 	"Foodie", //Food
 	"Cook",
@@ -41,7 +41,7 @@ var AllInterests: [String] = [
 	"Frisbee",
 	"Rowing",
 	"NASCAR",
-	"Dancing",
+	"Dance",
 	"Coach",
 	"Body Building",
 	"Power Lifting",
