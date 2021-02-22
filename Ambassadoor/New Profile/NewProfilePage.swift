@@ -69,6 +69,8 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	@IBOutlet weak var editButton: UIButton! //isInEditMode: CANCEL BUTTON
 	@IBOutlet weak var signOutButton: UIButton! //isInEditMode: SAVE CHANGES BUTTON
 	@IBOutlet weak var signOutView: ShadowView!
+    
+    let datePickerView:UIDatePicker = UIDatePicker()
 	
 	
 	override func viewDidLoad() {
@@ -90,6 +92,37 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 		
 		editProfileView.alpha = 0
 		
+    }
+    
+    func setDatePicker(dateChooserAlert: UIAlertController) {
+            datePickerView.frame = CGRect.init(x: 0, y: 10, width: dateChooserAlert.view.frame.size.width, height: 300)
+            var components = DateComponents()
+            components.year = -18
+            let maxDate = Calendar.current.date(byAdding: components, to: Date())
+            datePickerView.maximumDate = maxDate
+            datePickerView.datePickerMode = UIDatePicker.Mode.date
+    //        datePickerView.addTarget(self, action: #selector(self.datePickerValueChanged(sender:)), for: .valueChanged)
+    }
+    
+    func dobPicker(){
+        let dateChooserAlert = UIAlertController(title: "Choose Date.", message: nil, preferredStyle: .actionSheet)
+        self.setDatePicker(dateChooserAlert: dateChooserAlert)
+        dateChooserAlert.view.addSubview(datePickerView)
+        dateChooserAlert.addAction(UIAlertAction(title: "Done", style: .cancel, handler: { action in
+            self.convertDateToAge(date: self.datePickerView.date)
+        }))
+        dateChooserAlert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: { action in
+        }))
+        let height: NSLayoutConstraint = NSLayoutConstraint(item: dateChooserAlert.view as Any, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.1, constant: 400)
+        dateChooserAlert.view.addConstraint(height)
+        self.present(dateChooserAlert, animated: true, completion: nil)
+    }
+    
+    func convertDateToAge(date: Date) {
+//        let age = Calendar.current.dateComponents([.year], from: date, to: Date())
+//        self.ageLabel.text = "\(age.year ?? 0)"
+        self.tempeditInfBasic.birthday = date
+        self.refreshAfterOneEdit()
     }
 	
 	func loadFromMyself() {
@@ -311,6 +344,8 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 		switch id {
 		case "toGenderPicker":
 			pickGender()
+        case "toAgePicker":
+            dobPicker()
 		default:
 			performSegue(withIdentifier: id, sender: self)
 		}

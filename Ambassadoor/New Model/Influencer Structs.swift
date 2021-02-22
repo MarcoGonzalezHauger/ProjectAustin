@@ -252,7 +252,7 @@ class BasicInfluencer { //All public information goes here.
         d["followingInfluencers"] = []
         d["followingBusinesses"] = []
         d["followedBy"] = []
-        d["birthday"] = Date().toUString()
+        d["birthday"] = userInfo.dob
         
         return d
         
