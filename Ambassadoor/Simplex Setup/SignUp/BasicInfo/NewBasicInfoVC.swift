@@ -8,7 +8,13 @@
 
 import UIKit
 
-class NewBasicInfoVC: UIViewController, EnterZipCode {
+class NewBasicInfoVC: UIViewController, EnterZipCode, CustomDatePickerDelegate {
+    func pickedDate(date: Date) {
+        NewAccount.dob = date.toUString()
+        let age = Calendar.current.dateComponents([.year], from: date, to: Date())
+        self.ageText.text = "\(age.year ?? 0)"
+    }
+    
     
     @IBOutlet weak var zipCodeText: UILabel!
     @IBOutlet weak var genderText: UILabel!
@@ -33,21 +39,7 @@ class NewBasicInfoVC: UIViewController, EnterZipCode {
         // Do any additional setup after loading the view.
     }
     
-    func setDatePicker(dateChooserAlert: UIAlertController) {
-        datePickerView.frame = CGRect.init(x: 0, y: 10, width: dateChooserAlert.view.frame.size.width, height: 300)
-        var components = DateComponents()
-        components.year = -18
-        let maxDate = Calendar.current.date(byAdding: components, to: Date())
-        datePickerView.maximumDate = maxDate
-        datePickerView.datePickerMode = UIDatePicker.Mode.date
-//        datePickerView.addTarget(self, action: #selector(self.datePickerValueChanged(sender:)), for: .valueChanged)
-    }
     
-    func convertDateToAge(date: Date) {
-        NewAccount.dob = date.toUString()
-        let age = Calendar.current.dateComponents([.year], from: date, to: Date())
-        self.ageText.text = "\(age.year ?? 0)"
-    }
     
     @IBAction func zipCodePressed(_sender: Any){
         self.performSegue(withIdentifier: "fromBasicInfo", sender: self)
@@ -58,15 +50,8 @@ class NewBasicInfoVC: UIViewController, EnterZipCode {
     }
     
     @IBAction func dobPressed(_sender: Any){
-        let dateChooserAlert = UIAlertController(title: "Choose Date.", message: nil, preferredStyle: .actionSheet)
-        self.setDatePicker(dateChooserAlert: dateChooserAlert)
-        dateChooserAlert.view.addSubview(datePickerView)
-        dateChooserAlert.addAction(UIAlertAction(title: "Done", style: .cancel, handler: { action in
-            self.convertDateToAge(date: self.datePickerView.date)
-        }))
-        let height: NSLayoutConstraint = NSLayoutConstraint(item: dateChooserAlert.view as Any, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.1, constant: 350)
-        dateChooserAlert.view.addConstraint(height)
-        self.present(dateChooserAlert, animated: true, completion: nil)
+        
+        self.performSegue(withIdentifier: "fromBasicToDate", sender: self)
     }
     
     func pickGender() {
@@ -156,10 +141,15 @@ class NewBasicInfoVC: UIViewController, EnterZipCode {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let view = segue.destination as? ZipCodeVC {
             view.delegate = self
-        }else if segue.identifier == "interestpickerembed" {
+        }
+        if segue.identifier == "interestpickerembed" {
             if let view = segue.destination as? InterestPickerVC {
                 pickerviewdel = view
             }
+        }
+        if let view = segue.destination as? CustomDatePickerVC{
+            
+            view.pickerDelegate = self
         }
     }
     
