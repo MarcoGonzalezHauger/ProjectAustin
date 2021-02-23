@@ -29,6 +29,8 @@
 		B7A13924252EDF4800FB4C78 /* SignUpTutorial1.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = B7A13923252EDF4800FB4C78 /* SignUpTutorial1.mp4 */; };
 		B7A13926252EDF5500FB4C78 /* SignUpTutorial2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = B7A13925252EDF5500FB4C78 /* SignUpTutorial2.mp4 */; };
 		B7B97D72233DE84C0028E7E2 /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B97D71233DE84C0028E7E2 /* NetworkReachability.swift */; };
+		B7BC802525E4C4A500256D86 /* DatePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7BC802425E4C4A500256D86 /* DatePicker.storyboard */; };
+		B7BC802725E4C59C00256D86 /* CustomDatePickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BC802625E4C59C00256D86 /* CustomDatePickerVC.swift */; };
 		B7BCE52922E9BB1800666689 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BCE52822E9BB1800666689 /* DateExtension.swift */; };
 		B7C9888F25DFDB890013DEDD /* InstagramBaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C9888E25DFDB890013DEDD /* InstagramBaseVC.swift */; };
 		B7C9889125DFDBB30013DEDD /* ConnectInstagramPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C9889025DFDBB30013DEDD /* ConnectInstagramPVC.swift */; };
@@ -162,6 +164,8 @@
 		B7A13923252EDF4800FB4C78 /* SignUpTutorial1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = SignUpTutorial1.mp4; sourceTree = "<group>"; };
 		B7A13925252EDF5500FB4C78 /* SignUpTutorial2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = SignUpTutorial2.mp4; sourceTree = "<group>"; };
 		B7B97D71233DE84C0028E7E2 /* NetworkReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
+		B7BC802425E4C4A500256D86 /* DatePicker.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DatePicker.storyboard; sourceTree = "<group>"; };
+		B7BC802625E4C59C00256D86 /* CustomDatePickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePickerVC.swift; sourceTree = "<group>"; };
 		B7BCE52822E9BB1800666689 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		B7C4BF0E2302FFE00024C3C3 /* Ambassadoor-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ambassadoor-Bridging-Header.h"; sourceTree = "<group>"; };
 		B7C9888E25DFDB890013DEDD /* InstagramBaseVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstagramBaseVC.swift; sourceTree = "<group>"; };
@@ -321,6 +325,15 @@
 				B70182D825DBEE8D00780B83 /* NewSocialMenuVC.swift */,
 			);
 			path = "New Social";
+			sourceTree = "<group>";
+		};
+		B7BC802325E4C44B00256D86 /* Date Picker */ = {
+			isa = PBXGroup;
+			children = (
+				B7BC802425E4C4A500256D86 /* DatePicker.storyboard */,
+				B7BC802625E4C59C00256D86 /* CustomDatePickerVC.swift */,
+			);
+			path = "Date Picker";
 			sourceTree = "<group>";
 		};
 		B7C9889425E0092A0013DEDD /* SignUp */ = {
@@ -614,6 +627,7 @@
 		E887A8BA25C37B4B0003BCD1 /* New Profile */ = {
 			isa = PBXGroup;
 			children = (
+				B7BC802325E4C44B00256D86 /* Date Picker */,
 				B70182D025DBE61800780B83 /* New Transactions */,
 				E8824BF325E228E3002B5D1A /* Interest Picker */,
 				E887A8C125C37BCD0003BCD1 /* New Profile Page.storyboard */,
@@ -763,6 +777,7 @@
 				E887A8C225C37BCD0003BCD1 /* New Profile Page.storyboard in Resources */,
 				E82347F321A1D6BF000A1A62 /* Main.storyboard in Resources */,
 				E8BADF7B25C44D4F00DAECA4 /* InterestCVC.xib in Resources */,
+				B7BC802525E4C4A500256D86 /* DatePicker.storyboard in Resources */,
 				E887A89025C34A300003BCD1 /* BasicBusinessCell.xib in Resources */,
 				B7A13924252EDF4800FB4C78 /* SignUpTutorial1.mp4 in Resources */,
 				B70182D225DBE65600780B83 /* AccountDetails.storyboard in Resources */,
@@ -860,6 +875,7 @@
 				E84487DD25C0B40B00317A8C /* UpdateToFirebase Ext.swift in Sources */,
 				E8824BF825E33931002B5D1A /* InterestPickerVC.swift in Sources */,
 				E8824BFB25E3412E002B5D1A /* InterestPickerPopupVC.swift in Sources */,
+				B7BC802725E4C59C00256D86 /* CustomDatePickerVC.swift in Sources */,
 				B775F9DE25221D85001C5787 /* InstructVideoTwoVC.swift in Sources */,
 				E84487E025C0B59400317A8C /* Social Interactions ext.swift in Sources */,
 				E84487D725C0ADB600317A8C /* New Globals.swift in Sources */,

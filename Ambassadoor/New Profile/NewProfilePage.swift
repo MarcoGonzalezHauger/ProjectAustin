@@ -9,7 +9,12 @@
 import UIKit
 
 
-class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EnterZipCode, NewSettingsDelegate, InterestPickerDelegate {
+class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EnterZipCode, NewSettingsDelegate, InterestPickerDelegate, CustomDatePickerDelegate {
+    func pickedDate(date: Date) {
+        self.tempeditInfBasic.birthday = date
+        self.refreshAfterOneEdit()
+    }
+    
 	
 	func newInterests(interests: [String]) {
 		if isInEditMode {
@@ -344,8 +349,9 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 		switch id {
 		case "toGenderPicker":
 			pickGender()
-        case "toAgePicker":
-            dobPicker()
+        case "fromProfileToPicker":
+            //dobPicker()
+            performSegue(withIdentifier: id, sender: self)
 		default:
 			performSegue(withIdentifier: id, sender: self)
 		}
@@ -364,7 +370,8 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	}
 	
 	@IBAction func agePressed(_ sender: Any) {
-		doSegueForEdit(withIdentifier: "toAgePicker")
+		doSegueForEdit(withIdentifier: "fromProfileToPicker")
+        //doSegueForEdit(withIdentifier: "toAgePicker")
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -380,6 +387,11 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 			}
 			view.delegate = self
 		}
+        
+        if let view = segue.destination as? CustomDatePickerVC {
+            view.pickerDelegate = self
+            view.selectedDate = tempeditInfBasic.birthday
+        }
 	}
 	
 	
