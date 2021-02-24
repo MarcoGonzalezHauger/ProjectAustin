@@ -133,7 +133,9 @@ class StripeConnectionMKWebview: UIViewController, WKNavigationDelegate {
                     
                     DispatchQueue.main.async {
                         NotificationCenter.default.post(name: Notification.Name("reloadbanklist"), object: nil, userInfo: ["userinfo":"1"])
-                        self.performDismiss()
+                            
+                        //self.performSegue(withIdentifier: "fromStripeConnection", sender: self)
+                        //self.performDismiss()
                         //self.dismiss(animated: true) {
                            
                         //}
@@ -151,7 +153,7 @@ class StripeConnectionMKWebview: UIViewController, WKNavigationDelegate {
     
     
     @IBAction func cancel_Action(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        self.performDismiss()
     }
     
 

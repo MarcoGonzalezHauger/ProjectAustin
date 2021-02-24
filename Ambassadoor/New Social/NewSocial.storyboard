@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="NRI-Pr-fCK">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,20 +14,112 @@
             <objects>
                 <viewController storyboardIdentifier="NewSocialMenuRef" id="NRI-Pr-fCK" customClass="NewSocialMenuVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eZG-Le-X3Z">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="liy-tH-ODZ" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="101"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="H7s-EI-1aE">
+                                        <rect key="frame" x="0.0" y="50" width="414" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <segments>
+                                            <segment title="Following"/>
+                                            <segment title="Followed By"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="segmentIndexChangedWith_sender:" destination="NRI-Pr-fCK" eventType="valueChanged" id="1be-me-Aja"/>
+                                        </connections>
+                                    </segmentedControl>
+                                </subviews>
+                                <color key="backgroundColor" name="newTrueBack"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="101" id="5L9-Yv-xpP"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
+                                        <real key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="ShadowColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                        <real key="value" value="0.20000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ppM-oz-W8k">
+                                <rect key="frame" x="0.0" y="109" width="414" height="578"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P9i-v7-Za8" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                <rect key="frame" x="81.666666666666686" y="318" width="251" height="100"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="bJB-vF-ZuD">
+                                        <rect key="frame" x="28" y="21.000000000000004" width="195" height="58.333333333333343"/>
+                                        <subviews>
+                                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Following Users" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kaM-oO-wMd">
+                                                <rect key="frame" x="0.0" y="0.0" width="195" height="20.333333333333332"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rzc-gM-2yD">
+                                                <rect key="frame" x="0.0" y="23.333333333333314" width="195" height="35"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                                <state key="normal" title="Refresh"/>
+                                                <connections>
+                                                    <action selector="refreshDataWith_sender:" destination="NRI-Pr-fCK" eventType="touchUpInside" id="yuf-OT-7EV"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="251" id="4WX-9V-bku"/>
+                                    <constraint firstAttribute="trailing" secondItem="bJB-vF-ZuD" secondAttribute="trailing" constant="28" id="LaW-Jt-Fu0"/>
+                                    <constraint firstItem="bJB-vF-ZuD" firstAttribute="leading" secondItem="P9i-v7-Za8" secondAttribute="leading" constant="28" id="fc4-8T-toQ"/>
+                                    <constraint firstItem="bJB-vF-ZuD" firstAttribute="centerY" secondItem="P9i-v7-Za8" secondAttribute="centerY" id="pod-0b-46L"/>
+                                    <constraint firstAttribute="height" constant="100" id="tNO-Ka-JbO"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="ppM-oz-W8k" firstAttribute="top" secondItem="liy-tH-ODZ" secondAttribute="bottom" constant="8" id="68Z-f7-8u7"/>
+                            <constraint firstItem="liy-tH-ODZ" firstAttribute="top" secondItem="6mC-vd-ELP" secondAttribute="top" id="9xd-be-fix"/>
+                            <constraint firstItem="liy-tH-ODZ" firstAttribute="trailing" secondItem="6mC-vd-ELP" secondAttribute="trailing" id="GF3-f9-QKb"/>
+                            <constraint firstItem="P9i-v7-Za8" firstAttribute="centerY" secondItem="eZG-Le-X3Z" secondAttribute="centerY" id="UVk-4d-ILI"/>
+                            <constraint firstItem="liy-tH-ODZ" firstAttribute="leading" secondItem="6mC-vd-ELP" secondAttribute="leading" id="Voi-lH-aIe"/>
+                            <constraint firstItem="P9i-v7-Za8" firstAttribute="centerX" secondItem="eZG-Le-X3Z" secondAttribute="centerX" id="aND-CW-clu"/>
+                            <constraint firstItem="ppM-oz-W8k" firstAttribute="trailing" secondItem="6mC-vd-ELP" secondAttribute="trailing" id="kro-TX-Amd"/>
+                            <constraint firstItem="ppM-oz-W8k" firstAttribute="leading" secondItem="6mC-vd-ELP" secondAttribute="leading" id="nkt-Jh-keu"/>
+                            <constraint firstItem="ppM-oz-W8k" firstAttribute="bottom" secondItem="6mC-vd-ELP" secondAttribute="bottom" id="zSj-RW-3wu"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6mC-vd-ELP"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Social" image="SocialIcon" id="mqA-1D-mzA"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="errorText" destination="kaM-oO-wMd" id="cXz-6h-AKo"/>
+                        <outlet property="noneFollowers" destination="P9i-v7-Za8" id="kqz-a8-n7y"/>
+                        <outlet property="socialSegemnt" destination="H7s-EI-1aE" id="r4a-Ln-KNH"/>
+                        <outlet property="socialTable" destination="ppM-oz-W8k" id="an9-Zo-c9V"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5wZ-Gt-gwB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="52" y="20"/>
+            <point key="canvasLocation" x="50.724637681159422" y="18.75"/>
         </scene>
     </scenes>
     <resources>
-        <image name="SocialIcon" width="19" height="28.5"/>
+        <image name="SocialIcon" width="19.333333969116211" height="28.666666030883789"/>
+        <namedColor name="newTrueBack">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

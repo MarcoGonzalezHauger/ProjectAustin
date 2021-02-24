@@ -32,10 +32,19 @@ class AccountInfoVC: UIViewController {
     @objc func segueToWithdraw(notification: Notification){
         
             DispatchQueue.main.async {
+            var navigationArray = self.navigationController!.viewControllers // To get all UIViewController stack as Array
+            navigationArray.remove(at: navigationArray.count - 1) // To remove previous UIViewController
+            self.navigationController?.viewControllers = navigationArray
+                
             self.performSegue(withIdentifier: "fromAccountInfoToWithdraw", sender: self)
+            
             }
         
         
+    }
+    
+    @IBAction func closeAction(_sender: Any){
+        self.navigationController?.popViewController(animated: true)
     }
 
     /*

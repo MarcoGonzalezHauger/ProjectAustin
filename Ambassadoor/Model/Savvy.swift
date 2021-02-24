@@ -269,21 +269,21 @@ func GetFeeForNewInfluencer(_ user: Influencer) -> Double {
 func makeImageCircular(image: UIImage) -> UIImage {
 	//remvoed this functio becuase it takes a long time to process. Also a simple CGLayer cornerRadius can do the same thing, except more efficiently.
 	
-	return image
+	//return image
 	
-//	let ImageLayer = CALayer()
-//
-//	ImageLayer.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: image.size)
-//	ImageLayer.contents = image.cgImage
-//	ImageLayer.masksToBounds = true
-//	ImageLayer.cornerRadius = image.size.width/2
-//
-//	UIGraphicsBeginImageContext(image.size)
-//	ImageLayer.render(in: UIGraphicsGetCurrentContext()!)
-//	let NewImage = UIGraphicsGetImageFromCurrentImageContext()
-//	UIGraphicsEndImageContext()
-//
-//	return NewImage!;
+	let ImageLayer = CALayer()
+
+	ImageLayer.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: image.size)
+	ImageLayer.contents = image.cgImage
+	ImageLayer.masksToBounds = true
+	ImageLayer.cornerRadius = image.size.width/2
+
+	UIGraphicsBeginImageContext(image.size)
+	ImageLayer.render(in: UIGraphicsGetCurrentContext()!)
+	let NewImage = UIGraphicsGetImageFromCurrentImageContext()
+	UIGraphicsEndImageContext()
+
+	return NewImage!;
 }
 
 func GetCategoryStringFromlist(categories: [String]) -> String {

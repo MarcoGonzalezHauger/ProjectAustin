@@ -18,6 +18,9 @@ class NewWithdrawVC: UIViewController {
         self.amt.text = NumberToPrice(Value: Myself.finance.balance)
         // Do any additional setup after loading the view.
     }
+    @IBAction func cancel_Action(_ sender: Any) {
+        self.performDismiss()
+    }
     
     @IBAction func withdrawAction(sender: UIButton){
         

@@ -243,7 +243,7 @@ class BasicInfluencer { //All public information goes here.
         d["followerCount"] = Double(userInfo.followerCount)
         d["averageLikes"] = userInfo.averageLikes
         d["profilePicURL"] = userInfo.profilePicture
-        d["zipCode"] = userInfo.profilePicture
+        d["zipCode"] = userInfo.zipCode
         d["gender"] = userInfo.gender
         d["joinedDate"] = Date().toUString()
         d["interests"] = userInfo.categories

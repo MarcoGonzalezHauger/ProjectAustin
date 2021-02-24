@@ -213,7 +213,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		let eMail: String! = UserDefaults.standard.object(forKey: "email") as? String
 		let passWord: String! = UserDefaults.standard.object(forKey: "password") as? String
 		
-		if eMail == nil || passWord == nil || AccessToken.current == nil {
+        if eMail == nil || passWord == nil || AccessToken.current == nil || !NetworkReachability.isConnectedToNetwork() {
 			let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
 			self.window?.rootViewController = viewReference
 			return
