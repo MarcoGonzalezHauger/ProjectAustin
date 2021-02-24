@@ -78,6 +78,8 @@ class OfferPoolView: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	
 	@IBOutlet weak var tableView: UITableView!
 	@IBOutlet weak var searchBar: UISearchBar!
+    
+    var imageWasSet = false
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,6 +93,35 @@ class OfferPoolView: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		
 		offerPoolListeners.append(self)
 		
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if !imageWasSet {
+            self.setCompanyTabBarItem()
+        }
+    }
+    
+    func setCompanyTabBarItem() {
+        let logo = Myself.basic.resizedProfile
+        downloadImage(logo) { (image) in
+            let size = CGSize.init(width: 32, height: 32)
+            
+            let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+            
+            UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.main.scale)
+            image?.draw(in: rect)
+            let newImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            
+            if var image = newImage {
+                print(image.scale)
+                image = makeImageCircular(image: image)
+                print(image.scale)
+                self.tabBarController?.viewControllers?[1].tabBarItem.image = image.withRenderingMode(.alwaysOriginal)
+                self.tabBarController?.viewControllers?[1].tabBarItem.selectedImage = image.withRenderingMode(.alwaysOriginal)
+                self.imageWasSet = true
+            }
+        }
     }
 	
 	var passPO: PoolOffer!

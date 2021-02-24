@@ -84,11 +84,23 @@ extension BasicInfluencer {
 			return "Accounts/Public/Influencers/\(self.userId)"
 		}
 	}
+    
+    var privatePath: String {
+        get {
+            return "Accounts/Private/Influencers/\(self.userId)/basic"
+        }
+    }
 	
 	func UpdateToFirebase(completed: ((_ success: Bool) -> ())?) {
 		let ref = Database.database().reference().child(publicPath)
 		ref.updateChildValues(self.toDictionary()) { (err, dataref) in
 			completed?(err != nil)
 		}
+        
+        let refPrivate = Database.database().reference().child(privatePath)
+        refPrivate.updateChildValues(["followedBy":self.followedBy]) { (err, dataref) in
+            completed?(err != nil)
+        }
+        
 	}
 }

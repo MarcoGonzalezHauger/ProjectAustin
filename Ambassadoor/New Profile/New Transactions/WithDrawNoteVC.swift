@@ -20,6 +20,10 @@ class WithDrawNoteVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    @IBAction func cancel_Action(_ sender: Any) {
+        self.performDismiss()
+    }
+    
     @IBAction func dismisAction(sender: UIButton){
         
         if let viewTab = self.view.window?.rootViewController as? TabBarVC{

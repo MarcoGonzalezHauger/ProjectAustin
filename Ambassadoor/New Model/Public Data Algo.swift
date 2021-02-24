@@ -185,6 +185,39 @@ enum SearchFor: String {
 	case influencers, businesses, both
 }
 
+enum SocialTabFor: String {
+    case following, followedby
+}
+
+func SocialFollowingUsers(influencer: Influencer) -> [Any] {
+    
+    var totalUsers = [Any]()
+        
+    let FilteredInfluencers = globalBasicInfluencers.filter { (basicInfluencer) -> Bool in
+            return influencer.basic.followingInfluencers.contains(basicInfluencer.userId)
+        }
+    let FilteredBusiness = globalBasicBusinesses.filter { (basicBusiness) -> Bool in
+        return influencer.basic.followingBusinesses.contains(basicBusiness.basicId)
+    }
+    
+    totalUsers.append(contentsOf: FilteredInfluencers)
+    totalUsers.append(contentsOf: FilteredBusiness)
+    
+    return totalUsers.shuffled()
+}
+
+func SocialFollowedByUsers(influencer: Influencer) -> [Any] {
+    var totalUsers = [Any]()
+        
+    let FilteredInfluencers = globalBasicInfluencers.filter { (basicInfluencer) -> Bool in
+            return influencer.basic.followedBy.contains(basicInfluencer.userId)
+        }
+    
+    totalUsers.append(contentsOf: FilteredInfluencers)
+    
+    return totalUsers
+}
+
 func SearchSocialData(searchQuery: String, searchIn: SearchFor) -> [Any] {
 	
 	let query = searchQuery.lowercased()
