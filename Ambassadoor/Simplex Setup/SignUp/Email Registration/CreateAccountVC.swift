@@ -34,7 +34,12 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 	var wasFailed = false
     
     
-    
+	@IBOutlet weak var testingLabel: UILabel!
+	@IBOutlet weak var testingSwitch: UISwitch!
+	@IBAction func switchToggles(_ sender: Any) {
+		NewAccount.isForTesting = testingSwitch.isOn
+	}
+	
 	
 	@IBOutlet weak var CreateButtonView: ShadowView!
 	@IBOutlet weak var CreateButton: UIButton!
@@ -50,44 +55,43 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 //		//if success (this only dimisses the VCs):
 //		AccountSuccessfullyCreated()
                 
-        if NewAccount.email != ""{
-            
-            if NewAccount.instagramUsername != ""{
-                
-                if NewAccount.zipCode != ""{
-                    var referralcodeString = ""
-                    referralcodeString.append(randomString(length: 6))
-                    let referral = referralcodeString.uppercased()
-                    NewAccount.referralCode = referral
-                    let uid = NewAccount.instagramUsername.replacingOccurrences(of: ".", with: ",")
-                    let NewUserID = uid + ", " + randomString(length: 15)
-                    checkNewIfUserExists(userID: NewUserID) { (exist, user) in
-                        
-                        if exist{
-                            self.AccountCreationFailed(problem: .instaTaken)
-                        }else{
-                            Myself = user
-                            UserDefaults.standard.set(NewUserID, forKey: "userID")
-                            UserDefaults.standard.set(NewAccount.email, forKey: "email")
-                            UserDefaults.standard.set(NewAccount.password, forKey: "password")
-                            self.AccountSuccessfullyCreated()
-                        }
-                        
-                    }
-                    
-                }else{
-                    AccountCreationFailed(problem: .noBasicInfo)
-                }
-                
-            }else{
-                AccountCreationFailed(problem: .instaTaken)
-            }
-            
-        }else{
-           AccountCreationFailed(problem: .emailTaken)
-        }
+        if NewAccount.email == "" {
+			AccountCreationFailed(problem: .emailTaken)
+			return
+		}
+		
+		if NewAccount.instagramUsername == ""{
+			AccountCreationFailed(problem: .instaTaken)
+			return
+		}
+		
+		if NewAccount.zipCode != ""{
+			AccountCreationFailed(problem: .noBasicInfo)
+			return
+		}
+		
+		var referralcodeString = ""
+		referralcodeString.append(randomString(length: 6))
+		let referral = referralcodeString.uppercased()
+		NewAccount.referralCode = referral
+		let uid = NewAccount.instagramUsername.replacingOccurrences(of: ".", with: ",")
+		let NewUserID = uid + ", " + randomString(length: 15)
+		checkNewIfUserExists(userID: NewAccount.instagramKey) { (exist, user) in
+			
+			if exist{
+				self.AccountCreationFailed(problem: .instaTaken)
+			}else{
+				Myself = user
+				UserDefaults.standard.set(NewUserID, forKey: "userID")
+				UserDefaults.standard.set(NewAccount.email, forKey: "email")
+				UserDefaults.standard.set(NewAccount.password, forKey: "password")
+				self.AccountSuccessfullyCreated()
+			}
+			
+		}
+		
+		
 	}
-	
 	
 	//OTHER CODE:
 	
@@ -230,6 +234,10 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 		//nextStep
 		stepShelf.alwaysBounceVertical = false
         //wasFailed = true
+		
+		let showTestingSwitch = false
+		testingSwitch.isHidden = !showTestingSwitch
+		testingLabel.isHidden = !showTestingSwitch
     }
 
 	@IBAction func cancelled(_ sender: Any) {

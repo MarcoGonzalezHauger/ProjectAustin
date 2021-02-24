@@ -237,7 +237,10 @@ class BasicInfluencer { //All public information goes here.
     
     static func createBasicUserDictionary(userInfo: NewAccountInfo) -> [String: Any] {
         var d: [String: Any] = [:]
-        let flags = ["isForTesting"]
+		var flags: [String] = []
+		if userInfo.isForTesting {
+			flags = ["isForTesting"]
+		}
         d["name"] = userInfo.instagramName
         d["username"] = userInfo.instagramUsername
         d["followerCount"] = Double(userInfo.followerCount)

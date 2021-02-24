@@ -28,7 +28,7 @@ struct NewAccountInfo {
     var profilePicture: String
     var referralCode: String
     var dob: String
-    
+	var isForTesting: Bool
 }
 
 func accInfoUpdate() {
@@ -37,6 +37,6 @@ func accInfoUpdate() {
 	}
 }
 	
-var NewAccount: NewAccountInfo = NewAccountInfo.init(email: "", password: "", categories: [], gender: "", zipCode: "", instagramKey: "", instagramUsername: "", authenticationToken: "", averageLikes: 0, followerCount: 0, id: "", instagramName: "", profilePicture: "", referralCode: "", dob: "")
+var NewAccount: NewAccountInfo = NewAccountInfo.init(email: "", password: "", categories: [], gender: "", zipCode: "", instagramKey: "", instagramUsername: "", authenticationToken: "", averageLikes: 0, followerCount: 0, id: "", instagramName: "", profilePicture: "", referralCode: "", dob: "", isForTesting: false)
 
 var NewAccountListeners: [NewAccountListener] = []

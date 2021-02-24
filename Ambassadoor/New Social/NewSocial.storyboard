@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="NRI-Pr-fCK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="NRI-Pr-fCK">
     <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,11 +18,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="liy-tH-ODZ" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="101"/>
+                                <rect key="frame" x="0.0" y="-50" width="414" height="120"/>
                                 <subviews>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="H7s-EI-1aE">
-                                        <rect key="frame" x="0.0" y="50" width="414" height="32"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="H7s-EI-1aE">
+                                        <rect key="frame" x="12" y="77" width="390" height="32"/>
                                         <segments>
                                             <segment title="Following"/>
                                             <segment title="Followed By"/>
@@ -34,7 +33,10 @@
                                 </subviews>
                                 <color key="backgroundColor" name="newTrueBack"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="101" id="5L9-Yv-xpP"/>
+                                    <constraint firstAttribute="height" constant="120" id="5L9-Yv-xpP"/>
+                                    <constraint firstItem="H7s-EI-1aE" firstAttribute="leading" secondItem="liy-tH-ODZ" secondAttribute="leading" constant="12" id="MGE-4h-oKX"/>
+                                    <constraint firstAttribute="bottom" secondItem="H7s-EI-1aE" secondAttribute="bottom" constant="12" id="rPK-cB-rom"/>
+                                    <constraint firstAttribute="trailing" secondItem="H7s-EI-1aE" secondAttribute="trailing" constant="12" id="wkw-Z2-GwK"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
@@ -51,36 +53,27 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ppM-oz-W8k">
-                                <rect key="frame" x="0.0" y="109" width="414" height="578"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ppM-oz-W8k">
+                                <rect key="frame" x="0.0" y="78" width="414" height="609"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P9i-v7-Za8" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="81.666666666666686" y="318" width="251" height="100"/>
+                                <rect key="frame" x="75" y="318" width="264.33333333333331" height="100"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="bJB-vF-ZuD">
-                                        <rect key="frame" x="28" y="21.000000000000004" width="195" height="58.333333333333343"/>
+                                        <rect key="frame" x="28.000000000000014" y="40" width="208.33333333333337" height="20.333333333333329"/>
                                         <subviews>
-                                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Following Users" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kaM-oO-wMd">
-                                                <rect key="frame" x="0.0" y="0.0" width="195" height="20.333333333333332"/>
+                                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You aren't following anyone" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kaM-oO-wMd">
+                                                <rect key="frame" x="0.0" y="0.0" width="208.33333333333334" height="20.333333333333332"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rzc-gM-2yD">
-                                                <rect key="frame" x="0.0" y="23.333333333333314" width="195" height="35"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                                <state key="normal" title="Refresh"/>
-                                                <connections>
-                                                    <action selector="refreshDataWith_sender:" destination="NRI-Pr-fCK" eventType="touchUpInside" id="yuf-OT-7EV"/>
-                                                </connections>
-                                            </button>
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="251" id="4WX-9V-bku"/>
                                     <constraint firstAttribute="trailing" secondItem="bJB-vF-ZuD" secondAttribute="trailing" constant="28" id="LaW-Jt-Fu0"/>
                                     <constraint firstItem="bJB-vF-ZuD" firstAttribute="leading" secondItem="P9i-v7-Za8" secondAttribute="leading" constant="28" id="fc4-8T-toQ"/>
                                     <constraint firstItem="bJB-vF-ZuD" firstAttribute="centerY" secondItem="P9i-v7-Za8" secondAttribute="centerY" id="pod-0b-46L"/>
@@ -88,10 +81,11 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="6mC-vd-ELP"/>
+                        <color key="backgroundColor" name="newSubtleBackground"/>
                         <constraints>
                             <constraint firstItem="ppM-oz-W8k" firstAttribute="top" secondItem="liy-tH-ODZ" secondAttribute="bottom" constant="8" id="68Z-f7-8u7"/>
-                            <constraint firstItem="liy-tH-ODZ" firstAttribute="top" secondItem="6mC-vd-ELP" secondAttribute="top" id="9xd-be-fix"/>
+                            <constraint firstItem="liy-tH-ODZ" firstAttribute="top" secondItem="6mC-vd-ELP" secondAttribute="top" constant="-50" id="9xd-be-fix"/>
                             <constraint firstItem="liy-tH-ODZ" firstAttribute="trailing" secondItem="6mC-vd-ELP" secondAttribute="trailing" id="GF3-f9-QKb"/>
                             <constraint firstItem="P9i-v7-Za8" firstAttribute="centerY" secondItem="eZG-Le-X3Z" secondAttribute="centerY" id="UVk-4d-ILI"/>
                             <constraint firstItem="liy-tH-ODZ" firstAttribute="leading" secondItem="6mC-vd-ELP" secondAttribute="leading" id="Voi-lH-aIe"/>
@@ -100,7 +94,6 @@
                             <constraint firstItem="ppM-oz-W8k" firstAttribute="leading" secondItem="6mC-vd-ELP" secondAttribute="leading" id="nkt-Jh-keu"/>
                             <constraint firstItem="ppM-oz-W8k" firstAttribute="bottom" secondItem="6mC-vd-ELP" secondAttribute="bottom" id="zSj-RW-3wu"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6mC-vd-ELP"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Social" image="SocialIcon" id="mqA-1D-mzA"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
@@ -109,15 +102,38 @@
                         <outlet property="noneFollowers" destination="P9i-v7-Za8" id="kqz-a8-n7y"/>
                         <outlet property="socialSegemnt" destination="H7s-EI-1aE" id="r4a-Ln-KNH"/>
                         <outlet property="socialTable" destination="ppM-oz-W8k" id="an9-Zo-c9V"/>
+                        <segue destination="qu2-DW-Ov6" kind="presentation" identifier="toBus" id="o2x-xf-Dyg"/>
+                        <segue destination="wms-bM-ndJ" kind="presentation" identifier="toInf" id="dUo-4I-R78"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5wZ-Gt-gwB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="50.724637681159422" y="18.75"/>
         </scene>
+        <!--NewBasicInfluencerView-->
+        <scene sceneID="Y06-Ci-4Lv">
+            <objects>
+                <viewControllerPlaceholder storyboardName="New Social Search" referencedIdentifier="NewBasicInfluencerView" id="wms-bM-ndJ" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="TNr-g3-rx9"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0uV-Yj-rkQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="774" y="-261"/>
+        </scene>
+        <!--NewBasicBuinessView-->
+        <scene sceneID="uda-da-pfw">
+            <objects>
+                <viewControllerPlaceholder storyboardName="New Social Search" referencedIdentifier="NewBasicBuinessView" id="qu2-DW-Ov6" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zgV-UM-Gft" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="769" y="-183"/>
+        </scene>
     </scenes>
     <resources>
         <image name="SocialIcon" width="19.333333969116211" height="28.666666030883789"/>
+        <namedColor name="newSubtleBackground">
+            <color red="0.94099998474121094" green="0.94900000095367432" blue="0.96100002527236938" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
         <namedColor name="newTrueBack">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

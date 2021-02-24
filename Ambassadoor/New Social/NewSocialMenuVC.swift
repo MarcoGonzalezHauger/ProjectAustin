@@ -9,10 +9,11 @@
 import UIKit
 
 class NewSocialMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, myselfRefreshDelegate, publicDataRefreshDelegate {
+	
     func myselfRefreshed() {
-        if GetSocialScope() == .following{
-           refreshItems()
-        }
+		if GetSocialScope() == .followedby {
+			refreshItems()
+		}
     }
     
     func publicDataRefreshed(userOrBusinessId: String) {
@@ -20,11 +21,8 @@ class NewSocialMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     @IBOutlet weak var socialTable: UITableView!
-    
     @IBOutlet weak var socialSegemnt: UISegmentedControl!
-    
     @IBOutlet weak var noneFollowers: ShadowView!
-    
     @IBOutlet weak var errorText: UILabel!
     
     var followingUsers = [Any]()
@@ -51,35 +49,51 @@ class NewSocialMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     @IBAction func segmentIndexChanged(_sender: Any){
         self.refreshItems()
     }
-    
-    @IBAction func refreshData(_sender: Any){
-        self.refreshItems()
-    }
+	
+	override func viewDidAppear(_ animated: Bool) {
+		refreshItems()
+	}
     
     func refreshItems() {
-        self.followingUsers.removeAll()
         if GetSocialScope() == .following {
             self.followingUsers = SocialFollowingUsers(influencer: Myself)
-        }else{
+        } else {
             self.followingUsers = SocialFollowedByUsers(influencer: Myself)
-            
         }
-        self.noneCheck(array: self.followingUsers)
         self.socialTable.reloadData()
     }
     
-    func noneCheck(array: [Any]) {
-        DispatchQueue.main.async {
-            print("glimse=",array.count)
-            self.noneFollowers.isHidden = array.count == 0 ? false : true
-            self.errorText.text = self.GetSocialScope() == .following ? "No Following Users" : "No FollowedBy Users"
-        }
-        
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		
+		self.noneFollowers.isHidden = self.followingUsers.count != 0
+  
+		self.errorText.text = self.GetSocialScope() == .following ? "You aren't following anyone" : "Nobody follows you yet"
+		
         return self.followingUsers.count
     }
+	
+	var passId: String = ""
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		let item = followingUsers[indexPath.row]
+		if let inf = item as? BasicInfluencer {
+			passId = inf.userId
+			performSegue(withIdentifier: "toInf", sender: self)
+		} else if let bus = item as? BasicBusiness {
+			passId = bus.basicId
+			performSegue(withIdentifier: "toBus", sender: self)
+		}
+		tableView.deselectRow(at: indexPath, animated: true)
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if let view = segue.destination as? NewBasicInfluencerView {
+			view.displayInfluencerId(userId: passId)
+		}
+		if let view = segue.destination as? NewBasicBusinessView {
+			view.displayBasicId(basicId: passId)
+		}
+	}
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -121,15 +135,5 @@ class NewSocialMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             return 80
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

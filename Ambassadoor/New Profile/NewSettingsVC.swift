@@ -17,20 +17,24 @@ class NewSettingsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		scrollView.alwaysBounceVertical = false
-		invisibleSwitch.isOn = Myself.basic.checkFlag("isInvisible")
+		loadProfileSettings()
     }
+	
+	func loadProfileSettings() {
+		invisibleSwitch.isOn = Myself.basic.checkFlag("isInvisible")
+	}
 	
 	@IBOutlet weak var invisibleSwitch: UISwitch!
 	@IBOutlet weak var scrollView: UIScrollView!
 	var delegate: NewSettingsDelegate?
 	
 	@IBAction func closeButtonPressed(_ sender: Any) {
-		dismiss(animated: true, completion: nil)
+		navigationController?.dismiss(animated: true, completion: nil)
 	}
 	
 	@IBAction func editMyProfile(_ sender: Any) {
 		delegate?.GoIntoEditMode()
-		dismiss(animated: true, completion: nil)
+		navigationController?.dismiss(animated: true, completion: nil)
 	}
 	
 	@IBAction func switchChanged(_ sender: Any) {
