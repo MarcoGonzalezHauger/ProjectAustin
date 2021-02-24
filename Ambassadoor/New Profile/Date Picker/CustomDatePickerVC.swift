@@ -31,7 +31,6 @@ class CustomDatePickerVC: UIViewController {
     }
     
     func setConfigDatePicker() {
-        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         var components = DateComponents()
         components.year = -18
         let maxDate = Calendar.current.date(byAdding: components, to: Date())
@@ -40,18 +39,26 @@ class CustomDatePickerVC: UIViewController {
     }
     
     @IBAction func cancelAction(_sender: Any){
-        self.view.backgroundColor = UIColor.clear
-        self.dismiss(animated: true, completion: nil)
+		UIView.animate(withDuration: 0.2) {
+			self.view.backgroundColor = .clear
+		} completion: { (b) in
+			self.dismiss(animated: true, completion: nil)
+		}
     }
     
     @IBAction func doneAction(_sender: Any){
-        self.pickerDelegate?.pickedDate(date: self.datePicker.date)
-        self.view.backgroundColor = UIColor.clear
-        self.dismiss(animated: true, completion: nil)
+		UIView.animate(withDuration: 0.2) {
+			self.view.backgroundColor = .clear
+		} completion: { (b) in
+			self.pickerDelegate?.pickedDate(date: self.datePicker.date)
+			self.dismiss(animated: true, completion: nil)
+		}
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
+		UIView.animate(withDuration: 0.2) {
+			self.view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+		}
     }
 
     /*
