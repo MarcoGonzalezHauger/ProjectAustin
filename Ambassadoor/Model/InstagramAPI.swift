@@ -19,6 +19,11 @@ struct API {
      static let INSTAGRAM_REDIRECT_URI = "https://ambassadoor.co/welcome"
      static let INSTAGRAM_REDIRECT_URI2 = "https://www.ambassadoor.co/welcome"
      */
+    
+    static let privacyUrl = "https://www.ambassadoor.co/privacy-policy"
+    static let termsUrl = "https://www.ambassadoor.co/terms-of-service"
+    static let supportEmail = "support@ambassadoor.co"
+    
     static var isForTesting = false
     static let shouldAboveVersion = "2.0.0"
     

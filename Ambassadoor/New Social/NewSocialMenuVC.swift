@@ -25,6 +25,8 @@ class NewSocialMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     @IBOutlet weak var noneFollowers: ShadowView!
     @IBOutlet weak var errorText: UILabel!
     
+    
+    
     var followingUsers = [Any]()
     
     func GetSocialScope() -> SocialTabFor {
@@ -93,6 +95,10 @@ class NewSocialMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 		if let view = segue.destination as? NewBasicBusinessView {
 			view.displayBasicId(basicId: passId)
 		}
+        
+        if let view = segue.destination as? WebViewVC {
+            
+        }
 	}
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -135,5 +141,7 @@ class NewSocialMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             return 80
         }
     }
+    
+    
 
 }

@@ -57,6 +57,12 @@ extension UIViewController {
         }
     }
     
+    func poptoRoot() {
+        if let nav = self.navigationController {
+            nav.popToRootViewController(animated: true)
+        }
+    }
+    
     
     func toggleUserInteraction(_ enable: Bool) {
         if let activeView = navigationController?.view ?? view {
