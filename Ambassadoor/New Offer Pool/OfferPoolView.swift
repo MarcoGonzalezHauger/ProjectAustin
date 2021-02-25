@@ -73,14 +73,26 @@ class OfferPoolView: UIViewController, UITableViewDelegate, UITableViewDataSourc
 			}
 		}
 		currentOffers = pool
+		
+		if pool.count == 0 {
+			noResultsView.isHidden = false
+			if query == "" {
+				noResultsLabel.text = "No offers for you yet.\n\nGet a Businesses to sign up using your referral code \(Myself.basic.referralCode) to get 1% of all the money the business spend on Ambassadoor forever."
+			} else {
+				noResultsLabel.text = "No results for search"
+			}
+		} else {
+			noResultsView.isHidden = true
+		}
+		
 		tableView.reloadData()
 	}
 	
+	@IBOutlet weak var noResultsLabel: UILabel!
+	@IBOutlet weak var noResultsView: UIView!
 	@IBOutlet weak var tableView: UITableView!
 	@IBOutlet weak var searchBar: UISearchBar!
     
-    var imageWasSet = false
-	
 	override func viewDidLoad() {
         super.viewDidLoad()
 		let xib = UINib.init(nibName: "PoolOfferTVC", bundle: Bundle.main)
@@ -94,17 +106,19 @@ class OfferPoolView: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		offerPoolListeners.append(self)
 		
     }
+
+	var imageWasSet = false
     
     override func viewWillAppear(_ animated: Bool) {
         if !imageWasSet {
-            self.setCompanyTabBarItem()
+            self.setTabBarProfilePicture()
         }
     }
     
-    func setCompanyTabBarItem() {
+    func setTabBarProfilePicture() {
         let logo = Myself.basic.resizedProfile
         downloadImage(logo) { (image) in
-            let size = CGSize.init(width: 32, height: 32)
+            let size = CGSize.init(width: 30, height: 30)
             
             let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
             
@@ -117,8 +131,8 @@ class OfferPoolView: UIViewController, UITableViewDelegate, UITableViewDataSourc
                 print(image.scale)
                 image = makeImageCircular(image: image)
                 print(image.scale)
-                self.tabBarController?.viewControllers?[1].tabBarItem.image = image.withRenderingMode(.alwaysOriginal)
-                self.tabBarController?.viewControllers?[1].tabBarItem.selectedImage = image.withRenderingMode(.alwaysOriginal)
+                self.tabBarController?.viewControllers?[0].tabBarItem.image = image.withRenderingMode(.alwaysOriginal)
+                self.tabBarController?.viewControllers?[0].tabBarItem.selectedImage = image.withRenderingMode(.alwaysOriginal)
                 self.imageWasSet = true
             }
         }

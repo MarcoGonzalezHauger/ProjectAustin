@@ -638,8 +638,8 @@ here</string>
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="TabBar" destination="pig-ug-HwQ" id="Bus-Ep-SgJ"/>
-                        <segue destination="CRF-EE-0B1" kind="relationship" relationship="viewControllers" id="fWC-Qg-5LS"/>
                         <segue destination="hH4-DU-krr" kind="relationship" relationship="viewControllers" id="2aZ-cU-3qp"/>
+                        <segue destination="CRF-EE-0B1" kind="relationship" relationship="viewControllers" id="fWC-Qg-5LS"/>
                         <segue destination="ShI-4F-LrF" kind="relationship" relationship="viewControllers" id="gf9-dD-a48"/>
                         <segue destination="oLI-Ds-A3p" kind="relationship" relationship="viewControllers" id="flb-EL-bDk"/>
                         <segue destination="9Y7-Kz-IAn" kind="relationship" relationship="viewControllers" id="QY4-1u-vme"/>
@@ -5323,7 +5323,6 @@ here</string>
                         <segue destination="ecE-YK-OvL" kind="show" identifier="toDwollaUserInfo" id="XX4-2j-Z8f"/>
                         <segue destination="jNW-6n-gmN" kind="presentation" identifier="segueTransaction" modalPresentationStyle="fullScreen" id="BmA-gC-jvg"/>
                         <segue destination="1Cj-Yj-zpS" kind="presentation" identifier="segueWithdraw" id="vRt-x6-JQm"/>
-                        <segue destination="zve-FS-88k" kind="presentation" identifier="segueStripConnect" id="gJh-4e-9A5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z9P-VO-YTd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -5829,86 +5828,13 @@ from Ambassadoor</string>
                         <viewLayoutGuide key="safeArea" id="erL-MR-oFA"/>
                     </view>
                     <connections>
+                        <outlet property="titleText" destination="UUe-nX-G0l" id="vDV-Hm-YZY"/>
                         <outlet property="webView" destination="cFs-gK-afI" id="F2t-cn-zdJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rv5-5f-USE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-9570" y="161"/>
-        </scene>
-        <!--Stripe ConnectionMK Webview-->
-        <scene sceneID="7o8-bR-GXi">
-            <objects>
-                <viewController storyboardIdentifier="StripeConnectionRef" id="zve-FS-88k" customClass="StripeConnectionMKWebview" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="B64-fZ-Aqx">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NIp-Cz-xIq">
-                                <rect key="frame" x="20" y="11" width="59" height="35"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                <state key="normal" title="Cancel"/>
-                                <connections>
-                                    <action selector="cancel_Action:" destination="zve-FS-88k" eventType="touchUpInside" id="pZd-5v-C0a"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connect Your Bank" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aT0-S6-aUe">
-                                <rect key="frame" x="115.66666666666669" y="16" width="183" height="25"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="25" id="Doe-g1-k58"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="21"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bge-t0-za8">
-                                <rect key="frame" x="0.0" y="57" width="414" height="785"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <wkWebViewConfiguration key="configuration">
-                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
-                                    <wkPreferences key="preferences"/>
-                                </wkWebViewConfiguration>
-                            </wkWebView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="OdD-sn-XLB">
-                                <rect key="frame" x="188.66666666666666" y="402.66666666666669" width="37" height="37"/>
-                                <color key="color" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                            </activityIndicatorView>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="bge-t0-za8" firstAttribute="leading" secondItem="B64-fZ-Aqx" secondAttribute="leading" id="1ZM-4w-BrP"/>
-                            <constraint firstItem="aT0-S6-aUe" firstAttribute="top" secondItem="E7a-pV-BMz" secondAttribute="top" constant="16" id="3Sp-ty-L7h"/>
-                            <constraint firstAttribute="bottom" secondItem="bge-t0-za8" secondAttribute="bottom" id="BGI-OQ-Ohh"/>
-                            <constraint firstItem="OdD-sn-XLB" firstAttribute="centerX" secondItem="B64-fZ-Aqx" secondAttribute="centerX" id="F25-ee-o7j"/>
-                            <constraint firstItem="NIp-Cz-xIq" firstAttribute="leading" secondItem="E7a-pV-BMz" secondAttribute="leading" constant="20" id="Qb5-n8-YlA"/>
-                            <constraint firstItem="aT0-S6-aUe" firstAttribute="centerX" secondItem="B64-fZ-Aqx" secondAttribute="centerX" id="cAu-3y-sQx"/>
-                            <constraint firstAttribute="trailing" secondItem="bge-t0-za8" secondAttribute="trailing" id="jUt-6s-aqj"/>
-                            <constraint firstItem="NIp-Cz-xIq" firstAttribute="centerY" secondItem="aT0-S6-aUe" secondAttribute="centerY" id="mVS-DH-0Ac"/>
-                            <constraint firstItem="bge-t0-za8" firstAttribute="top" secondItem="aT0-S6-aUe" secondAttribute="bottom" constant="16" id="oqH-Ph-BEp"/>
-                            <constraint firstItem="OdD-sn-XLB" firstAttribute="centerY" secondItem="B64-fZ-Aqx" secondAttribute="centerY" id="sZl-IG-9gY"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="E7a-pV-BMz"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="7W1-aJ-9Mu"/>
-                    <connections>
-                        <outlet property="activityIndicatorView" destination="OdD-sn-XLB" id="h2U-d8-iUT"/>
-                        <outlet property="webView_MKWeb" destination="bge-t0-za8" id="8pe-fM-WNb"/>
-                        <segue destination="B1F-ee-GEF" kind="show" identifier="fromStripeConnection" id="Ws3-sH-uMe"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Xb3-D8-uvf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1642" y="175"/>
-        </scene>
-        <!--NewWithdrawRef-->
-        <scene sceneID="0rl-RR-j94">
-            <objects>
-                <viewControllerPlaceholder storyboardName="AccountDetails" referencedIdentifier="NewWithdrawRef" id="B1F-ee-GEF" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="MtB-Mj-NUf"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Mu9-qC-FHG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-959" y="83"/>
         </scene>
         <!--Referral InfoVC-->
         <scene sceneID="YWU-HU-9Q7">

@@ -378,8 +378,12 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 		if let view = segue.destination as? ZipCodeVC {
 			view.delegate = self
 		}
-		if let view = segue.destination as? NewSettingsVC {
-			view.delegate = self
+		if segue.identifier == "toSettings" {
+			if let nc = segue.destination as? UINavigationController {
+				if let view = nc.topViewController as? NewSettingsVC {
+					view.delegate = self
+				}
+		 }
 		}
 		if let view = segue.destination as? InterestPickerPopupVC {
 			if isInEditMode {

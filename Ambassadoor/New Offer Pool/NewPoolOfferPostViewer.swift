@@ -26,6 +26,10 @@ class NewPoolOfferPostViewer: UIViewController {
 	var thisPoolOffer: PoolOffer!
 	var index: Int = 0
 	
+	@IBAction func backPressed(_ sender: Any) {
+		navigationController?.popViewController(animated: true)
+	}
+	
 	func updateContents() {
 		foreImage.downloadAndSetImage(thisPoolOffer.BasicBusiness()!.logoUrl)
 		backImage.downloadAndSetImage(thisPoolOffer.BasicBusiness()!.logoUrl)

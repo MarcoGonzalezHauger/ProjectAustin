@@ -9,34 +9,54 @@
 import UIKit
 
 class NewBasicInfoVC: UIViewController, EnterZipCode, CustomDatePickerDelegate {
+	
     func pickedDate(date: Date) {
         NewAccount.dob = date.toUString()
-        let age = Calendar.current.dateComponents([.year], from: date, to: Date())
-        self.ageText.text = "\(age.year ?? 0)"
+		self.ageText.text = date.toString(dateFormat: "MM/dd/YY")
+		birthdaySubtitle.text = "Birthday"
     }
     
     
     @IBOutlet weak var zipCodeText: UILabel!
     @IBOutlet weak var genderText: UILabel!
     @IBOutlet weak var ageText: UILabel!
-    
+	
+	@IBOutlet weak var genderSubtitle: UILabel!
+	@IBOutlet weak var zipCodeSubtitle: UILabel!
+	@IBOutlet weak var birthdaySubtitle: UILabel!
+	
+	
     var pickerviewdel: pickerViewDelegate?
     
     let datePickerView:UIDatePicker = UIDatePicker()
     
     var dobString: String?
     
-    
+	@IBOutlet weak var DoneButton: UIButton!
+	
     func ZipCodeEntered(zipCode: String?) {
-        
-        self.zipCodeText.text = zipCode?.count == nil || zipCode?.count == 0 ? "ZIP CODE" : zipCode
-        NewAccount.zipCode = (zipCode?.count == nil || zipCode?.count == 0 ? "" : zipCode)!
+		
+		if let zipCode = zipCode {
+			if zipCode != "" {
+				self.zipCodeText.text = zipCode
+				NewAccount.zipCode = zipCode
+				
+				GetTownName(zipCode: zipCode) { (data, zip) in
+					if let data = data {
+						self.zipCodeSubtitle.text = data.CityAndStateName
+					}
+				}
+			}
+		}
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+		if #available(iOS 13.0, *) {
+			self.isModalInPresentation = true
+		}
+		
     }
     
     
@@ -60,11 +80,13 @@ class NewBasicInfoVC: UIViewController, EnterZipCode, CustomDatePickerDelegate {
         let female = UIAlertAction(title: "Female", style: .default) { (action: UIAlertAction) in
             NewAccount.gender = "Female"
             self.genderText.text = "Female"
+			self.genderSubtitle.text = "Gender"
         }
         
         let male = UIAlertAction(title: "Male", style: .default) { (action: UIAlertAction) in
             NewAccount.gender = "Male"
             self.genderText.text = "Male"
+			self.genderSubtitle.text = "Gender"
         }
         
         let other = UIAlertAction(title: "Other...", style: .default) { (action: UIAlertAction) in
@@ -81,6 +103,7 @@ class NewBasicInfoVC: UIViewController, EnterZipCode, CustomDatePickerDelegate {
                 if text != "" {
                     NewAccount.gender = text
                     self.genderText.text = text
+					self.genderSubtitle.text = "Gender"
                 }
             }))
 
@@ -96,43 +119,40 @@ class NewBasicInfoVC: UIViewController, EnterZipCode, CustomDatePickerDelegate {
         self.present(genderPick, animated: true, completion: nil)
     }
 
-    @IBAction func doneAction(){
+    @IBAction func doneAction() {
+		
+		if NewAccount.zipCode == "" {
+			MakeShake(viewToShake: DoneButton, coefficient: 0.5)
+			showStandardAlertDialog(title: "ZIP Code", msg: "Please enter your ZIP Code.") { (action) in
+			}
+			return
+		}
+		
+		if NewAccount.gender == "" {
+			MakeShake(viewToShake: DoneButton, coefficient: 0.5)
+			showStandardAlertDialog(title: "Gender", msg: "Please pick your Gender.") { (action) in
+			}
+			return
+		}
+		
+		if NewAccount.dob == "" {
+			MakeShake(viewToShake: DoneButton, coefficient: 0.5)
+			showStandardAlertDialog(title: "Birthday", msg: "Please enter your Birthday.") { (action) in
+			}
+			return
+		}
         
-        if NewAccount.zipCode != "" {
-            if NewAccount.gender != "" {
-                if NewAccount.dob != ""{
-                    
-                    let newInt = pickerviewdel!.getInterests()
-                    if newInt.count > 0 {
-                        
-                        NewAccount.categories = pickerviewdel!.getInterests()
-                        accInfoUpdate()
-                        self.dismiss(animated: true, completion: nil)
-                        
-                    }else{
-                        self.showStandardAlertDialog(title: "Alert", msg: "Pick any Interest") { (action) in
-                            
-                        }
-                    }
-                    
-                }else{
-                    self.showStandardAlertDialog(title: "Alert", msg: "Enter the Birthday") { (action) in
-                        
-                    }
-                }
-            }else{
-                self.showStandardAlertDialog(title: "Alert", msg: "Enter the Gender") { (action) in
-                    
-                }
-            }
-        }else{
-            self.showStandardAlertDialog(title: "Alert", msg: "Enter ZIP CODE") { (action) in
-                
-            }
-        }
-        
-       
-        
+		if pickerviewdel!.getInterests().count == 0 {
+			MakeShake(viewToShake: DoneButton, coefficient: 0.5)
+			showStandardAlertDialog(title: "Interests", msg: "Please pick at least one interest.") { (action) in
+			}
+			return
+		}
+		
+		NewAccount.categories = pickerviewdel!.getInterests()
+		accInfoUpdate()
+		self.dismiss(animated: true, completion: nil)
+		
     }
     
     // MARK: - Navigation

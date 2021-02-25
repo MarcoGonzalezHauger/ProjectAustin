@@ -9,7 +9,7 @@
 
 import UIKit
 
-let maximumCategories: Int = 7
+let maxInterests: Int = 10
 
 protocol SubCategoryResultDelegate {
 	func CategoryAdded(newCategory: String) -> Bool
@@ -37,14 +37,14 @@ class ClassPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	}
 	
 	func getTitleHeading() -> String {
-		 return "\(returnValue.count)/\(maximumCategories)"
+		 return "\(returnValue.count)/\(maxInterests)"
 	}
 	
 	
 	@IBOutlet weak var header: UINavigationItem!
 	
 	func CategoryAdded(newCategory: String) -> Bool {
-		if returnValue.count >= maximumCategories {
+		if returnValue.count >= maxInterests {
 			print("No room for new category.")
 			return false
 		}
@@ -71,7 +71,7 @@ class ClassPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 	
 	func catChanged() {
 		classShelf.reloadData()
-		header.title = "\(returnValue.count)/\(maximumCategories) Categories Picked"
+		header.title = "\(returnValue.count)/\(maxInterests) Categories Picked"
 	}
 	
 	

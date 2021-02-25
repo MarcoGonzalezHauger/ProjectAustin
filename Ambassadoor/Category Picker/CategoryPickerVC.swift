@@ -75,7 +75,7 @@ class CategoryPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 	
 	func didChangeSelection() {
 		header.title = delegate?.getTitleHeading()
-		if delegate?.GetSelectedList().count ?? maximumCategories >= maximumCategories {
+		if delegate?.GetSelectedList().count ?? maxInterests >= maxInterests {
 			
 		}
 		doneButton.isEnabled = (delegate?.isDoneButtonClickable() ?? false)

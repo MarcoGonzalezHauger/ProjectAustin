@@ -38,7 +38,7 @@ extension BasicBusiness {
 		if !self.isFollowing(as: myInf) {
 			self.followedBy.append(myInf.userId)
 			self.UpdateToFirebase(completed: nil)
-			myInf.basic.followingBusinesses.append(self.businessId)
+			myInf.basic.followingBusinesses.append(self.basicId)
 			myInf.UpdateToFirebase(alsoUpdateToPublic: true, completed: nil)
 		}
 		
@@ -47,7 +47,7 @@ extension BasicBusiness {
 	func Unfollow(as myInf: Influencer) {
 		self.followedBy.removeAll{$0 == myInf.userId}
 		self.UpdateToFirebase(completed: nil)
-		myInf.basic.followingBusinesses.removeAll{$0 == self.businessId}
+		myInf.basic.followingBusinesses.removeAll{$0 == self.basicId}
 		myInf.basic.UpdateToFirebase(completed: nil)
 	}
 	
@@ -56,6 +56,6 @@ extension BasicBusiness {
 	}
 	
 	func GetAvaliableOffersFromBusiness() -> [PoolOffer] {
-		return getFilteredOfferPool().filter{$0.businessId == businessId}
+		return getFilteredOfferPool().filter{$0.basicId == basicId}
 	}
 }

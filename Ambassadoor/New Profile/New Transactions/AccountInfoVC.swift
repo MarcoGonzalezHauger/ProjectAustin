@@ -15,9 +15,7 @@ class AccountInfoVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.segueToWithdraw), name: Notification.Name("reloadbanklist"), object: nil)
         // Do any additional setup after loading the view.
 		
-		if #available(iOS 13.0, *) {
-			self.isModalInPresentation = true
-		}
+		
     }
     
     @IBAction func showStripeAccount(gesture: UIGestureRecognizer){
@@ -44,22 +42,11 @@ class AccountInfoVC: UIViewController {
     }
     
     @IBAction func closeAction(_sender: Any){
-        self.navigationController?.popViewController(animated: true)
+        self.navigationController?.dismiss(animated: true, completion: nil)
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+		
     }
 
 }

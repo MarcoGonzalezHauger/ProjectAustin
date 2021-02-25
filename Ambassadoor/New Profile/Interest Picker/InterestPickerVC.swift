@@ -11,6 +11,22 @@ import UIKit
 class PickerCell: UITableViewCell { //picker
 	@IBOutlet weak var interestImage: UIImageView!
 	@IBOutlet weak var interestLabel: UILabel!
+	@IBOutlet weak var mainView: ShadowView!
+	
+	func maxSelected() {
+		if "Max of \(maxInterests) Interests." != self.interestLabel.text {
+			let thisInterests = interestLabel.text!
+			MakeShake(viewToShake: mainView, coefficient: 0.5)
+			interestLabel.textColor = .systemRed
+			SetLabelText(label: interestLabel, text: "Max of \(maxInterests) Interests.", animated: true)
+			DispatchQueue.main.asyncAfter(deadline: .now() + 1.6) {
+				if "Max of \(maxInterests) Interests." == self.interestLabel.text {
+					self.interestLabel.textColor = GetForeColor()
+					SetLabelText(label: self.interestLabel, text: thisInterests, animated: true, fromTop: false)
+				}
+			}
+		}
+	}
 }
 
 class AlreadyPicked: UITableViewCell { //already
@@ -49,6 +65,7 @@ class InterestPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 			let reg = tableView.dequeueReusableCell(withIdentifier: "picker") as! PickerCell
 			reg.interestImage.downloadAndSetImage(GetInterestUrl(interest: thisInterest))
 			reg.interestLabel.text = thisInterest
+			reg.interestLabel.textColor = GetForeColor()
 			return reg
 		}
 	}
@@ -81,7 +98,11 @@ class InterestPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 		if pickedInterests.contains(interest) {
 			removeInterest(interest: interest)
 		} else {
-			addInterest(interest: interest)
+			if !addInterest(interest: interest) {
+				let cell = tableView.cellForRow(at: indexPath) as! PickerCell
+				cell.maxSelected()
+				
+			}
 		}
 	}
 	
@@ -89,7 +110,10 @@ class InterestPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 		return 75
 	}
 	
-	func addInterest(interest: String) {
+	func addInterest(interest: String) -> Bool {
+		if pickedInterests.count >= maxInterests {
+			return false
+		}
 		pickedInterests.append(interest)
 		topBar.reloadData()
 		DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
@@ -99,6 +123,7 @@ class InterestPickerVC: UIViewController, UITableViewDelegate, UITableViewDataSo
 		}
 		let i2 = possibleInterests.firstIndex(of: interest) ?? 0
 		tableView.reloadRows(at: [IndexPath.init(row: i2, section: 0)], with: .right)
+		return true
 	}
 	
 	func removeInterest(interest: String) {
