@@ -56,7 +56,7 @@ class ChangePasswordVC: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func popAction(sender: UIButton){
-        performDismiss()
+        poptoRoot()
     }
     
     //let password = newPassword.text!.md5()

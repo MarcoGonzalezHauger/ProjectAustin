@@ -62,7 +62,7 @@ class ChangeEmailVC: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func popAction(sender: UIButton){
-        performDismiss()
+        poptoRoot()
     }
     
     /*
