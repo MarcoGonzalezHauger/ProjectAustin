@@ -96,8 +96,68 @@ func GetColorFromPercentage(percent: Double) -> UIColor {
 	}
 }
 
+func ShowGenderPicker(_ vcToPresent: UIViewController, genderPicked: @escaping (_ gender: String) -> Void) {
+	let genderPick = UIAlertController(title: "Pick Gender", message: "", preferredStyle: UIAlertController.Style.actionSheet)
+	
+	let female = UIAlertAction(title: "Female", style: .default) { (action: UIAlertAction) in
+		genderPicked("Female")
+	}
+	
+	let male = UIAlertAction(title: "Male", style: .default) { (action: UIAlertAction) in
+		genderPicked("Male")
+	}
+	
+	let prefnotsay = UIAlertAction(title: "Prefer not to say", style: .default) { (action: UIAlertAction) in
+		genderPicked("Not Provided")
+	}
+	
+	let other = UIAlertAction(title: "Other...", style: .default) { (action: UIAlertAction) in
+		let alert = UIAlertController(title: "Enter Your Gender", message: "", preferredStyle: .alert)
+
+		alert.addTextField { (textField) in
+			textField.placeholder = "Gender"
+		}
+		
+		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+		alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+			let text = alert!.textFields![0].text!
+			
+			let acceptedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz- "
+			var newtext = ""
+			for c in text {
+				let str = String(c)
+				if acceptedChars.contains(str) {
+					newtext += str
+				}
+			}
+			
+			if newtext != "" {
+				genderPicked(newtext)
+			}
+		}))
+
+		vcToPresent.present(alert, animated: true, completion: nil)
+	}
+	
+	let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+	
+	genderPick.addAction(female)
+	genderPick.addAction(male)
+	genderPick.addAction(prefnotsay)
+	genderPick.addAction(other)
+	genderPick.addAction(cancelAction)
+	vcToPresent.present(genderPick, animated: true, completion: nil)
+}
+
 func makeFirebaseUrl(_ str: String) -> String {
 	return str.replacingOccurrences(of: ".", with: ",").replacingOccurrences(of: "#", with: "%").replacingOccurrences(of: "$", with: "%").replacingOccurrences(of: "[", with: "(").replacingOccurrences(of: "]", with: ")")
+}
+
+func preDownloadInterests() {
+	for i in AllInterests {
+		downloadImage(GetInterestUrl(interest: i), forceDownload: true) { (img) in }
+	}
 }
 
 func CompressNumber(number: Double) -> String {

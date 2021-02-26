@@ -65,7 +65,7 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 			return
 		}
 		
-		if NewAccount.zipCode != ""{
+		if NewAccount.zipCode == "" {
 			AccountCreationFailed(problem: .noBasicInfo)
 			return
 		}
@@ -184,7 +184,7 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 				cell.SetSubtitle(string: "")
 			} else {
 				cell.titleLabel.text = "Basic Information Entered"
-				cell.SetSubtitle(string: "Categories: " + NewAccount.categories.joined(separator: ", "))
+				cell.SetSubtitle(string: "\(NewAccount.gender), \(Calendar.current.dateComponents([.year], from: NewAccount.dob.toUDate(), to: Date()).year!), \(NewAccount.zipCode)")
 			}
 			cell.checkImage.image = UIImage.init(named: NewAccount.zipCode == "" ? "setup_todo" : "setup_completed")
 		default:
