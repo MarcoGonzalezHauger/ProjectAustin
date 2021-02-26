@@ -75,49 +75,13 @@ class NewBasicInfoVC: UIViewController, EnterZipCode, CustomDatePickerDelegate {
     }
     
     func pickGender() {
-        let genderPick = UIAlertController(title: "Pick Gender", message: "", preferredStyle: UIAlertController.Style.actionSheet)
-        
-        let female = UIAlertAction(title: "Female", style: .default) { (action: UIAlertAction) in
-            NewAccount.gender = "Female"
-            self.genderText.text = "Female"
+		ShowGenderPicker(self) { (newGender) in
+			NewAccount.gender = newGender
+			self.genderText.text = newGender
 			self.genderSubtitle.text = "Gender"
-        }
-        
-        let male = UIAlertAction(title: "Male", style: .default) { (action: UIAlertAction) in
-            NewAccount.gender = "Male"
-            self.genderText.text = "Male"
-			self.genderSubtitle.text = "Gender"
-        }
-        
-        let other = UIAlertAction(title: "Other...", style: .default) { (action: UIAlertAction) in
-            let alert = UIAlertController(title: "Enter Your Gender", message: "", preferredStyle: .alert)
-
-            alert.addTextField { (textField) in
-                textField.placeholder = "Gender"
-            }
-            
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-                let text = alert!.textFields![0].text!
-                if text != "" {
-                    NewAccount.gender = text
-                    self.genderText.text = text
-					self.genderSubtitle.text = "Gender"
-                }
-            }))
-
-            self.present(alert, animated: true, completion: nil)
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        genderPick.addAction(female)
-        genderPick.addAction(male)
-        genderPick.addAction(other)
-        genderPick.addAction(cancelAction)
-        self.present(genderPick, animated: true, completion: nil)
-    }
+		}
+		
+	}
 
     @IBAction func doneAction() {
 		

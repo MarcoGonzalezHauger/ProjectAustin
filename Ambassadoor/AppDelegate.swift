@@ -179,8 +179,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
 		
-        if let shortcutItem = launchOptions?[UIApplication.LaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
-            
+//        if let shortcutItem = launchOptions?[UIApplication.LaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
+//
 //            if let userID = UserDefaults.standard.value(forKey: "userID") as? String{
 //                fetchSingleUserDetails(userID: userID) { (status, user) in
 //                    Yourself = user
@@ -190,9 +190,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //
 //                }
 //            }
-            
-            return true
-        }
+//
+//            return true
+//        }
         
         self.signInAction()
         
@@ -201,6 +201,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             //global.InstagramAPI = APImode(rawValue: development!)!
             }
         }
+		
+		preDownloadInterests()
         
 		return true
 	}

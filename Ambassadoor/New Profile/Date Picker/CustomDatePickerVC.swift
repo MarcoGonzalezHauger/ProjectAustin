@@ -44,12 +44,6 @@ class CustomDatePickerVC: UIViewController {
         }, completion: { (b) in
             self.dismiss(animated: true, completion: nil)
         })
-        
-//		UIView.animate(withDuration: 0.2) {
-//			self.view.backgroundColor = .clear
-//		} completion: { (b) in
-//			self.dismiss(animated: true, completion: nil)
-//		}
     }
     
     @IBAction func doneAction(_sender: Any){
@@ -60,13 +54,6 @@ class CustomDatePickerVC: UIViewController {
             self.pickerDelegate?.pickedDate(date: self.datePicker.date)
             self.dismiss(animated: true, completion: nil)
         })
-        
-//		UIView.animate(withDuration: 0.2) {
-//			self.view.backgroundColor = .clear
-//		} completion: { (b) in
-//			self.pickerDelegate?.pickedDate(date: self.datePicker.date)
-//			self.dismiss(animated: true, completion: nil)
-//		}
     }
     
     override func viewDidAppear(_ animated: Bool) {

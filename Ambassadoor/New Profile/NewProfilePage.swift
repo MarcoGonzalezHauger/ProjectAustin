@@ -9,7 +9,7 @@
 import UIKit
 
 
-class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EnterZipCode, NewSettingsDelegate, InterestPickerDelegate, CustomDatePickerDelegate {
+class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EnterZipCode, NewSettingsDelegate, InterestPickerDelegate, CustomDatePickerDelegate, UITextField {
     func pickedDate(date: Date) {
         self.tempeditInfBasic.birthday = date
         self.refreshAfterOneEdit()
@@ -177,7 +177,7 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	}
 	
 	@IBAction func signOutButtonPressed(_ sender: Any) {
-		
+		logOut()
 	}
 	
 	func SignOutOfAmbassadoor3() {
@@ -304,45 +304,10 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	}
 	
 	func pickGender() {
-		let genderPick = UIAlertController(title: "Pick Gender", message: "", preferredStyle: UIAlertController.Style.actionSheet)
-		
-		let female = UIAlertAction(title: "Female", style: .default) { (action: UIAlertAction) in
-			self.tempeditInfBasic.gender = "Female"
+		ShowGenderPicker(self) { (newGender) in
+			self.tempeditInfBasic.gender = newGender
 			self.refreshAfterOneEdit()
 		}
-		
-		let male = UIAlertAction(title: "Male", style: .default) { (action: UIAlertAction) in
-			self.tempeditInfBasic.gender = "Male"
-			self.refreshAfterOneEdit()
-		}
-		
-		let other = UIAlertAction(title: "Other...", style: .default) { (action: UIAlertAction) in
-			let alert = UIAlertController(title: "Enter Your Gender", message: "", preferredStyle: .alert)
-
-			alert.addTextField { (textField) in
-				textField.placeholder = "Gender"
-			}
-			
-			alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-
-			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-				let text = alert!.textFields![0].text!
-				if text != "" {
-					self.tempeditInfBasic.gender = text
-					self.refreshAfterOneEdit()
-				}
-			}))
-
-			self.present(alert, animated: true, completion: nil)
-		}
-		
-		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-		
-		genderPick.addAction(female)
-		genderPick.addAction(male)
-		genderPick.addAction(other)
-		genderPick.addAction(cancelAction)
-		self.present(genderPick, animated: true, completion: nil)
 	}
 	
 	func doSegue(id: String) {
@@ -376,6 +341,11 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let view = segue.destination as? ZipCodeVC {
+			if isInEditMode {
+				view.zipToPass = tempeditInfBasic.zipCode
+			} else {
+				view.zipToPass = Myself.basic.zipCode
+			}
 			view.delegate = self
 		}
 		if segue.identifier == "toSettings" {
@@ -499,5 +469,9 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 						minimumLineSpacingForSectionAt section: Int) -> CGFloat {
 		return spacingBetweenCells
 	}
+    
+    @IBAction func logoutAction(sender: UIButton){
+        logOut()
+    }
 
 }

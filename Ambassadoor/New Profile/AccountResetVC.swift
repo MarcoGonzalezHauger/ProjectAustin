@@ -13,7 +13,6 @@ class AccountResetVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var otpText: UITextField!
     
     var identifyTag: Int = 0
-    var otpCode: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,13 +33,18 @@ class AccountResetVC: UIViewController, UITextFieldDelegate {
     
     func checkIfotpright() {
         
+        
         if otpText.text?.count == 0 {
-            self.showStandardAlertDialog(title: "Alert", msg: "Please enter the OTP", handler: nil)
             return
         }
         
-        if Int(otpText.text!) != self.otpCode{
-            self.showStandardAlertDialog(title: "Alert", msg: "OTP does not match", handler: nil)
+        if otpText.text!.count != 6 {
+           self.showStandardAlertDialog(title: "Failed", msg: "Invalid One Time Password", handler: nil)
+           return
+        }
+        
+        if Int(otpText.text!) != global.otpData{
+            self.showStandardAlertDialog(title: "Failed", msg: "Code doesn't match.", handler: nil)
             return
         }
         
@@ -55,24 +59,17 @@ class AccountResetVC: UIViewController, UITextFieldDelegate {
         return true
     }
     
+    @IBAction func backPressed(sender: UIButton){
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     @IBAction func openMail(sender: UIButton) {
-        let urlString = sender.tag == 0 ? "googlegmail://" : "mailto://"
+		let urlString = sender.tag == 0 ? "message://" : "googlegmail:"
         let url = URL(string: urlString)!
         
         if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url)
         }
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

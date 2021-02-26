@@ -25,26 +25,28 @@ class ZipCodeVC: UIViewController, MKMapViewDelegate {
 	
 	var noCancel = false
     
-    var zipCode: String = "0"
+    var zipCode: String = ""
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
 		cancelButtonView.isHidden = noCancel
-		
+		zipField.text = zipToPass
+		updateZip()
     }
+	
+	var zipToPass = ""
 	
 	func TownToZip(code: String) {
 		GetTownName(zipCode: code) { (zipCodeInfo, zipCode) in
-			if self.currentquery == zipCode {
-				guard let zipCodeInfo = zipCodeInfo else { return }
-                DispatchQueue.main.async {
-                    self.nameLabel.text = zipCodeInfo.CityAndStateName
-                    let noLocation = CLLocationCoordinate2DMake(CLLocationDegrees(exactly: zipCodeInfo.geo_latitude) ?? 0, CLLocationDegrees(exactly: zipCodeInfo.geo_longitude) ?? 0)
-                    let viewRegion = MKCoordinateRegion(center: noLocation, latitudinalMeters: 2500, longitudinalMeters: 2500)
-                    self.mapView.setRegion(viewRegion, animated: true)
-                    self.zipField.resignFirstResponder()
-                }
-
+			DispatchQueue.main.async {
+				if self.currentquery == zipCode {
+					guard let zipCodeInfo = zipCodeInfo else { return }
+					self.nameLabel.text = zipCodeInfo.CityAndStateName
+					let noLocation = CLLocationCoordinate2DMake(CLLocationDegrees(exactly: zipCodeInfo.geo_latitude) ?? 0, CLLocationDegrees(exactly: zipCodeInfo.geo_longitude) ?? 0)
+					let viewRegion = MKCoordinateRegion(center: noLocation, latitudinalMeters: 2500, longitudinalMeters: 2500)
+					self.mapView.setRegion(viewRegion, animated: true)
+					self.zipField.resignFirstResponder()
+				}
 			}
 		}
 	}
@@ -62,17 +64,25 @@ class ZipCodeVC: UIViewController, MKMapViewDelegate {
     }
 	
 	@IBAction func textChanged(_ sender: Any) {
-		if let text = zipField.text {
-			zipField.text = text.replacingOccurrences(of: " ", with: "")
-		}
-		enterbutton.isEnabled = zipField.text?.count ?? 0 >= 5
+		
+		zipField.text = zipField.text!.replacingOccurrences(of: " ", with: "")
+		updateZip()
+		
+	}
+	
+	func updateZip() {
+		enterbutton.isEnabled = 7 > zipField.text!.count && zipField.text!.count > 4
+		
 		//if zip length = 4 then get all possible results = 10001, 10002, 10003, etc. and put them in RAM.
-//		if zipField.text?.count == 4 {
-//			for x: Int in 0...9 {
-//				nameLabel.text = ""
-//				TownToZip(code: zipField.text! + String(x))
-//			}
+		if zipField.text!.count == 4 {
+			for x: Int in 0...9 {
+				GetTownName(zipCode: zipField.text! + String(x)) { (data, str) in
+					
+				}
+			}
+		}
 			//if zip length is 5 or 6, display city&state on label depending on the ZIP code inputted by the user.
+			
 		if zipField.text?.count == 5 || zipField.text?.count == 6 {
 			currentquery = zipField.text!
 			TownToZip(code: zipField.text!)
