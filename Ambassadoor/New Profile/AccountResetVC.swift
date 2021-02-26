@@ -13,7 +13,6 @@ class AccountResetVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var otpText: UITextField!
     
     var identifyTag: Int = 0
-    var otpCode: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,11 +33,17 @@ class AccountResetVC: UIViewController, UITextFieldDelegate {
     
     func checkIfotpright() {
         
+        
         if otpText.text?.count == 0 {
             return
         }
         
-        if Int(otpText.text!) != self.otpCode{
+        if otpText.text!.count != 6 {
+           self.showStandardAlertDialog(title: "Failed", msg: "Invalid One Time Password", handler: nil)
+           return
+        }
+        
+        if Int(otpText.text!) != global.otpData{
             self.showStandardAlertDialog(title: "Failed", msg: "Code doesn't match.", handler: nil)
             return
         }
@@ -52,6 +57,10 @@ class AccountResetVC: UIViewController, UITextFieldDelegate {
         self.otpText.resignFirstResponder()
         self.checkIfotpright()
         return true
+    }
+    
+    @IBAction func backPressed(sender: UIButton){
+        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func openMail(sender: UIButton) {

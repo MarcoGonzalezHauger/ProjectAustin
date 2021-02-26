@@ -39,7 +39,7 @@ class NewSettingsVC: UIViewController, MFMailComposeViewControllerDelegate {
     var delegate: NewSettingsDelegate?
     
     @IBAction func closeButtonPressed(_ sender: Any) {
-        navigationController?.dismiss(animated: true, completion: nil)
+        self.navigationController?.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func editMyProfile(_ sender: Any) {
@@ -139,6 +139,9 @@ class NewSettingsVC: UIViewController, MFMailComposeViewControllerDelegate {
     
     func ResetPasswordNow(b: UIButton) {
         
+        global.otpData = 0
+        self.performSegue(withIdentifier: "toResetAccount", sender: self)
+        
         let params = ["email":Myself.email,"username":Myself.basic.username] as [String: AnyObject]
         APIManager.shared.sendOTPtoUserService(params: params) { (status, error, data) in
             DispatchQueue.main.async {
@@ -159,10 +162,8 @@ class NewSettingsVC: UIViewController, MFMailComposeViewControllerDelegate {
                     
                     if code == 200 {
                         let otpCode = json!["otp"] as! Int
-                        DispatchQueue.main.async {
-                            
-                            self.performSegue(withIdentifier: "toResetAccount", sender: otpCode)
-                        }
+                        
+                        global.otpData = otpCode
                         
                     }else{
                         
@@ -187,7 +188,6 @@ class NewSettingsVC: UIViewController, MFMailComposeViewControllerDelegate {
             view.urlString = self.webviewUrl
         }else if let view = segue.destination as? AccountResetVC{
             view.identifyTag = resetAccountTag
-            view.otpCode = sender as! Int
         }
     }
     

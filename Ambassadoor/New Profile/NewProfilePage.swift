@@ -9,7 +9,7 @@
 import UIKit
 
 
-class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EnterZipCode, NewSettingsDelegate, InterestPickerDelegate, CustomDatePickerDelegate {
+class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EnterZipCode, NewSettingsDelegate, InterestPickerDelegate, CustomDatePickerDelegate, UITextField {
     func pickedDate(date: Date) {
         self.tempeditInfBasic.birthday = date
         self.refreshAfterOneEdit()
@@ -177,7 +177,7 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	}
 	
 	@IBAction func signOutButtonPressed(_ sender: Any) {
-		
+		logOut()
 	}
 	
 	func SignOutOfAmbassadoor3() {
@@ -469,5 +469,9 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 						minimumLineSpacingForSectionAt section: Int) -> CGFloat {
 		return spacingBetweenCells
 	}
+    
+    @IBAction func logoutAction(sender: UIButton){
+        logOut()
+    }
 
 }

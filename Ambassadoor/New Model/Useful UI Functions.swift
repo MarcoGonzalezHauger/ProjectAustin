@@ -116,6 +116,7 @@ func ShowGenderPicker(_ vcToPresent: UIViewController, genderPicked: @escaping (
 
 		alert.addTextField { (textField) in
 			textField.placeholder = "Gender"
+            
 		}
 		
 		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

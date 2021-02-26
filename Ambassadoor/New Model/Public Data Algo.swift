@@ -15,6 +15,8 @@ protocol publicDataRefreshDelegate {
 
 var publicDataListeners: [publicDataRefreshDelegate] = []
 
+
+
 func StartListeningToPublicData() {
 	let ref = Database.database().reference().child("Accounts/Public/Influencers")
 	ref.observe(.childChanged) { (snap) in
@@ -81,7 +83,18 @@ func StartListeningToPublicData() {
 	}
 }
 
-
+func logOut() {
+    myselfRefreshListeners.removeAll()
+    publicDataListeners.removeAll()
+    UserDefaults.standard.removeObject(forKey: "email")
+    UserDefaults.standard.removeObject(forKey: "password")
+    DispatchQueue.main.async {
+        let signInStoryBoard = UIStoryboard(name: "LoginSetup", bundle: nil)
+        let loginVC = signInStoryBoard.instantiateInitialViewController()
+        let appDel: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDel.window?.rootViewController = loginVC
+    }
+}
 
 func RefreshPublicData(finished: (() -> ())?) {
 	let ref = Database.database().reference().child("Accounts/Public")

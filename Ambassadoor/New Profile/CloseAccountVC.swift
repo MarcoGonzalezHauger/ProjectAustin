@@ -52,21 +52,11 @@ class CloseAccountVC: UIViewController, UITextFieldDelegate {
                self.showStandardAlertDialog(title: "Alert", msg: "Something Wrong!", handler: nil)
                 return
             }
-            self.logOut()
+            logOut()
         }
         
     }
     
-    func logOut() {
-        UserDefaults.standard.removeObject(forKey: "email")
-        UserDefaults.standard.removeObject(forKey: "password")
-        DispatchQueue.main.async {
-            let signInStoryBoard = UIStoryboard(name: "LoginSetup", bundle: nil)
-            let loginVC = signInStoryBoard.instantiateInitialViewController()
-            let appDel: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDel.window?.rootViewController = loginVC
-        }
-    }
     
     @IBAction func popAction(sender: UIButton){
         poptoRoot()

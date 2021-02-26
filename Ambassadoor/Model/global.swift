@@ -38,6 +38,7 @@ class CentralVariables {
     var allTimers = [Timer]()
     var isClickedUserFollow = false
     var isClickedBusinesFollow = false
+    var otpData = 0
 }
 
 let global = CentralVariables()
