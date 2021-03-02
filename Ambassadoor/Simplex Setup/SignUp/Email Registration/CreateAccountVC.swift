@@ -76,7 +76,7 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 		NewAccount.referralCode = referral
 		let uid = NewAccount.instagramUsername.replacingOccurrences(of: ".", with: ",")
 		let NewUserID = uid + ", " + randomString(length: 15)
-		checkNewIfUserExists(userID: NewAccount.instagramKey) { (exist, user) in
+		checkNewIfUserExists(userID: NewAccount.instagramAccountId) { (exist, user) in
 			
 			if exist{
 				self.AccountCreationFailed(problem: .instaTaken)

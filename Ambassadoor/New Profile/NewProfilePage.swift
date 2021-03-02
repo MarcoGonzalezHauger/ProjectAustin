@@ -9,7 +9,7 @@
 import UIKit
 
 
-class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EnterZipCode, NewSettingsDelegate, InterestPickerDelegate, CustomDatePickerDelegate, UITextField {
+class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EnterZipCode, NewSettingsDelegate, InterestPickerDelegate, CustomDatePickerDelegate {
     func pickedDate(date: Date) {
         self.tempeditInfBasic.birthday = date
         self.refreshAfterOneEdit()
