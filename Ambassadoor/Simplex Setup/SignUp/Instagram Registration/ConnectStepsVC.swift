@@ -14,7 +14,7 @@ class ConnectStepsVC: UIViewController, VerificationReturned {
         
         
         //[RAM] The account entered should be loaded onto the NewAccount strucutre
-        NewAccount.instagramKey = "" //The instagram key gotten from the WKWebView
+        //NewAccount.instagramKey = "" //The instagram key gotten from the WKWebView
         NewAccount.instagramUsername = igName //The instagram user's username.
         accInfoUpdate()
         self.navigationController?.popViewController(animated: true)

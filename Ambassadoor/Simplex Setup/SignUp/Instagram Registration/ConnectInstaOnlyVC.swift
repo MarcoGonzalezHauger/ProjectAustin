@@ -10,7 +10,6 @@ import UIKit
 
 class ConnectInstaOnlyVC: UIViewController,VerificationReturned {
     func DonePressed() {
-        NewAccount.instagramKey = "" //The instagram key gotten from the WKWebView
         NewAccount.instagramUsername = igName //The instagram user's username.
         accInfoUpdate()
         self.navigationController?.popToRootViewController(animated: true)
@@ -75,6 +74,7 @@ class ConnectInstaOnlyVC: UIViewController,VerificationReturned {
                         
                         if let id = userDetailDict["id"] as? String {
                         NewAccount.id = id
+                        NewAccount.instagramAccountId = id
                             checkNewIfInstagramExist(id: NewAccount.id) { (exist, user)  in
                             
                             if exist{
