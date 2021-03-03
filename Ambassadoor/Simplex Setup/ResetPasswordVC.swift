@@ -66,14 +66,12 @@ class ResetPasswordVC: UIViewController {
                 filterNewQueryByField(email: EmailText.text!.lowercased()) { (exist,influencer) in
                     
                     if exist{
-                        var username = ""
-                        
-                        for (_,value) in influencer! {
-                            username = value["username"] as! String
+                        var userID = ""
+                        for (key,_) in influencer! {
+                            userID = key
                         }
                         
-                        let params = ["email":self.EmailText.text!.lowercased(),"username":username] as [String: AnyObject]
-                        self.userEmail = self.EmailText.text!.lowercased()
+                        let params = ["email":self.EmailText.text!.lowercased()] as [String: AnyObject]
                         APIManager.shared.sendOTPtoUserService(params: params) { (status, error, data) in
                             
                         
@@ -90,7 +88,7 @@ class ResetPasswordVC: UIViewController {
                                      
                                      if code == 200 {
                                          let otpCode = json!["otp"] as! Int
-                                        self.authenticationData = influencer!
+                                        Myself = Influencer.init(dictionary: influencer![userID] as! [String: Any], userId: userID)
                                         self.PasswordResetSuccess(otp: otpCode)
                                          
                                      }else{
@@ -134,12 +132,11 @@ class ResetPasswordVC: UIViewController {
         if segue.identifier == "otpcheck"{
             let viewController = segue.destination as! VerifyOTPVC
             viewController.otp = sender as! Int
-            viewController.email = self.userEmail
-            viewController.authenticationData = self.authenticationData
         }
     }
 	
 	@IBAction func closeButton(_ sender: Any) {
+        Myself = nil
 		dismiss(animated: true, completion: nil)
 	}
 	

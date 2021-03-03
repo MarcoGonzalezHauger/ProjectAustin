@@ -9,7 +9,7 @@
 import Foundation
 import Firebase
 
-func checkNewIfUserExists(userID: String,completion: @escaping(_ exist: Bool, _ user: Influencer?)-> Void) {
+func checkNewIfUserExists(userID: String, instagramAuth: String, completion: @escaping(_ exist: Bool, _ user: Influencer?)-> Void) {
     //var isAlreadyRegistered: Bool = false
 	
 	let ref = Database.database().reference().child("Accounts/Private/Influencers")

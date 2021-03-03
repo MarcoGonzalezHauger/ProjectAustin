@@ -31,10 +31,7 @@ class VerifyOTPVC: UIViewController {
     
     var dontAnimate = false
     var verifiedOTP = false
-    var authenticationData = [String: AnyObject]()
-    
     var otp: Int = 0
-    var email: String? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,14 +66,7 @@ class VerifyOTPVC: UIViewController {
     }
     
     @IBAction func resentOTPtoMail(sender: UIButton) {
-        var username = ""
-        var email = ""
-        for (_,value) in authenticationData {
-            username = value["username"] as! String
-            email = value["email"] as! String
-        }
-        //let username = influencer!["username"] as! String
-        let params = ["email":email,"username":username] as [String: AnyObject]
+        let params = ["email":Myself.email] as [String: AnyObject]
         verifyOTPButton.setTitle("Sending...", for: .normal)
         APIManager.shared.sendOTPtoUserService(params: params) { (status, error, data) in
             
@@ -146,7 +136,7 @@ class VerifyOTPVC: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
             self.textOTP.isHidden = true
             self.closeButton.isHidden = true
-            self.performSegue(withIdentifier: "setpassword", sender: self.authenticationData)
+            self.performSegue(withIdentifier: "setpassword", sender: self)
         }
             self.infoLabel.textColor = .systemGreen
             self.SetLabelText(text: "Recovery Code Verified", animated: true)
@@ -222,8 +212,6 @@ class VerifyOTPVC: UIViewController {
         if segue.identifier == "setpassword"{
             
             let setPasswordController = segue.destination as! SetPasswordVC
-            setPasswordController.authenticationData = self.authenticationData
-            setPasswordController.userMail = self.email
             
         }
         

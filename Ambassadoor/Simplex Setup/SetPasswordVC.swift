@@ -25,10 +25,10 @@ class SetPasswordVC: UIViewController {
     var passwordWasReset = false
     var authenticationData = [String: AnyObject]()
     var userMail: String? = nil
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
     }
     
@@ -53,22 +53,12 @@ class SetPasswordVC: UIViewController {
         resetPasswordButton.isEnabled = false
         resetPasswordButton.setTitle("Changing Password...", for: .normal)
         
-        //[RAM] pretty much the same as the signinVC and CreateLoginVC.
-        //Functions are: PasswordResetSuccess()
-        //and: PasswordResetFailed(reason: passwordResetPorblem)
-        //PasswordResetSuccess()
-        
         if newPassword.text?.count != 0 {
-			
-			let password = newPassword.text!.md5()
-			var userId = ""
-			for (key,_) in self.authenticationData {
-				userId = key
-			}
             
-			//updatePassword(userID: userId, password: password!)
-            self.PasswordResetSuccess(userId: userId, emailID: self.userMail!, password: newPassword.text!)
-			
+            let password = newPassword.text!.md5()
+            Myself.password = password!
+            self.PasswordResetSuccess()
+            
         }else{
             PasswordResetFailed(reason: .noPassword)
         }
@@ -98,35 +88,37 @@ class SetPasswordVC: UIViewController {
     
     let defaultText = "Reset Password"
     
-    func PasswordResetSuccess(userId: String, emailID: String, password: String) {
+    func PasswordResetSuccess() {
+        
         self.dontAnimate = true
-        DispatchQueue.main.async {
-            self.passwordWasReset = true
-            UIView.animate(withDuration: 0.5) {
-                    //self.EmailText.alpha = 0
+        Myself.UpdateToFirebase(alsoUpdateToPublic: false) { (error) in
+            if error{
+                self.showStandardAlertDialog(title: "Alert", msg: "Something Wrong!", handler: nil)
+                return
+            }
+            UserDefaults.standard.set(Myself.password, forKey: "password")
+            DispatchQueue.main.async {
+                self.passwordWasReset = true
+                UIView.animate(withDuration: 0.5) {
                     self.newPassword.isHidden = true
                     self.closeButton.alpha = 0
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                
- //               self.closeButton.isHidden = true
-                
-                //self.SetLabelText(text: "Password Reset Successfully", animated: true)
-                
-                if AccessToken.current != nil {
-                    
-                    self.getSingleUserDetails(userID: userId, email: emailID, password: password)
-                    
-                }else{
-                    self.callIfAccessTokenExpired(userID: userId, usermail: emailID, password: password)
                 }
                 
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                    
+                    if AccessToken.current == nil {
+                        self.callIfAccessTokenExpired()
+                    }else{
+                        self.LoginSuccessful()
+                    }
+                    
+                }
+                
+                self.infoLabel.textColor = .systemGreen
+                self.SetLabelText(text: "Password Reset Successfully", animated: true)
+                self.resetPasswordButton.setTitle("Logging In..", for: .normal)
+                self.resetPasswordButton.isEnabled = true
             }
-            
-            self.infoLabel.textColor = .systemGreen
-            self.SetLabelText(text: "Password Reset Successfully", animated: true)
-            self.resetPasswordButton.setTitle("Logging In..", for: .normal)
-            self.resetPasswordButton.isEnabled = true
         }
         
     }
@@ -189,38 +181,45 @@ class SetPasswordVC: UIViewController {
         
     }
     
-    func callIfAccessTokenExpired(userID: String, usermail: String, password: String) {
+    func callIfAccessTokenExpired() {
         
-        API.facebookLoginAct(userIDBusiness: userID, owner: self) { (userDetail, longliveToken, error) in
+        API.facebookLoginAct(userIDBusiness: Myself.instagramAccountId, owner: self) { (userDetail, longliveToken, error) in
             if error == nil {
                 
                 if let userDetailDict = userDetail as? [String: AnyObject]{
                     
                     if let id = userDetailDict["id"] as? String {
-                        NewAccount.id = id
+                        Myself.instagramAccountId = id
                     }
                     if let followerCount = userDetailDict["followers_count"] as? Int {
-                        NewAccount.followerCount = Int64(followerCount)
+                        Myself.basic.followerCount = Double(followerCount)
                     }
                     if let name = userDetailDict["name"] as? String {
-                        NewAccount.instagramName = name
+                        Myself.basic.name = name
                     }
                     if let pic = userDetailDict["profile_picture_url"] as? String {
-                        NewAccount.profilePicture = pic
+                        Myself.basic.profilePicURL = pic
                     }
                     if let username = userDetailDict["username"] as? String {
-                        NewAccount.instagramUsername = username
+                        Myself.basic.username = username
                     }
                     
-                    NewAccount.authenticationToken = longliveToken!
-                    //updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) { (url, status) in
-                    updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.instagramUsername) { (url, status) in
+                    Myself.instagramAuthToken = longliveToken!
+                    updateFirebaseProfileURL(profileUrl: Myself.basic.profilePicURL, id: Myself.basic.username) { (url, status) in
                         
                         if status{
-                            NewAccount.profilePicture = url!
-                            self.updateLoginDetailsToServer(userID: userID, email: usermail, password: password)
-                        }else{
-                            self.updateLoginDetailsToServer(userID: userID, email: usermail, password: password)
+                            Myself.basic.profilePicURL = url!
+                        }
+                        
+                        Myself.UpdateToFirebase(alsoUpdateToPublic: true) { (error) in
+                            
+                            if error{
+                                self.showStandardAlertDialog(title: "Alert", msg: "Something Wrong!", handler: nil)
+                                return
+                            }
+                            
+                            self.LoginSuccessful()
+                            
                         }
                     }
                     
@@ -255,27 +254,27 @@ class SetPasswordVC: UIViewController {
     }
     
     func getSingleUserDetails(userID: String, email: String, password: String) {
-//        fetchSingleUserDetails(userID: userID) { (status, user) in
-//            Yourself = user
-//            //updateFirebaseProfileURL()
-//            UserDefaults.standard.set(userID, forKey: "userID")
-//            UserDefaults.standard.set(email, forKey: "email")
-//            UserDefaults.standard.set(password, forKey: "password")
-//            setHapticMenu(user: Myself)
-//            AverageLikes(instagramID: userID, userToken: NewAccount.authenticationToken)
-//            self.LoginSuccessful()
-//
-//        }
+        //        fetchSingleUserDetails(userID: userID) { (status, user) in
+        //            Yourself = user
+        //            //updateFirebaseProfileURL()
+        //            UserDefaults.standard.set(userID, forKey: "userID")
+        //            UserDefaults.standard.set(email, forKey: "email")
+        //            UserDefaults.standard.set(password, forKey: "password")
+        //            setHapticMenu(user: Myself)
+        //            AverageLikes(instagramID: userID, userToken: NewAccount.authenticationToken)
+        //            self.LoginSuccessful()
+        //
+        //        }
     }
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
