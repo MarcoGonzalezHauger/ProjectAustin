@@ -143,27 +143,27 @@ class SigninVC: UIViewController {
                 if let userDetailDict = userDetail as? [String: AnyObject]{
                     
                     if let id = userDetailDict["id"] as? String {
-                        NewAccount.id = id
+                        Myself.instagramAccountId = id
                     }
                     if let followerCount = userDetailDict["followers_count"] as? Int {
-                        NewAccount.followerCount = Int64(followerCount)
+                        Myself.basic.followerCount = Double(followerCount)
                     }
                     if let name = userDetailDict["name"] as? String {
-                        NewAccount.instagramName = name
+                        Myself.basic.name = name
                     }
                     if let pic = userDetailDict["profile_picture_url"] as? String {
-                        NewAccount.profilePicture = pic
+                        Myself.basic.profilePicURL = pic
                     }
                     if let username = userDetailDict["username"] as? String {
-                        NewAccount.instagramUsername = username
+                        Myself.basic.username = username
                     }
 					
-                    NewAccount.authenticationToken = longliveToken!
+                    Myself.instagramAuthToken = longliveToken!
                     //updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) {
-                    updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.instagramUsername) { (url, status) in
+                    updateFirebaseProfileURL(profileUrl: Myself.basic.profilePicURL, id: Myself.basic.username) { (url, status) in
                         
                         if status{
-                            NewAccount.profilePicture = url!
+                            Myself.basic.profilePicURL = url!
                             self.updateLoginDetailsToServer(userID: userID, user: Myself)
                         }else{
 							self.updateLoginDetailsToServer(userID: userID, user: Myself)
@@ -190,49 +190,25 @@ class SigninVC: UIViewController {
     }
     
     func updateLoginDetailsToServer(userID: String, user: Influencer) {
-        /*
-        let userData: [String: Any] = [
-            "id": NewAccount.id,
-            "name": NewAccount.instagramName,
-            "username": NewAccount.instagramUsername,
-            "followerCount": NewAccount.followerCount,
-            "profilePicture": NewAccount.profilePicture,
-            "authenticationToken": NewAccount.authenticationToken,
-            "tokenFIR":global.deviceFIRToken
-        ]
-        */
-        let userDetail = user
-        userDetail.basic.followerCount = Double(NewAccount.followerCount)
-        userDetail.basic.profilePicURL = NewAccount.profilePicture
-        userDetail.basic.name = NewAccount.instagramName
-        userDetail.basic.username = NewAccount.instagramUsername
-        userDetail.instagramAuthToken = NewAccount.authenticationToken
-        userDetail.instagramAccountId = NewAccount.id
-        userDetail.tokenFIR = global.deviceFIRToken
+        Myself.tokenFIR = global.deviceFIRToken
         
-        newUpdateUserDetails(path: userID, user: userDetail)
-        
-        Myself = userDetail
-        UserDefaults.standard.set(userID, forKey: "userID")
-        UserDefaults.standard.set(self.emailText.text!, forKey: "email")
-        UserDefaults.standard.set(self.passwordText.text!, forKey: "password")
-        setHapticMenu(user: Myself)
-        InitializeAmbassadoor()
-        AverageLikes(instagramID: NewAccount.id, userToken: NewAccount.authenticationToken)
-        downloadDataBeforePageLoad()
-        self.LoginSuccessful()
-        
-//        fetchSingleUserDetails(userID: userID) { (status, user) in
-//            Yourself = user
-//            //updateFirebaseProfileURL()
-//            UserDefaults.standard.set(userID, forKey: "userID")
-//            UserDefaults.standard.set(self.emailText.text!, forKey: "email")
-//            UserDefaults.standard.set(self.passwordText.text!, forKey: "password")
-//            setHapticMenu(user: Myself)
-//            AverageLikes(userID: NewAccount.id, userToken: NewAccount.authenticationToken)
-//            self.LoginSuccessful()
-//
-//        }
+        Myself.UpdateToFirebase(alsoUpdateToPublic: true) { (error) in
+            
+            if error{
+                self.showStandardAlertDialog(title: "Alert", msg: "Something Wrong!", handler: nil)
+                return
+            }
+            
+            UserDefaults.standard.set(userID, forKey: "userID")
+            UserDefaults.standard.set(self.emailText.text!, forKey: "email")
+            UserDefaults.standard.set(self.passwordText.text!, forKey: "password")
+            setHapticMenu(user: Myself)
+            InitializeAmbassadoor()
+            AverageLikes(instagramID: NewAccount.id, userToken: NewAccount.authenticationToken)
+            downloadDataBeforePageLoad()
+            self.LoginSuccessful()
+            
+        }
     }
     
     

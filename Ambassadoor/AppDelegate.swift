@@ -267,31 +267,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 if let userDetailDict = userDetail as? [String: AnyObject]{
                     
                     if let id = userDetailDict["id"] as? String {
-                        NewAccount.id = id
+                        Myself.instagramAccountId = id
                     }
                     if let followerCount = userDetailDict["followers_count"] as? Int {
-                        NewAccount.followerCount = Int64(followerCount)
+                        Myself.basic.followerCount = Double(followerCount)
                     }
                     if let name = userDetailDict["name"] as? String {
-                        NewAccount.instagramName = name
+                        Myself.basic.name = name
                     }
                     if let pic = userDetailDict["profile_picture_url"] as? String {
-                        NewAccount.profilePicture = pic
+                        Myself.basic.profilePicURL = pic
                     }
                     if let username = userDetailDict["username"] as? String {
-                        NewAccount.instagramUsername = username
+                        Myself.basic.username = username
                     }
                     
-                    NewAccount.authenticationToken = longliveToken!
+                    Myself.instagramAuthToken = longliveToken!
                     //updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) {
-                    updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.instagramUsername) { (url, status) in
+                    updateFirebaseProfileURL(profileUrl: Myself.basic.profilePicURL, id: Myself.basic.username) { (url, status) in
                         
                         if status{
-                            NewAccount.profilePicture = url!
-                            self.updateLoginDetailsToServer(userID: userID, user: Myself)
-                        }else{
-                            self.updateLoginDetailsToServer(userID: userID, user: Myself)
+                            Myself.basic.profilePicURL = url!
                         }
+                        self.updateLoginDetailsToServer(userID: userID, user: Myself)
                     }
                     
                     
@@ -309,26 +307,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func updateLoginDetailsToServer(userID: String, user: Influencer) {
-
-        let userDetail = user
-        userDetail.basic.followerCount = Double(NewAccount.followerCount)
-        userDetail.basic.profilePicURL = NewAccount.profilePicture
-        userDetail.basic.name = NewAccount.instagramName
-        userDetail.basic.username = NewAccount.instagramUsername
-        userDetail.instagramAuthToken = NewAccount.authenticationToken
-        userDetail.instagramAccountId = NewAccount.id
-        userDetail.tokenFIR = global.deviceFIRToken
         
-        newUpdateUserDetails(path: userID, user: userDetail)
+        Myself.tokenFIR = global.deviceFIRToken
         
-        Myself = userDetail
-        setHapticMenu(user: Myself)
-        InitializeAmbassadoor()
-        AverageLikes(instagramID: NewAccount.id, userToken: NewAccount.authenticationToken)
-        let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
-        //downloadDataBeforePageLoad(reference: viewReference)
-        downloadDataBeforePageLoad()
-        self.window?.rootViewController = viewReference
+        Myself.UpdateToFirebase(alsoUpdateToPublic: true) { (error) in
+            
+            if error{
+                let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
+                self.window?.rootViewController = viewReference
+                return
+            }
+            setHapticMenu(user: Myself)
+            InitializeAmbassadoor()
+            AverageLikes(instagramID: NewAccount.id, userToken: NewAccount.authenticationToken)
+            downloadDataBeforePageLoad()
+            let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
+            //downloadDataBeforePageLoad(reference: viewReference)
+            self.window?.rootViewController = viewReference
+            
+        }
     }
     
     
