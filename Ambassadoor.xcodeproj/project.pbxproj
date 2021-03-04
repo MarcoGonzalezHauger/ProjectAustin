@@ -47,6 +47,9 @@
 		B7CD174F2459643D00D1F63A /* ViewBusinessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CD174E2459643D00D1F63A /* ViewBusinessVC.swift */; };
 		B7D42095232A7AB1009F0FCE /* ConnectedPlaidTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D42094232A7AB1009F0FCE /* ConnectedPlaidTVCell.swift */; };
 		B7D9038223FD30B80004A670 /* StringExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D9038123FD30B80004A670 /* StringExtention.swift */; };
+		B7DDD39425F0B78D00196360 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7DDD39325F0B78D00196360 /* MapVC.swift */; };
+		B7DDD39625F0BCAD00196360 /* MapView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7DDD39525F0BCAD00196360 /* MapView.storyboard */; };
+		B7DDD39825F1187900196360 /* AddressInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7DDD39725F1187900196360 /* AddressInfoVC.swift */; };
 		B7EA07352382C4740009870E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B7EA07342382C4740009870E /* GoogleService-Info.plist */; };
 		B7EECFD32552BBF00016E2EA /* VerifyEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EECFD22552BBF00016E2EA /* VerifyEmailVC.swift */; };
 		B7FA5F352333789F0088C3FE /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7FA5F342333789F0088C3FE /* TabBarVC.swift */; };
@@ -188,6 +191,9 @@
 		B7CD174E2459643D00D1F63A /* ViewBusinessVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBusinessVC.swift; sourceTree = "<group>"; };
 		B7D42094232A7AB1009F0FCE /* ConnectedPlaidTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectedPlaidTVCell.swift; sourceTree = "<group>"; };
 		B7D9038123FD30B80004A670 /* StringExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtention.swift; sourceTree = "<group>"; };
+		B7DDD39325F0B78D00196360 /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
+		B7DDD39525F0BCAD00196360 /* MapView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapView.storyboard; sourceTree = "<group>"; };
+		B7DDD39725F1187900196360 /* AddressInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressInfoVC.swift; sourceTree = "<group>"; };
 		B7EA07332382924C0009870E /* Ambassadoor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Ambassadoor.entitlements; sourceTree = "<group>"; };
 		B7EA07342382C4740009870E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B7EECFD22552BBF00016E2EA /* VerifyEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyEmailVC.swift; sourceTree = "<group>"; };
@@ -390,6 +396,16 @@
 			path = BasicInfo;
 			sourceTree = "<group>";
 		};
+		B7DDD39225F0B75E00196360 /* Map  */ = {
+			isa = PBXGroup;
+			children = (
+				B7DDD39325F0B78D00196360 /* MapVC.swift */,
+				B7DDD39725F1187900196360 /* AddressInfoVC.swift */,
+				B7DDD39525F0BCAD00196360 /* MapView.storyboard */,
+			);
+			path = "Map ";
+			sourceTree = "<group>";
+		};
 		C0963EAF220B838F000380C7 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -460,6 +476,7 @@
 				E887A8BB25C37B630003BCD1 /* Outdated Files */,
 				B7EA07332382924C0009870E /* Ambassadoor.entitlements */,
 				B7EA07342382C4740009870E /* GoogleService-Info.plist */,
+				B7DDD39225F0B75E00196360 /* Map  */,
 				E811B7D324588DAB00A58B30 /* New Simplex Business Viewer */,
 				B70182D525DBEE1400780B83 /* New Social */,
 				E8178E3125BA37E70068367C /* New Model */,
@@ -794,6 +811,7 @@
 				E8BADF7B25C44D4F00DAECA4 /* InterestCVC.xib in Resources */,
 				B7BC802525E4C4A500256D86 /* DatePicker.storyboard in Resources */,
 				E887A89025C34A300003BCD1 /* BasicBusinessCell.xib in Resources */,
+				B7DDD39625F0BCAD00196360 /* MapView.storyboard in Resources */,
 				B7A13924252EDF4800FB4C78 /* SignUpTutorial1.mp4 in Resources */,
 				B70182D225DBE65600780B83 /* AccountDetails.storyboard in Resources */,
 				E8D78E9125CE04F100144FD8 /* InProgressPostTVC.xib in Resources */,
@@ -905,6 +923,7 @@
 				E8D4BCC925C4E61B0045E0F5 /* NewBasicInfluencerView.swift in Sources */,
 				E86A1E4B21A784C500DCB0D0 /* structs.swift in Sources */,
 				E85DDB5F25C74FD3002DB82E /* NewBasicBusinessView.swift in Sources */,
+				B7DDD39825F1187900196360 /* AddressInfoVC.swift in Sources */,
 				E838F3CB21F687BB0021D0AD /* FirebaseRefrences.swift in Sources */,
 				E86A1E5121A87C1200DCB0D0 /* global.swift in Sources */,
 				E871623F2467C47000BA48BE /* SimplexBackground.swift in Sources */,
@@ -947,6 +966,7 @@
 				E8D4B2482362543100DC0FEA /* FakeSplash.swift in Sources */,
 				E8A84AAF222AB3FC00D9E2C9 /* ClassPickerVC.swift in Sources */,
 				E89584BB23EDBC0200B064F4 /* NewAccount.swift in Sources */,
+				B7DDD39425F0B78D00196360 /* MapVC.swift in Sources */,
 				E811B63325CDEC36001439AA /* NewSettingsVC.swift in Sources */,
 				E89813FA25C6537400BFF864 /* YouVsThemViewerVC.swift in Sources */,
 				B766160C25E7D268006956CA /* ChangePasswordVC.swift in Sources */,

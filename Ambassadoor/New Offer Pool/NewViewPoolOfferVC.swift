@@ -43,6 +43,10 @@ class NewViewPoolOfferVC: UIViewController, UITableViewDelegate, UITableViewData
 	@IBAction func closeButtonPressed(_ sender: Any) {
 		self.navigationController?.dismiss(animated: true, completion: nil)
 	}
+    
+    @IBAction func openMapView(sender: UIButton){
+        self.performSegue(withIdentifier: "fromDrafttoMap", sender: self)
+    }
 	
 	@IBOutlet weak var scrollView: UIScrollView!
 	@IBOutlet weak var backImage: UIImageView!
