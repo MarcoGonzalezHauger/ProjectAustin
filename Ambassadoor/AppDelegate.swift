@@ -488,6 +488,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		self.stopTimer()
 		self.saveContext()
 	}
+    
+    //MARK: Current Location
+    
+
 
 	// MARK: - Core Data stack
 

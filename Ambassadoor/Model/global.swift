@@ -9,6 +9,7 @@
 
 import Foundation
 import UserNotifications
+import CoreLocation
 import UIKit
 
 //Allows any ViewController to add itself to the global as a delegate,
@@ -39,6 +40,7 @@ class CentralVariables {
     var isClickedUserFollow = false
     var isClickedBusinesFollow = false
     var otpData = 0
+    var location: CLLocationCoordinate2D = CLLocationCoordinate2D()
 }
 
 let global = CentralVariables()

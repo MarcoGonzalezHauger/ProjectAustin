@@ -8,11 +8,13 @@
 
 import UIKit
 
+
 extension UIViewController {
 //    class func getIdentifier() -> String {
 //        let className = NSStringFromClass(self).components(separatedBy: ".").last!
 //        return className.lowercaseFirst
 //    }
+    
     
 	func showStandardAlertDialog(title: String = "Error", msg: String = "An unhandled error occurred.", handler: ((UIAlertAction) -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertController.Style.alert)
