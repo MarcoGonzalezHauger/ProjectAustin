@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import CoreLocation
 
-class NewPoolOfferPostViewer: UIViewController {
+class NewPoolOfferPostViewer: UIViewController, CLLocationManagerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +23,8 @@ class NewPoolOfferPostViewer: UIViewController {
 	
 	@IBOutlet weak var instructions: UILabel!
 	@IBOutlet weak var captionLabel: UILabel!
+    
+    var locationManager: CLLocationManager?
 	
 	var thisPoolOffer: PoolOffer!
 	var index: Int = 0
@@ -44,5 +47,30 @@ class NewPoolOfferPostViewer: UIViewController {
 		}
 		captionLabel.text = allItems.joined(separator: "\n")
 	}
+    
+    @IBAction func viewLocation(sender: UIButton){
+        locationManager = CLLocationManager()
+        locationManager!.delegate = self
+        locationManager!.requestAlwaysAuthorization()
+        
+        
+        //
+    }
+    
+    internal func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus){
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            self.performSegue(withIdentifier: "fromPosttoMap", sender: self)
+        case .denied:
+            
+            self.showStandardAlertDialog(title: "Alert", msg: "Please enable your location permission") { (alert) in
+                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+            }
+                        
+        default:
+            print("no one")
+        }
+                
+    }
 
 }

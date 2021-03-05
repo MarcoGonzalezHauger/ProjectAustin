@@ -41,10 +41,22 @@
                                     <constraint firstItem="jrA-vS-Qu8" firstAttribute="leading" secondItem="4Cf-sv-0pd" secondAttribute="leading" constant="8" id="jhB-kv-Ged"/>
                                 </constraints>
                             </view>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HT0-k8-xu9">
+                                <rect key="frame" x="0.0" y="736" width="414" height="209"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="209" id="lmG-Yn-X8T"/>
+                                </constraints>
+                                <connections>
+                                    <segue destination="dsD-Br-fvf" kind="embed" identifier="toAddressInfo" id="5tI-gW-rNZ"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="4Cf-sv-0pd" firstAttribute="leading" secondItem="Tuk-Va-49b" secondAttribute="leading" id="4Ez-vT-1hX"/>
+                            <constraint firstItem="HT0-k8-xu9" firstAttribute="trailing" secondItem="Tuk-Va-49b" secondAttribute="trailing" id="UDF-cG-ddE"/>
+                            <constraint firstItem="Tuk-Va-49b" firstAttribute="bottom" secondItem="HT0-k8-xu9" secondAttribute="bottom" constant="-209" id="bIp-0d-YGv"/>
+                            <constraint firstItem="HT0-k8-xu9" firstAttribute="leading" secondItem="Tuk-Va-49b" secondAttribute="leading" id="bf6-y4-Zcr"/>
                             <constraint firstItem="4Cf-sv-0pd" firstAttribute="top" secondItem="Tuk-Va-49b" secondAttribute="top" id="dxi-eG-CpV"/>
                             <constraint firstItem="Ira-H3-L1I" firstAttribute="top" secondItem="4Cf-sv-0pd" secondAttribute="bottom" constant="-50" id="eDp-0N-8e1"/>
                             <constraint firstItem="Ira-H3-L1I" firstAttribute="leading" secondItem="Tuk-Va-49b" secondAttribute="leading" id="g5s-B5-DxO"/>
@@ -56,8 +68,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="zTi-Ul-PhY"/>
                     <connections>
+                        <outlet property="addreContainer" destination="HT0-k8-xu9" id="aGB-D8-fqK"/>
+                        <outlet property="heightLayOut" destination="bIp-0d-YGv" id="d7x-ri-1Fk"/>
                         <outlet property="mapView" destination="Ira-H3-L1I" id="fVe-Ew-9bS"/>
-                        <segue destination="dsD-Br-fvf" kind="presentation" identifier="toAddressInfo" modalPresentationStyle="overFullScreen" id="a6v-ep-fZZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UB0-2X-qLp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -69,11 +82,11 @@
             <objects>
                 <viewController id="dsD-Br-fvf" customClass="AddressInfoVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8en-dv-hnN">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="209"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yh6-16-YgZ" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="527" width="414" height="209"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="209"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="y3E-NI-XV9">
                                         <rect key="frame" x="4" y="119" width="406" height="70"/>
@@ -82,7 +95,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="200" height="70"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0vc-5e-STh">
-                                                        <rect key="frame" x="0.0" y="34.333333333333371" width="200" height="32"/>
+                                                        <rect key="frame" x="0.0" y="34.333333333333343" width="200" height="32"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="32" id="aFO-Cl-ql4"/>
                                                         </constraints>
@@ -225,7 +238,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PJf-TN-yZ5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1790" y="93"/>
+            <point key="canvasLocation" x="1787" y="308"/>
         </scene>
         <!--StandardNC-->
         <scene sceneID="mjs-hg-uRf">

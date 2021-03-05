@@ -18,6 +18,7 @@ class RouteInfo: NSObject {
     var address: String = ""
     var source = CLLocationCoordinate2D()
     var destination = CLLocationCoordinate2D()
+    var annotation: MKAnnotation? = nil
 }
 
 class MapVC: UIViewController, MKMapViewDelegate {
@@ -28,11 +29,18 @@ class MapVC: UIViewController, MKMapViewDelegate {
     
     var location: CLLocationCoordinate2D = CLLocationCoordinate2D()
     
+    var addressContainer: AddressInfoVC!
+    
+    @IBOutlet weak var heightLayOut: NSLayoutConstraint!
+    
+    @IBOutlet weak var addreContainer: UIView!
+    
     var sampleAddress = ["1 Infinite Loop, Cupertino, CA 95014","777 Brockton Avenue, Abington MA 2351","25737 US Rt 11, Evans Mills NY 13637","2041 Douglas Avenue, Brewton AL 36426"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.heightLayOut.constant = -209
+        self.view .layoutIfNeeded()
         self.setCurrentLocation { (status) in
             if status{
                 mapView.showsUserLocation = true
@@ -83,9 +91,24 @@ class MapVC: UIViewController, MKMapViewDelegate {
             routeInfo.address = self.sampleAddress[annotation.tag!]
             routeInfo.destination = annotation.coordinate
             routeInfo.source = self.location
-            DispatchQueue.main.async {
-                self.performSegue(withIdentifier: "toAddressInfo", sender: routeInfo)
+            routeInfo.annotation = annotation
+            if self.heightLayOut.constant != 1 {
+                UIView.animate(withDuration: 0.6, animations: {
+                    
+                    self.heightLayOut.constant = 1
+                    self.view .layoutIfNeeded()
+                    
+                }, completion: { (status) in
+                    
+                })
             }
+            self.addressContainer.routeInfo = routeInfo
+            self.addressContainer.viewDidLoad()
+            
+            
+//            DispatchQueue.main.async {
+//                self.performSegue(withIdentifier: "toAddressInfo", sender: routeInfo)
+//            }
         }
 
     }
@@ -103,7 +126,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         // Pass the selected object to the new view controller.
         
         if let view = segue.destination as? AddressInfoVC{
-            view.routeInfo = (sender as! RouteInfo)
+            addressContainer = view
         }
         
     }
@@ -115,41 +138,22 @@ extension MapVC: CLLocationManagerDelegate{
     
     func setCurrentLocation(completion: (Bool)->()) {
         
-        
-        
-        locationManager.requestAlwaysAuthorization()
-        locationManager.requestWhenInUseAuthorization()
-        
         if CLLocationManager.locationServicesEnabled(){
             
             switch CLLocationManager.authorizationStatus() {
-            case .notDetermined, .restricted, .denied:
-                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
             case .authorizedAlways, .authorizedWhenInUse:
                 locationManager.delegate = self
                 locationManager.desiredAccuracy = kCLLocationAccuracyBest
                 locationManager.startUpdatingLocation()
                 completion(true)
+            case .notDetermined:
+                print("Not Access")
+            case .restricted:
+                print("Not Access")
+            case .denied:
+                print("Not Access")
             @unknown default:
                 print("Not Access")
-            }
-        }else{
-            locationManager.requestAlwaysAuthorization()
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            if CLLocationManager.locationServicesEnabled(){
-                
-            locationManager.startUpdatingLocation()
-            locationManager.startUpdatingHeading()
-            
-            completion(true)
-                
-            }else{
-                
-                showStandardAlertDialog(title: "Alert", msg: "Please enable location your settings", handler: { (action) in
-                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
-                })
-                
             }
         }
     }
