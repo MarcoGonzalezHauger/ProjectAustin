@@ -9,10 +9,6 @@
 import Foundation
 import Firebase
 
-/*
-So this function will take everything in the current database and port it all to Ambassadoor 3.0 Update database.
-No Loss.
-*/
 
 func ConvertEntireDatabase(iUnderstandWhatThisFunctionDoes ok: Bool) {
 	if ok {
@@ -33,6 +29,10 @@ func ConvertEntireDatabase(iUnderstandWhatThisFunctionDoes ok: Bool) {
 		
 	}
 }
+
+/*
+This function will take everything in the current database and port it all to Ambassadoor 3.0 Update database.
+*/
 
 //func ConvertDatabaseToNewDatabaseFormat(od: [String: Any]) {
 //	let usersdb = od["users"] as! [String: Any]

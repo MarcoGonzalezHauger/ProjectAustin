@@ -10,14 +10,22 @@ import UIKit
 
 class AccountResetVC: UIViewController, UITextFieldDelegate {
     
-    @IBOutlet weak var otpText: UITextField!
+    @IBOutlet weak var otpText: UITextField!{
+        didSet {
+            otpText.addDoneCancelToolbar(onDone: (target: self, action: #selector(doneAction(sender:))), onCancel: nil)
+        }
+    }
     
     var identifyTag: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+    }
+    
+    @IBAction func doneAction(sender: UIButton){
+        self.checkIfotpright()
+        otpText.resignFirstResponder()
     }
     
     func getSegue(tag: Int) -> String {

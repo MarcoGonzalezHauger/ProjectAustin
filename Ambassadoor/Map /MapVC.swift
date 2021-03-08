@@ -35,33 +35,55 @@ class MapVC: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var addreContainer: UIView!
     
-    var sampleAddress = ["1 Infinite Loop, Cupertino, CA 95014","777 Brockton Avenue, Abington MA 2351","25737 US Rt 11, Evans Mills NY 13637","2041 Douglas Avenue, Brewton AL 36426"]
+    var isCurrentLocation = false
+    
+    
+//    var locations = ["1 Infinite Loop, Cupertino, CA 95014","777 Brockton Avenue, Abington MA 2351","25737 US Rt 11, Evans Mills NY 13637","2041 Douglas Avenue, Brewton AL 36426"]
+    
+    var locations = [String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.heightLayOut.constant = -209
         self.view .layoutIfNeeded()
-        self.setCurrentLocation { (status) in
-            if status{
-                mapView.showsUserLocation = true
+        if isCurrentLocation {
+            self.setCurrentLocation { (status) in
+                if status{
+                    mapView.showsUserLocation = isCurrentLocation
+                }
             }
         }
-        
-        
-        
         // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.mapView.delegate = self
-        
+        self.getUserLocation()
         self.setAnnotations()
+    }
+    
+    func getUserLocation() {
+        let geoCoder = CLGeocoder()
+        let appendedZip = Myself.basic.zipCode + ", USA"
+        geoCoder.geocodeAddressString(appendedZip) { (placemarks, error) in
+                guard let placemark = placemarks else{
+                    return
+                }
+                guard let loc = placemark.first?.location else{
+                    return
+                }
+            
+            let noLocation = CLLocationCoordinate2DMake(CLLocationDegrees(exactly: loc.coordinate.latitude) ?? 0, CLLocationDegrees(exactly: loc.coordinate.longitude) ?? 0)
+            let viewRegion = MKCoordinateRegion(center: noLocation, span: MKCoordinateSpan(latitudeDelta: 4.00, longitudeDelta: 4.00))
+            self.mapView.setRegion(viewRegion, animated: true)
+            
+        }
     }
     
     func setAnnotations() {
                 
-        for (index,address) in sampleAddress.enumerated() {
+        for (index,address) in locations.enumerated() {
             let geoCoder = CLGeocoder()
             geoCoder.geocodeAddressString(address) { (placemarks, error) in
                     guard let placemark = placemarks else{
@@ -88,7 +110,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
             print(annotation.tag!)
             //annotation.coordinate
             let routeInfo = RouteInfo()
-            routeInfo.address = self.sampleAddress[annotation.tag!]
+            routeInfo.address = self.locations[annotation.tag!]
             routeInfo.destination = annotation.coordinate
             routeInfo.source = self.location
             routeInfo.annotation = annotation
