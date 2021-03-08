@@ -194,8 +194,8 @@ class SigninVC: UIViewController {
         
         Myself.UpdateToFirebase(alsoUpdateToPublic: true) { (error) in
             
-            if error{
-                self.showStandardAlertDialog(title: "Alert", msg: "Something Wrong!", handler: nil)
+            if error {
+                self.showStandardAlertDialog(title: "Alert", msg: "Something went wrong! (VBx87)", handler: nil)
                 return
             }
             

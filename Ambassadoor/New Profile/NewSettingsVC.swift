@@ -30,6 +30,11 @@ class NewSettingsVC: UIViewController, MFMailComposeViewControllerDelegate {
     }
     
     @IBAction func legalInfoAction(sender: UIButton){
+//		let bb = globalBasicBusinesses.filter{$0.name == "Ambassadoor"}[0]
+//		bb.locations = ["24 Ironwood Dr, Collegeville, PA 19426", "1600 Pennsylvania Avenue NW, Washington, DC 20500", "20 W 34th St, New York, NY 10001"]
+//		bb.UpdateToFirebase(completed: nil)
+//		
+//		return
         self.webviewUrl = sender.tag == 0 ? API.termsUrl : API.privacyUrl
         self.performSegue(withIdentifier: "toLegalWebview", sender: self)
     }
