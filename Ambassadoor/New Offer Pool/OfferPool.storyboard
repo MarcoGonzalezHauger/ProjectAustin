@@ -158,7 +158,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DNN-v3-n3n" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                                <rect key="frame" x="145.5" y="89.5" width="99" height="37"/>
+                                                <rect key="frame" x="145.5" y="89.5" width="98.5" height="37"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$33.33" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L0c-83-L9o">
                                                         <rect key="frame" x="8" y="4" width="82.5" height="29"/>
@@ -310,46 +310,17 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C1L-nL-eCm" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                        <rect key="frame" x="12" y="572" width="390" height="63"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZI0-Sl-lT0">
-                                                <rect key="frame" x="0.0" y="0.0" width="390" height="63"/>
-                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
-                                                <state key="normal" title="View Locations"/>
-                                                <connections>
-                                                    <action selector="openMapViewWithSender:" destination="5Xp-oA-iTK" eventType="touchUpInside" id="YAn-rV-Mfs"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                        <constraints>
-                                            <constraint firstItem="ZI0-Sl-lT0" firstAttribute="top" secondItem="C1L-nL-eCm" secondAttribute="top" id="Are-Jt-69N"/>
-                                            <constraint firstItem="ZI0-Sl-lT0" firstAttribute="leading" secondItem="C1L-nL-eCm" secondAttribute="leading" id="Hcf-bW-DbS"/>
-                                            <constraint firstAttribute="height" constant="63" id="VHP-rW-BVP"/>
-                                            <constraint firstAttribute="bottom" secondItem="ZI0-Sl-lT0" secondAttribute="bottom" id="ho7-AB-4b7"/>
-                                            <constraint firstAttribute="trailing" secondItem="ZI0-Sl-lT0" secondAttribute="trailing" id="vA3-xl-Omb"/>
-                                        </constraints>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                <real key="value" value="5"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </view>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="tcH-4O-Eb1" firstAttribute="leading" secondItem="S7y-wF-vDf" secondAttribute="leading" constant="12" id="2Ef-R5-NaR"/>
                                     <constraint firstItem="tcH-4O-Eb1" firstAttribute="top" secondItem="U6A-bP-FQ2" secondAttribute="bottom" constant="12" id="4VY-9e-KFJ"/>
-                                    <constraint firstItem="C1L-nL-eCm" firstAttribute="top" secondItem="tcH-4O-Eb1" secondAttribute="bottom" constant="7.5" id="A5E-uh-wYe"/>
                                     <constraint firstAttribute="trailing" secondItem="gLX-6l-aef" secondAttribute="trailing" constant="12" id="GU9-xA-F48"/>
                                     <constraint firstItem="gLX-6l-aef" firstAttribute="top" secondItem="S7y-wF-vDf" secondAttribute="top" constant="50" id="Q9H-xK-PDz"/>
                                     <constraint firstItem="U6A-bP-FQ2" firstAttribute="leading" secondItem="gLX-6l-aef" secondAttribute="leading" id="Qkh-hY-kwH"/>
                                     <constraint firstAttribute="bottom" secondItem="tcH-4O-Eb1" secondAttribute="bottom" constant="120" id="RL5-lC-Axd"/>
                                     <constraint firstItem="U6A-bP-FQ2" firstAttribute="top" secondItem="gLX-6l-aef" secondAttribute="bottom" constant="12" id="V85-td-HPC"/>
                                     <constraint firstItem="U6A-bP-FQ2" firstAttribute="trailing" secondItem="gLX-6l-aef" secondAttribute="trailing" id="bXJ-lC-OhW"/>
-                                    <constraint firstAttribute="trailing" secondItem="C1L-nL-eCm" secondAttribute="trailing" constant="12" id="cX7-Ih-Wta"/>
                                     <constraint firstItem="gLX-6l-aef" firstAttribute="leading" secondItem="S7y-wF-vDf" secondAttribute="leading" constant="12" id="fIu-v1-NnR"/>
-                                    <constraint firstItem="C1L-nL-eCm" firstAttribute="leading" secondItem="bUS-mn-M1s" secondAttribute="leading" constant="12" id="hYp-Yj-Jsh"/>
                                     <constraint firstItem="S7y-wF-vDf" firstAttribute="trailing" secondItem="tcH-4O-Eb1" secondAttribute="trailing" constant="12" id="oyr-5P-a6J"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="Z0W-z1-teC"/>
@@ -682,19 +653,48 @@ The Instagram Post must have a caption that contains all of the phrases and hash
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="46i-en-P9j" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                <rect key="frame" x="12" y="742" width="390" height="63"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vLt-h9-joS">
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="63"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
+                                        <state key="normal" title="View Locations"/>
+                                        <connections>
+                                            <action selector="viewLocationWithSender:" destination="ixI-m4-jWZ" eventType="touchUpInside" id="Sod-l9-ke4"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="vLt-h9-joS" secondAttribute="bottom" id="DNp-MG-kKp"/>
+                                    <constraint firstAttribute="trailing" secondItem="vLt-h9-joS" secondAttribute="trailing" id="L1f-MG-bk8"/>
+                                    <constraint firstItem="vLt-h9-joS" firstAttribute="leading" secondItem="46i-en-P9j" secondAttribute="leading" id="Qsn-S9-048"/>
+                                    <constraint firstAttribute="height" constant="63" id="fjd-G3-9Vj"/>
+                                    <constraint firstItem="vLt-h9-joS" firstAttribute="top" secondItem="46i-en-P9j" secondAttribute="top" id="rc1-Vp-umf"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" name="newSubtleBackground"/>
                         <constraints>
+                            <constraint firstItem="Sl8-cD-Kth" firstAttribute="trailing" secondItem="46i-en-P9j" secondAttribute="trailing" constant="12" id="0ho-t9-7OF"/>
                             <constraint firstItem="Sl8-cD-Kth" firstAttribute="trailing" secondItem="EHa-Rn-cGR" secondAttribute="trailing" constant="2.5" id="0pP-hV-okj"/>
                             <constraint firstAttribute="trailing" secondItem="DV0-dc-Pv6" secondAttribute="trailing" id="1sq-th-Az7"/>
                             <constraint firstAttribute="trailing" secondItem="H87-P8-FTt" secondAttribute="trailing" id="228-qA-H6e"/>
                             <constraint firstItem="Y11-eI-JUv" firstAttribute="top" secondItem="Sl8-cD-Kth" secondAttribute="top" id="5xd-St-xj4"/>
                             <constraint firstItem="Y11-eI-JUv" firstAttribute="leading" secondItem="Sl8-cD-Kth" secondAttribute="leading" id="6TO-YM-knN"/>
                             <constraint firstItem="H87-P8-FTt" firstAttribute="leading" secondItem="3dZ-dk-3o0" secondAttribute="leading" id="7wo-0Z-Qc9"/>
+                            <constraint firstItem="46i-en-P9j" firstAttribute="leading" secondItem="Sl8-cD-Kth" secondAttribute="leading" constant="12" id="BeN-VB-PyT"/>
                             <constraint firstItem="DV0-dc-Pv6" firstAttribute="top" secondItem="Sl8-cD-Kth" secondAttribute="top" id="C8E-Gz-iLN"/>
                             <constraint firstItem="DV0-dc-Pv6" firstAttribute="leading" secondItem="Sl8-cD-Kth" secondAttribute="leading" id="D0e-mo-k4j"/>
                             <constraint firstAttribute="trailing" secondItem="Y11-eI-JUv" secondAttribute="trailing" id="JJX-uY-PDG"/>
                             <constraint firstItem="Sl8-cD-Kth" firstAttribute="bottom" secondItem="H87-P8-FTt" secondAttribute="bottom" id="Su4-NJ-7DO"/>
+                            <constraint firstItem="Sl8-cD-Kth" firstAttribute="bottom" secondItem="46i-en-P9j" secondAttribute="bottom" constant="3" id="YBA-9y-Rbe"/>
                             <constraint firstItem="EHa-Rn-cGR" firstAttribute="top" secondItem="3dZ-dk-3o0" secondAttribute="topMargin" constant="2.5" id="Yra-ao-Ngn"/>
                             <constraint firstItem="5lt-pg-hnx" firstAttribute="top" secondItem="3dZ-dk-3o0" secondAttribute="topMargin" constant="25" id="bJf-or-V5d"/>
                             <constraint firstItem="EOJ-GM-Gbw" firstAttribute="width" secondItem="Sl8-cD-Kth" secondAttribute="width" constant="-24" id="m1P-EQ-ihW"/>
@@ -711,13 +711,17 @@ The Instagram Post must have a caption that contains all of the phrases and hash
                         <outlet property="foreImage" destination="llt-bW-gyK" id="1dl-LO-qWn"/>
                         <outlet property="indexLabel" destination="wMQ-ZV-b1G" id="GP3-C2-LVH"/>
                         <outlet property="instructions" destination="mGQ-su-UKj" id="jxW-9h-gHG"/>
+                        <segue destination="yHW-e8-pod" kind="show" identifier="fromPosttoMap" id="WHl-TX-47S"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Ar-m3-qW8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2621.739130434783" y="137.94642857142856"/>
+            <point key="canvasLocation" x="2732" y="100"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="WHl-TX-47S"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="homa" width="30" height="30"/>
         <namedColor name="AmbPurple">

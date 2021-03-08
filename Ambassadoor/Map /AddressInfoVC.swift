@@ -26,8 +26,11 @@ class AddressInfoVC: UIViewController {
     
     func loadData() {
         
-        self.addressInfo.text = "\(routeInfo.address)"
-        getDirectionEstimatedTime()
+        if routeInfo != nil {
+            self.addressInfo.text = "\(routeInfo.address)"
+            getDirectionEstimatedTime()
+        }
+        
     }
     
     func getDirectionEstimatedTime() {
@@ -35,6 +38,7 @@ class AddressInfoVC: UIViewController {
         //-70.587570
         self.activity.isHidden = false
         self.activity.startAnimating()
+        self.estimatedTime.text = ""
         let request = MKDirections.Request()
 //        request.source = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: routeInfo.source.latitude, longitude: routeInfo.source.longitude), addressDictionary: nil))
         request.source = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: 41.571430, longitude: -70.587570), addressDictionary: nil))
@@ -73,29 +77,40 @@ class AddressInfoVC: UIViewController {
         var formatTime = ""
         
         if (seconds / 3600) > 0 {
-            formatTime = "\((seconds / 3600)) H "
+            formatTime = "\((seconds / 3600))h "
         }
         
         if ((seconds % 3600) / 60) > 0 {
-            formatTime += "\(((seconds % 3600) / 60)) M "
+            formatTime += "\(((seconds % 3600) / 60))m"
         }
-        
-        if ((seconds % 3600) % 60) > 0 {
-            formatTime += "\(((seconds % 3600) % 60)) S"
-        }
+//        if ((seconds % 3600) % 60) > 0 {
+//            formatTime += "\(((seconds % 3600) % 60)) S"
+//        }
         
         return formatTime
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        UIView.animate(withDuration: 0.2) {
-            self.view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
-        }
+//        UIView.animate(withDuration: 0.2) {
+//            self.view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+//        }
     }
     
     @IBAction func closeAction(sender: UIButton){
-        self.view.backgroundColor = .clear
-        self.dismiss(animated: true, completion: nil)
+        if let map = self.parent as? MapVC{
+            
+                UIView.animate(withDuration: 0.6, animations: {
+                    
+                    map.heightLayOut.constant = -209
+                    map.view .layoutIfNeeded()
+                    
+                    map.mapView.deselectAnnotation(self.routeInfo.annotation, animated: true)
+                    
+                }, completion: { (status) in
+                    
+                })
+        }
+        
     }
     
     @IBAction func directionAction(sender: UIButton){
