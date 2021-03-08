@@ -153,6 +153,7 @@ class BasicBusiness {
 	var flags: [String]
 	var followedBy: [String]
 	var locations: [String]
+	var businessType: String
 	
 	var businessId: String
 	var basicId: String
@@ -173,7 +174,7 @@ class BasicBusiness {
 		}
 	}
 	
-	init(name: String, logoUrl: String, mission: String, website: String, joinedDate: Date, referralCode: String, flags: [String], followedBy: [String], businessId: String, locations: [String]) {
+	init(name: String, logoUrl: String, mission: String, website: String, joinedDate: Date, referralCode: String, flags: [String], followedBy: [String], businessId: String, locations: [String], businessType: String) {
 		
 		self.businessId = businessId
 		
@@ -188,6 +189,7 @@ class BasicBusiness {
 		self.flags = flags
 		self.followedBy = followedBy
 		self.locations = locations
+		self.businessType = businessType
 		
 	}
 	
@@ -204,6 +206,7 @@ class BasicBusiness {
 		flags = d["flags"] as? [String] ?? []
 		followedBy = d["followedBy"] as? [String] ?? []
 		locations = d["locations"] as? [String] ?? []
+		businessType = d["businessType"] as? String ?? "Business"
 		
 	}
 	
@@ -222,6 +225,7 @@ class BasicBusiness {
 		d["followedBy"] = followedBy
 		d["businessId"] = businessId
 		d["locations"] = locations
+		d["businessType"] = businessType
 		
 		return d
 	}
