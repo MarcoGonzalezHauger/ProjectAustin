@@ -34,6 +34,8 @@ class NewPoolOfferPostViewer: UIViewController, CLLocationManagerDelegate {
 	}
 	
 	func updateContents() {
+        let loc = thisPoolOffer.BasicBusiness()
+        print(loc?.locations)
 		foreImage.downloadAndSetImage(thisPoolOffer.BasicBusiness()!.logoUrl)
 		backImage.downloadAndSetImage(thisPoolOffer.BasicBusiness()!.logoUrl)
 		indexLabel.text = "\(index + 1)"
@@ -60,17 +62,33 @@ class NewPoolOfferPostViewer: UIViewController, CLLocationManagerDelegate {
     internal func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus){
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
-            self.performSegue(withIdentifier: "fromPosttoMap", sender: self)
+            self.performSegue(withIdentifier: "fromPosttoMap", sender: true)
         case .denied:
             
-            self.showStandardAlertDialog(title: "Alert", msg: "Please enable your location permission") { (alert) in
-                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
-            }
+//            self.showStandardAlertDialog(title: "Alert", msg: "Please enable your location permission") { (alert) in
+//                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+//            }
+            
+            self.performSegue(withIdentifier: "fromPosttoMap", sender: false)
                         
         default:
             print("no one")
         }
                 
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if let viewNav = segue.destination as? StandardNC{
+            
+            if let view = viewNav.viewControllers.first as? MapVC{
+                if let locations = thisPoolOffer.BasicBusiness()?.locations{
+                    view.locations = locations
+                    view.isCurrentLocation = sender as! Bool
+                }
+            }
+            
+        }
     }
 
 }
