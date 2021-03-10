@@ -41,6 +41,7 @@ class CentralVariables {
     var isClickedBusinesFollow = false
     var otpData = 0
     var location: CLLocationCoordinate2D = CLLocationCoordinate2D()
+    var presentingController: UIViewController? = nil
 }
 
 let global = CentralVariables()

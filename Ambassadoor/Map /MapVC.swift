@@ -58,6 +58,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        global.presentingController = self
         self.mapView.delegate = self
         self.getUserLocation()
         self.setAnnotations()

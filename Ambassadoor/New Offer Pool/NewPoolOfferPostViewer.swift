@@ -60,16 +60,32 @@ class NewPoolOfferPostViewer: UIViewController, CLLocationManagerDelegate {
     }
     
     internal func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus){
+        
+                
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
-            self.performSegue(withIdentifier: "fromPosttoMap", sender: true)
+            if let viewNav = self.presentedViewController as? StandardNC{
+                if let view = viewNav.viewControllers.first as? MapVC{
+                    view.viewDidLoad()
+                }
+                
+            }else{
+                self.performSegue(withIdentifier: "fromPosttoMap", sender: true)
+            }
+            
         case .denied:
             
 //            self.showStandardAlertDialog(title: "Alert", msg: "Please enable your location permission") { (alert) in
 //                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
 //            }
             
-            self.performSegue(withIdentifier: "fromPosttoMap", sender: false)
+            if let viewNav = self.presentedViewController as? StandardNC{
+                if let view = viewNav.viewControllers.first as? MapVC{
+                    view.viewDidLoad()
+                }
+            }else{
+                self.performSegue(withIdentifier: "fromPosttoMap", sender: true)
+            }
                         
         default:
             print("no one")
