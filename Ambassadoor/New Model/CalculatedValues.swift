@@ -33,6 +33,7 @@ extension BasicInfluencer {
 	var resizedProfile: String {
 		get {
 			let resizedUrl: String = self.profilePicURL.replacingOccurrences(of: "profile%2F", with: "profile%2Fsmall%2F").replacingOccurrences(of: ".jpeg", with: "_256x256.jpeg").replacingOccurrences(of: ".png", with: "_256x256.jpeg")
+            print("256=",resizedUrl)
 			return resizedUrl
 		}
 	}
