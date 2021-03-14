@@ -104,9 +104,10 @@ func filterNewQueryByField(email: String, completion:@escaping(_ exist: Bool, _ 
 
 func uploadImageToFIR(image: UIImage, childName: String, path: String, completion: @escaping (String,Bool) -> ()) {
     let data = image.jpegData(compressionQuality: 0.2)
-    let fileName = path + ".png"
+    let fileName = path + ".jpeg"
     let ref = Storage.storage().reference().child(childName).child(fileName)
-    ref.putData(data!, metadata: nil, completion: { (metadata, error) in
+    let metaStore = StorageMetadata.init(dictionary: ["contentType": "image/jpeg"])
+    ref.putData(data!, metadata: metaStore, completion: { (metadata, error) in
         if error != nil {
             debugPrint(error!)
             completion("", true)
