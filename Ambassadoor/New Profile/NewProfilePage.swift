@@ -80,7 +80,6 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
-		
 		let xib = UINib.init(nibName: "InterestCVC", bundle: Bundle.main)
 		interestCollectionView.register(xib, forCellWithReuseIdentifier: "InterestCell")
 		
@@ -96,7 +95,14 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 		scrollView.alwaysBounceVertical = false
 		
 		editProfileView.alpha = 0
+        
+        
 		
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.tabBarController?.delegate = self
     }
     
     func setDatePicker(dateChooserAlert: UIAlertController) {
@@ -473,5 +479,18 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
     @IBAction func logoutAction(sender: UIButton){
         logOut()
     }
+    
+    
 
+}
+
+extension NewProfilePage: UITabBarControllerDelegate, UITabBarDelegate{
+    
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool{
+        return true
+    }
+    func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem){
+        
+    }
+    
 }

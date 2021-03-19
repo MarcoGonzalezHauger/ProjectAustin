@@ -362,6 +362,14 @@ struct API {
         login.logOut()
         //"pages_show_list"
         //API.facebookLogout()
+        AccessToken.current = nil
+        let cookies = HTTPCookieStorage.shared
+        let facebookCookies = cookies.cookies(for: URL(string: "https://facebook.com/")!)
+        for cookie in facebookCookies! {
+            cookies.deleteCookie(cookie )
+        }
+        
+        
         login.logIn(permissions: ["instagram_basic", "pages_show_list", "manage_pages"], from: owner) { (result, FBerror) in
             if((FBerror) != nil){
                 print(FBerror as Any)

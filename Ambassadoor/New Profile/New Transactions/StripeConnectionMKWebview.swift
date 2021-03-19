@@ -88,7 +88,7 @@ class StripeConnectionMKWebview: UIViewController, WKNavigationDelegate {
         if let url = navigationAction.request.url {
             print(url.absoluteString)
             
-             if url.absoluteString.hasPrefix("https:connect.stripe.com/connect/default_new/oauth/test?") || url.absoluteString.hasPrefix("https://connect.stripe.com/connect/default/oauth/test?"){
+             if url.absoluteString.hasPrefix("https://connect.stripe.com/connect/default_new/oauth/test?") || url.absoluteString.hasPrefix("https://connect.stripe.com/connect/default/oauth/test?"){
              print("SUCCESS")
             
             
