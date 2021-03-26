@@ -167,12 +167,12 @@ class NewSettingsVC: UIViewController, MFMailComposeViewControllerDelegate {
                     
                     if code == 200 {
                         let otpCode = json!["otp"] as! Int
-                        
+
                         global.otpData = otpCode
-                        
+
                     }else{
-                        
-                        
+
+
                     }
                 }else{
                     
