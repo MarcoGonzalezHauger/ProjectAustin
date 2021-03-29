@@ -356,19 +356,42 @@ struct API {
         
     }
     
-    static func facebookLoginBusinessAccount(owner: UIViewController, completion: @escaping(_ object:Any?, _ longliveToken: String?, _ error: AnyObject?)->Void) {
-        
-        let login: LoginManager = LoginManager()
-        login.logOut()
-        //"pages_show_list"
-        //API.facebookLogout()
-        AccessToken.current = nil
+    static func clearFacebookCookies() {
         let cookies = HTTPCookieStorage.shared
         let facebookCookies = cookies.cookies(for: URL(string: "https://facebook.com/")!)
         for cookie in facebookCookies! {
             cookies.deleteCookie(cookie )
         }
+        let facebookSingleCookies = cookies.cookies(for: URL(string: "http://login.facebook.com")!)
+        for cookie in facebookSingleCookies! {
+            cookies.deleteCookie(cookie )
+        }
+        if let cookieArray = cookies.cookies{
+        for cookie in cookieArray {
+            let domainName = cookie.domain
+            if let range = domainName.range(of: "facebook"){
+                if !range.isEmpty {
+                   cookies.deleteCookie(cookie )
+                }
+            }
+            
+            
+            
+        }
         
+        }
+    }
+    
+    static func facebookLoginBusinessAccount(owner: UIViewController, completion: @escaping(_ object:Any?, _ longliveToken: String?, _ error: AnyObject?)->Void) {
+        
+        let login: LoginManager = LoginManager()
+        login.loginBehavior = .browser
+        login.logOut()
+        //"pages_show_list"
+        //API.facebookLogout()
+        AccessToken.current = nil
+        Profile.current = nil
+        clearFacebookCookies()
         
         login.logIn(permissions: ["instagram_basic", "pages_show_list", "manage_pages"], from: owner) { (result, FBerror) in
             if((FBerror) != nil){
