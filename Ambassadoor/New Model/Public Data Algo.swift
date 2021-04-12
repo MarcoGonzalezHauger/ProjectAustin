@@ -212,10 +212,10 @@ func SocialFollowingUsers(influencer: Influencer) -> [Any] {
     var totalUsers = [Any]()
         
     let FilteredInfluencers = globalBasicInfluencers.filter { (basicInfluencer) -> Bool in
-            return influencer.basic.followingInfluencers.contains(basicInfluencer.userId)
+        return influencer.basic.followingInfluencers.contains(basicInfluencer.userId) && !basicInfluencer.checkFlag("isClosedAccount")
         }
     let FilteredBusiness = globalBasicBusinesses.filter { (basicBusiness) -> Bool in
-        return influencer.basic.followingBusinesses.contains(basicBusiness.basicId)
+        return influencer.basic.followingBusinesses.contains(basicBusiness.basicId) || !basicBusiness.checkFlag("isClosedAccount")
     }
     
     totalUsers.append(contentsOf: sortInfluencers(basicInfluencers: FilteredInfluencers))

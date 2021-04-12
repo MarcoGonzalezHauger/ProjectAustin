@@ -109,6 +109,7 @@
                     <navigationItem key="navigationItem" id="8TB-M5-LVf"/>
                     <connections>
                         <segue destination="93b-eV-fU3" kind="show" identifier="fromAccountToStripe" id="9UW-Az-CPv"/>
+                        <segue destination="lnM-X8-PIY" kind="show" identifier="fromAccountInfoToWithdraw" id="tNV-0K-0de"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5nv-um-naO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -286,7 +287,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vAr-YF-F8Y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3604" y="35"/>
+            <point key="canvasLocation" x="3578" y="-650"/>
         </scene>
         <!--With Draw NoteVC-->
         <scene sceneID="tfC-dh-eiX">
@@ -504,6 +505,9 @@ Stripe may take up to 3 days to complete the transfer, but it usually transfers 
             <point key="canvasLocation" x="2691" y="35"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="tNV-0K-0de"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="stripeLogo" width="362" height="152"/>
         <namedColor name="newCellColor">

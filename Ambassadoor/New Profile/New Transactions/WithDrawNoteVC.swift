@@ -27,7 +27,7 @@ class WithDrawNoteVC: UIViewController {
     @IBAction func dismisAction(sender: UIButton){
         
         if let viewTab = self.view.window?.rootViewController as? TabBarVC{
-            if let viewPage = viewTab.viewControllers![1] as? NewProfilePage{
+            if let viewPage = viewTab.viewControllers![0] as? NewProfilePage{
                 viewPage.loadFromMyself()
                 viewPage.dismiss(animated: true, completion: nil)
             }
