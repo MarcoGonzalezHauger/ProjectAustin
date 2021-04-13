@@ -237,6 +237,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 					InitializeAmbassadoor()
 					AverageLikes(instagramID: Myself.instagramAccountId, userToken: Myself.instagramAuthToken)
 					let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
+                    viewReference.delegate = viewReference
 					downloadDataBeforePageLoad()
 					self.window?.rootViewController = viewReference
 					

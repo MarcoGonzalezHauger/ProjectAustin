@@ -101,7 +101,7 @@ class AddressInfoVC: UIViewController {
             
                 UIView.animate(withDuration: 0.6, animations: {
                     
-                    map.heightLayOut.constant = -209
+                    map.heightLayOut.constant = -276
                     map.view .layoutIfNeeded()
                     
                     map.mapView.deselectAnnotation(self.routeInfo.annotation, animated: true)

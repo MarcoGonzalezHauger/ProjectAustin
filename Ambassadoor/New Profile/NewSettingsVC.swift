@@ -77,12 +77,12 @@ class NewSettingsVC: UIViewController, MFMailComposeViewControllerDelegate {
     @IBAction func sendEmail(sender: UIButton) {
         
         let emailContent = self.getTittle(tag: sender.tag)
-        //let toRecipents = []
+        let toRecipents = [API.supportEmail]
         let mc: MFMailComposeViewController = MFMailComposeViewController()
         mc.mailComposeDelegate = self
         mc.setSubject(emailContent.0)
         mc.setMessageBody(emailContent.1, isHTML: false)
-        //mc.setToRecipients(toRecipents)
+        mc.setToRecipients(toRecipents)
         
         if MFMailComposeViewController .canSendMail(){
             self.present(mc, animated: true, completion: nil)
@@ -167,12 +167,12 @@ class NewSettingsVC: UIViewController, MFMailComposeViewControllerDelegate {
                     
                     if code == 200 {
                         let otpCode = json!["otp"] as! Int
-                        
+
                         global.otpData = otpCode
-                        
+
                     }else{
-                        
-                        
+
+
                     }
                 }else{
                     

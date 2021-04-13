@@ -46,7 +46,7 @@ class AccountResetVC: UIViewController, UITextFieldDelegate {
             return
         }
         
-        if otpText.text!.count != 6 {
+        if otpText.text!.count != 6 || global.otpData != 0 {
            self.showStandardAlertDialog(title: "Failed", msg: "Invalid One Time Password", handler: nil)
            return
         }

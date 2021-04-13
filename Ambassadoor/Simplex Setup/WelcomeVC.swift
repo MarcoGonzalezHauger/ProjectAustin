@@ -56,6 +56,9 @@ class WelcomeVC: UIViewController, AutoDimiss {
             NewAccount = NewAccountInfo.init(email: "", password: "", categories: [], gender: "", zipCode: "", instagramAccountId: "", instagramUsername: "", authenticationToken: "", averageLikes: 0, followerCount: 0, id: "", instagramName: "", profilePicture: "", referralCode: "", dob: "", isForTesting: false)
 			destination.delegate = self
 		}
+        if let view = segue.destination as? WebViewVC {
+            view.urlString = API.termsUrl
+        }
 	}
 	
 }

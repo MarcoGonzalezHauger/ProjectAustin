@@ -44,7 +44,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.heightLayOut.constant = -209
+        self.heightLayOut.constant = -276
         self.view .layoutIfNeeded()
         if isCurrentLocation {
             self.setCurrentLocation { (status) in
@@ -120,6 +120,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
                     
                     self.heightLayOut.constant = 1
                     self.view .layoutIfNeeded()
+                    self.view.bringSubviewToFront(self.addreContainer)
                     
                 }, completion: { (status) in
                     
