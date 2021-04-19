@@ -63,10 +63,17 @@ class Influencer {
 		instagramAccountId = d["instagramAccountId"] as! String
 		tokenFIR = d["tokenFIR"] as! String
 	
+		let instaPosts = d["instagramPost"] as? [String: Any] ?? [:]
+		
 		inProgressPosts = []
 		if let inProgressDictionary = d["inProgressPosts"] as? [String: Any] {
 			for inProgressPostId in inProgressDictionary.keys {
-				let thisInProgressPost = inProgressDictionary[inProgressPostId] as! [String: Any]
+				var thisInProgressPost = inProgressDictionary[inProgressPostId] as! [String: Any]
+				if var instaPostDict = instaPosts[inProgressPostId] as? [String: Any] {
+					instaPostDict["postID"] = inProgressPostId
+					instaPostDict["offerID"] = thisInProgressPost["PoolOfferId"]
+					thisInProgressPost["instagramPost"] = instaPostDict
+				}
 				let newInProgressPost = InProgressPost.init(dictionary: thisInProgressPost, inProgressPostId: inProgressPostId, userId: id)
 				inProgressPosts.append(newInProgressPost)
 			}
@@ -281,34 +288,38 @@ class InstagramPost {
         userId = id
         
         caption = d["caption"] as! String
-        instagramPostId = d["instagramPostId"] as! String
+        instagramPostId = d["id"] as! String
         images = d["images"] as! String
         like_count = d["like_count"] as! Int
         status = d["status"] as! String
         type = d["type"] as! String
         username = d["username"] as! String
-        postID = d["postID"] as! String
-        offerID = d["offerID"] as! String
-		timestamp = (d["timestamp"] as! String).toUDate()
+        postID = d["postID"] as? String ?? ""
+        offerID = d["offerID"] as? String ?? ""
+		let ts = d["timestamp"] as! String
+		
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ" //date format that instagram uses
+		timestamp = dateFormatter.date(from: ts) ?? Date(timeIntervalSince1970: 0)
         
     }
     
-    func toDictionary() -> [String: Any] {
-        var d: [String: Any] = [:]
-        
-        d["caption"] = caption
-        d["instagramPostId"] = instagramPostId
-        d["images"] = images
-        d["like_count"] = like_count
-        d["status"] = status
-        d["type"] = type
-        d["username"] = username
-        d["postID"] = postID
-        d["offerID"] = offerID
-		d["timestamp"] = timestamp.toUString()
-        
-        return d
-    }
+//    func toDictionary() -> [String: Any] {
+//        var d: [String: Any] = [:]
+//
+//        d["caption"] = caption
+//        d["id"] = instagramPostId
+//        d["images"] = images
+//        d["like_count"] = like_count
+//        d["status"] = status
+//        d["type"] = type
+//        d["username"] = username
+//        d["postID"] = postID
+//        d["offerID"] = offerID
+//		d["timestamp"] = timestamp.toUString()
+//
+//        return d
+//    }
     
 }
 

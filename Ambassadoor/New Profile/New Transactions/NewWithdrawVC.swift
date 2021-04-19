@@ -44,7 +44,7 @@ class NewWithdrawVC: UIViewController {
             subAmount = withdrawAmount + Double(feeAmount)
             
             if withdrawAmount < 0 {
-                self.showStandardAlertDialog(title: "Stripe Fees more than your Money", msg: "Earn money by completing Offers.")
+                self.showStandardAlertDialog(title: "Not enough to Withdraw", msg: "You must earn at least $3.00 to withdraw due to Stripe transaction fees.")
                 return
             }
                     

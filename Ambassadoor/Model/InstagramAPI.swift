@@ -295,7 +295,13 @@ struct API {
     static func facebookLoginAct(userIDBusiness: String, owner: UIViewController, completion: @escaping(_ object:Any?, _ longliveToken: String?, _ error: Error?)->Void) {
         
         let login: LoginManager = LoginManager()
+        login.loginBehavior = .browser
         login.logOut()
+        //"pages_show_list"
+        //API.facebookLogout()
+        AccessToken.current = nil
+        Profile.current = nil
+        clearFacebookCookies()
         //"pages_show_list"
         //"manage_pages"
         //"pages_read_engagement"

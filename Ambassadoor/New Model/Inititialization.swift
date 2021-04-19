@@ -23,7 +23,7 @@ func StartListening() {
 		print("Public data downloaded.")
 	}
 	
-	//startListeningToMyself(userId: Myself.userId)
+	startListeningToMyself(userId: Myself.userId)
 	
 	StartListeningToPublicData()
 	

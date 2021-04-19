@@ -396,7 +396,7 @@ class InProgressPost {
 		
 		
 		if let instaPostDict = d["instagramPost"] as? [String: Any] {
-			instagramPost = InstagramPost.init(dictionary: instaPostDict, userId: id)		//sometimes nil
+			instagramPost = InstagramPost.init(dictionary: instaPostDict, userId: id)
 		}									//sometimes ""
 		denyReason = d["denyReason"] as! String												//sometimes ""
 		
@@ -422,8 +422,8 @@ class InProgressPost {
 			d["comissionUserId"] = comissionUserId }
 		if let comissionBusinessId = comissionBusinessId {
 			d["comissionBusinessId"] = comissionBusinessId }
-		if let instagramPost = instagramPost {
-			d["instagramPost"] = instagramPost.toDictionary() }
+//		if let instagramPost = instagramPost {
+//			d["instagramPost"] = instagramPost.toDictionary() }
 		
 		d["status"] = status
 		d["cashValue"] = cashValue
@@ -441,6 +441,7 @@ class InProgressPost {
 		d["PoolOfferId"] = PoolOfferId
 		d["draftOfferId"] = draftOfferId
 		d["businessId"] = businessId
+		d["basicId"] = basicId
 		d["draftPostId"] = draftPostId
         d["draftPost"] = draftPost.toDictionary()
 		return d
