@@ -11,10 +11,12 @@ import UIKit
 class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
     
     func myselfRefreshed() {
+		print("did refresh")
         for ip in Myself.inProgressPosts {
             if ip.inProgressPostId == thisInProgressPost.inProgressPostId {
                 thisInProgressPost = ip
-                updateConents()
+				print("did update contents")
+                updateContents()
             }
         }
     }
@@ -35,8 +37,13 @@ class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
     @IBOutlet weak var orbStack: UIStackView!
     @IBOutlet weak var missionLabel: UILabel!
     @IBOutlet weak var timeLeftLabel: UILabel!
-    let radarView: UIView = UIView()
+	@IBOutlet weak var acceptedOrb: UIView!
+	@IBOutlet weak var postedOrb: UIView!
+	@IBOutlet weak var verifiedOrb: UIView!
+	@IBOutlet weak var paidOrb: UIView!
+	let radarView: UIView = UIView()
     var isDoingAnimations = false
+	var timer: Timer!
     
     //status view
     @IBOutlet weak var statusView: ShadowView!
@@ -70,10 +77,10 @@ class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        scrollView.alwaysBounceVertical = false
-        orbs.sort{$0.tag > $1.tag}
+        //scrollView.alwaysBounceVertical = false
+        orbs.sort{$0.tag < $1.tag}
         myselfRefreshListeners.append(self)
-        updateConents()
+        updateContents()
     }
     
     @IBAction func closeButtonPressed(_ sender: Any) {
@@ -81,14 +88,30 @@ class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
     }
     
     @IBAction func postCancelled(_ sender: Any) {
-        thisInProgressPost.cancelPost()
-        for i in 0...(Myself.inProgressPosts.count - 1) {
-            if Myself.inProgressPosts[i].inProgressPostId == thisInProgressPost.inProgressPostId {
-                cancelPostButton.isEnabled = false
-                Myself.inProgressPosts[i] = thisInProgressPost
-                Myself.UpdateToFirebase(alsoUpdateToPublic: false, completed: nil)
-            }
-        }
+		
+		let alert = UIAlertController(title: "Cancel Post – This action cannot be undone.", message: "", preferredStyle: .actionSheet)
+		
+			
+		
+		let action = UIAlertAction.init(title: "Cancel Post", style: .destructive) { (_) in
+			self.thisInProgressPost.cancelPost()
+			for i in 0...(Myself.inProgressPosts.count - 1) {
+				if Myself.inProgressPosts[i].inProgressPostId == self.thisInProgressPost.inProgressPostId {
+					self.cancelPostButton.isEnabled = false
+					Myself.inProgressPosts[i] = self.thisInProgressPost
+					Myself.UpdateToFirebase(alsoUpdateToPublic: false, completed: nil)
+				}
+			}
+		}
+		
+		alert.addAction(action)
+		
+		let cancelAction = UIAlertAction.init(title: "Do Not Cancel", style: .cancel, handler: nil)
+		
+		alert.addAction(cancelAction)
+		
+		self.present(alert, animated: true, completion: nil)
+        
     }
     
     @IBAction func createCaption(_ sender: Any) {
@@ -110,7 +133,7 @@ class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
         }
     }
     
-    func updateConents() {
+    func updateContents() {
         
         
         //STATUS: Accepted, Cancelled, Expired, Posted, Verified, Rejected, Paid.
@@ -124,8 +147,15 @@ class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
         youHaveBeenPaidView.isHidden = 	!["Paid"].contains(thisInProgressPost.status)
         cancelPostView.isHidden = !["Accepted", "Posted", "Verified"].contains(thisInProgressPost.status)
         
+		
+		moneyLabel.text = NumberToPrice(Value: thisInProgressPost.cashValue)
+		
         updateForStatus(status: thisInProgressPost.status)
         updateOrbStatus()
+		timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (tmr) in
+			self.updateOrbStatus()
+		})
+		RunLoop.current.add(timer, forMode: .common)
         updateBusinessDetails()
     }
     
@@ -216,7 +246,7 @@ extension NewViewInProgressVC {
     
     func viewToFrame(_ view: UIView) -> CGRect {
         var newView: CGRect!
-        newView = orbStack.convert(view.frame, to: self.view)
+		newView = orbView.superview!.convert(view.frame, to: self.view)
         
         return newView
     }
@@ -227,25 +257,24 @@ extension NewViewInProgressVC {
         case "Accepted":
             
             makeViewColorUpTo(upToIndex: 0, filledColor: .systemGreen, otherColor: .systemGray)
-            timeLeftLabel.text = "Time left to post"
-            timeLeftLabel.text = ""
+            missionLabel.text = "Time left to post"
             moneyView.backgroundColor = .systemGreen
             setTimeLeftToPost()
-            setRadar(toRect: viewToFrame(orbs[0]), color: .systemGreen)
+			setRadar(toRect: acceptedOrb, color: .systemGreen)
             
         case "Posted":
             makeViewColorUpTo(upToIndex: 4, filledColor: .systemBlue, otherColor: .systemGray)
             missionLabel.text = "If post is verified, you will be paid in"
             moneyView.backgroundColor = .systemGreen
             setPaidInLabel()
-            setRadar(toRect: viewToFrame(orbs[4]), color: .systemBlue)
+            setRadar(toRect: postedOrb, color: .systemBlue)
             
         case "Verified":
             makeViewColorUpTo(upToIndex: 8, filledColor: .systemGreen, otherColor: .systemGray)
             missionLabel.text = "You will be paid in"
             moneyView.backgroundColor = .systemGreen
             setPaidInLabel()
-            setRadar(toRect: viewToFrame(orbs[8]), color: .systemGreen)
+            setRadar(toRect: verifiedOrb, color: .systemGreen)
             
         case "Paid":
             makeViewColorUpTo(upToIndex: 12, filledColor: .systemYellow, otherColor: .systemGray)
@@ -291,6 +320,7 @@ extension NewViewInProgressVC {
         }
     }
     
+	
     func setTimeLeftToPost() {
         let calendar = Calendar.current
         let postBy = calendar.date(byAdding: .hour, value: 48, to: thisInProgressPost.dateAccepted)!
@@ -298,12 +328,10 @@ extension NewViewInProgressVC {
         setTimeLeft(to: postBy)
     }
     
-    func setRadar(toRect: CGRect, color: UIColor) {
-        if !isDoingAnimations {
-            orbView.addSubview(radarView)
-            orbView.bringSubviewToFront(radarView)
-        }
-        radarView.frame = toRect
+    func setRadar(toRect: UIView, color: UIColor) {
+        
+		toRect.addSubview(radarView)
+		radarView.frame = toRect.frame
         radarView.backgroundColor = color
         radarView.layer.cornerRadius = [radarView.bounds.width, radarView.bounds.height].min()! / 2
         radarView.isHidden = false
@@ -341,13 +369,15 @@ extension NewViewInProgressVC {
     }
     
     func makeViewColorUpTo(upToIndex: Int, filledColor: UIColor, otherColor: UIColor) {
-        print(orbs.count)
-        for i in 0..<upToIndex {
+        //print(orbs.count)
+		for i in 0...upToIndex {
             orbs[i].backgroundColor = filledColor
+			//print("Coloring orb \(i) FILLED")
         }
         if upToIndex < orbs.count - 1 {
             for i in (upToIndex + 1)...(orbs.count - 1) {
                 orbs[i].backgroundColor = otherColor
+				//print("Coloring orb \(i) GRAY")
             }
         }
     }

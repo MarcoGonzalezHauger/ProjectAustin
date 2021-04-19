@@ -21,6 +21,7 @@ class NewPoolOfferPostViewer: UIViewController, CLLocationManagerDelegate {
 	
 	@IBOutlet weak var indexLabel: UILabel!
 	
+	@IBOutlet weak var locationsView: ShadowView!
 	@IBOutlet weak var instructions: UILabel!
 	@IBOutlet weak var captionLabel: UILabel!
     
@@ -35,7 +36,8 @@ class NewPoolOfferPostViewer: UIViewController, CLLocationManagerDelegate {
 	
 	func updateContents() {
         let loc = thisPoolOffer.BasicBusiness()
-        print(loc?.locations)
+        print(loc!.locations)
+		locationsView.isHidden = loc!.locations.count == 0
 		foreImage.downloadAndSetImage(thisPoolOffer.BasicBusiness()!.logoUrl)
 		backImage.downloadAndSetImage(thisPoolOffer.BasicBusiness()!.logoUrl)
 		indexLabel.text = "\(index + 1)"

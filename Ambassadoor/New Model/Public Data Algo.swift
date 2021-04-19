@@ -61,7 +61,7 @@ func StartListeningToPublicData() {
 			let newBus = BasicBusiness.init(dictionary: snapValue, basicId: snap.key)
 			
 			for i in 0...(globalBasicBusinesses.count - 1) {
-				if globalBasicBusinesses[i].businessId == newBus.businessId {
+				if globalBasicBusinesses[i].basicId == newBus.basicId {
 					globalBasicBusinesses[i] = newBus
 					break
 				}
@@ -69,7 +69,7 @@ func StartListeningToPublicData() {
 			
 			for i in 0...(globalBasicBoth.count - 1) {
 				if let thisBus = globalBasicBoth[i] as? BasicBusiness {
-					if thisBus.businessId == newBus.businessId {
+					if thisBus.basicId == newBus.basicId {
 						globalBasicBoth[i] = newBus
 						break
 					}
@@ -77,7 +77,7 @@ func StartListeningToPublicData() {
 			}
 			
 			for l in publicDataListeners {
-				l.publicDataRefreshed(userOrBusinessId: newBus.businessId)
+				l.publicDataRefreshed(userOrBusinessId: newBus.basicId)
 			}
 		}
 	}
@@ -283,10 +283,10 @@ func SearchSocialData(searchQuery: String, searchIn: SearchFor) -> [Any] {
 		if let u = u as? BasicBusiness {
 			let businessName = u.name.lowercased()
 			if businessName.contains(query) {
-				results[u.businessId] = 60
+				results[u.basicId] = 60
 			}
 			if businessName.hasPrefix(query) {
-				results[u.businessId] = 80
+				results[u.basicId] = 80
 			}
 		}
 		if let u = u as? BasicInfluencer {
@@ -310,13 +310,13 @@ func SearchSocialData(searchQuery: String, searchIn: SearchFor) -> [Any] {
 	}
 	
 	listOfUsers = listOfUsers.filter {
-		let id: String = ($0 as? BasicInfluencer)?.userId ?? ($0 as! BasicBusiness).businessId
+		let id: String = ($0 as? BasicInfluencer)?.userId ?? ($0 as! BasicBusiness).basicId
 		return results[id] != nil
 	}
 	
 	listOfUsers.sort { (obj1, obj2) -> Bool in
-		let idFor1: String = (obj1 as? BasicInfluencer)?.userId ?? (obj1 as! BasicBusiness).businessId
-		let idFor2: String = (obj2 as? BasicInfluencer)?.userId ?? (obj2 as! BasicBusiness).businessId
+		let idFor1: String = (obj1 as? BasicInfluencer)?.userId ?? (obj1 as! BasicBusiness).basicId
+		let idFor2: String = (obj2 as? BasicInfluencer)?.userId ?? (obj2 as! BasicBusiness).basicId
 		if results[idFor1]! == results[idFor2]! { // It is impossible for a business and influencer to be assigned the same Double.
 			if let inf1 = obj1 as? BasicInfluencer {
 				let inf2 = obj2 as! BasicInfluencer
