@@ -329,6 +329,8 @@ class InProgressPost {
 	//MARK: Posted
 	var instagramPost: InstagramPost?
 	var willBePaidOn: Date //instagramPost.timestamp + 48 hours
+    var datePosted: Date?
+    
 	
 	//MARK: Verified
 	var dateVerified: Date //The date where the post was verified by AMBVER.
@@ -370,6 +372,7 @@ class InProgressPost {
 		
 		willBePaidOn = GetEmptyDate()
 		dateVerified = GetEmptyDate()
+        datePosted = GetEmptyDate()
 		datePaid = GetEmptyDate()
 		dateAccepted = Date() //now
 		
@@ -388,6 +391,7 @@ class InProgressPost {
 		dateAccepted = (d["dateAccepted"] as! String).toUDate()
 		expirationDate = (d["expirationDate"] as! String).toUDate()
 		willBePaidOn = (d["willBePaidOn"] as! String).toUDate()
+        //datePosted = (d["datePosted"] as! String).toUDate() date.toUDate()
 		dateVerified = (d["dateVerified"] as! String).toUDate()
 		datePaid = (d["datePaid"] as! String).toUDate()
 		dateRejected = (d["dateRejected"] as! String).toUDate()
@@ -413,6 +417,12 @@ class InProgressPost {
 		
 		status = d["status"] as! String //never ""
 		cashValue = d["cashValue"] as! Double
+//        if let date = d["willBePaidOn"] as? String{
+//            willBePaidOn = date.toUDate()
+//        }
+        if let date = d["datePosted"] as? String{
+            self.datePosted = date.toUDate()
+        }
 	}
 	
 	func toDictionary() -> [String: Any] {
@@ -422,8 +432,8 @@ class InProgressPost {
 			d["comissionUserId"] = comissionUserId }
 		if let comissionBusinessId = comissionBusinessId {
 			d["comissionBusinessId"] = comissionBusinessId }
-//		if let instagramPost = instagramPost {
-//			d["instagramPost"] = instagramPost.toDictionary() }
+		if let instagramPost = instagramPost {
+			d["instagramPost"] = instagramPost.toDictionary() }
 		
 		d["status"] = status
 		d["cashValue"] = cashValue
@@ -434,6 +444,7 @@ class InProgressPost {
 		d["datePaid"] = datePaid.toUString()
 		d["dateRejected"] = dateRejected.toUString()
 		d["willBePaidOn"] = willBePaidOn.toUString()
+        d["datePosted"] = datePosted?.toUString()
 		d["dateCancelled"] = dateCancelled.toUString()
 		
 		d["denyReason"] = denyReason

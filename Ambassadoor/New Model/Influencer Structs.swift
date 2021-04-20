@@ -63,6 +63,15 @@ class Influencer {
 		instagramAccountId = d["instagramAccountId"] as! String
 		tokenFIR = d["tokenFIR"] as! String
 	
+		
+		inProgressPosts = []
+		if let thesePosts = d["inProgressPosts"] as? [String: Any] {
+			for k in thesePosts.keys {
+				let newInProgressPost = InProgressPost.init(dictionary: thesePosts[k] as! [String : Any], inProgressPostId: k, userId: id)
+				inProgressPosts.append(newInProgressPost)
+			}
+		}
+		
 		let instaPosts = d["instagramPost"] as? [String: Any] ?? [:]
 		
 		inProgressPosts = []
@@ -299,27 +308,33 @@ class InstagramPost {
 		let ts = d["timestamp"] as! String
 		
 		let dateFormatter = DateFormatter()
+        //"yyyy-MM-dd'T'HH:mm:ssZ"
 		dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ" //date format that instagram uses
-		timestamp = dateFormatter.date(from: ts) ?? Date(timeIntervalSince1970: 0)
+        if dateFormatter.date(from: ts) == nil{
+           dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ssZ"
+           timestamp = dateFormatter.date(from: ts) ?? Date(timeIntervalSince1970: 0)
+        }else{
+            timestamp = dateFormatter.date(from: ts) ?? Date(timeIntervalSince1970: 0)
+        }
         
     }
     
-//    func toDictionary() -> [String: Any] {
-//        var d: [String: Any] = [:]
-//
-//        d["caption"] = caption
-//        d["id"] = instagramPostId
-//        d["images"] = images
-//        d["like_count"] = like_count
-//        d["status"] = status
-//        d["type"] = type
-//        d["username"] = username
-//        d["postID"] = postID
-//        d["offerID"] = offerID
-//		d["timestamp"] = timestamp.toUString()
-//
-//        return d
-//    }
+    func toDictionary() -> [String: Any] {
+        var d: [String: Any] = [:]
+
+        d["caption"] = caption
+        d["id"] = instagramPostId
+        d["images"] = images
+        d["like_count"] = like_count
+        d["status"] = status
+        d["type"] = type
+        d["username"] = username
+        d["postID"] = postID
+        d["offerID"] = offerID
+		d["timestamp"] = timestamp.toUString()
+
+        return d
+    }
     
 }
 
