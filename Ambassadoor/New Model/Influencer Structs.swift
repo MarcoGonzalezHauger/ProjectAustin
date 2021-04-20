@@ -294,8 +294,8 @@ class InstagramPost {
         status = d["status"] as! String
         type = d["type"] as! String
         username = d["username"] as! String
-        postID = d["postID"] as! String
-        offerID = d["offerID"] as! String
+        postID = d["postID"] as? String ?? ""
+        offerID = d["offerID"] as? String ?? ""
 		let ts = d["timestamp"] as! String
 		
 		let dateFormatter = DateFormatter()

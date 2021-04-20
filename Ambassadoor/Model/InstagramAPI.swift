@@ -53,11 +53,11 @@ struct API {
     
     //Stripe account live and demo client ID and secret ID
     //Live
-//    static var Stripeclient_id = "ca_FrDIP5fLBXnTWCJTkPzngRUquWqrzKZh"
-//    static var Stripeclient_secret = "sk_live_KwcqGxImMq4fosE3n7QMycBw00eMO7si8E"
+    static var Stripeclient_id = "ca_FrDIP5fLBXnTWCJTkPzngRUquWqrzKZh"
+    static var Stripeclient_secret = "sk_live_KwcqGxImMq4fosE3n7QMycBw00eMO7si8E"
     //demo
-    static var Stripeclient_id = "ca_FrDIyMuhEQEpU7K8z6tsPNMwKJ2f6AiM"
-    static var Stripeclient_secret = "sk_test_zrg6oDehYkCJIVAA4oe5LrWD00mNP6IImr"
+//    static var Stripeclient_id = "ca_FrDIyMuhEQEpU7K8z6tsPNMwKJ2f6AiM"
+//    static var Stripeclient_secret = "sk_test_zrg6oDehYkCJIVAA4oe5LrWD00mNP6IImr"
     
     
     //get instagram users media
@@ -295,7 +295,13 @@ struct API {
     static func facebookLoginAct(userIDBusiness: String, owner: UIViewController, completion: @escaping(_ object:Any?, _ longliveToken: String?, _ error: Error?)->Void) {
         
         let login: LoginManager = LoginManager()
+        login.loginBehavior = .browser
         login.logOut()
+        //"pages_show_list"
+        //API.facebookLogout()
+        AccessToken.current = nil
+        Profile.current = nil
+        clearFacebookCookies()
         //"pages_show_list"
         //"manage_pages"
         //"pages_read_engagement"
