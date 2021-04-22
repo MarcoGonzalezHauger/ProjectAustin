@@ -311,10 +311,10 @@ class InstagramPost {
         //"yyyy-MM-dd'T'HH:mm:ssZ"
 		dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ" //date format that instagram uses
         if dateFormatter.date(from: ts) == nil{
-           dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ssZ"
-           timestamp = dateFormatter.date(from: ts) ?? Date(timeIntervalSince1970: 0)
+            timestamp = ts.toUDate()
         }else{
-            timestamp = dateFormatter.date(from: ts) ?? Date(timeIntervalSince1970: 0)
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+            timestamp = dateFormatter.date(from: ts)!
         }
         
     }
