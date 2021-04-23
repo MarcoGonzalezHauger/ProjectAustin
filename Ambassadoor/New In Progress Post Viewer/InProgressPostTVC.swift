@@ -75,6 +75,7 @@ class InProgressPostTVC: UITableViewCell {
 			setRadar(toRect: viewToFrame(verifiedOrb), color: .systemGreen)
 			
 		case "Paid":
+            print("date posted", thisInProgressPost.datePosted)
 			makeViewColorUpTo(upToIndex: 12, filledColor: .systemYellow, otherColor: .systemGray)
 			currentMission.text = "Withdraw in the Profile tab."
 			timeLeftLabel.text = "You have been Paid"
@@ -108,9 +109,11 @@ class InProgressPostTVC: UITableViewCell {
 	}
 	
 	func setPaidInLabel() {
-		if let stamp = thisInProgressPost.instagramPost?.timestamp {
+		//if let stamp = thisInProgressPost.instagramPost?.timestamp {
+        if thisInProgressPost.datePosted != nil {
 			let calendar = Calendar.current
-			let postBy = calendar.date(byAdding: .hour, value: 48, to: stamp)!
+            let stamp = thisInProgressPost.datePosted
+            let postBy = calendar.date(byAdding: .hour, value: 48, to: stamp!)!
 			
 			setTimeLeft(to: postBy)
 		} else {
