@@ -113,12 +113,18 @@ func SerializePublicData(dictionary: [String: Any], finished: (() -> ())?) {
 	let influencers = dictionary["Influencers"] as! [String: Any]
 	for i in influencers.keys {
 		let inf = BasicInfluencer.init(dictionary: influencers[i] as! [String: Any], userId: i)
-		infs.append(inf)
+        if !inf.flags.contains("isClosedAccount"){
+           infs.append(inf)
+        }
+		
 	}
 	let businesses = dictionary["Businesses"] as! [String: Any]
 	for b in businesses.keys {
 		let bus = BasicBusiness.init(dictionary: businesses[b] as! [String: Any], basicId: b)
-		basicbu.append(bus)
+        if !bus.flags.contains("isDeleted") {
+            basicbu.append(bus)
+        }
+		
 	}
 	
 	//sort both influencer and business accounts.
@@ -265,7 +271,7 @@ func SearchSocialData(searchQuery: String, searchIn: SearchFor) -> [Any] {
 		let bus = $0 as! BasicBusiness
 		return !bus.checkFlag("isInvisible")
 	}
-	
+	//&& !bus.checkFlag("isDeleted")
 	if query == "" {
 		switch searchIn {
 		case .both:
