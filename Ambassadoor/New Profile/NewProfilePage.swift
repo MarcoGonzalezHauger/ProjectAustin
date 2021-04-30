@@ -193,10 +193,12 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	var isInEditMode: Bool = false {
 		didSet {
 			if isInEditMode {
+                global.isEditing = true
 				DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
 					self.StartEditAnimation()
 				}
 			} else {
+                global.isEditing = false
 				DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
 					self.EndEditAnimation()
 				}
@@ -487,7 +489,15 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 extension NewProfilePage: UITabBarControllerDelegate, UITabBarDelegate{
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool{
-        return true
+        if global.isEditing {
+            self.showStandardAlertDialog(title: "Alert", msg: "Please complete your edit") { (action) in
+                
+            }
+            return false
+        }else{
+           return true
+        }
+        
     }
     func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem){
         

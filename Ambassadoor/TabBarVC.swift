@@ -21,17 +21,18 @@ class TabBarVC: UITabBarController, UITabBarControllerDelegate {
         self.delegate = self
     }
     
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController){
-        
-    }
-    
-    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool{
-        return true
-    }
-    
-    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        
-    }
+//    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController){
+//        
+//    }
+//
+//    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool{
+//
+//        return true
+//    }
+//
+//    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+//
+//    }
     
 
 }
