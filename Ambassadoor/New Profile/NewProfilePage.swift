@@ -176,14 +176,39 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	}
 	
 	@IBAction func settingsButtonPressed(_ sender: Any) {
-		if isInEditMode {
-			saveChanged()
-		}
-		performSegue(withIdentifier: "toSettings", sender: self)
+        
+        if isInEditMode {
+            self.showStandardAlertDialogWithMultipleAction(title: "Alert", msg: "Do you wanna save changes?", titles: ["Yes","No"]) { (action) in
+                if action.title == "Yes"{
+                    self.saveChanged()
+                }else{
+                    self.cancelEditing()
+                }
+                self.performSegue(withIdentifier: "toSettings", sender: self)
+            }
+        }else{
+            self.performSegue(withIdentifier: "toSettings", sender: self)
+        }
+//		if isInEditMode {
+//			saveChanged()
+//		}
+		
 	}
 	
 	@IBAction func signOutButtonPressed(_ sender: Any) {
-		logOut()
+        if isInEditMode {
+            self.showStandardAlertDialogWithMultipleAction(title: "Alert", msg: "Do you wanna save changes?", titles: ["Yes","No"]) { (action) in
+                if action.title == "Yes"{
+                    self.saveChanged()
+                }else{
+                    self.cancelEditing()
+                }
+                logOut()
+            }
+        }else{
+            logOut()
+        }
+		
 	}
 	
 	func SignOutOfAmbassadoor3() {
