@@ -133,7 +133,7 @@ class Influencer {
         d["password"] = user.password
         d["email"] = user.email
         d["instagramAuthToken"] = user.authenticationToken
-        d["instagramAccountId"] = user.id
+        d["instagramAccountId"] = user.instagramAccountId
         d["tokenFIR"] = global.deviceFIRToken
         
         return d

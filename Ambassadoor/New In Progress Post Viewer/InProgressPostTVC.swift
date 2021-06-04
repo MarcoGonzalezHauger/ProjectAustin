@@ -28,6 +28,7 @@ class InProgressPostTVC: UITableViewCell {
 		updateStatus()
 		timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (tmr) in
 			self.updateStatus()
+            globalTimers = self.timer
 		})
 		RunLoop.current.add(timer, forMode: .common)
 	}

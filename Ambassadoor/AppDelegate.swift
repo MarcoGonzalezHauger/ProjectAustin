@@ -320,7 +320,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
             setHapticMenu(user: Myself)
             InitializeAmbassadoor()
-            AverageLikes(instagramID: NewAccount.id, userToken: NewAccount.authenticationToken)
+            AverageLikes(instagramID: user.instagramAccountId, userToken: user.instagramAuthToken)
             downloadDataBeforePageLoad()
             let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
             //downloadDataBeforePageLoad(reference: viewReference)

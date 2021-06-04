@@ -75,7 +75,7 @@ class InstagramConnectedVC: UIViewController {
     
     func AverageLikes() {
         
-        API.calculateAverageLikes(userID: NewAccount.id, longLiveToken: NewAccount.authenticationToken) { (recentMedia, error) in
+        API.calculateAverageLikes(userID: NewAccount.instagramAccountId, longLiveToken: NewAccount.authenticationToken) { (recentMedia, error) in
             
             if error == nil {
             

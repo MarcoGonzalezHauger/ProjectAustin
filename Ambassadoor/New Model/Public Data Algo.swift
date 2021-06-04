@@ -86,6 +86,8 @@ func StartListeningToPublicData() {
 func logOut() {
     myselfRefreshListeners.removeAll()
     publicDataListeners.removeAll()
+    AccessToken.current = nil
+    globalTimers = nil
     UserDefaults.standard.removeObject(forKey: "email")
     UserDefaults.standard.removeObject(forKey: "password")
     DispatchQueue.main.async {
