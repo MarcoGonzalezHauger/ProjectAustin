@@ -552,7 +552,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1dl-EY-UI2" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="12" y="350" width="390" height="37.5"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Caption Requirements" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xL5-zs-pZi">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Caption Requirements" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xL5-zs-pZi">
                                                 <rect key="frame" x="8" y="8" width="374" height="21.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                 <nil key="textColor"/>
@@ -606,19 +606,19 @@ The Instagram Post must have a caption that contains all of the phrases and hash
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="1dl-EY-UI2" secondAttribute="bottom" constant="40" id="77V-xR-dYl"/>
-                                    <constraint firstItem="fKu-7M-rWK" firstAttribute="top" secondItem="RLt-Np-pZq" secondAttribute="top" constant="60" id="7JS-tF-8rB"/>
+                                    <constraint firstAttribute="bottom" secondItem="1dl-EY-UI2" secondAttribute="bottom" constant="370.5" id="9Xz-ZX-C38"/>
                                     <constraint firstItem="EOJ-GM-Gbw" firstAttribute="top" secondItem="RhA-gp-vl4" secondAttribute="bottom" constant="8" id="Ae7-LO-WvS"/>
+                                    <constraint firstItem="RhA-gp-vl4" firstAttribute="top" secondItem="fKu-7M-rWK" secondAttribute="bottom" constant="50" id="Dmb-jA-K2p"/>
                                     <constraint firstItem="1dl-EY-UI2" firstAttribute="trailing" secondItem="EOJ-GM-Gbw" secondAttribute="trailing" id="H2u-wk-7SO"/>
-                                    <constraint firstItem="RhA-gp-vl4" firstAttribute="leading" secondItem="RLt-Np-pZq" secondAttribute="leading" constant="16" id="W0X-NI-3aH"/>
+                                    <constraint firstItem="Pue-xb-16c" firstAttribute="leading" secondItem="H87-P8-FTt" secondAttribute="leading" constant="16" id="M0Q-Bu-QHd"/>
                                     <constraint firstItem="1dl-EY-UI2" firstAttribute="top" secondItem="Pue-xb-16c" secondAttribute="bottom" constant="8" id="Xp5-I3-n94"/>
                                     <constraint firstItem="1dl-EY-UI2" firstAttribute="leading" secondItem="EOJ-GM-Gbw" secondAttribute="leading" id="Yl5-8e-v2t"/>
-                                    <constraint firstItem="Pue-xb-16c" firstAttribute="leading" secondItem="RhA-gp-vl4" secondAttribute="leading" id="ZNA-nO-hGe"/>
-                                    <constraint firstItem="RLt-Np-pZq" firstAttribute="trailing" secondItem="fKu-7M-rWK" secondAttribute="trailing" constant="16" id="a7p-u5-nb1"/>
-                                    <constraint firstItem="fKu-7M-rWK" firstAttribute="leading" secondItem="RLt-Np-pZq" secondAttribute="leading" constant="16" id="c2e-ud-yaT"/>
+                                    <constraint firstItem="fKu-7M-rWK" firstAttribute="leading" secondItem="H87-P8-FTt" secondAttribute="leading" constant="16" id="bTe-Q7-p6P"/>
+                                    <constraint firstItem="EOJ-GM-Gbw" firstAttribute="leading" secondItem="H87-P8-FTt" secondAttribute="leading" constant="12" id="cJt-zC-nPr"/>
+                                    <constraint firstItem="fKu-7M-rWK" firstAttribute="top" secondItem="H87-P8-FTt" secondAttribute="top" constant="60" id="jkh-IB-pwP"/>
                                     <constraint firstAttribute="trailing" secondItem="EOJ-GM-Gbw" secondAttribute="trailing" constant="12" id="jmU-2Z-Jai"/>
-                                    <constraint firstItem="EOJ-GM-Gbw" firstAttribute="leading" secondItem="RLt-Np-pZq" secondAttribute="leading" constant="12" id="sI6-JQ-NfT"/>
-                                    <constraint firstItem="RhA-gp-vl4" firstAttribute="top" secondItem="fKu-7M-rWK" secondAttribute="bottom" constant="50" id="ycM-Pu-TOO"/>
+                                    <constraint firstAttribute="trailing" secondItem="fKu-7M-rWK" secondAttribute="trailing" constant="16" id="leR-UT-e34"/>
+                                    <constraint firstItem="RhA-gp-vl4" firstAttribute="leading" secondItem="H87-P8-FTt" secondAttribute="leading" constant="16" id="sRB-Ib-BnE"/>
                                     <constraint firstItem="Pue-xb-16c" firstAttribute="top" secondItem="EOJ-GM-Gbw" secondAttribute="bottom" constant="36" id="zJU-XH-iyz"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="oSZ-Kz-zLW"/>
@@ -693,11 +693,11 @@ The Instagram Post must have a caption that contains all of the phrases and hash
                             <constraint firstItem="DV0-dc-Pv6" firstAttribute="top" secondItem="Sl8-cD-Kth" secondAttribute="top" id="C8E-Gz-iLN"/>
                             <constraint firstItem="DV0-dc-Pv6" firstAttribute="leading" secondItem="Sl8-cD-Kth" secondAttribute="leading" id="D0e-mo-k4j"/>
                             <constraint firstAttribute="trailing" secondItem="Y11-eI-JUv" secondAttribute="trailing" id="JJX-uY-PDG"/>
-                            <constraint firstItem="Sl8-cD-Kth" firstAttribute="bottom" secondItem="H87-P8-FTt" secondAttribute="bottom" id="Su4-NJ-7DO"/>
+                            <constraint firstAttribute="bottom" secondItem="H87-P8-FTt" secondAttribute="bottom" constant="34" id="Su4-NJ-7DO"/>
                             <constraint firstItem="Sl8-cD-Kth" firstAttribute="bottom" secondItem="46i-en-P9j" secondAttribute="bottom" constant="3" id="YBA-9y-Rbe"/>
                             <constraint firstItem="EHa-Rn-cGR" firstAttribute="top" secondItem="3dZ-dk-3o0" secondAttribute="topMargin" constant="2.5" id="Yra-ao-Ngn"/>
                             <constraint firstItem="5lt-pg-hnx" firstAttribute="top" secondItem="3dZ-dk-3o0" secondAttribute="topMargin" constant="25" id="bJf-or-V5d"/>
-                            <constraint firstItem="EOJ-GM-Gbw" firstAttribute="width" secondItem="Sl8-cD-Kth" secondAttribute="width" constant="-24" id="m1P-EQ-ihW"/>
+                            <constraint firstItem="EOJ-GM-Gbw" firstAttribute="width" secondItem="H87-P8-FTt" secondAttribute="width" constant="-24" id="m1P-EQ-ihW"/>
                             <constraint firstItem="DV0-dc-Pv6" firstAttribute="height" secondItem="Y11-eI-JUv" secondAttribute="height" id="wyH-ww-Kyc"/>
                             <constraint firstItem="H87-P8-FTt" firstAttribute="top" secondItem="Y11-eI-JUv" secondAttribute="bottom" id="xCz-Iq-bt4"/>
                             <constraint firstItem="5lt-pg-hnx" firstAttribute="centerX" secondItem="3dZ-dk-3o0" secondAttribute="centerX" id="yxa-9v-gXc"/>
@@ -721,7 +721,7 @@ The Instagram Post must have a caption that contains all of the phrases and hash
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="3Xs-vL-3ol"/>
+        <segue reference="WHl-TX-47S"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="homa" width="30" height="30"/>
