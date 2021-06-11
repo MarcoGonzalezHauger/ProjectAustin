@@ -46,6 +46,9 @@ class NewPoolOfferPostViewer: UIViewController, CLLocationManagerDelegate {
 		for i in thisPoolOffer.draftPosts[index].requiredKeywords {
 			allItems.append(" - " + i)
 		}
+        if !thisPoolOffer.draftPosts[index].requiredHastags.contains("ad") && !thisPoolOffer.draftPosts[index].requiredHastags.contains("#ad") {
+            thisPoolOffer.draftPosts[index].requiredHastags.append("ad")
+        }
 		for i in thisPoolOffer.draftPosts[index].requiredHastags {
 			allItems.append(" - #" + i)
 		}

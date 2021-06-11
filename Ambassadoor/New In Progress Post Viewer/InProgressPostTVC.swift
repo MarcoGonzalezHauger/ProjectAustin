@@ -24,6 +24,7 @@ class InProgressPostTVC: UITableViewCell {
 			profilePicture.downloadAndSetImage(bb.logoUrl)
 			nameLabel.text = bb.name
 			moneyLabel.text = NumberToPrice(Value: thisInProgressPost.cashValue, enforceCents: true)
+            moneyLabel.text = NumberToPrice(Value: 10.0, enforceCents: true)
 		}
 		updateStatus()
 		timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (tmr) in

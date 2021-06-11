@@ -86,6 +86,9 @@ func StartListeningToPublicData() {
 func logOut() {
     myselfRefreshListeners.removeAll()
     publicDataListeners.removeAll()
+    let login: LoginManager = LoginManager()
+    login.loginBehavior = .browser
+    login.logOut()
     AccessToken.current = nil
     globalTimers = nil
     UserDefaults.standard.removeObject(forKey: "email")
