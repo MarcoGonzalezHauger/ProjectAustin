@@ -32,7 +32,7 @@ class NewPoolOfferPostViewer: UIViewController, CLLocationManagerDelegate {
 	
 	@IBAction func backPressed(_ sender: Any) {
 		navigationController?.popViewController(animated: true)
-	}
+	} 
 	
 	func updateContents() {
         let loc = thisPoolOffer.BasicBusiness()
