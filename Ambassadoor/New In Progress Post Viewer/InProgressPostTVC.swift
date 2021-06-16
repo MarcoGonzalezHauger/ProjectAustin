@@ -112,6 +112,7 @@ class InProgressPostTVC: UITableViewCell {
 	
 	func setPaidInLabel() {
 		//if let stamp = thisInProgressPost.instagramPost?.timestamp {
+        print("timeeeee=",thisInProgressPost.instagramPost?.timestamp)
         if thisInProgressPost.datePosted != nil {
 			let calendar = Calendar.current
             let stamp = thisInProgressPost.datePosted

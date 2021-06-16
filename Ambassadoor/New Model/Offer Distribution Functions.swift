@@ -46,7 +46,10 @@ extension PoolOffer {
 		}
 		
 		let costPerPost = roundPriceDown(price: self.pricePerPost(forInfluencer: thisInfluencer.basic))
+        print("price0===",self.totalCost(forInfluencer: thisInfluencer.basic))
 		let totalCost = roundPriceDown(price: self.totalCost(forInfluencer: thisInfluencer.basic))
+        
+        //let totalCost = 0.26
         
         print("price===",totalCost)
 		
@@ -60,6 +63,8 @@ extension PoolOffer {
                 print("price===",self.cashPower - totalCost)
 				
 				let newCashPower = roundPriceDown(price: self.cashPower - totalCost)
+                
+                print("price1===",newCashPower)
 				
 				var newAccUserIds: [String] = self.acceptedUserIds
 				

@@ -310,7 +310,9 @@ extension NewViewInProgressVC {
     }
     
     func setPaidInLabel() {
-        if let stamp = thisInProgressPost.instagramPost?.timestamp {
+        //let stamp = thisInProgressPost.instagramPost?.timestamp
+        print("Bad Timee=", thisInProgressPost.instagramPost?.timestamp)
+        if let stamp = thisInProgressPost.datePosted {
             let calendar = Calendar.current
             let postBy = calendar.date(byAdding: .hour, value: 48, to: stamp)!
             
@@ -329,9 +331,12 @@ extension NewViewInProgressVC {
     }
     
     func setRadar(toRect: UIView, color: UIColor) {
-        
-		toRect.addSubview(radarView)
-		radarView.frame = toRect.frame
+		//radarView.frame = rect
+        radarView.frame = toRect.frame
+        //print("a=",toRect.frame.origin)
+        //toRect.addSubview(radarView)
+        orbStack.addSubview(radarView)
+        //print("b=",radarView.frame.origin)
         radarView.backgroundColor = color
         radarView.layer.cornerRadius = [radarView.bounds.width, radarView.bounds.height].min()! / 2
         radarView.isHidden = false
