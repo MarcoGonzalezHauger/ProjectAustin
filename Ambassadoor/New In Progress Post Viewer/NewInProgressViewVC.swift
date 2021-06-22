@@ -79,19 +79,19 @@ class NewInProgressViewVC: UIViewController, UITableViewDelegate, UITableViewDat
 	var inProgList: [InProgressPost] = []
 	
 	func refreshInProgPosts() {
-		noneInProgress.isHidden = Myself.inProgressPosts.count != 0
-		
-		let searchText = searchBar.text!
-		
-		if searchText == "" {
-			inProgList = Myself.inProgressPosts
-		} else {
-			inProgList = Myself.inProgressPosts.filter{$0.BasicBusiness()?.name.contains(searchText) ?? false}
-		}
-		
-		inProgList.sort{$0.dateAccepted > $1.dateAccepted}
-		
-		tableView.reloadData()
+        noneInProgress.isHidden = Myself.inProgressPosts.count != 0
+        
+        let searchText = searchBar.text!.lowercased()
+        
+        if searchText == "" {
+            inProgList = Myself.inProgressPosts
+        } else {
+            inProgList = Myself.inProgressPosts.filter{$0.BasicBusiness()?.name.lowercased().contains(searchText) ?? false}
+        }
+        
+        inProgList.sort{$0.dateAccepted > $1.dateAccepted}
+        
+        tableView.reloadData()
 	}
 
 }
