@@ -99,6 +99,16 @@ class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
 				if Myself.inProgressPosts[i].inProgressPostId == self.thisInProgressPost.inProgressPostId {
 					self.cancelPostButton.isEnabled = false
 					Myself.inProgressPosts[i] = self.thisInProgressPost
+                    let filtersPool = offerPool.filter { offer in
+                        return offer.poolId == self.thisInProgressPost.PoolOfferId
+                    }
+                    if let offer = filtersPool.first{
+                        print("cP =",self.thisInProgressPost.cashValue)
+                        offer.cashPower += self.thisInProgressPost.cashValue
+                        print("cP =",offer.cashPower)
+                        offer.UpdateToFirebase { error in
+                        }
+                    }
 					Myself.UpdateToFirebase(alsoUpdateToPublic: false, completed: nil)
 				}
 			}

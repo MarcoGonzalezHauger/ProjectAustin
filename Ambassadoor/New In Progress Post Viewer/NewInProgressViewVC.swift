@@ -43,9 +43,9 @@ class NewInProgressViewVC: UIViewController, UITableViewDelegate, UITableViewDat
 		}
 	}
 	
-	func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-		refreshInProgPosts()
-	}
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        refreshInProgPosts()
+    }
     
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         refreshInProgPosts()
@@ -81,12 +81,12 @@ class NewInProgressViewVC: UIViewController, UITableViewDelegate, UITableViewDat
 	func refreshInProgPosts() {
 		noneInProgress.isHidden = Myself.inProgressPosts.count != 0
 		
-        let searchText = searchBar.text!.lowercased()
+		let searchText = searchBar.text!
 		
 		if searchText == "" {
 			inProgList = Myself.inProgressPosts
 		} else {
-            inProgList = Myself.inProgressPosts.filter{$0.BasicBusiness()?.name.lowercased().contains(searchText) ?? false}
+			inProgList = Myself.inProgressPosts.filter{$0.BasicBusiness()?.name.contains(searchText) ?? false}
 		}
 		
 		inProgList.sort{$0.dateAccepted > $1.dateAccepted}
