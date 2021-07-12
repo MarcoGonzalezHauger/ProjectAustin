@@ -70,9 +70,6 @@ class NewBasicBusinessView: UIViewController, UITableViewDelegate, UITableViewDa
 	
 	@IBOutlet weak var regFollowButton: FollowButtonRegular!
 	@IBOutlet weak var noAvaliableOffersView: ShadowView!
-    
-    @IBOutlet weak var website: UIButton!
-    @IBOutlet weak var websiteImg: UIButton!
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,15 +109,6 @@ class NewBasicBusinessView: UIViewController, UITableViewDelegate, UITableViewDa
 		}
 		
 		businessMission.text = thisBusiness.mission
-        
-        if thisBusiness.website != nil && thisBusiness.website != "" {
-            websiteImg.isHidden = false
-            self.website.setTitle(thisBusiness.website, for: .normal)
-        }else{
-            websiteImg.isHidden = true
-            self.website.setTitle("", for: .normal)
-        }
-        
 		
 		refreshAvaliableOffers()
 		
@@ -137,17 +125,5 @@ class NewBasicBusinessView: UIViewController, UITableViewDelegate, UITableViewDa
 		tableView.reloadData()
 		
 	}
-    
-    @IBAction func openWebsite(button: UIButton){
-        if let basic = thisBusiness{
-            let sharedApps = UIApplication.shared
-            if let url = URL.init(string: basic.website){
-                if sharedApps.canOpenURL(url) {
-                sharedApps.open(url)
-                }
-            }
-            
-        }
-    }
 	
 }

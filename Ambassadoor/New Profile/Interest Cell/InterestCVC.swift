@@ -11,7 +11,7 @@ import UIKit
 class InterestCVC: UICollectionViewCell {
 
 	@IBOutlet weak var interestLabel: UILabel!
-	@IBOutlet weak var interestImage: UIImageView!
+	//@IBOutlet weak var interestImage: UIImageView!
 	@IBOutlet weak var mainView: ShadowView!
 	
 	
@@ -33,17 +33,19 @@ class InterestCVC: UICollectionViewCell {
 	}
 	
 	func UpdateInterestImage() {
+		
+		
 		if interest != "" {
-			interestLabel.text = ""
+			interestLabel.text = EmojiInterests[interest]
 			
-			interestImage.downloadAndSetImage(GetInterestUrl(interest: interest), forceDownload: false)
+			//interestImage.downloadAndSetImage(GetInterestUrl(interest: interest), forceDownload: false)
 		} else {
-			interestLabel.text = ""
-			if #available(iOS 13.0, *) {
-				interestImage.image = .add
-			} else {
-				interestImage.image = UIImage(named: "Add Interest")!
-			}
+			interestLabel.text = "➕" //🟥🟧🟩🟪🟨🟦⬛️⬜️🟫
+//			if #available(iOS 13.0, *) {
+//				//interestImage.image = .add
+//			} else {
+//				//interestImage.image = UIImage(named: "Add Interest")!
+//			}
 		}
 	}
 	

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,15 +16,15 @@
             <objects>
                 <viewController storyboardIdentifier="InterestPickerEmbeded" useStoryboardIdentifierAsRestorationIdentifier="YES" id="QZq-kj-963" customClass="InterestPickerVC" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="12m-Ci-14f">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="711"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="rW8-Oj-VHd">
-                                <rect key="frame" x="0.0" y="44" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="768"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="picker" rowHeight="75" id="15F-ui-t8S" customClass="PickerCell" customModule="Ambassadoor" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="75"/>
+                                        <rect key="frame" x="0.0" y="24.333333969116211" width="375" height="75"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="15F-ui-t8S" id="Acq-hb-6Nm">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="75"/>
@@ -76,7 +77,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="already" rowHeight="75" id="69r-XQ-aPu" customClass="AlreadyPicked" customModule="Ambassadoor" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="103" width="375" height="75"/>
+                                        <rect key="frame" x="0.0" y="99.333333969116211" width="375" height="75"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="69r-XQ-aPu" id="0ka-0k-WmY">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="75"/>
@@ -194,7 +195,7 @@
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                 </subviews>
-                                                                <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <color key="backgroundColor" systemColor="systemRedColor"/>
                                                                 <constraints>
                                                                     <constraint firstItem="CnK-Hu-7Yz" firstAttribute="centerY" secondItem="QbC-hb-oz0" secondAttribute="centerY" constant="-1.5" id="6Nt-7S-MUl"/>
                                                                     <constraint firstItem="CnK-Hu-7Yz" firstAttribute="centerX" secondItem="QbC-hb-oz0" secondAttribute="centerX" constant="-0.5" id="9c2-D8-IS1"/>
@@ -237,6 +238,7 @@
                                 <blurEffect style="regular"/>
                             </visualEffectView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="ZRx-GV-cW7"/>
                         <color key="backgroundColor" name="newSubtleBackground"/>
                         <constraints>
                             <constraint firstItem="iHk-f5-Kfo" firstAttribute="top" secondItem="ZRx-GV-cW7" secondAttribute="top" id="Drc-0U-n0I"/>
@@ -247,7 +249,6 @@
                             <constraint firstItem="iHk-f5-Kfo" firstAttribute="leading" secondItem="ZRx-GV-cW7" secondAttribute="leading" id="nkg-MA-p8i"/>
                             <constraint firstAttribute="bottom" secondItem="rW8-Oj-VHd" secondAttribute="bottom" id="xve-ID-4hK"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="ZRx-GV-cW7"/>
                     </view>
                     <connections>
                         <outlet property="tableView" destination="rW8-Oj-VHd" id="sWl-i0-MAs"/>
@@ -257,7 +258,90 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oPF-Bg-1LD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="223" y="72"/>
+            <point key="canvasLocation" x="321" y="23"/>
+        </scene>
+        <!--Pick Interests-->
+        <scene sceneID="KQ1-f7-WC2">
+            <objects>
+                <viewController storyboardIdentifier="PickInterestsRef" id="o1L-Oy-6Sa" customClass="PickInterests" customModule="Ambassadoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="PNo-Ry-LcV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="716"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="u6I-Ar-T8e">
+                                <rect key="frame" x="0.0" y="8" width="375" height="700"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="CaL-v2-wgP">
+                                    <size key="itemSize" width="118" height="36"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" reuseIdentifier="pickInt" id="gGw-X9-uQQ" customClass="PickInterestCell" customModule="Ambassadoor" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="118" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="CFF-ob-UbV">
+                                            <rect key="frame" x="0.0" y="0.0" width="118" height="37"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vaY-nh-FIf" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="118" height="37"/>
+                                                    <subviews>
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="🇮🇳 Example" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JOB-8v-zAf">
+                                                            <rect key="frame" x="12" y="8" width="92" height="21"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" name="newCellColor"/>
+                                                    <gestureRecognizers/>
+                                                    <constraints>
+                                                        <constraint firstItem="JOB-8v-zAf" firstAttribute="centerY" secondItem="vaY-nh-FIf" secondAttribute="centerY" id="1Be-eH-Ust"/>
+                                                        <constraint firstAttribute="bottom" secondItem="JOB-8v-zAf" secondAttribute="bottom" constant="8" id="6Hl-Sr-RFX"/>
+                                                        <constraint firstItem="JOB-8v-zAf" firstAttribute="leading" secondItem="vaY-nh-FIf" secondAttribute="leading" constant="12" id="AqX-IJ-2fN"/>
+                                                        <constraint firstItem="JOB-8v-zAf" firstAttribute="top" secondItem="vaY-nh-FIf" secondAttribute="top" constant="8" id="SIv-0q-64C"/>
+                                                        <constraint firstAttribute="trailing" secondItem="JOB-8v-zAf" secondAttribute="trailing" constant="14" id="gGU-KY-BVg"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                            <real key="value" value="15"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="vaY-nh-FIf" secondAttribute="trailing" id="Lwd-6a-50H"/>
+                                                <constraint firstAttribute="bottom" secondItem="vaY-nh-FIf" secondAttribute="bottom" id="RLa-zw-FQT"/>
+                                                <constraint firstItem="vaY-nh-FIf" firstAttribute="leading" secondItem="CFF-ob-UbV" secondAttribute="leading" id="UKO-Tx-65r"/>
+                                                <constraint firstItem="vaY-nh-FIf" firstAttribute="top" secondItem="CFF-ob-UbV" secondAttribute="top" id="WTY-Mx-Wd5"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <connections>
+                                            <outlet property="label" destination="JOB-8v-zAf" id="umh-xW-qm4"/>
+                                            <outlet property="shadow" destination="vaY-nh-FIf" id="dEL-k1-anF"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="714-Mg-UC9"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="714-Mg-UC9" firstAttribute="trailing" secondItem="u6I-Ar-T8e" secondAttribute="trailing" id="3Gy-zB-opK"/>
+                            <constraint firstItem="714-Mg-UC9" firstAttribute="bottom" secondItem="u6I-Ar-T8e" secondAttribute="bottom" constant="8" id="lmR-fp-HmR"/>
+                            <constraint firstItem="u6I-Ar-T8e" firstAttribute="top" secondItem="PNo-Ry-LcV" secondAttribute="top" constant="8" id="ohM-gM-5OM"/>
+                            <constraint firstItem="u6I-Ar-T8e" firstAttribute="leading" secondItem="714-Mg-UC9" secondAttribute="leading" id="x00-uz-69N"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="u6I-Ar-T8e" id="ZVt-Us-eeU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9cG-MU-NUa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="221.59999999999999" y="726.72413793103453"/>
         </scene>
         <!--Interest Picker PopupVC-->
         <scene sceneID="Foj-9w-0Iv">
@@ -268,32 +352,37 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oB6-Cc-dSL">
-                                <rect key="frame" x="0.0" y="101" width="375" height="711"/>
+                                <rect key="frame" x="0.0" y="96" width="375" height="716"/>
+                                <color key="backgroundColor" name="newSubtleBackground"/>
                                 <connections>
-                                    <segue destination="QZq-kj-963" kind="embed" identifier="embedView" id="mX4-eV-deX"/>
+                                    <segue destination="o1L-Oy-6Sa" kind="embed" identifier="embedSegue" id="7l5-BU-TE8"/>
                                 </connections>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qU9-zk-oIl" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="-9" width="375" height="110"/>
+                                <rect key="frame" x="0.0" y="-9" width="375" height="105"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pick Your Interests" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KAa-cf-iB0">
-                                        <rect key="frame" x="108.66666666666669" y="71" width="158" height="23"/>
+                                        <rect key="frame" x="109.33333333333333" y="70" width="156.66666666666669" height="23"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vtW-K4-5WO">
-                                        <rect key="frame" x="10" y="65" width="59" height="35"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vtW-K4-5WO">
+                                        <rect key="frame" x="10" y="64" width="59" height="35"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                        <state key="normal" title="Cancel"/>
+                                        <state key="normal" title="Cancel">
+                                            <color key="titleColor" name="AmbPurple"/>
+                                        </state>
                                         <connections>
                                             <action selector="cancelPressed:" destination="hj4-Pb-rUV" eventType="touchUpInside" id="983-Ul-iPt"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eMq-dc-rFq">
-                                        <rect key="frame" x="318" y="65" width="47" height="35"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eMq-dc-rFq">
+                                        <rect key="frame" x="318" y="64" width="47" height="35"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
-                                        <state key="normal" title="Done"/>
+                                        <state key="normal" title="Done">
+                                            <color key="titleColor" name="AmbPurple"/>
+                                        </state>
                                         <connections>
                                             <action selector="donePressed:" destination="hj4-Pb-rUV" eventType="touchUpInside" id="EZF-WK-bmU"/>
                                         </connections>
@@ -303,9 +392,9 @@
                                 <constraints>
                                     <constraint firstItem="eMq-dc-rFq" firstAttribute="centerY" secondItem="KAa-cf-iB0" secondAttribute="centerY" id="3Hg-ev-c9u"/>
                                     <constraint firstItem="vtW-K4-5WO" firstAttribute="leading" secondItem="qU9-zk-oIl" secondAttribute="leading" constant="10" id="69W-g6-kgz"/>
-                                    <constraint firstAttribute="bottom" secondItem="KAa-cf-iB0" secondAttribute="bottom" constant="16" id="hL5-mx-8EJ"/>
+                                    <constraint firstAttribute="bottom" secondItem="KAa-cf-iB0" secondAttribute="bottom" constant="12" id="hL5-mx-8EJ"/>
                                     <constraint firstAttribute="trailing" secondItem="eMq-dc-rFq" secondAttribute="trailing" constant="10" id="les-PM-tcn"/>
-                                    <constraint firstAttribute="height" constant="110" id="rIf-uA-xwD"/>
+                                    <constraint firstAttribute="height" constant="105" id="rIf-uA-xwD"/>
                                     <constraint firstItem="vtW-K4-5WO" firstAttribute="centerY" secondItem="KAa-cf-iB0" secondAttribute="centerY" id="rg5-KE-ua4"/>
                                     <constraint firstItem="KAa-cf-iB0" firstAttribute="centerX" secondItem="qU9-zk-oIl" secondAttribute="centerX" id="vU5-ET-1ga"/>
                                 </constraints>
@@ -325,7 +414,8 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="bX9-Ti-OgE"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="oB6-Cc-dSL" firstAttribute="top" secondItem="qU9-zk-oIl" secondAttribute="bottom" id="Acz-jj-sac"/>
                             <constraint firstItem="qU9-zk-oIl" firstAttribute="trailing" secondItem="bX9-Ti-OgE" secondAttribute="trailing" id="cbP-aB-95L"/>
@@ -335,7 +425,6 @@
                             <constraint firstItem="oB6-Cc-dSL" firstAttribute="leading" secondItem="bX9-Ti-OgE" secondAttribute="leading" id="scz-QY-DFW"/>
                             <constraint firstItem="oB6-Cc-dSL" firstAttribute="trailing" secondItem="bX9-Ti-OgE" secondAttribute="trailing" id="xw6-gP-Azr"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="bX9-Ti-OgE"/>
                     </view>
                     <connections>
                         <outlet property="doneButton" destination="eMq-dc-rFq" id="GJE-jD-0xl"/>
@@ -350,6 +439,9 @@
     <resources>
         <image name="BigVerifiedLogo" width="1200" height="1200"/>
         <image name="postVerified" width="84" height="84"/>
+        <namedColor name="AmbPurple">
+            <color red="0.92900002002716064" green="0.23499999940395355" blue="0.40000000596046448" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="newCellColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
@@ -359,5 +451,11 @@
         <namedColor name="newTrueBack">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

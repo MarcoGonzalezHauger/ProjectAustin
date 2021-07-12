@@ -176,39 +176,14 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	}
 	
 	@IBAction func settingsButtonPressed(_ sender: Any) {
-        
-        if isInEditMode {
-            self.showStandardAlertDialogWithMultipleAction(title: "Alert", msg: "Do you wanna save changes?", titles: ["Yes","No"]) { (action) in
-                if action.title == "Yes"{
-                    self.saveChanged()
-                }else{
-                    self.cancelEditing()
-                }
-                self.performSegue(withIdentifier: "toSettings", sender: self)
-            }
-        }else{
-            self.performSegue(withIdentifier: "toSettings", sender: self)
-        }
-//		if isInEditMode {
-//			saveChanged()
-//		}
-		
+		if isInEditMode {
+			saveChanged()
+		}
+		performSegue(withIdentifier: "toSettings", sender: self)
 	}
 	
 	@IBAction func signOutButtonPressed(_ sender: Any) {
-        if isInEditMode {
-            self.showStandardAlertDialogWithMultipleAction(title: "Alert", msg: "Do you wanna save changes?", titles: ["Yes","No"]) { (action) in
-                if action.title == "Yes"{
-                    self.saveChanged()
-                }else{
-                    self.cancelEditing()
-                }
-                logOut()
-            }
-        }else{
-            logOut()
-        }
-		
+		logOut()
 	}
 	
 	func SignOutOfAmbassadoor3() {
@@ -218,12 +193,10 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	var isInEditMode: Bool = false {
 		didSet {
 			if isInEditMode {
-                global.isEditing = true
 				DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
 					self.StartEditAnimation()
 				}
 			} else {
-                global.isEditing = false
 				DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
 					self.EndEditAnimation()
 				}
@@ -514,15 +487,7 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 extension NewProfilePage: UITabBarControllerDelegate, UITabBarDelegate{
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool{
-        if global.isEditing {
-            self.showStandardAlertDialog(title: "Alert", msg: "Please complete your edit") { (action) in
-                
-            }
-            return false
-        }else{
-           return true
-        }
-        
+        return true
     }
     func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem){
         

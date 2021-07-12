@@ -9,7 +9,7 @@
 
 import UIKit
 
-let maxInterests: Int = 10
+let maxInterests: Int = 20
 
 protocol SubCategoryResultDelegate {
 	func CategoryAdded(newCategory: String) -> Bool

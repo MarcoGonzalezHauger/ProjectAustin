@@ -72,21 +72,21 @@ class Influencer {
 			}
 		}
 		
-		let instaPosts = d["instagramPost"] as? [String: Any] ?? [:]
+//		let instaPosts = d["instagramPost"] as? [String: Any] ?? [:]
 		
-		inProgressPosts = []
-		if let inProgressDictionary = d["inProgressPosts"] as? [String: Any] {
-			for inProgressPostId in inProgressDictionary.keys {
-				var thisInProgressPost = inProgressDictionary[inProgressPostId] as! [String: Any]
-				if var instaPostDict = instaPosts[inProgressPostId] as? [String: Any] {
-					instaPostDict["postID"] = inProgressPostId
-					instaPostDict["offerID"] = thisInProgressPost["PoolOfferId"]
-					thisInProgressPost["instagramPost"] = instaPostDict
-				}
-				let newInProgressPost = InProgressPost.init(dictionary: thisInProgressPost, inProgressPostId: inProgressPostId, userId: id)
-				inProgressPosts.append(newInProgressPost)
-			}
-		}
+//		inProgressPosts = []
+//		if let inProgressDictionary = d["inProgressPosts"] as? [String: Any] {
+//			for inProgressPostId in inProgressDictionary.keys {
+//				var thisInProgressPost = inProgressDictionary[inProgressPostId] as! [String: Any]
+//				if var instaPostDict = instaPosts[inProgressPostId] as? [String: Any] {
+//					instaPostDict["postID"] = inProgressPostId
+//					instaPostDict["offerID"] = thisInProgressPost["PoolOfferId"]
+//					thisInProgressPost["instagramPost"] = instaPostDict
+//				}
+//				let newInProgressPost = InProgressPost.init(dictionary: thisInProgressPost, inProgressPostId: inProgressPostId, userId: id)
+//				inProgressPosts.append(newInProgressPost)
+//			}
+//		}
 		
 	}
 	
@@ -133,7 +133,7 @@ class Influencer {
         d["password"] = user.password
         d["email"] = user.email
         d["instagramAuthToken"] = user.authenticationToken
-        d["instagramAccountId"] = user.instagramAccountId
+        d["instagramAccountId"] = user.id
         d["tokenFIR"] = global.deviceFIRToken
         
         return d
@@ -308,14 +308,8 @@ class InstagramPost {
 		let ts = d["timestamp"] as! String
 		
 		let dateFormatter = DateFormatter()
-        //"yyyy-MM-dd'T'HH:mm:ssZ"
 		dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ" //date format that instagram uses
-        if dateFormatter.date(from: ts) == nil{
-            timestamp = ts.toUDate()
-        }else{
-            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-            timestamp = dateFormatter.date(from: ts)!
-        }
+		timestamp = dateFormatter.date(from: ts) ?? Date(timeIntervalSince1970: 0)
         
     }
     

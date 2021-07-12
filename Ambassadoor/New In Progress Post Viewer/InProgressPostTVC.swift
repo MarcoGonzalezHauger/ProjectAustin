@@ -24,12 +24,10 @@ class InProgressPostTVC: UITableViewCell {
 			profilePicture.downloadAndSetImage(bb.logoUrl)
 			nameLabel.text = bb.name
 			moneyLabel.text = NumberToPrice(Value: thisInProgressPost.cashValue, enforceCents: true)
-            moneyLabel.text = NumberToPrice(Value: 10.0, enforceCents: true)
 		}
 		updateStatus()
 		timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (tmr) in
 			self.updateStatus()
-            globalTimers = self.timer
 		})
 		RunLoop.current.add(timer, forMode: .common)
 	}
@@ -77,7 +75,6 @@ class InProgressPostTVC: UITableViewCell {
 			setRadar(toRect: viewToFrame(verifiedOrb), color: .systemGreen)
 			
 		case "Paid":
-            print("date posted", thisInProgressPost.datePosted)
 			makeViewColorUpTo(upToIndex: 12, filledColor: .systemYellow, otherColor: .systemGray)
 			currentMission.text = "Withdraw in the Profile tab."
 			timeLeftLabel.text = "You have been Paid"
@@ -111,12 +108,9 @@ class InProgressPostTVC: UITableViewCell {
 	}
 	
 	func setPaidInLabel() {
-		//if let stamp = thisInProgressPost.instagramPost?.timestamp {
-        print("timeeeee=",thisInProgressPost.instagramPost?.timestamp)
-        if thisInProgressPost.datePosted != nil {
+		if let stamp = thisInProgressPost.instagramPost?.timestamp {
 			let calendar = Calendar.current
-            let stamp = thisInProgressPost.datePosted
-            let postBy = calendar.date(byAdding: .hour, value: 48, to: stamp!)!
+			let postBy = calendar.date(byAdding: .hour, value: 48, to: stamp)!
 			
 			setTimeLeft(to: postBy)
 		} else {

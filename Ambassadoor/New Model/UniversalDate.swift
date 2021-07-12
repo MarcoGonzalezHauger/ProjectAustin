@@ -35,15 +35,7 @@ extension String {
 		} else {
 			let dateFormatter = DateFormatter()
 			dateFormatter.dateFormat = dateFormatUniversal
-            if dateFormatter.date(from: self) == nil {
-                dateFormatter.dateFormat = dateFormatUniversalNoneTZ
-                print("nillll = ", dateFormatter.date(from: self))
-                return dateFormatter.date(from: self) ?? Date(timeIntervalSince1970: 0)
-            }else{
-                print("nillll = ", dateFormatter.date(from: self))
-                return dateFormatter.date(from: self) ?? Date(timeIntervalSince1970: 0)
-            }
-            
+			return dateFormatter.date(from: self) ?? Date(timeIntervalSince1970: 0)
 		}
 	}
 }

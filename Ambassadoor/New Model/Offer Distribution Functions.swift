@@ -45,13 +45,8 @@ extension PoolOffer {
 			}
 		}
 		
-		let costPerPost = roundPriceDown(price: self.pricePerPost(forInfluencer: thisInfluencer.basic))
-        print("price0===",self.totalCost(forInfluencer: thisInfluencer.basic))
-		let totalCost = roundPriceDown(price: self.totalCost(forInfluencer: thisInfluencer.basic))
-        
-        //let totalCost = 0.26
-        
-        print("price===",totalCost)
+		let costPerPost = self.pricePerPost(forInfluencer: thisInfluencer.basic)
+		let totalCost = self.totalCost(forInfluencer: thisInfluencer.basic)
 		
 		if totalCost > self.cashPower {
 			completed("There isn't enough money in this offer to afford your fee. (\(NumberToPrice(Value: totalCost)))")
@@ -59,12 +54,8 @@ extension PoolOffer {
 			if !self.filter.DoesInfluencerPassFilter(basicInfluencer: thisInfluencer.basic) {
 				completed("You don't meet the filters of this offer.")
 			} else {
-                
-                print("price===",self.cashPower - totalCost)
 				
 				let newCashPower = roundPriceDown(price: self.cashPower - totalCost)
-                
-                print("price1===",newCashPower)
 				
 				var newAccUserIds: [String] = self.acceptedUserIds
 				

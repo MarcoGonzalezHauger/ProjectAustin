@@ -76,7 +76,7 @@ class SigninVC: UIViewController {
                                     
                                 }else{
                                     
-                                    self.callIfAccessTokenExpired(userID: Myself.instagramAccountId, instaID: Myself.instagramAccountId)
+                                    self.callIfAccessTokenExpired(userID: userID, instaID: Myself.instagramAccountId)
                                     
                                 }
                                 
@@ -164,23 +164,22 @@ class SigninVC: UIViewController {
                         
                         if status{
                             Myself.basic.profilePicURL = url!
-                            self.updateLoginDetailsToServer(userID: instaID, user: Myself)
+                            self.updateLoginDetailsToServer(userID: userID, user: Myself)
                         }else{
-							self.updateLoginDetailsToServer(userID: instaID, user: Myself)
+							self.updateLoginDetailsToServer(userID: userID, user: Myself)
                         }
                     }
                     
                     
                     
                 }else{
-                    AccessToken.current = nil
                     self.signinButton.isEnabled = true
                     self.signinButton.Text = "Sign In"
                     self.showStandardAlertDialog(title: "Alert", msg: "Something is wrong! Please try again later. (Fx3)")
                 }
                 
             }else{
-                AccessToken.current = nil
+                
                 self.signinButton.isEnabled = true
                 self.signinButton.Text = "Sign In"
 				print(error.debugDescription)
@@ -205,7 +204,7 @@ class SigninVC: UIViewController {
             UserDefaults.standard.set(self.passwordText.text!, forKey: "password")
             setHapticMenu(user: Myself)
             InitializeAmbassadoor()
-            AverageLikes(instagramID: user.instagramAccountId, userToken: user.instagramAuthToken)
+            AverageLikes(instagramID: NewAccount.id, userToken: NewAccount.authenticationToken)
             downloadDataBeforePageLoad()
             self.LoginSuccessful()
             

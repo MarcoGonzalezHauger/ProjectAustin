@@ -30,8 +30,6 @@ var thisUserIsForTesting: Bool {
 	}
 }
 
-var globalTimers: Timer?
-
 func GetNewID() -> String {
 	return Date().toString(dateFormat: "yyyy-MM-dd HH:mm:ss") + ", " + randomString(length: 15)
 }

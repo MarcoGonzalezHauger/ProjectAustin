@@ -86,11 +86,6 @@ func StartListeningToPublicData() {
 func logOut() {
     myselfRefreshListeners.removeAll()
     publicDataListeners.removeAll()
-    let login: LoginManager = LoginManager()
-    login.loginBehavior = .browser
-    login.logOut()
-    AccessToken.current = nil
-    globalTimers = nil
     UserDefaults.standard.removeObject(forKey: "email")
     UserDefaults.standard.removeObject(forKey: "password")
     DispatchQueue.main.async {
@@ -118,18 +113,12 @@ func SerializePublicData(dictionary: [String: Any], finished: (() -> ())?) {
 	let influencers = dictionary["Influencers"] as! [String: Any]
 	for i in influencers.keys {
 		let inf = BasicInfluencer.init(dictionary: influencers[i] as! [String: Any], userId: i)
-        if !inf.flags.contains("isClosedAccount"){
-           infs.append(inf)
-        }
-		
+		infs.append(inf)
 	}
 	let businesses = dictionary["Businesses"] as! [String: Any]
 	for b in businesses.keys {
 		let bus = BasicBusiness.init(dictionary: businesses[b] as! [String: Any], basicId: b)
-        if !bus.flags.contains("isDeleted") {
-            basicbu.append(bus)
-        }
-		
+		basicbu.append(bus)
 	}
 	
 	//sort both influencer and business accounts.
@@ -226,7 +215,7 @@ func SocialFollowingUsers(influencer: Influencer) -> [Any] {
         return influencer.basic.followingInfluencers.contains(basicInfluencer.userId) && !basicInfluencer.checkFlag("isClosedAccount")
         }
     let FilteredBusiness = globalBasicBusinesses.filter { (basicBusiness) -> Bool in
-        return influencer.basic.followingBusinesses.contains(basicBusiness.basicId) && !basicBusiness.checkFlag("isClosedAccount")
+        return influencer.basic.followingBusinesses.contains(basicBusiness.basicId) || !basicBusiness.checkFlag("isClosedAccount")
     }
     
     totalUsers.append(contentsOf: sortInfluencers(basicInfluencers: FilteredInfluencers))
@@ -276,7 +265,7 @@ func SearchSocialData(searchQuery: String, searchIn: SearchFor) -> [Any] {
 		let bus = $0 as! BasicBusiness
 		return !bus.checkFlag("isInvisible")
 	}
-	//&& !bus.checkFlag("isDeleted")
+	
 	if query == "" {
 		switch searchIn {
 		case .both:

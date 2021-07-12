@@ -128,10 +128,10 @@ class OfferPoolView: UIViewController, UITableViewDelegate, UITableViewDataSourc
             UIGraphicsEndImageContext()
             
             if var image = newImage {
-                print(image.scale)
-                image = makeImageCircular(image: image)
-                print(image.scale)
                 DispatchQueue.main.async {
+                    print(image.scale)
+                    image = makeImageCircular(image: image)
+                    print(image.scale)
                     self.tabBarController?.viewControllers?[0].tabBarItem.image = image.withRenderingMode(.alwaysOriginal)
                     self.tabBarController?.viewControllers?[0].tabBarItem.selectedImage = image.withRenderingMode(.alwaysOriginal)
                     self.imageWasSet = true

@@ -432,7 +432,7 @@ func sendPushNotification(params: [String: AnyObject]){
 }
 
 
-func  AverageLikes(instagramID: String, userToken: String) {
+func AverageLikes(instagramID: String, userToken: String) {
     
     API.calculateAverageLikes(userID: instagramID, longLiveToken: userToken) { (recentMedia, error) in
         
@@ -479,26 +479,17 @@ func  AverageLikes(instagramID: String, userToken: String) {
                                 
                                 if numberOfPost != 0 {
                                 
-                                if Double(Double(numberOfLikes)/Double(numberOfPost)) != nil{
-                                    
-                                    
-                                    print(Double(Double(numberOfLikes)/Double(numberOfPost)))
-                                    
-                                    let avgLikes = Double(Double(numberOfLikes)/Double(numberOfPost))
-                                    
-                                    let roundOff = Double(round(100*avgLikes)/100)
-                                    
-                                    let userData: [String: Any] = ["averageLikes": roundOff]
+                                if Double(numberOfLikes/numberOfPost) != nil{
+                                    //let avgLikes = round(Double(numberOfLikes/numberOfPost))
+                                    let avgLikes = (Double(numberOfLikes)/Double(numberOfPost)).rounded(.up)
+                                    print("rounddouble=",avgLikes)
+                                    let userData: [String: Any] = ["averageLikes": avgLikes]
                                     //Yourself.averageLikes = avgLikes
-                                    Myself.basic.averageLikes = roundOff
-                                    //let privatePath = "\(Myself.userId)/basic"
-                                    //let publicPath = "\(Myself.userId)"
+                                    Myself.basic.averageLikes = Double(avgLikes)
+                                    let privatePath = "\(Myself.userId)/basic"
+                                    let publicPath = "\(Myself.userId)"
                                     //newUpdateUserDetails(privatePath: privatePath, publicPath:publicPath,  userData: userData)
-                                    //Myself.basic.averageLikes = avgLikes
-                                    Myself.UpdateToFirebase(alsoUpdateToPublic: true) { (error) in
-                                        
-                                    }
-//                                    newUpdateAverageLikes(privatePath: privatePath, publicPath: publicPath, userData: userData)
+                                    newUpdateAverageLikes(privatePath: privatePath, publicPath: publicPath, userData: userData)
                                     
                                 }
                                 

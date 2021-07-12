@@ -99,16 +99,6 @@ class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
 				if Myself.inProgressPosts[i].inProgressPostId == self.thisInProgressPost.inProgressPostId {
 					self.cancelPostButton.isEnabled = false
 					Myself.inProgressPosts[i] = self.thisInProgressPost
-                    let filtersPool = offerPool.filter { offer in
-                        return offer.poolId == self.thisInProgressPost.PoolOfferId
-                    }
-                    if let offer = filtersPool.first{
-                        print("cP =",self.thisInProgressPost.cashValue)
-                        offer.cashPower += self.thisInProgressPost.cashValue
-                        print("cP =",offer.cashPower)
-                        offer.UpdateToFirebase { error in
-                        }
-                    }
 					Myself.UpdateToFirebase(alsoUpdateToPublic: false, completed: nil)
 				}
 			}
@@ -320,9 +310,7 @@ extension NewViewInProgressVC {
     }
     
     func setPaidInLabel() {
-        //let stamp = thisInProgressPost.instagramPost?.timestamp
-        print("Bad Timee=", thisInProgressPost.instagramPost?.timestamp)
-        if let stamp = thisInProgressPost.datePosted {
+        if let stamp = thisInProgressPost.instagramPost?.timestamp {
             let calendar = Calendar.current
             let postBy = calendar.date(byAdding: .hour, value: 48, to: stamp)!
             
@@ -341,12 +329,9 @@ extension NewViewInProgressVC {
     }
     
     func setRadar(toRect: UIView, color: UIColor) {
-		//radarView.frame = rect
-        radarView.frame = toRect.frame
-        //print("a=",toRect.frame.origin)
-        //toRect.addSubview(radarView)
-        orbStack.addSubview(radarView)
-        //print("b=",radarView.frame.origin)
+        
+		toRect.addSubview(radarView)
+		radarView.frame = toRect.frame
         radarView.backgroundColor = color
         radarView.layer.cornerRadius = [radarView.bounds.width, radarView.bounds.height].min()! / 2
         radarView.isHidden = false
