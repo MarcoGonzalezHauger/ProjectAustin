@@ -481,7 +481,7 @@ func AverageLikes(instagramID: String, userToken: String) {
                                 
                                 if Double(numberOfLikes/numberOfPost) != nil{
                                     //let avgLikes = round(Double(numberOfLikes/numberOfPost))
-                                    let avgLikes = (Double(numberOfLikes)/Double(numberOfPost)).rounded()
+                                    let avgLikes = (Double(numberOfLikes)/Double(numberOfPost)).rounded(.up)
                                     print("rounddouble=",avgLikes)
                                     let userData: [String: Any] = ["averageLikes": avgLikes]
                                     //Yourself.averageLikes = avgLikes
