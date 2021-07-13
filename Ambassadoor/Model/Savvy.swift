@@ -480,11 +480,12 @@ func AverageLikes(instagramID: String, userToken: String) {
                                 if numberOfPost != 0 {
                                 
                                 if Double(numberOfLikes/numberOfPost) != nil{
-                                    let avgLikes = Double(numberOfLikes/numberOfPost)
-                                    
+                                    //let avgLikes = round(Double(numberOfLikes/numberOfPost))
+                                    let avgLikes = (Double(numberOfLikes)/Double(numberOfPost)).rounded(.up)
+                                    print("rounddouble=",avgLikes)
                                     let userData: [String: Any] = ["averageLikes": avgLikes]
                                     //Yourself.averageLikes = avgLikes
-                                    Myself.basic.averageLikes = avgLikes
+                                    Myself.basic.averageLikes = Double(avgLikes)
                                     let privatePath = "\(Myself.userId)/basic"
                                     let publicPath = "\(Myself.userId)"
                                     //newUpdateUserDetails(privatePath: privatePath, publicPath:publicPath,  userData: userData)

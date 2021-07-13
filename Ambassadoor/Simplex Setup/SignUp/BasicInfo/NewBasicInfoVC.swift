@@ -127,8 +127,13 @@ class NewBasicInfoVC: UIViewController, EnterZipCode, CustomDatePickerDelegate {
             view.delegate = self
         }
         if segue.identifier == "interestpickerembed" {
-            if let view = segue.destination as? InterestPickerVC {
+//            if let view = segue.destination as? InterestPickerVC {
+//                pickerviewdel = view
+//            }
+            
+            if let view = segue.destination as? PickInterests {
                 pickerviewdel = view
+                //view.pickedInterests = currentInterests
             }
         }
         if let view = segue.destination as? CustomDatePickerVC{
