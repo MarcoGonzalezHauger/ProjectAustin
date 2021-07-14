@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19115.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19107.5"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -21,28 +21,47 @@
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nu9-v6-7Sg" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                         <rect key="frame" x="6" y="6" width="402" height="138"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yel-DX-TnT" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                <rect key="frame" x="5" y="5" width="62" height="62"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="62" id="CLN-RS-Ycj"/>
+                                    <constraint firstAttribute="width" constant="62" id="u2D-9q-qzo"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="31"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="1.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" name="AmbPurple"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RVy-JL-bqE" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="6" y="6" width="60" height="60"/>
+                                <rect key="frame" x="9" y="9" width="54" height="54"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Sfe-zr-Nkq">
-                                        <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="54" height="54"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="Sfe-zr-Nkq" secondAttribute="bottom" id="5yg-eP-Erp"/>
-                                    <constraint firstAttribute="width" constant="60" id="JgH-4k-JUQ"/>
+                                    <constraint firstAttribute="width" constant="54" id="JgH-4k-JUQ"/>
                                     <constraint firstItem="Sfe-zr-Nkq" firstAttribute="leading" secondItem="RVy-JL-bqE" secondAttribute="leading" id="SX5-h3-dTW"/>
                                     <constraint firstItem="Sfe-zr-Nkq" firstAttribute="top" secondItem="RVy-JL-bqE" secondAttribute="top" id="ce0-LB-Xj3"/>
                                     <constraint firstAttribute="trailing" secondItem="Sfe-zr-Nkq" secondAttribute="trailing" id="jxQ-PQ-bAL"/>
-                                    <constraint firstAttribute="height" constant="60" id="xgK-nQ-mkR"/>
+                                    <constraint firstAttribute="height" constant="54" id="xgK-nQ-mkR"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="30"/>
+                                        <real key="value" value="27"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="3"/>
+                                        <real key="value" value="0.0"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
                                         <color key="value" name="AmbPurple"/>
@@ -64,7 +83,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ambassadoor Technologies, LLC" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hXd-RI-8Cp">
-                                <rect key="frame" x="74" y="13.5" width="241" height="45.5"/>
+                                <rect key="frame" x="73" y="13.5" width="242" height="45.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="19"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -74,15 +93,17 @@
                         <constraints>
                             <constraint firstItem="adH-af-Gip" firstAttribute="leading" secondItem="hXd-RI-8Cp" secondAttribute="trailing" constant="8" id="6ZT-Hc-4al"/>
                             <constraint firstAttribute="trailing" secondItem="adH-af-Gip" secondAttribute="trailing" constant="16" id="CpD-R1-FG2"/>
+                            <constraint firstItem="Yel-DX-TnT" firstAttribute="centerX" secondItem="RVy-JL-bqE" secondAttribute="centerX" id="FN5-sm-D71"/>
+                            <constraint firstItem="Yel-DX-TnT" firstAttribute="centerY" secondItem="RVy-JL-bqE" secondAttribute="centerY" id="LCJ-hL-5kv"/>
                             <constraint firstItem="adH-af-Gip" firstAttribute="top" secondItem="Nu9-v6-7Sg" secondAttribute="top" constant="2" id="MxE-Fj-CPc"/>
                             <constraint firstItem="pnC-jI-e2k" firstAttribute="top" secondItem="adH-af-Gip" secondAttribute="bottom" constant="4" id="N9M-NS-7IJ"/>
-                            <constraint firstItem="RVy-JL-bqE" firstAttribute="top" secondItem="Nu9-v6-7Sg" secondAttribute="top" constant="6" id="QQ6-5B-igm"/>
+                            <constraint firstItem="RVy-JL-bqE" firstAttribute="top" secondItem="Nu9-v6-7Sg" secondAttribute="top" constant="9" id="QQ6-5B-igm"/>
                             <constraint firstItem="hXd-RI-8Cp" firstAttribute="centerY" secondItem="Sfe-zr-Nkq" secondAttribute="centerY" id="RKC-dl-phD"/>
                             <constraint firstItem="pnC-jI-e2k" firstAttribute="leading" secondItem="Nu9-v6-7Sg" secondAttribute="leading" constant="6" id="Zrr-Tx-pcq"/>
                             <constraint firstAttribute="trailing" secondItem="pnC-jI-e2k" secondAttribute="trailing" constant="8" id="cJz-uo-lcX"/>
                             <constraint firstAttribute="bottom" secondItem="pnC-jI-e2k" secondAttribute="bottom" constant="4" id="cTu-sR-F4m"/>
-                            <constraint firstItem="RVy-JL-bqE" firstAttribute="leading" secondItem="Nu9-v6-7Sg" secondAttribute="leading" constant="6" id="jb1-BR-cSL"/>
-                            <constraint firstItem="hXd-RI-8Cp" firstAttribute="leading" secondItem="RVy-JL-bqE" secondAttribute="trailing" constant="8" id="s2j-Yh-CKg"/>
+                            <constraint firstItem="RVy-JL-bqE" firstAttribute="leading" secondItem="Nu9-v6-7Sg" secondAttribute="leading" constant="9" id="jb1-BR-cSL"/>
+                            <constraint firstItem="hXd-RI-8Cp" firstAttribute="leading" secondItem="RVy-JL-bqE" secondAttribute="trailing" constant="10" id="s2j-Yh-CKg"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">

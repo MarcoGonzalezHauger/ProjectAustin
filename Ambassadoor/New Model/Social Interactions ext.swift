@@ -30,6 +30,22 @@ extension BasicInfluencer {
 	func isFollowing(as myInf: Influencer) -> Bool {
 		return followedBy.contains(myInf.userId)
 	}
+    
+//    func FollowBusiness(as myInf: Business) {
+//        if !self.isFollowingBusiness(as: myInf) {
+//            self.followingBusinesses.append(myInf.businessId)
+//            self.UpdateToFirebase(completed: nil)
+//        }
+//    }
+//
+//    func UnfollowBusiness(as myInf: Business) {
+//        self.followingBusinesses.removeAll{$0 == myInf.businessId}
+//        self.UpdateToFirebase(completed: nil)
+//    }
+//
+//    func isFollowingBusiness(as myInf: Business) -> Bool {
+//        return followingBusinesses.contains(myInf.businessId)
+//    }
 }
 
 extension BasicBusiness {
@@ -47,12 +63,14 @@ extension BasicBusiness {
 	func Unfollow(as myInf: Influencer) {
 		self.followedBy.removeAll{$0 == myInf.userId}
 		self.UpdateToFirebase(completed: nil)
+        self.UpdateToFirebase(completed: nil)
 		myInf.basic.followingBusinesses.removeAll{$0 == self.basicId}
 		myInf.basic.UpdateToFirebase(completed: nil)
 	}
 	
 	func isFollowing(as myInf: Influencer) -> Bool {
 		return followedBy.contains(myInf.userId)
+        //return myInf.basic.followingBusinesses.contains(self.basicId)
 	}
 	
 	func GetAvaliableOffersFromBusiness() -> [PoolOffer] {
