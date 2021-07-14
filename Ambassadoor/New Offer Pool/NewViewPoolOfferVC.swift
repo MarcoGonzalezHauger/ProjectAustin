@@ -107,6 +107,9 @@ class NewViewPoolOfferVC: UIViewController, UITableViewDelegate, UITableViewData
 			view.index = passIndex
 			view.thisPoolOffer = thisPoolOffer
 		}
+        if let view = segue.destination as? NewBasicBusinessView {
+            view.displayBasicId(basicId: sender as! String)
+        }
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -114,6 +117,12 @@ class NewViewPoolOfferVC: UIViewController, UITableViewDelegate, UITableViewData
 		passIndex = indexPath.row
 		performSegue(withIdentifier: "toPostView", sender: self)
 	}
+    
+    @IBAction func tapBusinessProfile(sender: UITapGestureRecognizer){
+        if let bb = thisPoolOffer.BasicBusiness() {
+            self.performSegue(withIdentifier: "fromOffertoBusinessView", sender: bb.basicId)
+        }
+    }
 	
 	func updatePoolOffer() {
 		if let bb = thisPoolOffer.BasicBusiness() {

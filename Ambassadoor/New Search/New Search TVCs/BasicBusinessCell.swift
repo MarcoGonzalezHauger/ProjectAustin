@@ -47,7 +47,8 @@ class BasicBusinessCell: UITableViewCell, FollowerButtonDelegete {
 		
 		businessLogo.downloadAndSetImage(represents.logoUrl)
 		
-		followButton.isFollowing = represents.isFollowing(as: Myself)
-		
+        followButton.isFollowing = represents.isFollowing(as: Myself)
+        //followButton.isFollowing = represents.isFollowing(as: Myself)
+        
 	}
 }
