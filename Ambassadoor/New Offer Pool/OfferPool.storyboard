@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19115.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19107.5"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -147,7 +147,7 @@
                                 <blurEffect style="systemMaterial"/>
                             </visualEffectView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUS-mn-M1s">
-                                <rect key="frame" x="0.0" y="50" width="414" height="758"/>
+                                <rect key="frame" x="0.0" y="50" width="414" height="792"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gLX-6l-aef" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="12" y="50" width="390" height="158.5"/>
@@ -212,11 +212,11 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="390" height="200"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <prototypes>
-                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="postCell" rowHeight="54" id="C6N-cx-jfq" customClass="PostTVC" customModule="Ambassadoor" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="28" width="390" height="54"/>
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="postCell" rowHeight="54" id="C6N-cx-jfq" customClass="PostTVC" customModule="Ambassadoor" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="50" width="390" height="54"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="C6N-cx-jfq" id="ldy-pX-ZSO">
-                                                            <rect key="frame" x="0.0" y="0.0" width="390" height="54"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="54"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Post 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oe1-bj-y7D">
@@ -226,7 +226,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BB8-c9-7gB" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                                                    <rect key="frame" x="298" y="10" width="76" height="34.5"/>
+                                                                    <rect key="frame" x="267" y="10" width="76" height="34.5"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$11.11" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qKe-yB-Pcc">
                                                                             <rect key="frame" x="8" y="4" width="60" height="26.5"/>
@@ -356,36 +356,45 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="63z-Ah-vE2" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="12" y="716" width="390" height="80"/>
+                                <rect key="frame" x="12" y="752" width="390" height="68"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="key-Yu-8MG">
-                                        <rect key="frame" x="0.0" y="0.0" width="390" height="80"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="68"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="27"/>
                                         <state key="normal" title="Accept this Offer">
-                                            <color key="titleColor" name="AmbPurple"/>
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
                                             <action selector="acceptButtonPressed:" destination="5Xp-oA-iTK" eventType="touchUpInside" id="xec-4D-L2Y"/>
                                         </connections>
                                     </button>
                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="1Xq-h3-OGi">
-                                        <rect key="frame" x="185" y="30" width="20" height="20"/>
-                                        <color key="color" name="AmbPurple"/>
+                                        <rect key="frame" x="185" y="24" width="20" height="20"/>
+                                        <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </activityIndicatorView>
                                 </subviews>
-                                <color key="backgroundColor" name="newCellColor"/>
+                                <color key="backgroundColor" name="AmbPurple"/>
                                 <constraints>
                                     <constraint firstItem="key-Yu-8MG" firstAttribute="top" secondItem="63z-Ah-vE2" secondAttribute="top" id="351-M3-1eE"/>
                                     <constraint firstAttribute="trailing" secondItem="key-Yu-8MG" secondAttribute="trailing" id="DLj-3d-Ddg"/>
                                     <constraint firstItem="key-Yu-8MG" firstAttribute="leading" secondItem="63z-Ah-vE2" secondAttribute="leading" id="Xhr-yg-nqZ"/>
                                     <constraint firstItem="1Xq-h3-OGi" firstAttribute="centerY" secondItem="63z-Ah-vE2" secondAttribute="centerY" id="Zla-Aj-mEC"/>
                                     <constraint firstItem="1Xq-h3-OGi" firstAttribute="centerX" secondItem="63z-Ah-vE2" secondAttribute="centerX" id="c48-YH-QgX"/>
-                                    <constraint firstAttribute="height" constant="80" id="k2C-Bf-hs9"/>
+                                    <constraint firstAttribute="height" constant="68" id="k2C-Bf-hs9"/>
                                     <constraint firstAttribute="bottom" secondItem="key-Yu-8MG" secondAttribute="bottom" id="vIg-RA-yDy"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                         <real key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                        <real key="value" value="0.59999999999999998"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
+                                        <real key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="ShadowColor">
+                                        <color key="value" name="AmbDarkPurple"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
@@ -398,7 +407,7 @@
                             <constraint firstItem="bUS-mn-M1s" firstAttribute="trailing" secondItem="MZ5-xI-lnS" secondAttribute="trailing" id="DGD-yW-r0X"/>
                             <constraint firstItem="Brk-1G-hOC" firstAttribute="centerX" secondItem="dWk-1y-ozE" secondAttribute="centerX" id="HOl-OJ-DRb"/>
                             <constraint firstItem="bUS-mn-M1s" firstAttribute="top" secondItem="XVM-av-Ddd" secondAttribute="bottom" id="NaH-5E-gtp"/>
-                            <constraint firstItem="MZ5-xI-lnS" firstAttribute="bottom" secondItem="63z-Ah-vE2" secondAttribute="bottom" constant="12" id="QHg-pa-iOG"/>
+                            <constraint firstItem="MZ5-xI-lnS" firstAttribute="bottom" secondItem="63z-Ah-vE2" secondAttribute="bottom" constant="22" id="QHg-pa-iOG"/>
                             <constraint firstItem="gLX-6l-aef" firstAttribute="width" secondItem="MZ5-xI-lnS" secondAttribute="width" constant="-24" id="VuM-1h-euL"/>
                             <constraint firstItem="MZ5-xI-lnS" firstAttribute="bottom" secondItem="bUS-mn-M1s" secondAttribute="bottom" id="Ymp-po-RFW"/>
                             <constraint firstItem="63z-Ah-vE2" firstAttribute="leading" secondItem="MZ5-xI-lnS" secondAttribute="leading" constant="12" id="Ytp-47-GLn"/>
@@ -536,7 +545,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H87-P8-FTt">
-                                <rect key="frame" x="0.0" y="50" width="414" height="758"/>
+                                <rect key="frame" x="0.0" y="50" width="414" height="792"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Caption Must Include" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pue-xb-16c">
                                         <rect key="frame" x="16" y="320" width="175" height="22"/>
@@ -655,7 +664,7 @@ The Instagram Post must have a caption that contains all of the phrases and hash
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="46i-en-P9j" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="12" y="742" width="390" height="63"/>
+                                <rect key="frame" x="12" y="776" width="390" height="63"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vLt-h9-joS">
                                         <rect key="frame" x="0.0" y="0.0" width="390" height="63"/>
@@ -726,6 +735,9 @@ The Instagram Post must have a caption that contains all of the phrases and hash
     </inferredMetricsTieBreakers>
     <resources>
         <image name="homa" width="30" height="30"/>
+        <namedColor name="AmbDarkPurple">
+            <color red="0.92900002002716064" green="0.23499999940395355" blue="0.40000000596046448" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="AmbPurple">
             <color red="0.92900002002716064" green="0.23499999940395355" blue="0.40000000596046448" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

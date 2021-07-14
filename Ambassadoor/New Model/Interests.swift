@@ -15,7 +15,7 @@ func getInterests() -> [String] {
 	for k: String in EmojiInterests.keys {
 		keys.append(k)
 	}
-	return keys
+	return keys.sorted{$0 < $1}
 }
 
 var EmojiInterests: [String: String] = [
