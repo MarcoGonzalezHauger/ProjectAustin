@@ -216,7 +216,7 @@ class NewBasicInfluencerView: UIViewController, publicDataRefreshDelegate, UICol
 		}
 	}
 	
-	var maxInterests = 10
+	var maxInterests = 20
 	var rows = 2
 	var spacingBetweenCells: CGFloat = 6
 	
