@@ -310,7 +310,8 @@ extension NewViewInProgressVC {
     }
     
     func setPaidInLabel() {
-        if let stamp = thisInProgressPost.instagramPost?.timestamp {
+        if let stamp = thisInProgressPost.datePosted {
+            //if let stamp = thisInProgressPost.instagramPost?.timestamp {
             let calendar = Calendar.current
             let postBy = calendar.date(byAdding: .hour, value: 48, to: stamp)!
             
