@@ -95,6 +95,24 @@ class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
 		
 		let action = UIAlertAction.init(title: "Cancel Post", style: .destructive) { (_) in
 			self.thisInProgressPost.cancelPost()
+            for i in 0...(Myself.inProgressPosts.count - 1) {
+                if Myself.inProgressPosts[i].inProgressPostId == self.thisInProgressPost.inProgressPostId {
+                    self.cancelPostButton.isEnabled = false
+                    Myself.inProgressPosts[i] = self.thisInProgressPost
+                    let filtersPool = offerPool.filter { offer in
+                        return offer.poolId == self.thisInProgressPost.PoolOfferId
+                    }
+                    if let offer = filtersPool.first{
+                        print("cP =",self.thisInProgressPost.cashValue)
+                        offer.cashPower += self.thisInProgressPost.cashValue
+                        print("cP =",offer.cashPower)
+                        offer.UpdateToFirebase { error in
+                        }
+                    }
+                    Myself.UpdateToFirebase(alsoUpdateToPublic: false, completed: nil)
+                }
+            }
+            /*
 			for i in 0...(Myself.inProgressPosts.count - 1) {
 				if Myself.inProgressPosts[i].inProgressPostId == self.thisInProgressPost.inProgressPostId {
 					self.cancelPostButton.isEnabled = false
@@ -102,6 +120,7 @@ class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
 					Myself.UpdateToFirebase(alsoUpdateToPublic: false, completed: nil)
 				}
 			}
+             */
 		}
 		
 		alert.addAction(action)
@@ -310,7 +329,8 @@ extension NewViewInProgressVC {
     }
     
     func setPaidInLabel() {
-        if let stamp = thisInProgressPost.instagramPost?.timestamp {
+        if let stamp = thisInProgressPost.datePosted {
+            //if let stamp = thisInProgressPost.instagramPost?.timestamp {
             let calendar = Calendar.current
             let postBy = calendar.date(byAdding: .hour, value: 48, to: stamp)!
             
