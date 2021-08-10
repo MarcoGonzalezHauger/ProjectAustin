@@ -154,12 +154,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let result = try context.fetch(request)
             for data in result as! [NSManagedObject] {
                 let cachedData = CachedImages.init(object: data)
-                let afterSevenDays = cachedData.date!.afterDays(numberOfDays: 7)
-                if Date.getcurrentESTdate().timeIntervalSince1970 > afterSevenDays.timeIntervalSince1970{
-					removeCoreDataObject(object:cachedData.object!)
+                if cachedData.imagedata != nil {
+                    let afterSevenDays = cachedData.date!.afterDays(numberOfDays: 7)
+                    if Date.getcurrentESTdate().timeIntervalSince1970 > afterSevenDays.timeIntervalSince1970{
+                        removeCoreDataObject(object:cachedData.object!)
+                    }else{
+                        global.cachedImageList.append(cachedData)
+                    }
                 }else{
-					global.cachedImageList.append(cachedData)
-				}
+                    if cachedData.object != nil {
+                        removeCoreDataObject(object:cachedData.object!)
+                    }
+                    
+                }
+                
 			}
 			print("coredatecount=",global.cachedImageList.count)
 		}catch {
@@ -216,11 +224,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		let passWord: String! = UserDefaults.standard.object(forKey: "password") as? String
 		
         if eMail == nil || passWord == nil || AccessToken.current == nil || !NetworkReachability.isConnectedToNetwork() {
-//			let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
-//            self.window?.rootViewController = viewReference
-            let mainStoryBoard = UIStoryboard(name: "Welcome", bundle: nil)
-            let redViewController = mainStoryBoard.instantiateInitialViewController()
-			  self.window?.rootViewController = redViewController
+			let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
+            self.window?.rootViewController = viewReference
+//            let mainStoryBoard = UIStoryboard(name: "Welcome", bundle: nil)
+//            let redViewController = mainStoryBoard.instantiateInitialViewController()
+//			  self.window?.rootViewController = redViewController
 			return
 		}
 		
