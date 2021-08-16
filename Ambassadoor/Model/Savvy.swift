@@ -486,10 +486,13 @@ func AverageLikes(instagramID: String, userToken: String) {
                                     let userData: [String: Any] = ["averageLikes": avgLikes]
                                     //Yourself.averageLikes = avgLikes
                                     Myself.basic.averageLikes = Double(avgLikes)
-                                    let privatePath = "\(Myself.userId)/basic"
-                                    let publicPath = "\(Myself.userId)"
-                                    //newUpdateUserDetails(privatePath: privatePath, publicPath:publicPath,  userData: userData)
-                                    newUpdateAverageLikes(privatePath: privatePath, publicPath: publicPath, userData: userData)
+                                    Myself.UpdateToFirebase(alsoUpdateToPublic: true) { error in
+                                        
+                                    }
+//                                    let privatePath = "\(Myself.userId)/basic"
+//                                    let publicPath = "\(Myself.userId)"
+//                                    //newUpdateUserDetails(privatePath: privatePath, publicPath:publicPath,  userData: userData)
+//                                    newUpdateAverageLikes(privatePath: privatePath, publicPath: publicPath, userData: userData)
                                     
                                 }
                                 

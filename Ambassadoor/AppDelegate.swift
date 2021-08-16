@@ -145,6 +145,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         FirebaseApp.configure()
         Database.database().isPersistenceEnabled = false
         
+        UNUserNotificationCenter.current().delegate = self
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.badge, .alert, .sound]) { (granted, error) in
+            guard granted else {return}
+            DispatchQueue.main.async {
+                application.registerForRemoteNotifications()
+                NotificationCenter.default.addObserver(self, selector: #selector(self.tokenRefreshNotification(_:)), name: NSNotification.Name.InstanceIDTokenRefresh, object: nil)
+            }
+        }
+        
         global.cachedImageList.removeAll()
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "AppImageData")
         request.returnsObjectsAsFaults = false
@@ -177,15 +187,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		
 		ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
 		
-		UNUserNotificationCenter.current().delegate = self
-        let center = UNUserNotificationCenter.current()
-        center.requestAuthorization(options: [.badge, .alert, .sound]) { (granted, error) in
-            guard granted else {return}
-            DispatchQueue.main.async {
-                application.registerForRemoteNotifications()
-                NotificationCenter.default.addObserver(self, selector: #selector(self.tokenRefreshNotification(_:)), name: NSNotification.Name.InstanceIDTokenRefresh, object: nil)
-            }
-        }
+		
 		
 //        if let shortcutItem = launchOptions?[UIApplication.LaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
 //
@@ -245,6 +247,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 				if AccessToken.current != nil {
 					
 					setHapticMenu(user: Myself)
+                    Myself.tokenFIR = global.deviceFIRToken
+                    Myself.UpdateToFirebase(alsoUpdateToPublic: true) { error in
+                        
+                    }
 					InitializeAmbassadoor()
 					AverageLikes(instagramID: Myself.instagramAccountId, userToken: Myself.instagramAuthToken)
 					let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
