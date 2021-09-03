@@ -101,7 +101,8 @@ func sortOfferPool() {
 }
 
 func getFollowingOfferPool() -> [PoolOffer] {
-	return getFilteredOfferPool().filter{Myself.basic.followingBusinesses.contains($0.businessId)}
+	return getFilteredOfferPool().filter{Myself.basic.followingBusinesses.contains($0.basicId)}
+    //return getFilteredOfferPool().filter{Myself.basic.followingBusinesses.contains($0.businessId)}
 }
 
 func getFilteredOfferPool() -> [PoolOffer] {
