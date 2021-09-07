@@ -76,10 +76,13 @@ class CachedImages: NSObject {
     var date: Date?
     
     init(object: NSManagedObject) {
-        self.link = (object.value(forKey: "url") as! NSString) as String
-        self.imagedata = (object.value(forKey: "imagedata") as! Data)
-        self.date = (object.value(forKey: "updatedDate") as? Date ?? Date.getcurrentESTdate())
-        self.object = object
+        if let data = object.value(forKey: "imagedata") as? Data{
+            self.link = (object.value(forKey: "url") as! NSString) as String
+            self.imagedata = data
+            self.date = (object.value(forKey: "updatedDate") as? Date ?? Date.getcurrentESTdate())
+            self.object = object
+        }
+        
     }
 }
 

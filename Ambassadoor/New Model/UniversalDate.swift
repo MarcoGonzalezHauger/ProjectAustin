@@ -37,10 +37,12 @@ extension String {
             dateFormatter.dateFormat = dateFormatUniversal
             if dateFormatter.date(from: self) == nil {
                 dateFormatter.dateFormat = dateFormatUniversalNoneTZ
+                dateFormatter.timeZone = TimeZone(abbreviation: "EST")
                 print("nillll = ", dateFormatter.date(from: self))
                 return dateFormatter.date(from: self) ?? Date(timeIntervalSince1970: 0)
             }else{
                 print("nillll = ", dateFormatter.date(from: self))
+                dateFormatter.timeZone = TimeZone(abbreviation: "EST")
                 return dateFormatter.date(from: self) ?? Date(timeIntervalSince1970: 0)
             }
             

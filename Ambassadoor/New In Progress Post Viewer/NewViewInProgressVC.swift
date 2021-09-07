@@ -350,8 +350,8 @@ extension NewViewInProgressVC {
     
     func setRadar(toRect: UIView, color: UIColor) {
         
-		toRect.addSubview(radarView)
-		radarView.frame = toRect.frame
+		radarView.frame = toRect.bounds
+        toRect.addSubview(radarView)
         radarView.backgroundColor = color
         radarView.layer.cornerRadius = [radarView.bounds.width, radarView.bounds.height].min()! / 2
         radarView.isHidden = false

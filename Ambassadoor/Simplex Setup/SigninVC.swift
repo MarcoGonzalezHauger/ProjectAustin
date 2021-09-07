@@ -62,12 +62,16 @@ class SigninVC: UIViewController {
                                     Myself = user
                                 }
                                 
+                                Myself.tokenFIR = global.deviceFIRToken
+                                
                                 if AccessToken.current != nil {
                                     
                                     UserDefaults.standard.set(userID, forKey: "userID")
                                     UserDefaults.standard.set(self.emailText.text!.lowercased(), forKey: "email")
                                     UserDefaults.standard.set(self.passwordText.text!, forKey: "password")
-                                    
+                                    Myself.UpdateToFirebase(alsoUpdateToPublic: true) { error in
+                                        
+                                    }
                                     //let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
                                     InitializeAmbassadoor()
                                     AverageLikes(instagramID: Myself.instagramAccountId, userToken: Myself.instagramAuthToken)

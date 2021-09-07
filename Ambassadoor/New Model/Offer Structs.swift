@@ -408,8 +408,8 @@ class InProgressPost {
 		draftPostId = d["draftPostId"] as! String											//never ""
 		basicId = d["basicId"] as! String
 		
-		comissionUserId = d["comissionUserId"] as? String									//sometimes ""
-		comissionBusinessId = d["comissionBusinessId"] as? String							//sometimes ""
+		comissionUserId = d["comissionUserId"] as? String 									//sometimes ""
+		comissionBusinessId = d["comissionBusinessId"] as? String 						//sometimes ""
 		
 		draftPost = DraftPost.init(dictionary: d["draftPost"] as! [String: Any], businessId: businessId, draftId: draftOfferId, draftPostId: draftPostId, poolId: PoolOfferId) //never nil
 		

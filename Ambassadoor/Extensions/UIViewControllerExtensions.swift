@@ -51,6 +51,10 @@ extension UIViewController {
         }
     }
     
+    @IBAction func backAction(sender: UIButton){
+        performDismiss()
+    }
+    
     func performDismiss()  {
         if let nav = self.navigationController {
             nav.popViewController(animated: true)

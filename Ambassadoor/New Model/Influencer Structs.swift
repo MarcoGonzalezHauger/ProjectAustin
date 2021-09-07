@@ -282,6 +282,8 @@ class InstagramPost {
     
     var caption: String
     var instagramPostId: String
+    var shortcode: String
+    var mediaId: String
     var images: String
     var like_count: Int
     var status: String
@@ -298,6 +300,8 @@ class InstagramPost {
         
         caption = d["caption"] as! String
         instagramPostId = d["id"] as! String
+        shortcode = d["shortcode"] as? String ?? ""
+        mediaId = d["mediaId"] as? String ?? ""
         images = d["images"] as! String
         like_count = d["like_count"] as! Int
         status = d["status"] as! String
@@ -318,6 +322,8 @@ class InstagramPost {
 
         d["caption"] = caption
         d["id"] = instagramPostId
+        d["shortcode"] = shortcode
+        d["mediaId"] = mediaId
         d["images"] = images
         d["like_count"] = like_count
         d["status"] = status

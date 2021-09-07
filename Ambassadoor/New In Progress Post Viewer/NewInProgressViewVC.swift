@@ -46,6 +46,11 @@ class NewInProgressViewVC: UIViewController, UITableViewDelegate, UITableViewDat
 	func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 		refreshInProgPosts()
 	}
+    
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
 
 	@IBOutlet weak var tableView: UITableView!
 	@IBOutlet weak var searchBar: UISearchBar!
@@ -60,7 +65,7 @@ class NewInProgressViewVC: UIViewController, UITableViewDelegate, UITableViewDat
 		
 		let xib = UINib.init(nibName: "InProgressPostTVC", bundle: Bundle.main)
 		tableView.register(xib, forCellReuseIdentifier: "inProgPost")
-		
+        searchBar.delegate = self
 		tableView.delegate = self
 		tableView.dataSource = self
 		
