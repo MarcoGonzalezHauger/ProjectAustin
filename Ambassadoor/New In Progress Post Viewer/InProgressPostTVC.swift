@@ -114,7 +114,8 @@ class InProgressPostTVC: UITableViewCell {
 			let postBy = calendar.date(byAdding: .hour, value: 48, to: stamp)!
             
             if Date() > postBy {
-                timeLeftLabel.text = "You will be paid sooner"
+                currentMission.text = "There has been a server error."
+                timeLeftLabel.text = "You will be paid as soon as possible"
             }else{
                 setTimeLeft(to: postBy)
             }
