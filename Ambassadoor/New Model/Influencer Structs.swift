@@ -331,7 +331,7 @@ class InstagramPost {
         d["username"] = username
         d["postID"] = postID
         d["offerID"] = offerID
-		d["timestamp"] = timestamp.toUString()
+		d["timestamp"] = timestamp.toInstaUString()
 
         return d
     }
