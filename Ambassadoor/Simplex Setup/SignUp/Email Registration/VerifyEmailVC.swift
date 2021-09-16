@@ -29,6 +29,8 @@ class VerifyEmailVC: UIViewController {
     
     var otp: Int = 0
     var email: String? = nil
+    
+    var dismisDelegate: OTPDismissed?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +40,8 @@ class VerifyEmailVC: UIViewController {
     
     @IBAction func closeButton(_ sender: Any) {
         //dismiss(animated: true, completion: nil)
-        self.navigationController?.popViewController(animated: true)
+        performDismiss()
+        //self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func verifyOTPAction(_ sender: Any) {
@@ -49,7 +52,7 @@ class VerifyEmailVC: UIViewController {
             VerifyOTPNow()
         }
     }
-    
+    //dismisDelegate
     @IBAction func GoButtonPressed(_ sender: Any) {
         self.view.endEditing(true)
         VerifyOTPNow()
@@ -87,7 +90,11 @@ class VerifyEmailVC: UIViewController {
             self.closeButton.isHidden = true
             //self.performSegue(withIdentifier: "setpassword", sender: self.authenticationData)
             accInfoUpdate()
-            self.navigationController?.popToRootViewController(animated: true)
+            if self.dismisDelegate != nil {
+                self.dismisDelegate?.otpdismissed()
+                
+            }
+            self.performDismiss()
         }
             self.infoLabel.textColor = .systemGreen
             self.SetLabelText(text: "Email Confirm Code Verified", animated: true)
