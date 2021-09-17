@@ -34,6 +34,15 @@ class NewZipcodeVC: UIViewController, EnterZipCode {
         self.performSegue(withIdentifier: "fromNewZipcodeVC", sender: self)
     }
     
+    @IBAction func nextAction(sender: UIButton){
+        if NewAccount.zipCode == "" {
+            self.showStandardAlertDialog(title: "alert", msg: "Please enter any Zipcode") { action in
+            }
+            return
+        }
+        self.performSegue(withIdentifier: "toNewCreateAccountSegue", sender: self)
+    }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()

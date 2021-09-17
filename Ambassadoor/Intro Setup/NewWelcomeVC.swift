@@ -19,6 +19,10 @@ class NewWelcomeVC: UIViewController {
     @IBAction func openAppStore(sender: UIButton){
         OpenAppStoreID(id: "amassadoorbusiness/id1483207154")
     }
+    
+    @IBAction func toSegueAction(sender: UIButton){
+        self.performSegue(withIdentifier: "toInstaCheckSegue", sender: self)
+    }
 
     /*
     // MARK: - Navigation

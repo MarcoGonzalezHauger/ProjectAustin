@@ -38,7 +38,7 @@
                                                     <color key="titleColor" systemColor="labelColor"/>
                                                 </state>
                                                 <connections>
-                                                    <segue destination="mwW-E7-XQH" kind="show" identifier="toCreateAccount" id="7vN-fI-hz5"/>
+                                                    <action selector="createAccountAction:" destination="v51-aR-r1J" eventType="touchUpInside" id="b4v-cI-mwn"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -154,6 +154,8 @@ By Pressing "Sign In" or "Create Account" you are accepting the Ambassadoor "Ter
                     <navigationItem key="navigationItem" id="4Af-g0-Wpl"/>
                     <connections>
                         <segue destination="tmR-c8-O4g" kind="show" identifier="toSignIn" id="45x-UI-aGC"/>
+                        <segue destination="r94-0m-ZqH" kind="show" identifier="toNewCreateAccountStoryboard" id="PlE-BC-3tf"/>
+                        <segue destination="mwW-E7-XQH" kind="show" identifier="toCreateAccount" id="ZPd-T4-K7A"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oBY-C2-sxJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -314,6 +316,16 @@ By Pressing "Sign In" or "Create Account" you are accepting the Ambassadoor "Ter
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1438" y="67"/>
+        </scene>
+        <!--Welcome-->
+        <scene sceneID="ejT-NR-mn7">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Welcome" id="r94-0m-ZqH" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="f4f-TE-F4U"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3Ky-hx-KYS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1180" y="-330"/>
         </scene>
         <!--Reset PasswordVC-->
         <scene sceneID="wlV-HF-rVv">
@@ -626,7 +638,7 @@ By Pressing "Sign In" or "Create Account" you are accepting the Ambassadoor "Ter
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nFc-aY-OQc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1564" y="1519"/>
+            <point key="canvasLocation" x="1641" y="1427"/>
         </scene>
         <!--What Will They SeeVC-->
         <scene sceneID="g14-8h-Psa">
@@ -2916,7 +2928,7 @@ Co-Founder and CTO</string>
     <inferredMetricsTieBreakers>
         <segue reference="E1e-6K-Jsz"/>
         <segue reference="Jjy-fa-RVY"/>
-        <segue reference="qzG-jh-fyT"/>
+        <segue reference="45x-UI-aGC"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Instagrad" width="500" height="150"/>

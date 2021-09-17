@@ -56,6 +56,15 @@ class NewGenderVC: UIViewController {
             }
         }
     }
+    
+    @IBAction func nextAction(sender: UIButton){
+        if NewAccount.gender == "" {
+            self.showStandardAlertDialog(title: "alert", msg: "Please choose any gender") { action in
+            }
+            return
+        }
+        self.performSegue(withIdentifier: "toNewZipcodeSegue", sender: self)
+    }
 
     /*
     // MARK: - Navigation

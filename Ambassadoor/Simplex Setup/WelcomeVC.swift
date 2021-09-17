@@ -47,6 +47,10 @@ class WelcomeVC: UIViewController, AutoDimiss {
 	@IBAction func signInClicked(_ sender: Any) {
 		performSegue(withIdentifier: "toSignIn", sender: self)
 	}
+    
+    @IBAction func createAccountAction(_ sender: Any){
+        performSegue(withIdentifier: "toNewCreateAccountStoryboard", sender: self)
+    }
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let destination = segue.destination as? SigninVC {
