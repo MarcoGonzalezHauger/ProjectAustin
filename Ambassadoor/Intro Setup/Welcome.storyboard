@@ -771,7 +771,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="284" height="60"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                                <state key="normal" title="idk">
+                                                <state key="normal" title="No">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
@@ -2135,13 +2135,15 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ivg-gd-N1K" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="20" y="620" width="67" height="34"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="whiteBack" translatesAutoresizingMaskIntoConstraints="NO" id="csX-e0-g4J">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="whiteBack" translatesAutoresizingMaskIntoConstraints="NO" id="csX-e0-g4J">
                                         <rect key="frame" x="0.0" y="0.0" width="21" height="34"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="34" id="bgC-WD-wfr"/>
+                                            <constraint firstAttribute="width" constant="21" id="wyC-EJ-RjT"/>
+                                        </constraints>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ofc-x3-BmR">
-                                        <rect key="frame" x="25" y="0.0" width="43" height="34"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ofc-x3-BmR">
+                                        <rect key="frame" x="24" y="0.0" width="43" height="34"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <state key="normal" title="Back">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2159,10 +2161,20 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="hdO-cU-rrp" secondAttribute="bottom" id="0pQ-Vn-Oqk"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ofc-x3-BmR" secondAttribute="trailing" id="41k-3B-Q9A"/>
+                                    <constraint firstItem="Ofc-x3-BmR" firstAttribute="leading" secondItem="csX-e0-g4J" secondAttribute="trailing" constant="3" id="7ZD-LC-m89"/>
+                                    <constraint firstAttribute="trailing" secondItem="hdO-cU-rrp" secondAttribute="trailing" id="CYj-d7-3e6"/>
+                                    <constraint firstItem="hdO-cU-rrp" firstAttribute="leading" secondItem="ivg-gd-N1K" secondAttribute="leading" id="CZc-gT-IVd"/>
                                     <constraint firstItem="hdO-cU-rrp" firstAttribute="leading" secondItem="ivg-gd-N1K" secondAttribute="leading" id="ED5-v8-x5p"/>
+                                    <constraint firstItem="csX-e0-g4J" firstAttribute="centerY" secondItem="ivg-gd-N1K" secondAttribute="centerY" id="Ir0-f6-9hu"/>
+                                    <constraint firstItem="Ofc-x3-BmR" firstAttribute="top" secondItem="ivg-gd-N1K" secondAttribute="top" id="MET-si-DPy"/>
+                                    <constraint firstItem="csX-e0-g4J" firstAttribute="leading" secondItem="ivg-gd-N1K" secondAttribute="leading" id="PFg-Lm-wqe"/>
                                     <constraint firstAttribute="height" constant="34" id="edn-JU-jqv"/>
                                     <constraint firstAttribute="width" constant="67" id="g70-ld-x6q"/>
+                                    <constraint firstItem="hdO-cU-rrp" firstAttribute="top" secondItem="ivg-gd-N1K" secondAttribute="top" id="gQV-Ly-4Ts"/>
                                     <constraint firstItem="hdO-cU-rrp" firstAttribute="top" secondItem="ivg-gd-N1K" secondAttribute="top" id="oMe-Nd-E8i"/>
+                                    <constraint firstAttribute="bottom" secondItem="Ofc-x3-BmR" secondAttribute="bottom" id="u22-w0-WJZ"/>
                                     <constraint firstAttribute="trailing" secondItem="hdO-cU-rrp" secondAttribute="trailing" id="xi0-YZ-UmU"/>
                                     <constraint firstAttribute="bottom" secondItem="hdO-cU-rrp" secondAttribute="bottom" id="yDF-XJ-L8s"/>
                                 </constraints>
@@ -3542,7 +3554,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="r33-Ac-36G"/>
         <segue reference="shg-8I-XqL"/>
-        <segue reference="6bQ-Jg-Q0w"/>
+        <segue reference="Dn4-G7-MhK"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="NiceIcon" width="480" height="480"/>
