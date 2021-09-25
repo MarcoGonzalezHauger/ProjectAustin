@@ -112,8 +112,15 @@ class InProgressPostTVC: UITableViewCell {
         if let stamp = thisInProgressPost.datePosted {
 			let calendar = Calendar.current
 			let postBy = calendar.date(byAdding: .hour, value: 48, to: stamp)!
+            
+            if Date() > postBy {
+                currentMission.text = "There has been a server error."
+                timeLeftLabel.text = "You will be paid as soon as possible"
+            }else{
+                setTimeLeft(to: postBy)
+            }
 			
-			setTimeLeft(to: postBy)
+			
 		} else {
 			timeLeftLabel.text = "Post was deleted."
 		}

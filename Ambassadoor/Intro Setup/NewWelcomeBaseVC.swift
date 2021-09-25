@@ -1,14 +1,14 @@
 //
-//  NewGotoInstaVC.swift
+//  NewWelcomeBaseVC.swift
 //  Ambassadoor
 //
-//  Created by K Saravana Kumar on 28/07/21.
+//  Created by K Saravana Kumar on 17/09/21.
 //  Copyright © 2021 Tesseract Freelance, LLC. All rights reserved.
 //
 
 import UIKit
 
-class NewGotoInstaVC: UIViewController {
+class NewWelcomeBaseVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,9 +16,10 @@ class NewGotoInstaVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    @IBAction func toSegueAction(sender: UIButton){
-        self.performSegue(withIdentifier: "toFBprofileSegue", sender: self)
+    @IBAction func dismissAction(sender: UIButton){
+        performDismiss()
     }
+    
 
     /*
     // MARK: - Navigation

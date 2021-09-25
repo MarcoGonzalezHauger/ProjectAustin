@@ -77,7 +77,7 @@ class OfferPoolView: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		if pool.count == 0 {
 			noResultsView.isHidden = false
 			if query == "" {
-				noResultsLabel.text = "No offers for you yet.\n\nGet a Businesses to sign up using your referral code \(Myself.basic.referralCode) to get 1% of all the money the business spend on Ambassadoor forever."
+				noResultsLabel.text = "No offers for you yet.\n\nGet a Businesses to sign up using your referral code \(Myself.basic.referralCode) to get 5% of all the money the business spend on Ambassadoor forever."
 			} else {
 				noResultsLabel.text = "No results for search"
 			}

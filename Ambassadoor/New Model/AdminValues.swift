@@ -14,3 +14,5 @@ var referralComission: Double = 0.01
 
 var dateFormatUniversal = "yyyy-MM-dd HH:mm:ssZ"
 var dateFormatUniversalNoneTZ = "yyyy-MM-dd HH:mm:ss"
+var dateFormatInstaGlobal = "yyyy-MM-dd'T'HH:mm:ssZ"
+

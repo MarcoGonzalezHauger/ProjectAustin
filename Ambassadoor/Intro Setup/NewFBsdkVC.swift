@@ -16,6 +16,9 @@ class NewFBsdkVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    @IBAction func toSegueAction(sender: UIButton){
+        self.performSegue(withIdentifier: "toFacebookSetupSegue", sender: self)
+    }
 
     /*
     // MARK: - Navigation

@@ -16,6 +16,10 @@ class NewInstaCheckVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    @IBAction func toSegueAction(sender: UIButton){
+        self.performSegue(withIdentifier: "toInstatypeSegue", sender: self)
+    }
+    
     /*
     // MARK: - Navigation
 

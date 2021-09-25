@@ -25,6 +25,13 @@ extension Date {
 		}
 		return self.toString(dateFormat: dateFormatUniversal)
 	}
+    
+    func toInstaUString() -> String {
+        if self == Date(timeIntervalSince1970: 0) {
+            return ""
+        }
+        return self.toString(dateFormat: dateFormatInstaGlobal)
+    }
 	
 }
 

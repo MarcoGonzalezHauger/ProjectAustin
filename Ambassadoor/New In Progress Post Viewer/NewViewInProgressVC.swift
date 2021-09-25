@@ -333,8 +333,13 @@ extension NewViewInProgressVC {
             //if let stamp = thisInProgressPost.instagramPost?.timestamp {
             let calendar = Calendar.current
             let postBy = calendar.date(byAdding: .hour, value: 48, to: stamp)!
-            
-            setTimeLeft(to: postBy)
+            if Date() > postBy {
+                missionLabel.text = "There has been a server error."
+                timeLeftLabel.text = "You will be paid as soon as possible"
+            }else{
+                setTimeLeft(to: postBy)
+            }
+            //setTimeLeft(to: postBy)
         } else {
             timeLeftLabel.text = "Post was deleted."
         }
