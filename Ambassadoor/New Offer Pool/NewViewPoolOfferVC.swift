@@ -148,7 +148,7 @@ class NewViewPoolOfferVC: UIViewController, UITableViewDelegate, UITableViewData
 					listOfReasons.append("Not enough money left in this Offer for you.")
 				}
 				if !thisPoolOffer.filter.DoesInfluencerPassFilter(basicInfluencer: Myself.basic) {
-					listOfReasons.append("You don't meet the requirements set by the Business.")
+					listOfReasons.append("You don't meet the requirements set by the business.")
 				}
 			}
 			if listOfReasons.count > 1 {

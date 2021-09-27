@@ -45,7 +45,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.heightLayOut.constant = -276
-        self.view .layoutIfNeeded()
+        self.view.layoutIfNeeded()
         if isCurrentLocation {
             self.setCurrentLocation { (status) in
                 if status{
@@ -116,7 +116,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
             routeInfo.source = self.location
             routeInfo.annotation = annotation
             if self.heightLayOut.constant != 1 {
-                UIView.animate(withDuration: 0.6, animations: {
+                UIView.animate(withDuration: 0.3, animations: {
                     
                     self.heightLayOut.constant = 1
                     self.view .layoutIfNeeded()

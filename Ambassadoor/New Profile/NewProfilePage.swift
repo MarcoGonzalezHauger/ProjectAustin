@@ -163,6 +163,7 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	
 	@IBAction func copyRefferal(_ sender: Any) {
 		if !isOnCopied {
+			referralCodeLabel.layer.masksToBounds = true
 			print("Copying referral code.")
 			UseTapticEngine()
 			let pasteboard = UIPasteboard.general

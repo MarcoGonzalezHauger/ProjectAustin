@@ -122,6 +122,7 @@ class InProgressPostTVC: UITableViewCell {
 			
 			
 		} else {
+			currentMission.text = "Failed"
 			timeLeftLabel.text = "Post was deleted."
 		}
 	}

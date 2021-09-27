@@ -17,21 +17,49 @@ class NewWelcomeVC: UIViewController {
     }
     
     @IBAction func openAppStore(sender: UIButton){
-        OpenAppStoreID(id: "amassadoorbusiness/id1483207154")
+        businessInstead()
     }
+	
     
     @IBAction func toSegueAction(sender: UIButton){
         self.performSegue(withIdentifier: "toInstaCheckSegue", sender: self)
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+	func businessInstead() {
+		let notificationCenter = UNUserNotificationCenter.current()
+		notificationCenter.getNotificationSettings { (settings) in
+			DispatchQueue.main.async {
+				if settings.authorizationStatus == .authorized {
+					self.wrongAppNotification()
+				}
+				OpenAppStoreID(id: "amassadoorbusiness/id1483207154")
+			}
+		}
+	}
+	func wrongAppNotification() {
+		
+		let notificationCenter = UNUserNotificationCenter.current()
+		let content = UNMutableNotificationContent()
+		
+		content.title = "Business? Wrong App"
+		content.body = "Download Ambassadoor Business Here"
+		content.sound = nil
+		content.badge = nil
+		
+	
+		let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.2, repeats: false)
+		let identifier = "AMB_wrongApp"
+		if let attachment = UNNotificationAttachment.make(identifier: "businessLogo", image: UIImage.init(named: "BusinessIcon")!, options: nil) {
+			content.attachments = [attachment]
+		}
+		
+		let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+	
+		notificationCenter.add(request) { (error) in
+			if let error = error {
+				print("Error \(error.localizedDescription)")
+			}
+		}
+	}
 
 }

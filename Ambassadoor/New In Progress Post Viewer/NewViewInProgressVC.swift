@@ -218,7 +218,7 @@ class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
             statusDescriptionLabel.text = "Your post was verified!"
             
         case "Paid":
-            paidAmountLabel.text = "\(thisInProgressPost.cashValue)"
+			paidAmountLabel.text = "\(NumberToPrice(Value: thisInProgressPost.cashValue))"
             
         case "Rejected":
             
@@ -341,6 +341,7 @@ extension NewViewInProgressVC {
             }
             //setTimeLeft(to: postBy)
         } else {
+			missionLabel.text = "Failed"
             timeLeftLabel.text = "Post was deleted."
         }
     }
