@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19115.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19107.5"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -19,14 +19,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DJt-QX-U8S">
-                                <rect key="frame" x="6" y="160" width="402" height="653"/>
+                                <rect key="frame" x="6" y="165" width="402" height="648"/>
                                 <color key="backgroundColor" name="newSubtleBackground"/>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="whJ-SB-WAF" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="-56" width="414" height="216"/>
+                                <rect key="frame" x="0.0" y="-56" width="414" height="221"/>
                                 <subviews>
                                     <searchBar contentMode="redraw" searchBarStyle="minimal" text="" placeholder="Search" showsScopeBar="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ll0-Ro-21y">
-                                        <rect key="frame" x="0.0" y="110" width="414" height="98"/>
+                                        <rect key="frame" x="0.0" y="110" width="414" height="103"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <scopeButtonTitles>
                                             <string>Followed</string>
@@ -147,7 +147,7 @@
                                 <blurEffect style="systemMaterial"/>
                             </visualEffectView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUS-mn-M1s">
-                                <rect key="frame" x="0.0" y="50" width="414" height="758"/>
+                                <rect key="frame" x="0.0" y="50" width="414" height="792"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gLX-6l-aef" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="12" y="50" width="390" height="158.5"/>
@@ -213,10 +213,10 @@
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="postCell" rowHeight="54" id="C6N-cx-jfq" customClass="PostTVC" customModule="Ambassadoor" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="24.5" width="390" height="54"/>
+                                                        <rect key="frame" x="0.0" y="50" width="390" height="54"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="C6N-cx-jfq" id="ldy-pX-ZSO">
-                                                            <rect key="frame" x="0.0" y="0.0" width="360.5" height="54"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="54"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Post 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oe1-bj-y7D">
@@ -226,7 +226,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BB8-c9-7gB" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                                                    <rect key="frame" x="268.5" y="10" width="76" height="34.5"/>
+                                                                    <rect key="frame" x="267" y="10" width="76" height="34.5"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$11.11" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qKe-yB-Pcc">
                                                                             <rect key="frame" x="8" y="4" width="60" height="26.5"/>
@@ -359,7 +359,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="63z-Ah-vE2" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="12" y="718" width="390" height="68"/>
+                                <rect key="frame" x="12" y="752" width="390" height="68"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="key-Yu-8MG">
                                         <rect key="frame" x="0.0" y="0.0" width="390" height="68"/>
@@ -564,10 +564,10 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H87-P8-FTt">
-                                <rect key="frame" x="0.0" y="50" width="414" height="758"/>
+                                <rect key="frame" x="0.0" y="50" width="414" height="792"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Caption Must Include" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pue-xb-16c">
-                                        <rect key="frame" x="16" y="320" width="175" height="22"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Instagram Post Caption Must Include" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pue-xb-16c">
+                                        <rect key="frame" x="16" y="320" width="303.5" height="22"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="22" id="Smi-uv-5ni"/>
                                         </constraints>
@@ -632,10 +632,7 @@
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fKu-7M-rWK">
                                         <rect key="frame" x="16" y="60" width="382" height="107.5"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="107.5" id="sJv-zY-X1q"/>
-                                        </constraints>
-                                        <string key="text">If you accept this offer, you would post an image to Instagram following the instructions given from a business.
+                                        <string key="text">If you accept this offer, you would post an image to Instagram following the instructions given from a business (below).
 The Instagram Post must have a caption that contains all of the phrases and hashtags below.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <nil key="textColor"/>
@@ -656,7 +653,7 @@ The Instagram Post must have a caption that contains all of the phrases and hash
                                     <constraint firstItem="fKu-7M-rWK" firstAttribute="leading" secondItem="H87-P8-FTt" secondAttribute="leading" constant="16" id="QFw-3l-koc"/>
                                     <constraint firstAttribute="trailing" secondItem="1dl-EY-UI2" secondAttribute="trailing" constant="12" id="RBU-cA-isj"/>
                                     <constraint firstItem="RhA-gp-vl4" firstAttribute="top" secondItem="fKu-7M-rWK" secondAttribute="bottom" constant="50" id="X04-I5-gQg"/>
-                                    <constraint firstAttribute="bottom" secondItem="1dl-EY-UI2" secondAttribute="bottom" constant="370.5" id="ZDU-sD-k6g"/>
+                                    <constraint firstAttribute="bottom" secondItem="1dl-EY-UI2" secondAttribute="bottom" constant="100" id="ZDU-sD-k6g"/>
                                     <constraint firstItem="EOJ-GM-Gbw" firstAttribute="centerX" secondItem="H87-P8-FTt" secondAttribute="centerX" id="e8D-Oz-uqe"/>
                                     <constraint firstItem="1dl-EY-UI2" firstAttribute="top" secondItem="Pue-xb-16c" secondAttribute="bottom" constant="8" id="iX8-18-Mxc"/>
                                     <constraint firstItem="EOJ-GM-Gbw" firstAttribute="top" secondItem="RhA-gp-vl4" secondAttribute="bottom" constant="8" id="ie1-Ip-Lyr"/>
@@ -695,12 +692,12 @@ The Instagram Post must have a caption that contains all of the phrases and hash
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="46i-en-P9j" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="12" y="742" width="390" height="63"/>
+                                <rect key="frame" x="12" y="763" width="390" height="63"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vLt-h9-joS">
                                         <rect key="frame" x="0.0" y="0.0" width="390" height="63"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
-                                        <state key="normal" title="View Locations"/>
+                                        <state key="normal" title="View Business Locations"/>
                                         <connections>
                                             <action selector="viewLocationWithSender:" destination="ixI-m4-jWZ" eventType="touchUpInside" id="Sod-l9-ke4"/>
                                         </connections>
@@ -716,7 +713,16 @@ The Instagram Post must have a caption that contains all of the phrases and hash
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="5"/>
+                                        <real key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowOpacity">
+                                        <real key="value" value="0.20000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ShadowRadius">
+                                        <real key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="ShadowColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
@@ -736,7 +742,7 @@ The Instagram Post must have a caption that contains all of the phrases and hash
                             <constraint firstItem="DV0-dc-Pv6" firstAttribute="leading" secondItem="Sl8-cD-Kth" secondAttribute="leading" id="D0e-mo-k4j"/>
                             <constraint firstAttribute="trailing" secondItem="Y11-eI-JUv" secondAttribute="trailing" id="JJX-uY-PDG"/>
                             <constraint firstItem="Sl8-cD-Kth" firstAttribute="bottom" secondItem="H87-P8-FTt" secondAttribute="bottom" id="Su4-NJ-7DO"/>
-                            <constraint firstItem="Sl8-cD-Kth" firstAttribute="bottom" secondItem="46i-en-P9j" secondAttribute="bottom" constant="3" id="YBA-9y-Rbe"/>
+                            <constraint firstItem="Sl8-cD-Kth" firstAttribute="bottom" secondItem="46i-en-P9j" secondAttribute="bottom" constant="16" id="YBA-9y-Rbe"/>
                             <constraint firstItem="EHa-Rn-cGR" firstAttribute="top" secondItem="3dZ-dk-3o0" secondAttribute="topMargin" constant="2.5" id="Yra-ao-Ngn"/>
                             <constraint firstItem="5lt-pg-hnx" firstAttribute="top" secondItem="3dZ-dk-3o0" secondAttribute="topMargin" constant="25" id="bJf-or-V5d"/>
                             <constraint firstItem="DV0-dc-Pv6" firstAttribute="height" secondItem="Y11-eI-JUv" secondAttribute="height" id="wyH-ww-Kyc"/>
@@ -761,7 +767,7 @@ The Instagram Post must have a caption that contains all of the phrases and hash
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="3Xs-vL-3ol"/>
+        <segue reference="WHl-TX-47S"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="homa" width="30" height="30"/>
