@@ -673,7 +673,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6C7-v8-AJU" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6C7-v8-AJU" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="327" y="620" width="67" height="34"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nf2-j0-FPi">
@@ -764,7 +764,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
-                                                    <segue destination="kFg-Dq-yz3" kind="show" id="Dn4-G7-MhK"/>
+                                                    <segue destination="EHr-3F-lQj" kind="show" id="oFj-AM-ntH"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -862,6 +862,9 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Link Instagram Account to Facebook Page *Required*" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="26" translatesAutoresizingMaskIntoConstraints="NO" id="B7j-yC-R1W">
                                 <rect key="frame" x="41" y="12" width="328" height="107.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="107.5" id="6sT-Il-5Lt"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -884,7 +887,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lft-MZ-5bo">
                                         <rect key="frame" x="0.0" y="0.0" width="67" height="34"/>
                                         <connections>
-                                            <segue destination="kFg-Dq-yz3" kind="show" id="6bQ-Jg-Q0w"/>
+                                            <segue destination="EHr-3F-lQj" kind="show" id="uxy-Eh-HGO"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -944,23 +947,19 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zHQ-ri-1f7" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="43" y="143.5" width="328" height="405"/>
+                                <rect key="frame" x="43" y="144" width="328" height="459"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bf6-9O-rRl">
-                                        <rect key="frame" x="0.0" y="0.0" width="328" height="405"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="328" id="gyT-um-ExY"/>
-                                            <constraint firstAttribute="height" constant="405" id="lQo-Fj-kGX"/>
-                                        </constraints>
+                                        <rect key="frame" x="0.0" y="0.0" width="328" height="459"/>
                                         <imageReference key="image" image="createFbPage"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="bf6-9O-rRl" secondAttribute="trailing" id="1zi-Z8-dG2"/>
-                                    <constraint firstItem="bf6-9O-rRl" firstAttribute="leading" secondItem="zHQ-ri-1f7" secondAttribute="leading" id="Wel-Uk-VvA"/>
-                                    <constraint firstItem="bf6-9O-rRl" firstAttribute="top" secondItem="zHQ-ri-1f7" secondAttribute="top" id="ga4-ZP-pjV"/>
-                                    <constraint firstAttribute="bottom" secondItem="bf6-9O-rRl" secondAttribute="bottom" id="x9A-xT-pXH"/>
+                                    <constraint firstAttribute="bottom" secondItem="bf6-9O-rRl" secondAttribute="bottom" id="0V0-v2-xx8"/>
+                                    <constraint firstAttribute="trailing" secondItem="bf6-9O-rRl" secondAttribute="trailing" id="1Gr-io-tKV"/>
+                                    <constraint firstItem="bf6-9O-rRl" firstAttribute="leading" secondItem="zHQ-ri-1f7" secondAttribute="leading" id="5uI-hL-EFW"/>
+                                    <constraint firstItem="bf6-9O-rRl" firstAttribute="top" secondItem="zHQ-ri-1f7" secondAttribute="top" id="Iab-Hc-yy0"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -980,28 +979,29 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="b3O-y0-DJn" secondAttribute="trailing" constant="20" id="0dy-5O-Fij"/>
                             <constraint firstAttribute="bottom" secondItem="ctd-98-cAA" secondAttribute="bottom" constant="50" id="0sj-pu-IKO"/>
-                            <constraint firstAttribute="trailing" secondItem="zHQ-ri-1f7" secondAttribute="trailing" constant="43" id="9S3-rn-7zI"/>
+                            <constraint firstItem="b3O-y0-DJn" firstAttribute="top" secondItem="zHQ-ri-1f7" secondAttribute="bottom" constant="17" id="20F-Ip-iJL"/>
+                            <constraint firstItem="zHQ-ri-1f7" firstAttribute="leading" secondItem="Vzd-lE-IIv" secondAttribute="leading" constant="43" id="APy-7U-QWp"/>
                             <constraint firstItem="B7j-yC-R1W" firstAttribute="leading" secondItem="Vzd-lE-IIv" secondAttribute="leading" constant="41" id="FWp-WH-Yb1"/>
+                            <constraint firstAttribute="trailing" secondItem="zHQ-ri-1f7" secondAttribute="trailing" constant="43" id="K1a-Ce-yOp"/>
                             <constraint firstAttribute="trailing" secondItem="B7j-yC-R1W" secondAttribute="trailing" constant="45" id="ThD-tX-Qzn"/>
                             <constraint firstItem="B7j-yC-R1W" firstAttribute="top" secondItem="Vzd-lE-IIv" secondAttribute="top" constant="12" id="bGR-vN-ed1"/>
-                            <constraint firstItem="zHQ-ri-1f7" firstAttribute="top" secondItem="B7j-yC-R1W" secondAttribute="bottom" constant="24" id="g5U-o6-iAu"/>
                             <constraint firstAttribute="bottom" secondItem="b3O-y0-DJn" secondAttribute="bottom" constant="50" id="imv-1R-sd2"/>
+                            <constraint firstItem="zHQ-ri-1f7" firstAttribute="top" secondItem="B7j-yC-R1W" secondAttribute="bottom" constant="24.5" id="ogQ-e9-bfD"/>
                             <constraint firstItem="ctd-98-cAA" firstAttribute="leading" secondItem="Vzd-lE-IIv" secondAttribute="leading" constant="20" id="ok1-Fk-Lh8"/>
-                            <constraint firstItem="zHQ-ri-1f7" firstAttribute="leading" secondItem="Vzd-lE-IIv" secondAttribute="leading" constant="43" id="uVb-0S-Xll"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="1cI-Bl-kp5"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hRC-gv-aBr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4805.7971014492759" y="628.79464285714278"/>
+            <point key="canvasLocation" x="4805.7971014492759" y="628.125"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Gh5-MB-aVQ">
             <objects>
                 <viewController id="kFg-Dq-yz3" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="u6w-mS-MV7">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="704"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="When you Connect to fb on the next page, you must check ALL the boxes. (fb made this very complicated)" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="26" translatesAutoresizingMaskIntoConstraints="NO" id="53e-GH-swZ">
@@ -1014,7 +1014,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X8c-cL-Tdb" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="327" y="620" width="67" height="34"/>
+                                <rect key="frame" x="327" y="812" width="67" height="34"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JnA-mh-qGx">
                                         <rect key="frame" x="0.0" y="0.0" width="41" height="34"/>
@@ -1032,7 +1032,6 @@
                                         <rect key="frame" x="0.0" y="0.0" width="67" height="34"/>
                                         <connections>
                                             <action selector="toSegueActionWithSender:" destination="Onp-1R-hII" eventType="touchUpInside" id="2b3-Rd-qEj"/>
-                                            <segue destination="yOD-bA-YbT" kind="show" id="shg-8I-XqL"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -1052,7 +1051,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gNd-za-WM7" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="20" y="620" width="67" height="34"/>
+                                <rect key="frame" x="20" y="812" width="67" height="34"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="whiteBack" translatesAutoresizingMaskIntoConstraints="NO" id="MvY-L2-cmA">
                                         <rect key="frame" x="0.0" y="0.0" width="21" height="34"/>
@@ -1092,7 +1091,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Vo-bP-SWT" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="43" y="261.5" width="328" height="325.5"/>
+                                <rect key="frame" x="43" y="261.5" width="328" height="517.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AaW-ux-Z9L">
                                         <rect key="frame" x="0.0" y="0.0" width="328" height="362"/>
@@ -1904,8 +1903,9 @@
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7hZ-K4-OaQ" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="43" y="121" width="328" height="493"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="createFbPage" translatesAutoresizingMaskIntoConstraints="NO" id="2Pq-mb-gMx">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2Pq-mb-gMx">
                                         <rect key="frame" x="0.0" y="0.0" width="328" height="493"/>
+                                        <imageReference key="image" image="createFbPage"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2046,13 +2046,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WMn-gU-Bvl" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="43" y="229.5" width="328" height="357.5"/>
+                                <rect key="frame" x="43" y="182" width="328" height="405"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="igq-eV-fxM">
-                                        <rect key="frame" x="0.0" y="0.0" width="328" height="357"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="328" height="404.5"/>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="igq-eV-fxM" firstAttribute="leading" secondItem="WMn-gU-Bvl" secondAttribute="leading" id="IrG-qK-ho7"/>
                                     <constraint firstItem="igq-eV-fxM" firstAttribute="top" secondItem="WMn-gU-Bvl" secondAttribute="top" id="U75-JN-RFt"/>
@@ -2061,9 +2060,9 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7.) When you Connect to fb on the next page, you must check ALL the boxes. (fb made this very complicated)" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="26" translatesAutoresizingMaskIntoConstraints="NO" id="Hbh-Xc-Xb4">
-                                <rect key="frame" x="41" y="12" width="328" height="179.5"/>
+                                <rect key="frame" x="41" y="12" width="328" height="162"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="67" id="FeA-jX-OnA"/>
+                                    <constraint firstAttribute="height" constant="162" id="FeA-jX-OnA"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2173,7 +2172,7 @@
                             <constraint firstAttribute="trailing" secondItem="Lur-pw-Xdw" secondAttribute="trailing" constant="20" id="2aI-cC-eVt"/>
                             <constraint firstItem="Hbh-Xc-Xb4" firstAttribute="top" secondItem="qk9-2R-FBt" secondAttribute="top" constant="12" id="5ym-d2-vfT"/>
                             <constraint firstItem="CIO-pu-jbr" firstAttribute="leading" secondItem="qk9-2R-FBt" secondAttribute="leading" constant="20" id="HX7-dD-VcG"/>
-                            <constraint firstItem="WMn-gU-Bvl" firstAttribute="top" secondItem="Hbh-Xc-Xb4" secondAttribute="bottom" constant="38" id="KPh-3S-b0X"/>
+                            <constraint firstItem="WMn-gU-Bvl" firstAttribute="top" secondItem="Hbh-Xc-Xb4" secondAttribute="bottom" constant="8" id="OPk-zE-bTz"/>
                             <constraint firstItem="Hbh-Xc-Xb4" firstAttribute="leading" secondItem="qk9-2R-FBt" secondAttribute="leading" constant="41" id="Va7-aX-Kcb"/>
                             <constraint firstItem="WMn-gU-Bvl" firstAttribute="leading" secondItem="qk9-2R-FBt" secondAttribute="leading" constant="43" id="YYE-iZ-QDC"/>
                             <constraint firstAttribute="bottom" secondItem="Lur-pw-Xdw" secondAttribute="bottom" constant="50" id="egN-jN-LkB"/>
@@ -3710,8 +3709,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="EIY-e6-0v0"/>
-        <segue reference="shg-8I-XqL"/>
-        <segue reference="6bQ-Jg-Q0w"/>
+        <segue reference="oFj-AM-ntH"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="AmbModel" width="1095" height="1464"/>
