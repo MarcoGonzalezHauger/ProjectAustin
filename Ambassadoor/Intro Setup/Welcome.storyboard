@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -1218,13 +1218,12 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XZ8-qo-JST" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="65" y="304.5" width="284" height="60"/>
+                                <rect key="frame" x="65" y="350.5" width="284" height="60"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ta9-QE-pOw">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ta9-QE-pOw">
                                         <rect key="frame" x="0.0" y="0.0" width="284" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                        <state key="normal" title="1.) Go to Instagram">
+                                        <state key="normal" title="Open Instagram">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -1235,6 +1234,10 @@
                                 <color key="backgroundColor" name="AmbDarkPurple"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="5eM-7U-Asp"/>
+                                    <constraint firstItem="ta9-QE-pOw" firstAttribute="top" secondItem="XZ8-qo-JST" secondAttribute="top" id="BeT-LY-z04"/>
+                                    <constraint firstItem="ta9-QE-pOw" firstAttribute="leading" secondItem="XZ8-qo-JST" secondAttribute="leading" id="PEW-fA-XV1"/>
+                                    <constraint firstAttribute="bottom" secondItem="ta9-QE-pOw" secondAttribute="bottom" id="SaN-i7-nte"/>
+                                    <constraint firstAttribute="trailing" secondItem="ta9-QE-pOw" secondAttribute="trailing" id="U44-OT-Jzj"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -1251,11 +1254,9 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Follow these next few steps:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="26" translatesAutoresizingMaskIntoConstraints="NO" id="JX4-Wc-bzk">
-                                <rect key="frame" x="85.5" y="234" width="243.5" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="4pv-jT-MZA"/>
-                                </constraints>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="26" translatesAutoresizingMaskIntoConstraints="NO" id="JX4-Wc-bzk">
+                                <rect key="frame" x="32" y="234" width="350" height="86"/>
+                                <string key="text">Follow the steps on the next pages to connect your Instagram to Ambassadoor. Switch between the apps and follow the steps one by one.</string>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -1269,11 +1270,13 @@
                             <constraint firstAttribute="trailing" secondItem="bHt-dy-kKV" secondAttribute="trailing" constant="20" id="5N2-ah-CxZ"/>
                             <constraint firstItem="JX4-Wc-bzk" firstAttribute="centerX" secondItem="Xow-JG-2QH" secondAttribute="centerX" id="I5W-Wt-edS"/>
                             <constraint firstItem="0Ti-tk-S7O" firstAttribute="leading" secondItem="Xow-JG-2QH" secondAttribute="leading" constant="20" id="OKH-TT-OEw"/>
+                            <constraint firstAttribute="trailing" secondItem="JX4-Wc-bzk" secondAttribute="trailing" constant="32" id="Pex-nA-rzP"/>
                             <constraint firstAttribute="bottom" secondItem="bHt-dy-kKV" secondAttribute="bottom" constant="50" id="Q71-4k-dIk"/>
                             <constraint firstItem="JX4-Wc-bzk" firstAttribute="top" secondItem="iQh-pS-P39" secondAttribute="bottom" constant="30.5" id="TSL-lL-gVu"/>
                             <constraint firstItem="XZ8-qo-JST" firstAttribute="centerX" secondItem="Xow-JG-2QH" secondAttribute="centerX" id="VHu-eP-MRI"/>
                             <constraint firstItem="iQh-pS-P39" firstAttribute="leading" secondItem="Xow-JG-2QH" secondAttribute="leading" constant="60" id="a0Z-zq-PhS"/>
                             <constraint firstAttribute="trailing" secondItem="XZ8-qo-JST" secondAttribute="trailing" constant="65" id="fdj-hC-5It"/>
+                            <constraint firstItem="JX4-Wc-bzk" firstAttribute="leading" secondItem="Xow-JG-2QH" secondAttribute="leading" constant="32" id="p6Q-Ju-Mgp"/>
                             <constraint firstAttribute="trailing" secondItem="iQh-pS-P39" secondAttribute="trailing" constant="60" id="sKK-ZP-lSi"/>
                             <constraint firstItem="XZ8-qo-JST" firstAttribute="top" secondItem="JX4-Wc-bzk" secondAttribute="bottom" constant="30.5" id="swY-Nh-QwX"/>
                             <constraint firstItem="iQh-pS-P39" firstAttribute="top" secondItem="Xow-JG-2QH" secondAttribute="top" constant="60" id="xYc-DL-Eaq"/>
@@ -1296,7 +1299,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="704"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2.) Profile -&gt; &quot;Edit Profile&quot;" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="Ha6-M5-IjB">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.) Profile -&gt; &quot;Edit Profile&quot;" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="Ha6-M5-IjB">
                                 <rect key="frame" x="41" y="10" width="328" height="67"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="67" id="1I0-XE-ij3"/>
@@ -1468,7 +1471,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3.) Select &quot;Switch to Professional&quot;" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="26" translatesAutoresizingMaskIntoConstraints="NO" id="9eu-dr-c6t">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2.) Select &quot;Switch to Professional&quot;" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="26" translatesAutoresizingMaskIntoConstraints="NO" id="9eu-dr-c6t">
                                 <rect key="frame" x="41" y="10" width="328" height="67"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="67" id="9vz-uo-lfE"/>
@@ -1618,7 +1621,7 @@
                                     <constraint firstAttribute="height" constant="67" id="z45-z4-RLX"/>
                                 </constraints>
                                 <attributedString key="attributedText">
-                                    <fragment content="4.) Select ">
+                                    <fragment content="3.) Select ">
                                         <attributes>
                                             <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <font key="NSFont" size="24" name="HelveticaNeue-Bold"/>
@@ -1783,7 +1786,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5.) Press &quot;Don't use my contact info&quot;" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="26" translatesAutoresizingMaskIntoConstraints="NO" id="jYy-S5-wP9">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4.) Press &quot;Don't use my contact info&quot;" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="26" translatesAutoresizingMaskIntoConstraints="NO" id="jYy-S5-wP9">
                                 <rect key="frame" x="41" y="12" width="328" height="67"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="67" id="nVR-6P-ZDZ"/>
@@ -1927,7 +1930,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="6.) Link Instagram Account to Facebook Page *Required*" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="26" translatesAutoresizingMaskIntoConstraints="NO" id="AOA-9o-2LP">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5.) Link Instagram Account to Facebook Page *Required*" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="26" translatesAutoresizingMaskIntoConstraints="NO" id="AOA-9o-2LP">
                                 <rect key="frame" x="41" y="12" width="328" height="100.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100.5" id="9V7-ri-51n"/>
@@ -2046,25 +2049,25 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WMn-gU-Bvl" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
-                                <rect key="frame" x="43" y="182" width="328" height="405"/>
+                                <rect key="frame" x="70" y="133.5" width="274" height="470.5"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="igq-eV-fxM">
-                                        <rect key="frame" x="0.0" y="0.0" width="328" height="404.5"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkBoxes" translatesAutoresizingMaskIntoConstraints="NO" id="igq-eV-fxM">
+                                        <rect key="frame" x="0.0" y="0.0" width="274" height="470.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="igq-eV-fxM" secondAttribute="height" multiplier="231:397" id="yGp-1R-se0"/>
+                                        </constraints>
                                     </imageView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="igq-eV-fxM" firstAttribute="leading" secondItem="WMn-gU-Bvl" secondAttribute="leading" id="IrG-qK-ho7"/>
-                                    <constraint firstItem="igq-eV-fxM" firstAttribute="top" secondItem="WMn-gU-Bvl" secondAttribute="top" id="U75-JN-RFt"/>
-                                    <constraint firstAttribute="trailing" secondItem="igq-eV-fxM" secondAttribute="trailing" id="fA2-Zq-1WN"/>
-                                    <constraint firstAttribute="bottom" secondItem="igq-eV-fxM" secondAttribute="bottom" constant="0.5" id="far-y0-oLU"/>
+                                    <constraint firstAttribute="bottom" secondItem="igq-eV-fxM" secondAttribute="bottom" id="001-hl-glg"/>
+                                    <constraint firstAttribute="trailing" secondItem="igq-eV-fxM" secondAttribute="trailing" id="Lle-OF-xhC"/>
+                                    <constraint firstItem="igq-eV-fxM" firstAttribute="top" secondItem="WMn-gU-Bvl" secondAttribute="top" id="Vv5-zl-IYG"/>
+                                    <constraint firstItem="igq-eV-fxM" firstAttribute="leading" secondItem="WMn-gU-Bvl" secondAttribute="leading" id="pxd-1g-WKf"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7.) When you Connect to fb on the next page, you must check ALL the boxes. (fb made this very complicated)" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="26" translatesAutoresizingMaskIntoConstraints="NO" id="Hbh-Xc-Xb4">
-                                <rect key="frame" x="41" y="12" width="328" height="162"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="162" id="FeA-jX-OnA"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="LAST THING: When you Connect to fb on the next page, you must check ALL the boxes. (fb made this very complicated)" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="26" translatesAutoresizingMaskIntoConstraints="NO" id="Hbh-Xc-Xb4">
+                                <rect key="frame" x="41" y="12" width="328" height="105.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -2168,15 +2171,14 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="CIO-pu-jbr" secondAttribute="bottom" constant="50" id="04i-G8-9x9"/>
-                            <constraint firstAttribute="trailing" secondItem="WMn-gU-Bvl" secondAttribute="trailing" constant="43" id="2WW-Yu-S5g"/>
                             <constraint firstAttribute="trailing" secondItem="Lur-pw-Xdw" secondAttribute="trailing" constant="20" id="2aI-cC-eVt"/>
                             <constraint firstItem="Hbh-Xc-Xb4" firstAttribute="top" secondItem="qk9-2R-FBt" secondAttribute="top" constant="12" id="5ym-d2-vfT"/>
                             <constraint firstItem="CIO-pu-jbr" firstAttribute="leading" secondItem="qk9-2R-FBt" secondAttribute="leading" constant="20" id="HX7-dD-VcG"/>
-                            <constraint firstItem="WMn-gU-Bvl" firstAttribute="top" secondItem="Hbh-Xc-Xb4" secondAttribute="bottom" constant="8" id="OPk-zE-bTz"/>
+                            <constraint firstItem="CIO-pu-jbr" firstAttribute="top" secondItem="WMn-gU-Bvl" secondAttribute="bottom" constant="16" id="U9r-hn-iUo"/>
                             <constraint firstItem="Hbh-Xc-Xb4" firstAttribute="leading" secondItem="qk9-2R-FBt" secondAttribute="leading" constant="41" id="Va7-aX-Kcb"/>
-                            <constraint firstItem="WMn-gU-Bvl" firstAttribute="leading" secondItem="qk9-2R-FBt" secondAttribute="leading" constant="43" id="YYE-iZ-QDC"/>
+                            <constraint firstItem="WMn-gU-Bvl" firstAttribute="top" secondItem="Hbh-Xc-Xb4" secondAttribute="bottom" constant="16" id="VhO-sw-cO0"/>
+                            <constraint firstItem="WMn-gU-Bvl" firstAttribute="centerX" secondItem="qk9-2R-FBt" secondAttribute="centerX" id="aN5-w4-Ox1"/>
                             <constraint firstAttribute="bottom" secondItem="Lur-pw-Xdw" secondAttribute="bottom" constant="50" id="egN-jN-LkB"/>
-                            <constraint firstItem="Lur-pw-Xdw" firstAttribute="top" secondItem="WMn-gU-Bvl" secondAttribute="bottom" constant="33" id="gwm-1B-mqj"/>
                             <constraint firstAttribute="trailing" secondItem="Hbh-Xc-Xb4" secondAttribute="trailing" constant="45" id="lkC-lt-WQm"/>
                         </constraints>
                     </view>
@@ -3709,12 +3711,13 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="EIY-e6-0v0"/>
-        <segue reference="oFj-AM-ntH"/>
+        <segue reference="4pM-5Z-1hJ"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="AmbModel" width="1095" height="1464"/>
         <image name="NiceIcon" width="480" height="480"/>
         <image name="SelectBusiness" width="1170" height="1577"/>
+        <image name="checkBoxes" width="1027" height="1768"/>
         <image name="createFbPage" width="1170" height="1446"/>
         <image name="dontUseContact" width="1170" height="1518"/>
         <image name="editProfile" width="1170" height="1525"/>
