@@ -433,6 +433,45 @@ func sendPushNotification(params: [String: AnyObject]){
     task.resume()
 }
 
+func checkIfAccessTokenExpires(accessToken: String, completion: @escaping(_ status: Bool)->()){
+    
+    let urlString = "https://graph.facebook.com/app/?access_token=\(accessToken)"
+    
+    let url = URL(string: urlString)!
+    
+    let session = URLSession.shared
+    var request = URLRequest(url: url)
+    request.httpMethod = "Get"
+    request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringCacheData
+    
+    let task = session.dataTask(with: request) { (data, response, error) in
+        if error == nil && data != nil {
+            
+            do {
+
+                let decoded = try JSONSerialization.jsonObject(with: data!, options: [])
+                
+                if let dictFromJSON = decoded as? [String: AnyObject] {
+                    if (dictFromJSON ["error"] as? [String: AnyObject]) != nil{
+                        completion(false)
+                    }else{
+                        completion(true)
+                    }
+                }else{
+                    completion(true)
+                }
+            } catch {
+                completion(true)
+            }
+        
+        }else{
+            completion(false)
+        }
+        
+    }
+    task.resume()
+}
+
 
 func AverageLikes(instagramID: String, userToken: String) {
     

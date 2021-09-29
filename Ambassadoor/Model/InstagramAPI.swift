@@ -384,6 +384,7 @@ struct API {
                 }
             }else{
                 //completion(nil, nil, tokenError)
+                completion(false)
             }
             
         })
