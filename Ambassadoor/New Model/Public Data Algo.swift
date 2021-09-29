@@ -110,15 +110,25 @@ func SerializePublicData(dictionary: [String: Any], finished: (() -> ())?) {
 	
 	var infs: [BasicInfluencer] = []
 	var basicbu: [BasicBusiness] = []
+	var selfForTesting = false
+	if Myself != nil {
+		selfForTesting = Myself.basic.isForTesting
+	}
 	let influencers = dictionary["Influencers"] as! [String: Any]
 	for i in influencers.keys {
 		let inf = BasicInfluencer.init(dictionary: influencers[i] as! [String: Any], userId: i)
-		infs.append(inf)
+		if !inf.isForTesting || selfForTesting {
+			if !inf.flags.contains("isInvisible") {
+				infs.append(inf)
+			}
+		}
 	}
 	let businesses = dictionary["Businesses"] as! [String: Any]
 	for b in businesses.keys {
 		let bus = BasicBusiness.init(dictionary: businesses[b] as! [String: Any], basicId: b)
-		basicbu.append(bus)
+		if !bus.isForTesting || selfForTesting {
+			basicbu.append(bus)
+		}
 	}
 	
 	//sort both influencer and business accounts.
