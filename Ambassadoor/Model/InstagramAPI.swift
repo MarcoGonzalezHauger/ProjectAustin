@@ -362,6 +362,35 @@ struct API {
         
     }
     
+    static func getInstaprofile(InstaID: String, userID: String, completion: @escaping(_ status: Bool)->()){
+        GraphRequest(graphPath: InstaID, parameters: ["fields":"biography,id,followers_count,follows_count,media_count,name,profile_picture_url,username,website"]).start(completionHandler: { (connection, userDetail, tokenError) -> Void in
+            
+            if tokenError == nil{
+                //completion(userDetail, liveToken, nil)
+                if let userDetailDict = userDetail as? [String: AnyObject]{
+                    if let pic = userDetailDict["profile_picture_url"] as? String {
+                        Myself.basic.profilePicURL = pic
+                    }
+                }
+                
+                updateFirebaseProfileURL(profileUrl: Myself.basic.profilePicURL, id: Myself.basic.username) { (url, status) in
+                    
+                    if status{
+                        Myself.basic.profilePicURL = url!
+                        completion(true)
+                    }else{
+                        completion(false)
+                    }
+                }
+            }else{
+                //completion(nil, nil, tokenError)
+                completion(false)
+            }
+            
+        })
+
+    }
+    
     static func clearFacebookCookies() {
         let cookies = HTTPCookieStorage.shared
         let facebookCookies = cookies.cookies(for: URL(string: "https://facebook.com/")!)

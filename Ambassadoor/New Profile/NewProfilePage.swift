@@ -40,6 +40,7 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	func myselfRefreshed() { //from MyselfRefreshDelegate
 		if !isInEditMode {
 			loadFromMyself()
+            setTabBarProfilePicture()
 		}
 	}
 	
@@ -105,6 +106,33 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
         self.tabBarController?.delegate = self
     }
     
+    func setTabBarProfilePicture() {
+        let logo = Myself.basic.resizedProfile
+        downloadImage(logo) { (image) in
+            let size = CGSize.init(width: 30, height: 30)
+            
+            let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+            
+            UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.main.scale)
+            image?.draw(in: rect)
+            let newImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            
+            if var image = newImage {
+                DispatchQueue.main.async {
+                    print(image.scale)
+                    image = makeImageCircular(image: image)
+                    print(image.scale)
+                    self.tabBarController?.viewControllers?[0].tabBarItem.image = nil
+                    self.tabBarController?.viewControllers?[0].tabBarItem.selectedImage = nil
+                    self.tabBarController?.viewControllers?[0].tabBarItem.image = image.withRenderingMode(.alwaysOriginal)
+                    self.tabBarController?.viewControllers?[0].tabBarItem.selectedImage = image.withRenderingMode(.alwaysOriginal)
+                }
+                
+            }
+        }
+    }
+        
     func setDatePicker(dateChooserAlert: UIAlertController) {
             datePickerView.frame = CGRect.init(x: 0, y: 10, width: dateChooserAlert.view.frame.size.width, height: 300)
             var components = DateComponents()

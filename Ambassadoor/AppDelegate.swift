@@ -244,26 +244,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 			if thisInf.password == passWord?.md5() {
 				
 				Myself = thisInf
-				
-				if AccessToken.current != nil {
-					
-					setHapticMenu(user: Myself)
-                    Myself.tokenFIR = global.deviceFIRToken
-                    Myself.UpdateToFirebase(alsoUpdateToPublic: true) { error in
+                
+                checkIfAccessTokenExpires(accessToken: Myself.instagramAuthToken) { status in
+                    if status{
                         
+                        DispatchQueue.main.async {
+                            setHapticMenu(user: Myself)
+                            Myself.tokenFIR = global.deviceFIRToken
+                            let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
+                            viewReference.delegate = viewReference
+                            API.getInstaprofile(InstaID: Myself.instagramAccountId, userID: Myself.userId) { status in
+                                if status {
+                                    Myself.UpdateToFirebase(alsoUpdateToPublic: true) { error in
+                                        viewReference.setTabBarProfilePicture()
+                                    }
+                                }else{
+                                    
+                                }
+                            }
+                            
+                            InitializeAmbassadoor()
+                            AverageLikes(instagramID: Myself.instagramAccountId, userToken: Myself.instagramAuthToken)
+                            
+                            downloadDataBeforePageLoad()
+                            self.window?.rootViewController = viewReference
+                        }
+                    }else{
+                        DispatchQueue.main.async {
+                        self.callIfAccessTokenExpired(userID: Myself.userId, instaID: Myself.instagramAccountId)
+                        }
                     }
-					InitializeAmbassadoor()
-					AverageLikes(instagramID: Myself.instagramAccountId, userToken: Myself.instagramAuthToken)
-					let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
-                    viewReference.delegate = viewReference
-					downloadDataBeforePageLoad()
-					self.window?.rootViewController = viewReference
-					
-				} else {
-					
-					self.callIfAccessTokenExpired(userID: Myself.userId, instaID: Myself.instagramAccountId)
-					
-				}
+                }
 			} else {
 				let viewReference = instantiateViewController(storyboard: "LoginSetup", reference: "SignUp") as! WelcomeVC
 				self.window?.rootViewController = viewReference
