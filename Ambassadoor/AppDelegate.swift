@@ -249,13 +249,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 					
 					setHapticMenu(user: Myself)
                     Myself.tokenFIR = global.deviceFIRToken
-                    Myself.UpdateToFirebase(alsoUpdateToPublic: true) { error in
-                        
+                    let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
+                    viewReference.delegate = viewReference
+                    API.getInstaprofile(InstaID: Myself.instagramAccountId, userID: Myself.userId) { status in
+                        Myself.UpdateToFirebase(alsoUpdateToPublic: true) { error in
+                            viewReference.setTabBarProfilePicture()
+                        }
                     }
+                    
 					InitializeAmbassadoor()
 					AverageLikes(instagramID: Myself.instagramAccountId, userToken: Myself.instagramAuthToken)
-					let viewReference = instantiateViewController(storyboard: "Main", reference: "TabBarReference") as! TabBarVC
-                    viewReference.delegate = viewReference
+					
 					downloadDataBeforePageLoad()
 					self.window?.rootViewController = viewReference
 					

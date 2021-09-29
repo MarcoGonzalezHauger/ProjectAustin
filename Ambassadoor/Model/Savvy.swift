@@ -283,6 +283,8 @@ func makeImageCircular(image: UIImage) -> UIImage {
 	return NewImage!
 }
 
+
+
 func GetCategoryStringFromlist(categories: [String]) -> String {
 	
 	return categories.joined(separator: "\n")
