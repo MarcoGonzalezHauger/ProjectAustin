@@ -46,7 +46,7 @@ class NewZipcodeVC: UIViewController, EnterZipCode {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        NewAccount.zipCode = ""
         // Do any additional setup after loading the view.
     }
     

@@ -22,7 +22,10 @@ var offerPoolListeners: [OfferPoolRefreshDelegate] = []
 
 //This function only needs to activated ONCE on startup of the app. After that please do not execute it again.
 
-
+func removeOfferPoolObservers() {
+        let ref = Database.database().reference().child("Pool")
+        ref.removeAllObservers()
+}
 
 func startListeningToOfferPool() {
 	let oneTimeRef = Database.database().reference().child("Pool")
