@@ -2361,11 +2361,22 @@
                         <outlet property="Step2View" destination="d6c-7B-iIx" id="bZ9-na-NPN"/>
                         <outlet property="connectBtn" destination="IBc-4p-ZlM" id="Ufp-6N-vUt"/>
                         <segue destination="y7y-zQ-xBi" kind="show" identifier="toNewInterestPicker" id="vfd-cc-ZfJ"/>
+                        <segue destination="J8V-PE-eNe" kind="presentation" identifier="FromFCtoSignInVC" id="fxO-5b-eLc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LqP-aL-JD5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4603" y="1228"/>
+        </scene>
+        <!--SigninVCRef-->
+        <scene sceneID="Rn5-BP-eGY">
+            <objects>
+                <viewControllerPlaceholder storyboardName="LoginSetup" referencedIdentifier="SigninVCRef" id="J8V-PE-eNe" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="9Od-lh-Cwv"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oFP-fv-b8K" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5154" y="999"/>
         </scene>
         <!--PickInterestsRef-->
         <scene sceneID="zgr-CA-9VX">
@@ -3607,7 +3618,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="azi-nw-QPP" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="azi-nw-QPP" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="20" y="620" width="67" height="34"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="whiteBack" translatesAutoresizingMaskIntoConstraints="NO" id="PGe-qT-YnL">

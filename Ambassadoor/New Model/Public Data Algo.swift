@@ -15,7 +15,12 @@ protocol publicDataRefreshDelegate {
 
 var publicDataListeners: [publicDataRefreshDelegate] = []
 
-
+func removePublicObservers() {
+    let ref = Database.database().reference().child("Accounts/Public/Influencers")
+    ref.removeAllObservers()
+    let refBusinesses = Database.database().reference().child("Accounts/Public/Businesses")
+    refBusinesses.removeAllObservers()
+}
 
 func StartListeningToPublicData() {
 	let ref = Database.database().reference().child("Accounts/Public/Influencers")
@@ -84,8 +89,11 @@ func StartListeningToPublicData() {
 }
 
 func logOut() {
+    removePublicObservers()
+    removeOfferPoolObservers()
     myselfRefreshListeners.removeAll()
     publicDataListeners.removeAll()
+    Myself = nil
     UserDefaults.standard.removeObject(forKey: "email")
     UserDefaults.standard.removeObject(forKey: "password")
     DispatchQueue.main.async {

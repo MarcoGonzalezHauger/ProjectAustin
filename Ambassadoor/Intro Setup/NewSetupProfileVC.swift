@@ -63,7 +63,8 @@ class NewSetupProfileVC: UIViewController {
                                 if action.title == "Sign In"{
                                     
                                     DispatchQueue.main.async {
-                                        self.performSegue(withIdentifier: "FromCStoSignIn", sender: user)
+                                        //self.dismiss(animated: true, completion: nil)
+                                        self.performSegue(withIdentifier: "FromFCtoSignInVC", sender: user)
                                     }
                                     
                                 }else{
