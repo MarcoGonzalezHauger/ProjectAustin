@@ -64,25 +64,29 @@ class SigninVC: UIViewController {
                                 
                                 Myself.tokenFIR = global.deviceFIRToken
                                 
-                                if AccessToken.current != nil {
-                                    
-                                    UserDefaults.standard.set(userID, forKey: "userID")
-                                    UserDefaults.standard.set(self.emailText.text!.lowercased(), forKey: "email")
-                                    UserDefaults.standard.set(self.passwordText.text!, forKey: "password")
-                                    Myself.UpdateToFirebase(alsoUpdateToPublic: true) { error in
+                                checkIfAccessTokenExpires(accessToken: Myself.instagramAuthToken) { status in
+                                    if status{
+                                        DispatchQueue.main.async {
+                                        UserDefaults.standard.set(userID, forKey: "userID")
+                                        UserDefaults.standard.set(self.emailText.text!.lowercased(), forKey: "email")
+                                        UserDefaults.standard.set(self.passwordText.text!, forKey: "password")
+                                        Myself.UpdateToFirebase(alsoUpdateToPublic: true) { error in
+                                            
+                                        }
+                                        //let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+                                        InitializeAmbassadoor()
+                                        AverageLikes(instagramID: Myself.instagramAccountId, userToken: Myself.instagramAuthToken)
+                                        downloadDataBeforePageLoad()
+                                        self.LoginSuccessful()
+                                        }
+                                    }else{
+                                        DispatchQueue.main.async {
+                                            self.callIfAccessTokenExpired(userID: userID, instaID: Myself.instagramAccountId)
+                                        }
                                         
                                     }
-                                    //let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-                                    InitializeAmbassadoor()
-                                    AverageLikes(instagramID: Myself.instagramAccountId, userToken: Myself.instagramAuthToken)
-                                    downloadDataBeforePageLoad()
-                                    self.LoginSuccessful()
-                                    
-                                }else{
-                                    
-                                    self.callIfAccessTokenExpired(userID: userID, instaID: Myself.instagramAccountId)
-                                    
                                 }
+                                
                                 
 //                                if AccessToken.current != nil {
 //
