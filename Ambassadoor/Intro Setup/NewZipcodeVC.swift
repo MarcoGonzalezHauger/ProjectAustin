@@ -40,7 +40,7 @@ class NewZipcodeVC: UIViewController, EnterZipCode {
             }
             return
         }
-        self.performSegue(withIdentifier: "toNewCreateAccountSegue", sender: self)
+        self.performSegue(withIdentifier: "toBornPickerSegue", sender: self)
     }
     
 
