@@ -311,7 +311,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     if let username = userDetailDict["username"] as? String {
                         Myself.basic.username = username
                     }
-                    
+                    Myself.basic.lastUpdated = Date.getcurrentESTdate()
                     Myself.instagramAuthToken = longliveToken!
                     //updateFirebaseProfileURL(profileUrl: NewAccount.profilePicture, id: NewAccount.id) {
                     updateFirebaseProfileURL(profileUrl: Myself.basic.profilePicURL, id: Myself.basic.username) { (url, status) in
