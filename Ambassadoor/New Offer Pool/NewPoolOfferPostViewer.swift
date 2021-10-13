@@ -36,10 +36,15 @@ class NewPoolOfferPostViewer: UIViewController, CLLocationManagerDelegate {
 	
 	func updateContents() {
         let loc = thisPoolOffer.BasicBusiness()
-        print(loc!.locations)
-		locationsView.isHidden = loc!.locations.count == 0
-		foreImage.downloadAndSetImage(thisPoolOffer.BasicBusiness()!.logoUrl)
-		backImage.downloadAndSetImage(thisPoolOffer.BasicBusiness()!.logoUrl)
+        if loc != nil {
+            print(loc!.locations)
+            locationsView.isHidden = loc!.locations.count == 0
+            foreImage.downloadAndSetImage(thisPoolOffer.BasicBusiness()!.logoUrl)
+            backImage.downloadAndSetImage(thisPoolOffer.BasicBusiness()!.logoUrl)
+        }else{
+            locationsView.isHidden = true
+        }
+		
 		indexLabel.text = "\(index + 1)"
 		instructions.text = thisPoolOffer.draftPosts[index].instructions
 		var allItems: [String] = []
