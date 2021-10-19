@@ -376,6 +376,7 @@ struct API {
                 updateFirebaseProfileURL(profileUrl: Myself.basic.profilePicURL, id: Myself.basic.username) { (url, status) in
                     
                     if status{
+                        Myself.basic.lastUpdated = Date.getcurrentESTdate()
                         Myself.basic.profilePicURL = url!
                         completion(true)
                     }else{

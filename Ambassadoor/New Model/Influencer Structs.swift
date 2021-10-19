@@ -162,6 +162,7 @@ class BasicInfluencer { //All public information goes here.
 	var followedBy: [String]
 	var birthday: Date
     var resizedUrl: URL?
+    var lastUpdated: Date
     
 	
 	func checkFlag(_ flag: String) -> Bool {
@@ -201,6 +202,7 @@ class BasicInfluencer { //All public information goes here.
 		followingBusinesses = d["followingBusinesses"] as? [String] ?? []
 		followedBy = d["followedBy"] as? [String] ?? []
 		birthday = (d["birthday"] as! String).toUDate()
+        lastUpdated = (d["lastUpdated"] as? String ?? GetEmptyDate().toUString()).toUDate()
 		
 	}
 	
@@ -224,6 +226,7 @@ class BasicInfluencer { //All public information goes here.
 		self.followedBy = followedBy
 		self.birthday = birthday
 		self.userId = userId
+        self.lastUpdated = Date.getcurrentESTdate()
 	}
 		 
 		 
@@ -247,7 +250,7 @@ class BasicInfluencer { //All public information goes here.
 		d["followingBusinesses"] = followingBusinesses
 		d["followedBy"] = followedBy
 		d["birthday"] = birthday.toUString()
-		
+        d["lastUpdated"] = lastUpdated.toUString()
 		return d
 	}
     
@@ -272,7 +275,7 @@ class BasicInfluencer { //All public information goes here.
         d["followingBusinesses"] = []
         d["followedBy"] = []
         d["birthday"] = userInfo.dob
-        
+        d["lastUpdated"] = Date.getcurrentESTdate()
         return d
         
     }
