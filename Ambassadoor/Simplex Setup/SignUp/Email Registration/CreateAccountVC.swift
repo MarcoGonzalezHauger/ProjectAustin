@@ -107,7 +107,7 @@ class CreateAccountVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             appDelegate.window?.rootViewController = viewReference
             
-            NewAccount = NewAccountInfo.init(email: "", password: "", categories: [], gender: "", zipCode: "", instagramAccountId: "", instagramUsername: "", authenticationToken: "", averageLikes: 0, followerCount: 0, id: "", instagramName: "", profilePicture: "", referralCode: "", dob: "", isForTesting: false)
+            NewAccount = NewAccountInfo.init(email: "", password: "", categories: [], gender: "", zipCode: "", instagramAccountId: "", instagramUsername: "", authenticationToken: "", averageLikes: 0, followerCount: 0, id: "", instagramName: "", profilePicture: "", referralCode: "", dob: "", isForTesting: false, referredBy: "")
             
         }
         

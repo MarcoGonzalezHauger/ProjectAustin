@@ -58,6 +58,7 @@ class NewSetUpVC: UIViewController {
                 self.AccountCreationFailed(problem: .instaTaken)
             }else{
                 Myself = user
+                InitializeAmbassadoor()
                 UserDefaults.standard.set(NewUserID, forKey: "userID")
                 UserDefaults.standard.set(NewAccount.email, forKey: "email")
                 UserDefaults.standard.set(NewAccount.password, forKey: "password")
@@ -81,7 +82,7 @@ class NewSetUpVC: UIViewController {
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             appDelegate.window?.rootViewController = viewReference
             
-            NewAccount = NewAccountInfo.init(email: "", password: "", categories: [], gender: "", zipCode: "", instagramAccountId: "", instagramUsername: "", authenticationToken: "", averageLikes: 0, followerCount: 0, id: "", instagramName: "", profilePicture: "", referralCode: "", dob: "", isForTesting: false)
+            NewAccount = NewAccountInfo.init(email: "", password: "", categories: [], gender: "", zipCode: "", instagramAccountId: "", instagramUsername: "", authenticationToken: "", averageLikes: 0, followerCount: 0, id: "", instagramName: "", profilePicture: "", referralCode: "", dob: "", isForTesting: false, referredBy: "")
             
         }
         

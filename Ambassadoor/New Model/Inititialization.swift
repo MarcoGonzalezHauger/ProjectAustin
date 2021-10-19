@@ -19,9 +19,6 @@ func InitializeAmbassadoor() {
 
 func StartListening() {
 	
-	RefreshPublicData {
-		print("Public data downloaded.")
-	}
 	
 	startListeningToMyself(userId: Myself.userId)
 	

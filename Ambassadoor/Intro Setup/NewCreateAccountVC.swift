@@ -14,7 +14,8 @@ protocol OTPDismissed {
 
 class NewCreateAccountVC: UIViewController, UITextFieldDelegate, OTPDismissed {
     func otpdismissed() {
-        self.performSegue(withIdentifier: "toNewSetup", sender: self)
+        //self.performSegue(withIdentifier: "toNewSetup", sender: self)
+        self.performSegue(withIdentifier: "toNewReferelConfirm", sender: self)
     }
     
     
@@ -132,6 +133,7 @@ class NewCreateAccountVC: UIViewController, UITextFieldDelegate, OTPDismissed {
         let params = ["email":email,"username":"rammmm"] as [String: AnyObject]
         APIManager.shared.sendOTPtoUserServiceForConfirmEmail(params: params) { (status, error, data) in
             
+            if data != nil {
             
             let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
             
@@ -163,7 +165,11 @@ class NewCreateAccountVC: UIViewController, UITextFieldDelegate, OTPDismissed {
                 
             }
             
-            
+            }else{
+                self.showStandardAlertDialog(title: "Alert", msg: "Something wrong!. Try again later.") { action in
+                    
+                }
+            }
             
         }
         

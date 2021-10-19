@@ -57,7 +57,7 @@ class WelcomeVC: UIViewController, AutoDimiss {
 			destination.delegate = self
 		}
 		if let destination = segue.destination as? CreateAccountVC {
-            NewAccount = NewAccountInfo.init(email: "", password: "", categories: [], gender: "", zipCode: "", instagramAccountId: "", instagramUsername: "", authenticationToken: "", averageLikes: 0, followerCount: 0, id: "", instagramName: "", profilePicture: "", referralCode: "", dob: "", isForTesting: false)
+            NewAccount = NewAccountInfo.init(email: "", password: "", categories: [], gender: "", zipCode: "", instagramAccountId: "", instagramUsername: "", authenticationToken: "", averageLikes: 0, followerCount: 0, id: "", instagramName: "", profilePicture: "", referralCode: "", dob: "", isForTesting: false, referredBy: "")
 			destination.delegate = self
 		}
         if let view = segue.destination as? WebViewVC {

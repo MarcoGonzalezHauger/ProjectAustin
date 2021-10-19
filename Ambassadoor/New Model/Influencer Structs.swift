@@ -279,7 +279,7 @@ class BasicInfluencer { //All public information goes here.
         d["followingBusinesses"] = []
         d["followedBy"] = []
         d["birthday"] = userInfo.dob
-        d["lastUpdated"] = Date.getcurrentESTdate()
+        d["lastUpdated"] = Date.getcurrentESTdate().toUString()
 		d["referredBy"] = userInfo.referredBy == "" ? nil : userInfo.referredBy
         return d
         
