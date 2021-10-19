@@ -163,6 +163,7 @@ class BasicInfluencer { //All public information goes here.
 	var birthday: Date
     var resizedUrl: URL?
     var lastUpdated: Date
+	var referredBy: String?
     
 	
 	func checkFlag(_ flag: String) -> Bool {
@@ -203,6 +204,7 @@ class BasicInfluencer { //All public information goes here.
 		followedBy = d["followedBy"] as? [String] ?? []
 		birthday = (d["birthday"] as! String).toUDate()
         lastUpdated = (d["lastUpdated"] as? String ?? GetEmptyDate().toUString()).toUDate()
+		referredBy = d["referredBy"] as? String
 		
 	}
 	
@@ -227,6 +229,7 @@ class BasicInfluencer { //All public information goes here.
 		self.birthday = birthday
 		self.userId = userId
         self.lastUpdated = Date.getcurrentESTdate()
+		
 	}
 		 
 		 
@@ -251,6 +254,7 @@ class BasicInfluencer { //All public information goes here.
 		d["followedBy"] = followedBy
 		d["birthday"] = birthday.toUString()
         d["lastUpdated"] = lastUpdated.toUString()
+		d["referredBy"] = referredBy
 		return d
 	}
     
@@ -275,7 +279,8 @@ class BasicInfluencer { //All public information goes here.
         d["followingBusinesses"] = []
         d["followedBy"] = []
         d["birthday"] = userInfo.dob
-        d["lastUpdated"] = Date.getcurrentESTdate()
+        d["lastUpdated"] = Date.getcurrentESTdate().toUString()
+		d["referredBy"] = userInfo.referredBy == "" ? nil : userInfo.referredBy
         return d
         
     }

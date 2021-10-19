@@ -203,7 +203,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //
 //            return true
 //        }
-        
+        RefreshPublicData {
+            print("Public data downloaded.")
+        }
         self.signInAction()
         
         GetDevelopmentSettings { (development) in
