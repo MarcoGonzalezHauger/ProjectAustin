@@ -37,7 +37,10 @@ class PoolOfferTVC: UITableViewCell {
 			regularProfilePic.image = nil
 			byCoLabel.text = poolOffer.businessId
 		}
-		priceForInfluencer.text = NumberToPrice(Value: poolOffer.totalCost(forInfluencer: Myself.basic), enforceCents: true)
+		
+        let costPerPost = roundPriceDown(price: poolOffer.totalCost(forInfluencer: Myself.basic))
+        print("costPerPost====",costPerPost)
+        priceForInfluencer.text = NumberToPrice(Value: costPerPost, enforceCents: true)
 		perPostLabel.text = NumberToPrice(Value: poolOffer.pricePerPost(forInfluencer: Myself.basic)) + " each post"
 		
 		let percent = poolOffer.cashPower / poolOffer.originalCashPower

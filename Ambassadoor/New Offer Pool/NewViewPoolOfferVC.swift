@@ -36,7 +36,10 @@ class NewViewPoolOfferVC: UIViewController, UITableViewDelegate, UITableViewData
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "postCell") as! PostTVC
 		cell.postLabel.text = "Post \(indexPath.row + 1)"
-		cell.amountForPostLabel.text = NumberToPrice(Value: thisPoolOffer.pricePerPost(forInfluencer: Myself.basic), enforceCents: true)
+//		cell.amountForPostLabel.text = NumberToPrice(Value: thisPoolOffer.pricePerPost(forInfluencer: Myself.basic), enforceCents: true)
+        let costPerPost = roundPriceDown(price: thisPoolOffer.pricePerPost(forInfluencer: Myself.basic))
+        print("costPerPost====",costPerPost)
+        cell.amountForPostLabel.text = NumberToPrice(Value: costPerPost, enforceCents: true)
 		return cell
 	}
 	
@@ -133,9 +136,10 @@ class NewViewPoolOfferVC: UIViewController, UITableViewDelegate, UITableViewData
 			offerByLabel.text = "[Couldn't find business name.]"
 		}
 		
-		totalMoneyLabel.text = NumberToPrice(Value: thisPoolOffer.totalCost(forInfluencer: Myself.basic), enforceCents: true)
 		
-		
+        let costPerPost = roundPriceDown(price: thisPoolOffer.totalCost(forInfluencer: Myself.basic))
+        print("costPerPost====",costPerPost)
+        totalMoneyLabel.text = NumberToPrice(Value: costPerPost, enforceCents: true)
 		acceptView.isHidden = !thisPoolOffer.canBeAccepted(forInfluencer: Myself)
 		cannotBeAcceptedView.isHidden = thisPoolOffer.canBeAccepted(forInfluencer: Myself)
 		
