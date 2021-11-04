@@ -34,7 +34,11 @@ extension DraftOffer {
 	}
 }
 
+
 extension PoolOffer {
+	/**
+	 Accepts Pool offer and updates the influecner that accepted it.
+	 */
 	func acceptThisOffer(asInfluencer thisInfluencer: Influencer, completed: @escaping (_ failedReason: String) -> ()) {
 		
 		for p in thisInfluencer.inProgressPosts {
@@ -46,48 +50,47 @@ extension PoolOffer {
 		}
         
         let costPerPost = roundPriceDown(price: self.pricePerPost(forInfluencer: thisInfluencer.basic))
-        print("price0===",self.totalCost(forInfluencer: thisInfluencer.basic))
+        print("price is ",self.totalCost(forInfluencer: thisInfluencer.basic))
         let totalCost = roundPriceDown(price: self.totalCost(forInfluencer: thisInfluencer.basic))
 		
-		//let costPerPost = self.pricePerPost(forInfluencer: thisInfluencer.basic)
-		//let totalCost = self.totalCost(forInfluencer: thisInfluencer.basic)
 		
 		if totalCost > self.cashPower {
 			completed("There isn't enough money in this offer to afford your fee. (\(NumberToPrice(Value: totalCost)))")
+		}
+		
+		if !self.filter.DoesInfluencerPassFilter(basicInfluencer: thisInfluencer.basic) {
+			completed("You don't meet the filters of this offer.")
+		}
+		
+		//now, accept offer.
+		
+		let newCashPower = roundPriceDown(price: self.cashPower - totalCost)
+		
+		var newAccUserIds: [String] = self.acceptedUserIds
+		
+		if self.hasInfluencerAccepted(influencer: thisInfluencer) {
+			completed("You already accepted this offer.")
 		} else {
-			if !self.filter.DoesInfluencerPassFilter(basicInfluencer: thisInfluencer.basic) {
-				completed("You don't meet the filters of this offer.")
+			newAccUserIds.append(thisInfluencer.userId)
+		}
+		
+		var newPosts: [InProgressPost] = [] // we do this before updating cashPower, because if the app crahses while compiling a list of new draftposts AFTER the money has been withdrawn, that would be a huge problem.
+		
+		for p in self.draftPosts {
+			let newInP = InProgressPost.init(draftPost: p, comissionUserId: self.comissionUserId, comissionBusinessId: self.comissionBusinessId, userId: thisInfluencer.userId, poolOfferId: self.poolId, businessId: self.businessId, draftOfferId: self.draftOfferId, cashValue: costPerPost, basicId: basicId)
+			newPosts.append(newInP)
+		}
+		
+		let ref = Database.database().reference().child(poolPath)
+		ref.updateChildValues(["cashPower": newCashPower, "acceptedUserIds": newAccUserIds]) { (err, dataref) in
+			if err == nil {
+				self.cashPower = newCashPower
+				self.acceptedUserIds = newAccUserIds
+				thisInfluencer.inProgressPosts.append(contentsOf: newPosts)
+				thisInfluencer.UpdateToFirebase(alsoUpdateToPublic: false, completed: nil)
+				completed("")
 			} else {
-				
-				let newCashPower = roundPriceDown(price: self.cashPower - totalCost)
-				
-				var newAccUserIds: [String] = self.acceptedUserIds
-				
-				if self.hasInfluencerAccepted(influencer: thisInfluencer) {
-					completed("You already accepted this offer.")
-				} else {
-					newAccUserIds.append(thisInfluencer.userId)
-				}
-				
-				var newPosts: [InProgressPost] = [] // we do this before updating cashPower, because if the app crahses while compiling a list of new draftposts AFTER the money has been withdrawn, that would be a huge problem.
-				
-				for p in self.draftPosts {
-					let newInP = InProgressPost.init(draftPost: p, comissionUserId: self.comissionUserId, comissionBusinessId: self.comissionBusinessId, userId: thisInfluencer.userId, poolOfferId: self.poolId, businessId: self.businessId, draftOfferId: self.draftOfferId, cashValue: costPerPost, basicId: basicId)
-					newPosts.append(newInP)
-				}
-				
-				let ref = Database.database().reference().child(poolPath)
-				ref.updateChildValues(["cashPower": newCashPower, "acceptedUserIds": newAccUserIds]) { (err, dataref) in
-					if err == nil {
-						self.cashPower = newCashPower
-						self.acceptedUserIds = newAccUserIds
-						thisInfluencer.inProgressPosts.append(contentsOf: newPosts)
-						thisInfluencer.UpdateToFirebase(alsoUpdateToPublic: false, completed: nil)
-						completed("")
-					} else {
-						completed("A network error prevented you from accepting this offer.")
-					}
-				}
+				completed("A network error prevented you from accepting this offer.")
 			}
 		}
 	}
