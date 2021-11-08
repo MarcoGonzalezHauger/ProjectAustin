@@ -102,18 +102,21 @@ func sortOfferPool() {
 		}
 	}
 }
-
+/// - Fetch following user's Offers
+/// - Returns: Array of offers
 func getFollowingOfferPool() -> [PoolOffer] {
 	return getFilteredOfferPool().filter{Myself.basic.followingBusinesses.contains($0.basicId)}
     //return getFilteredOfferPool().filter{Myself.basic.followingBusinesses.contains($0.businessId)}
 }
-
+/// Filter offers based on Influencer Cost, Location, Gender, Interest
+/// - Returns: array of Offers
 func getFilteredOfferPool() -> [PoolOffer] {
 	let filteredPool = offerPool.filter { $0.canBeAccepted(forInfluencer: Myself) }
 	print("PV: Filitered Count is \(filteredPool.count)")
 	return filteredPool
 }
-
+/// Fetch all offers which includes filtered offers and following users's offers
+/// - Returns: Array of all offers(Following user, Filtered offers)
 func GetOfferPool() -> [PoolOffer] {
 	print("PV: Getting Total count is \(offerPool.count)")
 	return offerPool

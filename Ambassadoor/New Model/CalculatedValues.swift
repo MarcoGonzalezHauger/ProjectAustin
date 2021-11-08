@@ -62,6 +62,9 @@ extension BasicBusiness {
 }
 
 extension OfferFilter {
+    ///   Check if the influencer pass the filter based on age, gender, location, interest and Cost Value
+    /// - Parameter basicInfluencer: send Influencer which one need to check
+    /// - Returns: Returns true if influencer pass the offer's Filter otherwise false
 	func DoesInfluencerPassFilter(basicInfluencer: BasicInfluencer) -> Bool {
 		if basicInfluencer.age < 18 { //If a influencer is not 18, NOTHING should be acceptable for them
 			return false
@@ -105,6 +108,10 @@ extension OfferFilter {
 }
 
 extension PoolOffer {
+    
+    /// Check if the influencer is already accepted this offer
+    /// - Parameter inf: Send Infuencer which one need to check.
+    /// - Returns: returns true if influencer is already acceoted this offer otherwise flase.
 	func hasInfluencerAccepted(influencer inf: Influencer) -> Bool {
 		if acceptedUserIds.contains(Myself.userId) {
 			return true
@@ -119,16 +126,32 @@ extension PoolOffer {
 	func BasicBusiness() -> BasicBusiness? {
 		return GetBasicBusiness(id: basicId)
 	}
+    
+    /// We detemine every influencer cost based on their average likes and Ambassadoor coefficiemt. Here
+    /// Business user may give credit boost to influencer by pay increase. This way we calculate Influencer cost per post.
+    /// - Parameter inf: send Influencer which one need to check
+    /// - Returns: Influencer Cost In Double
 	func pricePerPost(forInfluencer inf: BasicInfluencer) -> Double {
 		return inf.baselinePricePerPost * self.payIncrease
 	}
+    
+    ///   Calculate the total cost of the influencer for the offer
+    /// - Parameter inf: send Influencer which one need to check
+    /// - Returns: Total cost of the Influencer for the offer in Double
 	func totalCost(forInfluencer inf: BasicInfluencer) -> Double {
 		return pricePerPost(forInfluencer: inf) * Double(draftPosts.count)
 	}
-	
+    
+    ///   Check if Influencer cost is affordable to the offer price
+    /// - Parameter inf: send Influencer which one need to check
+    /// - Returns: Returns true if influencer affordable for the offer otherwise false
 	func canAffordInflunecer(forInfluencer inf: BasicInfluencer) -> Bool {
 		return cashPower > totalCost(forInfluencer: inf)
 	}
+    
+    ///   Show offers to influencer based on Influencer's Age, Gender, Interest, Location and Cost Value
+    /// - Parameter inf: Send influencer which one need to check.
+    /// - Returns: Returns true if influencer can able to accept the offer otherwise false
 	func canBeAccepted(forInfluencer inf: Influencer) -> Bool {
 		return filter.DoesInfluencerPassFilter(basicInfluencer: inf.basic) && canAffordInflunecer(forInfluencer: inf.basic) && !hasInfluencerAccepted(influencer: inf)
 	}
