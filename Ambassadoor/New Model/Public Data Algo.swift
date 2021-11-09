@@ -22,6 +22,7 @@ func removePublicObservers() {
     refBusinesses.removeAllObservers()
 }
 
+/// Fetch the influencers public and private data from Firebase and add a listener to refresh the users
 func StartListeningToPublicData() {
 	let ref = Database.database().reference().child("Accounts/Public/Influencers")
 	ref.observe(.childChanged) { (snap) in
@@ -104,6 +105,9 @@ func logOut() {
     }
 }
 
+/// Fetch all public data from Firebase. To enhance the loading user data.
+/// - Parameter finished: Send Completion handler optional. Incase in any situation we want to know if Refresh public data finished.
+/// - Returns: Returns empty Callback. But we serialize all public data and save the data seperately to global collections.
 func RefreshPublicData(finished: (() -> ())?) {
 	let ref = Database.database().reference().child("Accounts/Public")
 	ref.observeSingleEvent(of: .value) { (snapshot) in

@@ -362,6 +362,12 @@ struct API {
         
     }
     
+    /// Get profile details of the user from Instagram
+    /// - Parameters:
+    ///   - InstaID: Instagram ID of the user
+    ///   - userID: Not using right now
+    ///   - completion: Call back true or false
+    /// - Returns: returns profile detail
     static func getInstaprofile(InstaID: String, userID: String, completion: @escaping(_ status: Bool)->()){
         GraphRequest(graphPath: InstaID, parameters: ["fields":"biography,id,followers_count,follows_count,media_count,name,profile_picture_url,username,website"]).start(completionHandler: { (connection, userDetail, tokenError) -> Void in
             

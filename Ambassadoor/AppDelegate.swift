@@ -219,7 +219,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		return true
 	}
     
-    
+    /// Do auto login
 	func signInAction() {
 //		ConvertEntireDatabase(iUnderstandWhatThisFunctionDoes: true)
 //		return
@@ -291,6 +291,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     }
     
+    /// Refersh User details if current accesstoken is expired
+    /// - Parameters:
+    ///   - userID: Current login User ID
+    ///   - instaID: Current login user's Instagram ID
     func callIfAccessTokenExpired(userID: String, instaID: String) {
         
         API.facebookLoginAct(userIDBusiness: instaID, owner: self.window!.rootViewController!) { (userDetail, longliveToken, error) in

@@ -155,6 +155,7 @@ func makeFirebaseUrl(_ str: String) -> String {
     return str.replacingOccurrences(of: ".", with: ",").replacingOccurrences(of: "#", with: "%").replacingOccurrences(of: "$", with: "%").replacingOccurrences(of: "[", with: "(").replacingOccurrences(of: "]", with: ")").replacingOccurrences(of: "/", with: "%")
 }
 
+/// Download all Interest images before going to home or sign in
 func preDownloadInterests() {
 	for i in AllInterests {
 		downloadImage(GetInterestUrl(interest: i), forceDownload: true) { (img) in }

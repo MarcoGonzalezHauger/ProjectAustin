@@ -433,6 +433,11 @@ func sendPushNotification(params: [String: AnyObject]){
     task.resume()
 }
 
+/// Check If User Facebook access token expires or not.
+/// - Parameters:
+///   - accessToken: Send user current access token
+///   - completion: Callback with true or false
+/// - Returns: true if accesstoken is not expires otherwise false
 func checkIfAccessTokenExpires(accessToken: String, completion: @escaping(_ status: Bool)->()){
     
     let urlString = "https://graph.facebook.com/app/?access_token=\(accessToken)"
@@ -473,6 +478,10 @@ func checkIfAccessTokenExpires(accessToken: String, completion: @escaping(_ stat
 }
 
 
+/// Calculate average likes by last three month posts count and total likes of the posts
+/// - Parameters:
+///   - instagramID: Send user current Instagram ID
+///   - userToken: Send current Facebook accesstoken
 func AverageLikes(instagramID: String, userToken: String) {
     
     API.calculateAverageLikes(userID: instagramID, longLiveToken: userToken) { (recentMedia, error) in
