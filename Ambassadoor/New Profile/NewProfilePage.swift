@@ -408,7 +408,11 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	func refreshAfterOneEdit() {
 		loadInfluencerInfo(influencer: Myself, BasicInfluencer: tempeditInfBasic)
 	}
-	
+    
+    /// Refresh Influencer Information
+    /// - Parameters:
+    ///   - i: Send Influencer which user information  has to refresh
+    ///   - basic: Send BasicInfluencer object to refresh basic information
 	func loadInfluencerInfo(influencer i: Influencer, BasicInfluencer basic: BasicInfluencer) {
 		
 		backProfileImage.image = nil

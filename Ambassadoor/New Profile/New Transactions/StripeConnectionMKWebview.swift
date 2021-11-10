@@ -75,11 +75,8 @@ class StripeConnectionMKWebview: UIViewController, WKNavigationDelegate {
         self.showStandardAlertDialog(title: "Alert", msg: error.localizedDescription)
     }
     
-    
+    /// Track every url request. Call getAccountID method if find stripe code request
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping ((WKNavigationActionPolicy) -> Void)) {
-        
-        
-        
         
         print("webView:\(webView) decidePolicyForNavigationAction:\(navigationAction) decisionHandler:\(String(describing: decisionHandler))")
         
@@ -110,6 +107,8 @@ class StripeConnectionMKWebview: UIViewController, WKNavigationDelegate {
     }
 
     
+    /// Get account inflormation of given stripe account from oauth/token service and update to firebase
+    /// - Parameter code: Send stripe code of the user
     func getAccountID(code: String) {
 
         let params = ["client_secret":API.Stripeclient_secret,"code":code,"grant_type":"authorization_code"] as [String: AnyObject]

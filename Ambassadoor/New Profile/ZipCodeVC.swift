@@ -35,7 +35,9 @@ class ZipCodeVC: UIViewController, MKMapViewDelegate {
     }
 	
 	var zipToPass = ""
-	
+    
+    /// Fetch zipcode information from third party service
+    /// - Parameter code: Send Zipcode Value
 	func TownToZip(code: String) {
 		GetTownName(zipCode: code) { (zipCodeInfo, zipCode) in
 			DispatchQueue.main.async {

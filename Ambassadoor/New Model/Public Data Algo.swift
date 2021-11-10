@@ -89,6 +89,7 @@ func StartListeningToPublicData() {
 	}
 }
 
+/// Remove all firebase observers and change all login user details to nil. 
 func logOut() {
     removePublicObservers()
     removeOfferPoolObservers()
@@ -173,6 +174,11 @@ func sortCompareBusiness(business1 bus1: BasicBusiness, business2 bus2: BasicBus
 	}
 }
 
+/// Sort Influencers based on their name, engagement rate, average likes.
+/// - Parameters:
+///   - inf1: First Influencer
+///   - inf2: Second Influencer
+/// - Returns: true if two influencers alreay sorted
 func sortCompareInfluencers(influencer1 inf1: BasicInfluencer, influencer2 inf2: BasicInfluencer) -> Bool {
 	if inf1.engagementRate == inf2.engagementRate {
 		if inf1.averageLikes == inf2.averageLikes {
@@ -258,6 +264,11 @@ func SocialFollowedByUsers(influencer: Influencer) -> [Any] {
     return totalUsers
 }
 
+/// Search Influencer or business user or both influencer and busienss user.
+/// - Parameters:
+///   - searchQuery: Send serch text
+///   - searchIn: Send SearchFor enum
+/// - Returns: Array of users it might be influencers or business users or both base on searchIn
 func SearchSocialData(searchQuery: String, searchIn: SearchFor) -> [Any] {
 	
 	let query = searchQuery.lowercased()

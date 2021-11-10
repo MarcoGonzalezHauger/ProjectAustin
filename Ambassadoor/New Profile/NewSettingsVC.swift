@@ -72,8 +72,6 @@ class NewSettingsVC: UIViewController, MFMailComposeViewControllerDelegate {
         }
     }
     
-    
-    
     @IBAction func sendEmail(sender: UIButton) {
         
         let emailContent = self.getTittle(tag: sender.tag)
@@ -97,6 +95,11 @@ class NewSettingsVC: UIViewController, MFMailComposeViewControllerDelegate {
         
     }
     
+    /// Check if any third party email app available or not
+    /// - Parameters:
+    ///   - to: to: email Id
+    ///   - subject: Tittle of the subject
+    /// - Returns: App deeplink URL Optional
     private func createEmailUrl(to: String, subject: String) -> URL? {
         let subjectEncoded = subject.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
         
@@ -128,7 +131,7 @@ class NewSettingsVC: UIViewController, MFMailComposeViewControllerDelegate {
         case .sent:
             print("Mail sent")
         case .failed:
-            print("Mail sent failure: \(error?.localizedDescription)")
+            print("Mail sent failure: \(error?.localizedDescription ?? "error")")
         default:
             break
         }
@@ -142,6 +145,8 @@ class NewSettingsVC: UIViewController, MFMailComposeViewControllerDelegate {
         self.ResetPasswordNow(b: sender)
     }
     
+    /// Call sendOTPtousermail webservice to reset the password. This service written in Single file Firebase server.
+    /// - Parameter b: Clickable object reference
     func ResetPasswordNow(b: UIButton) {
         
         global.otpData = 0
