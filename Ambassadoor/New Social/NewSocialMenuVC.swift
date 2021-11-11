@@ -9,13 +9,16 @@
 import UIKit
 
 class NewSocialMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, myselfRefreshDelegate, publicDataRefreshDelegate {
-	
+    
+    /// Refresh followedby data if login user did any modification by himself
     func myselfRefreshed() {
 		if GetSocialScope() == .followedby {
 			refreshItems()
 		}
     }
     
+    /// Refreshed social data if any child added or edited in firebase
+    /// - Parameter userOrBusinessId: edited or changed influencer id or business id
     func publicDataRefreshed(userOrBusinessId: String) {
         refreshItems()
     }
@@ -29,6 +32,8 @@ class NewSocialMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     var followingUsers = [Any]()
     
+    /// Get Social Selected Tab
+    /// - Returns: selected SocialTabFor enum
     func GetSocialScope() -> SocialTabFor {
         switch socialSegemnt.selectedSegmentIndex {
         case 0:
@@ -56,6 +61,7 @@ class NewSocialMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSou
 		refreshItems()
 	}
     
+    /// Refresh social users list based on social scope
     func refreshItems() {
         if GetSocialScope() == .following {
             self.followingUsers = SocialFollowingUsers(influencer: Myself)

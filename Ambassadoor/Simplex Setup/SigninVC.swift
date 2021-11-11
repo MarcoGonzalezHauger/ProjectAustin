@@ -64,6 +64,8 @@ class SigninVC: UIViewController {
                                 
                                 Myself.tokenFIR = global.deviceFIRToken
                                 
+                                if AccessToken.current != nil {
+                                    
                                 checkIfAccessTokenExpires(accessToken: Myself.instagramAuthToken) { status in
                                     if status{
                                         DispatchQueue.main.async {
@@ -84,6 +86,11 @@ class SigninVC: UIViewController {
                                             self.callIfAccessTokenExpired(userID: userID, instaID: Myself.instagramAccountId)
                                         }
                                         
+                                    }
+                                }
+                                }else{
+                                    DispatchQueue.main.async {
+                                        self.callIfAccessTokenExpired(userID: userID, instaID: Myself.instagramAccountId)
                                     }
                                 }
                                 

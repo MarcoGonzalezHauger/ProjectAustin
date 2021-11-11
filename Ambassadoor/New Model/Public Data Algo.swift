@@ -235,6 +235,9 @@ enum SocialTabFor: String {
     case following, followedby
 }
 
+/// Get following users of the influencer
+/// - Parameter influencer: send influencer which one needs to get their following users
+/// - Returns: array of users both influencer and business user
 func SocialFollowingUsers(influencer: Influencer) -> [Any] {
     
     var totalUsers = [Any]()
@@ -252,6 +255,9 @@ func SocialFollowingUsers(influencer: Influencer) -> [Any] {
     return totalUsers
 }
 
+/// Get users of followed by influencer
+/// - Parameter influencer: send influencer which one needs to get users of followed by.
+/// - Returns: array of users 
 func SocialFollowedByUsers(influencer: Influencer) -> [Any] {
     var totalUsers = [Any]()
         
