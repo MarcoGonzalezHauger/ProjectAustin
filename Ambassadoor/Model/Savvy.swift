@@ -567,6 +567,12 @@ func AverageLikes(instagramID: String, userToken: String) {
     
 }
 
+/// Upload instagram profile image to firebase store
+/// - Parameters:
+///   - profileUrl: Instagram profile image
+///   - id: Instagram ID
+///   - completion: Callback with firestore readable image url optional and status true or false
+/// - Returns: empty 
 func updateFirebaseProfileURL(profileUrl: String, id: String, completion: @escaping(_ url: String?,_ status: Bool)-> ()) {
         downloadImage(profileUrl) { (image) in
             if image != nil{

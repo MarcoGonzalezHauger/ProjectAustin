@@ -9,6 +9,11 @@
 import Foundation
 import Firebase
 
+/// Check if user exist if exist returns false or save user details to firebase
+/// - Parameters:
+///   - userID: Instagram ID
+///   - instagramAuth: Instagram Auth Access token
+///   - completion: Callback with true or false Optional and Influencer Object Optional
 func checkNewIfUserExists(userID: String, instagramAuth: String, completion: @escaping(_ exist: Bool, _ user: Influencer?)-> Void) {
     //var isAlreadyRegistered: Bool = false
 	

@@ -128,9 +128,10 @@ class NewCreateAccountVC: UIViewController, UITextFieldDelegate, OTPDismissed {
         
     }
     
+    /// Send OTP to user email to verify the mail
+    /// - Parameter email: User Email
     func resentOTPtoMail(email: String) {
-        
-        let params = ["email":email,"username":"rammmm"] as [String: AnyObject]
+        let params = ["email":email,"username":""] as [String: AnyObject]
         APIManager.shared.sendOTPtoUserServiceForConfirmEmail(params: params) { (status, error, data) in
             
             if data != nil {

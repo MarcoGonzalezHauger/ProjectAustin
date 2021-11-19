@@ -205,7 +205,11 @@ func GetAllZipCodesInRadius(zipCode: String, radiusInMiles: Int, completed:((_ z
 	//
 }
 
-// before API call we are checking userdefault values for same zipCode value
+/// Get zipcode information if already saved in local cache or from third party API
+/// - Parameters:
+///   - zipCode: Sends zipcode
+///   - completed: Callback with zipcode details and zipcode
+/// - Returns: Empty
 func GetTownName(zipCode: String, completed: @escaping (_ zipCodeInfo: ZipCodeData?, _ zipCode: String) -> () ) {
     
     // check local cache values here

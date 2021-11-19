@@ -61,6 +61,10 @@ func checkNewIfInstagramExist(id: String, completion: @escaping(_ exist: Bool,_ 
 
 }
 
+/// Check if already registered user
+/// - Parameters:
+///   - email: sends user email
+///   - completion: Callback with true or false
 func checkNewIfEmailExist(email: String, completion: @escaping(_ exist: Bool)-> Void) {
     var isExist = false
     //let ref = Database.database().reference().child("InfluencerAuthentication")
@@ -82,6 +86,10 @@ func checkNewIfEmailExist(email: String, completion: @escaping(_ exist: Bool)-> 
     }
 }
 
+/// Check if email is registered or not
+/// - Parameters:
+///   - email: send user email ID
+///   - completion: Callback with true or false and user details optional
 func filterNewQueryByField(email: String, completion:@escaping(_ exist: Bool, _ userData: [String: AnyObject]?)->Void){
     
     let ref = Database.database().reference().child("Accounts/Private/Influencers")

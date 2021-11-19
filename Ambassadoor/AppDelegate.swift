@@ -216,6 +216,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		
 		preDownloadInterests()
         
+        let quotation = #"Line Line''''"#
+        
+        print("quote=",quotation)
+        
 		return true
 	}
     
