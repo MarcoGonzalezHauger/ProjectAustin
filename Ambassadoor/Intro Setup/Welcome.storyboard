@@ -756,9 +756,8 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MRh-tt-80b" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="284" height="60"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="6Na-W7-8Be">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="6Na-W7-8Be">
                                                 <rect key="frame" x="0.0" y="0.0" width="284" height="60"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                 <state key="normal" title="Yes">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -771,6 +770,10 @@
                                         <color key="backgroundColor" name="AmbDarkPurple"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="4jD-Ct-Gai"/>
+                                            <constraint firstItem="6Na-W7-8Be" firstAttribute="leading" secondItem="MRh-tt-80b" secondAttribute="leading" id="LAa-ej-M3B"/>
+                                            <constraint firstAttribute="bottom" secondItem="6Na-W7-8Be" secondAttribute="bottom" id="OHQ-qb-DcF"/>
+                                            <constraint firstItem="6Na-W7-8Be" firstAttribute="top" secondItem="MRh-tt-80b" secondAttribute="top" id="dqY-Pf-zQY"/>
+                                            <constraint firstAttribute="trailing" secondItem="6Na-W7-8Be" secondAttribute="trailing" id="hPz-8y-Z9m"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -790,9 +793,8 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3G4-sl-ZIX" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="85" width="284" height="60"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Y4a-OG-c5S">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Y4a-OG-c5S">
                                                 <rect key="frame" x="0.0" y="0.0" width="284" height="60"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                 <state key="normal" title="Idk / No">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -805,6 +807,10 @@
                                         <color key="backgroundColor" name="AmbDarkPurple"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="9Mx-s4-mhl"/>
+                                            <constraint firstAttribute="bottom" secondItem="Y4a-OG-c5S" secondAttribute="bottom" id="EWS-wO-jsx"/>
+                                            <constraint firstAttribute="trailing" secondItem="Y4a-OG-c5S" secondAttribute="trailing" id="ZCZ-xX-VfF"/>
+                                            <constraint firstItem="Y4a-OG-c5S" firstAttribute="top" secondItem="3G4-sl-ZIX" secondAttribute="top" id="bj7-TC-L0A"/>
+                                            <constraint firstItem="Y4a-OG-c5S" firstAttribute="leading" secondItem="3G4-sl-ZIX" secondAttribute="leading" id="q7S-vV-4ox"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -1220,9 +1226,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XZ8-qo-JST" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                 <rect key="frame" x="65" y="304.5" width="284" height="60"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ta9-QE-pOw">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ta9-QE-pOw">
                                         <rect key="frame" x="0.0" y="0.0" width="284" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <state key="normal" title="1.) Go to Instagram">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1235,6 +1240,10 @@
                                 <color key="backgroundColor" name="AmbDarkPurple"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="5eM-7U-Asp"/>
+                                    <constraint firstAttribute="bottom" secondItem="ta9-QE-pOw" secondAttribute="bottom" id="KUG-jV-w1Z"/>
+                                    <constraint firstItem="ta9-QE-pOw" firstAttribute="leading" secondItem="XZ8-qo-JST" secondAttribute="leading" id="Ls9-ze-B1D"/>
+                                    <constraint firstAttribute="trailing" secondItem="ta9-QE-pOw" secondAttribute="trailing" id="OaD-rP-Pyc"/>
+                                    <constraint firstItem="ta9-QE-pOw" firstAttribute="top" secondItem="XZ8-qo-JST" secondAttribute="top" id="pYI-KO-coL"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -2578,9 +2587,8 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qS7-gu-Lov" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="284" height="60"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="5fi-cO-SRv">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="5fi-cO-SRv">
                                                 <rect key="frame" x="0.0" y="0.0" width="284" height="60"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                 <state key="normal" title="Female">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2593,6 +2601,10 @@
                                         <color key="backgroundColor" name="AmbDarkPurple"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="1Nq-ws-Y7e"/>
+                                            <constraint firstItem="5fi-cO-SRv" firstAttribute="top" secondItem="qS7-gu-Lov" secondAttribute="top" id="6Sl-km-UdS"/>
+                                            <constraint firstAttribute="trailing" secondItem="5fi-cO-SRv" secondAttribute="trailing" id="CRd-m1-7IJ"/>
+                                            <constraint firstAttribute="bottom" secondItem="5fi-cO-SRv" secondAttribute="bottom" id="Gpe-0a-fWe"/>
+                                            <constraint firstItem="5fi-cO-SRv" firstAttribute="leading" secondItem="qS7-gu-Lov" secondAttribute="leading" id="thc-hp-Opy"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -2612,9 +2624,8 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8eb-HQ-79n" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="85" width="284" height="60"/>
                                         <subviews>
-                                            <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="8DG-Zi-eMf">
+                                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="8DG-Zi-eMf">
                                                 <rect key="frame" x="0.0" y="0.0" width="284" height="60"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                 <state key="normal" title="Male">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2626,7 +2637,11 @@
                                         </subviews>
                                         <color key="backgroundColor" name="AmbDarkPurple"/>
                                         <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="8DG-Zi-eMf" secondAttribute="trailing" id="Hts-H8-534"/>
+                                            <constraint firstAttribute="bottom" secondItem="8DG-Zi-eMf" secondAttribute="bottom" id="Iaj-3I-c70"/>
                                             <constraint firstAttribute="height" constant="60" id="ZFG-5X-KdZ"/>
+                                            <constraint firstItem="8DG-Zi-eMf" firstAttribute="leading" secondItem="8eb-HQ-79n" secondAttribute="leading" id="ZYc-Fp-ccz"/>
+                                            <constraint firstItem="8DG-Zi-eMf" firstAttribute="top" secondItem="8eb-HQ-79n" secondAttribute="top" id="x30-cs-acd"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -2646,9 +2661,8 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2xy-4a-hIL" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="170" width="284" height="60"/>
                                         <subviews>
-                                            <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="MMd-AA-VbN">
+                                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="MMd-AA-VbN">
                                                 <rect key="frame" x="0.0" y="0.0" width="284" height="60"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                 <state key="normal" title="Non-binary">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2660,7 +2674,11 @@
                                         </subviews>
                                         <color key="backgroundColor" name="AmbDarkPurple"/>
                                         <constraints>
+                                            <constraint firstItem="MMd-AA-VbN" firstAttribute="leading" secondItem="2xy-4a-hIL" secondAttribute="leading" id="NCh-Kl-qyI"/>
+                                            <constraint firstAttribute="trailing" secondItem="MMd-AA-VbN" secondAttribute="trailing" id="Vsn-fH-MrS"/>
                                             <constraint firstAttribute="height" constant="60" id="aQV-o7-kit"/>
+                                            <constraint firstAttribute="bottom" secondItem="MMd-AA-VbN" secondAttribute="bottom" id="lU1-W3-jsJ"/>
+                                            <constraint firstItem="MMd-AA-VbN" firstAttribute="top" secondItem="2xy-4a-hIL" secondAttribute="top" id="yHl-zc-4Z5"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -3904,8 +3922,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="r33-Ac-36G"/>
-        <segue reference="4pM-5Z-1hJ"/>
+        <segue reference="G0p-Ay-ocy"/>
+        <segue reference="uxy-Eh-HGO"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="AmbModel" width="1095" height="1464"/>
