@@ -22,6 +22,7 @@ class CustomViewFlowLayout: UICollectionViewFlowLayout {
 			if layoutAttribute.frame.origin.y >= maxY {
 				leftMargin = sectionInset.left
 			}
+            
 			layoutAttribute.frame.origin.x = leftMargin
 			leftMargin += layoutAttribute.frame.width + cellSpacing
 			maxY = max(layoutAttribute.frame.maxY, maxY)

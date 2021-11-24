@@ -22,6 +22,9 @@ class NewWithdrawVC: UIViewController {
         self.performDismiss()
     }
     
+    
+    /// Fetch Influencer balance from their account. Deduct fee from their account. Send remaining amount to user bank account using stripe Id.
+    /// - Parameter sender: Clickable object reference
     @IBAction func withdrawAction(sender: UIButton){
         
         let ref = Database.database().reference().child("Accounts/Private/Influencers").child(Myself.userId)

@@ -22,6 +22,7 @@ func removePublicObservers() {
     refBusinesses.removeAllObservers()
 }
 
+/// Fetch the influencers public and private data from Firebase and add a listener to refresh the users
 func StartListeningToPublicData() {
 	let ref = Database.database().reference().child("Accounts/Public/Influencers")
 	ref.observe(.childChanged) { (snap) in
@@ -88,6 +89,7 @@ func StartListeningToPublicData() {
 	}
 }
 
+/// Remove all firebase observers and change all login user details to nil. 
 func logOut() {
     removePublicObservers()
     removeOfferPoolObservers()
@@ -104,6 +106,9 @@ func logOut() {
     }
 }
 
+/// Fetch all public data from Firebase. To enhance the loading user data.
+/// - Parameter finished: Send Completion handler optional. Incase in any situation we want to know if Refresh public data finished.
+/// - Returns: Returns empty Callback. But we serialize all public data and save the data seperately to global collections.
 func RefreshPublicData(finished: (() -> ())?) {
 	let ref = Database.database().reference().child("Accounts/Public")
 	ref.observeSingleEvent(of: .value) { (snapshot) in
@@ -169,6 +174,11 @@ func sortCompareBusiness(business1 bus1: BasicBusiness, business2 bus2: BasicBus
 	}
 }
 
+/// Sort Influencers based on their name, engagement rate, average likes.
+/// - Parameters:
+///   - inf1: First Influencer
+///   - inf2: Second Influencer
+/// - Returns: true if two influencers alreay sorted
 func sortCompareInfluencers(influencer1 inf1: BasicInfluencer, influencer2 inf2: BasicInfluencer) -> Bool {
 	if inf1.engagementRate == inf2.engagementRate {
 		if inf1.averageLikes == inf2.averageLikes {
@@ -225,6 +235,9 @@ enum SocialTabFor: String {
     case following, followedby
 }
 
+/// Get following users of the influencer
+/// - Parameter influencer: send influencer which one needs to get their following users
+/// - Returns: array of users both influencer and business user
 func SocialFollowingUsers(influencer: Influencer) -> [Any] {
     
     var totalUsers = [Any]()
@@ -242,6 +255,9 @@ func SocialFollowingUsers(influencer: Influencer) -> [Any] {
     return totalUsers
 }
 
+/// Get users of followed by influencer
+/// - Parameter influencer: send influencer which one needs to get users of followed by.
+/// - Returns: array of users 
 func SocialFollowedByUsers(influencer: Influencer) -> [Any] {
     var totalUsers = [Any]()
         
@@ -254,6 +270,11 @@ func SocialFollowedByUsers(influencer: Influencer) -> [Any] {
     return totalUsers
 }
 
+/// Search Influencer or business user or both influencer and busienss user.
+/// - Parameters:
+///   - searchQuery: Send serch text
+///   - searchIn: Send SearchFor enum
+/// - Returns: Array of users it might be influencers or business users or both base on searchIn
 func SearchSocialData(searchQuery: String, searchIn: SearchFor) -> [Any] {
 	
 	let query = searchQuery.lowercased()

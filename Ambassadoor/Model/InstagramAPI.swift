@@ -290,8 +290,11 @@ struct API {
         }
     }
     
-    //If instagram user is business user, we need to allow user to facebook login for fetching instagram business user details.
-    
+    /// If instagram user is business user, we need to allow user to facebook login for fetching instagram business user details.
+    /// - Parameters:
+    ///   - userIDBusiness: Facebook ID
+    ///   - owner: Current VC reference
+    ///   - completion: Callback with object, longlivetoken, error
     static func facebookLoginAct(userIDBusiness: String, owner: UIViewController, completion: @escaping(_ object:Any?, _ longliveToken: String?, _ error: Error?)->Void) {
         
         let login: LoginManager = LoginManager()
@@ -362,6 +365,12 @@ struct API {
         
     }
     
+    /// Get profile details of the user from Instagram
+    /// - Parameters:
+    ///   - InstaID: Instagram ID of the user
+    ///   - userID: Not using right now
+    ///   - completion: Call back true or false
+    /// - Returns: returns profile detail
     static func getInstaprofile(InstaID: String, userID: String, completion: @escaping(_ status: Bool)->()){
         GraphRequest(graphPath: InstaID, parameters: ["fields":"biography,id,followers_count,follows_count,media_count,name,profile_picture_url,username,website"]).start(completionHandler: { (connection, userDetail, tokenError) -> Void in
             
@@ -376,9 +385,13 @@ struct API {
                 updateFirebaseProfileURL(profileUrl: Myself.basic.profilePicURL, id: Myself.basic.username) { (url, status) in
                     
                     if status{
+                        if Myself != nil {
                         Myself.basic.lastUpdated = Date.getcurrentESTdate()
                         Myself.basic.profilePicURL = url!
                         completion(true)
+                        }else{
+                        return
+                        }
                     }else{
                         completion(false)
                     }
@@ -418,6 +431,10 @@ struct API {
         }
     }
     
+    /// Login with facebook account and get instagram_basic, pages_show_list, manage_pages params permission from user to fetch user's instagram details.
+    /// - Parameters:
+    ///   - owner: reference of the current view controller
+    ///   - completion: Callback with user details optional, and long live access token optional and error optional.
     static func facebookLoginBusinessAccount(owner: UIViewController, completion: @escaping(_ object:Any?, _ longliveToken: String?, _ error: AnyObject?)->Void) {
         
         let login: LoginManager = LoginManager()

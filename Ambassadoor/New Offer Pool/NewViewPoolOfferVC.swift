@@ -136,7 +136,7 @@ class NewViewPoolOfferVC: UIViewController, UITableViewDelegate, UITableViewData
 			offerByLabel.text = "[Couldn't find business name.]"
 		}
 		
-		
+		let check = thisPoolOffer.totalCost(forInfluencer: Myself.basic)
         let costPerPost = roundPriceDown(price: thisPoolOffer.totalCost(forInfluencer: Myself.basic))
         print("costPerPost====",costPerPost)
         totalMoneyLabel.text = NumberToPrice(Value: costPerPost, enforceCents: true)

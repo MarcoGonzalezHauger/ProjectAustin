@@ -54,6 +54,8 @@ var zipCodeDic: [String: ZipCodeData] = [:]
 
 var ZipCodeAPIKey: String?
 
+/// Fetch ZipCodeAPIKey from Firebase. we can dynamically change this ID as per requirement
+/// - Parameter completed: Callback with empty params
 func InitializeZipCodeAPI(completed: (() -> Void)?) {
 	let ref = Database.database().reference().child("Admin").child("ZipCodeAPIKey")
 	ref.observeSingleEvent(of: .value) { (Snapshot) in
@@ -203,7 +205,11 @@ func GetAllZipCodesInRadius(zipCode: String, radiusInMiles: Int, completed:((_ z
 	//
 }
 
-// before API call we are checking userdefault values for same zipCode value
+/// Get zipcode information if already saved in local cache or from third party API
+/// - Parameters:
+///   - zipCode: Sends zipcode
+///   - completed: Callback with zipcode details and zipcode
+/// - Returns: Empty
 func GetTownName(zipCode: String, completed: @escaping (_ zipCodeInfo: ZipCodeData?, _ zipCode: String) -> () ) {
     
     // check local cache values here
