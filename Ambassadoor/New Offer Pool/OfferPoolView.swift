@@ -105,6 +105,8 @@ class OfferPoolView: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		
 		offerPoolListeners.append(self)
 		
+		searchBar.selectedScopeButtonIndex = 1
+		
     }
 
 	var imageWasSet = false

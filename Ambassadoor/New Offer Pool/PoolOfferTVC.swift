@@ -38,23 +38,41 @@ class PoolOfferTVC: UITableViewCell {
 			byCoLabel.text = poolOffer.businessId
 		}
 		
-        let costPerPost = roundPriceDown(price: poolOffer.totalCost(forInfluencer: Myself.basic))
-        print("costPerPost====",costPerPost)
-        priceForInfluencer.text = NumberToPrice(Value: costPerPost, enforceCents: true)
-		perPostLabel.text = NumberToPrice(Value: poolOffer.pricePerPost(forInfluencer: Myself.basic)) + " each post"
-		
-		let percent = poolOffer.cashPower / poolOffer.originalCashPower
-		leftOfLabel.text = NumberToPrice(Value: poolOffer.cashPower) + " left of " + NumberToPrice(Value: poolOffer.originalCashPower)
-		progressView.backgroundColor = GetColorFromPercentage(percent: percent)
-		let maxWidth = expectedWidth - 24
-		if maxWidth * CGFloat(percent) > 0 {
-			self.barWidth.constant = maxWidth * CGFloat(percent)
+		if poolOffer.checkFlag("xo case study") {
+			
+			
+			priceForInfluencer.text = "$20 Gift Card"
+			perPostLabel.text = ""
+			leftOfLabel.text = "Exlcusive Gift Card Offer"
+			let maxWidth = expectedWidth - 24
+			self.barWidth.constant = maxWidth
+			self.progressView.backgroundColor = .systemGreen
+			
 		} else {
-			self.barWidth.constant = 0
+			
+			//Regular
+			
+			let costPerPost = roundPriceDown(price: poolOffer.totalCost(forInfluencer: Myself.basic))
+			print("costPerPost====",costPerPost)
+			priceForInfluencer.text = NumberToPrice(Value: costPerPost, enforceCents: true)
+			perPostLabel.text = NumberToPrice(Value: poolOffer.pricePerPost(forInfluencer: Myself.basic)) + " each post"
+			let percent = poolOffer.cashPower / poolOffer.originalCashPower
+			leftOfLabel.text = NumberToPrice(Value: poolOffer.cashPower) + " left of " + NumberToPrice(Value: poolOffer.originalCashPower)
+			progressView.backgroundColor = GetColorFromPercentage(percent: percent)
+			let maxWidth = expectedWidth - 24
+			if maxWidth * CGFloat(percent) > 0 {
+				self.barWidth.constant = maxWidth * CGFloat(percent)
+			} else {
+				self.barWidth.constant = 0
+			}
+			if !poolOffer.canAffordInflunecer(forInfluencer: Myself.basic) {
+				perPostLabel.text = "Not enough left in Offer."
+				progressView.backgroundColor = .red
+			}
 		}
-		if !poolOffer.canAffordInflunecer(forInfluencer: Myself.basic) {
-			perPostLabel.text = "Not enough left in Offer."
-			progressView.backgroundColor = .red
-		}
+		
+		
+		
+		
 	}
 }

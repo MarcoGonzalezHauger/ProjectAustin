@@ -129,9 +129,13 @@ extension PoolOffer {
     
     /// We detemine every influencer cost based on their average likes and Ambassadoor coefficiemt. Here
     /// Business user may give credit boost to influencer by pay increase. This way we calculate Influencer cost per post.
+	/// If the offer is a gift card offer, then guarentee $20.
     /// - Parameter inf: send Influencer which one need to check
     /// - Returns: Influencer Cost In Double
 	func pricePerPost(forInfluencer inf: BasicInfluencer) -> Double {
+		if self.checkFlag("xo case study") {
+			return 20
+		}
 		return inf.baselinePricePerPost * self.payIncrease
 	}
     
@@ -139,6 +143,11 @@ extension PoolOffer {
     /// - Parameter inf: send Influencer which one need to check
     /// - Returns: Total cost of the Influencer for the offer in Double
 	func totalCost(forInfluencer inf: BasicInfluencer) -> Double {
+		
+		if self.checkFlag("xo case study") {
+			return 20
+		}
+		
 		return pricePerPost(forInfluencer: inf) * Double(draftPosts.count)
 	}
     
@@ -146,7 +155,7 @@ extension PoolOffer {
     /// - Parameter inf: send Influencer which one need to check
     /// - Returns: Returns true if influencer affordable for the offer otherwise false
 	func canAffordInflunecer(forInfluencer inf: BasicInfluencer) -> Bool {
-		return cashPower > totalCost(forInfluencer: inf)
+		return cashPower >= totalCost(forInfluencer: inf)
 	}
     
     ///   Show offers to influencer based on Influencer's Age, Gender, Interest, Location and Cost Value

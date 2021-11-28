@@ -169,6 +169,11 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	}
 	
 	@IBAction func transferToBank(_ sender: Any) {
+		
+		if shouldRedeem() {
+			performSegue(withIdentifier: "toRedeem", sender: self)
+			return
+		}
         
         let feeAmount = GetFeeForNewInfluencer(Myself)
         let withdrawAmount = Myself.finance.balance - Double(feeAmount)
@@ -182,9 +187,6 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
         }else{
             self.performSegue(withIdentifier: "toAccountInfoSegue", sender: self)
         }
-        
-        
-		
 	}
 	
 	var isOnCopied = false
@@ -405,6 +407,18 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	}
 	
 	
+	func shouldRedeem() -> Bool {
+		let xoPosts = Myself.inProgressPosts.filter{$0.checkFlag("xo case study")}
+		if xoPosts.count > 0 {
+			let xoPost = xoPosts.first!
+			if xoPost.status == "Paid" && !xoPost.checkFlag("redeemed") {
+				return true
+			}
+		}
+		return false
+		
+	}
+	
 	func refreshAfterOneEdit() {
 		loadInfluencerInfo(influencer: Myself, BasicInfluencer: tempeditInfBasic)
 	}
@@ -430,11 +444,17 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 		engagmentRateLabel.text = "\(basic.engagementRateInt)%"
 		
 		referralCodeLabel.text = "\(basic.referralCode)"
-		balanceLabel.text = NumberToPrice(Value: i.finance.balance)
-		if i.finance.balance == 0 {
-			transferView.isHidden = true
+		
+		if shouldRedeem() {
+			balanceLabel.text = "$20 Gift Card"
+			transferButton.setTitle("Redeem", for: .normal)
 		} else {
-			transferView.isHidden = false
+			balanceLabel.text = NumberToPrice(Value: i.finance.balance)
+			if i.finance.balance == 0 {
+				transferView.isHidden = true
+			} else {
+				transferView.isHidden = false
+			}
 		}
 		
 		if basic.zipCode != zipCodeLabel.text {

@@ -139,7 +139,13 @@ class NewViewPoolOfferVC: UIViewController, UITableViewDelegate, UITableViewData
 		let check = thisPoolOffer.totalCost(forInfluencer: Myself.basic)
         let costPerPost = roundPriceDown(price: thisPoolOffer.totalCost(forInfluencer: Myself.basic))
         print("costPerPost====",costPerPost)
-        totalMoneyLabel.text = NumberToPrice(Value: costPerPost, enforceCents: true)
+		
+		if thisPoolOffer.checkFlag("xo case study") {
+			totalMoneyLabel.text = "$20 Gift Card"
+		} else {
+			totalMoneyLabel.text = NumberToPrice(Value: costPerPost, enforceCents: true)
+		}
+		
 		acceptView.isHidden = !thisPoolOffer.canBeAccepted(forInfluencer: Myself)
 		cannotBeAcceptedView.isHidden = thisPoolOffer.canBeAccepted(forInfluencer: Myself)
 		

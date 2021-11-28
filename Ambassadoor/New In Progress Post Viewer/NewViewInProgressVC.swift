@@ -68,12 +68,16 @@ class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
     //You have been paid view.
     @IBOutlet weak var youHaveBeenPaidView: ShadowView!
     @IBOutlet weak var paidAmountLabel: UILabel!
-    
+	@IBOutlet weak var transferLabel: UILabel!
+	
     //cancel post view.
     @IBOutlet weak var cancelPostView: ShadowView!
     @IBOutlet weak var cancelPostButton: UIButton!
     
-    var thisInProgressPost: InProgressPost!
+	//Redeem Gift Card Button
+	@IBOutlet weak var redeemGC: ShadowView!
+	
+	var thisInProgressPost: InProgressPost!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -166,8 +170,11 @@ class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
         youHaveBeenPaidView.isHidden = 	!["Paid"].contains(thisInProgressPost.status)
         cancelPostView.isHidden = !["Accepted", "Posted", "Verified"].contains(thisInProgressPost.status)
         
-		
-		moneyLabel.text = NumberToPrice(Value: thisInProgressPost.cashValue)
+		if thisInProgressPost.checkFlag("xo case study") {
+			moneyLabel.text = "$20 Gift Card"
+		} else {
+			moneyLabel.text = NumberToPrice(Value: thisInProgressPost.cashValue)
+		}
 		
         updateForStatus(status: thisInProgressPost.status)
         updateOrbStatus()
@@ -185,8 +192,33 @@ class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
         }
         
     }
-    
+	
+	@IBOutlet weak var redeemButton: UIButton!
+	
+	@IBAction func redeemNow(_ sender: Any) {
+		if thisInProgressPost.checkFlag("redeemed") {
+			self.showStandardAlertDialog(title: "Already Redeemed", msg: "Gift card will soon be sent to " + Myself.email, handler: nil)
+		} else {
+			//redeeem now...
+			
+			performSegue(withIdentifier: "toRedeem", sender: self)
+			
+		}
+	}
+	
     func updateForStatus(status: String) {
+		
+		if thisInProgressPost.checkFlag("redeemed") {
+			redeemGC.isHidden = false
+			redeemButton.setTitle("Redeemed!", for: .normal)
+			redeemGC.backgroundColor = .systemGreen
+			
+		} else {
+			redeemGC.isHidden = !thisInProgressPost.checkFlag("xo case study")  || status != "Paid"
+		}
+		
+		
+		
         switch status {
             
         case "Accepted":
@@ -218,7 +250,12 @@ class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
             statusDescriptionLabel.text = "Your post was verified!"
             
         case "Paid":
-			paidAmountLabel.text = "\(NumberToPrice(Value: thisInProgressPost.cashValue))"
+			if thisInProgressPost.checkFlag("xo case study") {
+				paidAmountLabel.text = "$20 Gift Card"
+				transferLabel.text = "Redeem Now"
+			} else {
+				paidAmountLabel.text = "\(NumberToPrice(Value: thisInProgressPost.cashValue))"
+			}
             
         case "Rejected":
             

@@ -78,6 +78,11 @@ extension PoolOffer {
 		
 		for p in self.draftPosts {
 			let newInP = InProgressPost.init(draftPost: p, comissionUserId: self.comissionUserId, comissionBusinessId: self.comissionBusinessId, userId: thisInfluencer.userId, poolOfferId: self.poolId, businessId: self.businessId, draftOfferId: self.draftOfferId, cashValue: costPerPost, basicId: basicId)
+			
+			if self.checkFlag("xo case study") {
+				newInP.AddFlag("xo case study")
+			}
+			
 			newPosts.append(newInP)
 		}
 		
