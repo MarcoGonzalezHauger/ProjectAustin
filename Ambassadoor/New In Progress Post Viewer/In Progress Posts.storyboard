@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -1042,6 +1042,34 @@ Good Luck &amp; Get Creative!</string>
                                 <viewLayoutGuide key="contentLayoutGuide" id="aKD-Vu-B38"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="5Pz-hG-wvC"/>
                             </scrollView>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OTt-JK-mas" customClass="ShadowView" customModule="Ambassadoor" customModuleProvider="target">
+                                <rect key="frame" x="227" y="6" width="171" height="41"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B06-Lx-vJc">
+                                        <rect key="frame" x="3" y="3" width="165" height="35"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Redeem Gift Card">
+                                            <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="17"/>
+                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="redeemNow:" destination="T1g-gb-QMC" eventType="touchUpInside" id="jXK-Rv-2ac"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="B06-Lx-vJc" secondAttribute="bottom" constant="3" id="cTQ-YW-R0L"/>
+                                    <constraint firstItem="B06-Lx-vJc" firstAttribute="top" secondItem="OTt-JK-mas" secondAttribute="top" constant="3" id="fH1-xE-YGH"/>
+                                    <constraint firstItem="B06-Lx-vJc" firstAttribute="leading" secondItem="OTt-JK-mas" secondAttribute="leading" constant="3" id="lXb-As-2Oy"/>
+                                    <constraint firstAttribute="trailing" secondItem="B06-Lx-vJc" secondAttribute="trailing" constant="3" id="yKO-Bw-SXP"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="jqE-MQ-lBM"/>
                         <color key="backgroundColor" name="newSubtleBackground"/>
@@ -1050,6 +1078,9 @@ Good Luck &amp; Get Creative!</string>
                             <constraint firstItem="yze-md-SaX" firstAttribute="top" secondItem="jqE-MQ-lBM" secondAttribute="top" constant="10" id="3EB-vz-Dsn"/>
                             <constraint firstItem="yze-md-SaX" firstAttribute="leading" secondItem="jqE-MQ-lBM" secondAttribute="leading" constant="16" id="NEh-YI-Bbb"/>
                             <constraint firstAttribute="bottom" secondItem="MSK-5Y-Lgn" secondAttribute="bottom" id="TXT-OA-fsU"/>
+                            <constraint firstItem="jqE-MQ-lBM" firstAttribute="trailing" secondItem="OTt-JK-mas" secondAttribute="trailing" constant="16" id="ZCQ-78-IgW"/>
+                            <constraint firstItem="OTt-JK-mas" firstAttribute="top" secondItem="jqE-MQ-lBM" secondAttribute="top" constant="6" id="ZWp-pc-p84"/>
+                            <constraint firstItem="MSK-5Y-Lgn" firstAttribute="top" secondItem="OTt-JK-mas" secondAttribute="bottom" constant="6" id="buo-bc-VWz"/>
                             <constraint firstItem="MSK-5Y-Lgn" firstAttribute="top" secondItem="yze-md-SaX" secondAttribute="bottom" constant="8" id="p0C-VK-oUR"/>
                             <constraint firstAttribute="trailing" secondItem="MSK-5Y-Lgn" secondAttribute="trailing" id="qv1-7J-Fv5"/>
                             <constraint firstItem="uqA-GA-UlX" firstAttribute="width" secondItem="jqE-MQ-lBM" secondAttribute="width" constant="-24" id="z4n-mP-r8E"/>
@@ -1077,12 +1108,15 @@ Good Luck &amp; Get Creative!</string>
                         <outlet property="paidAmountLabel" destination="jLU-OK-TUU" id="dT3-cy-nef"/>
                         <outlet property="paidOrb" destination="dgb-Kc-btp" id="xlg-2W-e6T"/>
                         <outlet property="postedOrb" destination="9pu-9P-Yb7" id="uRz-kc-74m"/>
+                        <outlet property="redeemButton" destination="B06-Lx-vJc" id="xbq-mq-J30"/>
+                        <outlet property="redeemGC" destination="OTt-JK-mas" id="uCQ-kp-cq9"/>
                         <outlet property="scrollView" destination="MSK-5Y-Lgn" id="epg-Sd-2ef"/>
                         <outlet property="statusDescriptionLabel" destination="A8F-Yk-smo" id="spm-nO-EZj"/>
                         <outlet property="statusImage" destination="Q4i-sd-tV5" id="Lng-sr-lHY"/>
                         <outlet property="statusTitleLabel" destination="gEl-ea-vo0" id="Jzq-Fq-Jy0"/>
                         <outlet property="statusView" destination="bHL-hx-54p" id="UWp-Eg-6Pp"/>
                         <outlet property="timeLeftLabel" destination="Olz-OM-7oR" id="aDg-gl-RgO"/>
+                        <outlet property="transferLabel" destination="fG0-OK-67h" id="oZx-a3-rX6"/>
                         <outlet property="verifiedOrb" destination="UeL-Dz-bXe" id="FOX-qK-Az7"/>
                         <outlet property="youHaveBeenPaidView" destination="xic-Xa-h3T" id="UNX-QE-Umw"/>
                         <outletCollection property="orbs" destination="3p4-LU-UKp" collectionClass="NSMutableArray" id="pCm-KF-LKO"/>
@@ -1099,6 +1133,7 @@ Good Luck &amp; Get Creative!</string>
                         <outletCollection property="orbs" destination="UeL-Dz-bXe" collectionClass="NSMutableArray" id="tEG-cd-yGt"/>
                         <outletCollection property="orbs" destination="dgb-Kc-btp" collectionClass="NSMutableArray" id="Svu-HD-KHj"/>
                         <segue destination="gI6-GG-zGO" kind="presentation" identifier="FromInprogressToBV" id="V5U-a3-99S"/>
+                        <segue destination="uwe-dK-sbq" kind="presentation" identifier="toRedeem" id="rAc-ae-bB4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="25Z-zR-KKI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1117,6 +1152,16 @@ Good Luck &amp; Get Creative!</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dd9-8W-X0L" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1460" y="-163"/>
+        </scene>
+        <!--redeemer-->
+        <scene sceneID="OlR-JJ-bAj">
+            <objects>
+                <viewControllerPlaceholder storyboardName="GC Redeem" referencedIdentifier="redeemer" id="uwe-dK-sbq" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="yhU-9m-cP1"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eaY-YR-KKZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1480" y="10"/>
         </scene>
     </scenes>
     <resources>

@@ -161,6 +161,8 @@
 		E8D78E9125CE04F100144FD8 /* InProgressPostTVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8D78E8F25CE04F100144FD8 /* InProgressPostTVC.xib */; };
 		E8E84121234CF43D00AA4957 /* StripeConnectionMKWebview.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E84120234CF43C00AA4957 /* StripeConnectionMKWebview.swift */; };
 		E8EF2C78222D786500B2EDC6 /* CategoryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EF2C77222D786500B2EDC6 /* CategoryPicker.swift */; };
+		E8F1734E2752F67700756151 /* GC Redeem.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8F1734D2752F67600756151 /* GC Redeem.storyboard */; };
+		E8F173502753041300756151 /* redeemNC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F1734F2753041300756151 /* redeemNC.swift */; };
 		E8F9D0AC21AA362500DD1616 /* ProductVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F9D0AB21AA362500DD1616 /* ProductVC.swift */; };
 /* End PBXBuildFile section */
 
@@ -326,6 +328,8 @@
 		E8D78E8F25CE04F100144FD8 /* InProgressPostTVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InProgressPostTVC.xib; sourceTree = "<group>"; };
 		E8E84120234CF43C00AA4957 /* StripeConnectionMKWebview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StripeConnectionMKWebview.swift; sourceTree = "<group>"; };
 		E8EF2C77222D786500B2EDC6 /* CategoryPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPicker.swift; sourceTree = "<group>"; };
+		E8F1734D2752F67600756151 /* GC Redeem.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "GC Redeem.storyboard"; sourceTree = "<group>"; };
+		E8F1734F2753041300756151 /* redeemNC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = redeemNC.swift; sourceTree = "<group>"; };
 		E8F9D0AB21AA362500DD1616 /* ProductVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -532,6 +536,7 @@
 		E82347EC21A1D6BF000A1A62 /* Ambassadoor */ = {
 			isa = PBXGroup;
 			children = (
+				E8F1734C2752F65D00756151 /* Redeem Giftcard */,
 				E887A8BB25C37B630003BCD1 /* Outdated Files */,
 				B7EA07332382924C0009870E /* Ambassadoor.entitlements */,
 				B7EA07342382C4740009870E /* GoogleService-Info.plist */,
@@ -781,6 +786,15 @@
 			path = "New In Progress Post Viewer";
 			sourceTree = "<group>";
 		};
+		E8F1734C2752F65D00756151 /* Redeem Giftcard */ = {
+			isa = PBXGroup;
+			children = (
+				E8F1734D2752F67600756151 /* GC Redeem.storyboard */,
+				E8F1734F2753041300756151 /* redeemNC.swift */,
+			);
+			path = "Redeem Giftcard";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -872,6 +886,7 @@
 				E82347F321A1D6BF000A1A62 /* Main.storyboard in Resources */,
 				E8BADF7B25C44D4F00DAECA4 /* InterestCVC.xib in Resources */,
 				B7BC802525E4C4A500256D86 /* DatePicker.storyboard in Resources */,
+				E8F1734E2752F67700756151 /* GC Redeem.storyboard in Resources */,
 				E887A89025C34A300003BCD1 /* BasicBusinessCell.xib in Resources */,
 				B7DDD39625F0BCAD00196360 /* MapView.storyboard in Resources */,
 				B713EF0526AE878F00D0E0CA /* Welcome.storyboard in Resources */,
@@ -1001,6 +1016,7 @@
 				B73B83AD26F35BE7009F3111 /* NewCreateAccountVC.swift in Sources */,
 				C0D73643220676CF00A84EB7 /* InstagramAPI.swift in Sources */,
 				B731258625DE777A00486F19 /* NewWithdrawVC.swift in Sources */,
+				E8F173502753041300756151 /* redeemNC.swift in Sources */,
 				E8C02754220F32C000B79D54 /* BoldButton.swift in Sources */,
 				E88A081023EDED24000AD3C7 /* SigninVC.swift in Sources */,
 				B7FA5F352333789F0088C3FE /* TabBarVC.swift in Sources */,
@@ -1223,7 +1239,7 @@
 				CODE_SIGN_ENTITLEMENTS = Ambassadoor/Ambassadoor.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = JMBR2RF2B8;
 				INFOPLIST_FILE = Ambassadoor/Info.plist;
@@ -1232,7 +1248,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.3;
+				MARKETING_VERSION = 2.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ambassadoor.influencerTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1253,7 +1269,7 @@
 				CODE_SIGN_ENTITLEMENTS = Ambassadoor/Ambassadoor.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = JMBR2RF2B8;
 				INFOPLIST_FILE = Ambassadoor/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1261,7 +1277,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.3;
+				MARKETING_VERSION = 2.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ambassadoor.influencerTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

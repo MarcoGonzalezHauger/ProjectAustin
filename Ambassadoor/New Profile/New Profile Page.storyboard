@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="THN-bl-N7s">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="THN-bl-N7s">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -677,7 +677,7 @@
                         <outlet property="signOutView" destination="ldV-Gk-Kkg" id="Ebz-NA-Mbl"/>
                         <outlet property="topMargin" destination="u55-8p-fo6" id="jqi-2c-Mho"/>
                         <outlet property="townNameLabel" destination="IyJ-8D-hnh" id="u6j-DL-o6U"/>
-                        <outlet property="transferButton" destination="y32-KQ-b9u" id="DIK-n2-gor"/>
+                        <outlet property="transferButton" destination="y32-KQ-b9u" id="Sir-Ss-P23"/>
                         <outlet property="transferView" destination="YRz-5E-G6I" id="RHu-bb-MAw"/>
                         <outlet property="verifiedBadge" destination="mDK-jv-23J" id="LeZ-SF-CGa"/>
                         <outlet property="zipCodeLabel" destination="faY-aM-xTp" id="a22-cn-svO"/>
@@ -693,6 +693,7 @@
                         <segue destination="hFQ-jf-OhG" kind="show" identifier="toAccountInfoSegue" id="oaf-PL-qpd"/>
                         <segue destination="cmV-hA-Qls" kind="presentation" identifier="toInterestPicker" id="z5e-zB-k83"/>
                         <segue destination="Lia-oc-Pf7" kind="presentation" identifier="fromProfileToPicker" modalPresentationStyle="overCurrentContext" id="tQt-jd-5kf"/>
+                        <segue destination="VZU-JR-Xre" kind="presentation" identifier="toRedeem" id="EdR-qn-L6X"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vT4-jQ-KUU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -756,7 +757,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ucR-HY-UOl">
-                                <rect key="frame" x="0.0" y="48" width="414" height="760"/>
+                                <rect key="frame" x="0.0" y="48" width="414" height="794"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S00-Mz-ww7">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="582"/>
@@ -1489,6 +1490,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fSF-Uj-Lxg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4558" y="-535"/>
+        </scene>
+        <!--redeemer-->
+        <scene sceneID="h4p-ej-QTm">
+            <objects>
+                <viewControllerPlaceholder storyboardName="GC Redeem" referencedIdentifier="redeemer" id="VZU-JR-Xre" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="iFi-hi-7tL"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="p1X-0G-1bU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="801" y="-232"/>
         </scene>
     </scenes>
     <resources>

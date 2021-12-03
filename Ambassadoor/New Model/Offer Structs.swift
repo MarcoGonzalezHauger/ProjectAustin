@@ -311,6 +311,8 @@ class InProgressPost {
 	var basicId: String
 	var draftPostId: String
 	
+	var flags: [String]
+	
 	var comissionUserId: String?
 	var comissionBusinessId: String?
 	
@@ -344,6 +346,22 @@ class InProgressPost {
 	
 	//MARK: Cancelled
 	var dateCancelled: Date
+	
+	func checkFlag(_ flag: String) -> Bool {
+		return flags.contains(flag)
+	}
+	
+	func AddFlag(_ flag: String) {
+		if !flags.contains(flag) {
+			flags.append(flag)
+		}
+	}
+	
+	func RemoveFlag(_ flag: String) {
+		if flags.contains(flag) {
+			flags.removeAll{$0 == flag}
+		}
+	}
 	
 	init(draftPost dp: DraftPost, comissionUserId cuid: String?, comissionBusinessId cbid: String?, userId id: String, poolOfferId poid: String, businessId bid: String, draftOfferId doid: String, cashValue cash: Double, basicId bbid: String) { //This init function should be used when the user first accepts an offer and the PoolOffer is truned into many different inProgressPosts.
 		
@@ -381,6 +399,8 @@ class InProgressPost {
 		dateRejected = GetEmptyDate()
 		dateCancelled = GetEmptyDate()
 		denyReason = ""
+		
+		flags = []
 	}
 	
 	init(dictionary d: [String: Any], inProgressPostId ipid: String, userId id: String) {
@@ -418,6 +438,8 @@ class InProgressPost {
         if let date = d["datePosted"] as? String{
             self.datePosted = date.toUDate()
         }
+		
+		flags = d["flags"] as? [String] ?? []
 	}
 	
 	func toDictionary() -> [String: Any] {
@@ -450,6 +472,9 @@ class InProgressPost {
 		d["basicId"] = basicId
 		d["draftPostId"] = draftPostId
         d["draftPost"] = draftPost.toDictionary()
+		
+		d["flags"] = flags
+		
 		return d
 	}
 }

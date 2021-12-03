@@ -55,8 +55,8 @@ class NewWithdrawVC: UIViewController {
             let balanceUpdateRef = Database.database().reference().child("Accounts/Private/Influencers").child(Myself.userId).child("finance")
             balanceUpdateRef.updateChildValues(["balance": 0]) { (error, DatabaseReference) in
             if error == nil {
-                
-                let params = ["accountID": Myself.finance.stripeAccount?.stripeUserId as Any,"amount": subAmount * 100, "mode": "test"] as [String: AnyObject]
+                //Please change the mode to live when submit app to appstore
+                let params = ["accountID": Myself.finance.stripeAccount?.stripeUserId as Any,"amount": subAmount * 100, "mode": "live"] as [String: AnyObject]
                 APIManager.shared.withdrawThroughStripe(params: params) { (status, error, data) in
                     
                     
