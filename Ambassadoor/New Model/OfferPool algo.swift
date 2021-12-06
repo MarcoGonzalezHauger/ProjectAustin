@@ -122,7 +122,11 @@ func getFilteredOfferPool() -> [PoolOffer] {
 /// - Returns: Array of all offers(Following user, Filtered offers)
 func GetOfferPool() -> [PoolOffer] {
 	print("PV: Getting Total count is \(offerPool.count)")
-	return offerPool
+    
+    let offers = offerPool.filter { offer in
+        return offer.cashPower > 1.0
+    }
+	return offers
 }
 
 func GetBasicInfluencer(id: String) -> BasicInfluencer? {
