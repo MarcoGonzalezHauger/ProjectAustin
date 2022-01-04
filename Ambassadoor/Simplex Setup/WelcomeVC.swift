@@ -15,7 +15,11 @@ protocol AutoDimiss {
 }
 
 class WelcomeVC: UIViewController, AutoDimiss {
-	
+    
+    
+    
+    /// Dismiss current view controller
+    /// - Parameter sender: identify controller to dismiss. pass welcome idetifier to AutoDimiss delegate method
     func DismissNow(sender: String) {
         
         if sender == "CreateAccount"{
@@ -43,15 +47,24 @@ class WelcomeVC: UIViewController, AutoDimiss {
 			
 		}
 	}
-	
+    
+    /// segue to sign in page.
+    /// - Parameter sender: UIButton referrance.
 	@IBAction func signInClicked(_ sender: Any) {
 		performSegue(withIdentifier: "toSignIn", sender: self)
 	}
     
+    
+    /// Segue to create account page.
+    /// - Parameter sender: UIButton page.
     @IBAction func createAccountAction(_ sender: Any){
         performSegue(withIdentifier: "toNewCreateAccountStoryboard", sender: self)
     }
-	
+    
+    /// Initialize NewAccount class
+    /// - Parameters:
+    ///   - segue: Storyboard segue
+    ///   - sender: Any referrance
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let destination = segue.destination as? SigninVC {
 			destination.delegate = self

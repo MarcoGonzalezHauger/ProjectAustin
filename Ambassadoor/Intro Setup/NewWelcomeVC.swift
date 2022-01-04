@@ -16,15 +16,20 @@ class NewWelcomeVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    /// Open business app link action
+    /// - Parameter sender: UIButton referrance
     @IBAction func openAppStore(sender: UIButton){
         businessInstead()
     }
 	
     
+    /// Segue to instagram check page
+    /// - Parameter sender: UIButton referrance
     @IBAction func toSegueAction(sender: UIButton){
         self.performSegue(withIdentifier: "toInstaCheckSegue", sender: self)
     }
-
+    
+    /// Open business app in appstore
 	func businessInstead() {
 		let notificationCenter = UNUserNotificationCenter.current()
 		notificationCenter.getNotificationSettings { (settings) in
@@ -36,8 +41,9 @@ class NewWelcomeVC: UIViewController {
 			}
 		}
 	}
+    
+    /// show notification if userdownload wrong app
 	func wrongAppNotification() {
-		
 		let notificationCenter = UNUserNotificationCenter.current()
 		let content = UNMutableNotificationContent()
 		

@@ -29,6 +29,9 @@ class WebViewVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    
+    /// Dismiss current view controller
+    /// - Parameter sender: UIButton referrance
     @IBAction func cancel_Action(_ sender: Any) {
         performDismiss()
     }

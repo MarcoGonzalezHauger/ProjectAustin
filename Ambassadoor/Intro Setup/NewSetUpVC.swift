@@ -18,10 +18,13 @@ class NewSetUpVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    /// Let's Go action.
+    /// - Parameter sender: UIButton Referrance
    @IBAction func DoneAction(sender: UIButton) {
         self.CreateAccount()
     }
     
+    /// Check if user entered valid details. Check if user already exist in DB. Create new account.
     func CreateAccount() {
         //[RAM] Complete this function with creation of account
         
@@ -70,6 +73,7 @@ class NewSetUpVC: UIViewController {
         
     }
     
+    /// Calculate average likes by post and likes count. Redirect to Tabbar controller.
     func AccountSuccessfullyCreated() {
 
         //self.delegate?.DismissNow(sender: "CreateAccount")
@@ -87,7 +91,9 @@ class NewSetUpVC: UIViewController {
         }
         
     }
-        
+    
+    /// Account creation failed message
+    /// - Parameter problem: CreateAccountProblem enum properties
         func AccountCreationFailed(problem: CreateAccountProblem) {
            // wasFailed = true
             

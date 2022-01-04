@@ -36,9 +36,10 @@ class SigninVC: UIViewController {
         
     }
     
+    
+    /// Check if user entered valid email, password. Check if user accesstoken expires or not. if expires, login with FB to renewal access token. Calculate average likes.
     func SignInNow() {
         
-                
         if emailText.text?.count != 0 {
             
             if isValidEmail(emailStr: emailText.text!){
@@ -150,6 +151,10 @@ class SigninVC: UIViewController {
         
     }
     
+    /// Login with FB to renewal access token. Fetch FB user details. upload user image to Fire store. Update changes to user.
+    /// - Parameters:
+    ///   - userID: User ID
+    ///   - instaID: Instagram ID
     func callIfAccessTokenExpired(userID: String, instaID: String) {
         
         API.facebookLoginAct(userIDBusiness: instaID, owner: self) { (userDetail, longliveToken, error) in
@@ -204,6 +209,10 @@ class SigninVC: UIViewController {
         
     }
     
+    /// Update user detail to Firebase
+    /// - Parameters:
+    ///   - userID: User ID
+    ///   - user: Updated Influencer class
     func updateLoginDetailsToServer(userID: String, user: Influencer) {
         Myself.tokenFIR = global.deviceFIRToken
         
@@ -299,14 +308,17 @@ class SigninVC: UIViewController {
 //    }
     
     //OTHER CODE BELOW
+        
     
-    
-    
-    
+    /// Dismiss current viewcontroller
+    /// - Parameter sender: UIButton referrance
     @IBAction func closeSignUp(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
+    
+    /// Become next responder for next UITextfield
+    /// - Parameter sender: UITextField referrance
     @IBAction func nextField(_ sender: Any) {
         passwordText.becomeFirstResponder()
     }
@@ -315,6 +327,9 @@ class SigninVC: UIViewController {
         self.view.endEditing(true)
     }
     
+    
+    /// Sign in textfield done action
+    /// - Parameter sender: UIButton referrance
     @IBAction func SignInFromKeyboard(_ sender: Any) {
         passwordText.resignFirstResponder()
         if signinButton.isEnabled {
@@ -323,16 +338,20 @@ class SigninVC: UIViewController {
         }
     }
     
+    /// Sign in with signin button. Call SignInNow method
+    /// - Parameter sender: UIButton referrance
     @IBAction func SignInFrombutton(_ sender: Any) {
         DisableSignIn()
         SignInNow()
     }
     
+    /// Disable sign in until complete process
     func DisableSignIn() {
         signinButton.isEnabled = false
         signinButton.Text = "Signing In..."
     }
     
+    /// Login successful and redirect to UITabbar controller
     func LoginSuccessful() {
         signinButton.Text = "Signed In"
 		SetLabelText(text: "Welcome Back", animated: true)
@@ -355,6 +374,8 @@ class SigninVC: UIViewController {
         }
     }
     
+    /// Show login error message
+    /// - Parameter reason: LoginProblem property
     func LoginFailed(reason: LoginProblem) {
         signinButton.Text = "Sign In"
         MakeShake(viewToShake: signinButton)
@@ -377,6 +398,11 @@ class SigninVC: UIViewController {
         }
     }
     
+    
+    /// Set error text in authLabel with animation
+    /// - Parameters:
+    ///   - textstring: error text
+    ///   - animated: anitmation bool true or false
     func SetLabelText(text textstring: String, animated: Bool) {
         if animated {
             let animation: CATransition = CATransition()
@@ -392,6 +418,10 @@ class SigninVC: UIViewController {
         }
     }
     
+    
+    /// Get meaningful text from LoginProblem enum
+    /// - Parameter reason:
+    /// - Returns: Meaning ful text
     func GetLabelTextFromIssue(reason: LoginProblem?) -> String {
         switch reason {
         case .noEmail:

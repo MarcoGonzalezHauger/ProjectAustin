@@ -10,6 +10,9 @@ import UIKit
 
 class NewDateOfBirthVC: UIViewController, CustomDatePickerDelegate {
     
+    
+    /// CustomDatePickerDelegate delegate method.
+    /// - Parameter date: get picked date
     func pickedDate(date: Date) {
         NewAccount.dob = date.toUString()
         self.ageText.text = date.toString(dateFormat: "MM/dd/YY")
@@ -27,10 +30,16 @@ class NewDateOfBirthVC: UIViewController, CustomDatePickerDelegate {
         // Do any additional setup after loading the view.
     }
     
+    
+    /// Show DOB screen
+    /// - Parameter sender: UIButton referrance
     @IBAction func clickDOB(sender: Any){
         self.performSegue(withIdentifier: "toDOBSegue", sender: self)
     }
     
+    
+    /// Check if user entered valid date. Segue to create account page.
+    /// - Parameter sender: UIButton referrance
     @IBAction func nextAction(sender: UIButton){
         if NewAccount.dob == "" {
             self.showStandardAlertDialog(title: "Alert", msg: "Please enter your Born day") { action in

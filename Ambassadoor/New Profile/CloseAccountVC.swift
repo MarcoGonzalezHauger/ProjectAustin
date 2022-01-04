@@ -19,16 +19,25 @@ class CloseAccountVC: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
     }
     
+    
+    /// Resign confirm textfield
+    /// - Parameter textField: UITextField referrance
+    /// - Returns: true or false
     func textFieldShouldReturn(_ textField: UITextField) -> Bool{
         //self.updatePassword()
         self.confirm.resignFirstResponder()
         return true
     }
     
+    
+    /// Confirm action
+    /// - Parameter sender: UIButton referrance
     @IBAction func confirmPressedAction(sender: UIButton){
         self.confirmPassed()
     }
     
+    
+    /// Check if user entered correct text. add isInvisible, isClosedAccount, InstagramAccessToken tags. set instagram access token empty. update changes to firebase
     func confirmPassed() {
         
         if self.confirm.text?.count == 0 {
@@ -58,6 +67,8 @@ class CloseAccountVC: UIViewController, UITextFieldDelegate {
     }
     
     
+    /// Pop to root view controller
+    /// - Parameter sender: UIButton referrance
     @IBAction func popAction(sender: UIButton){
         poptoRoot()
     }

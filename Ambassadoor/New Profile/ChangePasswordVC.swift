@@ -18,17 +18,25 @@ class ChangePasswordVC: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
     }
     
+    /// resign password textfield
+    /// - Parameter textField: UITextField referrance
+    /// - Returns: true or false
     func textFieldShouldReturn(_ textField: UITextField) -> Bool{
         //self.updatePassword()
         self.password.resignFirstResponder()
         return true
     }
     
+    
+    /// Resign password text. call Update password method
+    /// - Parameter sender: UIButton referrance
     @IBAction func changePassword(sender: UIButton){
         self.password.resignFirstResponder()
         self.updatePassword()
     }
     
+    
+    /// Check if user entered valid password or not. update changes to firebase. pop to root viewcontroller
     func updatePassword() {
         
         if self.password.text?.count == 0 {
@@ -55,6 +63,9 @@ class ChangePasswordVC: UIViewController, UITextFieldDelegate {
         
     }
     
+    
+    /// Pop to root view controller
+    /// - Parameter sender: UIButton referrance
     @IBAction func popAction(sender: UIButton){
         poptoRoot()
     }

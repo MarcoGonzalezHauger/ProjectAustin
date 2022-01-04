@@ -39,6 +39,10 @@ class NewCreateAccountVC: UIViewController, UITextFieldDelegate, OTPDismissed {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
+    
+    /// return error text.
+    /// - Parameter reason: Pass AccountNameProblem enum property
+    /// - Returns: error text
     func GetLabelTextFromIssue(reason: AccountNameProblem?) -> String {
         switch reason {
         case .noEmail:
@@ -62,6 +66,9 @@ class NewCreateAccountVC: UIViewController, UITextFieldDelegate, OTPDismissed {
         }
     }
     
+    
+    /// Check if user entered valid password, email, and check if user entered email already exist or not. send otp to email.
+    /// - Parameter sender: UIButton referrance
     @IBAction func nextAction(sender: UIButton){
         
         if password.text?.count == 0 {
@@ -178,11 +185,16 @@ class NewCreateAccountVC: UIViewController, UITextFieldDelegate, OTPDismissed {
         
     }
     
+    
+    /// resign text field
+    /// - Parameter textField: UITextField referrance
+    /// - Returns: true or false
     func textFieldShouldReturn(_ textField: UITextField) -> Bool{
         textField.resignFirstResponder()
         return true
     }
-    
+    /// Adjust scroll view as per Keyboard Height if the keyboard hides textfiled.
+    /// - Parameter notification: keyboardWillShowNotification reference
     @objc func keyboardWasShown(notification : NSNotification) {
         
         let userInfo = notification.userInfo!
@@ -194,7 +206,8 @@ class NewCreateAccountVC: UIViewController, UITextFieldDelegate, OTPDismissed {
         self.scroll.contentInset = contentInset
         
     }
-    
+    ///   Getback scroll view to normal state
+    /// - Parameter notification: keyboardWillHideNotification reference
     @objc func keyboardWillHide(notification:NSNotification){
         
         let contentInset:UIEdgeInsets = UIEdgeInsets.zero

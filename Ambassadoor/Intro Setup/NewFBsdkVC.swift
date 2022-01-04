@@ -16,6 +16,8 @@ class NewFBsdkVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    /// Segue to facebook setup page
+    /// - Parameter sender: UIButton referrance
     @IBAction func toSegueAction(sender: UIButton){
         self.performSegue(withIdentifier: "toFacebookSetupSegue", sender: self)
     }

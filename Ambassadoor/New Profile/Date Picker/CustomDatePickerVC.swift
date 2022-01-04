@@ -25,10 +25,14 @@ class CustomDatePickerVC: UIViewController {
         
     }
     
+    /// Configure custom date picker
+    /// - Parameter animated: true or false
     override func viewWillAppear(_ animated: Bool) {
         self.setConfigDatePicker()
     }
     
+    
+    /// Initialise date components
     func setConfigDatePicker() {
         var components = DateComponents()
         components.year = -18
@@ -37,6 +41,9 @@ class CustomDatePickerVC: UIViewController {
         datePicker.date = selectedDate ?? maxDate!
     }
     
+    
+    /// Dismiss current controller
+    /// - Parameter _sender: UIButton referrance
     @IBAction func cancelAction(_sender: Any){
         
         UIView.animate(withDuration: 0.2, animations: {
@@ -46,6 +53,9 @@ class CustomDatePickerVC: UIViewController {
         })
     }
     
+    
+    /// send picked date to CustomDatePickerDelegate deleagte method. Dismiss current view controller
+    /// - Parameter _sender: UIButton referrance
     @IBAction func doneAction(_sender: Any){
         
         UIView.animate(withDuration: 0.2, animations: {
@@ -56,6 +66,9 @@ class CustomDatePickerVC: UIViewController {
         })
     }
     
+    
+    /// Change UIView background color
+    /// - Parameter animated: true or false
     override func viewDidAppear(_ animated: Bool) {
 		UIView.animate(withDuration: 0.2) {
 			self.view.backgroundColor = UIColor.black.withAlphaComponent(0.3)

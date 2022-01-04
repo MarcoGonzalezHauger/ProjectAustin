@@ -19,11 +19,15 @@ class NewGenderVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    /// Set gender to NewAccount property class. and change picked gender button color.
+    /// - Parameter sender: UIButton referrance
     @IBAction func genderActionAction(sender: UIButton){
         NewAccount.gender = genders.getGender(tag: sender.tag)
         changeColors(tag: sender)
     }
     
+    /// Change gender button colors based on picked gender.
+    /// - Parameter tag: UIButton referrance
     func changeColors(tag: UIButton? = nil) {
         
         if tag != nil {
@@ -42,8 +46,10 @@ class NewGenderVC: UIViewController {
         
     }
     
+    
+    /// Gender enum properties
     enum genders: String{
-        case Female = "Female", Male = "Make", NotProvided = "Not Provided"
+        case Female = "Female", Male = "Male", NotProvided = "Not Provided"
         
        static func getGender(tag: Int) -> String {
             switch tag {
@@ -57,6 +63,8 @@ class NewGenderVC: UIViewController {
         }
     }
     
+    /// Next action. check if user picked any gender. segue to zipcode segue.
+    /// - Parameter sender: UIButton referrance
     @IBAction func nextAction(sender: UIButton){
         if NewAccount.gender == "" {
             self.showStandardAlertDialog(title: "alert", msg: "Please choose any gender") { action in

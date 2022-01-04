@@ -16,6 +16,8 @@ class NewAccTypeVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    /// Segue to instagram basic screens
+    /// - Parameter sender: UIButton Referrance
     @IBAction func toSegueAction(sender: UIButton){
         self.performSegue(withIdentifier: "toInstaBasicSegue", sender: self)
     }

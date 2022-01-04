@@ -10,12 +10,17 @@ import UIKit
 
 
 class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EnterZipCode, NewSettingsDelegate, InterestPickerDelegate, CustomDatePickerDelegate {
+    
+    /// CustomDatePickerDelegate delegate method.
+    /// - Parameter date: get picked date
     func pickedDate(date: Date) {
         self.tempeditInfBasic.birthday = date
         self.refreshAfterOneEdit()
     }
     
-	
+    
+    /// Check if edit mode. set interest and reload collection. InterestPickerDelegate delegate method.
+    /// - Parameter interests:get selected interests
 	func newInterests(interests: [String]) {
 		if isInEditMode {
 			tempeditInfBasic.interests = interests
@@ -23,11 +28,14 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 		}
 	}
 	
+    
+    /// Go to edit mode.
 	func GoIntoEditMode() {
 		startEditing()
 	}
 	
-	
+    /// EnterZipCode delegate method
+    /// - Parameter zipCode: get entered zipcode.
 	func ZipCodeEntered(zipCode: String?) {
 		if let zipCode = zipCode {
 			if isInEditMode {
@@ -37,6 +45,8 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 		}
 	}
 	
+    
+    /// Refresh user details and set profile tabbar image
 	func myselfRefreshed() { //from MyselfRefreshDelegate
 		if !isInEditMode {
 			loadFromMyself()
@@ -106,6 +116,8 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
         self.tabBarController?.delegate = self
     }
     
+    
+    /// Set custom image to profile tabbar
     func setTabBarProfilePicture() {
         let logo = Myself.basic.resizedProfile
         downloadImage(logo) { (image) in
@@ -133,29 +145,29 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
         }
     }
         
-    func setDatePicker(dateChooserAlert: UIAlertController) {
-            datePickerView.frame = CGRect.init(x: 0, y: 10, width: dateChooserAlert.view.frame.size.width, height: 300)
-            var components = DateComponents()
-            components.year = -18
-            let maxDate = Calendar.current.date(byAdding: components, to: Date())
-            datePickerView.maximumDate = maxDate
-            datePickerView.datePickerMode = UIDatePicker.Mode.date
-    //        datePickerView.addTarget(self, action: #selector(self.datePickerValueChanged(sender:)), for: .valueChanged)
-    }
+//    func setDatePicker(dateChooserAlert: UIAlertController) {
+//            datePickerView.frame = CGRect.init(x: 0, y: 10, width: dateChooserAlert.view.frame.size.width, height: 300)
+//            var components = DateComponents()
+//            components.year = -18
+//            let maxDate = Calendar.current.date(byAdding: components, to: Date())
+//            datePickerView.maximumDate = maxDate
+//            datePickerView.datePickerMode = UIDatePicker.Mode.date
+//    //        datePickerView.addTarget(self, action: #selector(self.datePickerValueChanged(sender:)), for: .valueChanged)
+//    }
     
-    func dobPicker(){
-        let dateChooserAlert = UIAlertController(title: "Choose Date.", message: nil, preferredStyle: .actionSheet)
-        self.setDatePicker(dateChooserAlert: dateChooserAlert)
-        dateChooserAlert.view.addSubview(datePickerView)
-        dateChooserAlert.addAction(UIAlertAction(title: "Done", style: .cancel, handler: { action in
-            self.convertDateToAge(date: self.datePickerView.date)
-        }))
-        dateChooserAlert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: { action in
-        }))
-        let height: NSLayoutConstraint = NSLayoutConstraint(item: dateChooserAlert.view as Any, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.1, constant: 400)
-        dateChooserAlert.view.addConstraint(height)
-        self.present(dateChooserAlert, animated: true, completion: nil)
-    }
+//    func dobPicker(){
+//        let dateChooserAlert = UIAlertController(title: "Choose Date.", message: nil, preferredStyle: .actionSheet)
+//        self.setDatePicker(dateChooserAlert: dateChooserAlert)
+//        dateChooserAlert.view.addSubview(datePickerView)
+//        dateChooserAlert.addAction(UIAlertAction(title: "Done", style: .cancel, handler: { action in
+//            self.convertDateToAge(date: self.datePickerView.date)
+//        }))
+//        dateChooserAlert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: { action in
+//        }))
+//        let height: NSLayoutConstraint = NSLayoutConstraint(item: dateChooserAlert.view as Any, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.1, constant: 400)
+//        dateChooserAlert.view.addConstraint(height)
+//        self.present(dateChooserAlert, animated: true, completion: nil)
+//    }
     
     func convertDateToAge(date: Date) {
 //        let age = Calendar.current.dateComponents([.year], from: date, to: Date())
@@ -164,10 +176,15 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
         self.refreshAfterOneEdit()
     }
 	
+    
+    /// Load influencer details
 	func loadFromMyself() {
 		loadInfluencerInfo(influencer: Myself, BasicInfluencer: Myself.basic)
 	}
 	
+    
+    /// Check if a user has a valid amount to withdraw. Segue to bank account page
+    /// - Parameter sender: UIButton referrance
 	@IBAction func transferToBank(_ sender: Any) {
 		
 		if shouldRedeem() {
@@ -191,6 +208,9 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 	
 	var isOnCopied = false
 	
+    
+    /// Copy referral code
+    /// - Parameter sender: UIButton referrance
 	@IBAction func copyRefferal(_ sender: Any) {
 		if !isOnCopied {
 			referralCodeLabel.layer.masksToBounds = true
@@ -207,6 +227,9 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 		}
 	}
 	
+    
+    /// save changes if isInEditMode is ture. segue to setting page
+    /// - Parameter sender: UIButton referrance
 	@IBAction func settingsButtonPressed(_ sender: Any) {
 		if isInEditMode {
 			saveChanged()
@@ -214,6 +237,9 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 		performSegue(withIdentifier: "toSettings", sender: self)
 	}
 	
+    
+    /// Logout action
+    /// - Parameter sender: UIButton referrance
 	@IBAction func signOutButtonPressed(_ sender: Any) {
 		logOut()
 	}
@@ -298,26 +324,36 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 		}
 	}
 	
+    
+    /// Save changes action
+    /// - Parameter sender: UIButton referrance
 	@IBAction func changedSaved(_ sender: Any) {
 		saveChanged()
 	}
 	
+    
+    /// Changes discard action
+    /// - Parameter sender: UIButton referrance
 	@IBAction func changesDiscarded(_ sender: Any) {
 		cancelEditing()
 	}
 	
-	
+    
+    /// Initialize start editing
 	func startEditing() {
 		tempeditInfBasic = BasicInfluencer.init(dictionary: Myself.basic.toDictionary(), userId: "TEMPINF")
 		isInEditMode = true
 	}
-	
+    
+    /// Cancel editing
 	func cancelEditing() {
 		tempeditInfBasic = nil
 		loadInfluencerInfo(influencer: Myself, BasicInfluencer: Myself.basic)
 		isInEditMode = false
 	}
 	
+    
+    /// Save changes and update to firebase
 	func saveChanged() {
 		Myself.basic.zipCode = tempeditInfBasic.zipCode
 		Myself.basic.gender	= tempeditInfBasic.gender
@@ -328,6 +364,9 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 		cancelEditing()
 	}
 	
+    
+    /// Get edit segue and start editing
+    /// - Parameter id: identifier string
 	func doSegueForEdit(withIdentifier id: String) {
 		UseTapticEngine()
 		
@@ -340,7 +379,8 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 			doSegue(id: id)
 		}
 	}
-	
+    
+    /// Show gender picker
 	func pickGender() {
 		ShowGenderPicker(self) { (newGender) in
 			self.tempeditInfBasic.gender = newGender
@@ -348,6 +388,9 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 		}
 	}
 	
+    
+    /// segue to action sheet controller based on id
+    /// - Parameter id: picker id
 	func doSegue(id: String) {
 		switch id {
 		case "toGenderPicker":
@@ -359,19 +402,26 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 			performSegue(withIdentifier: id, sender: self)
 		}
 	}
-
+// MARK: UICollection view delegate and datasource
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		doSegueForEdit(withIdentifier: "toInterestPicker")
 	}
 	
+    
+    /// Segue to edit zip code
+    /// - Parameter sender: UIButton referrance
 	@IBAction func zipCodePressed(_ sender: Any) {
 		doSegueForEdit(withIdentifier: "toZip")
 	}
-	
+    /// Segue to pick gender
+    /// - Parameter sender: UIButton referrance
 	@IBAction func genderPressed(_ sender: Any) {
 		doSegueForEdit(withIdentifier: "toGenderPicker")
 	}
 	
+    
+    /// Segue to age picker
+    /// - Parameter sender: UIButton referrance
 	@IBAction func agePressed(_ sender: Any) {
 		doSegueForEdit(withIdentifier: "fromProfileToPicker")
         //doSegueForEdit(withIdentifier: "toAgePicker")
@@ -406,7 +456,9 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
         }
 	}
 	
-	
+    
+    /// check if redeem user
+    /// - Returns: true or false
 	func shouldRedeem() -> Bool {
 		let xoPosts = Myself.inProgressPosts.filter{$0.checkFlag("xo case study")}
 		if xoPosts.count > 0 {
@@ -530,6 +582,9 @@ class NewProfilePage: UIViewController, myselfRefreshDelegate, UICollectionViewD
 		return spacingBetweenCells
 	}
     
+    
+    /// Logout action
+    /// - Parameter sender: UIButton referrance
     @IBAction func logoutAction(sender: UIButton){
         logOut()
     }

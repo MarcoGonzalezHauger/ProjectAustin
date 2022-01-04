@@ -25,10 +25,14 @@ class NewSettingsVC: UIViewController, MFMailComposeViewControllerDelegate {
         loadProfileSettings()
     }
     
+    
+    /// Set make user invisible
     func loadProfileSettings() {
         invisibleSwitch.isOn = Myself.basic.checkFlag("isInvisible")
     }
     
+    /// set terms and privacy url. segue to legal webview
+    /// - Parameter sender: UIButton referrance
     @IBAction func legalInfoAction(sender: UIButton){
 //		let bb = globalBasicBusinesses.filter{$0.name == "Ambassadoor"}[0]
 //		bb.locations = ["24 Ironwood Dr, Collegeville, PA 19426", "1600 Pennsylvania Avenue NW, Washington, DC 20500", "20 W 34th St, New York, NY 10001"]
@@ -43,15 +47,24 @@ class NewSettingsVC: UIViewController, MFMailComposeViewControllerDelegate {
     @IBOutlet weak var scrollView: UIScrollView!
     var delegate: NewSettingsDelegate?
     
+    
+    /// Dismiss current view controller
+    /// - Parameter sender: UIButton referrance
     @IBAction func closeButtonPressed(_ sender: Any) {
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
     
+    
+    /// Edit user profile. set NewSettingsDelegate delegate referrace.
+    /// - Parameter sender: UIButton referrance
     @IBAction func editMyProfile(_ sender: Any) {
         delegate?.GoIntoEditMode()
         navigationController?.dismiss(animated: true, completion: nil)
     }
     
+    
+    /// Add and remove isInvisible tag. update changes to firebase.
+    /// - Parameter sender: UIButton referrance
     @IBAction func switchChanged(_ sender: Any) {
         if invisibleSwitch.isOn {
             Myself.basic.AddFlag("isInvisible")
@@ -60,6 +73,7 @@ class NewSettingsVC: UIViewController, MFMailComposeViewControllerDelegate {
         }
         Myself.UpdateToFirebase(alsoUpdateToPublic: true, completed: nil)
     }
+    
     
     func getTittle(tag: Int) -> (String, String) {
         switch tag {
@@ -72,6 +86,9 @@ class NewSettingsVC: UIViewController, MFMailComposeViewControllerDelegate {
         }
     }
     
+    
+    /// open and send email
+    /// - Parameter sender: UIButton referrance
     @IBAction func sendEmail(sender: UIButton) {
         
         let emailContent = self.getTittle(tag: sender.tag)
@@ -122,6 +139,12 @@ class NewSettingsVC: UIViewController, MFMailComposeViewControllerDelegate {
         return defaultUrl
     }
     
+    
+    /// Check email status
+    /// - Parameters:
+    ///   - controller: MFMailComposeViewController referrance
+    ///   - result: MFMailComposeResult referrance
+    ///   - error: Error referrance
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?){
         switch result {
         case .cancelled:
@@ -139,6 +162,9 @@ class NewSettingsVC: UIViewController, MFMailComposeViewControllerDelegate {
         self.dismiss(animated: true, completion: nil)
     }
     
+    
+    /// Reset password action
+    /// - Parameter sender: UIButton referrance
     @IBAction func resetAccountAction(sender: UIButton){
         resetAccountTag = sender.tag
         sender.isUserInteractionEnabled = false

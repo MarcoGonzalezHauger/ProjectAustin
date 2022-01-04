@@ -13,6 +13,9 @@ class NewZipcodeVC: UIViewController, EnterZipCode {
     
     @IBOutlet weak var zipCodeText: UIButton!
     
+    
+    /// EnterZipCode delegate method
+    /// - Parameter zipCode: get entered zipcode.
     func ZipCodeEntered(zipCode: String?) {
         if let zipCode = zipCode {
             if zipCode != "" {
@@ -30,10 +33,16 @@ class NewZipcodeVC: UIViewController, EnterZipCode {
         }
     }
     
+    
+    /// Show zipcode page.
+    /// - Parameter sender: UIButton referrance
     @IBAction func showZipCode(sender: UIButton){
         self.performSegue(withIdentifier: "fromNewZipcodeVC", sender: self)
     }
     
+    
+    /// Check if user entered valid zip code. segue to DOB screen
+    /// - Parameter sender: UIButton referrance
     @IBAction func nextAction(sender: UIButton){
         if NewAccount.zipCode == "" {
             self.showStandardAlertDialog(title: "alert", msg: "Please enter any Zipcode") { action in

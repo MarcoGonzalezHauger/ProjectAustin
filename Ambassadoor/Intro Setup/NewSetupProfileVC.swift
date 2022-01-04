@@ -20,6 +20,8 @@ class NewSetupProfileVC: UIViewController {
     
     @IBOutlet weak var Step2View: ShadowView!
     
+    
+    /// Show alert if no instagram account connected to FB.
     func noIGConnect() {
         print("noIG")
         showStandardAlertDialog(title: "Connection Failed", msg: "No Instagram account was connected to this Facebook profile.") { (aa) in
@@ -28,6 +30,8 @@ class NewSetupProfileVC: UIViewController {
         //you don't have an instagram account connected.
     }
     
+    
+    /// Show alert if No fb page connected to instagram
     func noFBPConnect() {
         print("noFBP")
         showStandardAlertDialog(title: "Connection Failed", msg: "You must create a Facebook Page that is connected to your Instagram account to connect to Ambassadoor.") { (aa) in
@@ -36,6 +40,8 @@ class NewSetupProfileVC: UIViewController {
         //You don't have a facebook page connected to the instagram account!!
     }
     
+    
+    /// reset FB profile and access token. connect FB account.
     @IBAction func connectAction(){
         
         AccessToken.current = nil
@@ -43,6 +49,8 @@ class NewSetupProfileVC: UIViewController {
         self.getFBBusinessAccount()
     }
     
+    
+    /// Login FB account, link fb page to instagram account, get instagram details and access token. Check if instagram account already exist in app if exist, go to sign in page. get instagram account details and update instagram profile pic to firebase store. segue to instagram interest.
     func getFBBusinessAccount() {
         self.connectBtn.setTitle("CONNECTING...", for: .normal)
         API.facebookLoginBusinessAccount(owner: self) { (userDetail, longLiveToken, error) in

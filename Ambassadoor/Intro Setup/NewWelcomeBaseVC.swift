@@ -17,6 +17,8 @@ class NewWelcomeBaseVC: UIViewController {
 		}
     }
     
+    /// Dismiss current viewcontroller
+    /// - Parameter sender: UIButton referrance
     @IBAction func dismissAction(sender: UIButton){
         performDismiss()
     }

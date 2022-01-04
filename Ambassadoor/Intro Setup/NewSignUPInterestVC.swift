@@ -18,6 +18,8 @@ class NewSignUPInterestVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    
+    /// Check if choose any interest. segue to gender picker page.
     @IBAction func nextAction(){
         if pickerviewdel!.getInterests().count == 0 {
             //MakeShake(viewToShake: DoneButton, coefficient: 0.5)

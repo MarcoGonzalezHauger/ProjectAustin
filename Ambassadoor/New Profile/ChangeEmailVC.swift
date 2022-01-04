@@ -18,16 +18,24 @@ class ChangeEmailVC: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
     }
     
+    /// call change email method
+    /// - Parameter sender: UIButton referrance
     @IBAction func changeEmailAction(sender: UIButton){
         self.changeEmail()
     }
     
+    
+    /// resign email textfield
+    /// - Parameter textField: UITextField referrance
+    /// - Returns: true or false
     func textFieldShouldReturn(_ textField: UITextField) -> Bool{
         //self.updatePassword()
         self.email.resignFirstResponder()
         return true
     }
     
+    
+    /// Check if user entered valid email. check if user email exist. update changes to firebase. pop to root view controller
     func changeEmail() {
         if email.text?.count == 0 {
             showStandardAlertDialog(title: "Alert", msg: "Please enter the email", handler: nil)
@@ -61,6 +69,8 @@ class ChangeEmailVC: UIViewController, UITextFieldDelegate {
         })
     }
     
+    /// Pop to root viewcontroller
+    /// - Parameter sender: UIButton referrance
     @IBAction func popAction(sender: UIButton){
         poptoRoot()
     }
