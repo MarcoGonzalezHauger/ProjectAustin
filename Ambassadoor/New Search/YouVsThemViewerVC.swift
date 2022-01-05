@@ -17,11 +17,15 @@ class YouVsThemViewerVC: UIViewController {
 	
 	@IBOutlet weak var differenceLabel: UILabel!
 	@IBOutlet weak var differenceView: ShadowView!
-	
+    
+    /// Dismiss Current Viewcontroller
+    /// - Parameter sender: UIButton referrance
 	@IBAction func closeButtonPressed(_ sender: Any) {
 		dismiss(animated: true, completion: nil)
 	}
 	
+    
+    /// Set average likes, engagement rate and followers count on concerned fields.
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		heading1Label.text = "Your " + heading

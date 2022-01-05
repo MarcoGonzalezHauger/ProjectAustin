@@ -11,6 +11,11 @@ import UIKit
 
 class NewBasicInfluencerView: UIViewController, publicDataRefreshDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FollowerButtonDelegete {
 	
+    
+    /// FollowerButtonDelegete delegate method. give status of influencer follow and unfollow.
+    /// - Parameters:
+    ///   - sender: Class referrance
+    ///   - newValue: follow or unfollow bool value
 	func isFollowingChanged(sender: AnyObject, newValue: Bool) {
 		didJustFollow = true
 		if newValue {
@@ -20,7 +25,7 @@ class NewBasicInfluencerView: UIViewController, publicDataRefreshDelegate, UICol
 		}
 	}
 	
-	
+    /// publicDataRefreshDelegate delegate method. refresh user details if any changes updated in Firebase
 	func publicDataRefreshed(userOrBusinessId: String) {
 		if userOrBusinessId == thisInfluencer.userId {
 			for i in globalBasicInfluencers {
@@ -68,7 +73,7 @@ class NewBasicInfluencerView: UIViewController, publicDataRefreshDelegate, UICol
 	func CompressNumberWithPlus(number: Double) -> String {
 		return (number > 0 ? "+" : "") + CompressNumber(number: number)
 	}
-	
+    /// Load other user details
 	func LoadYouVsThem() {
 		let likesDiff = Myself.basic.averageLikes - thisInfluencer.averageLikes
 		let followersDiff = Myself.basic.followerCount - thisInfluencer.followerCount
@@ -87,11 +92,15 @@ class NewBasicInfluencerView: UIViewController, publicDataRefreshDelegate, UICol
 		youVsThemEngagementRateView.borderColor = GetColorForNumber(number: Double(engagementRate))
 	}
 	
+    
+    /// Segue to differentiate average likes screen
 	func viewYouVsThemItem() {
 		UseTapticEngine()
 		performSegue(withIdentifier: "viewYouVsThemItem", sender: self)
 	}
-	
+    
+    /// Dismiss current view controller
+    /// - Parameter sender: UIButton referrance
 	@IBAction func dismiss(_ sender: Any) {
 		self.dismiss(animated: true, completion: nil)
 	}
@@ -100,7 +109,9 @@ class NewBasicInfluencerView: UIViewController, publicDataRefreshDelegate, UICol
 	
 	var thisInfluencer: BasicInfluencer!
 	
-	
+    
+    /// Open instagram page action. open instagram app to show profile details
+    /// - Parameter sender: UIButton referrance
 	@IBAction func openInstagramPage(_ sender: Any) {
 		UseTapticEngine()
 		let user = thisInfluencer.username
@@ -114,6 +125,9 @@ class NewBasicInfluencerView: UIViewController, publicDataRefreshDelegate, UICol
 		}
 	}
 	
+    
+    /// Set influencer id to thisInfluencer referrance
+    /// - Parameter userId: Influencer ID
 	func displayInfluencerId(userId: String) {
 		for i in globalBasicInfluencers {
 			if i.userId == userId {
@@ -123,20 +137,25 @@ class NewBasicInfluencerView: UIViewController, publicDataRefreshDelegate, UICol
 		}
 	}
 	
+    
+    /// Show Difference of two average likes
+    /// - Parameter sender: UIButton referrance
 	@IBAction func averageLikesPressed(_ sender: Any) {
 		stat1 = Myself.basic.averageLikes
 		stat2 = thisInfluencer.averageLikes
 		headingName = "Average Likes"
 		viewYouVsThemItem()
 	}
-	
+    /// Show Difference of follower count
+    /// - Parameter sender: UIButton referrance
 	@IBAction func followersPressed(_ sender: Any) {
 		stat1 = Myself.basic.followerCount
 		stat2 = thisInfluencer.followerCount
 		headingName = "Followers"
 		viewYouVsThemItem()
 	}
-	
+    /// Show Difference of engagementRate
+    /// - Parameter sender: UIButton referrance
 	@IBAction func EngagementRatePressed(_ sender: Any) {
 		stat1 = Myself.basic.engagementRate
 		stat2 = thisInfluencer.engagementRate
@@ -180,6 +199,8 @@ class NewBasicInfluencerView: UIViewController, publicDataRefreshDelegate, UICol
 		loadBasicInfluencerInfo()
 	}
 	
+    
+    /// set influencer details on cencerned field
 	func loadBasicInfluencerInfo() {
 		
 		let thisIsMe = thisInfluencer.userId == Myself.userId
@@ -220,6 +241,7 @@ class NewBasicInfluencerView: UIViewController, publicDataRefreshDelegate, UICol
 	var rows = 2
 	var spacingBetweenCells: CGFloat = 6
 	
+//    MARK: - Interest list UICollection view delegate and datasource
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return thisInfluencer.interests.count
 	}

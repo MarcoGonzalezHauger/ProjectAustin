@@ -10,14 +10,18 @@ import UIKit
 
 class OfferPoolView: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, OfferPoolRefreshDelegate {
 	
+    /// OfferPoolRefreshDelegate delegate method. refresh pool offer data if any changes updated in firebase
 	func OfferPoolRefreshed(poolId: String) {
 		refreshPool()
 	}
 	
+    
+    /// offerPoolFilter enum
 	enum offerPoolFilter {
 		case followed, filitered, all
 	}
 	
+//  MARK: Search bar Delegate and Datasource
 	func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 		refreshPool()
 	}
@@ -30,10 +34,16 @@ class OfferPoolView: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		searchBar.resignFirstResponder()
 	}
 	
+    
+    /// View controller life cycle. Refersh offer pool data
+    /// - Parameter animated: true or false
 	override func viewDidAppear(_ animated: Bool) {
 		refreshPool()
 	}
 	
+    
+    /// Get search bar selectedScopeButtonIndex.
+    /// - Returns: returns offerPoolFilter enum property
 	func GetScope() -> offerPoolFilter {
 		switch searchBar.selectedScopeButtonIndex {
 		case 0:
@@ -45,6 +55,8 @@ class OfferPoolView: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		}
 	}
 	
+    
+    /// Refresh offer pool data based on offerPoolFilter enum property
 	func refreshPool() {
 		var pool: [PoolOffer] = [PoolOffer]()
 		switch GetScope() {
@@ -117,6 +129,7 @@ class OfferPoolView: UIViewController, UITableViewDelegate, UITableViewDataSourc
         }
     }
     
+    /// Set profile tab custom image if image is not set yet.
     func setTabBarProfilePicture() {
         let logo = Myself.basic.resizedProfile
         downloadImage(logo) { (image) in
@@ -153,6 +166,7 @@ class OfferPoolView: UIViewController, UITableViewDelegate, UITableViewDataSourc
 		}
 	}
 	
+//    MARK: offer list UITableview delegate and datasource
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: true)
 		passPO = currentOffers[indexPath.row]

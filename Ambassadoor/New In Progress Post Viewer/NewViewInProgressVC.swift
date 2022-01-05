@@ -10,6 +10,7 @@ import UIKit
 
 class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
     
+    /// Refresh post details if any changes updated in firebase
     func myselfRefreshed() {
 		print("did refresh")
         for ip in Myself.inProgressPosts {
@@ -87,10 +88,16 @@ class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
         updateContents()
     }
     
+    
+    /// Dismiss current view controller
+    /// - Parameter sender: UIButton referrance
     @IBAction func closeButtonPressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
+    
+    /// Cancel post and update changes to firebase
+    /// - Parameter sender: UIButton referrance
     @IBAction func postCancelled(_ sender: Any) {
 		
 		let alert = UIAlertController(title: "Cancel Post – This action cannot be undone.", message: "", preferredStyle: .actionSheet)
@@ -141,6 +148,9 @@ class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
         
     }
     
+    
+    /// Filter post business id and segue to business view page
+    /// - Parameter sender: UIButton referrance
     @IBAction func ViewBusiness(_ sender: Any) {
         
         print(thisInProgressPost.businessId)
@@ -156,6 +166,8 @@ class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
         }
     }
     
+    
+    /// Update status view contents
     func updateContents() {
         
         
@@ -185,6 +197,8 @@ class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
         updateBusinessDetails()
     }
     
+    
+    /// Update business details
     func updateBusinessDetails() {
         if let basic = thisInProgressPost.BasicBusiness() {
             self.businessProfile.downloadAndSetImage(basic.logoUrl)
@@ -195,6 +209,9 @@ class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
 	
 	@IBOutlet weak var redeemButton: UIButton!
 	
+    
+    /// Redeem action
+    /// - Parameter sender: UIButton referrance
 	@IBAction func redeemNow(_ sender: Any) {
 		if thisInProgressPost.checkFlag("redeemed") {
 			self.showStandardAlertDialog(title: "Already Redeemed", msg: "Gift card will soon be sent to " + Myself.email, handler: nil)
@@ -206,6 +223,9 @@ class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
 		}
 	}
 	
+    
+    /// Update redeem and post status views
+    /// - Parameter status: post status
     func updateForStatus(status: String) {
 		
 		if thisInProgressPost.checkFlag("redeemed") {
@@ -300,6 +320,10 @@ class NewViewInProgressVC: UIViewController, myselfRefreshDelegate {
 
 extension NewViewInProgressVC {
     
+    
+    /// Convert radar view frame to parent UIView
+    /// - Parameter view: radar view frame
+    /// - Returns: new frame
     func viewToFrame(_ view: UIView) -> CGRect {
         var newView: CGRect!
 		newView = orbView.superview!.convert(view.frame, to: self.view)
@@ -307,6 +331,8 @@ extension NewViewInProgressVC {
         return newView
     }
     
+    
+    /// Update post status contents and radar views
     func updateOrbStatus() {
         switch thisInProgressPost.status {
             
@@ -383,7 +409,8 @@ extension NewViewInProgressVC {
         }
     }
     
-	
+    
+    /// show time left to post
     func setTimeLeftToPost() {
         let calendar = Calendar.current
         let postBy = calendar.date(byAdding: .hour, value: 48, to: thisInProgressPost.dateAccepted)!
@@ -391,6 +418,11 @@ extension NewViewInProgressVC {
         setTimeLeft(to: postBy)
     }
     
+    
+    /// set radar view contents
+    /// - Parameters:
+    ///   - toRect: new frame
+    ///   - color: radar view back ground color
     func setRadar(toRect: UIView, color: UIColor) {
         
 		radarView.frame = toRect.bounds
@@ -405,6 +437,7 @@ extension NewViewInProgressVC {
     }
     
     
+    /// Radar view animation
     func doRadarAnimation() {
         let animation = CAKeyframeAnimation.init(keyPath: "transform.scale")
         animation.timingFunction = CAMediaTimingFunction(name: .easeOut)
@@ -420,10 +453,15 @@ extension NewViewInProgressVC {
         }
     }
     
+    
+    /// remove radar view
     func removeRadar() {
         radarView.isHidden = true
     }
     
+    
+    /// Time left to settle post
+    /// - Parameter to: until date
     func setTimeLeft(to: Date) {
         let calendar = Calendar.current
         let diff = calendar.dateComponents([.day, .hour, .minute, .second], from: Date(), to: to)
@@ -431,6 +469,11 @@ extension NewViewInProgressVC {
         timeLeftLabel.text = "\(realHours):\(makeSure2Long(value: diff.minute)):\(makeSure2Long(value: diff.second))"
     }
     
+    /// Change color based post status
+    /// - Parameters:
+    ///   - upToIndex: change colors to views up to particular index
+    ///   - filledColor: filled color
+    ///   - otherColor: other color
     func makeViewColorUpTo(upToIndex: Int, filledColor: UIColor, otherColor: UIColor) {
         //print(orbs.count)
 		for i in 0...upToIndex {
@@ -445,6 +488,10 @@ extension NewViewInProgressVC {
         }
     }
     
+    
+    /// Round up date to meaningful
+    /// - Parameter value: minutes or seconds
+    /// - Returns: string
     func makeSure2Long(value: Int?) -> String {
         if let val = value {
             var str = String(val)

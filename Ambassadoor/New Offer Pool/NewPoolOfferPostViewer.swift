@@ -34,6 +34,8 @@ class NewPoolOfferPostViewer: UIViewController, CLLocationManagerDelegate {
 		navigationController?.popViewController(animated: true)
 	}
 	
+    
+    /// Update post content in all concerned fileds
 	func updateContents() {
         let loc = thisPoolOffer.BasicBusiness()
         if loc != nil {
@@ -57,6 +59,9 @@ class NewPoolOfferPostViewer: UIViewController, CLLocationManagerDelegate {
 		captionLabel.text = allItems.joined(separator: "\n")
 	}
     
+    
+    /// View location action. Asking permission
+    /// - Parameter sender: UIButton referrance
     @IBAction func viewLocation(sender: UIButton){
         locationManager = CLLocationManager()
         locationManager!.delegate = self
@@ -66,6 +71,7 @@ class NewPoolOfferPostViewer: UIViewController, CLLocationManagerDelegate {
         //
     }
     
+//  MARK: Location permission delegate
     internal func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus){
         
                 

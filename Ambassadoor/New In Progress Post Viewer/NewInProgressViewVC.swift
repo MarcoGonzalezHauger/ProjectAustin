@@ -10,10 +10,13 @@ import UIKit
 
 class NewInProgressViewVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, myselfRefreshDelegate {
 	
+    
+    /// Refresh inprogress posts if any changes updated in firebase
 	func myselfRefreshed() {
 		refreshInProgPosts()
 	}
 	
+//    MARK: Post list UITableview delegate and datasource
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return inProgList.count
 	}
@@ -43,6 +46,7 @@ class NewInProgressViewVC: UIViewController, UITableViewDelegate, UITableViewDat
 		}
 	}
 	
+//   MARK: Search bar delegate and datasource
 	func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 		refreshInProgPosts()
 	}
@@ -75,6 +79,8 @@ class NewInProgressViewVC: UIViewController, UITableViewDelegate, UITableViewDat
 	
 	var inProgList: [InProgressPost] = []
 	
+    
+    /// Refresh inprogress posts
 	func refreshInProgPosts() {
 		noneInProgress.isHidden = Myself.inProgressPosts.count != 0
 		

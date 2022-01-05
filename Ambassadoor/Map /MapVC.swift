@@ -64,6 +64,7 @@ class MapVC: UIViewController, MKMapViewDelegate {
         self.setAnnotations()
     }
     
+    /// Get user current location and set map region
     func getUserLocation() {
         let geoCoder = CLGeocoder()
         let appendedZip = Myself.basic.zipCode + ", USA"
@@ -82,6 +83,8 @@ class MapVC: UIViewController, MKMapViewDelegate {
         }
     }
     
+    
+    /// Set annotation to all business location
     func setAnnotations() {
                 
         for (index,address) in locations.enumerated() {
@@ -105,6 +108,8 @@ class MapVC: UIViewController, MKMapViewDelegate {
         
     }
     
+    
+    /// Annotation didselect method
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
 
         if let annotation = view.annotation as? CustomPointAnnotation {
@@ -137,6 +142,9 @@ class MapVC: UIViewController, MKMapViewDelegate {
 
     }
     
+    
+    /// Dismiss current view controller
+    /// - Parameter sender: UIButton referrance
     @IBAction func closeAction(sender: UIButton){
         self.dismiss(animated: true, completion: nil)
     }

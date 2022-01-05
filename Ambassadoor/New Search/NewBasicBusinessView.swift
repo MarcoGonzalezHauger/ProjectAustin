@@ -9,8 +9,9 @@
 import UIKit
 
 class NewBasicBusinessView: UIViewController, UITableViewDelegate, UITableViewDataSource, FollowerButtonDelegete, publicDataRefreshDelegate, OfferPoolRefreshDelegate {
-	
-	func OfferPoolRefreshed(poolId: String) {
+    
+    /// OfferPoolRefreshDelegate delegate method. refresh offer pool data if any changes updated in firebase
+    	func OfferPoolRefreshed(poolId: String) {
 		for ao in avaliableOffers {
 			if ao.poolId == poolId {
 				refreshAvaliableOffers()
@@ -19,13 +20,20 @@ class NewBasicBusinessView: UIViewController, UITableViewDelegate, UITableViewDa
 		}
 	}
 	
+    
+    /// Refreshed social data if any child added or edited in firebase
+    /// - Parameter userOrBusinessId: edited or changed influencer id or business id
 	func publicDataRefreshed(userOrBusinessId: String) {
 		if userOrBusinessId == thisBusiness.basicId {
 			thisBusiness = GetBasicBusiness(id: userOrBusinessId)
 			LoadBasicBusinessInfo(refreshIsFollowing: false)
 		}
 	}
-	
+    
+    /// FollowerButtonDelegete delegate method. give status of influencer follow and unfollow. refresh available offers.
+    /// - Parameters:
+    ///   - sender: Class referrance
+    ///   - newValue: follow or unfollow bool value
 	func isFollowingChanged(sender: AnyObject, newValue: Bool) {
 		
 		if newValue {
@@ -36,7 +44,7 @@ class NewBasicBusinessView: UIViewController, UITableViewDelegate, UITableViewDa
 		
 		refreshAvaliableOffers()
 	}
-	
+//	MARK: offers list table delegate and datasource
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		tableViewHeight.constant = CGFloat(avaliableOffers.count) * globalPoolOfferHeight
 		tableView.layoutIfNeeded()
@@ -91,11 +99,16 @@ class NewBasicBusinessView: UIViewController, UITableViewDelegate, UITableViewDa
 	func displayBasicId(basicId: String) {
 		thisBusiness = GetBasicBusiness(id: basicId)
 	}
-
+    
+    /// Dismiss current view controller
+    /// - Parameter sender: UIButton referrance
 	@IBAction func closeButtonClicked(_ sender: Any) {
 		dismiss(animated: true, completion: nil)
 	}
 	
+    
+    /// Load basic business information.
+    /// - Parameter rif: refresh true or false
 	func LoadBasicBusinessInfo(refreshIsFollowing rif: Bool) {
 		backImage.image = nil
 		regProfilePic.image = nil
@@ -115,7 +128,8 @@ class NewBasicBusinessView: UIViewController, UITableViewDelegate, UITableViewDa
 	}
 	
 	var avaliableOffers: [PoolOffer] = []
-	
+    
+    /// Refresh available offers.
 	func refreshAvaliableOffers() {
 		avaliableOffers = thisBusiness.GetAvaliableOffersFromBusiness()
 		let noOffers = thisBusiness.avaliableOffers.count == 0

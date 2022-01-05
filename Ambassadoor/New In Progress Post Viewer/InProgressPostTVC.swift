@@ -12,6 +12,8 @@ class InProgressPostTVC: UITableViewCell {
 
 	var thisInProgressPost: InProgressPost!
 	
+    
+    /// Update post orbView view contents
 	func updateContents() {
 		orbView.sort { (u1, u2) -> Bool in
 			return u1.tag < u2.tag
@@ -48,6 +50,8 @@ class InProgressPostTVC: UITableViewCell {
 	@IBOutlet weak var verifiedOrb: UIView!
 	@IBOutlet weak var paidOrb: UIView!
 	
+    
+    /// Update status content based on post status
 	func updateStatus() {
 		switch thisInProgressPost.status {
 		
@@ -107,6 +111,8 @@ class InProgressPostTVC: UITableViewCell {
 		}
 	}
 	
+    
+    /// Update paid post content
 	func setPaidInLabel() {
 		//if let stamp = thisInProgressPost.instagramPost?.timestamp {
         if let stamp = thisInProgressPost.datePosted {
@@ -126,14 +132,17 @@ class InProgressPostTVC: UITableViewCell {
 			timeLeftLabel.text = "Post was deleted."
 		}
 	}
-	
+    /// show time left to post
 	func setTimeLeftToPost() {
 		let calendar = Calendar.current
 		let postBy = calendar.date(byAdding: .hour, value: 48, to: thisInProgressPost.dateAccepted)!
 		
 		setTimeLeft(to: postBy)
 	}
-	
+    /// set radar view contents
+    /// - Parameters:
+    ///   - toRect: new frame
+    ///   - color: radar view back ground color
 	func setRadar(toRect: CGRect, color: UIColor) {
 		if !isDoingAnimations {
 			self.addSubview(radarView)
@@ -150,7 +159,7 @@ class InProgressPostTVC: UITableViewCell {
 	}
 	
 	var isDoingAnimations = false
-	
+    /// Radar view animation
 	func doRadarAnimation() {
 		let animation = CAKeyframeAnimation.init(keyPath: "transform.scale")
 		animation.timingFunction = CAMediaTimingFunction(name: .easeOut)
@@ -165,11 +174,12 @@ class InProgressPostTVC: UITableViewCell {
 			self.doRadarAnimation()
 		}
 	}
-
+    /// remove radar view
 	func removeRadar() {
 		radarView.isHidden = true
 	}
-	
+    /// Time left to settle post
+    /// - Parameter to: until date
 	func setTimeLeft(to: Date) {
 		let calendar = Calendar.current
 		let diff = calendar.dateComponents([.day, .hour, .minute, .second], from: Date(), to: to)
@@ -177,6 +187,11 @@ class InProgressPostTVC: UITableViewCell {
 		timeLeftLabel.text = "\(realHours):\(makeSure2Long(value: diff.minute)):\(makeSure2Long(value: diff.second))"
 	}
 	
+    /// Change color based post status
+    /// - Parameters:
+    ///   - upToIndex: change colors to views up to particular index
+    ///   - filledColor: filled color
+    ///   - otherColor: other color
 	func makeViewColorUpTo(upToIndex: Int, filledColor: UIColor, otherColor: UIColor) {
 		for i in 0...upToIndex {
 			orbView[i].backgroundColor = filledColor
@@ -188,6 +203,9 @@ class InProgressPostTVC: UITableViewCell {
 		}
 	}
 	
+    /// Round up date to meaningful
+    /// - Parameter value: minutes or seconds
+    /// - Returns: string
 	func makeSure2Long(value: Int?) -> String {
 		if let val = value {
 			var str = String(val)

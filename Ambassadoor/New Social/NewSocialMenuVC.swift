@@ -71,6 +71,7 @@ class NewSocialMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         self.socialTable.reloadData()
     }
     
+//    MARK: Follower and Following list UITableview delegate and datasource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		
 		self.noneFollowers.isHidden = self.followingUsers.count != 0

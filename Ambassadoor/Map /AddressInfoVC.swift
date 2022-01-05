@@ -24,6 +24,8 @@ class AddressInfoVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    
+    /// Update address information and estimated time
     func loadData() {
         
         if routeInfo != nil {
@@ -33,6 +35,8 @@ class AddressInfoVC: UIViewController {
         
     }
     
+    
+    /// Get estimate time for the business user destination
     func getDirectionEstimatedTime() {
         //41.571430
         //-70.587570
@@ -96,6 +100,9 @@ class AddressInfoVC: UIViewController {
 //        }
     }
     
+    
+    /// Close address view pop up and deselect annotation
+    /// - Parameter sender: UIButton referrance
     @IBAction func closeAction(sender: UIButton){
         if let map = self.parent as? MapVC{
             
@@ -113,6 +120,9 @@ class AddressInfoVC: UIViewController {
         
     }
     
+    
+    /// Open google map or Apple map to show direction.
+    /// - Parameter sender: UIButton referrance
     @IBAction func directionAction(sender: UIButton){
         
         if UIApplication.shared.canOpenURL(URL.init(string: "comgooglemaps://")!) {
@@ -126,6 +136,11 @@ class AddressInfoVC: UIViewController {
         
     }
     
+    
+    /// Open Map to show direction from current location to business user location
+    /// - Parameters:
+    ///   - coordinate: coordinate of destination
+    ///   - name: name of destination
     func openMapsAppWithDirections(to coordinate: CLLocationCoordinate2D, destinationName name: String) {
       let options = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
       let placemark = MKPlacemark(coordinate: coordinate, addressDictionary: nil)

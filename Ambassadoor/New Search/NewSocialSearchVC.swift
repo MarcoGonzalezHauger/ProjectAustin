@@ -9,11 +9,14 @@
 import UIKit
 
 class NewSocialSearchVC: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, publicDataRefreshDelegate {
-	
+    
+    /// publicDataRefreshDelegate delegate method. refresh user table if any changes updated in Firebase
 	func publicDataRefreshed(userOrBusinessId: String) {
 		refreshItems()
 	}
-	
+    
+    /// Get search bar SearchFor enum
+    /// - Returns: SearchFor enum
 	func GetSearchScope() -> SearchFor {
 		switch searchBar.selectedScopeButtonIndex {
 		case 0:
@@ -24,7 +27,7 @@ class NewSocialSearchVC: UIViewController, UISearchBarDelegate, UITableViewDeleg
 			return .businesses
 		}
 	}
-	
+//	MARK: - Search bar delegate and datasource
 	func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
 		refreshItems()
 	}
@@ -53,22 +56,17 @@ class NewSocialSearchVC: UIViewController, UISearchBarDelegate, UITableViewDeleg
 		refreshItems()
 	}
 
+    
+    /// Refresh user list
 	func refreshItems() {
 		basicObjectResults = SearchSocialData(searchQuery: searchBar.text!, searchIn: GetSearchScope())
 		tableView.reloadData()
 	}
 
-	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		if basicObjectResults[indexPath.row] is BasicBusiness  {
-			return 150
-		} else {
-			return 80
-		}
-	}
-	
 	var passedUserId: String = ""
 	var passedBasicId: String = ""
 	
+//    MARK: - User list UITableview Delegate and Datasource
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		
 		if let thisInf = basicObjectResults[indexPath.row] as? BasicInfluencer {
@@ -128,5 +126,13 @@ class NewSocialSearchVC: UIViewController, UISearchBarDelegate, UITableViewDeleg
 			
 		}
 	}
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if basicObjectResults[indexPath.row] is BasicBusiness  {
+            return 150
+        } else {
+            return 80
+        }
+    }
 	
 }

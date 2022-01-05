@@ -15,6 +15,7 @@ class PostTVC: UITableViewCell {
 
 class NewViewPoolOfferVC: UIViewController, UITableViewDelegate, UITableViewDataSource, OfferPoolRefreshDelegate {
 	
+    /// OfferPoolRefreshDelegate delegate method. refresh offer pool data if any changes updated in firebase
 	func OfferPoolRefreshed(poolId: String) {
 		if poolId == thisPoolOffer.poolId {
 			thisPoolOffer = offerPool.filter{$0.poolId == thisPoolOffer.poolId}.first
@@ -24,6 +25,7 @@ class NewViewPoolOfferVC: UIViewController, UITableViewDelegate, UITableViewData
 	
 	var heightForPostCell: CGFloat = 60
 	
+//    MARK: post list UITableview delegate and datasource
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		tableViewHeight.constant = CGFloat(thisPoolOffer.draftPosts.count) * heightForPostCell - 1
 		return thisPoolOffer.draftPosts.count
@@ -43,10 +45,21 @@ class NewViewPoolOfferVC: UIViewController, UITableViewDelegate, UITableViewData
 		return cell
 	}
 	
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        passIndex = indexPath.row
+        performSegue(withIdentifier: "toPostView", sender: self)
+    }
+    
+    /// Dismiss current view controller
+    /// - Parameter sender: UIButton referrance
 	@IBAction func closeButtonPressed(_ sender: Any) {
 		self.navigationController?.dismiss(animated: true, completion: nil)
 	}
     
+    
+    /// Segue to map view
+    /// - Parameter sender: UIButton referrance
     @IBAction func openMapView(sender: UIButton){
         self.performSegue(withIdentifier: "fromDrafttoMap", sender: self)
     }
@@ -70,6 +83,9 @@ class NewViewPoolOfferVC: UIViewController, UITableViewDelegate, UITableViewData
 	@IBOutlet weak var cannotBeAcceptedView: ShadowView!
 	@IBOutlet weak var cannotReasonLabel: UILabel!
 	
+    
+    /// Accept Offer action
+    /// - Parameter sender: UIButton referrance
 	@IBAction func acceptButtonPressed(_ sender: Any) {
 		if thisPoolOffer.canBeAccepted(forInfluencer: Myself) {
 			acceptActivityIndicator.isHidden = false
@@ -115,18 +131,17 @@ class NewViewPoolOfferVC: UIViewController, UITableViewDelegate, UITableViewData
         }
 	}
 	
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		tableView.deselectRow(at: indexPath, animated: true)
-		passIndex = indexPath.row
-		performSegue(withIdentifier: "toPostView", sender: self)
-	}
     
+    /// Segue to business user detail page
+    /// - Parameter sender: UIButton referrance
     @IBAction func tapBusinessProfile(sender: UITapGestureRecognizer){
         if let bb = thisPoolOffer.BasicBusiness() {
             self.performSegue(withIdentifier: "fromOffertoBusinessView", sender: bb.basicId)
         }
     }
 	
+    
+    /// Check if user can accept the offer. Check if offer has enough amount to accept the offer. Check if user pass the filter
 	func updatePoolOffer() {
 		if let bb = thisPoolOffer.BasicBusiness() {
 			offerByLabel.text = "Offer by \(bb.name)"
