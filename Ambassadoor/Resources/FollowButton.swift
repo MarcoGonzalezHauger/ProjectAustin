@@ -20,6 +20,8 @@ class FollowButtonRegular: UIView {
 	@IBOutlet weak var trailing: NSLayoutConstraint!
 	
 	
+    
+    /// Set text based on changedByPress bool
 	var isFollowing = false {
 		didSet {
 			if !changedByPress {
@@ -34,10 +36,14 @@ class FollowButtonRegular: UIView {
 		}
 	}
 	
+    
+    /// Make center trailing constraint
 	func MakeCentered() {
 		trailing?.isActive = false
 	}
 	
+    
+    /// set isFollowing status and make follow and unfollow effect.
 	func ButtonPressed() {
 		UseTapticEngine()
 		changedByPress = true
@@ -51,7 +57,7 @@ class FollowButtonRegular: UIView {
 			CreateUnfollowEffect()
 		}
 	}
-	
+///    Create unfollow effect and animate follow text label
 	func CreateUnfollowEffect() {
 //		shadowView.backgroundColor = .systemRed
 //		gradientView.alpha = 0
@@ -78,6 +84,8 @@ class FollowButtonRegular: UIView {
 		}
 	}
 	
+    
+    /// Create follow effect and animate follow text label
 	func CreateFollowEffect() {
 //		shadowView.backgroundColor = getColorForBool(bool: isBusiness)
 //		gradientView.alpha = 0
@@ -96,6 +104,12 @@ class FollowButtonRegular: UIView {
 	
 	@IBOutlet weak var width: NSLayoutConstraint!
 	
+    
+    /// Set text and animate isFollowingLabel
+    /// - Parameters:
+    ///   - textstring: label text
+    ///   - animated: true or false
+    ///   - fromTop: true or false
 	func SetLabelText(text textstring: String, animated: Bool, fromTop: Bool = true) {
         if animated {
             let animation: CATransition = CATransition()
@@ -112,13 +126,16 @@ class FollowButtonRegular: UIView {
     }
 	
 	var touchDown: UILongPressGestureRecognizer?
-	
+    
+    /// Setup tab gesture
 	func setupTap() {
 		touchDown = UILongPressGestureRecognizer(target:self, action: #selector(didTouchDown))
 		touchDown!.minimumPressDuration = 0
 		self.addGestureRecognizer(touchDown!)
 	}
-
+    
+    /// Gesture actions
+    /// - Parameter gesture: UILongPressGestureRecognizer referrance
 	@objc func didTouchDown(gesture: UILongPressGestureRecognizer) {
 		if gesture.state == .began {
 			ButtonPressed()
@@ -136,6 +153,8 @@ class FollowButtonRegular: UIView {
 	@IBOutlet weak var gradientView: UIView!
 	@IBOutlet weak var ambIcon: UIImageView!
 	
+    
+    /// Load color to shadowView, isFollowingLabel, ambIcon
 	func LoadColorScheme() {
 		let tint = getColorForBool(bool: isBusiness)
 		shadowView.borderColor = tint
@@ -143,18 +162,25 @@ class FollowButtonRegular: UIView {
 		ambIcon.tintColor = tint
 	}
 	
+    
+    /// Get custom color
+    /// - Parameter bool: true or false
+    /// - Returns: returns assest color
 	func getColorForBool(bool: Bool) -> UIColor {
 		return UIColor.init(named: "AmbPurple")!
 //		return bool ? UIColor.init(named: "AmbassadoorOrange")! : .systemBlue
 //		return bool ? UIColor.init(patternImage: UIImage.init(named: "followerbutton_business")!) : UIColor.init(patternImage: UIImage.init(named: "followerbutton_influencer")!)
 	}
 	
+//    Setup and load xib
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		LoadViewFromNib()
 		setupTap()
 	}
 	
+    
+    /// Load FollowButtonRegular UINib.
 	func LoadViewFromNib() {
 		let bundle = Bundle.init(for: type(of: self))
 		let nib = UINib(nibName: "FollowButtonRegular", bundle: bundle)

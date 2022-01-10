@@ -11,14 +11,13 @@ import UIKit
 import CoreData
 import Firebase
 import UserNotifications
-import FirebaseInstanceID
 import FirebaseCore
 import FirebaseMessaging
 import FBSDKCoreKit
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     
     enum ShortcutIdentifier: String {
         case Business = "com.ambassadoor.business"
@@ -90,16 +89,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let deviceTokenString1 = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         print("deviceToken1=",deviceTokenString1)
         
-        
-        InstanceID.instanceID().instanceID { (result, error) in
+        Messaging.messaging().token { token, error in
             if let error = error {
                 print("Error fetching remote instange ID: \(error)")
-            } else if let result = result {
-                print("Remote instance ID token: \(result.token)")
-                global.deviceFIRToken = result.token
+            } else if let result = token {
+                print("Remote instance ID token: \(result)")
+                global.deviceFIRToken = result
                 //print("avvv=",InstanceID.instanceID().token()!)
             }
         }
+        
+//        InstanceID.instanceID().instanceID { (result, error) in
+//            if let error = error {
+//                print("Error fetching remote instange ID: \(error)")
+//            } else if let result = result {
+//                print("Remote instance ID token: \(result.token)")
+//                global.deviceFIRToken = result.token
+//                //print("avvv=",InstanceID.instanceID().token()!)
+//            }
+//        }
         
     }
 
@@ -151,7 +159,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             guard granted else {return}
             DispatchQueue.main.async {
                 application.registerForRemoteNotifications()
-                NotificationCenter.default.addObserver(self, selector: #selector(self.tokenRefreshNotification(_:)), name: NSNotification.Name.InstanceIDTokenRefresh, object: nil)
+                Messaging.messaging().delegate = self
+//                NotificationCenter.default.addObserver(self, selector: #selector(self.tokenRefreshNotification(_:)), name: NSNotification.Name.InstanceIDTokenRefresh, object: nil)
             }
         }
         
@@ -378,18 +387,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
     }
-    @objc func tokenRefreshNotification(_ notification: Notification) {
-            
     
-            InstanceID.instanceID().instanceID { (result, error) in
-                if let error = error {
-                    print("Error fetching remote instange ID: \(error)")
-                } else if let result = result {
-                    print("Remote instance ID token: \(result.token)")
-                    global.deviceFIRToken = result.token
-                }
-            }
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+      print("Firebase registration token: \(String(describing: fcmToken))")
+        if let token = fcmToken {
+            global.deviceFIRToken = token
         }
+        
+
+      let dataDict: [String: String] = ["token": fcmToken ?? ""]
+      NotificationCenter.default.post(
+        name: Notification.Name("FCMToken"),
+        object: nil,
+        userInfo: dataDict
+      )
+      // TODO: If necessary send token to application server.
+      // Note: This callback is fired at each app startup and whenever a new token is generated.
+    }
+    
+//    @objc func tokenRefreshNotification(_ notification: Notification) {
+//
+//
+//            InstanceID.instanceID().instanceID { (result, error) in
+//                if let error = error {
+//                    print("Error fetching remote instange ID: \(error)")
+//                } else if let result = result {
+//                    print("Remote instance ID token: \(result.token)")
+//                    global.deviceFIRToken = result.token
+//                }
+//            }
+//        }
     //checking internet connection and latest app version. if not updated version go to the app store page
     func versionUpdateValidation(){
         if !NetworkReachability.isConnectedToNetwork() || !canReachGoogle() {

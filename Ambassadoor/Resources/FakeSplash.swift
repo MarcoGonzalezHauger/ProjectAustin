@@ -13,7 +13,9 @@ protocol DismissNow {
 }
 
 class FakeSplash: UIViewController, DismissNow {
-	
+    
+    
+    /// Dismiss current viewcontroller
 	func dismissNow() {
 		self.dismiss(animated: false, completion: nil)
 	}

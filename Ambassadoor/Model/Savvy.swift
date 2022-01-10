@@ -501,7 +501,7 @@ func AverageLikes(instagramID: String, userToken: String) {
                     
                     if let mediaID = mediaObject["id"] as? String {
                         
-                        GraphRequest(graphPath: mediaID, parameters: ["fields":"like_count,timestamp","access_token":userToken]).start(completionHandler: { (connection, recentMediaDetails, error) -> Void in
+                        GraphRequest(graphPath: mediaID, parameters: ["fields":"like_count,timestamp","access_token":userToken]).start { connection, recentMediaDetails, error in
                             numberOfCall += 1
                             if let mediaDict = recentMediaDetails as? [String: AnyObject] {
                                 
@@ -550,7 +550,7 @@ func AverageLikes(instagramID: String, userToken: String) {
                                 
                             }
                             
-                        })
+                        }
                         
                     }
                     

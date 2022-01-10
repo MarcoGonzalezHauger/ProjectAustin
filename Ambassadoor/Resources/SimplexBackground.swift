@@ -24,6 +24,8 @@ class SimplexBackground: UIView {
 	
 	@IBInspectable var backgroundTint: UIColor = .black
 	
+    
+    /// Load clouds image and set tint color to backDrop, backDrop2, set constant bd1_left, bd2_left
 	override func awakeFromNib() {
 		let templateImage = UIImage.init(named: "clouds")!
 		backDrop.image = templateImage
@@ -41,6 +43,8 @@ class SimplexBackground: UIView {
 //		blur.isHidden = true
 	}
 	
+    
+    /// Load SimplexBackground Nib
 	func LoadViewFromNib() {
 		let bundle = Bundle.init(for: type(of: self))
 		let nib = UINib(nibName: "SimplexBackground", bundle: bundle)
@@ -50,6 +54,8 @@ class SimplexBackground: UIView {
 		addSubview(view)
 	}
 	
+    
+    /// Move and Animate bd1_left and bd2_left views
 	func Forever() {
 		//print("forver Triggered")
 		let transitionLength = 10

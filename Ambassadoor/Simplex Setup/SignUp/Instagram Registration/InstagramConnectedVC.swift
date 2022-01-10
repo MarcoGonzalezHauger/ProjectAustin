@@ -93,7 +93,7 @@ class InstagramConnectedVC: UIViewController {
                         
                         if let mediaID = mediaObject["id"] as? String {
                             
-                            GraphRequest(graphPath: mediaID, parameters: ["fields":"like_count,timestamp","access_token":NewAccount.authenticationToken]).start(completionHandler: { (connection, recentMediaDetails, error) -> Void in
+                            GraphRequest(graphPath: mediaID, parameters: ["fields":"like_count,timestamp","access_token":NewAccount.authenticationToken]).start { connection, recentMediaDetails, error in
                                 numberOfCall += 1
                                 if let mediaDict = recentMediaDetails as? [String: AnyObject] {
                                     
@@ -133,7 +133,7 @@ class InstagramConnectedVC: UIViewController {
                                     }
                                 }
                                 
-                            })
+                            }
                             
                         }
                         

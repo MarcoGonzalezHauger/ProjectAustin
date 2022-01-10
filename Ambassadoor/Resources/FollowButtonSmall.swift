@@ -26,6 +26,7 @@ class FollowButtonSmall: UIView {
 		}
 	}
 	
+    /// set isFollowing status and make follow and unfollow effect.
 	func ButtonPressed() {
 		UseTapticEngine()
 		changedByPress = true
@@ -104,12 +105,15 @@ class FollowButtonSmall: UIView {
 	
 	var touchDown: UILongPressGestureRecognizer?
 	
+    /// Setup tab gesture
 	func setupTap() {
 		touchDown = UILongPressGestureRecognizer(target:self, action: #selector(didTouchDown))
 		touchDown!.minimumPressDuration = 0
 		self.addGestureRecognizer(touchDown!)
 	}
-
+    
+    /// Gesture actions
+    /// - Parameter gesture: UILongPressGestureRecognizer referrance
 	@objc func didTouchDown(gesture: UILongPressGestureRecognizer) {
 		if gesture.state == .began {
 			ButtonPressed()
@@ -131,25 +135,28 @@ class FollowButtonSmall: UIView {
 	@IBOutlet weak var gradientView: UIView!
 	@IBOutlet weak var ambIcon: UIImageView!
 	
+    /// Load color to shadowView, isFollowingLabel, ambIcon
 	func LoadColorScheme() {
 		let tint = getColorForBool(bool: isBusiness)
 		shadowView.borderColor = tint
 		isFollowingIcon.tintColor = tint
 		ambIcon.tintColor = tint
 	}
-	
+    /// Get custom color
+    /// - Parameter bool: true or false
+    /// - Returns: returns assest color
 	func getColorForBool(bool: Bool) -> UIColor {
 		return UIColor.init(named: "AmbPurple")!
 //		return bool ? UIColor.init(named: "AmbassadoorOrange")! : .systemBlue
 	}
-	
+    //    Setup and load xib
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		LoadViewFromNib()
 		setupTap()
 		LoadColorScheme()
 	}
-	
+    /// Load FollowButtonRegular UINib.
 	func LoadViewFromNib() {
 		let bundle = Bundle.init(for: type(of: self))
 		let nib = UINib(nibName: "FollowButtonSmall", bundle: bundle)

@@ -19,4 +19,6 @@ target 'Ambassadoor' do
 #  pod 'Plaid'
   pod 'SDWebImage'
   pod 'FBSDKLoginKit'
+  #pod 'FacebookSDK'
+  #pod 'FacebookSDK/LoginKit'
 end
